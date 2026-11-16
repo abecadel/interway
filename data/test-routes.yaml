@@ -229,3 +229,36 @@
   tolerance: 0.15
   countries: [IT]
   source: https://siviaggia.it/vacanze-natura/barca-o-bicicletta-lungo-litoranea-veneta/410474/amp/ (180 km)
+
+# --- "Le Cut": Baltic / North Sea → Mediterranean through the French canals, mast down -----------------
+- name: Le Cut — Kiel (Baltic) → Port-Saint-Louis-du-Rhône (Mediterranean), inland
+  from: [10.15, 54.365]
+  to: [4.81, 43.385]
+  countries: [DE, NL, BE, FR]
+  via: [Nord-Ostsee-Kanal, Saône, Rhône]
+  min_locks: 100
+  source: >-
+    yacht reports of the Baltic–Med passage through France (https://www.boote-magazin.de/en/travel-and-charter/territories/inland-to-the-mediterranean-the-long-way-to-warmth/,
+    https://www.yacht.de/en/travel-and-charter/france/change-of-territory-on-your-own-keel-in-the-mediterranean/)
+
+- name: Le Cut — Le Havre → Port-Saint-Louis-du-Rhône (Seine, Paris, Canal de Bourgogne, Saône, Rhône)
+  from: [0.105, 49.485]
+  to: [4.81, 43.385]
+  expected_km: 1290
+  tolerance: 0.2
+  countries: [FR]
+  via: [Seine, Saône, Rhône]
+  min_locks: 150
+  source: >-
+    Seine Le Havre–Paris ~365 km + Paris–Port-Saint-Louis ~920 km; mast re-stepping at Le Havre/Honfleur
+    (https://michaelbriant.com/sn7.htm, https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: Le Cut, Atlantic variant — Bordeaux → Sète (Canal de Garonne, Canal du Midi)
+  from: [-0.565, 44.845]
+  to: [3.70, 43.40]
+  expected_km: 503
+  tolerance: 0.15
+  countries: [FR]
+  via: [Garonne, Canal du Midi]
+  min_locks: 100
+  source: https://www.yachtingmonthly.com/sailing-skills/sailing-the-french-canals-lessons-learned-81734 (≈503 km, 139 locks)
