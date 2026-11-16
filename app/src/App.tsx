@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { LngLat } from './graph/geo';
 import { MapView } from './map/MapView';
 import type { RoutingApi } from './routing/client';
+import type { Poi } from './routing/service';
 import { defaultProfile, type Route, type VesselProfile } from './routing/router';
 import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
 import { PointInput, type Point } from './ui/PointInput';
@@ -40,13 +41,15 @@ export default function App({ client }: { client: RoutingApi }) {
   const [network, setNetwork] = useState<GeoJSON.FeatureCollection | null>(null);
   const [showNetwork, setShowNetwork] = useState(false);
   const [showSeamarks, setShowSeamarks] = useState(true);
+  const [pois, setPois] = useState<Poi[]>([]);
   const watchId = useRef<number | null>(null);
 
   useEffect(() => {
     client
       .load(DATA_URL)
-      .then(({ manifest, nodes, edges }) => {
+      .then(({ manifest, nodes, edges, pois }) => {
         setDataReady(true);
+        setPois(pois);
         setDataStatus(`${manifest.region}: ${nodes.toLocaleString()} nodes, ${edges.toLocaleString()} edges`);
       })
       .catch((e) => setDataStatus(e.message));
@@ -163,6 +166,11 @@ export default function App({ client }: { client: RoutingApi }) {
                 Start/end snapped to the nearest navigable water ({fmtKm(route.start.offset)} / {fmtKm(route.end.offset)} away).
               </div>
             )}
+            {route.unverified > 0 && (
+              <div className="warn small">
+                Includes {fmtKm(route.unverified)} on unverified connections (short channels or manual links). Check locally before going.
+              </div>
+            )}
             <ol className="legs">
               {route.legs.map((l, i) => (
                 <li key={i}><span>{l.name || 'unnamed waterway'}</span><span>{fmtKm(l.distance)}</span></li>
@@ -207,6 +215,7 @@ export default function App({ client }: { client: RoutingApi }) {
         position={position}
         network={showNetwork ? network : null}
         showSeamarks={showSeamarks}
+        pois={pois}
         onMapClick={onMapClick}
       />
     </div>

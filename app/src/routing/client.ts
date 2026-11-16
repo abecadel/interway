@@ -1,6 +1,6 @@
 import type { LngLat } from '../graph/geo';
 import type { Route, VesselProfile } from './router';
-import type { Manifest, WorkerRequest, WorkerResponse } from './service';
+import type { LoadResult, WorkerRequest, WorkerResponse } from './service';
 
 type Pending = { resolve: (v: unknown) => void; reject: (e: Error) => void };
 
@@ -40,7 +40,7 @@ export class RoutingClient {
   }
 
   load(baseUrl: string) {
-    return this.call<{ manifest: Manifest; nodes: number; edges: number }>({ type: 'load', baseUrl });
+    return this.call<LoadResult>({ type: 'load', baseUrl });
   }
 
   route(from: LngLat, to: LngLat, profile: VesselProfile) {

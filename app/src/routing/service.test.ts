@@ -8,13 +8,15 @@ const { graph, geometry, names } = buildGraph([
   { points: [[17, 51], [17.1, 51]], name: 'Odra' },
   { points: [[17.1, 51], [17.2, 51]] },
 ]);
-const manifest = { version: 1, region: 'test', files: { graph: 'g.bin', geom: 's.bin' }, names, attribution: 'x' };
+const manifest = { version: 1, region: 'test', files: { graph: 'g.bin', geom: 's.bin', pois: 'p.json' }, names, attribution: 'x' };
+const pois = [{ type: 'marina', name: 'Port', lat: 51, lon: 17 }];
 
 function server(overrides: Record<string, Response> = {}) {
   const files: Record<string, () => Response> = {
     '/d/manifest.json': () => new Response(JSON.stringify(manifest)),
     '/d/g.bin': () => new Response(encodeGraph(graph)),
     '/d/s.bin': () => new Response(encodeGeometry(geometry)),
+    '/d/p.json': () => new Response(JSON.stringify(pois)),
   };
   return vi.fn(async (url: string) => overrides[url] ?? files[url]?.() ?? new Response('', { status: 404 }));
 }
@@ -24,7 +26,7 @@ describe('RoutingService', () => {
     for (const base of ['/d', '/d/']) {
       const svc = new RoutingService(server());
       const loaded = await svc.respond({ id: 1, type: 'load', baseUrl: base });
-      expect(loaded).toMatchObject({ id: 1, ok: true, result: { nodes: 3, edges: 4, manifest: { region: 'test' } } });
+      expect(loaded).toMatchObject({ id: 1, ok: true, result: { nodes: 3, edges: 4, manifest: { region: 'test' }, pois } });
     }
     const svc = new RoutingService(server());
     await svc.handle({ id: 1, type: 'load', baseUrl: '/d' });
@@ -41,6 +43,14 @@ describe('RoutingService', () => {
     });
     const noGraph = new RoutingService(server({ '/d/g.bin': new Response('', { status: 500 }) }));
     expect(await noGraph.respond({ id: 2, type: 'load', baseUrl: '/d' })).toEqual({ id: 2, ok: false, error: '/d/g.bin: HTTP 500' });
+  });
+
+  it('treats points of interest as optional', async () => {
+    const missing = new RoutingService(server({ '/d/p.json': new Response('', { status: 404 }) }));
+    expect(await missing.handle({ id: 1, type: 'load', baseUrl: '/d' })).toMatchObject({ pois: [] });
+    const noFile = { ...manifest, files: { graph: 'g.bin', geom: 's.bin' } };
+    const none = new RoutingService(server({ '/d/manifest.json': new Response(JSON.stringify(noFile)) }));
+    expect(await none.handle({ id: 1, type: 'load', baseUrl: '/d' })).toMatchObject({ pois: [] });
   });
 
   it('refuses to route or list before loading', async () => {

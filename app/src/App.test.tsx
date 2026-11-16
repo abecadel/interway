@@ -25,6 +25,7 @@ const route = (over: Partial<Route> = {}): Route => ({
   distance: 123_456,
   duration: 3600 * 5,
   locks: 2,
+  unverified: 0,
   events: [],
   legs: [{ name: 'Narew', distance: 100_000 }, { name: '', distance: 23_456 }],
   start: { geom: 0, seg: 0, lat: 52, lon: 21, offset: 10, frac: 0 },
@@ -34,7 +35,7 @@ const route = (over: Partial<Route> = {}): Route => ({
 
 function fakeClient(over: Partial<RoutingApi> = {}) {
   return {
-    load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '' }, nodes: 1234, edges: 5678 })),
+    load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '' }, nodes: 1234, edges: 5678, pois: [{ type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 }] })),
     route: vi.fn(async () => route()),
     network: vi.fn(async () => ({ type: 'FeatureCollection' as const, features: [] })),
     ...over,
@@ -73,6 +74,8 @@ describe('App', () => {
     expect(screen.getByText('5 h 0 min at 10 km/h · 2 locks')).toBeTruthy();
     expect(screen.getByText('unnamed waterway')).toBeTruthy();
     expect(screen.queryByText(/snapped/)).toBeNull();
+    expect(screen.queryByText(/unverified/)).toBeNull();
+    expect(mapProps.current!.pois).toEqual([{ type: 'lock', name: 'Śluza', lat: 52, lon: 21 }]);
     expect(location.search).toBe('?from=21.03000%2C52.47000&to=21.76500%2C54.03500');
   });
 
@@ -90,10 +93,11 @@ describe('App', () => {
     expect(screen.getByText('No navigable route')).toBeTruthy();
     r.unmount();
 
-    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 } })) });
+    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500 })) });
     render(<App client={far} />);
     await flush();
     expect(screen.getByText(/snapped to the nearest navigable water \(1\.5 km/)).toBeTruthy();
+    expect(screen.getByText(/Includes 2\.5 km on unverified connections/)).toBeTruthy();
   });
 
   it('ignores invalid URL points and a corrupt stored profile', async () => {

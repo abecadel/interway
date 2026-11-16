@@ -4,6 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect, useRef } from 'react';
 import type { LngLat } from '../graph/geo';
 import type { Route } from '../routing/router';
+import type { Poi } from '../routing/service';
 
 export interface MapViewProps {
   start: LngLat | null;
@@ -12,6 +13,7 @@ export interface MapViewProps {
   position: GeolocationPosition | null;
   network: GeoJSON.FeatureCollection | null;
   showSeamarks: boolean;
+  pois: Poi[];
   onMapClick: (p: LngLat) => void;
 }
 
@@ -23,16 +25,16 @@ function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
   (map.getSource(id) as GeoJSONSource).setData(data);
 }
 
-export function MapView({ start, end, route, position, network, showSeamarks, onMapClick }: MapViewProps) {
+export function MapView({ start, end, route, position, network, showSeamarks, pois, onMapClick }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const ready = useRef(false);
   const clickRef = useRef(onMapClick);
   const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker }>({});
-  const latest = useRef({ route, network, showSeamarks });
+  const latest = useRef({ route, network, showSeamarks, pois });
   useEffect(() => {
     clickRef.current = onMapClick;
-    latest.current = { route, network, showSeamarks };
+    latest.current = { route, network, showSeamarks, pois };
   });
 
   useEffect(() => {
@@ -52,6 +54,20 @@ export function MapView({ start, end, route, position, network, showSeamarks, on
       map.addLayer({ id: 'seamarks', type: 'raster', source: 'seamarks', minzoom: 9 });
       map.addSource('network', { type: 'geojson', data: empty });
       map.addLayer({ id: 'network', type: 'line', source: 'network', paint: { 'line-color': '#0a8', 'line-width': 1.5, 'line-opacity': 0.7 } });
+      map.addSource('pois', { type: 'geojson', data: empty });
+      map.addLayer({
+        id: 'pois', type: 'circle', source: 'pois', minzoom: 8,
+        paint: {
+          'circle-radius': 5,
+          'circle-color': ['match', ['get', 'type'], 'lock', '#fc0', 'marina', '#1a73e8', '#888'],
+          'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5,
+        },
+      });
+      map.addLayer({
+        id: 'poi-labels', type: 'symbol', source: 'pois', minzoom: 11,
+        layout: { 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.1], 'text-anchor': 'top' },
+        paint: { 'text-color': '#234', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
+      });
       map.addSource('route', { type: 'geojson', data: empty });
       map.addLayer({
         id: 'route-casing', type: 'line', source: 'route',
@@ -72,6 +88,7 @@ export function MapView({ start, end, route, position, network, showSeamarks, on
       const l = latest.current;
       applyRoute(map, l.route);
       setData(map, 'network', l.network ?? empty);
+      setData(map, 'pois', poiCollection(l.pois));
       map.setLayoutProperty('seamarks', 'visibility', l.showSeamarks ? 'visible' : 'none');
     });
     return () => {
@@ -95,6 +112,10 @@ export function MapView({ start, end, route, position, network, showSeamarks, on
   useEffect(() => {
     if (ready.current) setData(mapRef.current!, 'network', network ?? empty);
   }, [network]);
+
+  useEffect(() => {
+    if (ready.current) setData(mapRef.current!, 'pois', poiCollection(pois));
+  }, [pois]);
 
   useEffect(() => {
     if (ready.current) mapRef.current!.setLayoutProperty('seamarks', 'visibility', showSeamarks ? 'visible' : 'none');
@@ -128,6 +149,15 @@ export function MapView({ start, end, route, position, network, showSeamarks, on
   }, [position]);
 
   return <div ref={container} className="map" />;
+}
+
+function poiCollection(pois: Poi[]): GeoJSON.FeatureCollection {
+  return {
+    type: 'FeatureCollection',
+    features: pois.map((p) => ({
+      type: 'Feature', properties: { type: p.type, name: p.name }, geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+    })),
+  };
 }
 
 function applyRoute(map: MLMap, route: Route | null) {
