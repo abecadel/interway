@@ -16,6 +16,7 @@ from .export import export
 from .extract import Extract, read_osm
 from .lakes import connect_lakes
 from .model import Segment, haversine
+from .qa import gap_candidates
 from .topology import add_connectors, apply_bridges, close_gaps, drop_small_components, merge_degree2, node_positions, split_ways
 
 log = logging.getLogger("interway")
@@ -136,6 +137,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
                 pois.append({"type": "marina", "name": name, "lon": p[0], "lat": p[1]})
     manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, pois=pois, simplify_m=simplify_m)
     (out / "qa-components.json").write_text(json.dumps(report[:500], indent=0), encoding="utf-8")
+    (out / "qa-gaps.geojson").write_text(json.dumps(gap_candidates(segments)), encoding="utf-8")
     return manifest
 
 
