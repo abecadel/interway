@@ -6,6 +6,13 @@ export default defineConfig({
   plugins: [react()],
   // maplibre-gl v6 loads its worker relative to its own module file; pre-bundling breaks that path.
   optimizeDeps: { exclude: ['maplibre-gl'] },
+  build: {
+    rolldownOptions: {
+      // The service worker is its own entry with a stable name so it can be registered at /sw.js.
+      input: { main: 'index.html', sw: 'src/offline/sw.ts' },
+      output: { entryFileNames: (chunk) => (chunk.name === 'sw' ? 'sw.js' : 'assets/[name]-[hash].js') },
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['src/test/setup.ts'],

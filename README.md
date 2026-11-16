@@ -63,7 +63,8 @@ the network).
 - [x] Phase 1: pipeline v1, lake mesh, Zegrze → Mazury routes in the browser
 - [ ] Phase 2: Germany + Netherlands + rest of Europe (Wrocław → Amsterdam), tiled geometry
 - [ ] Phase 3: lock/bridge details on the map, offline search
-- [ ] Phase 4: navigation mode, PWA offline caching
+- [x] Offline (PWA): app, waterway data and viewed map tiles cached by a service worker
+- [ ] Phase 4: navigation mode
 - [ ] Phase 5: coastal sea routing
 
 ## License and attribution
