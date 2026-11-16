@@ -4,7 +4,7 @@ from shapely.geometry import LineString, Point, Polygon
 from interway_pipeline import lakes
 from interway_pipeline.extract import Lake
 from interway_pipeline.lakes import _lake_namer, _mesh, connect_lakes, water_bodies
-from interway_pipeline.model import Segment, metres_to_deg
+from interway_pipeline.model import Segment, haversine, metres_to_deg
 from interway_pipeline.topology import components
 
 K = metres_to_deg(1000)
@@ -64,13 +64,16 @@ def test_chain_of_lakes_is_routable():
     assert not any((5 * K, 5 * K) in (s.coords[0], s.coords[-1]) for s in added)
 
 
-def test_allowlisted_lake_without_entries_gets_a_mesh():
+def test_lakes_need_two_entries_to_produce_edges():
     assert connect_lakes([], [], []) == []
-    lake = Lake(1, "Wigry", box(0, 0, 3 * K, 2 * K), True)
-    added = connect_lakes([], [lake], [])
-    assert added and {s.name for s in added} == {"Wigry"}
-    assert len(set(components(added).values())) == 1  # one connected mesh
+    # an allowlisted lake is considered, but with no entries there is nothing to route between
+    assert connect_lakes([], [Lake(1, "Wigry", box(0, 0, 3 * K, 2 * K), True)], []) == []
     assert connect_lakes([], [Lake(2, "Staw", box(0, 0, K, K), False)], []) == []
+    # two marinas on an allowlisted lake are linked
+    marinas = [("A", (0.2 * K, 0.2 * K)), ("B", (2.8 * K, 1.8 * K))]
+    added = connect_lakes([], [Lake(1, "Wigry", box(0, 0, 3 * K, 2 * K), True)], marinas)
+    assert len(added) == 1 and added[0].name == "Wigry"
+    assert sorted(added[0].coords) == [(0.2 * K, 0.2 * K), (2.8 * K, 1.8 * K)]
 
 
 def test_namer_uses_member_or_nearest():
@@ -97,9 +100,9 @@ def test_single_triangle_lake_uses_direct_lines():
 
 def test_entry_outside_triangles_links_to_nearest():
     entry = (-metres_to_deg(30), K / 2)  # 30 m off the west shore, within the entry tolerance
-    segs = _mesh(WEST.polygon, [WEST], [(7, entry)])
-    links = [s for s in segs if s.a == 7]
-    assert links and all(s.coords[0] == entry for s in links)
+    segs = _mesh(WEST.polygon, [WEST], [(7, entry), (8, (0.9 * K, 0.5 * K))])
+    assert [(s.a, s.b) for s in segs] in ([(7, 8)], [(8, 7)])
+    assert entry in (segs[0].coords[0], segs[0].coords[-1])
 
 
 def test_direct_lines_stay_on_water():
@@ -107,8 +110,9 @@ def test_direct_lines_stay_on_water():
     u = box(0, 0, 3 * K, K).union(box(0, 0, K, 3 * K)).union(box(2 * K, 0, 3 * K, 3 * K))
     tips = [(1, (0.5 * K, 2.9 * K)), (2, (2.5 * K, 2.9 * K)), (3, (0.5 * K, 0.5 * K))]
     segs = _mesh(u, [Lake(1, "U", u, True)], tips)
-    direct = {(s.a, s.b) for s in segs if s.a > 0 and s.b > 0}
-    assert direct == {(1, 3)}
+    direct = {frozenset((s.a, s.b)) for s in segs if len(s.coords) == 2}
+    assert frozenset((1, 2)) not in direct  # never straight across the land
+    assert frozenset((1, 3)) in direct
 
 
 def test_no_direct_lines_for_many_entries(monkeypatch):
@@ -117,5 +121,26 @@ def test_no_direct_lines_for_many_entries(monkeypatch):
     assert any(s.a > 0 and s.b > 0 for s in with_direct)
     monkeypatch.setattr(lakes, "MAX_DIRECT_ENTRIES", 3)
     without = _mesh(WEST.polygon, [WEST], entries)
-    assert not any(s.a > 0 and s.b > 0 for s in without)
     assert len(set(components(without).values())) == 1  # still connected through the mesh
+    assert {n for s in without for n in (s.a, s.b)} >= {1, 2, 3, 4}
+
+
+def test_pruned_mesh_goes_around_land_and_is_small():
+    u = box(0, 0, 3 * K, K).union(box(0, 0, K, 3 * K)).union(box(2 * K, 0, 3 * K, 3 * K))
+    tips = [(1, (0.5 * K, 2.9 * K)), (2, (2.5 * K, 2.9 * K))]
+    segs = _mesh(u, [Lake(1, "U", u, True)], tips)
+    assert len(segs) == 1  # one straightened chain between the two tips
+    (s,) = segs
+    assert {s.a, s.b} == {1, 2}
+    assert 3 <= len(s.coords) <= 6  # bends around the land in the middle, no zig-zag
+    water = u.buffer(metres_to_deg(lakes.ENTRY_TOLERANCE_M))
+    assert water.contains(LineString(s.coords))
+    assert s.length < 2 * haversine((0.5 * K, 2.9 * K), (2.5 * K, 2.9 * K)) + 4 * 111_000 * K
+
+
+def test_prune_keeps_junctions_between_three_entries():
+    entries = [(1, (0.1 * K, 0.1 * K)), (2, (0.9 * K, 0.1 * K)), (3, (0.5 * K, 0.9 * K))]
+    segs = _mesh(WEST.polygon, [WEST], entries)
+    ends = {n for s in segs for n in (s.a, s.b)}
+    assert {1, 2, 3} <= ends
+    assert len(set(components(segs).values())) == 1
