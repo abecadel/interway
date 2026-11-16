@@ -16,7 +16,7 @@ interface TestRoute {
   tolerance: number;
 }
 
-const dataDir = process.env.INTERWAY_DATA;
+const dataDir = process.env.INTERWAY_DATA ?? '';
 const routes = parse(readFileSync(join(import.meta.dirname, '../../../data/test-routes.yaml'), 'utf8')) as TestRoute[];
 const only = process.env.INTERWAY_ROUTES?.split(',');
 
@@ -25,9 +25,10 @@ const buf = (p: string) => {
   return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;
 };
 
-describe.skipIf(!dataDir || !existsSync(join(dataDir, 'manifest.json')))('canonical routes', () => {
-  const manifest = JSON.parse(readFileSync(join(dataDir!, 'manifest.json'), 'utf8'));
-  const router = new Router(decodeGraph(buf(join(dataDir!, 'graph.bin'))), decodeGeometry(buf(join(dataDir!, 'geom.bin'))), manifest.names);
+describe('canonical routes', () => {
+  if (!existsSync(join(dataDir, 'manifest.json'))) throw new Error(`INTERWAY_DATA must point to a built data directory (got '${dataDir}')`);
+  const manifest = JSON.parse(readFileSync(join(dataDir, 'manifest.json'), 'utf8'));
+  const router = new Router(decodeGraph(buf(join(dataDir, 'graph.bin'))), decodeGeometry(buf(join(dataDir, 'geom.bin'))), manifest.names);
 
   for (const r of routes.filter((r) => !only || only.some((o: string) => r.name.includes(o)))) {
     it(r.name, () => {

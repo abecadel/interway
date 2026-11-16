@@ -20,7 +20,7 @@ const SEAMARKS = 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 
 function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
-  (map.getSource(id) as GeoJSONSource | undefined)?.setData(data);
+  (map.getSource(id) as GeoJSONSource).setData(data);
 }
 
 export function MapView({ start, end, route, position, network, showSeamarks, onMapClick }: MapViewProps) {
@@ -82,9 +82,10 @@ export function MapView({ start, end, route, position, network, showSeamarks, on
   }, []);
 
   useEffect(() => {
-    const map = mapRef.current;
-    if (map && ready.current) applyRoute(map, route);
-    if (map && route) {
+    // The map is created by the first effect, so it exists here; sources exist only after 'load'.
+    const map = mapRef.current!;
+    if (ready.current) applyRoute(map, route);
+    if (route) {
       const b = new maplibregl.LngLatBounds();
       route.coordinates.forEach((c) => b.extend(c));
       map.fitBounds(b, { padding: 60, maxZoom: 14 });
@@ -92,13 +93,11 @@ export function MapView({ start, end, route, position, network, showSeamarks, on
   }, [route]);
 
   useEffect(() => {
-    const map = mapRef.current;
-    if (map && ready.current) setData(map, 'network', network ?? empty);
+    if (ready.current) setData(mapRef.current!, 'network', network ?? empty);
   }, [network]);
 
   useEffect(() => {
-    const map = mapRef.current;
-    if (map && ready.current) map.setLayoutProperty('seamarks', 'visibility', showSeamarks ? 'visible' : 'none');
+    if (ready.current) mapRef.current!.setLayoutProperty('seamarks', 'visibility', showSeamarks ? 'visible' : 'none');
   }, [showSeamarks]);
 
   useEffect(() => {
@@ -135,7 +134,7 @@ function applyRoute(map: MLMap, route: Route | null) {
   setData(map, 'route', route ? { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: route.coordinates } } : empty);
   setData(map, 'locks', {
     type: 'FeatureCollection',
-    features: (route?.events ?? []).map((e) => ({
+    features: (route ? route.events : []).map((e) => ({
       type: 'Feature', properties: { name: e.name }, geometry: { type: 'Point', coordinates: [e.lon, e.lat] },
     })),
   });

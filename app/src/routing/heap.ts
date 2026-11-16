@@ -23,7 +23,7 @@ export class MinHeap {
     keys[i] = key;
   }
 
-  /** Removes the smallest entry; returns its id. Read peekKey() before calling if the key is needed. */
+  /** Removes the smallest entry and returns its id. */
   pop(): number {
     const ids = this.ids, keys = this.keys;
     const top = ids[0];
@@ -46,9 +46,5 @@ export class MinHeap {
       keys[i] = lastKey;
     }
     return top;
-  }
-
-  peekKey(): number {
-    return this.keys[0];
   }
 }

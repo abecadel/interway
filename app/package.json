@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest run",
-    "test:routes": "vitest run src/routing/canonical.test.ts"
+    "test": "vitest run --coverage",
+    "test:routes": "vitest run src/routing/canonical.test.ts --reporter=verbose --silent=false"
   },
   "dependencies": {
     "flatbush": "^4.7.0",
@@ -18,11 +18,15 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.12",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^5.1.0",
+    "jsdom": "^31.0.1",
     "oxlint": "^1.90.0",
     "typescript": "~7.0.2",
     "vite": "^8.3.6",

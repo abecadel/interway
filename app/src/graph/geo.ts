@@ -28,5 +28,3 @@ export function projectOnSegment(
   const lon = aLon + (bLon - aLon) * t;
   return { t, lat, lon, dist: haversine(pLat, pLon, lat, lon) };
 }
-
-export const metresToNm = (m: number) => m / 1852;

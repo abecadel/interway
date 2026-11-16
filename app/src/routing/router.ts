@@ -111,6 +111,11 @@ export class Router {
     this.index.finish();
   }
 
+  /** Waterway name of geometry g ('' when unnamed or the name table is missing). */
+  nameOf(g: number): string {
+    return this.names[this.geom.nameIndex[g]] ?? '';
+  }
+
   private pt(p: number): [number, number] {
     return [this.geom.lat[p] / COORD_SCALE, this.geom.lon[p] / COORD_SCALE];
   }
@@ -253,7 +258,7 @@ export class Router {
       coords.push([lon, lat]);
     };
     const addLeg = (g: number, before: number) => {
-      const name = this.names[this.geom.nameIndex[g]] ?? '';
+      const name = this.nameOf(g);
       const d = distance - before;
       const last = legs[legs.length - 1];
       // Unnamed pieces (river areas, connectors) are folded into the previous named leg.
@@ -287,8 +292,8 @@ export class Router {
         }
         if (this.graph.edgeFlags[edge] & Flag.LOCK) {
           locks++;
-          const mid = coords[Math.max(0, coords.length - 1)];
-          events.push({ type: 'lock', name: this.names[this.geom.nameIndex[g]] ?? 'Lock', lat: mid[1], lon: mid[0], at: distance });
+          const [lon, lat] = coords[coords.length - 1];
+          events.push({ type: 'lock', name: this.nameOf(g) || 'Lock', lat, lon, at: distance });
         }
       }
       addLeg(g, before);

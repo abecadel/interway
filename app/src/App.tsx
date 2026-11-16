@@ -1,19 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { LngLat } from './graph/geo';
 import { MapView } from './map/MapView';
-import { RoutingClient } from './routing/client';
+import type { RoutingApi } from './routing/client';
 import { defaultProfile, type Route, type VesselProfile } from './routing/router';
 import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
-import { searchPlaces, type Place } from './ui/search';
+import { PointInput, type Point } from './ui/PointInput';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
-
-interface Point {
-  position: LngLat;
-  label: string;
-}
 
 function pointFromUrl(key: 'from' | 'to'): Point | null {
   const v = new URLSearchParams(location.search).get(key);
@@ -31,65 +26,7 @@ function loadProfile(): VesselProfile {
   }
 }
 
-function PointInput(props: {
-  label: string;
-  value: Point | null;
-  picking: boolean;
-  near?: LngLat;
-  onPick: () => void;
-  onMyPosition: () => void;
-  onSelect: (p: Point | null) => void;
-}) {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Place[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (query.trim().length < 3) return;
-    const ctrl = new AbortController();
-    const t = setTimeout(() => {
-      searchPlaces(query, props.near, ctrl.signal)
-        .then((r) => { setResults(r); setError(null); })
-        .catch((e) => { if (!ctrl.signal.aborted) setError(e.message); });
-    }, 300);
-    return () => { clearTimeout(t); ctrl.abort(); };
-  }, [query, props.near]);
-
-  return (
-    <div className="point-input">
-      <div className="point-row">
-        <span className="point-label">{props.label}</span>
-        <input
-          placeholder={props.value ? props.value.label : 'Search place or click the map'}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        {props.value && <button title="Clear" onClick={() => props.onSelect(null)}>✕</button>}
-      </div>
-      <div className="point-actions">
-        <button onClick={props.onMyPosition}>My position</button>
-        <button className={props.picking ? 'active' : ''} onClick={props.onPick}>
-          {props.picking ? 'Click on the map…' : 'Pick on map'}
-        </button>
-      </div>
-      {error && <div className="error small">{error}</div>}
-      {query.trim().length >= 3 && results.length > 0 && (
-        <ul className="results">
-          {results.map((r, i) => (
-            <li key={i}>
-              <button onClick={() => { props.onSelect({ position: r.position, label: r.label }); setQuery(''); setResults([]); }}>
-                {r.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-export default function App() {
-  const client = useMemo(() => new RoutingClient(), []);
+export default function App({ client }: { client: RoutingApi }) {
   const [dataStatus, setDataStatus] = useState<string>('Loading waterway data…');
   const [dataReady, setDataReady] = useState(false);
   const [start, setStart] = useState<Point | null>(() => pointFromUrl('from'));
@@ -176,9 +113,8 @@ export default function App() {
     setPicking(null);
   };
 
-  const downloadGpx = () => {
-    if (!route) return;
-    const blob = new Blob([toGpx(route, `${start?.label} → ${end?.label}`)], { type: 'application/gpx+xml' });
+  const downloadGpx = (route: Route, name: string) => {
+    const blob = new Blob([toGpx(route, name)], { type: 'application/gpx+xml' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'interway-route.gpx';
@@ -232,7 +168,7 @@ export default function App() {
                 <li key={i}><span>{l.name || 'unnamed waterway'}</span><span>{fmtKm(l.distance)}</span></li>
               ))}
             </ol>
-            <button onClick={downloadGpx}>Export GPX</button>
+            <button onClick={() => downloadGpx(route, `${start!.label} → ${end!.label}`)}>Export GPX</button>
           </section>
         )}
 
