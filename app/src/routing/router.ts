@@ -60,6 +60,8 @@ export interface Route {
   /** seconds */
   duration: number;
   locks: number;
+  /** metres on connections that are not confirmed navigable (manual patches, short connector channels) */
+  unverified: number;
   events: RouteEvent[];
   legs: RouteLeg[];
   start: Snap;
@@ -109,6 +111,12 @@ export class Router {
     }
     if (G === 0) this.index.add(0, 0, 0, 0);
     this.index.finish();
+  }
+
+  /** Flags shared by both directions of geometry g (direction bits aside). */
+  private geomFlags(g: number): number {
+    const f = this.geomFwd[g];
+    return this.graph.edgeFlags[f >= 0 ? f : this.geomRev[g]];
   }
 
   /** Waterway name of geometry g ('' when unnamed or the name table is missing). */
@@ -250,7 +258,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0;
+    let distance = 0, locks = 0, unverified = 0;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
       if (last[0] === lon && last[1] === lat) return;
@@ -297,8 +305,9 @@ export class Router {
         }
       }
       addLeg(g, before);
+      if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
     }
-    return { coordinates: coords, distance, duration, locks, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */

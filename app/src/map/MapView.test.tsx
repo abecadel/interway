@@ -77,7 +77,12 @@ const route = {
 
 const pos = (heading: number | null) => ({ coords: { longitude: 21, latitude: 52, heading } }) as GeolocationPosition;
 
-const base = { start: null, end: null, route: null, position: null, network: null, showSeamarks: true, onMapClick: () => {} };
+const base = { start: null, end: null, route: null, position: null, network: null, showSeamarks: true, pois: [], onMapClick: () => {} };
+const lock = { type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 };
+const poiFc = (names: string[]) => ({
+  type: 'FeatureCollection',
+  features: names.map((name) => ({ type: 'Feature', properties: { type: 'lock', name }, geometry: { type: 'Point', coordinates: [21, 52] } })),
+});
 
 beforeEach(() => {
   h.state.maps.length = 0;
@@ -87,12 +92,13 @@ beforeEach(() => {
 describe('MapView', () => {
   it('creates the map, adds layers on load and applies current state', () => {
     const net = { type: 'FeatureCollection', features: [] } as GeoJSON.FeatureCollection;
-    render(<MapView {...base} route={route} network={net} showSeamarks={false} />);
+    render(<MapView {...base} route={route} network={net} showSeamarks={false} pois={[lock]} />);
     const map = h.state.maps[0];
     expect(map.opts.style).toContain('openfreemap');
     expect(map.fitBounds).toHaveBeenCalledTimes(1);
     act(() => map.handlers.load());
-    expect(map.layers).toEqual(['seamarks', 'network', 'route-casing', 'route', 'locks']);
+    expect(map.layers).toEqual(['seamarks', 'network', 'pois', 'poi-labels', 'route-casing', 'route', 'locks']);
+    expect(map.sources.pois.setData).toHaveBeenCalledWith(poiFc(['Śluza']));
     expect(map.layout.seamarks).toBe('none');
     expect(map.sources.network.setData).toHaveBeenCalledWith(net);
     expect(map.sources.route.setData).toHaveBeenCalledWith(expect.objectContaining({ geometry: expect.objectContaining({ type: 'LineString' }) }));
@@ -105,11 +111,14 @@ describe('MapView', () => {
   it('updates layers after load and ignores updates before load', () => {
     const { rerender } = render(<MapView {...base} />);
     const map = h.state.maps[0];
-    rerender(<MapView {...base} showSeamarks={false} network={{ type: 'FeatureCollection', features: [] }} route={route} />);
+    rerender(<MapView {...base} showSeamarks={false} network={{ type: 'FeatureCollection', features: [] }} route={route} pois={[lock]} />);
     expect(map.layout.seamarks).toBeUndefined();
     act(() => map.handlers.load());
     rerender(<MapView {...base} />);
     expect(map.layout.seamarks).toBe('visible');
+    expect(map.sources.pois.setData).toHaveBeenLastCalledWith(poiFc([]));
+    rerender(<MapView {...base} pois={[lock]} />);
+    expect(map.sources.pois.setData).toHaveBeenLastCalledWith(poiFc(['Śluza']));
     expect(map.sources.route.setData).toHaveBeenLastCalledWith({ type: 'FeatureCollection', features: [] });
     expect(map.sources.locks.setData).toHaveBeenLastCalledWith({ type: 'FeatureCollection', features: [] });
     expect(map.sources.network.setData).toHaveBeenLastCalledWith({ type: 'FeatureCollection', features: [] });

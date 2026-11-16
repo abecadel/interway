@@ -12,6 +12,20 @@ export interface Manifest {
   attribution: string;
 }
 
+export interface Poi {
+  type: 'lock' | 'marina';
+  name: string;
+  lat: number;
+  lon: number;
+}
+
+export interface LoadResult {
+  manifest: Manifest;
+  nodes: number;
+  edges: number;
+  pois: Poi[];
+}
+
 export type WorkerRequest =
   | { id: number; type: 'load'; baseUrl: string }
   | { id: number; type: 'route'; from: LngLat; to: LngLat; profile: VesselProfile }
@@ -37,6 +51,12 @@ export class RoutingService {
     return res.arrayBuffer();
   }
 
+  /** Points of interest are optional: a missing file just means none are shown. */
+  private async pois(url: string): Promise<Poi[]> {
+    const res = await this.fetch(url);
+    return res.ok ? ((await res.json()) as Poi[]) : [];
+  }
+
   private loaded(): Router {
     if (!this.router) throw new Error('Waterway data not loaded yet');
     return this.router;
@@ -51,7 +71,8 @@ export class RoutingService {
         const manifest = (await res.json()) as Manifest;
         const [g, s] = await Promise.all([this.buffer(base + manifest.files.graph), this.buffer(base + manifest.files.geom)]);
         this.router = new Router(decodeGraph(g), decodeGeometry(s), manifest.names);
-        return { manifest, nodes: this.router.graph.nodeCount, edges: this.router.graph.edgeCount };
+        const pois = manifest.files.pois ? await this.pois(base + manifest.files.pois) : [];
+        return { manifest, nodes: this.router.graph.nodeCount, edges: this.router.graph.edgeCount, pois } satisfies LoadResult;
       }
       case 'route':
         return this.loaded().route(msg.from, msg.to, msg.profile);

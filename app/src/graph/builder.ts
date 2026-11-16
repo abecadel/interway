@@ -7,7 +7,7 @@ export interface SegmentInput {
   points: LngLat[];
   name?: string;
   /** 'river' gets DOWNSTREAM in drawing direction and UPSTREAM in reverse */
-  kind?: 'river' | 'canal' | 'lake' | 'sea';
+  kind?: 'river' | 'canal' | 'lake' | 'sea' | 'patch';
   lock?: boolean;
   oneway?: boolean;
   /** [maxDraft, maxHeight, maxWidth, maxLength] */
@@ -63,6 +63,7 @@ export function buildGraph(segments: SegmentInput[]): { graph: Graph; geometry: 
     if (s.kind === 'lake') base |= Flag.LAKE;
     if (s.kind === 'canal') base |= Flag.CANAL;
     if (s.kind === 'sea') base |= Flag.SEA;
+    if (s.kind === 'patch') base |= Flag.PATCH;
     edges.push({ from: a, to: b, len, geom: g, attr, flags: base | (s.kind === 'river' ? Flag.DOWNSTREAM : 0) });
     if (!s.oneway) {
       edges.push({ from: b, to: a, len, geom: g, attr, flags: base | Flag.GEOM_REVERSED | (s.kind === 'river' ? Flag.UPSTREAM : 0) });

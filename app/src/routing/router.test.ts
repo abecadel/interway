@@ -199,4 +199,11 @@ describe('router edge cases', () => {
     expect(r.route([17.08, 51.0], [17.02, 51.0]).distance).toBeCloseTo(4200, -2);
     expect(() => r.route([17.02, 51.0], [17.08, 51.0])).toThrow(RouteError);
   });
+
+  it('measures distance on unverified connections', () => {
+    const r = makeRouter([{ points: [A, B], name: 'river' }, { points: [B, C], kind: 'patch' }]);
+    const route = r.route([17.05, 51.0], [17.15, 51.0]);
+    expect(route.unverified).toBeCloseTo(3500, -2);
+    expect(r.route([17.01, 51.0], [17.09, 51.0]).unverified).toBe(0);
+  });
 });
