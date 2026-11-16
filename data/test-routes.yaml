@@ -1,22 +1,139 @@
-# Canonical routes the Europe graph must satisfy (checked by app/scripts/check-routes.ts).
-# expected_km is a rough reference; tolerance is relative.
+# Reference routes the built graph must satisfy (app/src/routing/canonical.test.ts, `npm run test:routes`).
+#
+#   expected_km  distance from the cited source; the check passes within ± tolerance (relative)
+#   countries    ISO codes the route needs; skipped when the data's manifest lists other countries
+#   via          waterway names (substring, case-insensitive) that must appear in the route's legs
+#   min_locks    lower bound for the number of locks passed
+#   source       where expected_km comes from (trip reports, official guides)
+
+# --- Poland --------------------------------------------------------------------------------------------
 - name: Zalew Zegrzyński → Giżycko (Mazury)
   from: [21.03, 52.47]
   to: [21.765, 54.035]
-  expected_km: 330
-  tolerance: 0.25
-- name: Wrocław → Amsterdam
-  from: [17.035, 51.115]
-  to: [4.90, 52.38]
-  expected_km: 1250
+  expected_km: 300
   tolerance: 0.2
-- name: Berlin → Szczecin
-  from: [13.40, 52.52]
-  to: [14.56, 53.43]
-  expected_km: 210
-  tolerance: 0.25
+  countries: [PL]
+  via: [Narew, Pisa, Śniardwy, Niegocin]
+  source: own estimate from waterway kilometrage (Narew km 0–~140, Pisa ~80 km, Mazury lakes ~70 km)
+
 - name: Gdańsk → Elbląg
   from: [18.66, 54.35]
   to: [19.40, 54.16]
   expected_km: 85
   tolerance: 0.3
+  countries: [PL]
+  via: [Martwa Wisła, Szkarpawa]
+  source: E70 guide, Martwa Wisła – Szkarpawa – Zalew Wiślany/Elbląg (https://mdwe70.pl/)
+
+- name: Wielka Pętla Wielkopolski — Konin → Santok (Warta)
+  from: [18.25, 52.23]
+  to: [15.42, 52.735]
+  expected_km: 338
+  tolerance: 0.15
+  countries: [PL]
+  via: [Warta]
+  source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Warta Konin–Santok 338.4 km)
+
+- name: Wielka Pętla Wielkopolski — Santok → Bydgoszcz (Noteć, Kanał Bydgoski)
+  from: [15.42, 52.735]
+  to: [18.00, 53.123]
+  expected_km: 203
+  tolerance: 0.15
+  countries: [PL]
+  via: [Noteć]
+  min_locks: 10
+  source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Noteć 187.2 km + Kanał Bydgoski 15.7 km)
+
+- name: Wielka Pętla Wielkopolski — Bydgoszcz → Konin (Gopło, Kanał Ślesiński)
+  from: [18.00, 53.123]
+  to: [18.25, 52.23]
+  expected_km: 147
+  tolerance: 0.2
+  countries: [PL]
+  via: [Gopło]
+  source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Bydgoszcz–Konin 146.6 km)
+
+- name: Toruń → Bydgoszcz (Wisła, Brda)
+  from: [18.60, 53.005]
+  to: [18.00, 53.123]
+  expected_km: 48
+  tolerance: 0.2
+  countries: [PL]
+  via: [Wisła, Brda]
+  source: https://mdwe70.pl/en/the-torun-bydgoszcz-route/ (36 km to the Brda mouth, 12 km up the Brda)
+
+- name: Gliwice → Wrocław (Kanał Gliwicki, Odra)
+  from: [18.63, 50.30]
+  to: [17.035, 51.115]
+  expected_km: 200
+  tolerance: 0.2
+  countries: [PL]
+  via: [Kanał Gliwicki, Odra]
+  min_locks: 15
+  source: https://forsal.pl/artykuly/1057884,na-kanal-gliwicki-wyruszyl-pierwszy-od-pieciu-lat-transport-wegla.html (~200 km, 27 locks)
+
+- name: Ostróda → Elbląg (Kanał Elbląski, inclined planes)
+  from: [19.97, 53.70]
+  to: [19.40, 54.16]
+  expected_km: 82
+  tolerance: 0.2
+  countries: [PL]
+  via: [Elbl]
+  source: https://www.gov.pl/web/infrastruktura/kanal-elblaski--najwieksza-turystyczna-atrakcja-warmii (82 km, 5 inclined planes)
+
+# --- Germany -------------------------------------------------------------------------------------------
+- name: Berlin → Szczecin (Havel-Oder-Wasserstraße)
+  from: [13.40, 52.52]
+  to: [14.56, 53.43]
+  expected_km: 210
+  tolerance: 0.2
+  countries: [DE, PL]
+  source: https://www.brandenburg-tourism.com/poi/seenland-oder-spree/houseboat-tours/berlin-oder-round-trip/ (HOW Hohensaaten–Berlin 92 km) + Oder to Szczecin
+
+- name: Eisenhüttenstadt → Hohensaaten (Oder)
+  from: [14.67, 52.16]
+  to: [14.14, 52.87]
+  expected_km: 114
+  tolerance: 0.12
+  countries: [DE, PL]
+  via: [Oder]
+  source: https://www.brandenburg-tourism.com/poi/seenland-oder-spree/houseboat-tours/berlin-oder-round-trip/ (114 km, no lock)
+
+- name: Berlin-Spandau → Müritz
+  from: [13.21, 52.535]
+  to: [12.72, 53.36]
+  expected_km: 148
+  tolerance: 0.15
+  countries: [DE]
+  via: [Havel]
+  min_locks: 6
+  source: ADAC/Hausboot guides via https://www.reiseland-brandenburg.de/ (Spandau – Müritz south tip 147.8 km)
+
+- name: Magdeburg → Hamburg (Elbe)
+  from: [11.645, 52.13]
+  to: [9.99, 53.54]
+  expected_km: 297
+  tolerance: 0.12
+  countries: [DE]
+  via: [Elbe]
+  source: Elbe kilometre markers (Magdeburg ~km 326, Hamburg harbour ~km 623); https://www.boote-magazin.de/en/travel-and-charter/territories/the-middle-elbe/
+
+- name: Mittellandkanal end to end (Bergeshövede → Elbe)
+  from: [7.62, 52.29]
+  to: [11.70, 52.22]
+  expected_km: 325
+  tolerance: 0.12
+  countries: [DE]
+  via: [Mittellandkanal]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/charter-and-area-mittelland-canal-325-km/
+
+# --- Long distance -------------------------------------------------------------------------------------
+- name: Wrocław → Amsterdam
+  from: [17.035, 51.115]
+  to: [4.90, 52.38]
+  expected_km: 1200
+  tolerance: 0.2
+  countries: [PL, DE, NL]
+  via: [Odra, Mittellandkanal]
+  min_locks: 10
+  source: sum of segments above (Odra to Eisenhüttenstadt, Berlin, Mittellandkanal 325 km, Dutch canals)

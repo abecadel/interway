@@ -14,6 +14,10 @@ interface TestRoute {
   to: LngLat;
   expected_km: number;
   tolerance: number;
+  countries: string[];
+  via?: string[];
+  min_locks?: number;
+  source: string;
 }
 
 const dataDir = process.env.INTERWAY_DATA ?? '';
@@ -30,8 +34,12 @@ describe('canonical routes', () => {
   const manifest = JSON.parse(readFileSync(join(dataDir, 'manifest.json'), 'utf8'));
   const router = new Router(decodeGraph(buf(join(dataDir, 'graph.bin'))), decodeGeometry(buf(join(dataDir, 'geom.bin'))), manifest.names);
 
-  for (const r of routes.filter((r) => !only || only.some((o: string) => r.name.includes(o)))) {
-    it(r.name, () => {
+  // Data built from whole countries lists them; partial (demo) data runs only routes picked by INTERWAY_ROUTES.
+  const covered = new Set<string>(manifest.countries ?? []);
+  const wanted = (r: TestRoute) => (only ? only.some((o: string) => r.name.includes(o)) : r.countries.every((c) => covered.has(c)));
+
+  for (const r of routes) {
+    it.skipIf(!wanted(r))(r.name, () => {
       const route = router.route(r.from, r.to);
       const km = route.distance / 1000;
       console.log(`${r.name}: ${km.toFixed(0)} km, ${route.locks} locks, snap ${route.start.offset.toFixed(0)}/${route.end.offset.toFixed(0)} m`);
@@ -39,6 +47,9 @@ describe('canonical routes', () => {
       expect(route.start.offset).toBeLessThan(3000);
       expect(route.end.offset).toBeLessThan(3000);
       expect(Math.abs(km - r.expected_km) / r.expected_km).toBeLessThan(r.tolerance);
+      const names = route.legs.map((l) => l.name.toLowerCase());
+      for (const v of r.via ?? []) expect(names.some((n) => n.includes(v.toLowerCase())), `via ${v}`).toBe(true);
+      if (r.min_locks !== undefined) expect(route.locks).toBeGreaterThanOrEqual(r.min_locks);
     });
   }
 });

@@ -147,10 +147,12 @@ def test_main(inputs, tmp_path, capsys):
     osm, allow, patches = inputs
     out = tmp_path / "out"
     main([str(osm), "-o", str(out), "--region", "pl", "--allowlist", str(allow), "--patches", str(patches),
-          "--min-component-km", "1", "--simplify-m", "0", "--cache", str(tmp_path / "cache"), "-v"])
+          "--min-component-km", "1", "--simplify-m", "0", "--cache", str(tmp_path / "cache"), "-v",
+          "--countries", "pl, de,,nl"])
     stats = json.loads(capsys.readouterr().out)
     manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
     assert stats == manifest["stats"] and manifest["region"] == "pl"
+    assert manifest["countries"] == ["PL", "DE", "NL"]
     assert "Obejście jazu" in manifest["names"]
     g = read_graph(out / "graph.bin")
     assert np.any(np.isclose(g["lon"] / 1e7, 20.11))  # kept thanks to the patch

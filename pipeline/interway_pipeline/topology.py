@@ -1,6 +1,7 @@
 """Turns navigable OSM ways into a clean segment network."""
 from __future__ import annotations
 
+import heapq
 import itertools
 import logging
 from collections import Counter, defaultdict
@@ -263,3 +264,73 @@ def drop_small_components(segments: list[Segment], min_length_m: float) -> tuple
     log.info("components: %d total, %d kept (>= %.0f m); %d segments dropped",
              len(total), len(keep), min_length_m, len(segments) - len(out))
     return out, report
+
+
+def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tuple[list[Segment], list[Segment]]:
+    """Remove lock-free branches that run around a lock.
+
+    A lock joins two different water levels, so any path between its two ends that uses no lock must cross a
+    weir or dam, even when OSM has no weir node on it: an untagged twin chamber, a weir arm next to a lock
+    canal, a river loop around a canalised section. For each lock the shortest such bypass within `max_m` is
+    removed. Lake crossings are never removed (touching lakes are merged regardless of level), and bypasses
+    that contain another lock are not bypasses at all. Returns (kept, removed).
+    """
+    adj: dict[int, list[int]] = defaultdict(list)
+    for i, s in enumerate(segments):
+        adj[s.a].append(i)
+        adj[s.b].append(i)
+    lengths = [s.length for s in segments]
+    removed: set[int] = set()
+    for lock in segments:
+        if not lock.lock or lock.a == lock.b:
+            continue
+        for _ in range(MAX_BYPASS_CUTS):
+            path = _bypass(segments, adj, lengths, removed, lock.a, lock.b, max_m)
+            if not path or any(segments[i].kind == "lake" for i in path):
+                break
+            removed.add(_weir_candidate(segments, path, lock, lengths))
+    kept = [s for i, s in enumerate(segments) if i not in removed]
+    log.info("removed %d segments bypassing locks (unmapped weirs, untagged twin chambers)", len(removed))
+    return kept, [segments[i] for i in sorted(removed)]
+
+
+MAX_BYPASS_CUTS = 10
+
+
+def _weir_candidate(segments: list[Segment], path: list[int], lock: Segment, lengths: list[float]) -> int:
+    """The one segment of a bypass to cut: where the unmapped weir most likely is.
+
+    Segments touching the lock's own ends are the canal leading to it, so they are avoided unless the bypass is
+    nothing else (an untagged twin chamber). Among the rest rivers come before canals, then the longest.
+    """
+    away = [i for i in path if not {segments[i].a, segments[i].b} & {lock.a, lock.b}] or path
+    return max(away, key=lambda i: (segments[i].kind == "river", lengths[i]))
+
+
+def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float) -> list[int] | None:
+    """Shortest lock-free path src -> dst (segment indices) not longer than max_m, or None."""
+    dist = {src: 0.0}
+    prev: dict[int, int] = {}
+    heap = [(0.0, src)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if u == dst:
+            path = []
+            while u != src:
+                i = prev[u]
+                path.append(i)
+                u = segments[i].a if segments[i].b == u else segments[i].b
+            return path
+        if d > dist[u]:
+            continue
+        for i in adj[u]:
+            s = segments[i]
+            if s.lock or i in removed:
+                continue
+            v = s.b if s.a == u else s.a
+            nd = d + lengths[i]
+            if nd <= max_m and nd < dist.get(v, float("inf")):
+                dist[v] = nd
+                prev[v] = i
+                heapq.heappush(heap, (nd, v))
+    return None
