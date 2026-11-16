@@ -1,0 +1,34 @@
+import { describe, expect, it } from 'vitest';
+import type { Route } from '../routing/router';
+import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './format';
+
+describe('formatting', () => {
+  it('distances', () => {
+    expect(fmtKm(1234)).toBe('1.2 km');
+    expect(fmtKm(123_456)).toBe('123 km');
+    expect(fmtNm(1852 * 2.5)).toBe('2.5 NM');
+  });
+
+  it('durations', () => {
+    expect(fmtDuration(59 * 60)).toBe('59 min');
+    expect(fmtDuration(3600 * 2 + 600)).toBe('2 h 10 min');
+    expect(fmtDuration(3600 * 27)).toBe('1 d 3 h');
+  });
+
+  it('positions in all hemispheres', () => {
+    expect(fmtPos([21.03, 52.47])).toBe('52.4700°N 21.0300°E');
+    expect(fmtPos([-70.5, -33.25])).toBe('33.2500°S 70.5000°W');
+  });
+
+  it('GPX with escaped names', () => {
+    const route = {
+      coordinates: [[21, 52], [21.1, 52.1]],
+      events: [{ type: 'lock', name: 'A & <B>', lat: 52.05, lon: 21.05, at: 1 }],
+    } as unknown as Route;
+    const gpx = toGpx(route, 'X "Y"');
+    expect(gpx).toContain('<name>A &#38; &#60;B&#62;</name>');
+    expect(gpx).toContain('<name>X &#34;Y&#34;</name>');
+    expect(gpx).toContain('<rtept lat="52.100000" lon="21.100000"/>');
+    expect(toGpx({ ...route, events: [] })).toContain('<name>Interway route</name>');
+  });
+});

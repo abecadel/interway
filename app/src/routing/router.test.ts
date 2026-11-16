@@ -1,0 +1,202 @@
+import { describe, expect, it } from 'vitest';
+import { buildGraph, type SegmentInput } from '../graph/builder';
+import { decodeGeometry, decodeGraph, encodeGeometry, encodeGraph, Flag, type Geometry, type Graph } from '../graph/format';
+import { defaultProfile, Router, RouteError } from './router';
+
+// A small network:  A ──river── B ──canal(lock)── C
+//                                 └──long river── D ── C
+const A: [number, number] = [17.0, 51.0];
+const B: [number, number] = [17.1, 51.0];
+const C: [number, number] = [17.2, 51.0];
+const D: [number, number] = [17.15, 51.1];
+
+const segments: SegmentInput[] = [
+  { points: [A, [17.05, 51.001], B], name: 'Odra', kind: 'river' },
+  { points: [B, C], name: 'Kanał', kind: 'canal', lock: true, limits: [2.0, 4.0, 0, 0] },
+  { points: [B, D], name: 'Long way', kind: 'river' },
+  { points: [D, C], name: 'Long way', kind: 'river' },
+];
+
+function makeRouter(segs = segments) {
+  const { graph, geometry, names } = buildGraph(segs);
+  // Round-trip through the binary format so the router is tested on decoded data.
+  return new Router(decodeGraph(encodeGraph(graph)), decodeGeometry(encodeGeometry(geometry)), names);
+}
+
+describe('graph format', () => {
+  it('round-trips graph and geometry', () => {
+    const { graph, geometry } = buildGraph(segments);
+    const g2 = decodeGraph(encodeGraph(graph));
+    const s2 = decodeGeometry(encodeGeometry(geometry));
+    expect(Array.from(g2.edgeTarget)).toEqual(Array.from(graph.edgeTarget));
+    expect(Array.from(g2.edgeFlags)).toEqual(Array.from(graph.edgeFlags));
+    expect(Array.from(g2.attrTable)).toEqual(Array.from(graph.attrTable));
+    expect(Array.from(s2.lat)).toEqual(Array.from(geometry.lat));
+    expect(Array.from(s2.nameIndex)).toEqual(Array.from(geometry.nameIndex));
+  });
+
+  it('rejects wrong magic', () => {
+    expect(() => decodeGraph(new ArrayBuffer(32))).toThrow(/magic/);
+  });
+});
+
+describe('router', () => {
+  it('snaps to the nearest waterway', () => {
+    const r = makeRouter();
+    const s = r.snap([17.05, 51.01])!;
+    expect(r.names[r.geom.nameIndex[s.geom]]).toBe('Odra');
+    expect(s.offset).toBeGreaterThan(900);
+    expect(s.offset).toBeLessThan(1200);
+  });
+
+  it('takes the short canal with a lock', () => {
+    const r = makeRouter();
+    const route = r.route([17.02, 51.0], [17.18, 51.0]);
+    expect(route.locks).toBe(1);
+    expect(route.legs.map((l) => l.name)).toEqual(['Odra', 'Kanał']);
+    expect(route.distance).toBeGreaterThan(10_000);
+    expect(route.distance).toBeLessThan(13_000);
+    expect(route.coordinates[0][0]).toBeCloseTo(17.02, 3);
+    expect(route.coordinates.at(-1)![0]).toBeCloseTo(17.18, 3);
+  });
+
+  it('avoids the canal when the bridge is too low', () => {
+    const r = makeRouter();
+    const route = r.route([17.02, 51.0], [17.18, 51.0], { ...defaultProfile, airDraft: 5 });
+    expect(route.locks).toBe(0);
+    expect(route.legs.map((l) => l.name)).toEqual(['Odra', 'Long way']);
+  });
+
+  it('is slower upstream than downstream', () => {
+    const r = makeRouter();
+    const down = r.route([17.01, 51.0], [17.09, 51.0]);
+    const up = r.route([17.09, 51.0], [17.01, 51.0]);
+    expect(up.duration).toBeGreaterThan(down.duration);
+    expect(up.distance).toBeCloseTo(down.distance, 0);
+  });
+
+  it('routes within one segment', () => {
+    const r = makeRouter();
+    const route = r.route([17.11, 51.0], [17.19, 51.0]);
+    expect(route.distance).toBeGreaterThan(5000);
+    expect(route.distance).toBeLessThan(6000);
+  });
+
+  it('respects one-way segments', () => {
+    const r = makeRouter([{ points: [A, B], oneway: true }]);
+    expect(r.route(A, B).distance).toBeGreaterThan(6000);
+    expect(() => r.route(B, [17.01, 51.0])).toThrow(RouteError);
+  });
+
+  it('fails between disconnected waterways', () => {
+    const r = makeRouter([{ points: [A, B] }, { points: [C, [17.3, 51.0]] }]);
+    expect(() => r.route(A, C)).toThrow(RouteError);
+  });
+});
+
+describe('router edge cases', () => {
+  it('blocks edges by draft, beam and length limits', () => {
+    const limited = (limits: [number, number, number, number]) => makeRouter([{ points: [A, B], limits }]);
+    expect(() => limited([0.5, 0, 0, 0]).route(A, B)).toThrow(/No waterway/);
+    expect(() => limited([0, 0, 2, 0]).route(A, B)).toThrow(RouteError);
+    expect(() => limited([0, 0, 0, 5]).route(A, B)).toThrow(RouteError);
+    expect(limited([5, 10, 10, 50]).route(A, B).distance).toBeGreaterThan(6000);
+  });
+
+  it('avoid-locks multiplies the lock penalty', () => {
+    const r = makeRouter([...segments, { points: [C, [17.3, 51.0]], name: 'Beyond' }]);
+    const normal = r.route([17.02, 51.0], [17.25, 51.0]);
+    expect(normal.locks).toBe(1);
+    const avoid = r.route([17.02, 51.0], [17.25, 51.0], { ...defaultProfile, avoidLocks: true });
+    expect(avoid.locks).toBe(0);
+    expect(avoid.duration).toBeGreaterThan(normal.duration);
+  });
+
+  it('never goes slower than the upstream floor speed', () => {
+    const r = makeRouter([{ points: [A, B], kind: 'river' }]);
+    const p = { ...defaultProfile, speedKmh: 1, currentMs: 5 };
+    const up = r.route([17.09, 51.0], [17.01, 51.0], p);
+    expect(up.duration).toBeCloseTo(up.distance / 0.3, -1);
+  });
+
+  it('returns null snaps and an error without geometry', () => {
+    const r = makeRouter([]);
+    expect(r.snap(A)).toBeNull();
+    expect(() => r.route(A, B)).toThrow('No waterway data loaded');
+  });
+
+  it('routes backwards within one geometry', () => {
+    const r = makeRouter([{ points: [A, [17.05, 51.0], B, [17.15, 51.0]] }]);
+    const route = r.route([17.12, 51.0], [17.03, 51.0]);
+    expect(route.distance).toBeCloseTo(6300, -2);
+    expect(route.coordinates.map((c) => c[0])).toEqual([17.12, 17.1, 17.05, 17.03].map((x) => expect.closeTo(x, 4)));
+  });
+
+  it('enters the target geometry from its far end', () => {
+    // target on segment drawn C->B, approached from B, i.e. against the drawing direction
+    const r = makeRouter([{ points: [A, B], name: 'one' }, { points: [C, [17.15, 51.0], B], name: 'two' }]);
+    const route = r.route([17.02, 51.0], [17.18, 51.0]);
+    expect(route.legs.map((l) => l.name)).toEqual(['one', 'two']);
+    expect(route.coordinates.at(-1)![0]).toBeCloseTo(17.18, 4);
+  });
+
+  it('names unnamed locks and folds unnamed legs', () => {
+    const { graph, geometry } = buildGraph([
+      { points: [A, B] },
+      { points: [B, C], lock: true, name: 'Kanał' },
+      { points: [C, D] },
+    ]);
+    const r = new Router(graph, geometry); // no name table at all
+    const route = r.route([17.01, 51.0], [17.17, 51.07]);
+    expect(route.events[0].name).toBe('Lock');
+    expect(route.legs).toHaveLength(1);
+    const named = new Router(graph, geometry, ['', 'Kanał']);
+    expect(named.route([17.01, 51.0], [17.17, 51.07]).legs.map((l) => l.name)).toEqual(['Kanał']);
+  });
+
+  it('travels full geometries against their drawing direction', () => {
+    const r = makeRouter([...segments, { points: [C, [17.3, 51.0]], name: 'Beyond' }]);
+    const route = r.route([17.25, 51.0], [17.02, 51.0]);
+    expect(route.legs.map((l) => l.name)).toEqual(['Beyond', 'Kanał', 'Odra']);
+    expect(route.coordinates[1][0]).toBeCloseTo(17.2, 6);
+  });
+
+  it('snaps to zero-length geometries', () => {
+    const r = makeRouter([{ points: [A, A] }]);
+    expect(r.snap([17.0, 51.01])!.frac).toBe(0);
+  });
+
+  it('skips stale heap entries when a node is improved later', () => {
+    // X lies towards the target so it is expanded first, but X->T is a long detour; the better way
+    // P->Y->T improves T later, leaving a stale heap entry that is popped before the far-away target.
+    const P: [number, number] = [17.0, 51.0], X: [number, number] = [17.02, 51.0], Y: [number, number] = [17.0, 51.01];
+    const T: [number, number] = [17.05, 51.0];
+    const r = makeRouter([
+      { points: [P, X] }, { points: [X, [17.02, 51.05], [17.05, 51.05], T] }, { points: [P, Y] }, { points: [Y, T] },
+      // winding tail: the real remaining distance is far longer than the straight-line heuristic
+      { points: [T, [17.05, 51.3], [17.1, 51.3], [17.1, 51.0]] },
+    ]);
+    const route = r.route([16.999, 51.0], [17.1, 51.01]);
+    expect(route.legs).toHaveLength(1);
+    expect(route.distance).toBeGreaterThan(60_000);
+    expect(route.coordinates.some(([lon, lat]) => lon === 17.0 && lat === 51.01)).toBe(true); // went via Y
+  });
+
+  it('handles geometries that only have a reverse edge', () => {
+    // geometry drawn A->B, but the only edge runs B->A
+    const graph: Graph = {
+      nodeCount: 2, edgeCount: 1,
+      nodeLat: Int32Array.from([A[1] * 1e7, B[1] * 1e7]), nodeLon: Int32Array.from([A[0] * 1e7, B[0] * 1e7]),
+      edgeOffsets: Uint32Array.from([0, 0, 1]), edgeTarget: Uint32Array.from([0]), edgeLength: Float32Array.from([7000]),
+      edgeGeom: Uint32Array.from([0]), edgeAttr: Uint16Array.from([0]), edgeFlags: Uint16Array.from([Flag.GEOM_REVERSED]),
+      attrTable: new Float32Array(4),
+    };
+    const geometry: Geometry = {
+      geomCount: 1, geomFrom: Uint32Array.from([0]), geomTo: Uint32Array.from([1]), geomOffsets: Uint32Array.from([0, 2]),
+      lat: Int32Array.from([A[1] * 1e7, B[1] * 1e7]), lon: Int32Array.from([A[0] * 1e7, B[0] * 1e7]), nameIndex: Uint32Array.from([0]),
+    };
+    const r = new Router(graph, geometry);
+    expect(r.route([17.08, 51.0], [17.02, 51.0]).distance).toBeCloseTo(4200, -2);
+    expect(() => r.route([17.02, 51.0], [17.08, 51.0])).toThrow(RouteError);
+  });
+});

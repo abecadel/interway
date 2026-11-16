@@ -1,0 +1,110 @@
+# Poland. Official inland waterways + popular recreational routes.
+waterways:
+  # Wisła system
+  - Wisła
+  - Martwa Wisła
+  - Wisła Śmiała
+  - Nogat
+  - Szkarpawa
+  - Wisła Królewiecka
+  - Leniwka
+  - Motława
+  - Elbląg
+  - Kanał Elbląski
+  - Kanał Jagielloński
+  - Bug
+  - Narew
+  - Kanał Żerański
+  - Pisa
+  - Biebrza
+  - Kanał Augustowski
+  - Czarna Hańcza
+  - Netta
+  - Brda
+  - Kanał Bydgoski
+  - Noteć
+  - Kanał Górnonotecki
+  - Warta
+  - Wkra
+  # Odra system
+  - Odra
+  - Odra Zachodnia
+  - Regalica
+  - Kanał Gliwicki
+  - Kanał Kędzierzyński
+  - Kanał Żeglugowy
+  - Przekop Mieleński
+  - Świna
+  - Dziwna
+  - Kanał Piastowski
+  - Parnica
+  - Duńczyca
+  - Kanał Grabowski
+  - Kanał Klucki
+  - Kanał Dębicki
+  - Kanał Przekop Klucz-Ustowo
+  # Wielkie Jeziora Mazurskie
+  - Kanał Giżycki
+  - Kanał Łuczański
+  - Kanał Niegociński
+  - Kanał Mioduński
+  - Kanał Jegliński
+  - Kanał Szymoński
+  - Kanał Tałcki
+  - Kanał Grunwaldzki
+  - Kanał Mazurski
+  - Kanał Węgorapa
+  - Kanał Piękna Góra
+  - Kanał Kula
+  - Kanał Mamerki
+  - Kanał Przerwanki
+  - Kanał Nidzki
+  - Kanał Iławski
+  - Kanał Ostródzki
+  - Kanał Bełdany
+  - Krutynia
+  - Kanał Sztynorcki
+  - Kanał Kisajno-Dargin
+  - Kanał Szymon
+lakes:
+  - Zalew Zegrzyński
+  - Jezioro Zegrzyńskie
+  - Śniardwy
+  - Jezioro Śniardwy
+  - Mamry
+  - Jezioro Mamry
+  - Niegocin
+  - Jezioro Niegocin
+  - Kisajno
+  - Dargin
+  - Dobskie
+  - Święcajty
+  - Tałty
+  - Tałtowisko
+  - Ryńskie
+  - Mikołajskie
+  - Bełdany
+  - Jagodne
+  - Bocznel
+  - Boczne
+  - Kotek
+  - Szymon
+  - Szymoneckie
+  - Seksty
+  - Roś
+  - Jezioro Roś
+  - Nidzkie
+  - Guzianka Wielka
+  - Guzianka Mała
+  - Łuknajno
+  - Wojnowo
+  - Kirsajty
+  - Dejguny
+  - Jezioro Dąbie
+  - Zalew Szczeciński
+  - Zalew Wiślany
+  - Jezioro Drużno
+  - Jeziorak
+  - Zalew Włocławski
+  - Zbiornik Włocławski
+exclude: []
