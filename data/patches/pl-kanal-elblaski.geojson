@@ -1,0 +1,16 @@
+{
+  "type": "FeatureCollection",
+  "description": "Inclined planes (pochylnie) of the Kanał Elbląski: boats are carried over land on rail carriages, so OSM has no waterway line across them. Each is routed like a lock (time penalty). Source: https://www.gov.pl/web/infrastruktura/kanal-elblaski--najwieksza-turystyczna-atrakcja-warmii",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Pochylnia Buczyniec", "lock": true},
+     "geometry": {"type": "LineString", "coordinates": [[19.61831, 53.97753], [19.61899, 53.98100]]}},
+    {"type": "Feature", "properties": {"name": "Pochylnia Kąty", "lock": true},
+     "geometry": {"type": "LineString", "coordinates": [[19.61254, 53.99559], [19.61079, 53.99783]]}},
+    {"type": "Feature", "properties": {"name": "Pochylnia Oleśnica", "lock": true},
+     "geometry": {"type": "LineString", "coordinates": [[19.59925, 54.01707], [19.59944, 54.02003]]}},
+    {"type": "Feature", "properties": {"name": "Pochylnia Jelenie", "lock": true},
+     "geometry": {"type": "LineString", "coordinates": [[19.58284, 54.03311], [19.57922, 54.03484]]}},
+    {"type": "Feature", "properties": {"name": "Pochylnia Całuny", "lock": true},
+     "geometry": {"type": "LineString", "coordinates": [[19.56078, 54.04525], [19.55806, 54.04625]]}}
+  ]
+}

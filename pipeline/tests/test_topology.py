@@ -66,11 +66,36 @@ def test_lock_from_interior_node_and_way_tag():
     ex = Extract(ways=[way(1, [1, 2, 3], name="Kanał"), way(2, [3, 4], lock="yes", lock_name="Śluza Górna"),
                        way(3, [1, 7, 8], name="Boczny"), way(4, [8, 9, 10], name="Kanał B")],
                  lock_nodes={2, 1, 8, 9}, lock_names={2: "Śluza Dolna"})
-    segs = {s.osm_way: s for s in split_ways(ex)}
-    assert segs[1].lock and segs[1].name == "Śluza Dolna"
-    assert segs[2].lock and segs[2].name == "Śluza Górna"  # no `name`, lock_name used
-    assert not segs[3].lock and segs[3].name == "Boczny"  # lock gates only at the ends (junctions)
-    assert segs[4].lock and segs[4].name == "Kanał B"  # unnamed lock keeps the waterway name
+    segs = split_ways(ex)
+    by_way = lambda w: [s for s in segs if s.osm_way == w]  # noqa: E731
+    # gates 1 and 2 are 100 m apart: the stretch between them is the chamber, the rest of the way is not a lock
+    assert [(s.lock, s.name, s.a, s.b) for s in by_way(1)] == [(True, "Śluza Dolna", 1, 2), (False, "Kanał", 2, 3)]
+    assert [(s.lock, s.name) for s in by_way(2)] == [(True, "Śluza Górna")]  # no `name`, lock_name used
+    assert [s.lock for s in by_way(3)] == [False]  # gates 700 m apart, each at a way end (junctions)
+    assert [(s.lock, s.name) for s in by_way(4)] == [(True, "Kanał B"), (False, "Kanał B")]  # unnamed chamber
+
+
+def test_single_interior_gate_is_a_zero_length_lock():
+    ex = Extract(ways=[way(1, [1, 2, 3], name="Kanał")], lock_nodes={2}, lock_names={2: "Śluza"})
+    k = split_ways(ex)
+    assert [(s.lock, s.name) for s in k] == [(False, "Kanał"), (True, "Śluza"), (False, "Kanał")]
+    assert k[1].coords[0] == k[1].coords[1] and k[0].b == k[1].a and k[1].b == k[2].a
+    assert (k[0].a, k[2].b) == (1, 3)
+
+
+def test_lock_chamber_between_two_gates_and_separate_locks():
+    m = 1 / 111_320  # one metre in degrees
+    nodes = {i: (x * m, 0.0) for i, x in enumerate([0, 1000, 1150, 1300, 5000, 9000], start=1)}
+    ex = Extract(ways=[NavWay(1, list(nodes), list(nodes.values()), {"name": "Kanał", "waterway": "canal", "kind": "canal"})],
+                 lock_nodes={2, 3, 5}, lock_names={3: "Śluza Wielka"})
+    segs = split_ways(ex)
+    assert [(s.lock, s.name, round(s.length, -1)) for s in segs] == [
+        (False, "Kanał", 1000),
+        (True, "Śluza Wielka", 150),       # gates 2 and 3 (150 m apart) are one chamber
+        (False, "Kanał", 3850),
+        (True, "Kanał", 0),                # gate 5 alone, 3.7 km further: a second lock
+        (False, "Kanał", 4000),
+    ]
 
 
 def test_oneway_reversed_and_limits():
@@ -228,3 +253,82 @@ def test_drop_small_components():
 def test_components_with_cycles():
     comp = components(net((1, 2), (2, 3), (3, 1), (4, 5), (5, 4)))
     assert comp[1] == comp[2] == comp[3] != comp[4] == comp[5]
+
+
+def test_close_gaps_joins_facing_dead_ends_across_a_ship_lift():
+    m = metres_to_deg(1)
+    upper = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.01, 0.0)], kind="canal")
+    lower = Segment(a=3, b=4, coords=[(0.01 + 120 * m, 0.0), (0.03, 0.0)], kind="canal")
+    # a node of a third component 100 m away but not a dead end (mid-junction) must not be used
+    side = [Segment(a=5, b=6, coords=[(0.01 + 100 * m, 0.02), (0.01 + 100 * m, 100 * m)], kind="canal"),
+            Segment(a=6, b=7, coords=[(0.01 + 100 * m, 100 * m), (0.01 + 100 * m, -0.02)], kind="canal")]
+    segs = [upper, lower, *side]
+    assert close_gaps(list(segs)) == 0  # default: only 25 m mapping slips
+    work = list(segs)
+    assert close_gaps(work, dead_end_gap_m=300) == 1
+    link = work[-1]
+    assert {link.a, link.b} == {2, 3} and link.kind == "patch"
+    work = list(segs)
+    assert close_gaps(work, dead_end_gap_m=100) == 0  # 120 m apart
+
+
+# --- block_lock_bypasses --------------------------------------------------------------------------------
+
+def _canal(a, b, x0, x1, y=0.0, **kw):
+    return Segment(a=a, b=b, coords=[(x0, y), (x1, y)], kind=kw.pop("kind", "canal"), **kw)
+
+
+def test_untagged_twin_chamber_and_weir_branch_are_removed():
+    from interway_pipeline.topology import block_lock_bypasses
+    segs = [
+        _canal(1, 2, 0.0, 0.01),
+        _canal(2, 3, 0.01, 0.011, lock=True, name="Śluza A"),          # tagged chamber
+        Segment(a=2, b=3, coords=[(0.01, 0.0), (0.0105, 0.0003), (0.011, 0.0)], kind="canal"),  # twin, untagged
+        _canal(3, 4, 0.011, 0.02),
+        # a river loop around the lock canal (weir not mapped)
+        Segment(a=1, b=4, coords=[(0.0, 0.0), (0.01, 0.01), (0.02, 0.0)], kind="river", name="Odra"),
+    ]
+    kept, removed = block_lock_bypasses(segs)
+    assert {s.name for s in removed} == {"", "Odra"}  # the untagged twin first, then the river loop
+    assert len(kept) == 3 and any(s.lock for s in kept)
+
+
+def test_bypasses_with_another_lock_or_across_lakes_are_kept():
+    from interway_pipeline.topology import block_lock_bypasses
+    two_locks = [
+        _canal(1, 2, 0.0, 0.01, lock=True),
+        Segment(a=1, b=2, coords=[(0.0, 0.0), (0.005, 0.005), (0.01, 0.0)], kind="canal", lock=True),
+    ]
+    assert block_lock_bypasses(two_locks)[1] == []
+    lake = [_canal(1, 2, 0.0, 0.01, lock=True), _canal(1, 2, 0.0, 0.01, y=0.001, kind="lake")]
+    assert block_lock_bypasses(lake)[1] == []
+    far = [_canal(1, 2, 0.0, 0.01, lock=True),
+           Segment(a=1, b=2, coords=[(0.0, 0.0), (0.0, 1.0), (0.01, 0.0)], kind="river")]  # 220 km loop
+    assert block_lock_bypasses(far)[1] == []
+    loop_lock = [Segment(a=5, b=5, coords=[(0, 0), (0.01, 0.01), (0, 0)], kind="canal", lock=True)]
+    assert block_lock_bypasses(loop_lock)[1] == []
+
+
+def test_bypass_cut_keeps_the_canal_and_prefers_rivers():
+    from interway_pipeline.topology import block_lock_bypasses
+    segs = [
+        _canal(1, 2, 0.0, 0.01, name="canal-up"),
+        _canal(2, 3, 0.01, 0.011, lock=True),
+        _canal(3, 4, 0.011, 0.02, name="canal-down"),
+        # weir branch split by a tributary junction 9: one river half and one canal-tagged half
+        Segment(a=1, b=9, coords=[(0.0, 0.0), (0.005, 0.01)], kind="canal", name="side canal"),
+        Segment(a=9, b=4, coords=[(0.005, 0.01), (0.02, 0.0)], kind="river", name="Odra"),
+        Segment(a=9, b=10, coords=[(0.005, 0.01), (0.005, 0.05)], kind="river", name="tributary"),
+    ]
+    kept, removed = block_lock_bypasses(segs)
+    assert [s.name for s in removed] == ["Odra"]
+    assert {"canal-up", "canal-down", "side canal", "tributary"} <= {s.name for s in kept}
+
+
+def test_bypass_cuts_are_capped_per_lock(monkeypatch):
+    from interway_pipeline import topology
+    monkeypatch.setattr(topology, "MAX_BYPASS_CUTS", 1)
+    segs = [_canal(1, 2, 0.0, 0.01, lock=True),
+            Segment(a=1, b=2, coords=[(0.0, 0.0), (0.005, 0.002), (0.01, 0.0)], kind="canal"),
+            Segment(a=1, b=2, coords=[(0.0, 0.0), (0.005, 0.004), (0.01, 0.0)], kind="canal")]
+    assert len(topology.block_lock_bypasses(segs)[1]) == 1

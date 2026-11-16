@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-import math
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -10,8 +9,16 @@ import osmium
 import shapely
 from shapely.geometry import LineString, MultiPolygon, Polygon
 
-from .classify import Allowlist, is_candidate_lake, is_connector_candidate, is_navigable_way, kind_of, lake_allowlisted
-from .model import LonLat, parse_metres
+from .classify import (
+    Allowlist,
+    is_candidate_lake,
+    is_channel_area,
+    is_connector_candidate,
+    is_navigable_way,
+    kind_of,
+    lake_allowlisted,
+)
+from .model import MIN_LAKE_KM2, LonLat, area_km2, parse_metres
 
 log = logging.getLogger(__name__)
 
@@ -81,7 +88,7 @@ def _way_coords(way) -> list[LonLat] | None:
         return None
 
 
-def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = 0.05) -> Extract:
+def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -> Extract:
     ex = Extract()
     try:
         reader = osmium.io.Reader(str(path), osmium.osm.osm_entity_bits.NOTHING)
@@ -138,10 +145,9 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = 0.05) -> Extrac
             if poly is None:
                 continue
             # rough km² at mid-latitude, enough for a size threshold
-            lat = poly.centroid.y
-            km2 = poly.area * 111.32 * 111.32 * max(0.1, math.cos(math.radians(lat)))
+            km2 = area_km2(poly)
             allowed = lake_allowlisted(tags, allow)
-            if km2 >= min_lake_km2 or allowed:
+            if km2 >= min_lake_km2 or allowed or is_channel_area(tags):
                 ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed))
     log.info("read %d ways: %d navigable, %d connector candidates, %d lakes, %d bridges w/ clearance, %d lock nodes, %d marinas",
              n_ways, len(ex.ways), len(ex.connectors), len(ex.lakes), len(ex.bridges), len(ex.lock_nodes), len(ex.marinas))

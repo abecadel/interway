@@ -1,6 +1,7 @@
 """Turns navigable OSM ways into a clean segment network."""
 from __future__ import annotations
 
+import heapq
 import itertools
 import logging
 from collections import Counter, defaultdict
@@ -45,27 +46,51 @@ def split_ways(ex: Extract) -> list[Segment]:
     return segments
 
 
+LOCK_GROUP_M = 400.0  # lock gates closer than this along a way belong to the same chamber
+
+
+def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract) -> list[tuple[int, int]]:
+    """Index ranges (first gate, last gate) of lock chambers along a way, from its lock gate nodes."""
+    groups: list[list[int]] = []
+    along = [0.0]
+    for i in range(1, len(coords)):
+        along.append(along[-1] + haversine(coords[i - 1], coords[i]))
+    for i, n in enumerate(nodes):
+        if n not in ex.lock_nodes:
+            continue
+        if groups and along[i] - along[groups[-1][1]] <= LOCK_GROUP_M:
+            groups[-1][1] = i
+        else:
+            groups.append([i, i])
+    # a single gate at the very end of a way belongs to the chamber way it joins (tagged lock=yes)
+    return [(g0, g1) for g0, g1 in groups if not (g0 == g1 and g0 in (0, len(nodes) - 1))]
+
+
 def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
+    """Cut a way at junctions, weirs and lock chambers.
+
+    A lock is its own short segment: the stretch between the first and last gate of a chamber, or a
+    zero-length segment where only one gate is mapped. The rest of the way is never flagged as a lock.
+    """
     tags = w.tags
     oneway = tags.get("oneway") in ("yes", "1", "true", "-1")
-    nodes, coords = w.nodes, w.coords
+    nodes, coords = list(w.nodes), list(w.coords)
     if tags.get("oneway") == "-1":
         nodes, coords = nodes[::-1], coords[::-1]
     kind = tags["kind"]
     base_lock = tags.get("lock") == "yes"
     name = tags.get("name") or tags.get("lock_name") or ""
+    groups = [] if base_lock else _lock_groups(nodes, coords, ex)
+    chambers = {(g0, g1) for g0, g1 in groups if g0 < g1}
+    single_gates = {g0 for g0, g1 in groups if g0 == g1}
+    cuts = {i for g in groups for i in g}
+
+    def lock_name_of(i0: int, i1: int) -> str:
+        return next((ex.lock_names[x] for x in nodes[i0:i1 + 1] if x in ex.lock_names), tags.get("lock_name", ""))
+
     out: list[Segment] = []
-    start = 0
-    for i in range(1, len(nodes)):
-        n = nodes[i]
-        last = i == len(nodes) - 1
-        if not (last or usage[n] > 1 or n in ex.barrier_nodes):
-            continue
-        seg_nodes = nodes[start:i + 1]
-        interior = seg_nodes[1:-1]
-        lock = base_lock or any(x in ex.lock_nodes for x in interior)
-        lock_name = next((ex.lock_names[x] for x in seg_nodes if x in ex.lock_names), "")
-        a, b = seg_nodes[0], seg_nodes[-1]
+
+    def emit(a: int, b: int, pts: list[LonLat], lock: bool, seg_name: str) -> None:
         # A weir/dam blocks passage: disconnect the segment at that node.
         if a in ex.barrier_nodes:
             a = new_node_id()
@@ -73,12 +98,27 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
         if b in ex.barrier_nodes:
             b = new_node_id()
             barrier_ends.add(b)
-        if a != b or len(seg_nodes) > 2:
-            out.append(Segment(
-                a=a, b=b, coords=coords[start:i + 1], name=(lock_name if lock and lock_name else name),
-                kind=kind, lock=lock, oneway=oneway, flows=(kind == "river"), limits=_limits(tags), osm_way=w.id,
-            ))
-        start = i
+        if a != b or len(pts) > 2:
+            out.append(Segment(a=a, b=b, coords=pts, name=seg_name, kind=kind, lock=lock, oneway=oneway,
+                               flows=(kind == "river"), limits=_limits(tags), osm_way=w.id))
+
+    start, start_node = 0, nodes[0]
+    for i in range(1, len(nodes)):
+        n = nodes[i]
+        if not (i == len(nodes) - 1 or usage[n] > 1 or n in ex.barrier_nodes or i in cuts):
+            continue
+        is_chamber = base_lock or (start, i) in chambers
+        seg_name = (lock_name_of(start, i) or name) if is_chamber else name
+        if i in single_gates:
+            # the way continues from a new node; the gate itself becomes a zero-length lock between them
+            gate = new_node_id()
+            emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
+            out.append(Segment(a=n, b=gate, coords=[coords[i], coords[i]], name=lock_name_of(i, i) or name,
+                               kind=kind, lock=True, oneway=oneway, limits=_limits(tags), osm_way=w.id))
+            start, start_node = i, gate
+            continue
+        emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
+        start, start_node = i, n
     return out
 
 
@@ -151,8 +191,12 @@ def components(segments: list[Segment]) -> dict[int, int]:
     return {n: find(n) for n in list(parent)}
 
 
-def close_gaps(segments: list[Segment], max_gap_m: float = 25.0) -> int:
-    """Connect dead ends to a nearby node of another component (common OSM mapping slips)."""
+def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m: float = 0.0) -> int:
+    """Connect dead ends to a nearby node of another component.
+
+    Within `max_gap_m` any node qualifies (common mapping slips). Up to `dead_end_gap_m` only another dead end
+    does: two waterway ends facing each other across a ship lift, a lock mapped as an area or a short culvert.
+    """
     pos = node_positions(segments)
     degree: Counter[int] = Counter()
     for s in segments:
@@ -174,13 +218,13 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0) -> int:
         if degree[n] != 1 or n in barrier_ends:
             continue
         p = Point(pos[n])
-        best, best_d = None, max_gap_m
-        for idx in tree.query(p.buffer(metres_to_deg(max_gap_m) * 2)):
+        best, best_d = None, float("inf")
+        for idx in tree.query(p.buffer(metres_to_deg(max(max_gap_m, dead_end_gap_m)) * 2)):
             m = ids[idx]
             if root(comp[m]) == root(comp[n]) or m in barrier_ends:
                 continue
             d = haversine(pos[n], pos[m])
-            if d <= best_d:
+            if d < best_d and (d <= max_gap_m or (degree[m] == 1 and d <= dead_end_gap_m)):
                 best, best_d = m, d
         if best is not None:
             segments.append(Segment(a=n, b=best, coords=[pos[n], pos[best]], kind="patch"))
@@ -259,3 +303,73 @@ def drop_small_components(segments: list[Segment], min_length_m: float) -> tuple
     log.info("components: %d total, %d kept (>= %.0f m); %d segments dropped",
              len(total), len(keep), min_length_m, len(segments) - len(out))
     return out, report
+
+
+def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tuple[list[Segment], list[Segment]]:
+    """Remove lock-free branches that run around a lock.
+
+    A lock joins two different water levels, so any path between its two ends that uses no lock must cross a
+    weir or dam, even when OSM has no weir node on it: an untagged twin chamber, a weir arm next to a lock
+    canal, a river loop around a canalised section. For each lock the shortest such bypass within `max_m` is
+    removed. Lake crossings are never removed (touching lakes are merged regardless of level), and bypasses
+    that contain another lock are not bypasses at all. Returns (kept, removed).
+    """
+    adj: dict[int, list[int]] = defaultdict(list)
+    for i, s in enumerate(segments):
+        adj[s.a].append(i)
+        adj[s.b].append(i)
+    lengths = [s.length for s in segments]
+    removed: set[int] = set()
+    for lock in segments:
+        if not lock.lock or lock.a == lock.b:
+            continue
+        for _ in range(MAX_BYPASS_CUTS):
+            path = _bypass(segments, adj, lengths, removed, lock.a, lock.b, max_m)
+            if not path or any(segments[i].kind == "lake" for i in path):
+                break
+            removed.add(_weir_candidate(segments, path, lock, lengths))
+    kept = [s for i, s in enumerate(segments) if i not in removed]
+    log.info("removed %d segments bypassing locks (unmapped weirs, untagged twin chambers)", len(removed))
+    return kept, [segments[i] for i in sorted(removed)]
+
+
+MAX_BYPASS_CUTS = 10
+
+
+def _weir_candidate(segments: list[Segment], path: list[int], lock: Segment, lengths: list[float]) -> int:
+    """The one segment of a bypass to cut: where the unmapped weir most likely is.
+
+    Segments touching the lock's own ends are the canal leading to it, so they are avoided unless the bypass is
+    nothing else (an untagged twin chamber). Among the rest rivers come before canals, then the longest.
+    """
+    away = [i for i in path if not {segments[i].a, segments[i].b} & {lock.a, lock.b}] or path
+    return max(away, key=lambda i: (segments[i].kind == "river", lengths[i]))
+
+
+def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float) -> list[int] | None:
+    """Shortest lock-free path src -> dst (segment indices) not longer than max_m, or None."""
+    dist = {src: 0.0}
+    prev: dict[int, int] = {}
+    heap = [(0.0, src)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if u == dst:
+            path = []
+            while u != src:
+                i = prev[u]
+                path.append(i)
+                u = segments[i].a if segments[i].b == u else segments[i].b
+            return path
+        if d > dist[u]:
+            continue
+        for i in adj[u]:
+            s = segments[i]
+            if s.lock or i in removed:
+                continue
+            v = s.b if s.a == u else s.a
+            nd = d + lengths[i]
+            if nd <= max_m and nd < dist.get(v, float("inf")):
+                dist[v] = nd
+                prev[v] = i
+                heapq.heappush(heap, (nd, v))
+    return None

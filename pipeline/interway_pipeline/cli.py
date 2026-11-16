@@ -17,7 +17,16 @@ from .extract import Extract, read_osm
 from .lakes import connect_lakes
 from .model import Segment, haversine
 from .qa import gap_candidates
-from .topology import add_connectors, apply_bridges, close_gaps, drop_small_components, merge_degree2, node_positions, split_ways
+from .topology import (
+    add_connectors,
+    apply_bridges,
+    block_lock_bypasses,
+    close_gaps,
+    drop_small_components,
+    merge_degree2,
+    node_positions,
+    split_ways,
+)
 
 log = logging.getLogger("interway")
 REPO = Path(__file__).resolve().parents[2]
@@ -98,7 +107,8 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
         return read_osm(path, allow)
     st = path.stat()
     key = hashlib.sha256(repr((str(path.resolve()), st.st_size, st.st_mtime, sorted(allow.names), sorted(allow.lakes),
-                              sorted(allow.wikidata), sorted(allow.exclude_names), EXTRACT_VERSION)).encode()).hexdigest()[:16]
+                              sorted(allow.wikidata), sorted(allow.exclude_names),
+                              [x.pattern for x in allow.exclude_patterns], EXTRACT_VERSION)).encode()).hexdigest()[:16]
     f = cache_dir / f"{path.name}.{key}.pickle"
     if f.exists():
         log.info("using cached extract %s", f.name)
@@ -109,20 +119,22 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 3  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 4  # bump when read_osm output changes, invalidates --cache
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
-          min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None) -> dict:
+          min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
+          dead_end_gap_m: float = 300.0, countries: list[str] | None = None) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     segments = split_ways(ex)
     add_connectors(segments, ex)
     apply_bridges(segments, ex.bridges)
     segments += connect_lakes(segments, ex.lakes, ex.marinas)
-    close_gaps(segments)
+    close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     apply_patches(segments, patches)
     segments = merge_degree2(segments)
+    segments, bypasses = block_lock_bypasses(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)
 
     pois = [{"type": "lock", "name": s.name, "lon": s.coords[len(s.coords) // 2][0], "lat": s.coords[len(s.coords) // 2][1]}
@@ -135,9 +147,13 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
             q = pts[tree.nearest(Point(p))]
             if haversine(p, q) < 2000:
                 pois.append({"type": "marina", "name": name, "lon": p[0], "lat": p[1]})
-    manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, pois=pois, simplify_m=simplify_m)
+    manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, countries=countries, pois=pois,
+                      simplify_m=simplify_m)
     (out / "qa-components.json").write_text(json.dumps(report[:500], indent=0), encoding="utf-8")
     (out / "qa-gaps.geojson").write_text(json.dumps(gap_candidates(segments)), encoding="utf-8")
+    (out / "qa-lock-bypasses.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [
+        {"type": "Feature", "properties": {"name": s.name, "kind": s.kind},
+         "geometry": {"type": "LineString", "coordinates": [list(c) for c in s.coords]}} for s in bypasses]}), encoding="utf-8")
     return manifest
 
 
@@ -146,16 +162,21 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("inputs", nargs="+", type=Path, help="OSM .pbf/.osm files (e.g. Geofabrik country extracts)")
     ap.add_argument("-o", "--out", type=Path, default=REPO / "app" / "public" / "data")
     ap.add_argument("--region", default="europe")
+    ap.add_argument("--countries", default="", help="ISO codes of countries the inputs fully cover, e.g. PL,DE,NL")
     ap.add_argument("--allowlist", type=Path, default=REPO / "data" / "navigable")
     ap.add_argument("--patches", type=Path, default=REPO / "data" / "patches")
     ap.add_argument("--min-component-km", type=float, default=2.0)
     ap.add_argument("--simplify-m", type=float, default=5.0)
+    ap.add_argument("--dead-end-gap-m", type=float, default=300.0,
+                    help="join two dead ends of different network parts up to this far apart (ship lifts, locks as areas)")
     ap.add_argument("--cache", type=Path, default=None, help="directory for cached extracts (speeds up re-runs)")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     m = build(args.inputs, args.out, region=args.region, allowlist=args.allowlist, patches=args.patches,
-              min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache)
+              min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache,
+              dead_end_gap_m=args.dead_end_gap_m,
+              countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()])
     print(json.dumps(m["stats"]))
 
 

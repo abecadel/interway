@@ -35,7 +35,7 @@ def simplify(coords, tolerance_m: float):
     return list(LineString(coords).simplify(metres_to_deg(tolerance_m), preserve_topology=False).coords)
 
 
-def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp: str = "",
+def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp: str = "", countries: list[str] | None = None,
            pois: list[dict] | None = None, simplify_m: float = 5.0) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     node_index: dict[int, int] = {}
@@ -112,6 +112,7 @@ def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp
     manifest = {
         "version": 1,
         "region": region,
+        "countries": countries or [],
         "osmTimestamp": osm_timestamp,
         "built": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "files": {"graph": "graph.bin", "geom": "geom.bin", "pois": "pois.json"},

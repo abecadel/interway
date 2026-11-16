@@ -1,22 +1,265 @@
-# Canonical routes the Europe graph must satisfy (checked by app/scripts/check-routes.ts).
-# expected_km is a rough reference; tolerance is relative.
+# Reference routes the built graph must satisfy (app/src/routing/canonical.test.ts, `npm run test:routes`).
+#
+#   expected_km  distance from the cited source; the check passes within ± tolerance (relative); optional
+#   sea          true when the route needs open-sea legs (skipped until the data includes sea routing)
+#   countries    ISO codes the route needs; skipped when the data's manifest lists other countries
+#   via          waterway names (substring, case-insensitive) that must appear in the route's legs
+#   min_locks    lower bound for the number of locks passed
+#   source       where expected_km comes from (trip reports, official guides)
+
+# --- Poland --------------------------------------------------------------------------------------------
 - name: Zalew Zegrzyński → Giżycko (Mazury)
   from: [21.03, 52.47]
   to: [21.765, 54.035]
-  expected_km: 330
-  tolerance: 0.25
-- name: Wrocław → Amsterdam
-  from: [17.035, 51.115]
-  to: [4.90, 52.38]
-  expected_km: 1250
+  expected_km: 300
   tolerance: 0.2
-- name: Berlin → Szczecin
-  from: [13.40, 52.52]
-  to: [14.56, 53.43]
-  expected_km: 210
-  tolerance: 0.25
+  countries: [PL]
+  via: [Narew, Pisa, Śniardwy, Niegocin]
+  source: own estimate from waterway kilometrage (Narew km 0–~140, Pisa ~80 km, Mazury lakes ~70 km)
+
 - name: Gdańsk → Elbląg
   from: [18.66, 54.35]
   to: [19.40, 54.16]
   expected_km: 85
   tolerance: 0.3
+  countries: [PL]
+  via: [Martwa Wisła, Szkarpawa]
+  source: E70 guide, Martwa Wisła – Szkarpawa – Zalew Wiślany/Elbląg (https://mdwe70.pl/)
+
+- name: Wielka Pętla Wielkopolski — Konin → Santok (Warta)
+  from: [18.25, 52.23]
+  to: [15.42, 52.735]
+  expected_km: 338
+  tolerance: 0.15
+  countries: [PL]
+  via: [Warta]
+  source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Warta Konin–Santok 338.4 km)
+
+- name: Wielka Pętla Wielkopolski — Santok → Bydgoszcz (Noteć, Kanał Bydgoski)
+  from: [15.42, 52.735]
+  to: [18.00, 53.123]
+  expected_km: 203
+  tolerance: 0.15
+  countries: [PL]
+  via: [Noteć]
+  min_locks: 10
+  source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Noteć 187.2 km + Kanał Bydgoski 15.7 km)
+
+- name: Wielka Pętla Wielkopolski — Bydgoszcz → Konin (Gopło, Kanał Ślesiński)
+  from: [18.00, 53.123]
+  to: [18.25, 52.23]
+  expected_km: 147
+  tolerance: 0.2
+  countries: [PL]
+  via: [Gopło]
+  source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Bydgoszcz–Konin 146.6 km)
+
+- name: Toruń → Bydgoszcz (Wisła, Brda)
+  from: [18.60, 53.005]
+  to: [18.00, 53.123]
+  expected_km: 48
+  tolerance: 0.2
+  countries: [PL]
+  via: [Wisła, Brda]
+  source: https://mdwe70.pl/en/the-torun-bydgoszcz-route/ (36 km to the Brda mouth, 12 km up the Brda)
+
+- name: Gliwice → Wrocław (Kanał Gliwicki, Odra)
+  from: [18.63, 50.30]
+  to: [17.035, 51.115]
+  expected_km: 200
+  tolerance: 0.2
+  countries: [PL]
+  via: [Kanał Gliwicki, Odra]
+  min_locks: 15
+  source: https://forsal.pl/artykuly/1057884,na-kanal-gliwicki-wyruszyl-pierwszy-od-pieciu-lat-transport-wegla.html (~200 km, 27 locks)
+
+- name: Ostróda → Elbląg (Kanał Elbląski, inclined planes)
+  from: [19.97, 53.70]
+  to: [19.40, 54.16]
+  expected_km: 82
+  tolerance: 0.2
+  countries: [PL]
+  via: [Elbl, Pochylnia Buczyniec, Pochylnia Całuny]
+  min_locks: 5
+  source: https://www.gov.pl/web/infrastruktura/kanal-elblaski--najwieksza-turystyczna-atrakcja-warmii (82 km, 5 inclined planes)
+
+# --- Germany -------------------------------------------------------------------------------------------
+- name: Berlin → Szczecin (Havel-Oder-Wasserstraße)
+  from: [13.40, 52.52]
+  to: [14.56, 53.43]
+  expected_km: 210
+  tolerance: 0.2
+  countries: [DE, PL]
+  source: https://www.brandenburg-tourism.com/poi/seenland-oder-spree/houseboat-tours/berlin-oder-round-trip/ (HOW Hohensaaten–Berlin 92 km) + Oder to Szczecin
+
+- name: Eisenhüttenstadt → Hohensaaten (Oder)
+  from: [14.67, 52.16]
+  to: [14.14, 52.87]
+  expected_km: 114
+  tolerance: 0.12
+  countries: [DE, PL]
+  via: [Oder]
+  source: https://www.brandenburg-tourism.com/poi/seenland-oder-spree/houseboat-tours/berlin-oder-round-trip/ (114 km, no lock)
+
+- name: Berlin-Spandau → Müritz
+  from: [13.21, 52.535]
+  to: [12.72, 53.36]
+  expected_km: 148
+  tolerance: 0.15
+  countries: [DE]
+  via: [Havel]
+  min_locks: 6
+  source: ADAC/Hausboot guides via https://www.reiseland-brandenburg.de/ (Spandau – Müritz south tip 147.8 km)
+
+- name: Magdeburg → Hamburg (Elbe)
+  from: [11.645, 52.13]
+  to: [9.99, 53.54]
+  expected_km: 297
+  tolerance: 0.12
+  countries: [DE]
+  via: [Elbe]
+  source: Elbe kilometre markers (Magdeburg ~km 326, Hamburg harbour ~km 623); https://www.boote-magazin.de/en/travel-and-charter/territories/the-middle-elbe/
+
+- name: Mittellandkanal end to end (Bergeshövede → Elbe)
+  from: [7.62, 52.29]
+  to: [11.70, 52.22]
+  expected_km: 325
+  tolerance: 0.12
+  countries: [DE]
+  via: [Mittellandkanal]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/charter-and-area-mittelland-canal-325-km/
+
+# --- Long distance -------------------------------------------------------------------------------------
+- name: Wrocław → Amsterdam
+  from: [17.035, 51.115]
+  to: [4.90, 52.38]
+  expected_km: 1200
+  tolerance: 0.2
+  countries: [PL, DE, NL]
+  via: [Odra, Mittellandkanal]
+  min_locks: 10
+  source: sum of segments above (Odra to Eisenhüttenstadt, Berlin, Mittellandkanal 325 km, Dutch canals)
+
+# --- Across Europe (need more countries; skipped until the data covers them) ---------------------------
+- name: Gdańsk → Port-Saint-Louis-du-Rhône (inland, through Germany and France)
+  from: [18.66, 54.35]
+  to: [4.81, 43.385]
+  expected_km: 2600
+  tolerance: 0.25
+  countries: [PL, DE, FR]
+  via: [Odra, Mittellandkanal, Rhein, Saône, Rhône]
+  min_locks: 100
+  source: >-
+    sum of segments: Wisła/Noteć/Warta to the Odra, Havel-Oder-Wasserstraße 92 km, Mittellandkanal 325 km,
+    Rhine to Mulhouse, Canal du Rhône au Rhin, Saône, Rhône Lyon–Port-Saint-Louis ~320 km
+    (https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: Gdańsk → Venice (through France, then the Mediterranean)
+  from: [18.66, 54.35]
+  to: [12.335, 45.435]
+  expected_km: 4900
+  tolerance: 0.3
+  countries: [PL, DE, FR, IT]
+  sea: true
+  via: [Rhône]
+  source: inland leg above (~2600 km) + Port-Saint-Louis to Venice around Italy (~1250 NM)
+
+- name: Rendsburg → Aigues-Mortes (Kiel Canal, Dutch canals, Belgium, Champagne, Saône, Rhône)
+  from: [9.67, 54.30]
+  to: [4.19, 43.565]
+  countries: [DE, NL, BE, FR]
+  via: [Saône, Rhône]
+  min_locks: 150
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/inland-to-the-mediterranean-the-long-way-to-warmth/ (283 locks)
+
+- name: Paris → Port-Saint-Louis-du-Rhône (Canal de Bourgogne)
+  from: [2.35, 48.855]
+  to: [4.81, 43.385]
+  expected_km: 920
+  tolerance: 0.2
+  countries: [FR]
+  via: [Saône, Rhône]
+  min_locks: 150
+  source: >-
+    Seine + Yonne to Migennes, Canal de Bourgogne 242 km, Saône to Lyon, Rhône ~320 km
+    (https://michaelbriant.com/sn7.htm, https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: Canal du Midi (Toulouse → Étang de Thau)
+  from: [1.418, 43.611]
+  to: [3.552, 43.335]
+  expected_km: 240
+  tolerance: 0.1
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 55
+  source: https://en.wikipedia.org/wiki/Locks_on_the_Canal_du_Midi (240 km, 63+ lock sites)
+
+- name: Bordeaux → Constanța (Canal des Deux Mers, Rhône, Rhine, Main-Donau-Kanal, Danube)
+  from: [-0.565, 44.845]
+  to: [28.66, 44.17]
+  expected_km: 4900
+  tolerance: 0.2
+  countries: [FR, DE, AT, SK, HU, HR, RS, RO, BG]
+  via: [Garonne, Rhône, Main-Donau-Kanal, Donau]
+  min_locks: 300
+  source: https://boatingnz.co.nz/magnifique-bordeaux-to-the-black-sea/ (nearly 5000 km, 484 locks)
+
+- name: Rotterdam → Basel (Rhine)
+  from: [4.48, 51.905]
+  to: [7.59, 47.565]
+  expected_km: 830
+  tolerance: 0.1
+  countries: [NL, DE, FR, CH]
+  via: [Rhein]
+  source: https://www.iksr.org/en/topics/uses/navigation (≈800 km North Sea – Basel/Rheinfelden)
+
+- name: Main-Donau-Kanal (Bamberg → Kelheim)
+  from: [10.89, 49.90]
+  to: [11.88, 48.92]
+  expected_km: 171
+  tolerance: 0.1
+  countries: [DE]
+  via: [Main-Donau-Kanal]
+  min_locks: 16
+  source: https://en.wikipedia.org/wiki/Rhine%E2%80%93Main%E2%80%93Danube_Canal (171 km, 16 locks)
+
+- name: Litoranea Veneta (Chioggia → Muggia)
+  from: [12.28, 45.22]
+  to: [13.77, 45.605]
+  expected_km: 180
+  tolerance: 0.15
+  countries: [IT]
+  source: https://siviaggia.it/vacanze-natura/barca-o-bicicletta-lungo-litoranea-veneta/410474/amp/ (180 km)
+
+# --- "Le Cut": Baltic / North Sea → Mediterranean through the French canals, mast down -----------------
+- name: Le Cut — Kiel (Baltic) → Port-Saint-Louis-du-Rhône (Mediterranean), inland
+  from: [10.15, 54.365]
+  to: [4.81, 43.385]
+  countries: [DE, NL, BE, FR]
+  via: [Nord-Ostsee-Kanal, Saône, Rhône]
+  min_locks: 100
+  source: >-
+    yacht reports of the Baltic–Med passage through France (https://www.boote-magazin.de/en/travel-and-charter/territories/inland-to-the-mediterranean-the-long-way-to-warmth/,
+    https://www.yacht.de/en/travel-and-charter/france/change-of-territory-on-your-own-keel-in-the-mediterranean/)
+
+- name: Le Cut — Le Havre → Port-Saint-Louis-du-Rhône (Seine, Paris, Canal de Bourgogne, Saône, Rhône)
+  from: [0.105, 49.485]
+  to: [4.81, 43.385]
+  expected_km: 1290
+  tolerance: 0.2
+  countries: [FR]
+  via: [Seine, Saône, Rhône]
+  min_locks: 150
+  source: >-
+    Seine Le Havre–Paris ~365 km + Paris–Port-Saint-Louis ~920 km; mast re-stepping at Le Havre/Honfleur
+    (https://michaelbriant.com/sn7.htm, https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: Le Cut, Atlantic variant — Bordeaux → Sète (Canal de Garonne, Canal du Midi)
+  from: [-0.565, 44.845]
+  to: [3.70, 43.40]
+  expected_km: 503
+  tolerance: 0.15
+  countries: [FR]
+  via: [Garonne, Canal du Midi]
+  min_locks: 100
+  source: https://www.yachtingmonthly.com/sailing-skills/sailing-the-french-canals-lessons-learned-81734 (≈503 km, 139 locks)

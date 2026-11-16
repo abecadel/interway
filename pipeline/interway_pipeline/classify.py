@@ -1,6 +1,7 @@
 """Decides which OSM waterways are navigable for recreational/commercial boats."""
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -18,6 +19,7 @@ class Allowlist:
     wikidata: set[str] = field(default_factory=set)
     lakes: set[str] = field(default_factory=set)
     exclude_names: set[str] = field(default_factory=set)
+    exclude_patterns: list[re.Pattern] = field(default_factory=list)
 
     @classmethod
     def load(cls, directory: Path | None) -> "Allowlist":
@@ -30,7 +32,13 @@ class Allowlist:
             al.wikidata |= set(data.get("wikidata", []))
             al.lakes |= {n.casefold() for n in data.get("lakes", [])}
             al.exclude_names |= {n.casefold() for n in data.get("exclude", [])}
+            al.exclude_patterns += [re.compile(p, re.IGNORECASE) for p in data.get("exclude_patterns", [])]
         return al
+
+    def excluded(self, name: str | None) -> bool:
+        if not name:
+            return False
+        return name.casefold() in self.exclude_names or any(p.search(name) for p in self.exclude_patterns)
 
     def has_name(self, tags) -> bool:
         for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "official_name", "alt_name"):
@@ -46,8 +54,7 @@ def is_navigable_way(tags, allow: Allowlist) -> bool:
         return False
     if tags.get("tunnel") == "culvert" or tags.get("intermittent") == "yes":
         return False
-    name = (tags.get("name") or "").casefold()
-    if name and name in allow.exclude_names:
+    if allow.excluded(tags.get("name")):
         return False
     boat, ship, motor = tags.get("boat"), tags.get("ship"), tags.get("motorboat")
     if boat in NO and motor not in YES and ship not in YES:
@@ -76,14 +83,21 @@ def is_connector_candidate(tags, allow: Allowlist) -> bool:
         return False
     if tags.get("tunnel") == "culvert" or tags.get("intermittent") == "yes" or tags.get("boat") in NO:
         return False
-    name = (tags.get("name") or "").casefold()
-    return not (name and name in allow.exclude_names)
+    return not allow.excluded(tags.get("name"))
+
+
+CHANNEL_WATER = {"river", "canal", "lock", "harbour"}
 
 
 def is_candidate_lake(tags) -> bool:
     if tags.get("natural") == "water":
         return tags.get("water", "lake") in LAKE_WATER and tags.get("intermittent") != "yes"
-    return tags.get("landuse") == "reservoir" or tags.get("waterway") == "dock"
+    return tags.get("landuse") == "reservoir" or tags.get("waterway") in ("dock", "riverbank")
+
+
+def is_channel_area(tags) -> bool:
+    """Water areas that are stretches of river or canal: kept at any size because they link waterways."""
+    return tags.get("water") in CHANNEL_WATER or tags.get("waterway") == "riverbank"
 
 
 def lake_allowlisted(tags, allow: Allowlist) -> bool:

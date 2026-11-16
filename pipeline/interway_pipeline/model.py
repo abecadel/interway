@@ -5,6 +5,7 @@ import math
 from dataclasses import dataclass, field
 
 EARTH_R = 6371008.8
+MIN_LAKE_KM2 = 0.05  # water areas below this are kept only when they are river/canal stretches
 
 # Edge flags, see docs/graph-format.md
 LOCK = 1 << 0
@@ -28,6 +29,11 @@ def haversine(a: LonLat, b: LonLat) -> float:
 
 def line_length(coords: list[LonLat]) -> float:
     return sum(haversine(coords[i - 1], coords[i]) for i in range(1, len(coords)))
+
+
+def area_km2(poly) -> float:
+    """Rough area of a lon/lat polygon in km² (equirectangular at its centroid), enough for size thresholds."""
+    return poly.area * 111.32 * 111.32 * max(0.1, math.cos(math.radians(poly.centroid.y)))
 
 
 def metres_to_deg(m: float) -> float:

@@ -97,6 +97,7 @@ def test_connector_candidate(tags, expected, allow):
     ({"natural": "water", "water": "lake", "intermittent": "yes"}, False),
     ({"landuse": "reservoir"}, True),
     ({"waterway": "dock"}, True),
+    ({"waterway": "riverbank"}, True),
     ({"natural": "wood"}, False),
     ({}, False),
 ])
@@ -121,3 +122,24 @@ def test_lake_allowlisted(tags, expected, allow):
                                      ("river", "river"), (None, "river")])
 def test_kind_of(ww, kind):
     assert kind_of({"waterway": ww} if ww else {}) == kind
+
+
+def test_exclude_patterns(tmp_path):
+    (tmp_path / "x.yaml").write_text("waterways: [Spree]\nexclude_patterns: ['^Wehrarm', 'Altarm']\n", encoding="utf-8")
+    allow = Allowlist.load(tmp_path)
+    assert allow.excluded("Wehrarm Fürstenwalde")
+    assert allow.excluded("Spree-Altarm")
+    assert not allow.excluded("Spree")
+    assert not allow.excluded(None)
+    assert not is_navigable_way({"waterway": "river", "name": "Wehrarm Fürstenwalde", "CEMT": "IV"}, allow)
+    assert not is_connector_candidate({"waterway": "canal", "name": "Altarm"}, allow)
+    assert is_navigable_way({"waterway": "river", "name": "Spree"}, allow)
+
+
+def test_channel_areas():
+    from interway_pipeline.classify import is_channel_area
+    assert is_channel_area({"natural": "water", "water": "canal"})
+    assert is_channel_area({"natural": "water", "water": "lock"})
+    assert is_channel_area({"waterway": "riverbank"})
+    assert not is_channel_area({"natural": "water", "water": "lake"})
+    assert not is_channel_area({"natural": "water"})

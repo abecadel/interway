@@ -68,10 +68,10 @@ def test_stream_and_weir_excluded(built):
 def test_canal_has_lock_and_bridge_clearance(built):
     _, manifest, g = built
     lock_edges = np.nonzero(g["flags"] & LOCK)[0]
-    assert len(lock_edges) == 2  # both directions
+    assert len(lock_edges) == 2  # the gate's zero-length lock, both directions
+    assert np.allclose(g["len"][lock_edges], 0)
     attrs = g["attrs"].reshape(-1, 4)
-    heights = attrs[g["attr"][lock_edges], 1]
-    assert np.allclose(heights, 2.5)
+    assert np.any(np.isclose(attrs[g["attr"], 1], 2.5))  # the canal under the bridge
     assert "Śluza Testowa" in manifest["names"]
 
 

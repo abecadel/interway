@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import heapq
 import logging
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 import shapely
 from shapely import STRtree, prepared
@@ -23,7 +23,7 @@ from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 from .extract import Lake
-from .model import LonLat, Segment, haversine, metres_to_deg
+from .model import MIN_LAKE_KM2, LonLat, Segment, area_km2, haversine, metres_to_deg
 from .topology import new_node_id, node_positions
 
 log = logging.getLogger(__name__)
@@ -31,6 +31,7 @@ log = logging.getLogger(__name__)
 ENTRY_TOLERANCE_M = 60.0
 MERGE_GAP_M = 25.0
 MAX_DIRECT_ENTRIES = 40
+NEAREST_TARGETS = 8
 
 
 def _clusters(polys: list[Polygon | MultiPolygon], gap_deg: float) -> list[list[int]]:
@@ -77,6 +78,7 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     tree = STRtree([Point(pos[n]) for n in ids]) if ids else None
     marina_tree = STRtree([Point(p) for _, p in marinas]) if marinas else None
     tol = metres_to_deg(ENTRY_TOLERANCE_M)
+    lakes = _useful(lakes, segments, pos, tol)
     added: list[Segment] = []
     used = 0
     bodies = water_bodies(lakes)
@@ -96,6 +98,28 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
+
+
+def _useful(lakes: list[Lake], segments: list[Segment], pos: dict[int, LonLat], tol: float) -> list[Lake]:
+    """Drop small river/canal areas that do not continue a dead-end waterway.
+
+    Rivers are usually mapped both as a centre line and as many water-area pieces. The pieces only matter
+    where the line is missing (a waterway ends at an unmapped stretch, e.g. below Strasen lock); elsewhere
+    they would chain into one huge water body whose mesh replaces the named river line.
+    """
+    degree: Counter[int] = Counter()
+    for s in segments:
+        degree[s.a] += 1
+        degree[s.b] += 1
+    ends = [Point(pos[n]) for n, d in degree.items() if d == 1]
+    end_tree = STRtree(ends) if ends else None
+    return [lk for lk in lakes if not small_channel(lk)
+            or (end_tree is not None and len(end_tree.query(lk.polygon, predicate="dwithin", distance=tol)) > 0)]
+
+
+def small_channel(lake: Lake) -> bool:
+    """Below the lake size threshold and not allowlisted: extraction only keeps such areas for river/canal water."""
+    return not lake.allowlisted and area_km2(lake.polygon) < MIN_LAKE_KM2
 
 
 def _lake_namer(members: list[Lake]):
@@ -185,22 +209,27 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segm
         adj[sg.b].append((sg.a, i))
     keep: set[int] = set()
     targets = [e for e in entries if e in adj]
+    lengths = [sg.length for sg in segs]
+    pos = {sg.a: sg.coords[0] for sg in segs} | {sg.b: sg.coords[-1] for sg in segs}
+    wanted = _target_pairs(targets, pos)
     for src in targets:
+        remaining = set(wanted[src])
         dist = {src: 0.0}
         prev: dict[int, int] = {}
         heap = [(0.0, src)]
-        while heap:
+        while heap and remaining:
             d, u = heapq.heappop(heap)
             if d > dist[u]:
                 continue
+            remaining.discard(u)
             for v, i in adj[u]:
-                nd = d + segs[i].length
+                nd = d + lengths[i]
                 if nd < dist.get(v, float("inf")):
                     dist[v] = nd
                     prev[v] = i
                     heapq.heappush(heap, (nd, v))
         tree: set[int] = set()  # edges of this source's shortest-path tree already walked
-        for dst in targets:
+        for dst in wanted[src]:
             node = dst
             while node in prev and prev[node] not in tree:
                 i = prev[node]
@@ -209,6 +238,30 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segm
         keep |= tree
     kept = [segs[i] for i in sorted(keep)]
     return _chains(kept, entries, water)
+
+
+def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[int]]:
+    """Which entries each entry needs a path to.
+
+    Small lakes: all of them. Big lakes with many entries (IJsselmeer, Müritz): the NEAREST_TARGETS closest
+    ones plus the neighbours in a straight-line minimum spanning tree, which keeps the result connected
+    while avoiding a shortest-path search from every entry to every other.
+    """
+    if len(targets) <= NEAREST_TARGETS + 1:
+        return {t: set(targets) - {t} for t in targets}
+    d = {(a, b): haversine(pos[a], pos[b]) for a in targets for b in targets if a != b}
+    wanted = {t: set(sorted((o for o in targets if o != t), key=lambda o: d[t, o])[:NEAREST_TARGETS]) for t in targets}
+    # Prim's minimum spanning tree over straight-line distances
+    best = {t: (d[targets[0], t], targets[0]) for t in targets[1:]}
+    while best:
+        t = min(best, key=lambda k: best[k][0])
+        _, parent = best.pop(t)
+        wanted[t].add(parent)
+        wanted[parent].add(t)
+        for o in best:
+            if d[t, o] < best[o][0]:
+                best[o] = (d[t, o], t)
+    return wanted
 
 
 def _chains(segs: list[Segment], entries: set[int], water) -> list[Segment]:
