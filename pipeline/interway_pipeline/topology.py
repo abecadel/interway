@@ -159,6 +159,14 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0) -> int:
         degree[s.a] += 1
         degree[s.b] += 1
     comp = components(segments)
+    # union-find over component labels, so joining two components is O(1) instead of relabelling every node
+    parent: dict[int, int] = {}
+
+    def root(c: int) -> int:
+        while parent.get(c, c) != c:
+            c = parent[c]
+        return c
+
     ids = list(pos)
     tree = STRtree([Point(pos[n]) for n in ids])
     added = 0
@@ -169,18 +177,14 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0) -> int:
         best, best_d = None, max_gap_m
         for idx in tree.query(p.buffer(metres_to_deg(max_gap_m) * 2)):
             m = ids[idx]
-            if comp[m] == comp[n] or m in barrier_ends:
+            if root(comp[m]) == root(comp[n]) or m in barrier_ends:
                 continue
             d = haversine(pos[n], pos[m])
             if d <= best_d:
                 best, best_d = m, d
         if best is not None:
             segments.append(Segment(a=n, b=best, coords=[pos[n], pos[best]], kind="patch"))
-            # merge components so we don't add redundant connectors
-            old, new = comp[best], comp[n]
-            for k, v in comp.items():
-                if v == old:
-                    comp[k] = new
+            parent[root(comp[best])] = root(comp[n])
             added += 1
     log.info("closed %d small gaps", added)
     return added
