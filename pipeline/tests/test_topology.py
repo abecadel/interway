@@ -66,11 +66,36 @@ def test_lock_from_interior_node_and_way_tag():
     ex = Extract(ways=[way(1, [1, 2, 3], name="Kanał"), way(2, [3, 4], lock="yes", lock_name="Śluza Górna"),
                        way(3, [1, 7, 8], name="Boczny"), way(4, [8, 9, 10], name="Kanał B")],
                  lock_nodes={2, 1, 8, 9}, lock_names={2: "Śluza Dolna"})
-    segs = {s.osm_way: s for s in split_ways(ex)}
-    assert segs[1].lock and segs[1].name == "Śluza Dolna"
-    assert segs[2].lock and segs[2].name == "Śluza Górna"  # no `name`, lock_name used
-    assert not segs[3].lock and segs[3].name == "Boczny"  # lock gates only at the ends (junctions)
-    assert segs[4].lock and segs[4].name == "Kanał B"  # unnamed lock keeps the waterway name
+    segs = split_ways(ex)
+    by_way = lambda w: [s for s in segs if s.osm_way == w]  # noqa: E731
+    # gates 1 and 2 are 100 m apart: the stretch between them is the chamber, the rest of the way is not a lock
+    assert [(s.lock, s.name, s.a, s.b) for s in by_way(1)] == [(True, "Śluza Dolna", 1, 2), (False, "Kanał", 2, 3)]
+    assert [(s.lock, s.name) for s in by_way(2)] == [(True, "Śluza Górna")]  # no `name`, lock_name used
+    assert [s.lock for s in by_way(3)] == [False]  # gates 700 m apart, each at a way end (junctions)
+    assert [(s.lock, s.name) for s in by_way(4)] == [(True, "Kanał B"), (False, "Kanał B")]  # unnamed chamber
+
+
+def test_single_interior_gate_is_a_zero_length_lock():
+    ex = Extract(ways=[way(1, [1, 2, 3], name="Kanał")], lock_nodes={2}, lock_names={2: "Śluza"})
+    k = split_ways(ex)
+    assert [(s.lock, s.name) for s in k] == [(False, "Kanał"), (True, "Śluza"), (False, "Kanał")]
+    assert k[1].coords[0] == k[1].coords[1] and k[0].b == k[1].a and k[1].b == k[2].a
+    assert (k[0].a, k[2].b) == (1, 3)
+
+
+def test_lock_chamber_between_two_gates_and_separate_locks():
+    m = 1 / 111_320  # one metre in degrees
+    nodes = {i: (x * m, 0.0) for i, x in enumerate([0, 1000, 1150, 1300, 5000, 9000], start=1)}
+    ex = Extract(ways=[NavWay(1, list(nodes), list(nodes.values()), {"name": "Kanał", "waterway": "canal", "kind": "canal"})],
+                 lock_nodes={2, 3, 5}, lock_names={3: "Śluza Wielka"})
+    segs = split_ways(ex)
+    assert [(s.lock, s.name, round(s.length, -1)) for s in segs] == [
+        (False, "Kanał", 1000),
+        (True, "Śluza Wielka", 150),       # gates 2 and 3 (150 m apart) are one chamber
+        (False, "Kanał", 3850),
+        (True, "Kanał", 0),                # gate 5 alone, 3.7 km further: a second lock
+        (False, "Kanał", 4000),
+    ]
 
 
 def test_oneway_reversed_and_limits():

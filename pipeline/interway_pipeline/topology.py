@@ -46,27 +46,51 @@ def split_ways(ex: Extract) -> list[Segment]:
     return segments
 
 
+LOCK_GROUP_M = 400.0  # lock gates closer than this along a way belong to the same chamber
+
+
+def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract) -> list[tuple[int, int]]:
+    """Index ranges (first gate, last gate) of lock chambers along a way, from its lock gate nodes."""
+    groups: list[list[int]] = []
+    along = [0.0]
+    for i in range(1, len(coords)):
+        along.append(along[-1] + haversine(coords[i - 1], coords[i]))
+    for i, n in enumerate(nodes):
+        if n not in ex.lock_nodes:
+            continue
+        if groups and along[i] - along[groups[-1][1]] <= LOCK_GROUP_M:
+            groups[-1][1] = i
+        else:
+            groups.append([i, i])
+    # a single gate at the very end of a way belongs to the chamber way it joins (tagged lock=yes)
+    return [(g0, g1) for g0, g1 in groups if not (g0 == g1 and g0 in (0, len(nodes) - 1))]
+
+
 def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
+    """Cut a way at junctions, weirs and lock chambers.
+
+    A lock is its own short segment: the stretch between the first and last gate of a chamber, or a
+    zero-length segment where only one gate is mapped. The rest of the way is never flagged as a lock.
+    """
     tags = w.tags
     oneway = tags.get("oneway") in ("yes", "1", "true", "-1")
-    nodes, coords = w.nodes, w.coords
+    nodes, coords = list(w.nodes), list(w.coords)
     if tags.get("oneway") == "-1":
         nodes, coords = nodes[::-1], coords[::-1]
     kind = tags["kind"]
     base_lock = tags.get("lock") == "yes"
     name = tags.get("name") or tags.get("lock_name") or ""
+    groups = [] if base_lock else _lock_groups(nodes, coords, ex)
+    chambers = {(g0, g1) for g0, g1 in groups if g0 < g1}
+    single_gates = {g0 for g0, g1 in groups if g0 == g1}
+    cuts = {i for g in groups for i in g}
+
+    def lock_name_of(i0: int, i1: int) -> str:
+        return next((ex.lock_names[x] for x in nodes[i0:i1 + 1] if x in ex.lock_names), tags.get("lock_name", ""))
+
     out: list[Segment] = []
-    start = 0
-    for i in range(1, len(nodes)):
-        n = nodes[i]
-        last = i == len(nodes) - 1
-        if not (last or usage[n] > 1 or n in ex.barrier_nodes):
-            continue
-        seg_nodes = nodes[start:i + 1]
-        interior = seg_nodes[1:-1]
-        lock = base_lock or any(x in ex.lock_nodes for x in interior)
-        lock_name = next((ex.lock_names[x] for x in seg_nodes if x in ex.lock_names), "")
-        a, b = seg_nodes[0], seg_nodes[-1]
+
+    def emit(a: int, b: int, pts: list[LonLat], lock: bool, seg_name: str) -> None:
         # A weir/dam blocks passage: disconnect the segment at that node.
         if a in ex.barrier_nodes:
             a = new_node_id()
@@ -74,12 +98,27 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
         if b in ex.barrier_nodes:
             b = new_node_id()
             barrier_ends.add(b)
-        if a != b or len(seg_nodes) > 2:
-            out.append(Segment(
-                a=a, b=b, coords=coords[start:i + 1], name=(lock_name if lock and lock_name else name),
-                kind=kind, lock=lock, oneway=oneway, flows=(kind == "river"), limits=_limits(tags), osm_way=w.id,
-            ))
-        start = i
+        if a != b or len(pts) > 2:
+            out.append(Segment(a=a, b=b, coords=pts, name=seg_name, kind=kind, lock=lock, oneway=oneway,
+                               flows=(kind == "river"), limits=_limits(tags), osm_way=w.id))
+
+    start, start_node = 0, nodes[0]
+    for i in range(1, len(nodes)):
+        n = nodes[i]
+        if not (i == len(nodes) - 1 or usage[n] > 1 or n in ex.barrier_nodes or i in cuts):
+            continue
+        is_chamber = base_lock or (start, i) in chambers
+        seg_name = (lock_name_of(start, i) or name) if is_chamber else name
+        if i in single_gates:
+            # the way continues from a new node; the gate itself becomes a zero-length lock between them
+            gate = new_node_id()
+            emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
+            out.append(Segment(a=n, b=gate, coords=[coords[i], coords[i]], name=lock_name_of(i, i) or name,
+                               kind=kind, lock=True, oneway=oneway, limits=_limits(tags), osm_way=w.id))
+            start, start_node = i, gate
+            continue
+        emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
+        start, start_node = i, n
     return out
 
 
