@@ -198,16 +198,37 @@ def test_small_channel_areas_only_continue_dead_ends():
     assert not any(-0.002 < s.coords[0][1] < 0.002 and 0.03 < s.coords[0][0] < 0.07 for s in added)
 
 
-def test_useful_keeps_lakes_and_channel_areas_at_dead_ends_only():
-    from interway_pipeline.topology import node_positions
-    river = [Segment(a=1, b=2, coords=[(0.0, 0.0), (0.05, 0.0)], kind="river"),
-             Segment(a=2, b=3, coords=[(0.05, 0.0), (0.1, 0.0)], kind="river")]  # 1 and 3 are dead ends
-    mid = Lake(1, "Odra", box(0.04, -0.01, 0.06, 0.01), True, kind="channel")  # river area around node 2
-    end = Lake(2, "", box(0.098, -0.0002, 0.102, 0.0002), False, kind="channel")  # around dead end 3
-    tiny_named = Lake(3, "Oczko", box(0.5, 0.5, 0.501, 0.501), True)   # a lake: always kept
-    big = Lake(4, "Duże", box(1, 1, 1.01, 1.01), False)
-    tol = metres_to_deg(lakes.ENTRY_TOLERANCE_M)
-    # channel areas are dropped along a mapped line even when big and allowlisted by name
-    kept = lakes._useful([mid, end, tiny_named, big], river, node_positions(river), tol)
-    assert [lk.id for lk in kept] == [2, 3, 4]
-    assert lakes._useful([mid, big], [], {}, tol) == [big]  # no network at all
+def test_channel_bodies_only_bridge_dead_ends():
+    # A long river area (two touching pieces). The river line runs through the west piece; it is broken
+    # in the east piece: one part ends at 11, the next starts again at 12.
+    west = Lake(1, "Odra", box(0.0, -0.002, 0.1, 0.002), True, kind="channel")
+    east = Lake(2, "Odra", box(0.1, -0.002, 0.2, 0.002), True, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river", name="Odra"),
+             Segment(a=2, b=11, coords=[(0.05, 0.0), (0.12, 0.0)], kind="river", name="Odra"),
+             Segment(a=12, b=13, coords=[(0.17, 0.0), (0.3, 0.0)], kind="river", name="Odra")]
+    marinas = [("Przystań", (0.15, 0.001))]
+    added = connect_lakes(river, [west, east], marinas)
+    ends = {frozenset((s.a, s.b)) for s in added}
+    assert frozenset((11, 12)) in ends  # the gap is bridged
+    assert all({s.a, s.b} & {11, 12} for s in added)  # nothing else: the line stays the route
+    assert not any(s.a < 0 or s.b < 0 for s in added)  # marinas are not linked through river areas
+    comp = components([*river, *added])
+    assert comp[1] == comp[13]
+
+
+def test_channel_body_without_dead_ends_is_not_meshed():
+    area = Lake(1, "Narew", box(0.0, -0.002, 0.1, 0.002), True, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river"),
+             Segment(a=2, b=3, coords=[(0.05, 0.0), (0.15, 0.0)], kind="river"),
+             Segment(a=3, b=4, coords=[(0.15, 0.0), (0.2, 0.0)], kind="river")]
+    assert connect_lakes(river, [area], []) == []
+
+
+def test_lake_touching_channel_areas_is_meshed_normally():
+    lake = Lake(1, "Zalew", box(0.0, -0.05, 0.1, 0.05), False)
+    inflow = Lake(2, "Narew", box(-0.05, -0.002, 0.0, 0.002), False, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.1, 0.0), (-0.03, 0.0)], kind="river"),  # 2 ends inside the inflow area
+             Segment(a=3, b=4, coords=[(0.1003, 0.0), (0.2, 0.0)], kind="river")]  # 3 is on the far shore
+    added = connect_lakes(river, [lake, inflow], [("Marina", (0.05, 0.04))])
+    assert components([*river, *added])[1] == components([*river, *added])[4]
+    assert any(s.a < 0 or s.b < 0 for s in added)  # marinas on a real lake are linked

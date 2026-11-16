@@ -1,5 +1,5 @@
 import pytest
-from shapely.geometry import LineString, Polygon
+from shapely.geometry import LineString, Polygon, box
 
 from interway_pipeline import topology
 from interway_pipeline.extract import Extract, Lake, NavWay
@@ -121,7 +121,7 @@ def test_connectors_need_both_ends_on_water():
         way(10, [2, 14, 20], kind="river", name="Łącznik"),         # network node 2 -> lake: added, with lock
         NavWay(11, [2, 50], [(2 * D, 0.0), (2 * D, 5 * D)], {"kind": "river"}),  # other end on land
         way(12, [2], kind="river"),                                 # single point
-        way(13, [2, 3, 2], kind="river"),                           # loop
+        way(13, [20, 25, 20], kind="river"),                        # loop inside the lake
         way(14, [2, 15, 21], kind="river"),                         # passes a weir
         NavWay(15, [1, 99], [(1 * D, 0.0), (1 * D, 40 * D)], {"kind": "river"}),  # 4 km: too long
         way(16, [21, 2], kind="canal", lock="yes", maxdraft="1.2"),
@@ -134,12 +134,31 @@ def test_connectors_need_both_ends_on_water():
 
 
 def test_connector_end_tolerance():
-    ex = Extract(connectors=[NavWay(1, [5, 6], [(2 * D, 0.0), (2 * D + metres_to_deg(50), D)], {"kind": "river"}),
-                             NavWay(2, [7, 8], [(1 * D, 0.0), (1 * D + metres_to_deg(80), D)], {"kind": "river"})])
+    # network node 2 at (2D, 0); a lake whose shore is at y = D
+    lake = Lake(1, "Jezioro", box(0, D, 5 * D, 3 * D), False)
+    ex = Extract(lakes=[lake], connectors=[
+        NavWay(1, [5, 6], [(2 * D + metres_to_deg(50), 0.0), (2 * D, D)], {"kind": "river"}),  # 50 m off: ok
+        NavWay(2, [7, 8], [(2 * D + metres_to_deg(80), 0.0), (2 * D, D)], {"kind": "river"}),  # 80 m off: no
+    ])
     segs = net((1, 2))
-    segs.append(Segment(a=3, b=4, coords=[(2 * D + metres_to_deg(50), D), (3 * D, D)]))
     assert add_connectors(segs, ex) == 1
     assert segs[-1].osm_way == 1
+
+
+def test_connectors_need_a_lake_end():
+    lake = Lake(1, "Jezioro", box(0, D, 5 * D, 3 * D), False)
+    channel = Lake(2, "Kanał", box(10 * D, -D, 20 * D, D), False, kind="channel")  # river areas do not count
+    ex = Extract(lakes=[lake, channel], connectors=[
+        way(1, [1, 3], kind="river", name="Kłodnica"),                                  # network to network
+        NavWay(2, [4, 5], [(2 * D, 2 * D), (4 * D, 2 * D)], {"kind": "river"}),        # inside the lake: ok
+        NavWay(3, [6, 7], [(3 * D, 0.0), (3 * D, 1.5 * D)], {"kind": "river"}),        # network -> lake: ok
+        NavWay(4, [8, 9], [(15 * D, 0.0), (1 * D, 0.0)], {"kind": "river"}),           # channel area -> network
+    ])
+    segs = net((1, 2), (2, 3))
+    assert add_connectors(segs, ex) == 2
+    assert [s.osm_way for s in segs[2:]] == [2, 3]
+    # lake to lake works without any network at all
+    assert add_connectors([], Extract(lakes=[lake], connectors=[ex.connectors[1]])) == 1
 
 
 def test_connectors_without_targets():

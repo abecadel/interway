@@ -78,43 +78,39 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     tree = STRtree([Point(pos[n]) for n in ids]) if ids else None
     marina_tree = STRtree([Point(p) for _, p in marinas]) if marinas else None
     tol = metres_to_deg(ENTRY_TOLERANCE_M)
-    lakes = _useful(lakes, segments, pos, tol)
+    degree: Counter[int] = Counter()
+    for s in segments:
+        degree[s.a] += 1
+        degree[s.b] += 1
+    dead_ends = {n for n, d in degree.items() if d == 1}
     added: list[Segment] = []
     used = 0
-    bodies = water_bodies(lakes)
+    # Lakes are crossed among themselves; river/canal areas (with the lakes they touch) only bridge dead ends.
+    lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"])
+    channel_bodies = [b for b in water_bodies(lakes) if any(m.kind == "channel" for m in b[1])]
+    bodies = lake_bodies + channel_bodies
     for body, members in bodies:
         zone = body.buffer(tol)
         entries: list[tuple[int, LonLat]] = []
         if tree is not None:
             entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")]
-        allowlisted = any(m.allowlisted for m in members)
-        if not entries and not allowlisted:
+        # A body made only of river/canal areas is not a lake to cross: it only bridges places where a
+        # waterway line stops (dead ends), and its mesh links those to the rest instead of replacing the line.
+        bridge = None
+        if any(m.kind == "channel" for m in members):
+            bridge = {n for n, _ in entries if n in dead_ends}
+            if not bridge:
+                continue
+        elif not entries and not any(m.allowlisted for m in members):
             continue
-        if marina_tree is not None:
+        if marina_tree is not None and bridge is None:
             for i in marina_tree.query(body, predicate="intersects"):
                 entries.append((new_node_id(), marinas[i][1]))
         used += 1
-        added.extend(_mesh(body, members, entries))
+        added.extend(_mesh(body, members, entries, bridge))
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
-
-
-def _useful(lakes: list[Lake], segments: list[Segment], pos: dict[int, LonLat], tol: float) -> list[Lake]:
-    """Drop river/canal areas that do not continue a dead-end waterway.
-
-    Rivers and canals are usually mapped both as a centre line and as water areas. The areas only matter
-    where the line is missing (a waterway ends at an unmapped stretch, e.g. below Strasen lock); elsewhere
-    they chain into huge water bodies whose mesh replaces the named line and runs around its locks.
-    """
-    degree: Counter[int] = Counter()
-    for s in segments:
-        degree[s.a] += 1
-        degree[s.b] += 1
-    ends = [Point(pos[n]) for n, d in degree.items() if d == 1]
-    end_tree = STRtree(ends) if ends else None
-    return [lk for lk in lakes if lk.kind != "channel"
-            or (end_tree is not None and len(end_tree.query(lk.polygon, predicate="dwithin", distance=tol)) > 0)]
 
 
 def _lake_namer(members: list[Lake]):
@@ -131,7 +127,8 @@ def _lake_namer(members: list[Lake]):
     return name_at
 
 
-def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]]) -> list[Segment]:
+def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]],
+          bridge: set[int] | None = None) -> list[Segment]:
     segs: list[Segment] = []
     if body.is_empty:
         return segs
@@ -187,10 +184,10 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
                 (a, pa), (b, pb) = entries[i], entries[j]
                 if pa != pb and water.contains(LineString([pa, pb])):
                     add(a, b, pa, pb)
-    return prune_and_smooth(segs, {nid for nid, _ in entries}, water)
+    return prune_and_smooth(segs, {nid for nid, _ in entries}, water, bridge)
 
 
-def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segment]:
+def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[int] | None = None) -> list[Segment]:
     """Keep only mesh edges on shortest paths between entries, then straighten each chain.
 
     The full mesh is large (thousands of edges for a big lake) and zig-zags between triangle midpoints.
@@ -207,6 +204,11 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segm
     lengths = [sg.length for sg in segs]
     pos = {sg.a: sg.coords[0] for sg in segs} | {sg.b: sg.coords[-1] for sg in segs}
     wanted = _target_pairs(targets, pos)
+    if bridge is not None:
+        # only paths that start or end at a dead end, plus links among the dead ends themselves
+        ends = [t for t in targets if t in bridge]
+        among = _target_pairs(ends, pos)
+        wanted = {t: {o for o in w if t in bridge or o in bridge} | among.get(t, set()) for t, w in wanted.items()}
     for src in targets:
         remaining = set(wanted[src])
         dist = {src: 0.0}

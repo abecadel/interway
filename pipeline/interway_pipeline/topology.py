@@ -123,23 +123,34 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
 
 
 def add_connectors(segments: list[Segment], ex: Extract, max_length_m: float = 3000.0, tol_m: float = 60.0) -> int:
-    """Short unverified rivers/canals whose both ends touch lakes or the navigable network.
+    """Short unverified rivers/canals between lakes, or from a lake to the navigable network.
 
-    These typically link chains of lakes (e.g. Mazury) where the channel lacks boat tags. They are exported
-    with the PATCH flag so the app can show them as unverified.
+    These typically link chains of lakes (e.g. Mazury) where the channel lacks boat tags. At least one end must
+    be at a lake: pieces of a small river joining a canal at both ends would otherwise become lock-free
+    shortcuts beside it. They are exported with the PATCH flag so the app can show them as unverified.
     """
     if not ex.connectors:
         return 0
-    targets = [Point(p) for p in node_positions(segments).values()] + [lk.polygon for lk in ex.lakes]
-    if not targets:
+    lake_polys = [lk.polygon for lk in ex.lakes if lk.kind == "lake"]
+    if not lake_polys:
         return 0
-    tree = STRtree(targets)
+    lake_tree = STRtree(lake_polys)
+    node_pts = [Point(p) for p in node_positions(segments).values()]
+    node_tree = STRtree(node_pts) if node_pts else None
     tol = metres_to_deg(tol_m)
+
+    def at_lake(c: LonLat) -> bool:
+        return len(lake_tree.query(Point(c), predicate="dwithin", distance=tol)) > 0
+
+    def at_network(c: LonLat) -> bool:
+        return node_tree is not None and len(node_tree.query(Point(c), predicate="dwithin", distance=tol)) > 0
+
     added = 0
     for w in ex.connectors:
         if len(w.coords) < 2 or line_length(w.coords) > max_length_m:
             continue
-        ends_ok = all(len(tree.query(Point(c), predicate="dwithin", distance=tol)) > 0 for c in (w.coords[0], w.coords[-1]))
+        first, last = w.coords[0], w.coords[-1]
+        ends_ok = (at_lake(first) and (at_lake(last) or at_network(last))) or (at_lake(last) and at_network(first))
         if not ends_ok or any(n in ex.barrier_nodes for n in w.nodes):
             continue
         a, b = w.nodes[0], w.nodes[-1]
