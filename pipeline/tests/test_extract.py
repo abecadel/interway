@@ -35,6 +35,8 @@ NODES = {
     **square(150, 21.4, 52.0, 0.002),    # marina area
     **square(160, 21.5, 52.0, 0.01),     # forest, not water
     170: (21.6, 52.0), 171: (21.61, 52.0), 172: (21.62, 52.0),  # collinear "polygons"
+    **square(180, 21.7, 52.0, 0.001),    # small canal area
+    **square(190, 21.8, 52.0, 0.001),    # small old-style riverbank
 }
 NODE_TAGS = {
     30: {"waterway": "lock_gate", "name": "Śluza"},
@@ -73,6 +75,8 @@ WAYS = [
     (160, ring(160), {"natural": "wood"}),
     (170, [170, 171, 172, 170], {"natural": "water", "name": "Kreska"}),
     (171, [170, 171, 172, 170], {"leisure": "marina", "name": "Broken"}),
+    (180, ring(180), {"natural": "water", "water": "canal", "name": "Kanałek"}),
+    (190, ring(190), {"waterway": "riverbank", "name": "Brzeg"}),
 ]
 RELATIONS = [
     (1, [("way", 130, "outer"), ("way", 140, "inner")], {"type": "multipolygon", "natural": "water", "name": "Wyspa"}),
@@ -113,7 +117,8 @@ def test_bridges(ex):
 
 def test_lakes(ex):
     lakes = {lk.name: lk for lk in ex.lakes}
-    assert set(lakes) == {"Duże", "Mały", "Wyspa"}  # Oczko is too small, Kreska is degenerate
+    # Oczko is too small and Kreska degenerate; small canal/river areas are kept because they link waterways
+    assert set(lakes) == {"Duże", "Mały", "Wyspa", "Kanałek", "Brzeg"}
     assert not lakes["Duże"].allowlisted
     assert lakes["Mały"].allowlisted  # small but boat=yes
     assert lakes["Duże"].id == 200  # area id of way 100

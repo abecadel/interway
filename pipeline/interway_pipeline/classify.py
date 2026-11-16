@@ -86,10 +86,18 @@ def is_connector_candidate(tags, allow: Allowlist) -> bool:
     return not allow.excluded(tags.get("name"))
 
 
+CHANNEL_WATER = {"river", "canal", "lock", "harbour"}
+
+
 def is_candidate_lake(tags) -> bool:
     if tags.get("natural") == "water":
         return tags.get("water", "lake") in LAKE_WATER and tags.get("intermittent") != "yes"
-    return tags.get("landuse") == "reservoir" or tags.get("waterway") == "dock"
+    return tags.get("landuse") == "reservoir" or tags.get("waterway") in ("dock", "riverbank")
+
+
+def is_channel_area(tags) -> bool:
+    """Water areas that are stretches of river or canal: kept at any size because they link waterways."""
+    return tags.get("water") in CHANNEL_WATER or tags.get("waterway") == "riverbank"
 
 
 def lake_allowlisted(tags, allow: Allowlist) -> bool:

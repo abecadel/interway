@@ -97,6 +97,7 @@ def test_connector_candidate(tags, expected, allow):
     ({"natural": "water", "water": "lake", "intermittent": "yes"}, False),
     ({"landuse": "reservoir"}, True),
     ({"waterway": "dock"}, True),
+    ({"waterway": "riverbank"}, True),
     ({"natural": "wood"}, False),
     ({}, False),
 ])
@@ -133,3 +134,12 @@ def test_exclude_patterns(tmp_path):
     assert not is_navigable_way({"waterway": "river", "name": "Wehrarm Fürstenwalde", "CEMT": "IV"}, allow)
     assert not is_connector_candidate({"waterway": "canal", "name": "Altarm"}, allow)
     assert is_navigable_way({"waterway": "river", "name": "Spree"}, allow)
+
+
+def test_channel_areas():
+    from interway_pipeline.classify import is_channel_area
+    assert is_channel_area({"natural": "water", "water": "canal"})
+    assert is_channel_area({"natural": "water", "water": "lock"})
+    assert is_channel_area({"waterway": "riverbank"})
+    assert not is_channel_area({"natural": "water", "water": "lake"})
+    assert not is_channel_area({"natural": "water"})
