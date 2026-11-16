@@ -1,0 +1,22 @@
+# Canonical routes the Europe graph must satisfy (checked by app/scripts/check-routes.ts).
+# expected_km is a rough reference; tolerance is relative.
+- name: Zalew Zegrzyński → Giżycko (Mazury)
+  from: [21.03, 52.47]
+  to: [21.765, 54.035]
+  expected_km: 330
+  tolerance: 0.25
+- name: Wrocław → Amsterdam
+  from: [17.035, 51.115]
+  to: [4.90, 52.38]
+  expected_km: 1250
+  tolerance: 0.2
+- name: Berlin → Szczecin
+  from: [13.40, 52.52]
+  to: [14.56, 53.43]
+  expected_km: 210
+  tolerance: 0.25
+- name: Gdańsk → Elbląg
+  from: [18.66, 54.35]
+  to: [19.40, 54.16]
+  expected_km: 85
+  tolerance: 0.3

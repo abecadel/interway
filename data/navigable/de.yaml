@@ -1,0 +1,79 @@
+# Germany: Bundeswasserstraßen (most carry CEMT tags already; listed here as fallback).
+waterways:
+  - Oder
+  - Westoder
+  - Hohensaaten-Friedrichsthaler Wasserstraße
+  - Havel-Oder-Wasserstraße
+  - Oder-Havel-Kanal
+  - Oder-Spree-Kanal
+  - Spree-Oder-Wasserstraße
+  - Spree
+  - Dahme
+  - Havel
+  - Untere Havel-Wasserstraße
+  - Obere Havel-Wasserstraße
+  - Potsdamer Havel
+  - Havelkanal
+  - Teltowkanal
+  - Landwehrkanal
+  - Berlin-Spandauer Schifffahrtskanal
+  - Westhafenkanal
+  - Charlottenburger Verbindungskanal
+  - Britzer Verbindungskanal
+  - Neuköllner Schifffahrtskanal
+  - Elbe-Havel-Kanal
+  - Elbe
+  - Elbe-Seitenkanal
+  - Elbe-Lübeck-Kanal
+  - Mittellandkanal
+  - Stichkanal Salzgitter
+  - Stichkanal Hildesheim
+  - Stichkanal Osnabrück
+  - Dortmund-Ems-Kanal
+  - Datteln-Hamm-Kanal
+  - Wesel-Datteln-Kanal
+  - Rhein-Herne-Kanal
+  - Küstenkanal
+  - Ems
+  - Weser
+  - Mittelweser
+  - Rhein
+  - Main
+  - Main-Donau-Kanal
+  - Donau
+  - Mosel
+  - Saar
+  - Neckar
+  - Lahn
+  - Saale
+  - Müritz-Elde-Wasserstraße
+  - Müritz-Havel-Wasserstraße
+  - Elde
+  - Störwasserstraße
+  - Peene
+  - Uecker
+  - Nord-Ostsee-Kanal
+  - Trave
+  - Warnow
+  - Ruhr
+lakes:
+  - Müritz
+  - Plauer See
+  - Kölpinsee
+  - Fleesensee
+  - Schweriner See
+  - Wannsee
+  - Großer Wannsee
+  - Tegeler See
+  - Müggelsee
+  - Großer Müggelsee
+  - Templiner See
+  - Schwielowsee
+  - Beetzsee
+  - Plauer See (Brandenburg)
+  - Breitlingsee
+  - Scharmützelsee
+  - Stettiner Haff
+  - Kleines Haff
+  - Bodensee
+exclude: []

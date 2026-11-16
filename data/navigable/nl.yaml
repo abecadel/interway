@@ -1,0 +1,66 @@
+# Netherlands: Rijkswaterstaat main waterways (most carry CEMT tags already).
+waterways:
+  - Twentekanaal
+  - Twenthekanaal
+  - IJssel
+  - Gelderse IJssel
+  - Rijn
+  - Nederrijn
+  - Neder-Rijn
+  - Lek
+  - Waal
+  - Boven-Rijn
+  - Pannerdensch Kanaal
+  - Amsterdam-Rijnkanaal
+  - Noordzeekanaal
+  - IJ
+  - Maas
+  - Merwede
+  - Boven-Merwede
+  - Beneden-Merwede
+  - Noord
+  - Oude Maas
+  - Nieuwe Maas
+  - Zwolle-IJsselkanaal
+  - Kanaal Almelo-De Haandrik
+  - Overijsselsch Kanaal
+  - Zwarte Water
+  - Vecht
+  - Overijsselse Vecht
+  - Ketelmeer
+  - Houtribsluizen
+  - Prinses Margrietkanaal
+  - Van Starkenborghkanaal
+  - Eemskanaal
+  - Maas-Waalkanaal
+  - Julianakanaal
+  - Wilhelminakanaal
+  - Zuid-Willemsvaart
+  - Hollandsch Diep
+  - Dordtsche Kil
+  - Kanaal door Walcheren
+  - Kanaal door Zuid-Beveland
+  - Gouwe
+  - Hollandse IJssel
+  - Oude Rijn
+  - Kanaal Gent-Terneuzen
+lakes:
+  - IJsselmeer
+  - Markermeer
+  - IJmeer
+  - Ketelmeer
+  - Zwarte Meer
+  - Veluwemeer
+  - Drontermeer
+  - Gooimeer
+  - Eemmeer
+  - Nijkerkernauw
+  - Wolderwijd
+  - Nuldernauw
+  - Vossemeer
+  - Loosdrechtse Plassen
+  - Haringvliet
+  - Volkerak
+  - Grevelingenmeer
+  - Veerse Meer
+exclude: []
