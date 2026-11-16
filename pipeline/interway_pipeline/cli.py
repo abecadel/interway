@@ -26,7 +26,7 @@ def merge_extracts(parts: list[Extract]) -> Extract:
     if len(parts) == 1:
         return parts[0]
     ex = Extract()
-    seen_ways, seen_lakes = set(), set()
+    seen_ways, seen_lakes, seen_bridges, seen_marinas = set(), set(), set(), set()
     for p in parts:
         for w in p.ways:
             if w.id not in seen_ways:
@@ -39,8 +39,15 @@ def merge_extracts(parts: list[Extract]) -> Extract:
         ex.lock_nodes |= p.lock_nodes
         ex.barrier_nodes |= p.barrier_nodes
         ex.lock_names.update(p.lock_names)
-        ex.bridges += p.bridges
-        ex.marinas += p.marinas
+        # overlapping extracts (neighbouring countries) contain the same border objects twice
+        for b in p.bridges:
+            if (b[0].wkb, b[1]) not in seen_bridges:
+                seen_bridges.add((b[0].wkb, b[1]))
+                ex.bridges.append(b)
+        for m in p.marinas:
+            if m not in seen_marinas:
+                seen_marinas.add(m)
+                ex.marinas.append(m)
         for w in p.connectors:
             if w.id not in seen_ways:
                 seen_ways.add(w.id)
@@ -72,6 +79,9 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             if None in ends:
                 log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
                 continue
+            if ends[0] == ends[1]:
+                log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
+                continue
             coords[0], coords[-1] = pos[ends[0]], pos[ends[1]]
             props = feat.get("properties") or {}
             segments.append(Segment(a=ends[0], b=ends[1], coords=coords, name=props.get("name", ""),
@@ -98,7 +108,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 2
+EXTRACT_VERSION = 3  # bump when read_osm output changes, invalidates --cache
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,

@@ -113,6 +113,8 @@ def _lake_namer(members: list[Lake]):
 
 def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]]) -> list[Segment]:
     segs: list[Segment] = []
+    if body.is_empty:
+        return segs
     name_at = _lake_namer(members)
 
     def add(a: int, b: int, pa: LonLat, pb: LonLat):
@@ -125,7 +127,7 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
     step = metres_to_deg(min(1500.0, max(150.0, diag_m / 40)))
     shape = body.simplify(metres_to_deg(10.0), preserve_topology=True)
     shape = shapely.segmentize(shape, step)
-    tris = list(shapely.constrained_delaunay_triangles(shape).geoms) if not shape.is_empty else []
+    tris = list(shapely.constrained_delaunay_triangles(shape).geoms)
 
     # Node per internal edge (shared by two triangles), keyed by its sorted vertex pair.
     edge_tris: dict[tuple, list[int]] = defaultdict(list)
@@ -148,17 +150,14 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
                 add(inner[i][0], inner[j][0], inner[i][1], inner[j][1])
 
     # Entries -> mesh nodes of the triangle they are in (or the nearest one).
-    if tris:
-        ttree = STRtree(tris)
-        for nid, p in entries:
-            pt = Point(p)
-            hits = ttree.query(pt, predicate="intersects")
-            t = int(hits[0]) if len(hits) else int(ttree.nearest(pt))
-            inner = [mid_node[k] for k in tri_edges[t] if k in mid_node]
-            if not inner:  # a lake that is a single triangle: link to its corners' entries directly below
-                continue
-            for mid, q in inner:
-                add(nid, mid, p, q)
+    ttree = STRtree(tris)
+    for nid, p in entries:
+        pt = Point(p)
+        hits = ttree.query(pt, predicate="intersects")
+        t = int(hits[0]) if len(hits) else int(ttree.nearest(pt))
+        # a lake that is a single triangle has no inner edges: entries are linked by the direct lines below
+        for mid, q in (mid_node[k] for k in tri_edges[t] if k in mid_node):
+            add(nid, mid, p, q)
 
     # Direct straight lines between entries where they stay on water (nicer, shorter routes).
     if 1 < len(entries) <= MAX_DIRECT_ENTRIES:

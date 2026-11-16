@@ -67,6 +67,19 @@ def is_navigable_way(tags, allow: Allowlist) -> bool:
     return allow.has_name(tags)
 
 
+def is_connector_candidate(tags, allow: Allowlist) -> bool:
+    """A river/canal without navigability evidence that may still link lakes (see topology.add_connectors).
+
+    Applies the same hard exclusions as is_navigable_way: culverts, intermittent flow, boat=no and excluded names.
+    """
+    if tags.get("waterway") not in ("river", "canal"):
+        return False
+    if tags.get("tunnel") == "culvert" or tags.get("intermittent") == "yes" or tags.get("boat") in NO:
+        return False
+    name = (tags.get("name") or "").casefold()
+    return not (name and name in allow.exclude_names)
+
+
 def is_candidate_lake(tags) -> bool:
     if tags.get("natural") == "water":
         return tags.get("water", "lake") in LAKE_WATER and tags.get("intermittent") != "yes"

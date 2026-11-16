@@ -72,7 +72,7 @@ Version 2 will split `geom.bin` into z6 tiles loaded lazily; version 1 is one fi
 ## `pois.json`
 
 ```json
-[{ "type": "lock", "name": "Śluza Brzeg Dolny", "lat": 51.27, "lon": 16.71, "node": 1234 }]
+[{ "type": "lock", "name": "Śluza Brzeg Dolny", "lat": 51.27, "lon": 16.71 }]
 ```
 
-`type` is one of `lock`, `bridge`, `marina`, `fuel`, `port`. Bridges carry `clearance` (m) when known.
+`type` is currently `lock` or `marina` (`bridge`, `fuel`, `port` are planned).

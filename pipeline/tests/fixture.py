@@ -35,22 +35,36 @@ WAYS = [
 ]
 
 
-def write_fixture(path: Path) -> Path:
+def write_osm(path: Path, nodes: dict, ways: list, relations: list = (), node_tags: dict | None = None) -> Path:
+    """Write an OSM XML file.
+
+    nodes: {id: (lon, lat) or None}; None writes a node without a location.
+    ways: [(id, [node refs], {tags})]; refs to ids missing from `nodes` produce invalid locations.
+    relations: [(id, [(type, ref, role)], {tags})].
+    """
+    node_tags = node_tags or {}
+
+    def tag_lines(tags):
+        return [f"    <tag k={quoteattr(k)} v={quoteattr(v)}/>" for k, v in tags.items()]
+
     out = ['<?xml version="1.0" encoding="UTF-8"?>', '<osm version="0.6" generator="interway-tests">']
-    for nid, (lon, lat) in NODES.items():
-        tags = NODE_TAGS.get(nid)
-        attrs = f'id="{nid}" version="1" lat="{lat}" lon="{lon}"'
+    for nid, loc in nodes.items():
+        tags = node_tags.get(nid)
+        attrs = f'id="{nid}" version="1"' + (f' lat="{loc[1]}" lon="{loc[0]}"' if loc is not None else "")
         if tags:
-            out.append(f"  <node {attrs}>")
-            out += [f"    <tag k={quoteattr(k)} v={quoteattr(v)}/>" for k, v in tags.items()]
-            out.append("  </node>")
+            out += [f"  <node {attrs}>", *tag_lines(tags), "  </node>"]
         else:
             out.append(f"  <node {attrs}/>")
-    for wid, nds, tags in WAYS:
-        out.append(f'  <way id="{wid}" version="1">')
-        out += [f'    <nd ref="{n}"/>' for n in nds]
-        out += [f"    <tag k={quoteattr(k)} v={quoteattr(v)}/>" for k, v in tags.items()]
-        out.append("  </way>")
+    for wid, nds, tags in ways:
+        out += [f'  <way id="{wid}" version="1">', *(f'    <nd ref="{n}"/>' for n in nds), *tag_lines(tags), "  </way>"]
+    for rid, members, tags in relations:
+        out.append(f'  <relation id="{rid}" version="1">')
+        out += [f'    <member type="{t}" ref="{r}" role="{role}"/>' for t, r, role in members]
+        out += [*tag_lines(tags), "  </relation>"]
     out.append("</osm>")
     path.write_text("\n".join(out), encoding="utf-8")
     return path
+
+
+def write_fixture(path: Path) -> Path:
+    return write_osm(path, NODES, WAYS, node_tags=NODE_TAGS)

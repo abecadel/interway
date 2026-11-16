@@ -9,7 +9,7 @@ from shapely import STRtree
 from shapely.geometry import LineString, Point
 
 from .extract import Extract, NavWay
-from .model import Limits, LonLat, Segment, haversine, metres_to_deg, parse_metres
+from .model import Limits, LonLat, Segment, haversine, line_length, metres_to_deg, parse_metres
 
 log = logging.getLogger(__name__)
 
@@ -97,7 +97,7 @@ def add_connectors(segments: list[Segment], ex: Extract, max_length_m: float = 3
     tol = metres_to_deg(tol_m)
     added = 0
     for w in ex.connectors:
-        if len(w.coords) < 2 or sum(haversine(w.coords[i - 1], w.coords[i]) for i in range(1, len(w.coords))) > max_length_m:
+        if len(w.coords) < 2 or line_length(w.coords) > max_length_m:
             continue
         ends_ok = all(len(tree.query(Point(c), predicate="dwithin", distance=tol)) > 0 for c in (w.coords[0], w.coords[-1]))
         if not ends_ok or any(n in ex.barrier_nodes for n in w.nodes):
@@ -200,7 +200,7 @@ def merge_degree2(segments: list[Segment]) -> list[Segment]:
             continue
         i, j = live
         s, t = segments[i], segments[j]
-        if i == j or s.lock or t.lock or s.merge_key() != t.merge_key() or s.a == s.b or t.a == t.b:
+        if s.lock or t.lock or s.merge_key() != t.merge_key() or s.a == s.b or t.a == t.b:
             continue
         # orient so that s ends at node and t starts at node, without reversing directed segments
         order = _orient(s, t, node)

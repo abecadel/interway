@@ -14,6 +14,7 @@ from .model import CANAL, DOWNSTREAM, GEOM_REVERSED, LAKE, LOCK, PATCH, SEA, UPS
 
 log = logging.getLogger(__name__)
 SCALE = 1e7
+MAX_ATTRS = 65535  # edgeAttr is u16
 
 
 def _pad(b: bytes) -> bytes:
@@ -70,7 +71,8 @@ def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp
         geom_name.append(name_index[s.name])
         t = s.limits.as_tuple()
         if t not in attr_index:
-            if len(attrs) >= 65535:
+            if len(attrs) >= MAX_ATTRS:
+                log.warning("attribute table full, dropping limits %s", t)
                 t = attrs[0]
             else:
                 attr_index[t] = len(attrs)

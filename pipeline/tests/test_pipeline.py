@@ -1,28 +1,12 @@
 import json
-from pathlib import Path
 
 import numpy as np
 import pytest
 from fixture import write_fixture
+from graphio import read_graph
 
 from interway_pipeline.cli import build
 from interway_pipeline.model import DOWNSTREAM, GEOM_REVERSED, LAKE, LOCK, UPSTREAM, parse_metres
-
-
-def read_graph(path: Path):
-    b = path.read_bytes()
-    assert b[:4] == b"IWG1"
-    _, n, m, a = np.frombuffer(b, "<u4", 4, 4)
-    pos = 20
-    out = {}
-    for name, dt, cnt in [("lat", "<i4", n), ("lon", "<i4", n), ("off", "<u4", n + 1), ("tgt", "<u4", m),
-                          ("len", "<f4", m), ("geom", "<u4", m), ("attr", "<u2", m), ("flags", "<u2", m),
-                          ("attrs", "<f4", a * 4)]:
-        out[name] = np.frombuffer(b, dt, cnt, pos)
-        pos += (out[name].nbytes + 3) & ~3
-    assert pos == len(b)
-    out["n"], out["m"] = int(n), int(m)
-    return out
 
 
 @pytest.fixture(scope="module")

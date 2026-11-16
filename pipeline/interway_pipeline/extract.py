@@ -7,9 +7,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import osmium
+import shapely
 from shapely.geometry import LineString, MultiPolygon, Polygon
 
-from .classify import Allowlist, is_candidate_lake, is_navigable_way, kind_of, lake_allowlisted
+from .classify import Allowlist, is_candidate_lake, is_connector_candidate, is_navigable_way, kind_of, lake_allowlisted
 from .model import LonLat, parse_metres
 
 log = logging.getLogger(__name__)
@@ -63,12 +64,21 @@ def _area_polygon(area) -> Polygon | MultiPolygon | None:
         holes = [_ring(inner) for inner in area.inner_rings(outer)]
         p = Polygon(shell, [h for h in holes if len(h) >= 4])
         if not p.is_valid:
-            p = p.buffer(0)
+            # not buffer(0): that keeps only one lobe of a self-intersecting (figure-eight) ring
+            p = shapely.make_valid(p, method="structure", keep_collapsed=False)
         if not p.is_empty:
             polys.append(p)
     if not polys:
         return None
     return polys[0] if len(polys) == 1 else MultiPolygon([g for p in polys for g in getattr(p, "geoms", [p])])
+
+
+def _way_coords(way) -> list[LonLat] | None:
+    """Node locations of a way, or None when the extract lacks one of its nodes (ways cut at the border)."""
+    try:
+        return [(n.lon, n.lat) for n in way.nodes]
+    except osmium.InvalidLocationError:
+        return None
 
 
 def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = 0.05) -> Extract:
@@ -98,31 +108,23 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = 0.05) -> Extrac
         elif o.is_way():
             n_ways += 1
             if is_navigable_way(tags, allow):
-                try:
-                    coords = [(n.lon, n.lat) for n in o.nodes]
-                except osmium.InvalidLocationError:
-                    continue
-                if len(coords) >= 2:
+                coords = _way_coords(o)
+                if coords is not None and len(coords) >= 2:
                     kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
+                    kept["kind"] = kind_of(tags)
                     ex.ways.append(NavWay(o.id, [n.ref for n in o.nodes], coords, kept))
-                    ex.ways[-1].tags["kind"] = kind_of(tags)
-            elif tags.get("waterway") in ("river", "canal") and tags.get("boat") not in ("no", "private") \
-                    and tags.get("tunnel") != "culvert" and len(o.nodes) < 400:
-                try:
-                    coords = [(n.lon, n.lat) for n in o.nodes]
-                except osmium.InvalidLocationError:
-                    continue
-                kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
-                kept["kind"] = kind_of(tags)
-                ex.connectors.append(NavWay(o.id, [n.ref for n in o.nodes], coords, kept))
+            elif is_connector_candidate(tags, allow) and len(o.nodes) < 400:
+                coords = _way_coords(o)
+                if coords is not None:
+                    kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
+                    kept["kind"] = kind_of(tags)
+                    ex.connectors.append(NavWay(o.id, [n.ref for n in o.nodes], coords, kept))
             elif "bridge" in tags and tags.get("bridge") != "no":
                 h = parse_metres(tags.get("seamark:bridge:clearance_height") or tags.get("maxheight:physical")
                                  or tags.get("maxheight"))
-                if h > 0:
-                    try:
-                        ex.bridges.append((LineString([(n.lon, n.lat) for n in o.nodes]), h))
-                    except (osmium.InvalidLocationError, ValueError):
-                        pass
+                coords = _way_coords(o) if h > 0 else None
+                if coords is not None and len(coords) >= 2:
+                    ex.bridges.append((LineString(coords), h))
         elif o.is_area():
             if tags.get("leisure") == "marina":
                 poly = _area_polygon(o)
