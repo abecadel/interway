@@ -1,0 +1,14 @@
+# Switzerland: navigable Rhine reach and main lakes.
+waterways:
+  - Rhein
+  - Rhin
+lakes:
+  - Lac Léman
+  - Genfersee
+  - Bodensee
+  - Lac de Neuchâtel
+  - Bielersee
+  - Zürichsee
+  - Vierwaldstättersee
+  - Lago Maggiore
+exclude: []

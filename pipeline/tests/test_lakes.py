@@ -189,8 +189,8 @@ def test_small_channel_areas_only_continue_dead_ends():
     canal = Segment(a=10, b=11, coords=[(0.5, 0.0), (0.6, 0.0)], kind="canal")  # 11 is a dead end
     onward = Segment(a=20, b=21, coords=[(0.65, 0.0), (0.7, 0.0)], kind="canal")  # leaves the lake on the far side
     lake = Lake(5, "Pälitzsee", box(0.6 + 0.001, -0.01, 0.65, 0.01), False)
-    piece_on_river = Lake(6, "", box(0.04, -0.001, 0.06, 0.001), False)  # ~0.05 km² of river area
-    piece_at_end = Lake(7, "", box(0.6, -0.001, 0.6011, 0.001), False)  # canal end -> lake
+    piece_on_river = Lake(6, "", box(0.04, -0.001, 0.06, 0.001), False, kind="channel")
+    piece_at_end = Lake(7, "", box(0.6, -0.001, 0.6011, 0.001), False, kind="channel")  # canal end -> lake
     added = connect_lakes([river, feeder, canal, onward], [lake, piece_on_river, piece_at_end], [])
     comp = components([river, feeder, canal, onward, *added])
     assert comp[11] == comp[20]  # the dead end reaches the lake's far side through the small piece
@@ -198,15 +198,16 @@ def test_small_channel_areas_only_continue_dead_ends():
     assert not any(-0.002 < s.coords[0][1] < 0.002 and 0.03 < s.coords[0][0] < 0.07 for s in added)
 
 
-def test_useful_keeps_big_lakes_and_small_pieces_at_dead_ends_only():
+def test_useful_keeps_lakes_and_channel_areas_at_dead_ends_only():
     from interway_pipeline.topology import node_positions
     river = [Segment(a=1, b=2, coords=[(0.0, 0.0), (0.05, 0.0)], kind="river"),
              Segment(a=2, b=3, coords=[(0.05, 0.0), (0.1, 0.0)], kind="river")]  # 1 and 3 are dead ends
-    tiny_mid = Lake(1, "", box(0.048, -0.0002, 0.052, 0.0002), False)   # ~0.02 km² around node 2
-    tiny_end = Lake(2, "", box(0.098, -0.0002, 0.102, 0.0002), False)   # around dead end 3
-    tiny_named = Lake(3, "Oczko", box(0.5, 0.5, 0.501, 0.501), True)   # allowlisted: always kept
+    mid = Lake(1, "Odra", box(0.04, -0.01, 0.06, 0.01), True, kind="channel")  # river area around node 2
+    end = Lake(2, "", box(0.098, -0.0002, 0.102, 0.0002), False, kind="channel")  # around dead end 3
+    tiny_named = Lake(3, "Oczko", box(0.5, 0.5, 0.501, 0.501), True)   # a lake: always kept
     big = Lake(4, "Duże", box(1, 1, 1.01, 1.01), False)
     tol = metres_to_deg(lakes.ENTRY_TOLERANCE_M)
-    kept = lakes._useful([tiny_mid, tiny_end, tiny_named, big], river, node_positions(river), tol)
+    # channel areas are dropped along a mapped line even when big and allowlisted by name
+    kept = lakes._useful([mid, end, tiny_named, big], river, node_positions(river), tol)
     assert [lk.id for lk in kept] == [2, 3, 4]
-    assert lakes._useful([tiny_mid, big], [], {}, tol) == [big]  # no network at all
+    assert lakes._useful([mid, big], [], {}, tol) == [big]  # no network at all

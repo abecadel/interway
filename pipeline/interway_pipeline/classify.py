@@ -10,7 +10,8 @@ import yaml
 LINE_WATERWAYS = {"river", "canal", "fairway", "tidal_channel"}
 YES = {"yes", "designated", "permissive", "official"}
 NO = {"no", "private"}
-LAKE_WATER = {"lake", "reservoir", "lagoon", "basin", "oxbow", "river", "canal", "harbour", "lock", "bay"}
+# water=lock areas are left out on purpose: a lock chamber joins two water levels, meshing it would bypass the lock
+LAKE_WATER = {"lake", "reservoir", "lagoon", "basin", "oxbow", "river", "canal", "harbour", "bay"}
 
 
 @dataclass
@@ -63,7 +64,8 @@ def is_navigable_way(tags, allow: Allowlist) -> bool:
         return True
     if "CEMT" in tags or "cemt" in tags:
         return True
-    if ship in YES or boat in YES or motor in YES:
+    # boat=yes alone is not enough: it also covers canoes and kayaks on small rivers
+    if ship in YES or motor in YES:
         return True
     if tags.get("seamark:type") in ("fairway", "recommended_track", "navigation_line"):
         return True
@@ -86,7 +88,7 @@ def is_connector_candidate(tags, allow: Allowlist) -> bool:
     return not allow.excluded(tags.get("name"))
 
 
-CHANNEL_WATER = {"river", "canal", "lock", "harbour"}
+CHANNEL_WATER = {"river", "canal", "harbour"}
 
 
 def is_candidate_lake(tags) -> bool:

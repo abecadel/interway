@@ -111,14 +111,16 @@
   min_locks: 6
   source: ADAC/Hausboot guides via https://www.reiseland-brandenburg.de/ (Spandau – Müritz south tip 147.8 km)
 
-- name: Magdeburg → Hamburg (Elbe)
+- name: Magdeburg → Hamburg (Elbe or Elbe-Seitenkanal)
   from: [11.645, 52.13]
   to: [9.99, 53.54]
-  expected_km: 297
+  expected_km: 275
   tolerance: 0.12
   countries: [DE]
   via: [Elbe]
-  source: Elbe kilometre markers (Magdeburg ~km 326, Hamburg harbour ~km 623); https://www.boote-magazin.de/en/travel-and-charter/territories/the-middle-elbe/
+  source: >-
+    either the Elbe (kilometre markers Magdeburg ~326 to Hamburg ~623, ~297 km) or Mittellandkanal +
+    Elbe-Seitenkanal (~250 km); https://www.boote-magazin.de/en/travel-and-charter/territories/the-middle-elbe/
 
 - name: Mittellandkanal end to end (Bergeshövede → Elbe)
   from: [7.62, 52.29]

@@ -23,7 +23,7 @@ from shapely.geometry import LineString, MultiPoint, MultiPolygon, Point, Polygo
 from shapely.ops import unary_union
 
 from .extract import Lake
-from .model import MIN_LAKE_KM2, LonLat, Segment, area_km2, haversine, metres_to_deg
+from .model import LonLat, Segment, haversine, metres_to_deg
 from .topology import new_node_id, node_positions
 
 log = logging.getLogger(__name__)
@@ -101,11 +101,11 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
 
 
 def _useful(lakes: list[Lake], segments: list[Segment], pos: dict[int, LonLat], tol: float) -> list[Lake]:
-    """Drop small river/canal areas that do not continue a dead-end waterway.
+    """Drop river/canal areas that do not continue a dead-end waterway.
 
-    Rivers are usually mapped both as a centre line and as many water-area pieces. The pieces only matter
+    Rivers and canals are usually mapped both as a centre line and as water areas. The areas only matter
     where the line is missing (a waterway ends at an unmapped stretch, e.g. below Strasen lock); elsewhere
-    they would chain into one huge water body whose mesh replaces the named river line.
+    they chain into huge water bodies whose mesh replaces the named line and runs around its locks.
     """
     degree: Counter[int] = Counter()
     for s in segments:
@@ -113,13 +113,8 @@ def _useful(lakes: list[Lake], segments: list[Segment], pos: dict[int, LonLat], 
         degree[s.b] += 1
     ends = [Point(pos[n]) for n, d in degree.items() if d == 1]
     end_tree = STRtree(ends) if ends else None
-    return [lk for lk in lakes if not small_channel(lk)
+    return [lk for lk in lakes if lk.kind != "channel"
             or (end_tree is not None and len(end_tree.query(lk.polygon, predicate="dwithin", distance=tol)) > 0)]
-
-
-def small_channel(lake: Lake) -> bool:
-    """Below the lake size threshold and not allowlisted: extraction only keeps such areas for river/canal water."""
-    return not lake.allowlisted and area_km2(lake.polygon) < MIN_LAKE_KM2
 
 
 def _lake_namer(members: list[Lake]):

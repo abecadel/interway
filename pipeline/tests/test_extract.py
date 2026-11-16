@@ -119,6 +119,7 @@ def test_lakes(ex):
     lakes = {lk.name: lk for lk in ex.lakes}
     # Oczko is too small and Kreska degenerate; small canal/river areas are kept because they link waterways
     assert set(lakes) == {"Duże", "Mały", "Wyspa", "Kanałek", "Brzeg"}
+    assert {n for n, lk in lakes.items() if lk.kind == "channel"} == {"Kanałek", "Brzeg"}
     assert not lakes["Duże"].allowlisted
     assert lakes["Mały"].allowlisted  # small but boat=yes
     assert lakes["Duże"].id == 200  # area id of way 100
