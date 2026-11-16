@@ -351,3 +351,25 @@ def test_bypass_cuts_are_capped_per_lock(monkeypatch):
             Segment(a=1, b=2, coords=[(0.0, 0.0), (0.005, 0.002), (0.01, 0.0)], kind="canal"),
             Segment(a=1, b=2, coords=[(0.0, 0.0), (0.005, 0.004), (0.01, 0.0)], kind="canal")]
     assert len(topology.block_lock_bypasses(segs)[1]) == 1
+
+
+def test_bypass_cut_never_disconnects():
+    from interway_pipeline.topology import block_lock_bypasses
+    # a port basin P reached from both sides of a lock: cutting one link is fine, cutting the second would
+    # strand the port, so it stays
+    segs = [_canal(1, 2, 0.0, 0.001, lock=True),
+            Segment(a=1, b=9, coords=[(0.0, 0.0), (0.0005, 0.003)], kind="bridge"),
+            Segment(a=9, b=2, coords=[(0.0005, 0.003), (0.001, 0.0)], kind="bridge")]
+    kept, removed = block_lock_bypasses(segs)
+    assert len(removed) == 1 and 9 in {n for s in kept for n in (s.a, s.b)}
+
+
+def test_no_cut_when_the_only_other_way_is_too_long():
+    from interway_pipeline.topology import block_lock_bypasses
+    # an (artificially) ~350 km long lock beside a 111 km bypass: the bypass is found, but no cut leaves its
+    # ends connected within twice the search distance, so nothing is removed
+    segs = [Segment(a=1, b=2, coords=[(0.0, 0.0), (0.5, 1.5), (1.0, 0.0)], kind="canal", lock=True),
+            Segment(a=1, b=3, coords=[(0.0, 0.0), (0.5, 0.0)], kind="river"),
+            Segment(a=3, b=2, coords=[(0.5, 0.0), (1.0, 0.0)], kind="river")]
+    assert block_lock_bypasses(segs, max_m=250_000)[1] != []
+    assert block_lock_bypasses(segs, max_m=120_000)[1] == []
