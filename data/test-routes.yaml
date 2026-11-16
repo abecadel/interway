@@ -1,6 +1,7 @@
 # Reference routes the built graph must satisfy (app/src/routing/canonical.test.ts, `npm run test:routes`).
 #
-#   expected_km  distance from the cited source; the check passes within ± tolerance (relative)
+#   expected_km  distance from the cited source; the check passes within ± tolerance (relative); optional
+#   sea          true when the route needs open-sea legs (skipped until the data includes sea routing)
 #   countries    ISO codes the route needs; skipped when the data's manifest lists other countries
 #   via          waterway names (substring, case-insensitive) that must appear in the route's legs
 #   min_locks    lower bound for the number of locks passed
@@ -137,3 +138,94 @@
   via: [Odra, Mittellandkanal]
   min_locks: 10
   source: sum of segments above (Odra to Eisenhüttenstadt, Berlin, Mittellandkanal 325 km, Dutch canals)
+
+# --- Across Europe (need more countries; skipped until the data covers them) ---------------------------
+- name: Gdańsk → Port-Saint-Louis-du-Rhône (inland, through Germany and France)
+  from: [18.66, 54.35]
+  to: [4.81, 43.385]
+  expected_km: 2600
+  tolerance: 0.25
+  countries: [PL, DE, FR]
+  via: [Odra, Mittellandkanal, Rhein, Saône, Rhône]
+  min_locks: 100
+  source: >-
+    sum of segments: Wisła/Noteć/Warta to the Odra, Havel-Oder-Wasserstraße 92 km, Mittellandkanal 325 km,
+    Rhine to Mulhouse, Canal du Rhône au Rhin, Saône, Rhône Lyon–Port-Saint-Louis ~320 km
+    (https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: Gdańsk → Venice (through France, then the Mediterranean)
+  from: [18.66, 54.35]
+  to: [12.335, 45.435]
+  expected_km: 4900
+  tolerance: 0.3
+  countries: [PL, DE, FR, IT]
+  sea: true
+  via: [Rhône]
+  source: inland leg above (~2600 km) + Port-Saint-Louis to Venice around Italy (~1250 NM)
+
+- name: Rendsburg → Aigues-Mortes (Kiel Canal, Dutch canals, Belgium, Champagne, Saône, Rhône)
+  from: [9.67, 54.30]
+  to: [4.19, 43.565]
+  countries: [DE, NL, BE, FR]
+  via: [Saône, Rhône]
+  min_locks: 150
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/inland-to-the-mediterranean-the-long-way-to-warmth/ (283 locks)
+
+- name: Paris → Port-Saint-Louis-du-Rhône (Canal de Bourgogne)
+  from: [2.35, 48.855]
+  to: [4.81, 43.385]
+  expected_km: 920
+  tolerance: 0.2
+  countries: [FR]
+  via: [Saône, Rhône]
+  min_locks: 150
+  source: >-
+    Seine + Yonne to Migennes, Canal de Bourgogne 242 km, Saône to Lyon, Rhône ~320 km
+    (https://michaelbriant.com/sn7.htm, https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: Canal du Midi (Toulouse → Étang de Thau)
+  from: [1.418, 43.611]
+  to: [3.552, 43.335]
+  expected_km: 240
+  tolerance: 0.1
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 55
+  source: https://en.wikipedia.org/wiki/Locks_on_the_Canal_du_Midi (240 km, 63+ lock sites)
+
+- name: Bordeaux → Constanța (Canal des Deux Mers, Rhône, Rhine, Main-Donau-Kanal, Danube)
+  from: [-0.565, 44.845]
+  to: [28.66, 44.17]
+  expected_km: 4900
+  tolerance: 0.2
+  countries: [FR, DE, AT, SK, HU, HR, RS, RO, BG]
+  via: [Garonne, Rhône, Main-Donau-Kanal, Donau]
+  min_locks: 300
+  source: https://boatingnz.co.nz/magnifique-bordeaux-to-the-black-sea/ (nearly 5000 km, 484 locks)
+
+- name: Rotterdam → Basel (Rhine)
+  from: [4.48, 51.905]
+  to: [7.59, 47.565]
+  expected_km: 830
+  tolerance: 0.1
+  countries: [NL, DE, FR, CH]
+  via: [Rhein]
+  source: https://www.iksr.org/en/topics/uses/navigation (≈800 km North Sea – Basel/Rheinfelden)
+
+- name: Main-Donau-Kanal (Bamberg → Kelheim)
+  from: [10.89, 49.90]
+  to: [11.88, 48.92]
+  expected_km: 171
+  tolerance: 0.1
+  countries: [DE]
+  via: [Main-Donau-Kanal]
+  min_locks: 16
+  source: https://en.wikipedia.org/wiki/Rhine%E2%80%93Main%E2%80%93Danube_Canal (171 km, 16 locks)
+
+- name: Litoranea Veneta (Chioggia → Muggia)
+  from: [12.28, 45.22]
+  to: [13.77, 45.605]
+  expected_km: 180
+  tolerance: 0.15
+  countries: [IT]
+  source: https://siviaggia.it/vacanze-natura/barca-o-bicicletta-lungo-litoranea-veneta/410474/amp/ (180 km)

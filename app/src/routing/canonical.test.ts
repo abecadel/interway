@@ -12,8 +12,9 @@ interface TestRoute {
   name: string;
   from: LngLat;
   to: LngLat;
-  expected_km: number;
-  tolerance: number;
+  expected_km?: number;
+  tolerance?: number;
+  sea?: boolean;
   countries: string[];
   via?: string[];
   min_locks?: number;
@@ -36,7 +37,8 @@ describe('canonical routes', () => {
 
   // Data built from whole countries lists them; partial (demo) data runs only routes picked by INTERWAY_ROUTES.
   const covered = new Set<string>(manifest.countries ?? []);
-  const wanted = (r: TestRoute) => (only ? only.some((o: string) => r.name.includes(o)) : r.countries.every((c) => covered.has(c)));
+  const wanted = (r: TestRoute) =>
+    only ? only.some((o: string) => r.name.includes(o)) : r.countries.every((c) => covered.has(c)) && (!r.sea || manifest.sea === true);
 
   for (const r of routes) {
     it.skipIf(!wanted(r))(r.name, () => {
@@ -46,7 +48,7 @@ describe('canonical routes', () => {
       console.log('  via ' + route.legs.filter((l) => l.distance > 2000).map((l) => `${l.name || '?'} ${(l.distance / 1000).toFixed(0)}`).join(' → '));
       expect(route.start.offset).toBeLessThan(3000);
       expect(route.end.offset).toBeLessThan(3000);
-      expect(Math.abs(km - r.expected_km) / r.expected_km).toBeLessThan(r.tolerance);
+      if (r.expected_km !== undefined) expect(Math.abs(km - r.expected_km) / r.expected_km).toBeLessThan(r.tolerance ?? 0.15);
       const names = route.legs.map((l) => l.name.toLowerCase());
       for (const v of r.via ?? []) expect(names.some((n) => n.includes(v.toLowerCase())), `via ${v}`).toBe(true);
       if (r.min_locks !== undefined) expect(route.locks).toBeGreaterThanOrEqual(r.min_locks);
