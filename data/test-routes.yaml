@@ -79,7 +79,8 @@
   expected_km: 82
   tolerance: 0.2
   countries: [PL]
-  via: [Elbl]
+  via: [Elbl, Pochylnia Buczyniec, Pochylnia Całuny]
+  min_locks: 5
   source: https://www.gov.pl/web/infrastruktura/kanal-elblaski--najwieksza-turystyczna-atrakcja-warmii (82 km, 5 inclined planes)
 
 # --- Germany -------------------------------------------------------------------------------------------
