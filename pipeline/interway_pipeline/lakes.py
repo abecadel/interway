@@ -13,6 +13,7 @@ and chains of lakes (Mazury!) are separate polygons that merely touch. We theref
 """
 from __future__ import annotations
 
+import heapq
 import logging
 from collections import defaultdict
 
@@ -160,11 +161,95 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
             add(nid, mid, p, q)
 
     # Direct straight lines between entries where they stay on water (nicer, shorter routes).
+    water = prepared.prep(body.buffer(metres_to_deg(ENTRY_TOLERANCE_M)))
     if 1 < len(entries) <= MAX_DIRECT_ENTRIES:
-        water = prepared.prep(body.buffer(metres_to_deg(ENTRY_TOLERANCE_M)))
         for i in range(len(entries)):
             for j in range(i + 1, len(entries)):
                 (a, pa), (b, pb) = entries[i], entries[j]
                 if pa != pb and water.contains(LineString([pa, pb])):
                     add(a, b, pa, pb)
-    return segs
+    return prune_and_smooth(segs, {nid for nid, _ in entries}, water)
+
+
+def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segment]:
+    """Keep only mesh edges on shortest paths between entries, then straighten each chain.
+
+    The full mesh is large (thousands of edges for a big lake) and zig-zags between triangle midpoints.
+    Routes only ever run between entries, so the union of entry-to-entry shortest paths is all the
+    router needs. Each chain between junctions becomes one segment whose points are reduced greedily to
+    the farthest point still in line of sight over water.
+    """
+    adj: dict[int, list[tuple[int, int]]] = defaultdict(list)
+    for i, sg in enumerate(segs):
+        adj[sg.a].append((sg.b, i))
+        adj[sg.b].append((sg.a, i))
+    keep: set[int] = set()
+    targets = [e for e in entries if e in adj]
+    for src in targets:
+        dist = {src: 0.0}
+        prev: dict[int, int] = {}
+        heap = [(0.0, src)]
+        while heap:
+            d, u = heapq.heappop(heap)
+            if d > dist[u]:
+                continue
+            for v, i in adj[u]:
+                nd = d + segs[i].length
+                if nd < dist.get(v, float("inf")):
+                    dist[v] = nd
+                    prev[v] = i
+                    heapq.heappush(heap, (nd, v))
+        tree: set[int] = set()  # edges of this source's shortest-path tree already walked
+        for dst in targets:
+            node = dst
+            while node in prev and prev[node] not in tree:
+                i = prev[node]
+                tree.add(i)
+                node = segs[i].a if segs[i].b == node else segs[i].b
+        keep |= tree
+    kept = [segs[i] for i in sorted(keep)]
+    return _chains(kept, entries, water)
+
+
+def _chains(segs: list[Segment], entries: set[int], water) -> list[Segment]:
+    """Merge runs of degree-2 mesh nodes into single straightened segments."""
+    adj: dict[int, list[int]] = defaultdict(list)
+    for i, sg in enumerate(segs):
+        adj[sg.a].append(i)
+        adj[sg.b].append(i)
+    stop = {n for n, es in adj.items() if len(es) != 2 or n in entries}
+    used: set[int] = set()
+    out: list[Segment] = []
+
+    def walk(start: int, first: int) -> None:
+        pts, names, node, i = [], [], start, first
+        pts.append(segs[i].coords[0] if segs[i].a == node else segs[i].coords[-1])
+        while True:
+            used.add(i)
+            sg = segs[i]
+            node = sg.b if sg.a == node else sg.a
+            pts.append(sg.coords[-1] if sg.b == node else sg.coords[0])
+            names.append(sg.name)
+            if node in stop:
+                break
+            i = next(j for j in adj[node] if j != i)
+        out.append(Segment(a=start, b=node, coords=_straighten(pts, water), name=names[len(names) // 2], kind="lake"))
+
+    for n in stop:
+        for i in adj[n]:
+            if i not in used:
+                walk(n, i)
+    # Every kept edge lies on a path between entries, so every chain reaches a stop node: no closed loops.
+    return out
+
+
+def _straighten(pts: list[LonLat], water) -> list[LonLat]:
+    out = [pts[0]]
+    i = 0
+    while i < len(pts) - 1:
+        j = len(pts) - 1
+        while j > i + 1 and not water.contains(LineString([pts[i], pts[j]])):
+            j -= 1
+        out.append(pts[j])
+        i = j
+    return out
