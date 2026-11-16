@@ -144,3 +144,24 @@ def test_prune_keeps_junctions_between_three_entries():
     ends = {n for s in segs for n in (s.a, s.b)}
     assert {1, 2, 3} <= ends
     assert len(set(components(segs).values())) == 1
+
+
+def test_many_entries_use_nearest_targets_and_stay_connected(monkeypatch):
+    monkeypatch.setattr(lakes, "NEAREST_TARGETS", 2)
+    # two clusters of entries at opposite ends of a long lake: nearest-neighbour links alone would not join them
+    lake = box(0, 0, 10 * K, K)
+    west = [(i + 1, (K * (0.1 + 0.1 * i), K / 2)) for i in range(4)]
+    east = [(i + 11, (K * (9.5 + 0.1 * i), K / 2)) for i in range(4)]
+    segs = _mesh(lake, [Lake(1, "Długie", lake, True)], west + east)
+    assert len(set(components(segs).values())) == 1
+    assert {n for s in segs for n in (s.a, s.b)} >= {1, 2, 3, 4, 11, 12, 13, 14}
+
+
+def test_target_pairs_small_and_large():
+    pos = {i: (i * 0.01, 0.0) for i in range(1, 11)} | {11: (-0.005, 0.0)}  # 11 sits on the far side of 1
+    small = lakes._target_pairs([1, 2, 3], pos)
+    assert small == {1: {2, 3}, 2: {1, 3}, 3: {1, 2}}
+    big = lakes._target_pairs(list(range(1, 12)), pos)
+    assert big[1] >= {11, 2, 3, 4, 5, 6, 7, 8}  # eight nearest
+    assert 1 in big[2]  # spanning tree link is symmetric
+    assert all(len(v) >= 1 for v in big.values())

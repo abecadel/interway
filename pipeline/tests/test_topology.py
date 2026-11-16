@@ -228,3 +228,20 @@ def test_drop_small_components():
 def test_components_with_cycles():
     comp = components(net((1, 2), (2, 3), (3, 1), (4, 5), (5, 4)))
     assert comp[1] == comp[2] == comp[3] != comp[4] == comp[5]
+
+
+def test_close_gaps_joins_facing_dead_ends_across_a_ship_lift():
+    m = metres_to_deg(1)
+    upper = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.01, 0.0)], kind="canal")
+    lower = Segment(a=3, b=4, coords=[(0.01 + 120 * m, 0.0), (0.03, 0.0)], kind="canal")
+    # a node of a third component 100 m away but not a dead end (mid-junction) must not be used
+    side = [Segment(a=5, b=6, coords=[(0.01 + 100 * m, 0.02), (0.01 + 100 * m, 100 * m)], kind="canal"),
+            Segment(a=6, b=7, coords=[(0.01 + 100 * m, 100 * m), (0.01 + 100 * m, -0.02)], kind="canal")]
+    segs = [upper, lower, *side]
+    assert close_gaps(list(segs)) == 0  # default: only 25 m mapping slips
+    work = list(segs)
+    assert close_gaps(work, dead_end_gap_m=300) == 1
+    link = work[-1]
+    assert {link.a, link.b} == {2, 3} and link.kind == "patch"
+    work = list(segs)
+    assert close_gaps(work, dead_end_gap_m=100) == 0  # 120 m apart

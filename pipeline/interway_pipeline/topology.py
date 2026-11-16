@@ -151,8 +151,12 @@ def components(segments: list[Segment]) -> dict[int, int]:
     return {n: find(n) for n in list(parent)}
 
 
-def close_gaps(segments: list[Segment], max_gap_m: float = 25.0) -> int:
-    """Connect dead ends to a nearby node of another component (common OSM mapping slips)."""
+def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m: float = 0.0) -> int:
+    """Connect dead ends to a nearby node of another component.
+
+    Within `max_gap_m` any node qualifies (common mapping slips). Up to `dead_end_gap_m` only another dead end
+    does: two waterway ends facing each other across a ship lift, a lock mapped as an area or a short culvert.
+    """
     pos = node_positions(segments)
     degree: Counter[int] = Counter()
     for s in segments:
@@ -174,13 +178,13 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0) -> int:
         if degree[n] != 1 or n in barrier_ends:
             continue
         p = Point(pos[n])
-        best, best_d = None, max_gap_m
-        for idx in tree.query(p.buffer(metres_to_deg(max_gap_m) * 2)):
+        best, best_d = None, float("inf")
+        for idx in tree.query(p.buffer(metres_to_deg(max(max_gap_m, dead_end_gap_m)) * 2)):
             m = ids[idx]
             if root(comp[m]) == root(comp[n]) or m in barrier_ends:
                 continue
             d = haversine(pos[n], pos[m])
-            if d <= best_d:
+            if d < best_d and (d <= max_gap_m or (degree[m] == 1 and d <= dead_end_gap_m)):
                 best, best_d = m, d
         if best is not None:
             segments.append(Segment(a=n, b=best, coords=[pos[n], pos[best]], kind="patch"))

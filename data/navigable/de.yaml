@@ -77,3 +77,5 @@ lakes:
   - Kleines Haff
   - Bodensee
 exclude: []
+# weir channels and flood bypasses next to locks are not passable
+exclude_patterns: ['^Wehrarm', 'Wehrgraben', 'Freiarche']

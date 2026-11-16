@@ -9,6 +9,7 @@ waterways: [Narew, Kanał Żerański]   # rivers/canals by name (any of name, na
 lakes: [Śniardwy]                    # lakes/reservoirs that must be routable even without a navigable way touching them
 wikidata: [Q209826]                  # exact wikidata ids, for ambiguous names
 exclude: [Struga]                    # names never to include
+exclude_patterns: ['^Wehrarm']       # regular expressions (case-insensitive) for names never to include
 ```
 
 Sources for entries: national lists of inland waterways (PL: Rozporządzenie RM w sprawie śródlądowych dróg

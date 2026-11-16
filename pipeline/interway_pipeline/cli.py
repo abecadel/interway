@@ -98,7 +98,8 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
         return read_osm(path, allow)
     st = path.stat()
     key = hashlib.sha256(repr((str(path.resolve()), st.st_size, st.st_mtime, sorted(allow.names), sorted(allow.lakes),
-                              sorted(allow.wikidata), sorted(allow.exclude_names), EXTRACT_VERSION)).encode()).hexdigest()[:16]
+                              sorted(allow.wikidata), sorted(allow.exclude_names),
+                              [x.pattern for x in allow.exclude_patterns], EXTRACT_VERSION)).encode()).hexdigest()[:16]
     f = cache_dir / f"{path.name}.{key}.pickle"
     if f.exists():
         log.info("using cached extract %s", f.name)
@@ -113,14 +114,15 @@ EXTRACT_VERSION = 3  # bump when read_osm output changes, invalidates --cache
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
-          min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None) -> dict:
+          min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
+          dead_end_gap_m: float = 300.0) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     segments = split_ways(ex)
     add_connectors(segments, ex)
     apply_bridges(segments, ex.bridges)
     segments += connect_lakes(segments, ex.lakes, ex.marinas)
-    close_gaps(segments)
+    close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     apply_patches(segments, patches)
     segments = merge_degree2(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)
@@ -150,12 +152,15 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--patches", type=Path, default=REPO / "data" / "patches")
     ap.add_argument("--min-component-km", type=float, default=2.0)
     ap.add_argument("--simplify-m", type=float, default=5.0)
+    ap.add_argument("--dead-end-gap-m", type=float, default=300.0,
+                    help="join two dead ends of different network parts up to this far apart (ship lifts, locks as areas)")
     ap.add_argument("--cache", type=Path, default=None, help="directory for cached extracts (speeds up re-runs)")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     m = build(args.inputs, args.out, region=args.region, allowlist=args.allowlist, patches=args.patches,
-              min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache)
+              min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache,
+              dead_end_gap_m=args.dead_end_gap_m)
     print(json.dumps(m["stats"]))
 
 
