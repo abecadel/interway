@@ -129,9 +129,10 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
                     kept["kind"] = kind_of(tags)
                     ex.connectors.append(NavWay(o.id, [n.ref for n in o.nodes], coords, kept))
-            elif "bridge" in tags and tags.get("bridge") != "no":
-                h = parse_metres(tags.get("seamark:bridge:clearance_height") or tags.get("maxheight:physical")
-                                 or tags.get("maxheight"))
+            elif "bridge" in tags and tags.get("bridge") not in ("no", "movable"):
+                # Only seamark clearance describes the space *under* a bridge. maxheight on a bridge way is the
+                # limit for traffic on it, and movable bridges open for boats.
+                h = parse_metres(tags.get("seamark:bridge:clearance_height"))
                 coords = _way_coords(o) if h > 0 else None
                 if coords is not None and len(coords) >= 2:
                     ex.bridges.append((LineString(coords), h))

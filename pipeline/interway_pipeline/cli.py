@@ -119,7 +119,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 5  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 6  # bump when read_osm output changes, invalidates --cache
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
