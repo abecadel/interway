@@ -19,7 +19,7 @@ from collections import Counter, defaultdict
 
 import shapely
 from shapely import STRtree, prepared
-from shapely.geometry import LineString, MultiPolygon, Point, Polygon
+from shapely.geometry import LineString, MultiPoint, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 from .extract import Lake
@@ -243,24 +243,30 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segm
 def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[int]]:
     """Which entries each entry needs a path to.
 
-    Small lakes: all of them. Big lakes with many entries (IJsselmeer, Müritz): the NEAREST_TARGETS closest
-    ones plus the neighbours in a straight-line minimum spanning tree, which keeps the result connected
-    while avoiding a shortest-path search from every entry to every other.
+    Small lakes: all of them. Big water bodies (IJsselmeer, a river area with thousands of entries) link
+    each entry to its Delaunay neighbours: that graph contains every entry's nearest neighbour and the
+    minimum spanning tree, so the result stays connected, and it has O(n) edges instead of all n² pairs.
     """
     if len(targets) <= NEAREST_TARGETS + 1:
         return {t: set(targets) - {t} for t in targets}
-    d = {(a, b): haversine(pos[a], pos[b]) for a in targets for b in targets if a != b}
-    wanted = {t: set(sorted((o for o in targets if o != t), key=lambda o: d[t, o])[:NEAREST_TARGETS]) for t in targets}
-    # Prim's minimum spanning tree over straight-line distances
-    best = {t: (d[targets[0], t], targets[0]) for t in targets[1:]}
-    while best:
-        t = min(best, key=lambda k: best[k][0])
-        _, parent = best.pop(t)
-        wanted[t].add(parent)
-        wanted[parent].add(t)
-        for o in best:
-            if d[t, o] < best[o][0]:
-                best[o] = (d[t, o], t)
+    wanted: dict[int, set[int]] = {t: set() for t in targets}
+    by_pos: dict[LonLat, list[int]] = defaultdict(list)
+    for t in targets:
+        by_pos[pos[t]].append(t)
+
+    def link(xs: list[int], ys: list[int]) -> None:
+        for x in xs:
+            for y in ys:
+                if x != y:
+                    wanted[x].add(y)
+                    wanted[y].add(x)
+
+    for same in by_pos.values():  # entries at the same spot (several waterways meeting at the shore)
+        link(same, same)
+    edges = shapely.delaunay_triangles(MultiPoint(list(by_pos)), only_edges=True)
+    for line in getattr(edges, "geoms", []):
+        p, q = line.coords
+        link(by_pos[tuple(p)], by_pos[tuple(q)])
     return wanted
 
 

@@ -162,9 +162,24 @@ def test_target_pairs_small_and_large():
     small = lakes._target_pairs([1, 2, 3], pos)
     assert small == {1: {2, 3}, 2: {1, 3}, 3: {1, 2}}
     big = lakes._target_pairs(list(range(1, 12)), pos)
-    assert big[1] >= {11, 2, 3, 4, 5, 6, 7, 8}  # eight nearest
-    assert 1 in big[2]  # spanning tree link is symmetric
-    assert all(len(v) >= 1 for v in big.values())
+    # collinear entries: each links to its neighbours along the line, nothing further
+    assert big[1] == {11, 2} and big[5] == {4, 6} and big[11] == {1}
+    assert sum(len(v) for v in big.values()) == 2 * 10  # a chain: O(n) links, not n² pairs
+
+
+def test_target_pairs_grid_and_duplicates():
+    pos = {i: (float(i % 5), float(i // 5)) for i in range(25)} | {99: (2.0, 2.0)}  # 99 shares 12's spot
+    wanted = lakes._target_pairs(list(pos), pos)
+    assert {7, 11, 13, 17, 99} <= wanted[12] and 12 in wanted[99]
+    assert wanted[99] - {12} == wanted[12] - {99}  # same position, same neighbours
+    assert all(len(v) <= 9 for v in wanted.values())  # local links only
+    comp = {0}
+    stack = [0]
+    while stack:
+        for v in wanted[stack.pop()] - comp:
+            comp.add(v)
+            stack.append(v)
+    assert comp == set(pos)  # connected
 
 
 def test_small_channel_areas_only_continue_dead_ends():
