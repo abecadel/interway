@@ -232,3 +232,38 @@ def test_lake_touching_channel_areas_is_meshed_normally():
     added = connect_lakes(river, [lake, inflow], [("Marina", (0.05, 0.04))])
     assert components([*river, *added])[1] == components([*river, *added])[4]
     assert any(s.a < 0 or s.b < 0 for s in added)  # marinas on a real lake are linked
+
+
+def test_canal_along_a_reservoir_shore_is_not_linked_through_it():
+    # Dzierżno Duże case: the canal runs along the shore on two levels (a lock between them); the reservoir
+    # must not join them. A river that flows into the reservoir is an entry.
+    reservoir = Lake(1, "Dzierżno", box(0.0, 0.0, 0.1, 0.05), False)
+    shore = -metres_to_deg(30)
+    canal = [Segment(a=0, b=1, coords=[(-0.1, shore), (0.0, shore)], kind="canal"),  # continues beyond the lake
+             Segment(a=4, b=5, coords=[(0.1, shore), (0.2, shore)], kind="canal"),
+             Segment(a=1, b=2, coords=[(0.0, shore), (0.05, shore)], kind="canal"),
+             Segment(a=2, b=3, coords=[(0.05, shore), (0.051, shore)], kind="canal", lock=True),
+             Segment(a=3, b=4, coords=[(0.051, shore), (0.1, shore)], kind="canal")]
+    inflow = Segment(a=10, b=11, coords=[(0.05, 0.08), (0.05, 0.06), (0.05, 0.03)], kind="river")  # ends inside
+    outflow = Segment(a=12, b=13, coords=[(0.09, 0.04), (0.095, 0.045), (0.2, 0.045)], kind="river")  # leaves
+    # a river crossing the corner: node 31 lies in the water, reached by a segment drawn towards it
+    through = [Segment(a=30, b=31, coords=[(-0.05, 0.02), (0.005, 0.021), (0.01, 0.02)], kind="river"),
+               Segment(a=31, b=32, coords=[(0.01, 0.02), (0.02, 0.06)], kind="river")]
+    added = connect_lakes([*canal, inflow, outflow, *through], [reservoir], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {11, 12, 31} <= linked and not linked & {0, 1, 2, 3, 4, 5}
+
+
+def test_bridges_are_marked_and_can_be_cut_around_locks():
+    from interway_pipeline.topology import block_lock_bypasses
+    area = Lake(1, "Odra", box(0.0, -0.002, 0.2, 0.002), False, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river"),
+             Segment(a=12, b=13, coords=[(0.15, 0.0), (0.3, 0.0)], kind="river")]
+    added = connect_lakes(river, [area], [])
+    assert added and all(s.kind == "bridge" for s in added)
+    lock_canal = [Segment(a=2, b=20, coords=[(0.05, 0.0), (0.1, 0.01)], kind="canal"),
+                  Segment(a=20, b=21, coords=[(0.1, 0.01), (0.101, 0.01)], kind="canal", lock=True),
+                  Segment(a=21, b=12, coords=[(0.101, 0.01), (0.15, 0.0)], kind="canal")]
+    kept, removed = block_lock_bypasses([*river, *added, *lock_canal])
+    assert any(s.kind == "bridge" for s in removed)  # the bridge across the weir reach is cut, not the canal
+    assert all(s in kept for s in lock_canal)

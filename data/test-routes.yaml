@@ -42,7 +42,6 @@
   tolerance: 0.15
   countries: [PL]
   via: [Noteć]
-  min_locks: 10
   source: https://www.inyourpocket.com/poland/greater-poland/articles/great-waterway-loop-of-wielkopolska (Noteć 187.2 km + Kanał Bydgoski 15.7 km)
 
 - name: Wielka Pętla Wielkopolski — Bydgoszcz → Konin (Gopło, Kanał Ślesiński)

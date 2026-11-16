@@ -83,6 +83,10 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
         degree[s.a] += 1
         degree[s.b] += 1
     dead_ends = {n for n, d in degree.items() if d == 1}
+    touching: dict[int, list[Segment]] = defaultdict(list)
+    for s in segments:
+        touching[s.a].append(s)
+        touching[s.b].append(s)
     added: list[Segment] = []
     used = 0
     # Lakes are crossed among themselves; river/canal areas (with the lakes they touch) only bridge dead ends.
@@ -93,7 +97,9 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
         zone = body.buffer(tol)
         entries: list[tuple[int, LonLat]] = []
         if tree is not None:
-            entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")]
+            inside = prepared.prep(body)
+            entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")
+                       if _enters(ids[i], touching[ids[i]], inside, dead_ends)]
         # A body made only of river/canal areas is not a lake to cross: it only bridges places where a
         # waterway line stops (dead ends), and its mesh links those to the rest instead of replacing the line.
         bridge = None
@@ -111,6 +117,23 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
+
+
+def _enters(node: int, segs: list[Segment], inside, dead_ends: set[int]) -> bool:
+    """A node is a way into the water only where its waterway ends there or continues into the water.
+
+    A canal that merely runs along a reservoir's shore must not be connected through the reservoir.
+    """
+    if node in dead_ends:
+        return True
+    for s in segs:
+        if len(s.coords) == 2:
+            nxt = ((s.coords[0][0] + s.coords[1][0]) / 2, (s.coords[0][1] + s.coords[1][1]) / 2)
+        else:
+            nxt = s.coords[1] if s.a == node else s.coords[-2]
+        if inside.contains(Point(nxt)):
+            return True
+    return False
 
 
 def _lake_namer(members: list[Lake]):
@@ -234,7 +257,7 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
                 node = segs[i].a if segs[i].b == node else segs[i].b
         keep |= tree
     kept = [segs[i] for i in sorted(keep)]
-    return _chains(kept, entries, water)
+    return _chains(kept, entries, water, "lake" if bridge is None else "bridge")
 
 
 def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[int]]:
@@ -267,7 +290,7 @@ def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[i
     return wanted
 
 
-def _chains(segs: list[Segment], entries: set[int], water) -> list[Segment]:
+def _chains(segs: list[Segment], entries: set[int], water, kind: str = "lake") -> list[Segment]:
     """Merge runs of degree-2 mesh nodes into single straightened segments."""
     adj: dict[int, list[int]] = defaultdict(list)
     for i, sg in enumerate(segs):
@@ -289,7 +312,7 @@ def _chains(segs: list[Segment], entries: set[int], water) -> list[Segment]:
             if node in stop:
                 break
             i = next(j for j in adj[node] if j != i)
-        out.append(Segment(a=start, b=node, coords=_straighten(pts, water), name=names[len(names) // 2], kind="lake"))
+        out.append(Segment(a=start, b=node, coords=_straighten(pts, water), name=names[len(names) // 2], kind=kind))
 
     for n in stop:
         for i in adj[n]:

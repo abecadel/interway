@@ -354,7 +354,7 @@ def _weir_candidate(segments: list[Segment], path: list[int], lock: Segment, len
     nothing else (an untagged twin chamber). Among the rest rivers come before canals, then the longest.
     """
     away = [i for i in path if not {segments[i].a, segments[i].b} & {lock.a, lock.b}] or path
-    return max(away, key=lambda i: (segments[i].kind == "river", lengths[i]))
+    return max(away, key=lambda i: (segments[i].kind in ("river", "bridge"), lengths[i]))
 
 
 def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float) -> list[int] | None:
