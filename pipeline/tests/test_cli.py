@@ -31,11 +31,13 @@ def test_merge_deduplicates_overlapping_extracts():
     bridge = (LineString([(0, 0), (1, 1)]), 4.0)
     lake = Lake(7, "Jezioro", box(0, 0, 1, 1), False)
     a = Extract(ways=[navway(1), navway(2)], connectors=[navway(10)], lakes=[lake], lock_nodes={1}, barrier_nodes={5},
-                lock_names={1: "A"}, bridges=[bridge], marinas=[("Port", (0.5, 0.5))], timestamp="2026-10-01T00:00:00Z")
+                lock_names={1: "A"}, bridges=[bridge], marinas=[("Port", (0.5, 0.5))], timestamp="2026-10-01T00:00:00Z",
+                services=[("fuel", "Stacja", (0.5, 0.5))])
     b = Extract(ways=[navway(2), navway(3)], connectors=[navway(10), navway(11), navway(1)],
                 lakes=[lake, Lake(8, "Inne", box(2, 2, 3, 3), True)], lock_nodes={2}, barrier_nodes={6},
                 lock_names={2: "B"}, bridges=[(LineString([(0, 0), (1, 1)]), 4.0), (LineString([(0, 0), (1, 1)]), 3.0)],
-                marinas=[("Port", (0.5, 0.5)), ("Port", (0.6, 0.5))], timestamp="2026-11-01T00:00:00Z")
+                marinas=[("Port", (0.5, 0.5)), ("Port", (0.6, 0.5))], timestamp="2026-11-01T00:00:00Z",
+                services=[("fuel", "Stacja", (0.5, 0.5)), ("water", "", (0.7, 0.5))])
     ex = merge_extracts([a, b])
     assert [w.id for w in ex.ways] == [1, 2, 3]
     assert [w.id for w in ex.connectors] == [10, 11]  # way ids are unique across ways and connectors
@@ -43,6 +45,7 @@ def test_merge_deduplicates_overlapping_extracts():
     assert ex.lock_nodes == {1, 2} and ex.barrier_nodes == {5, 6} and ex.lock_names == {1: "A", 2: "B"}
     assert [h for _, h in ex.bridges] == [4.0, 3.0]
     assert ex.marinas == [("Port", (0.5, 0.5)), ("Port", (0.6, 0.5))]
+    assert ex.services == [("fuel", "Stacja", (0.5, 0.5)), ("water", "", (0.7, 0.5))]
     assert ex.timestamp == "2026-11-01T00:00:00Z"
 
 

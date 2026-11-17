@@ -76,6 +76,10 @@ describe('App', () => {
     expect(screen.queryByText(/snapped/)).toBeNull();
     expect(screen.queryByText(/unverified/)).toBeNull();
     expect(mapProps.current!.pois).toEqual([{ type: 'lock', name: 'Śluza', lat: 52, lon: 21 }]);
+    // the itinerary lists the lock at the start of the route; picking it focuses the map there
+    expect(screen.getByText('km 0.0')).toBeTruthy();
+    fireEvent.click(screen.getByText('Śluza'));
+    expect(mapProps.current!.focus).toEqual([21, 52]);
     expect(location.search).toBe('?from=21.03000%2C52.47000&to=21.76500%2C54.03500');
   });
 

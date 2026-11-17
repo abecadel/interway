@@ -14,6 +14,8 @@ export interface MapViewProps {
   network: GeoJSON.FeatureCollection | null;
   showSeamarks: boolean;
   pois: Poi[];
+  /** fly here when it changes (e.g. a stop picked in the itinerary) */
+  focus?: LngLat | null;
   onMapClick: (p: LngLat) => void;
 }
 
@@ -25,7 +27,7 @@ function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
   (map.getSource(id) as GeoJSONSource).setData(data);
 }
 
-export function MapView({ start, end, route, position, network, showSeamarks, pois, onMapClick }: MapViewProps) {
+export function MapView({ start, end, route, position, network, showSeamarks, pois, focus = null, onMapClick }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const ready = useRef(false);
@@ -59,7 +61,9 @@ export function MapView({ start, end, route, position, network, showSeamarks, po
         id: 'pois', type: 'circle', source: 'pois', minzoom: 8,
         paint: {
           'circle-radius': 5,
-          'circle-color': ['match', ['get', 'type'], 'lock', '#fc0', 'marina', '#1a73e8', '#888'],
+          'circle-color': ['match', ['get', 'type'],
+            'lock', '#fc0', 'bridge', '#8a5a00', 'marina', '#1a73e8', 'port', '#0b3d91', 'fuel', '#d0336b',
+            'slipway', '#2a7', 'water', '#29b6f6', 'sanitary', '#7e57c2', '#888'],
           'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5,
         },
       });
@@ -116,6 +120,10 @@ export function MapView({ start, end, route, position, network, showSeamarks, po
   useEffect(() => {
     if (ready.current) setData(mapRef.current!, 'pois', poiCollection(pois));
   }, [pois]);
+
+  useEffect(() => {
+    if (focus) mapRef.current!.flyTo({ center: focus, zoom: 14 });
+  }, [focus]);
 
   useEffect(() => {
     if (ready.current) mapRef.current!.setLayoutProperty('seamarks', 'visibility', showSeamarks ? 'visible' : 'none');

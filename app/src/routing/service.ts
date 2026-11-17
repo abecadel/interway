@@ -12,11 +12,18 @@ export interface Manifest {
   attribution: string;
 }
 
+export type PoiType = 'lock' | 'bridge' | 'marina' | 'port' | 'fuel' | 'slipway' | 'water' | 'sanitary';
+
 export interface Poi {
-  type: 'lock' | 'marina';
+  type: PoiType;
   name: string;
   lat: number;
   lon: number;
+  /** bridges: clearance under the bridge, m */
+  clearance?: number;
+  /** locks: chamber size, m */
+  maxlength?: number;
+  maxwidth?: number;
 }
 
 export interface LoadResult {

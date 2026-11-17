@@ -19,6 +19,7 @@ from .classify import (
     lake_allowlisted,
 )
 from .model import MIN_LAKE_KM2, LonLat, area_km2, parse_metres
+from .pois import poi_type
 
 log = logging.getLogger(__name__)
 
@@ -56,6 +57,8 @@ class Extract:
     lakes: list[Lake] = field(default_factory=list)
     bridges: list[tuple[LineString, float]] = field(default_factory=list)
     marinas: list[tuple[str, LonLat]] = field(default_factory=list)
+    # (category, name, position) for the itinerary: fuel, marina, port, slipway, water, sanitary
+    services: list[tuple[str, str, LonLat]] = field(default_factory=list)
     # river/canal ways without navigability evidence; short ones may link lakes (see topology.add_connectors)
     connectors: list[NavWay] = field(default_factory=list)
     timestamp: str = ""
@@ -100,7 +103,7 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
     except Exception:  # noqa: BLE001 - header is optional
         pass
 
-    area_filter = osmium.filter.KeyFilter("natural", "landuse", "waterway", "leisure")
+    area_filter = osmium.filter.KeyFilter("natural", "landuse", "waterway", "leisure", "seamark:type", "harbour")
     fp = osmium.FileProcessor(str(path)).with_locations().with_areas(area_filter)
     n_ways = 0
     for o in fp:
@@ -113,8 +116,11 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     ex.lock_names[o.id] = tags.get("name")
             elif ww in ("weir", "dam", "waterfall") and tags.get("lock") != "yes":
                 ex.barrier_nodes.add(o.id)
-            if tags.get("leisure") == "marina" and o.location.valid():
-                ex.marinas.append((tags.get("name", ""), (o.lon, o.lat)))
+            kind = poi_type(tags)
+            if kind and o.location.valid():
+                ex.services.append((kind, tags.get("name", ""), (o.lon, o.lat)))
+                if kind == "marina":
+                    ex.marinas.append((tags.get("name", ""), (o.lon, o.lat)))
         elif o.is_way():
             n_ways += 1
             if is_navigable_way(tags, allow):
@@ -137,11 +143,14 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                 if coords is not None and len(coords) >= 2:
                     ex.bridges.append((LineString(coords), h))
         elif o.is_area():
-            if tags.get("leisure") == "marina":
+            kind = poi_type(tags)
+            if kind:
                 poly = _area_polygon(o)
                 if poly is not None:
                     c = poly.representative_point()
-                    ex.marinas.append((tags.get("name", ""), (c.x, c.y)))
+                    ex.services.append((kind, tags.get("name", ""), (c.x, c.y)))
+                    if kind == "marina":
+                        ex.marinas.append((tags.get("name", ""), (c.x, c.y)))
                 continue
             if not is_candidate_lake(tags):
                 continue

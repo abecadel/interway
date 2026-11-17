@@ -165,15 +165,21 @@ def add_connectors(segments: list[Segment], ex: Extract, max_length_m: float = 3
     return added
 
 
-def apply_bridges(segments: list[Segment], bridges: list[tuple[LineString, float]]) -> int:
+def apply_bridges(segments: list[Segment], bridges: list[tuple[LineString, float]],
+                  found: list[tuple[LonLat, float]] | None = None) -> int:
+    """Limit air draft on segments crossed by bridges; `found` collects (crossing point, clearance)."""
     if not bridges or not segments:
         return 0
-    tree = STRtree([LineString(s.coords) for s in segments])
+    lines = [LineString(s.coords) for s in segments]
+    tree = STRtree(lines)
     hits = 0
     for line, clearance in bridges:
         for idx in tree.query(line, predicate="intersects"):
             segments[idx].limits.tighten_height(clearance)
             hits += 1
+            if found is not None:
+                p = line.intersection(lines[idx]).representative_point()
+                found.append(((p.x, p.y), clearance))
     log.info("applied %d bridge clearances", hits)
     return hits
 

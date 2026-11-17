@@ -9,7 +9,7 @@ import pickle
 from pathlib import Path
 
 from shapely import STRtree
-from shapely.geometry import Point
+from shapely.geometry import LineString, Point
 
 from .classify import Allowlist
 from .export import export
@@ -37,7 +37,7 @@ def merge_extracts(parts: list[Extract]) -> Extract:
     if len(parts) == 1:
         return parts[0]
     ex = Extract()
-    seen_ways, seen_lakes, seen_bridges, seen_marinas = set(), set(), set(), set()
+    seen_ways, seen_lakes, seen_bridges, seen_marinas, seen_services = set(), set(), set(), set(), set()
     for p in parts:
         for w in p.ways:
             if w.id not in seen_ways:
@@ -59,6 +59,10 @@ def merge_extracts(parts: list[Extract]) -> Extract:
             if m not in seen_marinas:
                 seen_marinas.add(m)
                 ex.marinas.append(m)
+        for sv in p.services:
+            if sv not in seen_services:
+                seen_services.add(sv)
+                ex.services.append(sv)
         for w in p.connectors:
             if w.id not in seen_ways:
                 seen_ways.add(w.id)
@@ -120,7 +124,32 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 6  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 7  # bump when read_osm output changes, invalidates --cache
+
+
+def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0) -> list[dict]:
+    """Points of interest for route itineraries: locks, bridges with clearance, and services near the network."""
+    pois: list[dict] = []
+    for s in segments:
+        if s.lock:
+            lon, lat = s.coords[len(s.coords) // 2]
+            poi = {"type": "lock", "name": s.name, "lon": lon, "lat": lat}
+            if s.limits.max_length:
+                poi["maxlength"] = s.limits.max_length
+            if s.limits.max_width:
+                poi["maxwidth"] = s.limits.max_width
+            pois.append(poi)
+    for (lon, lat), clearance in bridge_points:
+        pois.append({"type": "bridge", "name": "", "lon": lon, "lat": lat, "clearance": clearance})
+    if services and segments:
+        lines = [LineString(s.coords) for s in segments]
+        tree = STRtree(lines)
+        for kind, name, p in services:
+            nearest = lines[tree.nearest(Point(p))]
+            q = nearest.interpolate(nearest.project(Point(p)))
+            if haversine(p, (q.x, q.y)) <= max_m:
+                pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1]})
+    return pois
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
@@ -130,7 +159,8 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     segments = split_ways(ex)
     add_connectors(segments, ex)
-    apply_bridges(segments, ex.bridges)
+    bridge_points: list = []
+    apply_bridges(segments, ex.bridges, bridge_points)
     segments += connect_lakes(segments, ex.lakes, ex.marinas)
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     snap_dead_ends_to_lines(segments)
@@ -139,16 +169,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     segments, bypasses = block_lock_bypasses(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)
 
-    pois = [{"type": "lock", "name": s.name, "lon": s.coords[len(s.coords) // 2][0], "lat": s.coords[len(s.coords) // 2][1]}
-            for s in segments if s.lock]
-    if ex.marinas and segments:
-        pos = node_positions(segments)
-        tree = STRtree([Point(p) for p in pos.values()])
-        pts = list(pos.values())
-        for name, p in ex.marinas:
-            q = pts[tree.nearest(Point(p))]
-            if haversine(p, q) < 2000:
-                pois.append({"type": "marina", "name": name, "lon": p[0], "lat": p[1]})
+    pois = itinerary_pois(segments, ex.services, bridge_points)
     manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, countries=countries, pois=pois,
                       simplify_m=simplify_m)
     (out / "qa-components.json").write_text(json.dumps(report[:500], indent=0), encoding="utf-8")

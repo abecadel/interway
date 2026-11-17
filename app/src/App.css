@@ -34,3 +34,13 @@ footer { margin-top: auto; color: var(--muted); display: flex; flex-direction: c
   .app { flex-direction: column-reverse; }
   .panel { width: 100%; max-height: 50%; border-right: 0; border-top: 1px solid var(--line); }
 }
+.itinerary summary { font-weight: 600; }
+.stops { list-style: none; margin: 6px 0 0; padding: 0; max-height: 320px; overflow-y: auto; font-size: 0.85rem; }
+.stops button { width: 100%; border: 0; border-radius: 0; text-align: left; display: grid; grid-template-columns: 4.5em 4.8em 1fr; gap: 2px 6px; padding: 4px 2px; border-bottom: 1px solid var(--line); }
+.stops .km { color: var(--muted); font-variant-numeric: tabular-nums; }
+.stops .kind { font-weight: 600; }
+.stops .detail { grid-column: 3; color: var(--muted); font-size: 0.8rem; }
+.stop-lock .kind { color: #b38600; }
+.stop-fuel .kind { color: #d0336b; }
+.stop-marina .kind, .stop-port .kind { color: var(--accent); }
+.stop-bridge .kind { color: #8a5a00; }
