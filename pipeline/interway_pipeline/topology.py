@@ -5,6 +5,7 @@ import heapq
 import itertools
 import logging
 from collections import Counter, defaultdict
+from dataclasses import replace
 
 from shapely import STRtree
 from shapely.geometry import LineString, Point
@@ -245,6 +246,61 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m:
             added += 1
     log.info("closed %d small gaps", added)
     return added
+
+
+def snap_dead_ends_to_lines(segments: list[Segment], max_gap_m: float = 25.0) -> int:
+    """Join dead ends that stop next to another waterway's line rather than at one of its nodes.
+
+    Mappers often end a side canal right beside the main canal without sharing a node (an unconnected
+    T-junction, e.g. the Aigues-Mortes branch of the Canal du Rhône à Sète). The other waterway is split at its
+    nearest vertex and joined to the dead end. Returns the number of joins.
+    """
+    degree: Counter[int] = Counter()
+    for sg in segments:
+        degree[sg.a] += 1
+        degree[sg.b] += 1
+    comp = components(segments)
+    verts: list[tuple[int, int]] = []  # (segment index, interior vertex index)
+    pts = []
+    for i, sg in enumerate(segments):
+        for k in range(1, len(sg.coords) - 1):
+            verts.append((i, k))
+            pts.append(Point(sg.coords[k]))
+    if not pts:
+        return 0
+    tree = STRtree(pts)
+    pos = node_positions(segments)
+    radius = metres_to_deg(max_gap_m) * 2
+    splits: dict[int, dict[int, list[int]]] = defaultdict(lambda: defaultdict(list))  # seg -> vertex -> ends
+    for n, d in degree.items():
+        if d != 1 or n in barrier_ends:
+            continue
+        best, best_d = None, max_gap_m
+        for idx in tree.query(Point(pos[n]).buffer(radius)):
+            i, k = verts[idx]
+            if comp[segments[i].a] == comp[n]:
+                continue
+            dist = haversine(pos[n], segments[i].coords[k])
+            if dist <= best_d:
+                best, best_d = (i, k), dist
+        if best is not None:
+            splits[best[0]][best[1]].append(n)
+    joins = 0
+    for i, at in splits.items():
+        sg = segments[i]
+        cut = sorted(at)
+        nodes = [sg.a] + [new_node_id() for _ in cut] + [sg.b]
+        bounds = [0, *cut, len(sg.coords) - 1]
+        pieces = [replace(sg, a=nodes[j], b=nodes[j + 1], coords=sg.coords[bounds[j]:bounds[j + 1] + 1])
+                  for j in range(len(bounds) - 1)]
+        segments[i] = pieces[0]
+        segments.extend(pieces[1:])
+        for j, k in enumerate(cut, start=1):
+            for n in at[k]:
+                segments.append(Segment(a=n, b=nodes[j], coords=[pos[n], sg.coords[k]], kind="patch"))
+                joins += 1
+    log.info("joined %d dead ends to the middle of another waterway", joins)
+    return joins
 
 
 def merge_degree2(segments: list[Segment]) -> list[Segment]:
