@@ -62,6 +62,8 @@ export interface Route {
   locks: number;
   /** metres on connections that are not confirmed navigable (manual patches, short connector channels) */
   unverified: number;
+  /** metres on open-sea legs */
+  sea: number;
   events: RouteEvent[];
   legs: RouteLeg[];
   start: Snap;
@@ -289,7 +291,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0, unverified = 0;
+    let distance = 0, locks = 0, unverified = 0, sea = 0;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
       if (last[0] === lon && last[1] === lat) return;
@@ -297,7 +299,7 @@ export class Router {
       coords.push([lon, lat]);
     };
     const addLeg = (g: number, before: number) => {
-      const name = this.nameOf(g);
+      const name = this.nameOf(g) || (this.geomFlags(g) & Flag.SEA ? 'Open sea' : '');
       const d = distance - before;
       const last = legs[legs.length - 1];
       // Unnamed pieces (river areas, connectors) are folded into the previous named leg.
@@ -337,8 +339,9 @@ export class Router {
       }
       addLeg(g, before);
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
+      if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
     }
-    return { coordinates: coords, distance, duration, locks, unverified, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, sea, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */

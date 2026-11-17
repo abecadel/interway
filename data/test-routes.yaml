@@ -62,6 +62,16 @@
   via: [Wisła, Brda]
   source: https://mdwe70.pl/en/the-torun-bydgoszcz-route/ (36 km to the Brda mouth, 12 km up the Brda)
 
+- name: Warsaw → Gdańsk (Wisła, Włocławek and Przegalina locks)
+  from: [21.03, 52.25]
+  to: [18.66, 54.35]
+  expected_km: 440
+  tolerance: 0.1
+  countries: [PL]
+  via: [Wisła, Martwa Wisła]
+  min_locks: 2
+  source: https://pl.wikipedia.org/wiki/Wisła (Warsaw ≈ km 513, Przegalina km 936, then ~20 km of the Martwa Wisła)
+
 - name: Gliwice → Wrocław (Kanał Gliwicki, Odra)
   from: [18.63, 50.30]
   to: [17.035, 51.115]
@@ -154,6 +164,25 @@
     sum of segments: Wisła/Noteć/Warta to the Odra, Havel-Oder-Wasserstraße 92 km, Mittellandkanal 325 km,
     Rhine to Mulhouse, Canal du Rhône au Rhin, Saône, Rhône Lyon–Port-Saint-Louis ~320 km
     (https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
+
+- name: London → Heraklion, Crete (Thames, Channel, Biscay, Gibraltar, Mediterranean)
+  from: [-0.075, 51.507]
+  to: [25.14, 35.345]
+  sea: true
+  countries: [GB]
+  via: [Thames, Open sea]
+  expected_km: 4900
+  tolerance: 0.15
+  source: sum of the usual passage legs London–Gibraltar (~1,150 NM) and Gibraltar–Crete (~1,500 NM)
+
+- name: Warsaw → Gulf of Gdańsk (Wisła to the open Baltic)
+  from: [21.03, 52.25]
+  to: [18.90, 54.60]
+  sea: true
+  countries: [PL]
+  via: [Wisła, Open sea]
+  min_locks: 1
+  source: Wisła to the Przekop Wisły mouth (km 941), then ~25 km across the bay
 
 - name: Gdańsk → Venice (through France, then the Mediterranean)
   from: [18.66, 54.35]

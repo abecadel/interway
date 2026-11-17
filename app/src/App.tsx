@@ -175,6 +175,11 @@ export default function App({ client }: { client: RoutingApi }) {
                 Includes {fmtKm(route.unverified)} on unverified connections (short channels or manual links). Check locally before going.
               </div>
             )}
+            {route.sea > 0 && (
+              <div className="warn small">
+                {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
+              </div>
+            )}
             <ol className="legs">
               {route.legs.map((l, i) => (
                 <li key={i}><span>{l.name || 'unnamed waterway'}</span><span>{fmtKm(l.distance)}</span></li>

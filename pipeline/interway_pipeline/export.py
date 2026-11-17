@@ -36,7 +36,7 @@ def simplify(coords, tolerance_m: float):
 
 
 def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp: str = "", countries: list[str] | None = None,
-           pois: list[dict] | None = None, simplify_m: float = 5.0) -> dict:
+           pois: list[dict] | None = None, simplify_m: float = 5.0, sea: bool = False) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     node_index: dict[int, int] = {}
     node_coords: list[tuple[float, float]] = []
@@ -113,6 +113,7 @@ def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp
         "version": 1,
         "region": region,
         "countries": countries or [],
+        "sea": sea,
         "osmTimestamp": osm_timestamp,
         "built": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "files": {"graph": "graph.bin", "geom": "geom.bin", "pois": "pois.json"},

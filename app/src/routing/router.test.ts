@@ -190,6 +190,18 @@ describe('router edge cases', () => {
     expect(route.coordinates[0][1]).toBeCloseTo(51.001, 5);
   });
 
+  it('counts and names open-sea legs', () => {
+    const r = makeRouter([
+      { points: [A, B], name: 'Wisła', kind: 'river' },
+      { points: [B, C], kind: 'sea' },
+      { points: [C, D], name: 'Fairway', kind: 'sea' },
+    ]);
+    const route = r.route([17.01, 51.0], [17.16, 51.08]);
+    expect(route.legs.map((l) => l.name)).toEqual(['Wisła', 'Open sea', 'Fairway']);
+    expect(route.sea).toBeCloseTo(route.legs[1].distance + route.legs[2].distance, 0);
+    expect(r.route([17.01, 51.0], [17.05, 51.0]).sea).toBe(0);
+  });
+
   it('snaps to zero-length geometries', () => {
     const r = makeRouter([{ points: [A, A] }]);
     expect(r.snap([17.0, 51.01])!.frac).toBe(0);

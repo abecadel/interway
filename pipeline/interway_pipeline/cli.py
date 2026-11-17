@@ -17,13 +17,16 @@ from .extract import Extract, read_osm
 from .lakes import connect_lakes
 from .model import Segment, haversine
 from .qa import gap_candidates
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh
 from .topology import (
     add_connectors,
     apply_bridges,
     block_lock_bypasses,
     close_gaps,
     drop_small_components,
+    mark_lock_areas,
     merge_degree2,
+    new_node_id,
     node_positions,
     snap_dead_ends_to_lines,
     split_ways,
@@ -37,7 +40,7 @@ def merge_extracts(parts: list[Extract]) -> Extract:
     if len(parts) == 1:
         return parts[0]
     ex = Extract()
-    seen_ways, seen_lakes, seen_bridges, seen_marinas, seen_services = set(), set(), set(), set(), set()
+    seen_ways, seen_lakes, seen_bridges, seen_marinas, seen_services, seen_locks = set(), set(), set(), set(), set(), set()
     for p in parts:
         for w in p.ways:
             if w.id not in seen_ways:
@@ -47,6 +50,10 @@ def merge_extracts(parts: list[Extract]) -> Extract:
             if lake.id not in seen_lakes:
                 seen_lakes.add(lake.id)
                 ex.lakes.append(lake)
+        for name, poly in p.lock_areas:
+            if poly.wkb not in seen_locks:
+                seen_locks.add(poly.wkb)
+                ex.lock_areas.append((name, poly))
         ex.lock_nodes |= p.lock_nodes
         ex.barrier_nodes |= p.barrier_nodes
         ex.lock_names.update(p.lock_names)
@@ -124,7 +131,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 7  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 8  # bump when read_osm output changes, invalidates --cache
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0) -> list[dict]:
@@ -152,12 +159,42 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
     return pois
 
 
+def sea_network(land: Path, bbox: tuple[float, float, float, float], cache_dir: Path | None) -> tuple[Coast, list[Segment]]:
+    """Land polygons and the sea mesh (cached by land file and bbox). Mesh node ids are renumbered so they
+    never clash with ids made in this run."""
+    coast = Coast.load(land, bbox)
+    sea = None
+    f = None
+    if cache_dir is not None:
+        st = land.stat()
+        key = hashlib.sha256(repr((str(land.resolve()), st.st_size, st.st_mtime, bbox, SEA_VERSION)).encode()).hexdigest()[:16]
+        f = cache_dir / f"sea.{key}.pickle"
+        if f.exists():
+            log.info("using cached sea mesh %s", f.name)
+            sea = pickle.loads(f.read_bytes())
+    if sea is None:
+        sea = sea_mesh(coast, bbox)
+        if f is not None:
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            f.write_bytes(pickle.dumps(sea, protocol=pickle.HIGHEST_PROTOCOL))
+    ids: dict[int, int] = {}
+    for s in sea:
+        s.a = ids.setdefault(s.a, new_node_id())
+        s.b = ids.setdefault(s.b, new_node_id())
+    return coast, sea
+
+
+SEA_VERSION = 1  # bump when sea_mesh output changes, invalidates cached meshes
+
+
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
           min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
-          dead_end_gap_m: float = 300.0, countries: list[str] | None = None) -> dict:
+          dead_end_gap_m: float = 300.0, countries: list[str] | None = None, land: Path | None = None,
+          sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     segments = split_ways(ex)
+    mark_lock_areas(segments, ex.lock_areas)
     add_connectors(segments, ex)
     bridge_points: list = []
     apply_bridges(segments, ex.bridges, bridge_points)
@@ -169,13 +206,16 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     snap_dead_ends_to_lines(segments)
     segments += connect_lakes(segments, ex.lakes, ex.marinas)
     close_gaps(segments)  # mapping slips at the lake meshes
+    if land is not None:
+        coast, sea = sea_network(land, sea_bbox, cache_dir)
+        segments += connect_to_sea(segments, sea, coast) + sea
     segments = merge_degree2(segments)
     segments, bypasses = block_lock_bypasses(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)
 
     pois = itinerary_pois(segments, ex.services, bridge_points)
     manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, countries=countries, pois=pois,
-                      simplify_m=simplify_m)
+                      simplify_m=simplify_m, sea=land is not None)
     (out / "qa-components.json").write_text(json.dumps(report[:500], indent=0), encoding="utf-8")
     (out / "qa-gaps.geojson").write_text(json.dumps(gap_candidates(segments)), encoding="utf-8")
     (out / "qa-lock-bypasses.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [
@@ -197,12 +237,16 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--dead-end-gap-m", type=float, default=300.0,
                     help="join two dead ends of different network parts up to this far apart (ship lifts, locks as areas)")
     ap.add_argument("--cache", type=Path, default=None, help="directory for cached extracts (speeds up re-runs)")
+    ap.add_argument("--land", type=Path, default=None,
+                    help="OSM land polygons shapefile (land-polygons-split-4326/land_polygons.shp) to add sea routes")
+    ap.add_argument("--sea-bbox", default=",".join(map(str, DEFAULT_BBOX)), help="west,south,east,north of the sea mesh")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     m = build(args.inputs, args.out, region=args.region, allowlist=args.allowlist, patches=args.patches,
               min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache,
-              dead_end_gap_m=args.dead_end_gap_m,
+              dead_end_gap_m=args.dead_end_gap_m, land=args.land,
+              sea_bbox=tuple(float(v) for v in args.sea_bbox.split(",")),
               countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()])
     print(json.dumps(m["stats"]))
 
