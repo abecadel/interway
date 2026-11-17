@@ -202,3 +202,23 @@ def test_lift_gap_is_joined_even_inside_a_canal_area(tmp_path):
     a, b = near
     lock_edges = [e for e in range(g["off"][a], g["off"][a + 1]) if g["tgt"][e] == b and g["flags"][e] & LOCK]
     assert lock_edges  # joined, and routed like a lock
+
+
+def test_patched_gap_gets_no_extra_dead_end_join(tmp_path):
+    # Kanał Elbląski case: an inclined plane mapped as a manual patch. The patch must close the gap before
+    # the automatic dead-end joins run, otherwise an unnamed parallel join hides the named plane.
+    nodes = {1: (0.0, 0.0), 2: (0.01, 0.0), 3: (0.01 + 0.00135, 0.0), 4: (0.03, 0.0)}
+    ways = [(1, [1, 2], {"waterway": "canal", "CEMT": "IV", "name": "Kanał"}),
+            (2, [3, 4], {"waterway": "canal", "CEMT": "IV", "name": "Kanał"})]
+    osm = write_osm(tmp_path / "plane.osm", nodes, ways)
+    patches = tmp_path / "patches"
+    patches.mkdir()
+    (patches / "p.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [
+        {"type": "Feature", "properties": {"name": "Pochylnia", "lock": True},
+         "geometry": {"type": "LineString", "coordinates": [[0.01, 0.0], [0.0107, 0.0002], [0.01135, 0.0]]}}]}))
+    out = tmp_path / "out"
+    cli.build([osm], out, region="t", allowlist=None, patches=patches, min_component_km=0.5)
+    g = read_graph(out / "graph.bin")
+    near = [i for i in range(g["n"]) if abs(g["lon"][i] / 1e7 - 0.01) < 1e-5 or abs(g["lon"][i] / 1e7 - 0.01135) < 1e-5]
+    a, b = near
+    assert [g["tgt"][e] for e in range(g["off"][a], g["off"][a + 1])].count(b) == 1

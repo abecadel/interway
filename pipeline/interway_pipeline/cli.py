@@ -161,13 +161,14 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     add_connectors(segments, ex)
     bridge_points: list = []
     apply_bridges(segments, ex.bridges, bridge_points)
+    # Manual patches first: a gap they close (inclined planes, lifts) is no longer a dead end below.
+    apply_patches(segments, patches)
     # Dead-end joins (lifts, area-mapped locks, T-junctions) look at the line network alone: lake and river-area
     # meshes added afterwards would turn the facing ends into junctions and hide the gap.
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     snap_dead_ends_to_lines(segments)
     segments += connect_lakes(segments, ex.lakes, ex.marinas)
     close_gaps(segments)  # mapping slips at the lake meshes
-    apply_patches(segments, patches)
     segments = merge_degree2(segments)
     segments, bypasses = block_lock_bypasses(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)
