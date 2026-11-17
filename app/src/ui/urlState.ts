@@ -1,5 +1,5 @@
 // The page URL is the route's public interface: people share it, and AI agents write it to create or change
-// a route. ?from=lon,lat&to=lon,lat&via=lon,lat;lon,lat&draft=1.2&air=3&beam=3&len=9&speed=10&avoidLocks=1
+// a route. ?from=lon,lat&to=lon,lat&via=lon,lat;lon,lat&draft=1.2&air=3&beam=3&len=9&speed=10&avoidLocks=1&avoidSea=1
 import type { LngLat } from '../graph/geo';
 import { defaultProfile, type VesselProfile } from '../routing/router';
 
@@ -37,8 +37,10 @@ export function parseUrlState(search: string): UrlState {
     const n = raw === null || raw.trim() === '' ? NaN : Number(raw);
     if (Number.isFinite(n) && n >= 0) vessel[field] = n;
   }
-  const avoid = q.get('avoidLocks');
-  if (avoid !== null) vessel.avoidLocks = avoid === '1' || avoid === 'true';
+  for (const flag of ['avoidLocks', 'avoidSea'] as const) {
+    const v = q.get(flag);
+    if (v !== null) vessel[flag] = v === '1' || v === 'true';
+  }
   return { from: parsePoint(q.get('from')), to: parsePoint(q.get('to')), via, vessel };
 }
 
@@ -55,5 +57,6 @@ export function writeUrlState(search: string, s: Omit<UrlState, 'vessel'>, profi
     set(param, profile[field] !== defaultProfile[field] ? String(profile[field]) : null);
   }
   set('avoidLocks', profile.avoidLocks ? '1' : null);
+  set('avoidSea', profile.avoidSea ? '1' : null);
   return q.toString().replace(/%2C/g, ',').replace(/%3B/g, ';');
 }

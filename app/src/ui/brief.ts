@@ -30,7 +30,7 @@ export interface BriefStage {
 export interface RouteBrief {
   title: string;
   link: string;
-  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'avoidLocks'>;
+  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'avoidLocks' | 'avoidSea'>;
   totals: { km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number };
   legs: { name: string; fromKm: number; toKm: number; km: number }[];
   places: string[];
@@ -56,6 +56,7 @@ export const EDIT_PARAMETERS: Record<string, string> = {
   current: 'assumed river current, m/s',
   lockmin: 'minutes per lock',
   avoidLocks: '1 to prefer routes with fewer locks',
+  avoidSea: '1 to keep to inland waterways wherever an inland way exists',
 };
 
 function problem(s: Stop, v: VesselProfile): string | undefined {
@@ -131,7 +132,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   return {
     title: nameEnds(title, route, itinerary.stops),
     link,
-    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, avoidLocks: profile.avoidLocks },
+    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), unverifiedKm: km(route.unverified),
@@ -162,7 +163,7 @@ export function briefMarkdown(b: RouteBrief): string {
     ...(b.places.length ? [`- Towns on the way: ${b.places.join(', ')}`] : []),
     '',
     '## Vessel',
-    `Draft ${v.draft} m, air draft ${v.airDraft} m, beam ${v.beam} m, length ${v.length} m${v.avoidLocks ? ', avoiding locks where possible' : ''}.`,
+    `Draft ${v.draft} m, air draft ${v.airDraft} m, beam ${v.beam} m, length ${v.length} m${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}.`,
     '',
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),

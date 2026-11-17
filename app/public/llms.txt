@@ -19,6 +19,7 @@ Parameters (decimal degrees, longitude first):
 - `draft`, `air` (air draft), `beam`, `len`: vessel dimensions in metres; routes avoid waterways too small
 - `speed`: cruising speed, km/h; `current`: assumed river current, m/s; `lockmin`: minutes per lock
 - `avoidLocks=1`: prefer routes with fewer locks
+- `avoidSea=1`: keep to inland waterways wherever an inland way exists (open sea already counts 1.5x by default)
 
 Examples:
 

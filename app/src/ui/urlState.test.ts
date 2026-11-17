@@ -9,7 +9,7 @@ describe('URL state', () => {
     expect(s.to).toEqual([18.66, 54.35]);
     expect(s.via).toEqual([[19.1, 52.6], [18.6, 53.0]]);
     expect(s.vessel).toEqual({ draft: 1.5, airDraft: 4, length: 12, avoidLocks: true });
-    expect(parseUrlState('?avoidLocks=0').vessel).toEqual({ avoidLocks: false });
+    expect(parseUrlState('?avoidLocks=0&avoidSea=true').vessel).toEqual({ avoidLocks: false, avoidSea: true });
     expect(parseUrlState('')).toEqual({ from: null, to: null, via: [], vessel: {} });
   });
 
@@ -19,9 +19,9 @@ describe('URL state', () => {
 
   it('writes the route and non-default vessel values, keeping other parameters', () => {
     const q = writeUrlState('?lang=pl&via=0,0&draft=9', { from: [21.03, 52.25], to: [18.66, 54.35], via: [[19.1, 52.6]] },
-      { ...defaultProfile, draft: 1.5, avoidLocks: true });
-    expect(q).toBe('lang=pl&via=19.10000,52.60000&draft=1.5&from=21.03000,52.25000&to=18.66000,54.35000&avoidLocks=1');
+      { ...defaultProfile, draft: 1.5, avoidLocks: true, avoidSea: true });
+    expect(q).toBe('lang=pl&via=19.10000,52.60000&draft=1.5&from=21.03000,52.25000&to=18.66000,54.35000&avoidLocks=1&avoidSea=1');
     expect(writeUrlState(q, { from: null, to: null, via: [] }, defaultProfile)).toBe('lang=pl');
-    expect(parseUrlState(`?${q}`).vessel).toEqual({ draft: 1.5, avoidLocks: true });
+    expect(parseUrlState(`?${q}`).vessel).toEqual({ draft: 1.5, avoidLocks: true, avoidSea: true });
   });
 });

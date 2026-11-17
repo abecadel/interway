@@ -71,10 +71,10 @@ describe('route brief', () => {
     expect(md).toContain('| 20 | Lock | Śluza Włocławek | 8 × 2.5 m; ⚠ vessel length 9 m exceeds chamber 8 m |');
     expect(md).toContain('| 155 | Port | A / B |  |');
     expect(md).toContain('- `via`: waypoints in order');
-    const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0 }, vessel: { ...b.vessel, avoidLocks: true } });
+    const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0 }, vessel: { ...b.vessel, avoidLocks: true, avoidSea: true } });
     expect(quiet).not.toContain('Open sea:');
     expect(quiet).not.toContain('Towns on the way');
-    expect(quiet).toContain('avoiding locks where possible');
+    expect(quiet).toContain('avoiding locks where possible, avoiding open sea.');
   });
 
   it('names coordinate endpoints after the nearest town', () => {
@@ -88,6 +88,6 @@ describe('route brief', () => {
   });
 
   it('documents every URL parameter', () => {
-    for (const k of [...Object.keys(VESSEL_PARAMS), 'from', 'to', 'via', 'avoidLocks']) expect(EDIT_PARAMETERS[k]).toBeTruthy();
+    for (const k of [...Object.keys(VESSEL_PARAMS), 'from', 'to', 'via', 'avoidLocks', 'avoidSea']) expect(EDIT_PARAMETERS[k]).toBeTruthy();
   });
 });
