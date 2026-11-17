@@ -217,13 +217,15 @@ export class Router {
     const flags = g.edgeFlags[e];
     let shallow = false;
     if (a > 0) {
-      if (t[a] > 0 && p.draft > t[a]) {
+      // limits are float32: a boat exactly at the mapped limit (2.08 m beam, 2.08 m lock) fits
+      const f = Math.fround;
+      if (t[a] > 0 && f(p.draft) > t[a]) {
         if (!(flags & Flag.SEA)) return BLOCKED;
         shallow = true;
       }
-      if (t[a + 1] > 0 && p.airDraft > t[a + 1]) return BLOCKED;
-      if (t[a + 2] > 0 && p.beam > t[a + 2]) return BLOCKED;
-      if (t[a + 3] > 0 && p.length > t[a + 3]) return BLOCKED;
+      if (t[a + 1] > 0 && f(p.airDraft) > t[a + 1]) return BLOCKED;
+      if (t[a + 2] > 0 && f(p.beam) > t[a + 2]) return BLOCKED;
+      if (t[a + 3] > 0 && f(p.length) > t[a + 3]) return BLOCKED;
     }
     let speed = p.speedKmh / 3.6;
     if (flags & Flag.DOWNSTREAM) speed += p.currentMs;

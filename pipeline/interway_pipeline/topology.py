@@ -398,24 +398,32 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
     lengths = [s.length for s in segments]
     removed: set[int] = set()
     converted = 0
-    for lock in segments:
+    for idx, lock in enumerate(segments):
         if not lock.lock or lock.a == lock.b:
             continue
         small = _boat_lock(lock)
+        ends = (lock.a, lock.b)
         for _ in range(MAX_BYPASS_CUTS):
-            path = _bypass(segments, adj, lengths, removed, lock.a, lock.b, max_m)
+            path = _bypass(segments, adj, lengths, removed, *ends, max_m)
+            if not path and ends == (lock.a, lock.b):
+                # A staircase (Iron Gates I: two chambers and a basin): every way round one chamber passes the
+                # other, so look for the way round the whole staircase.
+                ends = (_staircase_end(segments, adj, lengths, removed, lock.a, idx),
+                        _staircase_end(segments, adj, lengths, removed, lock.b, idx))
+                if ends != (lock.a, lock.b):
+                    path = _bypass(segments, adj, lengths, removed, *ends, max_m)
             if not path:
                 break
             if small:
                 # A small boat lock beside the main channel: the channel holds the ship lock (unmapped, or mapped
                 # only as an area). Cutting it would leave bigger boats no way through; make it the lock instead.
-                cands = _weir_candidates(segments, path, lock, lengths)
+                cands = _weir_candidates(segments, path, ends, lengths)
                 if cands:
                     segments[cands[0]].lock = True
                     converted += 1
                 small = False
                 continue
-            cut = next((c for c in _weir_candidates(segments, path, lock, lengths)
+            cut = next((c for c in _weir_candidates(segments, path, ends, lengths)
                         if _bypass(segments, adj, lengths, removed | {c}, segments[c].a, segments[c].b, 2 * max_m,
                                    through_locks=True)), None)
             if cut is None:
@@ -438,7 +446,29 @@ def _boat_lock(lock: Segment) -> bool:
     return 0 < w <= BOAT_LOCK_WIDTH_M or 0 < n <= BOAT_LOCK_LENGTH_M
 
 
-def _weir_candidates(segments: list[Segment], path: list[int], lock: Segment, lengths: list[float]) -> list[int]:
+def _staircase_end(segments, adj, lengths, removed, node: int, came: int) -> int:
+    """The far end of a lock staircase, leaving `node` away from segment `came`: through further chambers and
+    unbranched basins of at most STAIRCASE_BASIN_M. `node` itself when no chamber follows."""
+    end, basin, seen = node, 0.0, {came}
+    while True:
+        nxt = [i for i in adj[node] if i not in seen and i not in removed]
+        if len(nxt) != 1 or segments[nxt[0]].kind in ("lake", "sea"):
+            return end
+        i = nxt[0]
+        seen.add(i)
+        node = segments[i].b if segments[i].a == node else segments[i].a
+        if segments[i].lock:
+            end, basin = node, 0.0
+        else:
+            basin += lengths[i]
+            if basin > STAIRCASE_BASIN_M:
+                return end
+
+
+STAIRCASE_BASIN_M = 1500.0
+
+
+def _weir_candidates(segments: list[Segment], path: list[int], ends: tuple[int, int], lengths: list[float]) -> list[int]:
     """Segments of a bypass in the order they should be cut: where the unmapped weir most likely is first.
 
     Segments touching the lock's own ends are the canal leading to it, so they come last (they are the bypass
@@ -446,7 +476,7 @@ def _weir_candidates(segments: list[Segment], path: list[int], lock: Segment, le
     before shorter.
     """
     return sorted((i for i in path if segments[i].kind not in ("lake", "sea")),
-                  key=lambda i: (not ({segments[i].a, segments[i].b} & {lock.a, lock.b}),
+                  key=lambda i: (not ({segments[i].a, segments[i].b} & set(ends)),
                                  segments[i].kind in ("river", "bridge"), lengths[i]), reverse=True)
 
 

@@ -232,11 +232,13 @@
 - name: Bordeaux → Constanța (Canal des Deux Mers, Rhône, Rhine, Main-Donau-Kanal, Danube)
   from: [-0.565, 44.845]
   to: [28.66, 44.17]
+  # inland all the way (the sea round Spain and up to the Rhine is shorter): Toulouse, Lyon
+  waypoints: [[1.44, 43.61], [4.83, 45.76]]
   expected_km: 4900
   tolerance: 0.2
   countries: [FR, DE, AT, SK, HU, HR, RS, RO, BG]
   via: [Garonne, Rhône, Main-Donau-Kanal, Donau]
-  min_locks: 300
+  min_locks: 250
   source: https://boatingnz.co.nz/magnifique-bordeaux-to-the-black-sea/ (nearly 5000 km, 484 locks)
 
 - name: Rotterdam → Basel (Rhine)
@@ -388,6 +390,8 @@
 - name: Grand Union Canal, London (Brentford) → Birmingham
   from: [-0.306, 51.486]
   to: [-1.907, 52.476]
+  # by the Grand Union main line (Stoke Bruerne), not the Thames and the Oxford Canal with fewer locks
+  waypoints: [[-0.918, 52.142]]
   expected_km: 220
   tolerance: 0.12
   countries: [GB]
@@ -416,14 +420,48 @@
   source: https://www.leedsandliverpoolcanalsociety.co.uk (127 miles, 91 locks on the main line)
 
 - name: Llangollen Canal, Hurleston Junction → Llangollen
-  from: [-2.586, 53.098]
+  from: [-2.560, 53.0937]
   to: [-3.164, 52.971]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }  # a narrowboat: the locks take 7 ft beam
   expected_km: 72
   tolerance: 0.12
   countries: [GB]
   via: [Llangollen Canal]
   min_locks: 18
   source: https://www.whiltonmarina.co.uk/narrowboat-blog/2013/11/Canal-Facts-Northwest-UK/ (46 miles incl. 1½ unnavigable, 21 locks)
+
+- name: Trent and Mersey Canal, Derwent Mouth → Preston Brook
+  from: [-1.3725, 52.8735]
+  to: [-2.645, 53.325]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 150
+  tolerance: 0.1
+  countries: [GB]
+  via: [Trent]
+  min_locks: 45  # not every chamber of the flights is mapped as a lock
+  source: https://en.wikipedia.org/wiki/Trent_and_Mersey_Canal (93½ miles, 76 locks; canalrivertrust.org.uk)
+
+- name: Shropshire Union Canal, Autherley Junction → Ellesmere Port
+  from: [-2.1475, 52.6195]
+  to: [-2.897, 53.283]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 107
+  tolerance: 0.1
+  countries: [GB]
+  via: [Shropshire Union Canal]
+  min_locks: 40
+  source: https://waterways.org.uk/waterways/discover-the-waterways/shropshire-union-canal (66½ miles, 46–47 locks)
+
+- name: Oxford Canal, Oxford → Hawkesbury Junction
+  from: [-1.2685, 51.7565]
+  to: [-1.4625, 52.4595]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 126
+  tolerance: 0.1
+  countries: [GB]
+  via: [Oxford Canal]
+  min_locks: 30  # not every chamber is mapped as a lock
+  source: https://en.wikipedia.org/wiki/Oxford_Canal (78 miles, 43–46 locks; canalrivertrust.org.uk)
 
 - name: Caledonian Canal, Inverness → Corpach (Loch Ness, Loch Oich, Loch Lochy)
   from: [-4.257, 57.49]

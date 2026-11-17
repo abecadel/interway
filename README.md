@@ -35,10 +35,11 @@ npm run dev            # http://localhost:5173  (uses the data in app/public/dat
 npm test               # unit tests
 ```
 
-The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Switzerland, France, the River
-Thames, Austria, Czechia, Slovakia and the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria), joined
+The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Switzerland, France, the UK's
+rivers and canals, Austria, Czechia, Slovakia and the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria), joined
 by a sea network from the Atlantic to the Black Sea: enough for routes like Zalew Zegrzyński → Mazury,
-Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", Vienna → the Black Sea or London → Crete.
+Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal, Vienna → the Black Sea or
+London → Crete.
 Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
 
 ## Deployment

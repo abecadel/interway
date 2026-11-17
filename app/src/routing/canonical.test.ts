@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { decodeGeometry, decodeGraph } from '../graph/format';
 import type { LngLat } from '../graph/geo';
-import { Router } from './router';
+import { defaultProfile, Router, type VesselProfile } from './router';
 
 interface TestRoute {
   name: string;
@@ -20,6 +20,8 @@ interface TestRoute {
   countries: string[];
   via?: string[];
   min_locks?: number;
+  // boat for the route when the default (3 m beam) does not fit, e.g. a narrowboat on the English narrow canals
+  vessel?: Partial<VesselProfile>;
   source: string;
 }
 
@@ -45,7 +47,8 @@ describe('canonical routes', () => {
   for (const r of routes) {
     it.skipIf(!wanted(r))(r.name, () => {
       const pts = [r.from, ...(r.waypoints ?? []), r.to];
-      const parts = pts.slice(1).map((p, i) => router.route(pts[i], p));
+      const profile = { ...defaultProfile, ...r.vessel };
+      const parts = pts.slice(1).map((p, i) => router.route(pts[i], p, profile));
       for (const part of parts) {
         expect(part.start.offset).toBeLessThan(3000);
         expect(part.end.offset).toBeLessThan(3000);
