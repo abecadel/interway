@@ -97,7 +97,8 @@ beforeEach(() => {
 describe('MapView', () => {
   it('creates the map, adds layers on load and applies current state', () => {
     const net = { type: 'FeatureCollection', features: [] } as GeoJSON.FeatureCollection;
-    render(<MapView {...base} route={route} network={net} showSeamarks={false} pois={[lock]} />);
+    const town = { type: 'place' as const, name: 'Toruń', lat: 53, lon: 18.6 };
+    render(<MapView {...base} route={route} network={net} showSeamarks={false} pois={[lock, town]} />);
     const map = h.state.maps[0];
     expect(map.opts.style).toContain('openfreemap');
     expect(map.fitBounds).toHaveBeenCalledTimes(1);

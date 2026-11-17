@@ -18,11 +18,12 @@ describe('buildItinerary', () => {
       poi({ type: 'bridge', lon: 0.12, lat: 0, clearance: 4.2 }),
       poi({ type: 'bridge', lon: 0.13, lat: 0, clearance: 3.1 }),
       poi({ type: 'bridge', lon: 0.14, lat: 0 }), // clearance unknown
+      poi({ type: 'place', name: 'Miasto', lon: 0.18, lat: 2500 * m }),
     ]);
-    expect(it.stops.map((s) => s.poi.name || s.poi.type)).toEqual(['Stacja', 'Śluza', 'bridge', 'bridge', 'bridge', 'Far end']);
+    expect(it.stops.map((s) => s.poi.name || s.poi.type)).toEqual(['Stacja', 'Śluza', 'bridge', 'bridge', 'bridge', 'Far end', 'Miasto']);
     expect(it.stops[1].at).toBeCloseTo(5560, -1);
     expect(it.stops[0].offset).toBeCloseTo(200, 0);
-    expect(it.counts).toEqual({ fuel: 1, lock: 1, bridge: 3, marina: 1 });
+    expect(it.counts).toEqual({ fuel: 1, lock: 1, bridge: 3, marina: 1, place: 1 });
     expect(it.minClearance).toBe(3.1);
   });
 
@@ -31,6 +32,7 @@ describe('buildItinerary', () => {
       poi({ type: 'fuel', lon: 0.05, lat: (NEAR_M + 50) * m }),      // services: 300 m
       poi({ type: 'lock', lon: 0.05, lat: 100 * m }),                  // locks and bridges must be on the route
       poi({ type: 'marina', lon: 5, lat: 5 }),
+      poi({ type: 'place', lon: 0.05, lat: 3500 * m }),                // towns: 3 km
     ]);
     expect(it.stops).toEqual([]);
     expect(it.minClearance).toBeUndefined();

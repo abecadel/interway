@@ -54,3 +54,7 @@ footer { margin-top: auto; color: var(--muted); display: flex; flex-direction: c
 .via li { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 .via button { padding: 0 6px; }
 button.active { background: #fff4d6; }
+
+.exports { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.exports .primary { font-weight: 600; }
+.hint { color: #667; margin: 6px 0 0; }

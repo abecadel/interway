@@ -282,11 +282,42 @@ describe('App', () => {
     const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
     render(<App client={fakeClient()} />);
     await flush();
-    fireEvent.click(screen.getByText('Export GPX'));
+    fireEvent.click(screen.getByText('GPX'));
     const blob = (createObjectURL.mock.calls[0] as unknown[])[0] as Blob;
     expect(blob.type).toBe('application/gpx+xml');
     expect(await blob.text()).toContain('2.0000°N 1.0000°E → 4.0000°N 3.0000°E');
     expect(click).toHaveBeenCalled();
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:x');
+
+    fireEvent.click(screen.getByText('Brief .md'));
+    const md = (createObjectURL.mock.calls[1] as unknown[])[0] as Blob;
+    expect(md.type).toBe('text/markdown');
+    expect(await md.text()).toContain('Open or edit: http://localhost:3000/?from=1.00000,2.00000&to=3.00000,4.00000');
+    fireEvent.click(screen.getByText('JSON'));
+    const json = JSON.parse(await ((createObjectURL.mock.calls[2] as unknown[])[0] as Blob).text());
+    expect(json.title).toBe('2.0000°N 1.0000°E → 4.0000°N 3.0000°E');
+  });
+
+  it('copies the brief for AI assistants, falling back to a download', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const writeText = vi.fn(async (text: string) => { void text; });
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    const createObjectURL = vi.fn(() => 'blob:y');
+    Object.assign(URL, { createObjectURL, revokeObjectURL: vi.fn() });
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Copy brief for AI'));
+    await flush();
+    expect(writeText.mock.calls[0][0]).toContain('## Editing this route (for AI assistants)');
+    expect(screen.getByText('Copied ✓')).toBeTruthy();
+    await act(async () => { vi.advanceTimersByTime(2100); });
+    expect(screen.getByText('Copy brief for AI')).toBeTruthy();
+    writeText.mockRejectedValueOnce(new Error('denied'));
+    fireEvent.click(screen.getByText('Copy brief for AI'));
+    await flush();
+    expect(createObjectURL).toHaveBeenCalledTimes(1); // downloaded instead
+    vi.useRealTimers();
   });
 });

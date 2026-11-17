@@ -9,6 +9,7 @@ import { defaultProfile, type Route, type VesselProfile } from './routing/router
 import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
 import { PointInput, type Point } from './ui/PointInput';
 import { parseUrlState, writeUrlState } from './ui/urlState';
+import { briefMarkdown, buildBrief } from './ui/brief';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
@@ -113,13 +114,22 @@ export default function App({ client }: { client: RoutingApi }) {
     setPicking(null);
   };
 
-  const downloadGpx = (route: Route, name: string) => {
-    const blob = new Blob([toGpx(route, name, itinerary!.stops)], { type: 'application/gpx+xml' });
+  const download = (text: string, type: string, name: string) => {
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'interway-route.gpx';
+    a.href = URL.createObjectURL(new Blob([text], { type }));
+    a.download = name;
     a.click();
     URL.revokeObjectURL(a.href);
+  };
+  const title = () => `${start!.label} → ${end!.label}`;
+  const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href });
+  const [copied, setCopied] = useState(false);
+  const copyBrief = (route: Route) => {
+    const md = briefMarkdown(brief(route));
+    navigator.clipboard.writeText(md).then(
+      () => { setCopied(true); setTimeout(() => setCopied(false), 2000); },
+      () => download(md, 'text/markdown', 'interway-route.md'),
+    );
   };
 
   const num = (key: keyof VesselProfile, label: string, step = 0.1) => (
@@ -192,7 +202,16 @@ export default function App({ client }: { client: RoutingApi }) {
               ))}
             </ol>
             <ItineraryView itinerary={itinerary!} onSelect={(lon, lat) => setFocus([lon, lat])} />
-            <button onClick={() => downloadGpx(route, `${start!.label} → ${end!.label}`)}>Export GPX</button>
+            <div className="exports">
+              <button className="primary" onClick={() => copyBrief(route)}>{copied ? 'Copied ✓' : 'Copy brief for AI'}</button>
+              <button onClick={() => download(briefMarkdown(brief(route)), 'text/markdown', 'interway-route.md')}>Brief .md</button>
+              <button onClick={() => download(JSON.stringify(brief(route), null, 1), 'application/json', 'interway-route.json')}>JSON</button>
+              <button onClick={() => download(toGpx(route, title(), itinerary!.stops), 'application/gpx+xml', 'interway-route.gpx')}>GPX</button>
+            </div>
+            <p className="small hint">
+              Paste the brief into ChatGPT, Claude or another assistant to ask about locks, stops and hazards. It
+              contains the route link, which the assistant can change (waypoints, vessel) for you to open.
+            </p>
           </section>
         )}
 

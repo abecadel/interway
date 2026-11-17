@@ -177,7 +177,8 @@ export function MapView({ start, end, via = NO_VIA, route, position, network, sh
 function poiCollection(pois: Poi[]): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',
-    features: pois.map((p) => ({
+    // towns are named on the basemap already
+    features: pois.filter((p) => p.type !== 'place').map((p) => ({
       type: 'Feature', properties: { type: p.type, name: p.name }, geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
     })),
   };

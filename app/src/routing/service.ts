@@ -12,7 +12,7 @@ export interface Manifest {
   attribution: string;
 }
 
-export type PoiType = 'lock' | 'bridge' | 'marina' | 'port' | 'fuel' | 'slipway' | 'water' | 'sanitary';
+export type PoiType = 'lock' | 'bridge' | 'marina' | 'port' | 'fuel' | 'slipway' | 'water' | 'sanitary' | 'place';
 
 export interface Poi {
   type: PoiType;
