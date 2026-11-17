@@ -27,7 +27,7 @@ const AVOID_SEA_COST = 10;
 /** Open sea charted shallower than the draft costs this much more instead of being closed: the coarse sea network
  * crosses banks where real boats follow dredged channels (Thames estuary, Wadden sea), so a hard limit would cut
  * whole coasts off. Routes go round shallows where a deeper way exists and report what they could not avoid. */
-const SHALLOW_COST = 20;
+const SHALLOW_COST = 4; // more would send boats up canals of unknown depth rather than across an estuary
 const AVOID_LOCKS_COST = 10;
 
 export const defaultProfile: VesselProfile = {
@@ -387,7 +387,7 @@ export class Router {
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
       const draft = distance > before ? this.seaDraft(g) : 0; // a snap at the very end of a stretch does not cross it
-      if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft, at: before };
+      if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft: Math.round(draft * 100) / 100, at: before };
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
     return { coordinates: coords, distance, duration, locks, unverified, sea, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
