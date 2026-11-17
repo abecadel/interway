@@ -238,7 +238,9 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m:
             if d < best_d and (d <= max_gap_m or (degree[m] == 1 and d <= dead_end_gap_m)):
                 best, best_d = m, d
         if best is not None:
-            segments.append(Segment(a=n, b=best, coords=[pos[n], pos[best]], kind="patch"))
+            # A join longer than a mapping slip spans a ship lift or a lock mapped only as an area: it changes
+            # level, so it is routed like a lock (and is never a lock-free bypass around a real lock).
+            segments.append(Segment(a=n, b=best, coords=[pos[n], pos[best]], kind="patch", lock=best_d > max_gap_m))
             parent[root(comp[best])] = root(comp[n])
             added += 1
     log.info("closed %d small gaps", added)

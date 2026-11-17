@@ -191,7 +191,7 @@ def test_close_gaps_links_nearby_dead_ends_once():
     ]
     assert close_gaps(segs) == 2
     patches = [s for s in segs if s.kind == "patch"]
-    assert len(patches) == 2
+    assert len(patches) == 2 and not any(p.lock for p in patches)  # mapping slips are plain water
     assert len(set(components(segs).values())) == 2  # 1-6 joined, 7-8 left alone
 
 
@@ -286,7 +286,7 @@ def test_close_gaps_joins_facing_dead_ends_across_a_ship_lift():
     work = list(segs)
     assert close_gaps(work, dead_end_gap_m=300) == 1
     link = work[-1]
-    assert {link.a, link.b} == {2, 3} and link.kind == "patch"
+    assert {link.a, link.b} == {2, 3} and link.kind == "patch" and link.lock  # a lift/lock: counted as a lock
     work = list(segs)
     assert close_gaps(work, dead_end_gap_m=100) == 0  # 120 m apart
 
