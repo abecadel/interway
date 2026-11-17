@@ -22,6 +22,8 @@ export interface Itinerary {
 /** Services count when within this distance of the route; locks and bridges are on it. */
 export const NEAR_M = 300;
 const ON_ROUTE_M = 60;
+/** towns the route passes through or by */
+export const PLACE_M = 3000;
 
 const isOnRoute = (t: PoiType) => t === 'lock' || t === 'bridge';
 
@@ -37,7 +39,7 @@ export function buildItinerary(route: Route, pois: Poi[]): Itinerary {
     }
     index.finish();
     for (const poi of pois) {
-      const limit = isOnRoute(poi.type) ? ON_ROUTE_M : NEAR_M;
+      const limit = isOnRoute(poi.type) ? ON_ROUTE_M : poi.type === 'place' ? PLACE_M : NEAR_M;
       const best = nearest(c, along, index, [poi.lon, poi.lat], limit);
       if (best) stops.push({ poi, ...best });
     }

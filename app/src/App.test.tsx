@@ -19,6 +19,8 @@ vi.mock('./map/MapView', () => ({
 }));
 vi.mock('./ui/search', () => ({ searchPlaces: vi.fn(async () => []) }));
 const { default: App } = await import('./App');
+import type { SiteTool } from './agent/siteTools';
+import type { RouteBrief } from './ui/brief';
 
 const route = (over: Partial<Route> = {}): Route => ({
   coordinates: [[21, 52], [21.5, 52.5]],
@@ -69,7 +71,7 @@ describe('App', () => {
     expect(screen.getByText('Loading waterway data…')).toBeTruthy();
     await flush();
     expect(screen.getByText('Test: 1,234 nodes, 5,678 edges')).toBeTruthy();
-    expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile);
+    expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile, []);
     expect(screen.getByText('123 km')).toBeTruthy();
     expect(screen.getByText('(66.7 NM)')).toBeTruthy();
     expect(screen.getByText('5 h 0 min at 10 km/h · 2 locks')).toBeTruthy();
@@ -81,7 +83,7 @@ describe('App', () => {
     expect(screen.getByText('km 0.0')).toBeTruthy();
     fireEvent.click(screen.getByText('Śluza'));
     expect(mapProps.current!.focus).toEqual([21, 52]);
-    expect(location.search).toBe('?from=21.03000%2C52.47000&to=21.76500%2C54.03500');
+    expect(location.search).toBe('?from=21.03000,52.47000&to=21.76500,54.03500');
   });
 
   it('shows loading errors, route errors and snapping warnings', async () => {
@@ -123,7 +125,7 @@ describe('App', () => {
     fireEvent.click(screen.getByText('map-click-1')); // no point yet -> A
     fireEvent.click(screen.getByText('map-click-2')); // A set -> B
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile, []);
     fireEvent.click(screen.getByText('map-click-1')); // both set, not picking -> ignored
     expect(client.route).toHaveBeenCalledTimes(1);
 
@@ -133,23 +135,23 @@ describe('App', () => {
     fireEvent.click(screen.getAllByText('Pick on map')[1]);
     fireEvent.click(screen.getByText('map-click-1'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.1, 52.1], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.1, 52.1], defaultProfile, []);
 
     fireEvent.click(screen.getAllByText('Pick on map')[0]);
     fireEvent.click(screen.getByText('Click on the map…'));
     fireEvent.click(screen.getAllByText('Pick on map')[0]);
     fireEvent.click(screen.getByText('map-click-2'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.2, 52.2], [21.1, 52.1], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.2, 52.2], [21.1, 52.1], defaultProfile, []);
 
     fireEvent.click(screen.getByTitle('Swap'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile, []);
 
     fireEvent.click(screen.getAllByTitle('Clear')[1]); // clear B -> next click sets B
     fireEvent.click(screen.getByText('map-click-2'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile, []);
   });
 
   it('drops results of outdated requests', async () => {
@@ -190,7 +192,7 @@ describe('App', () => {
     fireEvent.click(screen.getAllByText('My position')[1]); // already watching: reuse the last fix
     await flush();
     expect(geo.watchPosition).toHaveBeenCalledTimes(1);
-    expect(client.route).toHaveBeenLastCalledWith([21.5, 52.5], [21.6, 52.6], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.5, 52.5], [21.6, 52.6], defaultProfile, []);
     await act(async () => watchers[0].err({ message: 'signal lost' } as GeolocationPositionError));
     expect(screen.getByText('GPS: signal lost')).toBeTruthy();
     await act(async () => watchers[0].ok(fix(21.7, 52.7)));
@@ -212,19 +214,40 @@ describe('App', () => {
     expect(screen.getByText('GPS: Geolocation not supported')).toBeTruthy();
   });
 
+  it('reads waypoints and the vessel from the URL, adds and removes waypoints', async () => {
+    localStorage.setItem('interway.profile', JSON.stringify({ draft: 1.8 }));
+    history.replaceState(null, '', '/?from=1,2&to=3,4&via=1.5,2.5&draft=2.4&avoidLocks=1');
+    const client = fakeClient();
+    render(<App client={client} />);
+    await flush();
+    const profile = { ...defaultProfile, draft: 2.4, avoidLocks: true }; // the URL wins over stored settings
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[1.5, 2.5]]);
+    expect(mapProps.current!.via).toEqual([[1.5, 2.5]]);
+    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('Click the map to add a waypoint…'));
+    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('map-click-1'));
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[1.5, 2.5], [21.1, 52.1]]);
+    expect(location.search).toBe('?from=1.00000,2.00000&to=3.00000,4.00000&via=1.50000,2.50000;21.10000,52.10000&draft=2.4&avoidLocks=1');
+    fireEvent.click(screen.getAllByTitle('Remove waypoint')[0]);
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[21.1, 52.1]]);
+  });
+
   it('edits and persists the vessel profile', async () => {
     localStorage.setItem('interway.profile', JSON.stringify({ draft: 1.8 }));
     history.replaceState(null, '', '/?from=1,2&to=3,4');
     const client = fakeClient();
     render(<App client={client} />);
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 });
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 }, []);
     fireEvent.change(screen.getByLabelText('Air draft (m)'), { target: { value: '4.5' } });
     fireEvent.click(screen.getByLabelText('Avoid locks'));
     fireEvent.click(screen.getByLabelText('Avoid open sea'));
     await flush();
     const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true };
-    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected);
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
     expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual(expected);
   });
 
@@ -261,11 +284,74 @@ describe('App', () => {
     const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
     render(<App client={fakeClient()} />);
     await flush();
-    fireEvent.click(screen.getByText('Export GPX'));
+    fireEvent.click(screen.getByText('GPX'));
     const blob = (createObjectURL.mock.calls[0] as unknown[])[0] as Blob;
     expect(blob.type).toBe('application/gpx+xml');
     expect(await blob.text()).toContain('2.0000°N 1.0000°E → 4.0000°N 3.0000°E');
     expect(click).toHaveBeenCalled();
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:x');
+
+    fireEvent.click(screen.getByText('Brief .md'));
+    const md = (createObjectURL.mock.calls[1] as unknown[])[0] as Blob;
+    expect(md.type).toBe('text/markdown');
+    expect(await md.text()).toContain('Open or edit: http://localhost:3000/?from=1.00000,2.00000&to=3.00000,4.00000');
+    fireEvent.click(screen.getByText('JSON'));
+    const json = JSON.parse(await ((createObjectURL.mock.calls[2] as unknown[])[0] as Blob).text());
+    expect(json.title).toBe('2.0000°N 1.0000°E → 4.0000°N 3.0000°E');
+  });
+
+  it('lets AI agents plan and edit routes through WebMCP site tools', async () => {
+    const tools: Record<string, SiteTool> = {};
+    Object.defineProperty(document, 'modelContext', {
+      value: { registerTool: (t: SiteTool) => { tools[t.name] = t; } }, configurable: true,
+    });
+    const client = fakeClient();
+    render(<App client={client} />);
+    await flush();
+    expect(Object.keys(tools)).toContain('plan_route');
+    await expect(tools.get_route_brief.execute({})).rejects.toThrow('call plan_route first');
+
+    let out: RouteBrief | undefined;
+    await act(async () => {
+      out = await tools.plan_route.execute({ from: { lon: 1, lat: 2 }, to: { lon: 3, lat: 4 }, via: [{ lon: 2, lat: 3 }], vessel: { draft: 1.5 } }) as RouteBrief;
+    });
+    const profile = { ...defaultProfile, draft: 1.5 };
+    expect(client.route).toHaveBeenCalledWith([1, 2], [3, 4], profile, [[2, 3]]);
+    expect(out!.totals.km).toBe(123.5);
+    expect(out!.link).toBe('http://localhost:3000/?from=1.00000,2.00000&to=3.00000,4.00000&via=2.00000,3.00000&draft=1.5');
+    await flush();
+    expect(location.search).toBe('?from=1.00000,2.00000&to=3.00000,4.00000&via=2.00000,3.00000&draft=1.5');
+    const now = await tools.get_route_brief.execute({}) as RouteBrief;
+    expect(now.link).toBe(out!.link);
+
+    await act(async () => { await tools.set_vessel.execute({ airDraft: 4 }); });
+    await act(async () => { await tools.add_waypoint.execute({ point: { lon: 2.5, lat: 3.5 } }); });
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...profile, airDraft: 4 }, [[2, 3], [2.5, 3.5]]);
+    expect(await tools.find_place.execute({ query: 'x' })).toEqual([]);
+    delete (document as { modelContext?: unknown }).modelContext;
+  });
+
+  it('copies the brief for AI assistants, falling back to a download', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const writeText = vi.fn(async (text: string) => { void text; });
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    const createObjectURL = vi.fn(() => 'blob:y');
+    Object.assign(URL, { createObjectURL, revokeObjectURL: vi.fn() });
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Copy brief for AI'));
+    await flush();
+    expect(writeText.mock.calls[0][0]).toContain('## Editing this route (for AI assistants)');
+    expect(screen.getByText('Copied ✓')).toBeTruthy();
+    await act(async () => { vi.advanceTimersByTime(2100); });
+    expect(screen.getByText('Copy brief for AI')).toBeTruthy();
+    writeText.mockRejectedValueOnce(new Error('denied'));
+    fireEvent.click(screen.getByText('Copy brief for AI'));
+    await flush();
+    expect(createObjectURL).toHaveBeenCalledTimes(1); // downloaded instead
+    vi.useRealTimers();
   });
 });

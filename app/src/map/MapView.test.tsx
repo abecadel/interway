@@ -97,7 +97,8 @@ beforeEach(() => {
 describe('MapView', () => {
   it('creates the map, adds layers on load and applies current state', () => {
     const net = { type: 'FeatureCollection', features: [] } as GeoJSON.FeatureCollection;
-    render(<MapView {...base} route={route} network={net} showSeamarks={false} pois={[lock]} />);
+    const town = { type: 'place' as const, name: 'Toruń', lat: 53, lon: 18.6 };
+    render(<MapView {...base} route={route} network={net} showSeamarks={false} pois={[lock, town]} />);
     const map = h.state.maps[0];
     expect(map.opts.style).toContain('openfreemap');
     expect(map.fitBounds).toHaveBeenCalledTimes(1);
@@ -151,6 +152,10 @@ describe('MapView', () => {
     expect(h.state.markers[0].removed).toBe(true);
     rerender(<MapView {...base} start={[4, 4]} end={[3, 3]} />);
     expect(h.state.markers).toHaveLength(3);
+    rerender(<MapView {...base} start={[4, 4]} end={[3, 3]} via={[[5, 5], [6, 6]]} />);
+    expect(h.state.markers.slice(3).map((m) => m.lngLat)).toEqual([[5, 5], [6, 6]]);
+    rerender(<MapView {...base} start={[4, 4]} end={[3, 3]} />);
+    expect(h.state.markers.slice(3).every((m) => m.removed)).toBe(true);
   });
 
   it('shows the GPS position with heading when known', () => {

@@ -48,6 +48,7 @@ export const POI_LABEL: Record<PoiType, string> = {
   slipway: 'Slipway',
   water: 'Water',
   sanitary: 'Pump-out',
+  place: 'Town',
 };
 
 export const POI_PLURAL: Record<PoiType, string> = {
@@ -59,6 +60,7 @@ export const POI_PLURAL: Record<PoiType, string> = {
   slipway: 'slipways',
   water: 'water points',
   sanitary: 'pump-outs',
+  place: 'towns',
 };
 
 /** "1 lock", "3 locks" */

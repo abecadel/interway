@@ -14,6 +14,8 @@ maplibregl.setWorkerUrl(workerUrl);
 export interface MapViewProps {
   start: LngLat | null;
   end: LngLat | null;
+  /** waypoints between start and end */
+  via?: LngLat[];
   route: Route | null;
   position: GeolocationPosition | null;
   network: GeoJSON.FeatureCollection | null;
@@ -27,17 +29,19 @@ export interface MapViewProps {
 const BASEMAP = 'https://tiles.openfreemap.org/styles/liberty';
 const SEAMARKS = 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
+const NO_VIA: LngLat[] = [];
 
 function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
   (map.getSource(id) as GeoJSONSource).setData(data);
 }
 
-export function MapView({ start, end, route, position, network, showSeamarks, pois, focus = null, onMapClick }: MapViewProps) {
+export function MapView({ start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const ready = useRef(false);
   const clickRef = useRef(onMapClick);
   const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker }>({});
+  const viaMarkers = useRef<maplibregl.Marker[]>([]);
   const latest = useRef({ route, network, showSeamarks, pois });
   useEffect(() => {
     clickRef.current = onMapClick;
@@ -150,6 +154,12 @@ export function MapView({ start, end, route, position, network, showSeamarks, po
 
   useEffect(() => {
     const map = mapRef.current!;
+    viaMarkers.current.forEach((m) => m.remove());
+    viaMarkers.current = via.map((p) => new maplibregl.Marker({ color: '#e90', scale: 0.7 }).setLngLat(p).addTo(map));
+  }, [via]);
+
+  useEffect(() => {
+    const map = mapRef.current!;
     const m = markers.current;
     if (!position) return;
     const p: LngLat = [position.coords.longitude, position.coords.latitude];
@@ -167,7 +177,8 @@ export function MapView({ start, end, route, position, network, showSeamarks, po
 function poiCollection(pois: Poi[]): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',
-    features: pois.map((p) => ({
+    // towns are named on the basemap already
+    features: pois.filter((p) => p.type !== 'place').map((p) => ({
       type: 'Feature', properties: { type: p.type, name: p.name }, geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
     })),
   };

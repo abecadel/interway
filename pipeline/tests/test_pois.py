@@ -40,3 +40,11 @@ def test_itinerary_pois():
     assert [p["name"] for p in pois if p["type"] == "fuel"] == ["Stacja"]  # 500 m from the canal
     assert not any(p["type"] == "marina" for p in pois)  # 1.5 km away
     assert itinerary_pois([], services, []) == []
+
+
+
+def test_load_places(tmp_path):
+    from interway_pipeline.pois import load_places
+    f = tmp_path / "cities.txt"
+    f.write_text("3083829\tToruń\tTorun\tThorn\t53.01375\t18.59814\tP\tPPLA\tPL\n\nbad\n4\t\tx\t\t1\t2\n", encoding="utf-8")
+    assert load_places(f) == [("place", "Toruń", (18.59814, 53.01375))]

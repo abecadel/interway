@@ -241,11 +241,15 @@ def test_build_with_sea_routes(tmp_path):
     nodes = {1: (0.3, 0.5), 2: (0.4499, 0.5)}
     osm = write_osm(tmp_path / "coast.osm", nodes, [(1, [1, 2], {"waterway": "canal", "CEMT": "IV", "name": "Kanał"})])
     land = _land_shapefile(tmp_path / "land", [box(0.2, 0.2, 0.45, 0.8)])
+    places = tmp_path / "cities.txt"
+    places.write_text("1\tKanałowo\tKanalowo\t\t0.51\t0.31\n2\tDaleko\tDaleko\t\t5.0\t5.0\n", encoding="utf-8")
     cache = tmp_path / "cache"
     for _ in range(2):  # the second build uses the cached mesh
         out = tmp_path / "out"
         m = cli.build([osm], out, region="t", allowlist=None, patches=None, min_component_km=0.5, cache_dir=cache,
-                      land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0))
+                      land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0), places=places)
+        pois = json.loads((out / "pois.json").read_text(encoding="utf-8"))
+        assert [p["name"] for p in pois if p["type"] == "place"] == ["Kanałowo"]  # 1.5 km away; Daleko is not
         manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["sea"] is True
         g = read_graph(out / "graph.bin")
@@ -262,5 +266,6 @@ def test_build_with_sea_routes(tmp_path):
 def test_main_sea_options(tmp_path, monkeypatch):
     seen = {}
     monkeypatch.setattr(cli, "build", lambda *a, **kw: seen.update(kw) or {"stats": {}})
-    main(["x.osm", "--land", "land.shp", "--sea-bbox", "1,2,3,4"])
+    main(["x.osm", "--land", "land.shp", "--sea-bbox", "1,2,3,4", "--places", "cities.txt"])
     assert str(seen["land"]) == "land.shp" and seen["sea_bbox"] == (1.0, 2.0, 3.0, 4.0)
+    assert str(seen["places"]) == "cities.txt"

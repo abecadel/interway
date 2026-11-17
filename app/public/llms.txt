@@ -1,0 +1,49 @@
+# Interway
+
+> Interway is a free route planner for boats on European inland waterways and coastal seas ("Google Maps for
+> boats"). It finds routes through rivers, canals, lakes and locks, joins them to a sea route network
+> (Baltic, North Sea, Channel, Atlantic coast, Mediterranean, Black Sea), and lists what a route passes: locks
+> (with chamber sizes), bridges (with clearance), marinas, ports, fuel, water, pump-outs and towns.
+> Routing runs in the browser from OpenStreetMap data. Not for navigation.
+
+## How an AI assistant can use it
+
+The page URL fully describes a route. Write a link, give it to the user, and they open it:
+
+    https://abecadel.github.io/interway/?from=LON,LAT&to=LON,LAT
+
+Parameters (decimal degrees, longitude first):
+
+- `from`, `to`: start and destination, `lon,lat`
+- `via`: waypoints in order, `lon,lat;lon,lat` (use these to force a particular way, e.g. through a canal)
+- `draft`, `air` (air draft), `beam`, `len`: vessel dimensions in metres; routes avoid waterways too small
+- `speed`: cruising speed, km/h; `current`: assumed river current, m/s; `lockmin`: minutes per lock
+- `avoidLocks=1`: prefer routes with fewer locks
+- `avoidSea=1`: keep to inland waterways wherever an inland way exists (open sea already counts 1.5x by default)
+
+Examples:
+
+- Wrocław to Amsterdam: https://abecadel.github.io/interway/?from=17.035,51.115&to=4.90,52.38
+- Warsaw to Gdańsk on the Vistula, 1.2 m draft: https://abecadel.github.io/interway/?from=21.03,52.25&to=18.66,54.35&draft=1.2
+- London to Crete by sea: https://abecadel.github.io/interway/?from=-0.075,51.507&to=25.14,35.345
+
+## Route brief
+
+After a route is computed the user can press "Copy brief for AI" and paste a Markdown brief into the chat:
+distance and time, locks, open-sea distance, towns, legs, daily stages, every stop with its kilometre, vessel
+checks against lock chambers and bridge clearances, hazards, and the route link with these parameters. "JSON"
+downloads the same brief as structured data.
+
+## Site tools (WebMCP)
+
+In browsers with WebMCP (`document.modelContext`, e.g. the ChatGPT desktop app's built-in browser) the page
+registers tools an agent can call directly: `plan_route`, `get_route_brief`, `set_vessel`, `add_waypoint`,
+`remove_waypoint`, `find_place` and `list_stops`.
+
+## Coverage and limits
+
+- Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France and the River Thames (UK).
+- Sea: European seas from the Atlantic coast to the Black Sea, as a coarse coastal network.
+- Depths, lock opening hours, closures and current water levels are not included.
+
+Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0). Source: https://github.com/abecadel/interway

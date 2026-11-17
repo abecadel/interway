@@ -16,6 +16,7 @@ from .export import export
 from .extract import Extract, read_osm
 from .lakes import connect_lakes
 from .model import Segment, haversine
+from .pois import load_places
 from .qa import gap_candidates
 from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh
 from .topology import (
@@ -134,8 +135,10 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
 EXTRACT_VERSION = 8  # bump when read_osm output changes, invalidates --cache
 
 
-def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0) -> list[dict]:
-    """Points of interest for route itineraries: locks, bridges with clearance, and services near the network."""
+def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,
+                   place_m: float = 3000.0) -> list[dict]:
+    """Points of interest for route itineraries: locks, bridges with clearance, services near the network and
+    towns within place_m of it."""
     pois: list[dict] = []
     for s in segments:
         if s.lock:
@@ -154,7 +157,7 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
         for kind, name, p in services:
             nearest = lines[tree.nearest(Point(p))]
             q = nearest.interpolate(nearest.project(Point(p)))
-            if haversine(p, (q.x, q.y)) <= max_m:
+            if haversine(p, (q.x, q.y)) <= (place_m if kind == "place" else max_m):
                 pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1]})
     return pois
 
@@ -190,7 +193,7 @@ SEA_VERSION = 2  # bump when sea_mesh output changes, invalidates cached meshes
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
           min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
           dead_end_gap_m: float = 300.0, countries: list[str] | None = None, land: Path | None = None,
-          sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX) -> dict:
+          sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX, places: Path | None = None) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     segments = split_ways(ex)
@@ -213,7 +216,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     segments, bypasses = block_lock_bypasses(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)
 
-    pois = itinerary_pois(segments, ex.services, bridge_points)
+    pois = itinerary_pois(segments, ex.services + (load_places(places) if places else []), bridge_points)
     manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, countries=countries, pois=pois,
                       simplify_m=simplify_m, sea=land is not None)
     (out / "qa-components.json").write_text(json.dumps(report[:500], indent=0), encoding="utf-8")
@@ -240,12 +243,13 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--land", type=Path, default=None,
                     help="OSM land polygons shapefile (land-polygons-split-4326/land_polygons.shp) to add sea routes")
     ap.add_argument("--sea-bbox", default=",".join(map(str, DEFAULT_BBOX)), help="west,south,east,north of the sea mesh")
+    ap.add_argument("--places", type=Path, default=None, help="GeoNames cities5000.txt: towns along routes")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     m = build(args.inputs, args.out, region=args.region, allowlist=args.allowlist, patches=args.patches,
               min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache,
-              dead_end_gap_m=args.dead_end_gap_m, land=args.land,
+              dead_end_gap_m=args.dead_end_gap_m, land=args.land, places=args.places,
               sea_bbox=tuple(float(v) for v in args.sea_bbox.split(",")),
               countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()])
     print(json.dumps(m["stats"]))

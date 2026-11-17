@@ -229,6 +229,13 @@ export class Router {
     throw error;
   }
 
+  /** A route through waypoints in order: from, ...via, to. */
+  routeVia(points: LngLat[], profile: VesselProfile = defaultProfile): Route {
+    if (points.length < 2) throw new RouteError('A route needs a start and an end');
+    const parts = points.slice(1).map((p, i) => this.route(points[i], p, profile));
+    return parts.reduce(joinRoutes);
+  }
+
   routeBetween(s: Snap, t: Snap, profile: VesselProfile): Route {
     const { graph } = this;
     const N = graph.nodeCount;
@@ -402,4 +409,26 @@ function components(g: Graph): Int32Array {
     for (let e = g.edgeOffsets[u]; e < g.edgeOffsets[u + 1]; e++) parent[find(u)] = find(g.edgeTarget[e]);
   }
   return parent.map((_, i) => find(i));
+}
+
+/** Route a followed by route b (b starts where a ends, at the waypoint). */
+export function joinRoutes(a: Route, b: Route): Route {
+  const legs = a.legs.map((l) => ({ ...l }));
+  for (const l of b.legs) {
+    const last = legs[legs.length - 1];
+    if (last && last.name === l.name) last.distance += l.distance;
+    else legs.push({ ...l });
+  }
+  return {
+    coordinates: [...a.coordinates, ...b.coordinates.slice(1)],
+    distance: a.distance + b.distance,
+    duration: a.duration + b.duration,
+    locks: a.locks + b.locks,
+    unverified: a.unverified + b.unverified,
+    sea: a.sea + b.sea,
+    events: [...a.events, ...b.events.map((e) => ({ ...e, at: e.at + a.distance }))],
+    legs,
+    start: a.start,
+    end: b.end,
+  };
 }
