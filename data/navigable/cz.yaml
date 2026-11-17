@@ -1,0 +1,11 @@
+# Czechia: waterways of transport importance under zákon 114/1995 Sb. (Labe, Vltava) and the Baťa canal.
+waterways:
+  - Labe
+  - Elbe
+  - Vltava
+  - Moldau
+  - Baťův kanál
+lakes:
+  - Lipno
+  - Vodní nádrž Lipno
+exclude: []

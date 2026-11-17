@@ -4,6 +4,8 @@ import { configDefaults, defineConfig } from 'vitest/config'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // GitHub Pages serves a project site under /<repo>/; the deploy workflow sets VITE_BASE.
+  base: process.env.VITE_BASE ?? '/',
   // maplibre-gl v6 loads its worker relative to its own module file; pre-bundling breaks that path.
   optimizeDeps: { exclude: ['maplibre-gl'] },
   build: {

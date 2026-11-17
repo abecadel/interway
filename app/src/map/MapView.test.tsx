@@ -5,7 +5,7 @@ import type { Route } from '../routing/router';
 type Handler = (e?: unknown) => void;
 
 const h = vi.hoisted(() => {
-  const state = { maps: [] as FakeMapT[], markers: [] as FakeMarkerT[] };
+  const state = { maps: [] as FakeMapT[], markers: [] as FakeMarkerT[], workerUrl: '' };
   interface FakeMapT {
     opts: Record<string, unknown>;
     handlers: Record<string, Handler>;
@@ -66,10 +66,14 @@ vi.mock('maplibre-gl', () => {
   }
   class NavigationControl {}
   class ScaleControl {}
-  return { Map, Marker, LngLatBounds, NavigationControl, ScaleControl };
+  return { Map, Marker, LngLatBounds, NavigationControl, ScaleControl, setWorkerUrl: (u: string) => { h.state.workerUrl = u; } };
 });
 
 const { MapView } = await import('./MapView');
+
+it('points maplibre at the bundled worker file', () => {
+  expect(h.state.workerUrl).toContain('maplibre-gl-worker');
+});
 
 const route = {
   coordinates: [[21, 52], [21.5, 52.5]],

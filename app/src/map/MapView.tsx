@@ -1,10 +1,15 @@
 import * as maplibregl from 'maplibre-gl';
 import type { GeoJSONSource, Map as MLMap, MapMouseEvent } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import { useEffect, useRef } from 'react';
 import type { LngLat } from '../graph/geo';
 import type { Route } from '../routing/router';
 import type { Poi } from '../routing/service';
+
+// maplibre-gl v6 looks for its worker next to its own module, which the production bundle does not keep;
+// point it at the worker file Vite emits instead (also under a GitHub Pages sub-path).
+maplibregl.setWorkerUrl(workerUrl);
 
 export interface MapViewProps {
   start: LngLat | null;

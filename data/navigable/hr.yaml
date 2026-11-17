@@ -1,0 +1,8 @@
+# Croatia: inland waterways under the Zakon o plovidbi i lukama unutarnjih voda (Dunav, Sava, Drava, Kupa mouth).
+waterways:
+  - Dunav
+  - Danube
+  - Sava
+  - Drava
+lakes: []
+exclude: []

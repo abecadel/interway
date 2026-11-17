@@ -1,0 +1,14 @@
+# Austria: Wasserstraßen under the Schifffahrtsgesetz / Wasserstraßengesetz (Donau, Donaukanal) and the
+# main lakes with passenger and leisure navigation.
+waterways:
+  - Donau
+  - Danube
+  - Donaukanal
+lakes:
+  - Neusiedler See
+  - Traunsee
+  - Attersee
+  - Wolfgangsee
+  - Mondsee
+  - Wörthersee
+exclude: []
