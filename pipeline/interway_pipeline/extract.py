@@ -112,7 +112,10 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
         tags = o.tags
         if o.is_node():
             ww = tags.get("waterway")
-            if ww == "lock_gate" or tags.get("lock") == "yes" or tags.get("seamark:type") == "gate":
+            # storm-surge barriers (Thames Barrier) stand open: mapped as gates, but not locks
+            flood_gate = (tags.get("man_made") == "storm_surge_barrier"
+                          or tags.get("seamark:gate:category") in ("flood_barrage", "flood_barrier"))
+            if (ww == "lock_gate" or tags.get("lock") == "yes" or tags.get("seamark:type") == "gate") and not flood_gate:
                 ex.lock_nodes.add(o.id)
                 if "name" in tags:
                     ex.lock_names[o.id] = tags.get("name")
