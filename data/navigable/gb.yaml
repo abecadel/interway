@@ -1,8 +1,125 @@
-# United Kingdom: the tidal and non-tidal River Thames (Port of London Authority below Teddington,
-# Environment Agency above) and the Medway; enough to reach the sea from London.
+# United Kingdom: the River Thames (Port of London Authority below Teddington, Environment Agency above), the
+# Medway, and the cruising canals and river navigations of England, Wales and Scotland (Canal & River Trust,
+# Environment Agency, Broads Authority and Scottish Canals waterways). Names as mapped in OSM. Derelict or
+# unrestored canals (Wilts & Berks, Thames & Severn, Grantham, Cromford, ...) are left out on purpose.
+# Most English canals are narrow: locks take boats up to about 2.1 m beam and 21 m length.
 waterways:
+  # rivers
   - River Thames
   - Thames
   - River Medway
-lakes: []
+  - River Severn
+  - River Trent
+  - River Great Ouse
+  - River Nene
+  - River Soar
+  - River Weaver
+  - Weaver Navigation
+  - River Witham
+  - River Ouse
+  - River Ure
+  - River Kennet
+  - River Lea
+  - River Bure
+  - River Yare
+  - River Waveney
+  - River Ant
+  - River Thurne
+  - River Chelmer
+  # England and Wales canals and navigations
+  - Grand Union Canal
+  - Grand Union Canal (Leicester Line)
+  - Grand Union Canal (Paddington Arm)
+  - Grand Union Canal (Paddington Branch)
+  - Grand Union Canal Market Harborough Arm
+  - Grand Union Canal - Aylesbury Arm
+  - Grand Union Canal Northampton Arm
+  - Grand Union Northampton Arm
+  - Grand Union Canal Welford Arm
+  - Regent's Canal
+  - Hertford Union Canal
+  - River Lee Navigation
+  - River Lee Navigation (Hackney Cut)
+  - Lee Navigation
+  - River Stort Navigation
+  - River Wey Navigation
+  - Basingstoke Canal
+  - Kennet and Avon Canal
+  - Oxford Canal
+  - Coventry Canal
+  - Ashby-de-la-Zouch Canal
+  - Ashby Canal
+  - Birmingham and Fazeley Canal
+  - Birmingham New Main Line Canal
+  - Birmingham Old Main Line Canal
+  - Wyrley and Essington Canal
+  - Wyrley & Essington Canal
+  - Walsall Canal
+  - Tame Valley Canal
+  - Stourbridge Canal
+  - Dudley No.1 Canal
+  - Dudley No.2 Canal
+  - Worcester & Birmingham Canal
+  - Worcester and Birmingham Canal
+  - Droitwich Barge Canal
+  - Stratford-upon-Avon Canal
+  - Staffordshire and Worcestershire Canal
+  - Staffordshire & Worcestershire Canal
+  - Shropshire Union Canal
+  - Shropshire Union Canal (Middlewich Branch)
+  - Llangollen Canal
+  - Montgomery Canal
+  - Trent & Mersey Canal
+  - Trent and Mersey Canal
+  - Caldon Canal
+  - Macclesfield Canal
+  - Peak Forest Canal
+  - Ashton Canal
+  - Rochdale Canal
+  - Bridgewater Canal
+  - Bridgewater Canal (Stretford and Leigh Branch)
+  - Manchester Ship Canal
+  - Huddersfield Narrow Canal
+  - Huddersfield Broad Canal
+  - Calder & Hebble Navigation
+  - Calder and Hebble Navigation
+  - Aire and Calder Navigation
+  - Aire & Calder navigation
+  - Leeds and Liverpool Canal
+  - Leeds and Liverpool Canal (Leigh Branch)
+  - Leeds and Liverpool Canal (Rufford Branch)
+  - Lancaster Canal
+  - Ribble Link
+  - Selby Canal
+  - Ripon Canal
+  - Pocklington Canal
+  - Sheffield and South Yorkshire Navigation
+  - Stainforth and Keadby Canal
+  - Chesterfield Canal
+  - Erewash Canal
+  - Fossdyke Navigation
+  - River Nene Navigation
+  - Gloucester and Sharpness Canal
+  - Monmouthshire & Brecon Canal
+  - Monmouthshire Canal
+  - Bridgwater and Taunton Canal
+  - Chelmer and Blackwater Navigation
+  # Scotland
+  - Caledonian Canal
+  - Crinan Canal
+  - Forth and Clyde Canal
+  - Forth and Clyde Canal (Glasgow Spur)
+  - Union Canal
+lakes:
+  - Loch Ness
+  - Loch Oich
+  - Loch Lochy
+  - Windermere
+  - Hickling Broad
+  - Barton Broad
+  - Wroxham Broad
+  - Salhouse Broad
+  - Malthouse Broad
+  - Oulton Broad
+  - Breydon Water
 exclude: []

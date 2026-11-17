@@ -356,6 +356,27 @@ def test_bypass_cut_keeps_the_canal_and_prefers_rivers():
     assert {"canal-up", "canal-down", "side canal", "tributary"} <= {s.name for s in kept}
 
 
+def test_channel_beside_a_small_boat_lock_becomes_the_lock():
+    from interway_pipeline.model import Limits
+    from interway_pipeline.topology import block_lock_bypasses
+    # Main at Randersacker: a 2.5 m boat lock is mapped, the ship lock is not; the river over the weir stays
+    # as the (ship) lock so wide boats still get through. A second lock-free arm is cut as usual.
+    segs = [_canal(1, 2, 0.0, 0.001, lock=True, name="Bootsschleuse", limits=Limits(max_width=2.5, max_length=12.5)),
+            Segment(a=1, b=2, coords=[(0.0, 0.0), (0.0005, 0.002), (0.001, 0.0)], kind="river", name="Main"),
+            Segment(a=1, b=2, coords=[(0.0, 0.0), (0.0005, 0.004), (0.001, 0.0)], kind="river", name="Altarm")]
+    kept, removed = block_lock_bypasses(segs)
+    assert [s.name for s in removed] == ["Altarm"]
+    assert [s.name for s in kept if s.lock] == ["Bootsschleuse", "Main"]
+    # a big ship lock (limits above the boat-lock size) keeps the usual behaviour
+    big = [_canal(1, 2, 0.0, 0.001, lock=True, limits=Limits(max_width=12, max_length=190)),
+           Segment(a=1, b=2, coords=[(0.0, 0.0), (0.0005, 0.002), (0.001, 0.0)], kind="river", name="Main")]
+    assert [s.name for s in block_lock_bypasses(big)[1]] == ["Main"]
+    # a boat lock whose only bypass is a lake mesh converts nothing
+    lake = [_canal(1, 2, 0.0, 0.01, lock=True, limits=Limits(max_length=20)), _canal(1, 2, 0.0, 0.01, y=0.001, kind="lake")]
+    kept, removed = block_lock_bypasses(lake)
+    assert removed == [] and sum(s.lock for s in kept) == 1
+
+
 def test_bypass_cuts_are_capped_per_lock(monkeypatch):
     from interway_pipeline import topology
     monkeypatch.setattr(topology, "MAX_BYPASS_CUTS", 1)

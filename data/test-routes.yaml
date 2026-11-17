@@ -372,3 +372,115 @@
   via: [Garonne, Canal du Midi]
   min_locks: 100
   source: https://www.yachtingmonthly.com/sailing-skills/sailing-the-french-canals-lessons-learned-81734 (≈503 km, 139 locks)
+
+# --- popular cruising routes (UK canals, German rivers, Burgundy) ---
+
+- name: River Thames, Lechlade → Teddington (non-tidal Thames)
+  from: [-1.692, 51.693]
+  to: [-0.327, 51.431]
+  expected_km: 201
+  tolerance: 0.1
+  countries: [GB]
+  via: [River Thames]
+  min_locks: 40
+  source: https://www.gov.uk/guidance/river-thames-distances-and-measurements-for-boaters (≈125 miles, 45 locks)
+
+- name: Grand Union Canal, London (Brentford) → Birmingham
+  from: [-0.306, 51.486]
+  to: [-1.907, 52.476]
+  expected_km: 220
+  tolerance: 0.12
+  countries: [GB]
+  via: [Grand Union Canal]
+  min_locks: 140
+  source: https://collections.canalrivertrust.org.uk/themes/grand-union-canal (137 miles, 166 locks)
+
+- name: Kennet and Avon Canal, Reading → Bath
+  from: [-0.957, 51.459]
+  to: [-2.352, 51.377]
+  expected_km: 125
+  tolerance: 0.15
+  countries: [GB]
+  via: [Kennet and Avon Canal]
+  min_locks: 80
+  source: https://en.wikipedia.org/wiki/Kennet_and_Avon_Canal (87 miles and 105 locks Bristol – Reading, 6 of them on the Avon below Bath)
+
+- name: Leeds and Liverpool Canal, Leeds → Liverpool
+  from: [-1.548, 53.794]
+  to: [-2.995, 53.42]
+  expected_km: 204
+  tolerance: 0.1
+  countries: [GB]
+  via: [Leeds and Liverpool Canal]
+  min_locks: 80
+  source: https://www.leedsandliverpoolcanalsociety.co.uk (127 miles, 91 locks on the main line)
+
+- name: Llangollen Canal, Hurleston Junction → Llangollen
+  from: [-2.586, 53.098]
+  to: [-3.164, 52.971]
+  expected_km: 72
+  tolerance: 0.12
+  countries: [GB]
+  via: [Llangollen Canal]
+  min_locks: 18
+  source: https://www.whiltonmarina.co.uk/narrowboat-blog/2013/11/Canal-Facts-Northwest-UK/ (46 miles incl. 1½ unnavigable, 21 locks)
+
+- name: Caledonian Canal, Inverness → Corpach (Loch Ness, Loch Oich, Loch Lochy)
+  from: [-4.257, 57.49]
+  to: [-5.126, 56.843]
+  expected_km: 96
+  tolerance: 0.1
+  countries: [GB]
+  via: [Caledonian Canal]
+  min_locks: 20
+  source: https://www.scottishcanals.co.uk/boating/canal-travel/caledonian-canal-skippers-guide (60 miles, 29 locks)
+
+- name: Neckar, Mannheim → Plochingen
+  from: [8.46, 49.50]
+  to: [9.42, 48.71]
+  expected_km: 203
+  tolerance: 0.1
+  countries: [DE]
+  via: [Neckar]
+  min_locks: 25
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/the-neckar/ (≈200 km to Plochingen, 27 locks)
+
+- name: Main, Mainz → Bamberg
+  from: [8.30, 50.00]
+  to: [10.89, 49.90]
+  expected_km: 384
+  tolerance: 0.1
+  countries: [DE]
+  via: [Main]
+  min_locks: 30
+  source: https://en.wikipedia.org/wiki/Main_(river) (navigable 384 km from the Rhine to Bamberg, 34 locks)
+
+- name: Moselle, Koblenz → Metz
+  from: [7.605, 50.365]
+  to: [6.17, 49.12]
+  expected_km: 300
+  tolerance: 0.12
+  countries: [DE, FR]
+  via: [Mosel]
+  min_locks: 14
+  source: https://moselkommission.org/en/the-moselle/facts-figures (Koblenz – Metz canalised 1964, ≈ 300 km)
+
+- name: Canal de Bourgogne, Migennes → Saint-Jean-de-Losne
+  from: [3.517, 47.965]
+  to: [5.263, 47.103]
+  expected_km: 242
+  tolerance: 0.1
+  countries: [FR]
+  via: [Canal de Bourgogne]
+  min_locks: 150
+  source: https://en.wikipedia.org/wiki/Canal_de_Bourgogne (242 km, 189 locks)
+
+- name: Canal du Nivernais, Decize → Auxerre
+  from: [3.457, 46.83]
+  to: [3.575, 47.795]
+  expected_km: 174
+  tolerance: 0.12
+  countries: [FR]
+  via: [Canal du Nivernais]
+  min_locks: 80
+  source: https://en.wikipedia.org/wiki/Nivernais_Canal (174 km, 112 locks)

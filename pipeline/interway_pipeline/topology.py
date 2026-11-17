@@ -397,13 +397,24 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
         adj[s.b].append(i)
     lengths = [s.length for s in segments]
     removed: set[int] = set()
+    converted = 0
     for lock in segments:
         if not lock.lock or lock.a == lock.b:
             continue
+        small = _boat_lock(lock)
         for _ in range(MAX_BYPASS_CUTS):
             path = _bypass(segments, adj, lengths, removed, lock.a, lock.b, max_m)
             if not path:
                 break
+            if small:
+                # A small boat lock beside the main channel: the channel holds the ship lock (unmapped, or mapped
+                # only as an area). Cutting it would leave bigger boats no way through; make it the lock instead.
+                cands = _weir_candidates(segments, path, lock, lengths)
+                if cands:
+                    segments[cands[0]].lock = True
+                    converted += 1
+                small = False
+                continue
             cut = next((c for c in _weir_candidates(segments, path, lock, lengths)
                         if _bypass(segments, adj, lengths, removed | {c}, segments[c].a, segments[c].b, 2 * max_m,
                                    through_locks=True)), None)
@@ -412,10 +423,19 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
             removed.add(cut)
     kept = [s for i, s in enumerate(segments) if i not in removed]
     log.info("removed %d segments bypassing locks (unmapped weirs, untagged twin chambers)", len(removed))
+    log.info("treated %d channels beside small boat locks as their ship lock", converted)
     return kept, [segments[i] for i in sorted(removed)]
 
 
 MAX_BYPASS_CUTS = 10
+# A lock this narrow or short is a boat lock (Bootsschleuse, sportboot lock); large rivers have a ship lock next to it.
+BOAT_LOCK_WIDTH_M = 6.0
+BOAT_LOCK_LENGTH_M = 40.0
+
+
+def _boat_lock(lock: Segment) -> bool:
+    w, n = lock.limits.max_width, lock.limits.max_length
+    return 0 < w <= BOAT_LOCK_WIDTH_M or 0 < n <= BOAT_LOCK_LENGTH_M
 
 
 def _weir_candidates(segments: list[Segment], path: list[int], lock: Segment, lengths: list[float]) -> list[int]:
