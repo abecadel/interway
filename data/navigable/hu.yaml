@@ -1,0 +1,15 @@
+# Hungary: national waterway network (Duna and side arms, Tisza, lower Dráva, Sió-csatorna) and Balaton.
+waterways:
+  - Duna
+  - Danube
+  - Mosoni-Duna
+  - Szentendrei-Duna
+  - Ráckevei-Duna
+  - Tisza
+  - Dráva
+  - Sió
+  - Sió-csatorna
+lakes:
+  - Balaton
+  - Velencei-tó
+exclude: []

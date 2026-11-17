@@ -227,6 +227,24 @@
   min_locks: 16
   source: https://en.wikipedia.org/wiki/Rhine%E2%80%93Main%E2%80%93Danube_Canal (171 km, 16 locks)
 
+- name: Vienna → Budapest (Danube, Freudenau and Gabčíkovo locks)
+  from: [16.41, 48.235]
+  to: [19.05, 47.50]
+  expected_km: 282
+  tolerance: 0.1
+  countries: [AT, SK, HU]
+  via: [Donau, Duna]
+  min_locks: 2
+  source: https://www.viadonau.org/en/economy/waterway-information (Danube km 1929 Reichsbrücke – km 1647 Budapest)
+
+- name: Prague → Hamburg (Vltava, Labe, Elbe)
+  from: [14.415, 50.09]
+  to: [9.97, 53.54]
+  countries: [CZ, DE]
+  via: [Vltava, Labe, Elbe]
+  min_locks: 5
+  source: https://en.wikipedia.org/wiki/Elbe (Vltava locks to Mělník, Střekov on the Labe, Geesthacht on the Elbe)
+
 - name: Litoranea Veneta (Chioggia → Muggia)
   from: [12.28, 45.22]
   to: [13.77, 45.605]

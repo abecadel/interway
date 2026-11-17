@@ -1,0 +1,17 @@
+# Serbia: international and interstate waterways (Dunav, Sava, Tisa) and the Danube-Tisa-Danube canal system.
+# OSM names are in Cyrillic; Latin and English forms are listed as well.
+waterways:
+  - Дунав
+  - Dunav
+  - Danube
+  - Сава
+  - Sava
+  - Тиса
+  - Tisa
+  - Tisza
+  - Бегеј
+  - Begej
+  - Канал Дунав–Тиса–Дунав
+  - Kanal Dunav–Tisa–Dunav
+lakes: []
+exclude: []
