@@ -10,6 +10,8 @@ import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
 import { PointInput, type Point } from './ui/PointInput';
 import { parseUrlState, writeUrlState } from './ui/urlState';
 import { briefMarkdown, buildBrief } from './ui/brief';
+import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
+import { searchPlaces } from './ui/search';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
@@ -86,6 +88,42 @@ export default function App({ client }: { client: RoutingApi }) {
   const busy = !!start && !!end && dataReady && !current;
   const itinerary = useMemo(() => (route ? buildItinerary(route, pois) : null), [route, pois]);
   const [focus, setFocus] = useState<LngLat | null>(null);
+
+  // AI agents in WebMCP browsers drive the planner through site tools; they see the same state as the UI.
+  const latest = useRef({ route, itinerary, profile, viaPositions, start, end, pois });
+  useEffect(() => {
+    latest.current = { route, itinerary, profile, viaPositions, start, end, pois };
+  });
+  useEffect(() => {
+    if (!dataReady) return;
+    const pageLink = (from: LngLat, to: LngLat, via: LngLat[], p: VesselProfile) =>
+      `${location.origin}${location.pathname}?${writeUrlState('', { from, to, via }, p)}`;
+    const bridge: PlannerBridge = {
+      planRoute: async ({ from, to, via, vessel }) => {
+        const prof = { ...latest.current.profile, ...vessel };
+        const r = await client.route(from, to, prof, via);
+        setStart(toPoint(from));
+        setEnd(toPoint(to));
+        setVia(via.map(toPoint));
+        setProfile(prof);
+        const it = buildItinerary(r, latest.current.pois);
+        return buildBrief({ route: r, itinerary: it, profile: prof, title: `${fmtPos(from)} → ${fmtPos(to)}`, link: pageLink(from, to, via, prof) });
+      },
+      brief: () => {
+        const l = latest.current;
+        if (!l.route || !l.itinerary || !l.start || !l.end) return null;
+        return buildBrief({
+          route: l.route, itinerary: l.itinerary, profile: l.profile, title: `${l.start.label} → ${l.end.label}`,
+          link: pageLink(l.start.position, l.end.position, l.viaPositions, l.profile),
+        });
+      },
+      setVessel: (v) => setProfile((p) => ({ ...p, ...v })),
+      waypoints: () => latest.current.viaPositions,
+      setWaypoints: (v) => setVia(v.map(toPoint)),
+      findPlace: (q) => searchPlaces(q),
+    };
+    void registerSiteTools(bridge);
+  }, [dataReady, client]);
 
   const startWatching = () =>
     new Promise<GeolocationPosition>((resolve, reject) => {

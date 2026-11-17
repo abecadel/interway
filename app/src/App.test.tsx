@@ -19,6 +19,8 @@ vi.mock('./map/MapView', () => ({
 }));
 vi.mock('./ui/search', () => ({ searchPlaces: vi.fn(async () => []) }));
 const { default: App } = await import('./App');
+import type { SiteTool } from './agent/siteTools';
+import type { RouteBrief } from './ui/brief';
 
 const route = (over: Partial<Route> = {}): Route => ({
   coordinates: [[21, 52], [21.5, 52.5]],
@@ -296,6 +298,38 @@ describe('App', () => {
     fireEvent.click(screen.getByText('JSON'));
     const json = JSON.parse(await ((createObjectURL.mock.calls[2] as unknown[])[0] as Blob).text());
     expect(json.title).toBe('2.0000°N 1.0000°E → 4.0000°N 3.0000°E');
+  });
+
+  it('lets AI agents plan and edit routes through WebMCP site tools', async () => {
+    const tools: Record<string, SiteTool> = {};
+    Object.defineProperty(document, 'modelContext', {
+      value: { registerTool: (t: SiteTool) => { tools[t.name] = t; } }, configurable: true,
+    });
+    const client = fakeClient();
+    render(<App client={client} />);
+    await flush();
+    expect(Object.keys(tools)).toContain('plan_route');
+    await expect(tools.get_route_brief.execute({})).rejects.toThrow('call plan_route first');
+
+    let out: RouteBrief | undefined;
+    await act(async () => {
+      out = await tools.plan_route.execute({ from: { lon: 1, lat: 2 }, to: { lon: 3, lat: 4 }, via: [{ lon: 2, lat: 3 }], vessel: { draft: 1.5 } }) as RouteBrief;
+    });
+    const profile = { ...defaultProfile, draft: 1.5 };
+    expect(client.route).toHaveBeenCalledWith([1, 2], [3, 4], profile, [[2, 3]]);
+    expect(out!.totals.km).toBe(123.5);
+    expect(out!.link).toBe('http://localhost:3000/?from=1.00000,2.00000&to=3.00000,4.00000&via=2.00000,3.00000&draft=1.5');
+    await flush();
+    expect(location.search).toBe('?from=1.00000,2.00000&to=3.00000,4.00000&via=2.00000,3.00000&draft=1.5');
+    const now = await tools.get_route_brief.execute({}) as RouteBrief;
+    expect(now.link).toBe(out!.link);
+
+    await act(async () => { await tools.set_vessel.execute({ airDraft: 4 }); });
+    await act(async () => { await tools.add_waypoint.execute({ point: { lon: 2.5, lat: 3.5 } }); });
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...profile, airDraft: 4 }, [[2, 3], [2.5, 3.5]]);
+    expect(await tools.find_place.execute({ query: 'x' })).toEqual([]);
+    delete (document as { modelContext?: unknown }).modelContext;
   });
 
   it('copies the brief for AI assistants, falling back to a download', async () => {
