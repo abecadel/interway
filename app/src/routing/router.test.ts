@@ -161,6 +161,35 @@ describe('router edge cases', () => {
     expect(route.coordinates[1][0]).toBeCloseTo(17.2, 6);
   });
 
+  it('skips an isolated fragment nearer than the connected network', () => {
+    // a short ditch right next to the start, not connected to anything; the river is a little further away
+    const r = makeRouter([{ points: [A, C], name: 'river' }, { points: [[17.0, 51.002], [17.01, 51.002]], name: 'ditch' }]);
+    expect(r.snap([17.005, 51.0015])!.geom).toBe(1);
+    const route = r.route([17.005, 51.0015], [17.15, 51.0]);
+    expect(route.legs.map((l) => l.name)).toEqual(['river']);
+    expect(r.snapCandidates([17.005, 51.0015])).toHaveLength(2);
+  });
+
+  it('tries the next pair when the closest one has no way through', () => {
+    // two parallel one-way-like stretches: the closest pair fails, the next one works
+    const graph: Graph = {
+      nodeCount: 4, edgeCount: 2,
+      nodeLat: Int32Array.from([51e7, 51e7, 51.001e7, 51.001e7]), nodeLon: Int32Array.from([17e7, 17.1e7, 17e7, 17.1e7]),
+      edgeOffsets: Uint32Array.from([0, 0, 1, 2, 2]), edgeTarget: Uint32Array.from([0, 3]), edgeLength: Float32Array.from([7000, 7000]),
+      edgeGeom: Uint32Array.from([0, 1]), edgeAttr: Uint16Array.from([0, 0]),
+      edgeFlags: Uint16Array.from([Flag.GEOM_REVERSED, 0]), attrTable: new Float32Array(4),
+    };
+    const geometry: Geometry = {
+      geomCount: 2, geomFrom: Uint32Array.from([0, 2]), geomTo: Uint32Array.from([1, 3]), geomOffsets: Uint32Array.from([0, 2, 4]),
+      lat: Int32Array.from([51e7, 51e7, 51.001e7, 51.001e7]), lon: Int32Array.from([17e7, 17.1e7, 17e7, 17.1e7]),
+      nameIndex: Uint32Array.from([0, 0]),
+    };
+    const r = new Router(graph, geometry);
+    // nearer to the B->A stretch, but heading east only works on the other one
+    const route = r.route([17.02, 51.0002], [17.08, 51.0002]);
+    expect(route.coordinates[0][1]).toBeCloseTo(51.001, 5);
+  });
+
   it('snaps to zero-length geometries', () => {
     const r = makeRouter([{ points: [A, A] }]);
     expect(r.snap([17.0, 51.01])!.frac).toBe(0);
