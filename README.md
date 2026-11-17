@@ -35,8 +35,10 @@ npm run dev            # http://localhost:5173  (uses the data in app/public/dat
 npm test               # unit tests
 ```
 
-The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Switzerland and France (≈11 MB),
-enough for routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam or the Baltic → Mediterranean "Le Cut".
+The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Switzerland, France, the River
+Thames, Austria, Czechia, Slovakia and the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria), joined
+by a sea network from the Atlantic to the Black Sea: enough for routes like Zalew Zegrzyński → Mazury,
+Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", Vienna → the Black Sea or London → Crete.
 Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
 
 ## Deployment
@@ -50,7 +52,10 @@ The build sets `VITE_BASE=/<repo>/` so the app, its data and the service worker 
 ```bash
 cd pipeline
 pip install -e '.[dev]'
-# Country/region extracts from https://download.geofabrik.de or https://download.openstreetmap.fr
+# Country/region extracts from https://download.geofabrik.de or https://download.openstreetmap.fr.
+# Where neither is reachable, cut a bounding box out of the streamed Europe file (needs osmium-tool):
+#   tools/stream-extract.sh https://ftp5.gwdg.de/pub/misc/openstreetmap/download.geofabrik.de/europe-latest.osm.pbf \
+#     13.4,41.2,29.9,48.7 danube.osm.pbf && interway-filter danube.osm.pbf -o filtered/
 python -m interway_pipeline.cli poland.osm.pbf germany.osm.pbf netherlands.osm.pbf \
     --region "PL-DE-NL" -o ../app/public/data --cache cache/
 pytest -q
@@ -71,7 +76,7 @@ the network).
 - [ ] Phase 3: lock/bridge details on the map, offline search
 - [x] Offline (PWA): app, waterway data and viewed map tiles cached by a service worker
 - [ ] Phase 4: navigation mode
-- [ ] Phase 5: coastal sea routing
+- [x] Phase 5: sea routing (coastal mesh, EMODnet depth)
 
 ## License and attribution
 

@@ -276,6 +276,62 @@
   min_locks: 5
   source: https://en.wikipedia.org/wiki/Elbe (Vltava locks to Mělník, Střekov on the Labe, Geesthacht on the Elbe)
 
+- name: Kelheim → Vienna (Danube, Bavarian and Austrian power-station locks)
+  from: [11.88, 48.92]
+  to: [16.41, 48.235]
+  expected_km: 482
+  tolerance: 0.1
+  countries: [DE, AT]
+  via: [Donau]
+  min_locks: 12
+  source: https://www.viadonau.org/en/economy/waterway-information (Danube km 2411 Kelheim – km 1929 Vienna Reichsbrücke)
+
+- name: Budapest → Belgrade (Danube)
+  from: [19.05, 47.50]
+  to: [20.47, 44.83]
+  expected_km: 477
+  tolerance: 0.1
+  countries: [HU, HR, RS]
+  via: [Duna, Dunav]
+  source: https://www.danubecommission.org (Danube km 1647 Budapest – km 1170 Belgrade)
+
+- name: Belgrade → Sulina (Danube, Iron Gates I and II, to the Black Sea)
+  from: [20.47, 44.83]
+  to: [29.66, 45.16]
+  expected_km: 1170
+  tolerance: 0.1
+  countries: [RS, RO, BG]
+  via: [Dunav, Dunărea]
+  min_locks: 2
+  source: https://www.danubecommission.org (Danube km 1170 Belgrade – km 0 Sulina; Iron Gates locks at km 943 and 863)
+
+- name: Cernavodă → Constanța (Danube–Black Sea Canal)
+  from: [28.03, 44.33]
+  to: [28.64, 44.10]
+  expected_km: 64
+  tolerance: 0.15
+  countries: [RO]
+  min_locks: 2
+  source: https://en.wikipedia.org/wiki/Danube%E2%80%93Black_Sea_Canal (64.4 km, locks at Cernavodă and Agigea)
+
+- name: Sisak → Belgrade (Sava)
+  from: [16.37, 45.48]
+  to: [20.44, 44.81]
+  expected_km: 590
+  tolerance: 0.15
+  countries: [HR, RS]
+  via: [Sava]
+  source: https://www.savacommission.org (Sava navigable 594 km, Sisak – Belgrade)
+
+- name: Constanța → Istanbul (Black Sea, Bosphorus)
+  from: [28.66, 44.17]
+  to: [28.98, 41.02]
+  expected_km: 370
+  tolerance: 0.25
+  sea: true
+  countries: [RO]
+  source: https://www.sea-distances.org (Constanța – Istanbul ≈ 200 NM)
+
 - name: Litoranea Veneta (Chioggia → Muggia)
   from: [12.28, 45.22]
   to: [13.77, 45.605]
