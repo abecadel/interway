@@ -1,6 +1,6 @@
 """Charted depth for sea routes, from EMODnet Bathymetry (https://emodnet.ec.europa.eu, CC BY 4.0).
 
-The European DTM has a ~115 m grid; it is fetched downsampled (WCS SCALEFACTOR) in 5° tiles, on demand, and
+The European DTM has a ~115 m grid; it is fetched downsampled (WCS SCALEFACTOR) in 2° tiles, on demand, and
 cached on disk. Values are elevations: negative below sea level. Sea mesh edges get a draft limit from the
 shallowest point along them, so the router keeps deep-draught boats off banks and shoals. The grid smooths out
 dredged channels and harbour entrances, so it is a planning aid, not a chart: not for navigation.
@@ -21,7 +21,7 @@ from .model import LonLat, Segment, haversine
 log = logging.getLogger(__name__)
 
 WCS = "https://ows.emodnet-bathymetry.eu/wcs"
-TILE_DEG = 5
+TILE_DEG = 2  # larger requests are refused (HTTP 500) or resampled inconsistently by the service
 ATTRIBUTION = "Bathymetry © EMODnet Bathymetry Consortium (CC BY 4.0)"
 
 
@@ -33,7 +33,7 @@ def tile_url(i: int, j: int, scale: float) -> str:
 
 def tile_loader(cache_dir: Path, scale: float = 0.25,
                 opener: Callable = urllib.request.urlopen) -> Callable[[int, int], np.ndarray | None]:
-    """Loads tile (i, j) — lon 5i..5i+5, lat 5j..5j+5, north up — from the cache or the WCS service."""
+    """Loads tile (i, j) — lon 2i..2i+2, lat 2j..2j+2, north up — from the cache or the WCS service."""
     import tifffile
 
     def load(i: int, j: int) -> np.ndarray | None:
