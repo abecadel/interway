@@ -191,7 +191,7 @@ def test_close_gaps_links_nearby_dead_ends_once():
     ]
     assert close_gaps(segs) == 2
     patches = [s for s in segs if s.kind == "patch"]
-    assert len(patches) == 2
+    assert len(patches) == 2 and not any(p.lock for p in patches)  # mapping slips are plain water
     assert len(set(components(segs).values())) == 2  # 1-6 joined, 7-8 left alone
 
 
@@ -286,7 +286,7 @@ def test_close_gaps_joins_facing_dead_ends_across_a_ship_lift():
     work = list(segs)
     assert close_gaps(work, dead_end_gap_m=300) == 1
     link = work[-1]
-    assert {link.a, link.b} == {2, 3} and link.kind == "patch"
+    assert {link.a, link.b} == {2, 3} and link.kind == "patch" and link.lock  # a lift/lock: counted as a lock
     work = list(segs)
     assert close_gaps(work, dead_end_gap_m=100) == 0  # 120 m apart
 
@@ -373,3 +373,30 @@ def test_no_cut_when_the_only_other_way_is_too_long():
             Segment(a=3, b=2, coords=[(0.5, 0.0), (1.0, 0.0)], kind="river")]
     assert block_lock_bypasses(segs, max_m=250_000)[1] != []
     assert block_lock_bypasses(segs, max_m=120_000)[1] == []
+
+
+def test_dead_end_beside_a_line_splits_it_and_joins():
+    from interway_pipeline.topology import snap_dead_ends_to_lines
+    m = metres_to_deg(1)
+    main = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.01, 0.0), (0.02, 0.0), (0.03, 0.0)], kind="canal", name="Canal")
+    spur = Segment(a=3, b=4, coords=[(0.01 + 5 * m, 0.02), (0.01 + 5 * m, 10 * m)], kind="canal", name="Branche")
+    spur2 = Segment(a=5, b=6, coords=[(0.02, -0.02), (0.02, -12 * m)], kind="canal")      # second split, same line
+    far = Segment(a=7, b=8, coords=[(0.025, 0.02), (0.025, 100 * m)], kind="canal")      # 100 m: too far
+    own = Segment(a=1, b=10, coords=[(0.0, 0.0), (0.0, 0.01), (0.01, 3 * m)], kind="canal")  # main's own branch
+    near_miss = Segment(a=11, b=12, coords=[(0.01, -0.02), (0.01, -35 * m)], kind="canal")    # 35 m: just too far
+    segs = [main, spur, spur2, far, own, near_miss]
+    assert snap_dead_ends_to_lines(segs) == 2
+    names = [s.name for s in segs]
+    assert names.count("Canal") == 3  # the main canal is cut at both vertices
+    comp = components(segs)
+    assert comp[4] == comp[1] == comp[6] and comp[8] != comp[1] and comp[12] != comp[1]
+    assert not any(s.kind == "patch" and 10 in (s.a, s.b) for s in segs)  # already connected: no extra join
+    patch = next(s for s in segs if s.kind == "patch" and 4 in (s.a, s.b))
+    assert patch.coords[-1] == (0.01, 0.0) and patch.length < 12
+
+
+def test_snap_to_lines_without_vertices_or_dead_ends():
+    from interway_pipeline.topology import snap_dead_ends_to_lines
+    assert snap_dead_ends_to_lines([Segment(a=1, b=2, coords=[(0, 0), (1, 0)])]) == 0
+    ring = [Segment(a=1, b=2, coords=[(0, 0), (0.5, 0.5), (1, 0)]), Segment(a=2, b=1, coords=[(1, 0), (0, 0)])]
+    assert snap_dead_ends_to_lines(ring) == 0

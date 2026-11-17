@@ -48,6 +48,7 @@ NODE_TAGS = {
     36: {"waterway": "weir", "lock": "yes"},  # weir with a lock is passable
     37: {"leisure": "marina", "name": "Port Node"},
     38: {"leisure": "marina", "name": "No location"},
+    20: {"waterway": "fuel", "name": "Paliwo"},
 }
 WAYS = [
     (1, [1, 2, 3, 4], {"waterway": "canal", "name": "Kanał", "CEMT": "II", "maxdraft": "1.8", "oneway": "-1",
@@ -75,6 +76,8 @@ WAYS = [
     (160, ring(160), {"natural": "wood"}),
     (170, [170, 171, 172, 170], {"natural": "water", "name": "Kreska"}),
     (171, [170, 171, 172, 170], {"leisure": "marina", "name": "Broken"}),
+    (172, ring(160), {"landuse": "harbour", "name": "Port Handlowy"}),
+    (173, [170, 171, 172, 170], {"landuse": "harbour", "name": "Broken port"}),
     (180, ring(180), {"natural": "water", "water": "canal", "name": "Kanałek"}),
     (190, ring(190), {"waterway": "riverbank", "name": "Brzeg"}),
 ]
@@ -202,3 +205,9 @@ def test_area_polygon_repairs_invalid_rings():
 def test_area_polygon_drops_rings_that_vanish():
     flat = ((0, 0), (1, 0), (2, 0), (0, 0))
     assert _area_polygon(FakeArea({flat: []})) is None
+
+
+def test_services(ex):
+    got = {(k, n) for k, n, _ in ex.services}
+    assert got == {("marina", "Port Node"), ("marina", "Port Area"), ("fuel", "Paliwo"), ("port", "Port Handlowy")}
+    assert ("Port Handlowy", "port") not in dict(ex.marinas).items()  # only marinas feed lake entries

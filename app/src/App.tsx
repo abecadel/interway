@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LngLat } from './graph/geo';
 import { MapView } from './map/MapView';
 import type { RoutingApi } from './routing/client';
+import { buildItinerary } from './routing/itinerary';
 import type { Poi } from './routing/service';
+import { ItineraryView } from './ui/ItineraryView';
 import { defaultProfile, type Route, type VesselProfile } from './routing/router';
 import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
 import { PointInput, type Point } from './ui/PointInput';
@@ -89,6 +91,8 @@ export default function App({ client }: { client: RoutingApi }) {
   const route = current?.route ?? null;
   const routeError = current?.error ?? null;
   const busy = !!start && !!end && dataReady && !current;
+  const itinerary = useMemo(() => (route ? buildItinerary(route, pois) : null), [route, pois]);
+  const [focus, setFocus] = useState<LngLat | null>(null);
 
   const startWatching = () =>
     new Promise<GeolocationPosition>((resolve, reject) => {
@@ -117,7 +121,7 @@ export default function App({ client }: { client: RoutingApi }) {
   };
 
   const downloadGpx = (route: Route, name: string) => {
-    const blob = new Blob([toGpx(route, name)], { type: 'application/gpx+xml' });
+    const blob = new Blob([toGpx(route, name, itinerary!.stops)], { type: 'application/gpx+xml' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'interway-route.gpx';
@@ -176,6 +180,7 @@ export default function App({ client }: { client: RoutingApi }) {
                 <li key={i}><span>{l.name || 'unnamed waterway'}</span><span>{fmtKm(l.distance)}</span></li>
               ))}
             </ol>
+            <ItineraryView itinerary={itinerary!} onSelect={(lon, lat) => setFocus([lon, lat])} />
             <button onClick={() => downloadGpx(route, `${start!.label} → ${end!.label}`)}>Export GPX</button>
           </section>
         )}
@@ -216,6 +221,7 @@ export default function App({ client }: { client: RoutingApi }) {
         network={showNetwork ? network : null}
         showSeamarks={showSeamarks}
         pois={pois}
+        focus={focus}
         onMapClick={onMapClick}
       />
     </div>

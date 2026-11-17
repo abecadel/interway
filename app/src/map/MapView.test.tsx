@@ -33,6 +33,7 @@ vi.mock('maplibre-gl', () => {
     layout: Record<string, string> = {};
     controls: unknown[] = [];
     fitBounds = vi.fn();
+    flyTo = vi.fn();
     remove = vi.fn();
     constructor(opts: Record<string, unknown>) {
       this.opts = opts;
@@ -166,6 +167,14 @@ describe('MapView', () => {
     act(() => map.handlers.load());
     expect(map.layout.seamarks).toBe('visible');
     expect(map.sources.network.setData).toHaveBeenCalledWith({ type: 'FeatureCollection', features: [] });
+  });
+
+  it('flies to a focused point', () => {
+    const { rerender } = render(<MapView {...base} />);
+    const map = h.state.maps[0] as unknown as { flyTo: ReturnType<typeof vi.fn> };
+    expect(map.flyTo).not.toHaveBeenCalled();
+    rerender(<MapView {...base} focus={[18.1, 53.1]} />);
+    expect(map.flyTo).toHaveBeenCalledWith({ center: [18.1, 53.1], zoom: 14 });
   });
 
   it('removes the map on unmount', () => {

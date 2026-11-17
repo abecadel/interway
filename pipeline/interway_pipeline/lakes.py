@@ -121,7 +121,7 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     return added
 
 
-BRIDGE_WINDOW_M = 5000.0
+BRIDGE_WINDOW_M = 10000.0
 STRAIT_MAX_M = 3000.0
 
 
