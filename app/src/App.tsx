@@ -204,6 +204,10 @@ export default function App({ client }: { client: RoutingApi }) {
               <input type="checkbox" checked={profile.avoidLocks} onChange={(e) => setProfile({ ...profile, avoidLocks: e.target.checked })} />
               Avoid locks
             </label>
+            <label className="check">
+              <input type="checkbox" checked={profile.avoidSea} onChange={(e) => setProfile({ ...profile, avoidSea: e.target.checked })} />
+              Avoid open sea
+            </label>
           </div>
         </details>
 

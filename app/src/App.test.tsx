@@ -221,8 +221,9 @@ describe('App', () => {
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 });
     fireEvent.change(screen.getByLabelText('Air draft (m)'), { target: { value: '4.5' } });
     fireEvent.click(screen.getByLabelText('Avoid locks'));
+    fireEvent.click(screen.getByLabelText('Avoid open sea'));
     await flush();
-    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true };
+    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true };
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected);
     expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual(expected);
   });

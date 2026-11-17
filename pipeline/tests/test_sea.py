@@ -100,3 +100,38 @@ def test_narrow_straits_get_a_finer_mesh():
     fine = sea_mesh(c, BBOX, grid_m=10000, narrows={"Channel": (0.48, 0.38, 0.52, 0.62), "Nowhere": (5, 5, 6, 6)})
     assert len(set(components(fine).values())) == 1
     assert sea_mesh(c, BBOX, grid_m=10000)  # default narrows lie outside this bbox
+
+
+def test_grid_moves_handle_holes():
+    from interway_pipeline.sea import _grid_moves
+    assert _grid_moves(np.zeros((0, 2)), 0, 0, 10).size == 0
+    assert _grid_moves(np.array([[0.0, 0.0], [50.0, 50.0]]), 0, 0, 10).size == 0  # no neighbours one move apart
+    lines = _grid_moves(np.array([[0.0, 0.0], [10.0, 0.0], [20.0, 10.0]]), 0, 0, 10)
+    assert len(lines) == 3  # a straight move, a diagonal and a knight's move
+
+
+def test_open_water_crossings_are_nearly_straight():
+    import heapq
+
+    from interway_pipeline.model import haversine
+    segs = sea_mesh(Coast([box(5, 5, 5.1, 5.1)]), (0.0, 0.0, 2.0, 2.0), grid_m=10000)
+    adj: dict = {}
+    pos = {}
+    for s in segs:
+        w = haversine(s.coords[0], s.coords[-1])
+        adj.setdefault(s.a, []).append((s.b, w))
+        adj.setdefault(s.b, []).append((s.a, w))
+        pos[s.a], pos[s.b] = s.coords[0], s.coords[-1]
+    src = min(pos, key=lambda n: pos[n][0] + pos[n][1])
+    dst = max(pos, key=lambda n: pos[n][0] + 0.4 * pos[n][1])  # an awkward bearing, not a grid diagonal
+    dist = {src: 0.0}
+    heap = [(0.0, src)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if d > dist[u]:
+            continue
+        for v, w in adj[u]:
+            if d + w < dist.get(v, float("inf")):
+                dist[v] = d + w
+                heapq.heappush(heap, (d + w, v))
+    assert dist[dst] / haversine(pos[src], pos[dst]) < 1.05

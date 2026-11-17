@@ -168,6 +168,8 @@
 - name: London → Heraklion, Crete (Thames, Channel, Biscay, Gibraltar, Mediterranean)
   from: [-0.075, 51.507]
   to: [25.14, 35.345]
+  # the sea passage; without it the planner rightly prefers the shorter French canals (Le Cut)
+  waypoints: [[-5.6, 35.95]]
   sea: true
   countries: [GB]
   via: [Thames, Open sea]

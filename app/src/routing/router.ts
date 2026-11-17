@@ -15,7 +15,16 @@ export interface VesselProfile {
   /** minutes added per lock */
   lockPenaltyMin: number;
   avoidLocks: boolean;
+  /** keep to inland waterways where any inland way exists (open sea costs 10x instead of SEA_COST) */
+  avoidSea: boolean;
 }
+
+/** Open sea counts this much more than inland water of the same length: weather, swell and tides make it the
+ * less obvious choice when an inland way is comparable (Wrocław → Amsterdam via the Mittellandkanal, not the
+ * Wadden coast). Reported durations are real time without these penalties. */
+export const SEA_COST = 1.5;
+const AVOID_SEA_COST = 10;
+const AVOID_LOCKS_COST = 10;
 
 export const defaultProfile: VesselProfile = {
   speedKmh: 10,
@@ -26,6 +35,7 @@ export const defaultProfile: VesselProfile = {
   length: 9,
   lockPenaltyMin: 20,
   avoidLocks: false,
+  avoidSea: false,
 };
 
 export interface Snap {
@@ -197,7 +207,8 @@ export class Router {
     if (flags & Flag.DOWNSTREAM) speed += p.currentMs;
     else if (flags & Flag.UPSTREAM) speed = Math.max(speed - p.currentMs, 0.3);
     let cost = g.edgeLength[e] / speed;
-    if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? 10 : 1);
+    if (flags & Flag.SEA) cost *= p.avoidSea ? AVOID_SEA_COST : SEA_COST;
+    if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? AVOID_LOCKS_COST : 1);
     return cost;
   }
 
@@ -277,7 +288,12 @@ export class Router {
     if (!Number.isFinite(cost[DST])) {
       throw new RouteError('No navigable route found between these points for this vessel');
     }
-    return this.buildRoute(s, t, prevEdge, prevNode, cost[DST]);
+    const route = this.buildRoute(s, t, prevEdge, prevNode, cost[DST]);
+    // the search cost includes routing penalties; report the time actually underway
+    const seaFactor = profile.avoidSea ? AVOID_SEA_COST : SEA_COST;
+    route.duration -= (seaFactor - 1) * route.sea / (profile.speedKmh / 3.6)
+      + (profile.avoidLocks ? (AVOID_LOCKS_COST - 1) * profile.lockPenaltyMin * 60 * route.locks : 0);
+    return route;
   }
 
   private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number): Route {

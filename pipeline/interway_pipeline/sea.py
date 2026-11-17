@@ -110,8 +110,28 @@ def _coast_points(coast: Coast, bbox, step: float, offset: float) -> np.ndarray:
     return pts[~coast.near_land(pts, offset / 2)]
 
 
+# Offshore grid moves in 16 directions (straight, diagonal and knight's moves): a square grid's triangulation
+# alone allows only 4-6 directions, turning open-water crossings into staircases (Biscay ~40 % too long); with
+# these a straight course is matched within ~3 %.
+GRID_MOVES = ((1, 0), (0, 1), (1, 1), (1, -1), (2, 1), (1, 2), (2, -1), (1, -2))
+
+
+def _grid_moves(grid: np.ndarray, x0: float, y0: float, step: float) -> np.ndarray:
+    """Lines between grid nodes one move apart (the grid has holes where land or the coast is near)."""
+    if not len(grid):
+        return np.zeros(0, dtype=object)
+    ij = np.rint((grid - [x0, y0]) / step).astype(np.int64)
+    at = {(int(i), int(j)): k for k, (i, j) in enumerate(ij)}
+    pairs = [(k, at[(i + di, j + dj)]) for k, (i, j) in enumerate(map(tuple, ij)) for di, dj in GRID_MOVES
+             if (i + di, j + dj) in at]
+    if not pairs:
+        return np.zeros(0, dtype=object)
+    a, b = np.array(pairs).T
+    return shapely.linestrings(np.stack([grid[a], grid[b]], axis=1))
+
+
 def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBOX, *, coast_step_m: float = 3000.0,
-             coast_offset_m: float = 500.0, grid_m: float = 20000.0, grid_clear_m: float = 3000.0,
+             coast_offset_m: float = 500.0, grid_m: float = 25000.0, grid_clear_m: float = 3000.0,
              max_offshore_m: float = 400000.0, narrows: dict | None = None) -> list[Segment]:
     """Segments (kind "sea") of a mesh over the water in `bbox`. Distances are Mercator metres (true metres
     times 1/cos(latitude)). Each `narrows` bbox gets extra coast points at a sixth of the spacing and offset."""
@@ -133,14 +153,19 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
 
     edges = shapely.get_parts(shapely.delaunay_triangles(MultiPoint(nodes), only_edges=True))
     edges = edges[shapely.length(edges) <= 3 * grid_m]
+    edges = np.concatenate([edges, _grid_moves(grid, x0, y0, grid_m)])
     edges = edges[~coast.crossing(edges)]
 
     ids: dict[tuple[float, float], int] = {}
+    seen: set[tuple[int, int]] = set()
     out: list[Segment] = []
     for e in edges:
         (ax, ay), (bx, by) = shapely.get_coordinates(e)
         a = ids.setdefault((ax, ay), new_node_id())
         b = ids.setdefault((bx, by), new_node_id())
+        if (min(a, b), max(a, b)) in seen:
+            continue  # a grid move that the triangulation already has
+        seen.add((min(a, b), max(a, b)))
         lonlat = from_merc(np.array([[ax, ay], [bx, by]]))
         out.append(Segment(a=a, b=b, coords=[tuple(lonlat[0]), tuple(lonlat[1])], kind="sea"))
     log.info("sea mesh: %d coast + %d offshore nodes, %d edges", len(coast_pts), len(grid), len(out))

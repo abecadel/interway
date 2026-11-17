@@ -112,6 +112,29 @@ describe('router edge cases', () => {
     expect(avoid.duration).toBeGreaterThan(normal.duration);
   });
 
+  it('prefers a comparable inland way to the open sea, and reports real time', () => {
+    // P -> Q: 14 km of sea, or an inland canal 20% longer
+    const P: [number, number] = [17.0, 51.0], Q: [number, number] = [17.2, 51.0];
+    const r = makeRouter([
+      { points: [P, Q], kind: 'sea' },
+      { points: [P, [17.1, 51.06], Q], name: 'Kanał', kind: 'canal' },
+    ]);
+    const inland = r.route(P, Q);
+    expect(inland.sea).toBe(0);
+    expect(inland.legs.map((l) => l.name)).toEqual(['Kanał']);
+    // without the inland way the sea is used, and its time is distance / speed, not the penalised cost
+    const seaOnly = makeRouter([{ points: [P, Q], kind: 'sea' }]).route([17.001, 51.0], [17.199, 51.0]);
+    expect(seaOnly.sea).toBeCloseTo(seaOnly.distance, 0);
+    expect(seaOnly.duration).toBeCloseTo(seaOnly.distance / (defaultProfile.speedKmh / 3.6), 0);
+    const avoiding = makeRouter([{ points: [P, Q], kind: 'sea' }]).route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, avoidSea: true });
+    expect(avoiding.duration).toBeCloseTo(seaOnly.duration, 0);
+    // avoiding locks does not add the extra penalty to the reported time
+    const locked = makeRouter([{ points: [A, B] }, { points: [B, C], lock: true }, { points: [C, [17.3, 51.0]] }]);
+    const normal = locked.route([17.05, 51.0], [17.25, 51.0]);
+    expect(normal.locks).toBe(1);
+    expect(locked.route([17.05, 51.0], [17.25, 51.0], { ...defaultProfile, avoidLocks: true }).duration).toBeCloseTo(normal.duration, 0);
+  });
+
   it('never goes slower than the upstream floor speed', () => {
     const r = makeRouter([{ points: [A, B], kind: 'river' }]);
     const p = { ...defaultProfile, speedKmh: 1, currentMs: 5 };

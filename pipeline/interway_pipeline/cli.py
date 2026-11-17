@@ -184,7 +184,7 @@ def sea_network(land: Path, bbox: tuple[float, float, float, float], cache_dir: 
     return coast, sea
 
 
-SEA_VERSION = 1  # bump when sea_mesh output changes, invalidates cached meshes
+SEA_VERSION = 2  # bump when sea_mesh output changes, invalidates cached meshes
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
