@@ -101,6 +101,9 @@ describe('router edge cases', () => {
     expect(() => limited([0, 0, 2, 0]).route(A, B)).toThrow(RouteError);
     expect(() => limited([0, 0, 0, 5]).route(A, B)).toThrow(RouteError);
     expect(limited([5, 10, 10, 50]).route(A, B).distance).toBeGreaterThan(6000);
+    // a narrowboat exactly at a 2.08 m lock limit (stored as float32 2.0799999) fits
+    expect(limited([0, 0, 2.08, 0]).route(A, B, { ...defaultProfile, beam: 2.08 }).distance).toBeGreaterThan(6000);
+    expect(() => limited([0, 0, 2.08, 0]).route(A, B, { ...defaultProfile, beam: 2.09 })).toThrow(RouteError);
   });
 
   it('avoid-locks multiplies the lock penalty', () => {

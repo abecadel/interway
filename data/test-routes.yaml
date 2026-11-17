@@ -232,11 +232,13 @@
 - name: Bordeaux → Constanța (Canal des Deux Mers, Rhône, Rhine, Main-Donau-Kanal, Danube)
   from: [-0.565, 44.845]
   to: [28.66, 44.17]
+  # inland all the way (the sea round Spain and up to the Rhine is shorter): Toulouse, Lyon
+  waypoints: [[1.44, 43.61], [4.83, 45.76]]
   expected_km: 4900
   tolerance: 0.2
   countries: [FR, DE, AT, SK, HU, HR, RS, RO, BG]
   via: [Garonne, Rhône, Main-Donau-Kanal, Donau]
-  min_locks: 300
+  min_locks: 250
   source: https://boatingnz.co.nz/magnifique-bordeaux-to-the-black-sea/ (nearly 5000 km, 484 locks)
 
 - name: Rotterdam → Basel (Rhine)
@@ -275,6 +277,62 @@
   via: [Vltava, Labe, Elbe]
   min_locks: 5
   source: https://en.wikipedia.org/wiki/Elbe (Vltava locks to Mělník, Střekov on the Labe, Geesthacht on the Elbe)
+
+- name: Kelheim → Vienna (Danube, Bavarian and Austrian power-station locks)
+  from: [11.88, 48.92]
+  to: [16.41, 48.235]
+  expected_km: 482
+  tolerance: 0.1
+  countries: [DE, AT]
+  via: [Donau]
+  min_locks: 12
+  source: https://www.viadonau.org/en/economy/waterway-information (Danube km 2411 Kelheim – km 1929 Vienna Reichsbrücke)
+
+- name: Budapest → Belgrade (Danube)
+  from: [19.05, 47.50]
+  to: [20.47, 44.83]
+  expected_km: 477
+  tolerance: 0.1
+  countries: [HU, HR, RS]
+  via: [Duna, Dunav]
+  source: https://www.danubecommission.org (Danube km 1647 Budapest – km 1170 Belgrade)
+
+- name: Belgrade → Sulina (Danube, Iron Gates I and II, to the Black Sea)
+  from: [20.47, 44.83]
+  to: [29.66, 45.16]
+  expected_km: 1170
+  tolerance: 0.1
+  countries: [RS, RO, BG]
+  via: [Dunav, Dunărea]
+  min_locks: 2
+  source: https://www.danubecommission.org (Danube km 1170 Belgrade – km 0 Sulina; Iron Gates locks at km 943 and 863)
+
+- name: Cernavodă → Constanța (Danube–Black Sea Canal)
+  from: [28.03, 44.33]
+  to: [28.64, 44.10]
+  expected_km: 64
+  tolerance: 0.15
+  countries: [RO]
+  min_locks: 2
+  source: https://en.wikipedia.org/wiki/Danube%E2%80%93Black_Sea_Canal (64.4 km, locks at Cernavodă and Agigea)
+
+- name: Sisak → Belgrade (Sava)
+  from: [16.37, 45.48]
+  to: [20.44, 44.81]
+  expected_km: 590
+  tolerance: 0.15
+  countries: [HR, RS]
+  via: [Sava]
+  source: https://www.savacommission.org (Sava navigable 594 km, Sisak – Belgrade)
+
+- name: Constanța → Istanbul (Black Sea, Bosphorus)
+  from: [28.66, 44.17]
+  to: [28.98, 41.02]
+  expected_km: 370
+  tolerance: 0.25
+  sea: true
+  countries: [RO]
+  source: https://www.sea-distances.org (Constanța – Istanbul ≈ 200 NM)
 
 - name: Litoranea Veneta (Chioggia → Muggia)
   from: [12.28, 45.22]
@@ -316,3 +374,151 @@
   via: [Garonne, Canal du Midi]
   min_locks: 100
   source: https://www.yachtingmonthly.com/sailing-skills/sailing-the-french-canals-lessons-learned-81734 (≈503 km, 139 locks)
+
+# --- popular cruising routes (UK canals, German rivers, Burgundy) ---
+
+- name: River Thames, Lechlade → Teddington (non-tidal Thames)
+  from: [-1.692, 51.693]
+  to: [-0.327, 51.431]
+  expected_km: 201
+  tolerance: 0.1
+  countries: [GB]
+  via: [River Thames]
+  min_locks: 40
+  source: https://www.gov.uk/guidance/river-thames-distances-and-measurements-for-boaters (≈125 miles, 45 locks)
+
+- name: Grand Union Canal, London (Brentford) → Birmingham
+  from: [-0.306, 51.486]
+  to: [-1.907, 52.476]
+  # by the Grand Union main line (Stoke Bruerne), not the Thames and the Oxford Canal with fewer locks
+  waypoints: [[-0.918, 52.142]]
+  expected_km: 220
+  tolerance: 0.12
+  countries: [GB]
+  via: [Grand Union Canal]
+  min_locks: 140
+  source: https://collections.canalrivertrust.org.uk/themes/grand-union-canal (137 miles, 166 locks)
+
+- name: Kennet and Avon Canal, Reading → Bath
+  from: [-0.957, 51.459]
+  to: [-2.352, 51.377]
+  expected_km: 125
+  tolerance: 0.15
+  countries: [GB]
+  via: [Kennet and Avon Canal]
+  min_locks: 80
+  source: https://en.wikipedia.org/wiki/Kennet_and_Avon_Canal (87 miles and 105 locks Bristol – Reading, 6 of them on the Avon below Bath)
+
+- name: Leeds and Liverpool Canal, Leeds → Liverpool
+  from: [-1.548, 53.794]
+  to: [-2.995, 53.42]
+  expected_km: 204
+  tolerance: 0.1
+  countries: [GB]
+  via: [Leeds and Liverpool Canal]
+  min_locks: 80
+  source: https://www.leedsandliverpoolcanalsociety.co.uk (127 miles, 91 locks on the main line)
+
+- name: Llangollen Canal, Hurleston Junction → Llangollen
+  from: [-2.560, 53.0937]
+  to: [-3.164, 52.971]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }  # a narrowboat: the locks take 7 ft beam
+  expected_km: 72
+  tolerance: 0.12
+  countries: [GB]
+  via: [Llangollen Canal]
+  min_locks: 18
+  source: https://www.whiltonmarina.co.uk/narrowboat-blog/2013/11/Canal-Facts-Northwest-UK/ (46 miles incl. 1½ unnavigable, 21 locks)
+
+- name: Trent and Mersey Canal, Derwent Mouth → Preston Brook
+  from: [-1.3725, 52.8735]
+  to: [-2.645, 53.325]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 150
+  tolerance: 0.1
+  countries: [GB]
+  via: [Trent]
+  min_locks: 45  # not every chamber of the flights is mapped as a lock
+  source: https://en.wikipedia.org/wiki/Trent_and_Mersey_Canal (93½ miles, 76 locks; canalrivertrust.org.uk)
+
+- name: Shropshire Union Canal, Autherley Junction → Ellesmere Port
+  from: [-2.1475, 52.6195]
+  to: [-2.897, 53.283]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 107
+  tolerance: 0.1
+  countries: [GB]
+  via: [Shropshire Union Canal]
+  min_locks: 40
+  source: https://waterways.org.uk/waterways/discover-the-waterways/shropshire-union-canal (66½ miles, 46–47 locks)
+
+- name: Oxford Canal, Oxford → Hawkesbury Junction
+  from: [-1.2685, 51.7565]
+  to: [-1.4625, 52.4595]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 126
+  tolerance: 0.1
+  countries: [GB]
+  via: [Oxford Canal]
+  min_locks: 30  # not every chamber is mapped as a lock
+  source: https://en.wikipedia.org/wiki/Oxford_Canal (78 miles, 43–46 locks; canalrivertrust.org.uk)
+
+- name: Caledonian Canal, Inverness → Corpach (Loch Ness, Loch Oich, Loch Lochy)
+  from: [-4.257, 57.49]
+  to: [-5.126, 56.843]
+  expected_km: 96
+  tolerance: 0.1
+  countries: [GB]
+  via: [Caledonian Canal]
+  min_locks: 20
+  source: https://www.scottishcanals.co.uk/boating/canal-travel/caledonian-canal-skippers-guide (60 miles, 29 locks)
+
+- name: Neckar, Mannheim → Plochingen
+  from: [8.46, 49.50]
+  to: [9.42, 48.71]
+  expected_km: 203
+  tolerance: 0.1
+  countries: [DE]
+  via: [Neckar]
+  min_locks: 25
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/the-neckar/ (≈200 km to Plochingen, 27 locks)
+
+- name: Main, Mainz → Bamberg
+  from: [8.30, 50.00]
+  to: [10.89, 49.90]
+  expected_km: 384
+  tolerance: 0.1
+  countries: [DE]
+  via: [Main]
+  min_locks: 30
+  source: https://en.wikipedia.org/wiki/Main_(river) (navigable 384 km from the Rhine to Bamberg, 34 locks)
+
+- name: Moselle, Koblenz → Metz
+  from: [7.605, 50.365]
+  to: [6.17, 49.12]
+  expected_km: 300
+  tolerance: 0.12
+  countries: [DE, FR]
+  via: [Mosel]
+  min_locks: 14
+  source: https://moselkommission.org/en/the-moselle/facts-figures (Koblenz – Metz canalised 1964, ≈ 300 km)
+
+- name: Canal de Bourgogne, Migennes → Saint-Jean-de-Losne
+  from: [3.517, 47.965]
+  to: [5.263, 47.103]
+  expected_km: 242
+  tolerance: 0.1
+  countries: [FR]
+  via: [Canal de Bourgogne]
+  min_locks: 150
+  source: https://en.wikipedia.org/wiki/Canal_de_Bourgogne (242 km, 189 locks)
+
+- name: Canal du Nivernais, Decize → Auxerre
+  from: [3.457, 46.83]
+  to: [3.575, 47.795]
+  expected_km: 174
+  tolerance: 0.12
+  countries: [FR]
+  via: [Canal du Nivernais]
+  min_locks: 80
+  source: https://en.wikipedia.org/wiki/Nivernais_Canal (174 km, 112 locks)
