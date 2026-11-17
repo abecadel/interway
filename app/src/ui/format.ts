@@ -50,6 +50,20 @@ export const POI_LABEL: Record<PoiType, string> = {
   sanitary: 'Pump-out',
 };
 
+export const POI_PLURAL: Record<PoiType, string> = {
+  lock: 'locks',
+  bridge: 'bridges',
+  marina: 'marinas',
+  port: 'ports',
+  fuel: 'fuel stations',
+  slipway: 'slipways',
+  water: 'water points',
+  sanitary: 'pump-outs',
+};
+
+/** "1 lock", "3 locks" */
+export const countLabel = (n: number, t: PoiType) => `${n} ${n === 1 ? POI_LABEL[t].toLowerCase() : POI_PLURAL[t]}`;
+
 /** Short detail shown next to a stop: lock chamber size or bridge clearance. */
 export function poiDetail(p: Poi): string {
   if (p.clearance !== undefined) return `clearance ${p.clearance.toFixed(1)} m`;

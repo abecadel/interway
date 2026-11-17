@@ -32,7 +32,7 @@ describe('ItineraryView', () => {
   });
 
   it('omits the clearance summary when unknown', () => {
-    render(<ItineraryView itinerary={{ ...itinerary, minClearance: undefined }} onSelect={() => {}} />);
-    expect(screen.getByText('1 lock · 1 fuel')).toBeTruthy();
+    render(<ItineraryView itinerary={{ ...itinerary, counts: { lock: 8, fuel: 2, marina: 5 }, minClearance: undefined }} onSelect={() => {}} />);
+    expect(screen.getByText('8 locks · 2 fuel stations · 5 marinas')).toBeTruthy();
   });
 });

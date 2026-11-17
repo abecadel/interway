@@ -1,6 +1,6 @@
 import type { Itinerary } from '../routing/itinerary';
 import type { PoiType } from '../routing/service';
-import { fmtKm, POI_LABEL, poiDetail } from './format';
+import { countLabel, fmtKm, POI_LABEL, poiDetail } from './format';
 
 const SUMMARY: PoiType[] = ['lock', 'fuel', 'marina', 'port', 'slipway', 'water', 'sanitary'];
 
@@ -8,7 +8,7 @@ const SUMMARY: PoiType[] = ['lock', 'fuel', 'marina', 'port', 'slipway', 'water'
 export function ItineraryView({ itinerary, onSelect }: { itinerary: Itinerary; onSelect: (lon: number, lat: number) => void }) {
   const { stops, counts, minClearance } = itinerary;
   if (!stops.length) return <div className="small info">No locks, bridges or services known along this route.</div>;
-  const parts = SUMMARY.filter((t) => counts[t]).map((t) => `${counts[t]} ${POI_LABEL[t].toLowerCase()}`);
+  const parts = SUMMARY.filter((t) => counts[t]).map((t) => countLabel(counts[t]!, t));
   if (minClearance !== undefined) parts.push(`lowest bridge ${minClearance.toFixed(1)} m`);
   return (
     <details className="itinerary" open>

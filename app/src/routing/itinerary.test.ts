@@ -55,4 +55,19 @@ describe('buildItinerary', () => {
     expect(it.stops.map((s) => s.poi.name)).toEqual(['before', 'after']);
     expect(it.stops.every((s) => Math.abs(s.offset - 30) < 1)).toBe(true);
   });
+
+  it('merges the same thing mapped twice, keeping the named one', () => {
+    const it = buildItinerary(route, [
+      poi({ type: 'lock', name: '', lon: 0.05, lat: 0 }),
+      poi({ type: 'lock', name: 'Pochylnia Kąty', lon: 0.0505, lat: 0 }),   // 55 m on: the same plane
+      poi({ type: 'lock', name: '', lon: 0.051, lat: 0 }),                 // a third copy, unnamed
+      poi({ type: 'marina', name: 'Port', lon: 0.05, lat: 50 * m }),       // another kind: kept
+      poi({ type: 'lock', name: 'Next', lon: 0.06, lat: 0 }),              // 1.1 km on: another lock
+      poi({ type: 'lock', name: 'Next', lon: 0.0601, lat: 0 }),            // same name, 11 m on: duplicate
+      poi({ type: 'marina', name: 'Other', lon: 0.0502, lat: 50 * m }),    // differently named neighbour: kept
+    ]);
+    expect(it.stops.map((s) => `${s.poi.type}:${s.poi.name}`)).toEqual(
+      ['lock:Pochylnia Kąty', 'marina:Port', 'marina:Other', 'lock:Next']);
+    expect(it.counts).toEqual({ lock: 2, marina: 2 });
+  });
 });

@@ -43,13 +43,27 @@ export function buildItinerary(route: Route, pois: Poi[]): Itinerary {
     }
   }
   stops.sort((x, y) => x.at - y.at);
+  const merged = dedupe(stops);
   const counts: Partial<Record<PoiType, number>> = {};
   let minClearance: number | undefined;
-  for (const { poi } of stops) {
+  for (const { poi } of merged) {
     counts[poi.type] = (counts[poi.type] ?? 0) + 1;
     if (poi.clearance !== undefined && (minClearance === undefined || poi.clearance < minClearance)) minClearance = poi.clearance;
   }
-  return { stops, counts, minClearance };
+  return { stops: merged, counts, minClearance };
+}
+
+/** The same thing mapped twice (a named lock patch and an automatic join, two marina nodes): keep one, named first. */
+const SAME_M = 150;
+function dedupe(stops: Stop[]): Stop[] {
+  const out: Stop[] = [];
+  for (const s of stops) {
+    const twin = out.find((o) => o.poi.type === s.poi.type && s.at - o.at < SAME_M
+      && (!o.poi.name || !s.poi.name || o.poi.name === s.poi.name));
+    if (!twin) out.push(s);
+    else if (!twin.poi.name && s.poi.name) out[out.indexOf(twin)] = s;
+  }
+  return out;
 }
 
 function nearest(c: LngLat[], along: number[], index: Flatbush, [lon, lat]: LngLat, limit: number) {
