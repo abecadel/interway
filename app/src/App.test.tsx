@@ -29,6 +29,8 @@ const route = (over: Partial<Route> = {}): Route => ({
   locks: 2,
   unverified: 0,
   sea: 0,
+  tooShallow: 0,
+  shallowest: null,
   events: [],
   legs: [{ name: 'Narew', distance: 100_000 }, { name: '', distance: 23_456 }],
   start: { geom: 0, seg: 0, lat: 52, lon: 21, offset: 10, frac: 0 },
@@ -100,12 +102,12 @@ describe('App', () => {
     expect(screen.getByText('No navigable route')).toBeTruthy();
     r.unmount();
 
-    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520 })) });
+    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
     render(<App client={far} />);
     await flush();
     expect(screen.getByText(/snapped to the nearest navigable water \(1\.5 km/)).toBeTruthy();
     expect(screen.getByText(/Includes 2\.5 km on unverified connections/)).toBeTruthy();
-    expect(screen.getByText(/10\.0 NM on open sea/)).toBeTruthy();
+    expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). 4 km charted shallower than your draft');
   });
 
   it('ignores invalid URL points and a corrupt stored profile', async () => {

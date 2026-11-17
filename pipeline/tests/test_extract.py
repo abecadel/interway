@@ -26,7 +26,7 @@ NODES = {
     20: (20.05, 52.0), 21: (20.06, 52.0), 22: (20.07, 52.0),
     # nodes carrying tags
     30: (20.1, 52.0), 31: (20.1, 52.01), 32: (20.1, 52.02), 33: (20.1, 52.03), 34: (20.1, 52.04),
-    35: (20.1, 52.05), 36: (20.1, 52.06), 37: (20.1, 52.07), 38: None,
+    35: (20.1, 52.05), 36: (20.1, 52.06), 37: (20.1, 52.07), 38: None, 39: (20.1, 52.08), 40: (20.1, 52.09),
     **square(100, 21.0, 52.0, 0.01),     # big lake
     **square(110, 21.1, 52.0, 0.001),    # small lake
     **square(120, 21.2, 52.0, 0.001),    # small allowlisted lake
@@ -48,6 +48,9 @@ NODE_TAGS = {
     36: {"waterway": "weir", "lock": "yes"},  # weir with a lock is passable
     37: {"leisure": "marina", "name": "Port Node"},
     38: {"leisure": "marina", "name": "No location"},
+    # storm-surge barriers stand open: not locks, even when tagged as lock gates
+    39: {"waterway": "lock_gate", "man_made": "storm_surge_barrier", "name": "Thames Barrier"},
+    40: {"seamark:type": "gate", "seamark:gate:category": "flood_barrage"},
     20: {"waterway": "fuel", "name": "Paliwo"},
 }
 WAYS = [

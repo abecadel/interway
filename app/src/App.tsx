@@ -232,6 +232,8 @@ export default function App({ client }: { client: RoutingApi }) {
             {route.sea > 0 && (
               <div className="warn small">
                 {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
+                {route.shallowest && ` Shallowest stretch allows about ${route.shallowest.draft} m draft (km ${(route.shallowest.at / 1000).toFixed(0)}).`}
+                {route.tooShallow > 0 && ` ${(route.tooShallow / 1000).toFixed(0)} km charted shallower than your draft: check charts for a channel.`}
               </div>
             )}
             <ol className="legs">

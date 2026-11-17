@@ -12,13 +12,15 @@ from shapely import STRtree
 from shapely.geometry import LineString, Point
 
 from .classify import Allowlist
+from .depth import ATTRIBUTION as DEPTH_ATTRIBUTION
+from .depth import DepthGrid, apply_sea_depth, tile_loader
 from .export import export
 from .extract import Extract, read_osm
 from .lakes import connect_lakes
 from .model import Segment, haversine
 from .pois import load_places
 from .qa import gap_candidates
-from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh, to_merc
 from .topology import (
     add_connectors,
     apply_bridges,
@@ -132,7 +134,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 8  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 9  # bump when read_osm output changes, invalidates --cache
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,
@@ -187,13 +189,16 @@ def sea_network(land: Path, bbox: tuple[float, float, float, float], cache_dir: 
     return coast, sea
 
 
+# depth samples closer to land than this (Mercator m, ~1.2-1.6 km in Europe) are left out: harbour approaches
+SHORE_M = 2000.0
 SEA_VERSION = 2  # bump when sea_mesh output changes, invalidates cached meshes
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,
           min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
           dead_end_gap_m: float = 300.0, countries: list[str] | None = None, land: Path | None = None,
-          sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX, places: Path | None = None) -> dict:
+          sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX, places: Path | None = None,
+          depth_cache: Path | None = None, depth_scale: float = 0.25) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     segments = split_ways(ex)
@@ -211,6 +216,9 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     close_gaps(segments)  # mapping slips at the lake meshes
     if land is not None:
         coast, sea = sea_network(land, sea_bbox, cache_dir)
+        if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
+            apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
+                            near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))
         segments += connect_to_sea(segments, sea, coast) + sea
     segments = merge_degree2(segments)
     segments, bypasses = block_lock_bypasses(segments)
@@ -218,7 +226,10 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
 
     pois = itinerary_pois(segments, ex.services + (load_places(places) if places else []), bridge_points)
     manifest = export(segments, out, region=region, osm_timestamp=ex.timestamp, countries=countries, pois=pois,
-                      simplify_m=simplify_m, sea=land is not None)
+                      simplify_m=simplify_m, sea=land is not None,
+                      attribution=" · ".join(["© OpenStreetMap contributors, ODbL"]
+                                             + (["towns © GeoNames, CC BY 4.0"] if places else [])
+                                             + ([DEPTH_ATTRIBUTION] if depth_cache is not None and land is not None else [])))
     (out / "qa-components.json").write_text(json.dumps(report[:500], indent=0), encoding="utf-8")
     (out / "qa-gaps.geojson").write_text(json.dumps(gap_candidates(segments)), encoding="utf-8")
     (out / "qa-lock-bypasses.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [
@@ -244,12 +255,16 @@ def main(argv: list[str] | None = None) -> None:
                     help="OSM land polygons shapefile (land-polygons-split-4326/land_polygons.shp) to add sea routes")
     ap.add_argument("--sea-bbox", default=",".join(map(str, DEFAULT_BBOX)), help="west,south,east,north of the sea mesh")
     ap.add_argument("--places", type=Path, default=None, help="GeoNames cities5000.txt: towns along routes")
+    ap.add_argument("--depth-cache", type=Path, default=None,
+                    help="directory for EMODnet bathymetry tiles; enables depth limits on sea routes (needs --land)")
+    ap.add_argument("--depth-scale", type=float, default=0.25, help="EMODnet grid downsampling (1 = ~115 m cells)")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     m = build(args.inputs, args.out, region=args.region, allowlist=args.allowlist, patches=args.patches,
               min_component_km=args.min_component_km, simplify_m=args.simplify_m, cache_dir=args.cache,
               dead_end_gap_m=args.dead_end_gap_m, land=args.land, places=args.places,
+              depth_cache=args.depth_cache, depth_scale=args.depth_scale,
               sea_bbox=tuple(float(v) for v in args.sea_bbox.split(",")),
               countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()])
     print(json.dumps(m["stats"]))

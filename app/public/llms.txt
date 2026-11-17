@@ -44,6 +44,11 @@ registers tools an agent can call directly: `plan_route`, `get_route_brief`, `se
 
 - Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France and the River Thames (UK).
 - Sea: European seas from the Atlantic coast to the Black Sea, as a coarse coastal network.
-- Depths, lock opening hours, closures and current water levels are not included.
+- Sea depth: open-sea legs carry the charted depth from EMODnet bathymetry (about 0.5 km grid, minus a 0.5 m
+  margin). Routes go round stretches too shallow for the given `draft` where a deeper way exists; where none
+  does (the coarse network crosses banks that real boats pass in dredged channels, e.g. estuaries) the route
+  still goes through, and the brief gives the shallowest stretch and the km charted shallower than the draft.
+  The first ~1.5 km off the shore, harbour approaches and inland waterways have no depth data.
+- Lock opening hours, closures and current water levels are not included.
 
-Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0). Source: https://github.com/abecadel/interway
+Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0), bathymetry © EMODnet (CC BY 4.0). Source: https://github.com/abecadel/interway

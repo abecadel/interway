@@ -36,7 +36,8 @@ def simplify(coords, tolerance_m: float):
 
 
 def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp: str = "", countries: list[str] | None = None,
-           pois: list[dict] | None = None, simplify_m: float = 5.0, sea: bool = False) -> dict:
+           pois: list[dict] | None = None, simplify_m: float = 5.0, sea: bool = False,
+           attribution: str = "© OpenStreetMap contributors, ODbL") -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     node_index: dict[int, int] = {}
     node_coords: list[tuple[float, float]] = []
@@ -120,7 +121,7 @@ def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp
         "sha256": {"graph": graph_sha, "geom": geom_sha},
         "stats": {"nodes": n, "edges": m, "segments": len(segments), "points": len(lat)},
         "names": names,
-        "attribution": "© OpenStreetMap contributors, ODbL",
+        "attribution": attribution,
     }
     (out_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
     log.info("exported %d nodes, %d edges, %d points to %s", n, m, len(lat), out_dir)
