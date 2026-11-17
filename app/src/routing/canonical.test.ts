@@ -12,6 +12,8 @@ interface TestRoute {
   name: string;
   from: LngLat;
   to: LngLat;
+  // points the described voyage passes, when it is not the shortest way (routed leg by leg)
+  waypoints?: LngLat[];
   expected_km?: number;
   tolerance?: number;
   sea?: boolean;
@@ -42,12 +44,20 @@ describe('canonical routes', () => {
 
   for (const r of routes) {
     it.skipIf(!wanted(r))(r.name, () => {
-      const route = router.route(r.from, r.to);
+      const pts = [r.from, ...(r.waypoints ?? []), r.to];
+      const parts = pts.slice(1).map((p, i) => router.route(pts[i], p));
+      for (const part of parts) {
+        expect(part.start.offset).toBeLessThan(3000);
+        expect(part.end.offset).toBeLessThan(3000);
+      }
+      const route = {
+        distance: parts.reduce((a, p) => a + p.distance, 0),
+        locks: parts.reduce((a, p) => a + p.locks, 0),
+        legs: parts.flatMap((p) => p.legs),
+      };
       const km = route.distance / 1000;
-      console.log(`${r.name}: ${km.toFixed(0)} km, ${route.locks} locks, snap ${route.start.offset.toFixed(0)}/${route.end.offset.toFixed(0)} m`);
+      console.log(`${r.name}: ${km.toFixed(0)} km, ${route.locks} locks`);
       console.log('  via ' + route.legs.filter((l) => l.distance > 2000).map((l) => `${l.name || '?'} ${(l.distance / 1000).toFixed(0)}`).join(' → '));
-      expect(route.start.offset).toBeLessThan(3000);
-      expect(route.end.offset).toBeLessThan(3000);
       if (r.expected_km !== undefined) expect(Math.abs(km - r.expected_km) / r.expected_km).toBeLessThan(r.tolerance ?? 0.15);
       const names = route.legs.map((l) => l.name.toLowerCase());
       for (const v of r.via ?? []) expect(names.some((n) => n.includes(v.toLowerCase())), `via ${v}`).toBe(true);

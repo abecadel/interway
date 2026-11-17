@@ -78,6 +78,7 @@ export class Router {
   private geomFwd: Int32Array;
   private geomRev: Int32Array;
   private geomLength: Float64Array;
+  private component: Int32Array;
   readonly names: string[];
   readonly graph: Graph;
   readonly geom: Geometry;
@@ -94,6 +95,7 @@ export class Router {
       if (graph.edgeFlags[e] & Flag.GEOM_REVERSED) this.geomRev[g] = e;
       else this.geomFwd[g] = e;
     }
+    this.component = components(graph);
     this.geomLength = new Float64Array(G);
     this.index = new Flatbush(Math.max(G, 1), 16, Float32Array);
     for (let g = 0; g < G; g++) {
@@ -135,11 +137,21 @@ export class Router {
   }
 
   /** Nearest point on any waterway geometry the vessel can use. */
-  snap([lon, lat]: LngLat, profile: VesselProfile = defaultProfile, maxCandidates = 32): Snap | null {
-    if (this.geom.geomCount === 0) return null;
+  snap(p: LngLat, profile: VesselProfile = defaultProfile, maxCandidates = 32): Snap | null {
+    return this.snapCandidates(p, profile, maxCandidates)[0] ?? null;
+  }
+
+  /**
+   * The nearest point in each separate part of the network, nearest first. A small isolated fragment next to
+   * the start must not hide the connected waterway a little further away.
+   */
+  snapCandidates([lon, lat]: LngLat, profile: VesselProfile = defaultProfile, maxCandidates = 32): Snap[] {
+    if (this.geom.geomCount === 0) return [];
     const candidates = this.index.neighbors(lon, lat, maxCandidates, Infinity, (g) => this.usable(g, profile));
-    let best: Snap | null = null;
+    const bestPer = new Map<number, Snap>();
     for (const g of candidates) {
+      const c = this.component[this.geom.geomFrom[g]];
+      let best = bestPer.get(c);
       const start = this.geom.geomOffsets[g], end = this.geom.geomOffsets[g + 1];
       let along = 0;
       for (let p = start; p < end - 1; p++) {
@@ -155,8 +167,16 @@ export class Router {
         }
         along += segLen;
       }
+      bestPer.set(c, best!);
     }
-    return best;
+    const sorted = [...bestPer.values()].sort((x, y) => x.offset - y.offset);
+    // other parts only count when about as close as the nearest one, never a waterway far from the point
+    return sorted.filter((s) => s.offset <= sorted[0].offset + ALT_SNAP_M);
+  }
+
+  /** Connected part of the network a geometry belongs to. */
+  componentOf(s: Snap): number {
+    return this.component[this.geom.geomFrom[s.geom]];
   }
 
   /** Travel time for a directed edge in seconds, or Infinity if the vessel cannot use it. */
@@ -180,9 +200,20 @@ export class Router {
   }
 
   route(from: LngLat, to: LngLat, profile: VesselProfile = defaultProfile): Route {
-    const s = this.snap(from, profile), t = this.snap(to, profile);
-    if (!s || !t) throw new RouteError('No waterway data loaded');
-    return this.routeBetween(s, t, profile);
+    const ss = this.snapCandidates(from, profile), ts = this.snapCandidates(to, profile);
+    if (!ss.length || !ts.length) throw new RouteError('No waterway data loaded');
+    // start and end must lie in the same connected part; prefer the pair closest to the requested points
+    const pairs = ss.flatMap((s) => ts.filter((t) => this.componentOf(t) === this.componentOf(s)).map((t) => [s, t] as const))
+      .sort((x, y) => x[0].offset + x[1].offset - (y[0].offset + y[1].offset));
+    let error = new RouteError('No navigable route found between these points for this vessel');
+    for (const [s, t] of pairs) {
+      try {
+        return this.routeBetween(s, t, profile);
+      } catch (e) {
+        error = e as RouteError; // e.g. a one-way stretch the other way round: try the next pair
+      }
+    }
+    throw error;
   }
 
   routeBetween(s: Snap, t: Snap, profile: VesselProfile): Route {
@@ -333,4 +364,23 @@ export class Router {
       for (let p = end - 1; p >= last; p--) push(...this.pt(p));
     }
   }
+}
+
+/** How much further than the nearest waterway a snap in another part of the network may lie. */
+export const ALT_SNAP_M = 1000;
+
+/** Connected component of every node (edges taken as undirected). */
+function components(g: Graph): Int32Array {
+  const parent = Int32Array.from({ length: g.nodeCount }, (_, i) => i);
+  const find = (x: number): number => {
+    while (parent[x] !== x) {
+      parent[x] = parent[parent[x]];
+      x = parent[x];
+    }
+    return x;
+  };
+  for (let u = 0; u < g.nodeCount; u++) {
+    for (let e = g.edgeOffsets[u]; e < g.edgeOffsets[u + 1]; e++) parent[find(u)] = find(g.edgeTarget[e]);
+  }
+  return parent.map((_, i) => find(i));
 }

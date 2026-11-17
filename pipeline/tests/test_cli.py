@@ -181,3 +181,24 @@ def test_module_entry_point(inputs, tmp_path, monkeypatch, capsys):
                                       "--patches", str(tmp_path / "none")])
     runpy.run_module("interway_pipeline.cli", run_name="__main__")
     assert json.loads(capsys.readouterr().out)["edges"] > 0
+
+
+def test_lift_gap_is_joined_even_inside_a_canal_area(tmp_path):
+    # Niederfinow case: the canal stops on both sides of a ship lift (150 m), and canal water areas cover both
+    # ends. The facing dead ends must be joined (as a lock) before the river-area mesh turns them into junctions.
+    from interway_pipeline.model import LOCK
+    d = 0.001
+    nodes = {1: (0.0, 0.0), 2: (0.01, 0.0), 3: (0.01 + 0.00135, 0.0), 4: (0.03, 0.0),
+             10: (0.009, -d), 11: (0.0125, -d), 12: (0.0125, d), 13: (0.009, d)}
+    ways = [(1, [1, 2], {"waterway": "canal", "CEMT": "IV", "name": "Oder-Havel-Kanal"}),
+            (2, [3, 4], {"waterway": "canal", "CEMT": "IV", "name": "Oder-Havel-Kanal"}),
+            (3, [10, 11, 12, 13, 10], {"natural": "water", "water": "canal"})]
+    osm = write_osm(tmp_path / "lift.osm", nodes, ways)
+    out = tmp_path / "out"
+    cli.build([osm], out, region="t", allowlist=None, patches=None, min_component_km=0.5)
+    g = read_graph(out / "graph.bin")
+    near = [i for i in range(g["n"]) if abs(g["lon"][i] / 1e7 - 0.01) < 1e-5 or abs(g["lon"][i] / 1e7 - 0.01135) < 1e-5]
+    assert len(near) == 2
+    a, b = near
+    lock_edges = [e for e in range(g["off"][a], g["off"][a + 1]) if g["tgt"][e] == b and g["flags"][e] & LOCK]
+    assert lock_edges  # joined, and routed like a lock

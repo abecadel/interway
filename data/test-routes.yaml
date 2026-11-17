@@ -168,8 +168,10 @@
 - name: Rendsburg → Aigues-Mortes (Kiel Canal, Dutch canals, Belgium, Champagne, Saône, Rhône)
   from: [9.67, 54.30]
   to: [4.19, 43.565]
+  # the article's way through Belgium and Champagne, not the shorter Rhine / Canal du Rhône au Rhin
+  waypoints: [[4.866, 50.463], [4.025, 49.253]]
   countries: [DE, NL, BE, FR]
-  via: [Saône, Rhône]
+  via: [Meuse, Marne, Saône, Rhône]
   min_locks: 150
   source: https://www.boote-magazin.de/en/travel-and-charter/territories/inland-to-the-mediterranean-the-long-way-to-warmth/ (283 locks)
 
