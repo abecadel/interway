@@ -180,8 +180,9 @@
   tolerance: 0.2
   countries: [FR]
   via: [Saône, Rhône]
-  min_locks: 150
+  min_locks: 120
   source: >-
+    lock minimum is an estimate that admits the Champagne/Marne route as well as the Bourgogne one;
     Seine + Yonne to Migennes, Canal de Bourgogne 242 km, Saône to Lyon, Rhône ~320 km
     (https://michaelbriant.com/sn7.htm, https://www.yachtingmonthly.com/cruising-life/through-the-french-canals-to-the-med-in-a-yacht-95086)
 
