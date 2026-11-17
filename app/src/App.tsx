@@ -8,18 +8,13 @@ import { ItineraryView } from './ui/ItineraryView';
 import { defaultProfile, type Route, type VesselProfile } from './routing/router';
 import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
 import { PointInput, type Point } from './ui/PointInput';
+import { parseUrlState, writeUrlState } from './ui/urlState';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
 
-function pointFromUrl(key: 'from' | 'to'): Point | null {
-  const v = new URLSearchParams(location.search).get(key);
-  const parts = v?.split(',').map(Number);
-  if (!parts || parts.length !== 2 || parts.some((x) => !Number.isFinite(x))) return null;
-  const p: LngLat = [parts[0], parts[1]];
-  return { position: p, label: fmtPos(p) };
-}
+const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
 
 function loadProfile(): VesselProfile {
   try {
@@ -32,12 +27,16 @@ function loadProfile(): VesselProfile {
 export default function App({ client }: { client: RoutingApi }) {
   const [dataStatus, setDataStatus] = useState<string>('Loading waterway data…');
   const [dataReady, setDataReady] = useState(false);
-  const [start, setStart] = useState<Point | null>(() => pointFromUrl('from'));
-  const [end, setEnd] = useState<Point | null>(() => pointFromUrl('to'));
-  const [picking, setPicking] = useState<'start' | 'end' | null>(null);
+  // The URL wins over stored settings, so a shared (or agent-written) link reproduces the route exactly.
+  const [initial] = useState(() => parseUrlState(location.search));
+  const [start, setStart] = useState<Point | null>(() => initial.from && toPoint(initial.from));
+  const [end, setEnd] = useState<Point | null>(() => initial.to && toPoint(initial.to));
+  const [via, setVia] = useState<Point[]>(() => initial.via.map(toPoint));
+  const [picking, setPicking] = useState<'start' | 'end' | 'via' | null>(null);
   const [result, setResult] = useState<{ key: string; route: Route | null; error: string | null } | null>(null);
-  const [profile, setProfile] = useState<VesselProfile>(loadProfile);
-  const routeKey = JSON.stringify([start?.position, end?.position, profile]);
+  const [profile, setProfile] = useState<VesselProfile>(() => ({ ...loadProfile(), ...initial.vessel }));
+  const viaPositions = useMemo(() => via.map((p) => p.position), [via]);
+  const routeKey = JSON.stringify([start?.position, end?.position, viaPositions, profile]);
   const [position, setPosition] = useState<GeolocationPosition | null>(null);
   const [geoError, setGeoError] = useState<string | null>(null);
   const [network, setNetwork] = useState<GeoJSON.FeatureCollection | null>(null);
@@ -59,18 +58,11 @@ export default function App({ client }: { client: RoutingApi }) {
 
   useEffect(() => localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)), [profile]);
 
-  // Keep A/B in the URL so routes can be shared and bookmarked.
+  // Keep the route and vessel in the URL so routes can be shared, bookmarked and edited by AI agents.
   useEffect(() => {
-    const q = new URLSearchParams(location.search);
-    const fmt = (p: Point | null) => p && `${p.position[0].toFixed(5)},${p.position[1].toFixed(5)}`;
-    for (const [k, p] of [['from', start], ['to', end]] as const) {
-      const v = fmt(p);
-      if (v) q.set(k, v);
-      else q.delete(k);
-    }
-    const s = q.toString();
+    const s = writeUrlState(location.search, { from: start?.position ?? null, to: end?.position ?? null, via: viaPositions }, profile);
     history.replaceState(null, '', s ? `?${s}` : location.pathname);
-  }, [start, end]);
+  }, [start, end, viaPositions, profile]);
 
   useEffect(() => {
     if (!showNetwork || network || !dataReady) return;
@@ -81,11 +73,11 @@ export default function App({ client }: { client: RoutingApi }) {
     if (!start || !end || !dataReady) return;
     let cancelled = false;
     client
-      .route(start.position, end.position, profile)
+      .route(start.position, end.position, profile, viaPositions)
       .then((r) => { if (!cancelled) setResult({ key: routeKey, route: r, error: null }); })
       .catch((e) => { if (!cancelled) setResult({ key: routeKey, route: null, error: e.message }); });
     return () => { cancelled = true; };
-  }, [start, end, profile, dataReady, client, routeKey]);
+  }, [start, end, viaPositions, profile, dataReady, client, routeKey]);
   // Only show a result computed for the current inputs.
   const current = start && end && result?.key === routeKey ? result : null;
   const route = current?.route ?? null;
@@ -113,8 +105,9 @@ export default function App({ client }: { client: RoutingApi }) {
   };
 
   const onMapClick = (p: LngLat) => {
-    const pt = { position: p, label: fmtPos(p) };
-    if (picking === 'start' || (!picking && !start)) setStart(pt);
+    const pt = toPoint(p);
+    if (picking === 'via') setVia([...via, pt]);
+    else if (picking === 'start' || (!picking && !start)) setStart(pt);
     else if (picking === 'end' || !end) setEnd(pt);
     else return;
     setPicking(null);
@@ -157,6 +150,19 @@ export default function App({ client }: { client: RoutingApi }) {
           onPick={() => setPicking(picking === 'end' ? null : 'end')}
           onMyPosition={() => setFromMyPosition(setEnd)} onSelect={setEnd}
         />
+        {via.length > 0 && (
+          <ol className="via">
+            {via.map((p, i) => (
+              <li key={i}>
+                <span>{p.label}</span>
+                <button title="Remove waypoint" onClick={() => setVia(via.filter((_, j) => j !== i))}>✕</button>
+              </li>
+            ))}
+          </ol>
+        )}
+        <button className={picking === 'via' ? 'active' : ''} onClick={() => setPicking(picking === 'via' ? null : 'via')}>
+          {picking === 'via' ? 'Click the map to add a waypoint…' : '+ Add waypoint'}
+        </button>
         {geoError && <div className="error small">GPS: {geoError}</div>}
 
         {busy && <div className="info">Calculating route…</div>}
@@ -225,6 +231,7 @@ export default function App({ client }: { client: RoutingApi }) {
       <MapView
         start={start?.position ?? null}
         end={end?.position ?? null}
+        via={viaPositions}
         route={route}
         position={position}
         network={showNetwork ? network : null}

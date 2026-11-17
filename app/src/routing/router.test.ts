@@ -225,6 +225,22 @@ describe('router edge cases', () => {
     expect(r.route([17.01, 51.0], [17.05, 51.0]).sea).toBe(0);
   });
 
+  it('routes through waypoints', () => {
+    const r = makeRouter([...segments, { points: [C, [17.3, 51.0]], name: 'Beyond' }]);
+    const direct = r.route([17.02, 51.0], [17.25, 51.0]);
+    const via = r.routeVia([[17.02, 51.0], [17.15, 51.1], [17.25, 51.0]]);
+    expect(via.distance).toBeGreaterThan(direct.distance);
+    expect(via.locks).toBe(0); // the detour via D avoids the lock canal
+    expect(via.legs.map((l) => l.name)).toEqual(['Odra', 'Long way', 'Beyond']);
+    expect(via.start).toEqual(direct.start);
+    expect(via.coordinates.at(-1)![0]).toBeCloseTo(17.25, 4);
+    // lock events of the second part are offset by the first part's length
+    const out = r.route([17.25, 51.0], [17.02, 51.0]), ret = r.route([17.02, 51.0], [17.25, 51.0]);
+    const back = r.routeVia([[17.25, 51.0], [17.02, 51.0], [17.25, 51.0]]);
+    expect(back.events.map((e) => e.at)).toEqual([out.events[0].at, out.distance + ret.events[0].at]);
+    expect(() => r.routeVia([[17.02, 51.0]])).toThrow('A route needs a start and an end');
+  });
+
   it('snaps to zero-length geometries', () => {
     const r = makeRouter([{ points: [A, A] }]);
     expect(r.snap([17.0, 51.01])!.frac).toBe(0);

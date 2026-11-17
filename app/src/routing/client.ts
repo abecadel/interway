@@ -43,8 +43,8 @@ export class RoutingClient {
     return this.call<LoadResult>({ type: 'load', baseUrl });
   }
 
-  route(from: LngLat, to: LngLat, profile: VesselProfile) {
-    return this.call<Route>({ type: 'route', from, to, profile });
+  route(from: LngLat, to: LngLat, profile: VesselProfile, via: LngLat[] = []) {
+    return this.call<Route>({ type: 'route', from, to, profile, via });
   }
 
   network() {

@@ -32,6 +32,8 @@ describe('RoutingService', () => {
     await svc.handle({ id: 1, type: 'load', baseUrl: '/d' });
     const route = await svc.respond({ id: 2, type: 'route', from: [17.01, 51], to: [17.19, 51], profile: defaultProfile });
     expect(route.ok && (route.result as { legs: unknown[] }).legs).toEqual([expect.objectContaining({ name: 'Odra' })]);
+    const via = await svc.respond({ id: 4, type: 'route', from: [17.01, 51], to: [17.19, 51], profile: defaultProfile, via: [[17.1, 51]] });
+    expect(via.ok && (via.result as { distance: number }).distance).toBeGreaterThan(10_000);
     const net = await svc.respond({ id: 3, type: 'network' });
     expect(net).toMatchObject({ ok: true, result: { type: 'FeatureCollection', features: [{}, {}] } });
   });

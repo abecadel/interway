@@ -69,7 +69,7 @@ describe('App', () => {
     expect(screen.getByText('Loading waterway data…')).toBeTruthy();
     await flush();
     expect(screen.getByText('Test: 1,234 nodes, 5,678 edges')).toBeTruthy();
-    expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile);
+    expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile, []);
     expect(screen.getByText('123 km')).toBeTruthy();
     expect(screen.getByText('(66.7 NM)')).toBeTruthy();
     expect(screen.getByText('5 h 0 min at 10 km/h · 2 locks')).toBeTruthy();
@@ -81,7 +81,7 @@ describe('App', () => {
     expect(screen.getByText('km 0.0')).toBeTruthy();
     fireEvent.click(screen.getByText('Śluza'));
     expect(mapProps.current!.focus).toEqual([21, 52]);
-    expect(location.search).toBe('?from=21.03000%2C52.47000&to=21.76500%2C54.03500');
+    expect(location.search).toBe('?from=21.03000,52.47000&to=21.76500,54.03500');
   });
 
   it('shows loading errors, route errors and snapping warnings', async () => {
@@ -123,7 +123,7 @@ describe('App', () => {
     fireEvent.click(screen.getByText('map-click-1')); // no point yet -> A
     fireEvent.click(screen.getByText('map-click-2')); // A set -> B
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile, []);
     fireEvent.click(screen.getByText('map-click-1')); // both set, not picking -> ignored
     expect(client.route).toHaveBeenCalledTimes(1);
 
@@ -133,23 +133,23 @@ describe('App', () => {
     fireEvent.click(screen.getAllByText('Pick on map')[1]);
     fireEvent.click(screen.getByText('map-click-1'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.1, 52.1], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.1, 52.1], defaultProfile, []);
 
     fireEvent.click(screen.getAllByText('Pick on map')[0]);
     fireEvent.click(screen.getByText('Click on the map…'));
     fireEvent.click(screen.getAllByText('Pick on map')[0]);
     fireEvent.click(screen.getByText('map-click-2'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.2, 52.2], [21.1, 52.1], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.2, 52.2], [21.1, 52.1], defaultProfile, []);
 
     fireEvent.click(screen.getByTitle('Swap'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile, []);
 
     fireEvent.click(screen.getAllByTitle('Clear')[1]); // clear B -> next click sets B
     fireEvent.click(screen.getByText('map-click-2'));
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.1, 52.1], [21.2, 52.2], defaultProfile, []);
   });
 
   it('drops results of outdated requests', async () => {
@@ -190,7 +190,7 @@ describe('App', () => {
     fireEvent.click(screen.getAllByText('My position')[1]); // already watching: reuse the last fix
     await flush();
     expect(geo.watchPosition).toHaveBeenCalledTimes(1);
-    expect(client.route).toHaveBeenLastCalledWith([21.5, 52.5], [21.6, 52.6], defaultProfile);
+    expect(client.route).toHaveBeenLastCalledWith([21.5, 52.5], [21.6, 52.6], defaultProfile, []);
     await act(async () => watchers[0].err({ message: 'signal lost' } as GeolocationPositionError));
     expect(screen.getByText('GPS: signal lost')).toBeTruthy();
     await act(async () => watchers[0].ok(fix(21.7, 52.7)));
@@ -212,19 +212,40 @@ describe('App', () => {
     expect(screen.getByText('GPS: Geolocation not supported')).toBeTruthy();
   });
 
+  it('reads waypoints and the vessel from the URL, adds and removes waypoints', async () => {
+    localStorage.setItem('interway.profile', JSON.stringify({ draft: 1.8 }));
+    history.replaceState(null, '', '/?from=1,2&to=3,4&via=1.5,2.5&draft=2.4&avoidLocks=1');
+    const client = fakeClient();
+    render(<App client={client} />);
+    await flush();
+    const profile = { ...defaultProfile, draft: 2.4, avoidLocks: true }; // the URL wins over stored settings
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[1.5, 2.5]]);
+    expect(mapProps.current!.via).toEqual([[1.5, 2.5]]);
+    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('Click the map to add a waypoint…'));
+    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('map-click-1'));
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[1.5, 2.5], [21.1, 52.1]]);
+    expect(location.search).toBe('?from=1.00000,2.00000&to=3.00000,4.00000&via=1.50000,2.50000;21.10000,52.10000&draft=2.4&avoidLocks=1');
+    fireEvent.click(screen.getAllByTitle('Remove waypoint')[0]);
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[21.1, 52.1]]);
+  });
+
   it('edits and persists the vessel profile', async () => {
     localStorage.setItem('interway.profile', JSON.stringify({ draft: 1.8 }));
     history.replaceState(null, '', '/?from=1,2&to=3,4');
     const client = fakeClient();
     render(<App client={client} />);
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 });
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 }, []);
     fireEvent.change(screen.getByLabelText('Air draft (m)'), { target: { value: '4.5' } });
     fireEvent.click(screen.getByLabelText('Avoid locks'));
     fireEvent.click(screen.getByLabelText('Avoid open sea'));
     await flush();
     const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true };
-    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected);
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
     expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual(expected);
   });
 

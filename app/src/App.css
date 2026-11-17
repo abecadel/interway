@@ -44,3 +44,13 @@ footer { margin-top: auto; color: var(--muted); display: flex; flex-direction: c
 .stop-fuel .kind { color: #d0336b; }
 .stop-marina .kind, .stop-port .kind { color: var(--accent); }
 .stop-bridge .kind { color: #8a5a00; }
+
+.via {
+  margin: 4px 0 4px 28px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+}
+.via li { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.via button { padding: 0 6px; }
+button.active { background: #fff4d6; }
