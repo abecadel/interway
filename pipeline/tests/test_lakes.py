@@ -182,7 +182,8 @@ def test_target_pairs_grid_and_duplicates():
     assert comp == set(pos)  # connected
 
 
-def test_small_channel_areas_only_continue_dead_ends():
+def test_small_channel_areas_only_continue_dead_ends(monkeypatch):
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)  # the test geometry spans tens of km
     # a river line passing through two small river-area pieces, and a dead-end canal ending at a third piece
     river = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.1, 0.0)], kind="river")
     feeder = Segment(a=2, b=3, coords=[(0.1, 0.0), (0.2, 0.0)], kind="river")
@@ -198,7 +199,8 @@ def test_small_channel_areas_only_continue_dead_ends():
     assert not any(-0.002 < s.coords[0][1] < 0.002 and 0.03 < s.coords[0][0] < 0.07 for s in added)
 
 
-def test_channel_bodies_only_bridge_dead_ends():
+def test_channel_bodies_only_bridge_dead_ends(monkeypatch):
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)  # the test geometry spans tens of km
     # A long river area (two touching pieces). The river line runs through the west piece; it is broken
     # in the east piece: one part ends at 11, the next starts again at 12.
     west = Lake(1, "Odra", box(0.0, -0.002, 0.1, 0.002), True, kind="channel")
@@ -224,7 +226,8 @@ def test_channel_body_without_dead_ends_is_not_meshed():
     assert connect_lakes(river, [area], []) == []
 
 
-def test_lake_touching_channel_areas_is_meshed_normally():
+def test_lake_touching_channel_areas_is_meshed_normally(monkeypatch):
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)  # the test geometry spans tens of km
     lake = Lake(1, "Zalew", box(0.0, -0.05, 0.1, 0.05), False)
     inflow = Lake(2, "Narew", box(-0.05, -0.002, 0.0, 0.002), False, kind="channel")
     river = [Segment(a=1, b=2, coords=[(-0.1, 0.0), (-0.03, 0.0)], kind="river"),  # 2 ends inside the inflow area
@@ -254,7 +257,8 @@ def test_canal_along_a_reservoir_shore_is_not_linked_through_it():
     assert {11, 12, 31} <= linked and not linked & {0, 1, 2, 3, 4, 5}
 
 
-def test_bridges_are_marked_and_can_be_cut_around_locks():
+def test_bridges_are_marked_and_can_be_cut_around_locks(monkeypatch):
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)  # the test geometry spans tens of km
     from interway_pipeline.topology import block_lock_bypasses
     area = Lake(1, "Odra", box(0.0, -0.002, 0.2, 0.002), False, kind="channel")
     river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river"),
@@ -267,3 +271,35 @@ def test_bridges_are_marked_and_can_be_cut_around_locks():
     kept, removed = block_lock_bypasses([*river, *added, *lock_canal])
     assert any(s.kind == "bridge" for s in removed)  # the bridge across the weir reach is cut, not the canal
     assert all(s in kept for s in lock_canal)
+
+
+def test_bridging_stays_within_a_window_around_dead_ends():
+    r = metres_to_deg(lakes.BRIDGE_WINDOW_M)
+    # A long river area. The line arrives from the south and stops at 11; it resumes at 12, 2 km downstream,
+    # and runs on (13 is an ordinary node 30 km away, 15 ends outside the area).
+    area = Lake(1, "Odra", box(-0.01, -0.002, 0.5, 0.002), False, kind="channel")
+    river = [Segment(a=10, b=11, coords=[(0.0, -0.5), (0.0, 0.0)], kind="river"),
+             Segment(a=12, b=13, coords=[(metres_to_deg(2000), 0.0), (0.27, 0.0)], kind="river"),
+             Segment(a=13, b=15, coords=[(0.27, 0.0), (0.6, 0.0)], kind="river")]
+    # a pond inside the window but apart from the river (no entries) and a lake touching the window at a point
+    pond = Lake(2, "", box(0.0, 0.02, metres_to_deg(500), 0.025), False, kind="channel")
+    tangent = Lake(3, "", Polygon([(-r, 0.0), (-2 * r, -r), (-2 * r, r)]), False)
+    added = connect_lakes(river, [area, pond, tangent], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {11, 12} <= linked and 13 not in linked
+    assert all(max(x for x, _ in s.coords) < metres_to_deg(2000) + r for s in added)
+
+
+def test_short_channel_area_between_lakes_is_a_strait():
+    jagodne = Lake(1, "Jagodne", box(0.0, 0.0, 0.05, 0.05), False)
+    boczne = Lake(2, "Boczne", box(0.06, 0.0, 0.11, 0.05), False)
+    kula = Lake(3, "Kanał Kula", box(0.0499, 0.02, 0.0601, 0.025), False, kind="channel")  # ~0.7 km
+    long_river = Lake(4, "Rzeka", box(0.05, 0.03, 0.2, 0.035), False, kind="channel")      # ~10 km: no
+    pond_link = Lake(5, "", box(0.2, 0.2, 0.201, 0.201), False, kind="channel")            # touches no lake
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.01), (0.0, 0.01)], kind="river"),       # into Jagodne
+             Segment(a=3, b=4, coords=[(0.11, 0.01), (0.15, 0.01)], kind="river")]        # out of Boczne
+    added = connect_lakes(river, [jagodne, boczne, kula, long_river, pond_link], [])
+    comp = components([*river, *added])
+    assert comp[2] == comp[3]  # through the strait
+    assert {lk.name for lk in lakes._straits([jagodne, boczne, kula, long_river, pond_link])} == {"Kanał Kula"}
+    assert lakes._straits([kula]) == []

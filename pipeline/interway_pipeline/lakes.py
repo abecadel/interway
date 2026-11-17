@@ -16,6 +16,7 @@ from __future__ import annotations
 import heapq
 import logging
 from collections import Counter, defaultdict
+from dataclasses import replace
 
 import shapely
 from shapely import STRtree, prepared
@@ -89,9 +90,10 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
         touching[s.b].append(s)
     added: list[Segment] = []
     used = 0
-    # Lakes are crossed among themselves; river/canal areas (with the lakes they touch) only bridge dead ends.
-    lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"])
-    channel_bodies = [b for b in water_bodies(lakes) if any(m.kind == "channel" for m in b[1])]
+    # Lakes are crossed among themselves; river/canal areas (with the lakes they touch) only bridge dead ends,
+    # meshed within a window around each dead end so whole-river water areas are never triangulated.
+    lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"] + _straits(lakes))
+    channel_bodies = _channel_windows(lakes, [pos[n] for n in dead_ends])
     bodies = lake_bodies + channel_bodies
     for body, members in bodies:
         zone = body.buffer(tol)
@@ -117,6 +119,56 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
+
+
+BRIDGE_WINDOW_M = 5000.0
+STRAIT_MAX_M = 3000.0
+
+
+def _straits(lakes: list[Lake]) -> list[Lake]:
+    """Short river/canal areas joining two or more lakes (Kanał Kula between Jagodne and Boczne).
+
+    They are mapped only as water areas, without a waterway line, so they are crossed like part of the lakes.
+    """
+    real = [lk.polygon for lk in lakes if lk.kind == "lake"]
+    if not real:
+        return []
+    tree = STRtree(real)
+    gap = metres_to_deg(MERGE_GAP_M)
+    out = []
+    for lk in lakes:
+        if lk.kind != "channel":
+            continue
+        minx, miny, maxx, maxy = lk.polygon.bounds
+        if haversine((minx, miny), (maxx, maxy)) > STRAIT_MAX_M:
+            continue
+        if len(tree.query(lk.polygon, predicate="dwithin", distance=gap)) >= 2:
+            out.append(replace(lk, kind="lake"))
+    return out
+
+
+def _channel_windows(lakes: list[Lake], dead_end_pos: list[LonLat]) -> list[tuple[Polygon | MultiPolygon, list[Lake]]]:
+    """Water bodies for bridging: river/canal areas (and lakes they touch) clipped to windows around dead ends."""
+    channels = [lk for lk in lakes if lk.kind == "channel"]
+    if not channels or not dead_end_pos:
+        return []
+    tol = metres_to_deg(ENTRY_TOLERANCE_M)
+    channel_tree = STRtree([c.polygon for c in channels])
+    near = [p for p in dead_end_pos if len(channel_tree.query(Point(p), predicate="dwithin", distance=tol))]
+    if not near:
+        return []
+    windows = unary_union([Point(p).buffer(metres_to_deg(BRIDGE_WINDOW_M), 8) for p in near])
+    all_tree = STRtree([lk.polygon for lk in lakes])
+    out = []
+    for window in getattr(windows, "geoms", [windows]):
+        clipped = []
+        for i in all_tree.query(window, predicate="intersects"):
+            lk = lakes[int(i)]
+            piece = lk.polygon.intersection(window)
+            if piece.area > 0:  # pieces touching the window only at a point or line are no water
+                clipped.append(replace(lk, polygon=piece))
+        out += [b for b in water_bodies(clipped) if any(m.kind == "channel" for m in b[1])]
+    return out
 
 
 def _enters(node: int, segs: list[Segment], inside, dead_ends: set[int]) -> bool:
