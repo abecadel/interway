@@ -77,6 +77,16 @@ describe('route brief', () => {
     expect(quiet).toContain('avoiding locks where possible');
   });
 
+  it('names coordinate endpoints after the nearest town', () => {
+    const coords = '52.2500°N 21.0300°E → 54.3500°N 18.6600°E';
+    const named = (title: string) => buildBrief({ route, itinerary, profile: defaultProfile, title, link: '' }).title;
+    expect(named(coords)).toBe('Toruń → 54.3500°N 18.6600°E'); // Toruń 10 km from the start; nothing near the end
+    expect(named('Home → 54.3500°N 18.6600°E')).toBe('Home → 54.3500°N 18.6600°E');
+    expect(named('no arrow')).toBe('no arrow');
+    const two = { counts: {}, stops: [stop(8000, { type: 'place', name: 'Dalej' }), stop(3000, { type: 'place', name: 'Bliżej' })] };
+    expect(buildBrief({ route, itinerary: two, profile: defaultProfile, title: coords, link: '' }).title).toMatch(/^Bliżej → /);
+  });
+
   it('documents every URL parameter', () => {
     for (const k of [...Object.keys(VESSEL_PARAMS), 'from', 'to', 'via', 'avoidLocks']) expect(EDIT_PARAMETERS[k]).toBeTruthy();
   });

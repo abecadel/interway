@@ -91,6 +91,15 @@ function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] 
   return out;
 }
 
+/** "52.2500°N 21.0300°E → …" reads better as "Warsaw → …": coordinate labels become the nearest town (≤ 10 km). */
+function nameEnds(title: string, route: Route, stops: Stop[]): string {
+  const town = (at: number) => stops.filter((s) => s.poi.type === 'place' && Math.abs(s.at - at) <= 10_000)
+    .sort((a, b) => Math.abs(a.at - at) - Math.abs(b.at - at))[0]?.poi.name;
+  const ends = title.split(' → ');
+  if (ends.length !== 2) return title;
+  return ends.map((e, i) => (/°[NS] /.test(e) && town(i ? route.distance : 0)) || e).join(' → ');
+}
+
 export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8 }: {
   route: Route; itinerary: Itinerary; profile: VesselProfile; title: string; link: string; hoursPerDay?: number;
 }): RouteBrief {
@@ -120,7 +129,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   hazards.push('Depths, lock hours and closures are not included: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.');
   const hours = route.duration / 3600;
   return {
-    title,
+    title: nameEnds(title, route, itinerary.stops),
     link,
     vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, avoidLocks: profile.avoidLocks },
     totals: {
