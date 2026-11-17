@@ -78,7 +78,7 @@ def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp
                 attr_index[t] = len(attrs)
                 attrs.append(t)
         attr = attr_index[t]
-        base = (LOCK if s.lock else 0) | (LAKE if s.kind == "lake" else 0) | (CANAL if s.kind == "canal" else 0) \
+        base = (LOCK if s.lock else 0) | (LAKE if s.kind in ("lake", "bridge") else 0) | (CANAL if s.kind == "canal" else 0) \
             | (SEA if s.kind == "sea" else 0) | (PATCH if s.kind in ("patch", "connector") else 0)
         length = s.length
         edges.append((a, b, length, g, attr, base | (DOWNSTREAM if s.flows else 0)))

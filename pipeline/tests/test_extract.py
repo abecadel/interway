@@ -58,14 +58,14 @@ WAYS = [
     (5, [20, 998], {"waterway": "river"}),                          # connector with a missing node
     (6, list(range(1000, 1400)), {"waterway": "river"}),            # long unverified river: not a connector
     (7, [10, 11], {"waterway": "stream"}),
-    (8, [1, 2], {"highway": "primary", "bridge": "yes", "maxheight": "4.5"}),
-    (9, [2, 3], {"highway": "primary", "bridge": "movable", "seamark:bridge:clearance_height": "3",
-                 "maxheight": "9"}),
-    (10, [3, 4], {"railway": "rail", "bridge": "yes", "maxheight:physical": "6 ft"}),
+    (8, [1, 2], {"highway": "primary", "bridge": "yes", "seamark:bridge:clearance_height": "4.5",
+                 "maxheight": "3.8"}),                              # maxheight is for road traffic: ignored
+    (9, [2, 3], {"highway": "primary", "bridge": "movable", "seamark:bridge:clearance_height": "3"}),  # opens
+    (10, [3, 4], {"railway": "rail", "bridge": "yes", "seamark:bridge:clearance_height": "6 ft"}),
     (11, [3, 4], {"highway": "path", "bridge": "yes"}),             # no clearance known
     (12, [3, 4], {"highway": "path", "bridge": "no", "maxheight": "2"}),
-    (13, [3, 997], {"highway": "path", "bridge": "yes", "maxheight": "2"}),
-    (14, [3], {"highway": "path", "bridge": "yes", "maxheight": "2"}),
+    (13, [3, 997], {"highway": "path", "bridge": "yes", "seamark:bridge:clearance_height": "2"}),
+    (14, [3], {"highway": "path", "bridge": "yes", "seamark:bridge:clearance_height": "2"}),
     (100, ring(100), {"natural": "water", "name": "Duże"}),
     (110, ring(110), {"natural": "water", "name": "Oczko"}),
     (120, ring(120), {"natural": "water", "name": "Mały", "boat": "yes"}),
@@ -111,14 +111,14 @@ def test_connector_candidates(ex):
 
 def test_bridges(ex):
     got = sorted((round(h, 3), line.coords[0]) for line, h in ex.bridges)
-    assert got == [(1.829, pytest.approx((20.02, 52.0))), (3.0, pytest.approx((20.01, 52.0))),
-                   (4.5, pytest.approx((20.0, 52.0)))]
+    assert got == [(1.829, pytest.approx((20.02, 52.0))), (4.5, pytest.approx((20.0, 52.0)))]
 
 
 def test_lakes(ex):
     lakes = {lk.name: lk for lk in ex.lakes}
     # Oczko is too small and Kreska degenerate; small canal/river areas are kept because they link waterways
     assert set(lakes) == {"Duże", "Mały", "Wyspa", "Kanałek", "Brzeg"}
+    assert {n for n, lk in lakes.items() if lk.kind == "channel"} == {"Kanałek", "Brzeg"}
     assert not lakes["Duże"].allowlisted
     assert lakes["Mały"].allowlisted  # small but boat=yes
     assert lakes["Duże"].id == 200  # area id of way 100

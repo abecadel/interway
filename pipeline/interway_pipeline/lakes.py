@@ -19,11 +19,11 @@ from collections import Counter, defaultdict
 
 import shapely
 from shapely import STRtree, prepared
-from shapely.geometry import LineString, MultiPolygon, Point, Polygon
+from shapely.geometry import LineString, MultiPoint, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 from .extract import Lake
-from .model import MIN_LAKE_KM2, LonLat, Segment, area_km2, haversine, metres_to_deg
+from .model import LonLat, Segment, haversine, metres_to_deg
 from .topology import new_node_id, node_positions
 
 log = logging.getLogger(__name__)
@@ -78,48 +78,62 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     tree = STRtree([Point(pos[n]) for n in ids]) if ids else None
     marina_tree = STRtree([Point(p) for _, p in marinas]) if marinas else None
     tol = metres_to_deg(ENTRY_TOLERANCE_M)
-    lakes = _useful(lakes, segments, pos, tol)
+    degree: Counter[int] = Counter()
+    for s in segments:
+        degree[s.a] += 1
+        degree[s.b] += 1
+    dead_ends = {n for n, d in degree.items() if d == 1}
+    touching: dict[int, list[Segment]] = defaultdict(list)
+    for s in segments:
+        touching[s.a].append(s)
+        touching[s.b].append(s)
     added: list[Segment] = []
     used = 0
-    bodies = water_bodies(lakes)
+    # Lakes are crossed among themselves; river/canal areas (with the lakes they touch) only bridge dead ends.
+    lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"])
+    channel_bodies = [b for b in water_bodies(lakes) if any(m.kind == "channel" for m in b[1])]
+    bodies = lake_bodies + channel_bodies
     for body, members in bodies:
         zone = body.buffer(tol)
         entries: list[tuple[int, LonLat]] = []
         if tree is not None:
-            entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")]
-        allowlisted = any(m.allowlisted for m in members)
-        if not entries and not allowlisted:
+            inside = prepared.prep(body)
+            entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")
+                       if _enters(ids[i], touching[ids[i]], inside, dead_ends)]
+        # A body made only of river/canal areas is not a lake to cross: it only bridges places where a
+        # waterway line stops (dead ends), and its mesh links those to the rest instead of replacing the line.
+        bridge = None
+        if any(m.kind == "channel" for m in members):
+            bridge = {n for n, _ in entries if n in dead_ends}
+            if not bridge:
+                continue
+        elif not entries and not any(m.allowlisted for m in members):
             continue
-        if marina_tree is not None:
+        if marina_tree is not None and bridge is None:
             for i in marina_tree.query(body, predicate="intersects"):
                 entries.append((new_node_id(), marinas[i][1]))
         used += 1
-        added.extend(_mesh(body, members, entries))
+        added.extend(_mesh(body, members, entries, bridge))
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
 
 
-def _useful(lakes: list[Lake], segments: list[Segment], pos: dict[int, LonLat], tol: float) -> list[Lake]:
-    """Drop small river/canal areas that do not continue a dead-end waterway.
+def _enters(node: int, segs: list[Segment], inside, dead_ends: set[int]) -> bool:
+    """A node is a way into the water only where its waterway ends there or continues into the water.
 
-    Rivers are usually mapped both as a centre line and as many water-area pieces. The pieces only matter
-    where the line is missing (a waterway ends at an unmapped stretch, e.g. below Strasen lock); elsewhere
-    they would chain into one huge water body whose mesh replaces the named river line.
+    A canal that merely runs along a reservoir's shore must not be connected through the reservoir.
     """
-    degree: Counter[int] = Counter()
-    for s in segments:
-        degree[s.a] += 1
-        degree[s.b] += 1
-    ends = [Point(pos[n]) for n, d in degree.items() if d == 1]
-    end_tree = STRtree(ends) if ends else None
-    return [lk for lk in lakes if not small_channel(lk)
-            or (end_tree is not None and len(end_tree.query(lk.polygon, predicate="dwithin", distance=tol)) > 0)]
-
-
-def small_channel(lake: Lake) -> bool:
-    """Below the lake size threshold and not allowlisted: extraction only keeps such areas for river/canal water."""
-    return not lake.allowlisted and area_km2(lake.polygon) < MIN_LAKE_KM2
+    if node in dead_ends:
+        return True
+    for s in segs:
+        if len(s.coords) == 2:
+            nxt = ((s.coords[0][0] + s.coords[1][0]) / 2, (s.coords[0][1] + s.coords[1][1]) / 2)
+        else:
+            nxt = s.coords[1] if s.a == node else s.coords[-2]
+        if inside.contains(Point(nxt)):
+            return True
+    return False
 
 
 def _lake_namer(members: list[Lake]):
@@ -136,7 +150,8 @@ def _lake_namer(members: list[Lake]):
     return name_at
 
 
-def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]]) -> list[Segment]:
+def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]],
+          bridge: set[int] | None = None) -> list[Segment]:
     segs: list[Segment] = []
     if body.is_empty:
         return segs
@@ -192,10 +207,10 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
                 (a, pa), (b, pb) = entries[i], entries[j]
                 if pa != pb and water.contains(LineString([pa, pb])):
                     add(a, b, pa, pb)
-    return prune_and_smooth(segs, {nid for nid, _ in entries}, water)
+    return prune_and_smooth(segs, {nid for nid, _ in entries}, water, bridge)
 
 
-def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segment]:
+def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[int] | None = None) -> list[Segment]:
     """Keep only mesh edges on shortest paths between entries, then straighten each chain.
 
     The full mesh is large (thousands of edges for a big lake) and zig-zags between triangle midpoints.
@@ -212,6 +227,11 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segm
     lengths = [sg.length for sg in segs]
     pos = {sg.a: sg.coords[0] for sg in segs} | {sg.b: sg.coords[-1] for sg in segs}
     wanted = _target_pairs(targets, pos)
+    if bridge is not None:
+        # only paths that start or end at a dead end, plus links among the dead ends themselves
+        ends = [t for t in targets if t in bridge]
+        among = _target_pairs(ends, pos)
+        wanted = {t: {o for o in w if t in bridge or o in bridge} | among.get(t, set()) for t, w in wanted.items()}
     for src in targets:
         remaining = set(wanted[src])
         dist = {src: 0.0}
@@ -237,34 +257,40 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water) -> list[Segm
                 node = segs[i].a if segs[i].b == node else segs[i].b
         keep |= tree
     kept = [segs[i] for i in sorted(keep)]
-    return _chains(kept, entries, water)
+    return _chains(kept, entries, water, "lake" if bridge is None else "bridge")
 
 
 def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[int]]:
     """Which entries each entry needs a path to.
 
-    Small lakes: all of them. Big lakes with many entries (IJsselmeer, Müritz): the NEAREST_TARGETS closest
-    ones plus the neighbours in a straight-line minimum spanning tree, which keeps the result connected
-    while avoiding a shortest-path search from every entry to every other.
+    Small lakes: all of them. Big water bodies (IJsselmeer, a river area with thousands of entries) link
+    each entry to its Delaunay neighbours: that graph contains every entry's nearest neighbour and the
+    minimum spanning tree, so the result stays connected, and it has O(n) edges instead of all n² pairs.
     """
     if len(targets) <= NEAREST_TARGETS + 1:
         return {t: set(targets) - {t} for t in targets}
-    d = {(a, b): haversine(pos[a], pos[b]) for a in targets for b in targets if a != b}
-    wanted = {t: set(sorted((o for o in targets if o != t), key=lambda o: d[t, o])[:NEAREST_TARGETS]) for t in targets}
-    # Prim's minimum spanning tree over straight-line distances
-    best = {t: (d[targets[0], t], targets[0]) for t in targets[1:]}
-    while best:
-        t = min(best, key=lambda k: best[k][0])
-        _, parent = best.pop(t)
-        wanted[t].add(parent)
-        wanted[parent].add(t)
-        for o in best:
-            if d[t, o] < best[o][0]:
-                best[o] = (d[t, o], t)
+    wanted: dict[int, set[int]] = {t: set() for t in targets}
+    by_pos: dict[LonLat, list[int]] = defaultdict(list)
+    for t in targets:
+        by_pos[pos[t]].append(t)
+
+    def link(xs: list[int], ys: list[int]) -> None:
+        for x in xs:
+            for y in ys:
+                if x != y:
+                    wanted[x].add(y)
+                    wanted[y].add(x)
+
+    for same in by_pos.values():  # entries at the same spot (several waterways meeting at the shore)
+        link(same, same)
+    edges = shapely.delaunay_triangles(MultiPoint(list(by_pos)), only_edges=True)
+    for line in getattr(edges, "geoms", []):
+        p, q = line.coords
+        link(by_pos[tuple(p)], by_pos[tuple(q)])
     return wanted
 
 
-def _chains(segs: list[Segment], entries: set[int], water) -> list[Segment]:
+def _chains(segs: list[Segment], entries: set[int], water, kind: str = "lake") -> list[Segment]:
     """Merge runs of degree-2 mesh nodes into single straightened segments."""
     adj: dict[int, list[int]] = defaultdict(list)
     for i, sg in enumerate(segs):
@@ -286,7 +312,7 @@ def _chains(segs: list[Segment], entries: set[int], water) -> list[Segment]:
             if node in stop:
                 break
             i = next(j for j in adj[node] if j != i)
-        out.append(Segment(a=start, b=node, coords=_straighten(pts, water), name=names[len(names) // 2], kind="lake"))
+        out.append(Segment(a=start, b=node, coords=_straighten(pts, water), name=names[len(names) // 2], kind=kind))
 
     for n in stop:
         for i in adj[n]:

@@ -42,6 +42,9 @@ class Lake:
     name: str
     polygon: Polygon | MultiPolygon
     allowlisted: bool
+    # "lake" (meshed for crossing) or "channel" (a river/canal stretch mapped as an area: used only where a
+    # waterway dead-ends into it, see lakes._useful)
+    kind: str = "lake"
 
 
 @dataclass
@@ -126,9 +129,10 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
                     kept["kind"] = kind_of(tags)
                     ex.connectors.append(NavWay(o.id, [n.ref for n in o.nodes], coords, kept))
-            elif "bridge" in tags and tags.get("bridge") != "no":
-                h = parse_metres(tags.get("seamark:bridge:clearance_height") or tags.get("maxheight:physical")
-                                 or tags.get("maxheight"))
+            elif "bridge" in tags and tags.get("bridge") not in ("no", "movable"):
+                # Only seamark clearance describes the space *under* a bridge. maxheight on a bridge way is the
+                # limit for traffic on it, and movable bridges open for boats.
+                h = parse_metres(tags.get("seamark:bridge:clearance_height"))
                 coords = _way_coords(o) if h > 0 else None
                 if coords is not None and len(coords) >= 2:
                     ex.bridges.append((LineString(coords), h))
@@ -147,7 +151,9 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
             # rough km² at mid-latitude, enough for a size threshold
             km2 = area_km2(poly)
             allowed = lake_allowlisted(tags, allow)
-            if km2 >= min_lake_km2 or allowed or is_channel_area(tags):
+            if is_channel_area(tags):
+                ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed, kind="channel"))
+            elif km2 >= min_lake_km2 or allowed:
                 ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed))
     log.info("read %d ways: %d navigable, %d connector candidates, %d lakes, %d bridges w/ clearance, %d lock nodes, %d marinas",
              n_ways, len(ex.ways), len(ex.connectors), len(ex.lakes), len(ex.bridges), len(ex.lock_nodes), len(ex.marinas))

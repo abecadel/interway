@@ -30,7 +30,7 @@ WAYS = [
     (4, [7, 10, 11], {"waterway": "river", "name": "Narew"}),
     (5, [7, 12], {"waterway": "stream", "name": "Struga"}),
     (100, [101, 102, 103, 104, 101], {"natural": "water", "water": "reservoir", "name": "Zalew Testowy"}),
-    (200, [201, 202], {"highway": "primary", "bridge": "yes", "maxheight": "2.5"}),
+    (200, [201, 202], {"highway": "primary", "bridge": "yes", "seamark:bridge:clearance_height": "2.5"}),
     (300, [301, 302], {"waterway": "canal", "CEMT": "I"}),
 ]
 

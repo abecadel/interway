@@ -60,8 +60,8 @@ def test_not_navigable(tags, allow):
     {"waterway": "canal", "CEMT": "Va"},
     {"waterway": "river", "cemt": "I"},
     {"waterway": "river", "ship": "yes"},
-    {"waterway": "river", "boat": "permissive"},
     {"waterway": "river", "motorboat": "designated"},
+    {"waterway": "river", "boat": "permissive", "name": "Narew"},
     {"waterway": "river", "boat": "no", "motorboat": "yes"},  # boat=no only for rowing boats
     {"waterway": "river", "boat": "no", "ship": "yes"},
     {"waterway": "canal", "seamark:type": "fairway"},
@@ -74,6 +74,11 @@ def test_not_navigable(tags, allow):
 ])
 def test_navigable(tags, allow):
     assert is_navigable_way(tags, allow)
+
+
+def test_boat_yes_alone_is_canoe_water(allow):
+    # boat=yes also covers canoes: a small river with only that tag is no route for a motor boat
+    assert not is_navigable_way({"waterway": "river", "name": "Kłodnica", "boat": "yes"}, allow)
 
 
 @pytest.mark.parametrize("tags,expected", [
@@ -139,7 +144,8 @@ def test_exclude_patterns(tmp_path):
 def test_channel_areas():
     from interway_pipeline.classify import is_channel_area
     assert is_channel_area({"natural": "water", "water": "canal"})
-    assert is_channel_area({"natural": "water", "water": "lock"})
+    assert not is_channel_area({"natural": "water", "water": "lock"})  # lock chambers join two levels
+    assert not is_candidate_lake({"natural": "water", "water": "lock"})
     assert is_channel_area({"waterway": "riverbank"})
     assert not is_channel_area({"natural": "water", "water": "lake"})
     assert not is_channel_area({"natural": "water"})

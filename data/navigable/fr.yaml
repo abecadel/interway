@@ -1,0 +1,69 @@
+# France: main navigable rivers and canals (VNF network). Many carry CEMT tags already; listed as fallback.
+# Not listed on purpose (only partly navigable, names would add false shortcuts): Garonne above Castets
+# (the Canal latéral is used), Loire.
+waterways:
+  - La Seine
+  - Seine
+  - Yonne
+  - Saône
+  - La Saône
+  - Petite Saône
+  - Rhône
+  - Le Rhône
+  - Petit Rhône
+  - Moselle
+  - La Moselle
+  - Meuse
+  - La Meuse
+  - Marne
+  - La Marne
+  - Oise
+  - L'Oise
+  - Aisne
+  - Escaut
+  - Lys
+  - Canal du Midi
+  - Canal latéral à la Garonne
+  - Canal de Garonne
+  - Canal du Rhône à Sète
+  - Canal de la Robine
+  - Canal de Jonction
+  - Canal de Bourgogne
+  - Canal du Loing
+  - Canal de Briare
+  - Canal latéral à la Loire
+  - Canal du Centre
+  - Canal du Nivernais
+  - Canal entre Champagne et Bourgogne
+  - Canal de la Marne à la Saône
+  - Canal latéral à la Marne
+  - Canal de la Marne au Rhin
+  - Canal du Rhône au Rhin
+  - Canal des Vosges
+  - Canal de l'Est
+  - Canal des Ardennes
+  - Canal latéral à l'Aisne
+  - Canal de l'Aisne à la Marne
+  - Canal latéral à l'Oise
+  - Canal de Saint-Quentin
+  - Canal du Nord
+  - Canal de la Sambre à l'Oise
+  - Canal de la Somme
+  - Canal Saint-Denis
+  - Canal Saint-Martin
+  - Canal de l'Ourcq
+  - Canal du Havre à Tancarville
+  - Canal de Nantes à Brest
+  - Canal d'Ille-et-Rance
+  - Vilaine
+  - Canal de la Sarre
+  - Canal des houillères de la Sarre
+  - Canal de la Haute-Seine
+  - Grand Canal d'Alsace
+  - Canal d'Alsace
+lakes:
+  - Étang de Thau
+  - Lac de Der-Chantecoq
+  - Lac du Bourget
+  - Lac Léman
+exclude: []

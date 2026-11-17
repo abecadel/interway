@@ -1,0 +1,27 @@
+# Belgium: main waterways (most carry CEMT tags already).
+waterways:
+  - Maas
+  - Meuse
+  - Schelde
+  - Escaut
+  - Albertkanaal
+  - Canal Albert
+  - Zuid-Willemsvaart
+  - Kanaal Bossuit-Kortrijk
+  - Leie
+  - Lys
+  - Kanaal Gent-Oostende
+  - Kanaal Gent-Terneuzen
+  - Ringvaart
+  - Zeekanaal Brussel-Schelde
+  - Canal Charleroi-Bruxelles
+  - Canal du Centre
+  - Canal Nimy-Blaton-Péronnes
+  - Sambre
+  - Kempisch Kanaal
+  - Kanaal Dessel-Schoten
+  - Netekanaal
+  - Boven-Schelde
+  - Bovenschelde
+lakes: []
+exclude: []

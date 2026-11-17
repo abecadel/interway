@@ -123,23 +123,34 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
 
 
 def add_connectors(segments: list[Segment], ex: Extract, max_length_m: float = 3000.0, tol_m: float = 60.0) -> int:
-    """Short unverified rivers/canals whose both ends touch lakes or the navigable network.
+    """Short unverified rivers/canals between lakes, or from a lake to the navigable network.
 
-    These typically link chains of lakes (e.g. Mazury) where the channel lacks boat tags. They are exported
-    with the PATCH flag so the app can show them as unverified.
+    These typically link chains of lakes (e.g. Mazury) where the channel lacks boat tags. At least one end must
+    be at a lake: pieces of a small river joining a canal at both ends would otherwise become lock-free
+    shortcuts beside it. They are exported with the PATCH flag so the app can show them as unverified.
     """
     if not ex.connectors:
         return 0
-    targets = [Point(p) for p in node_positions(segments).values()] + [lk.polygon for lk in ex.lakes]
-    if not targets:
+    lake_polys = [lk.polygon for lk in ex.lakes if lk.kind == "lake"]
+    if not lake_polys:
         return 0
-    tree = STRtree(targets)
+    lake_tree = STRtree(lake_polys)
+    node_pts = [Point(p) for p in node_positions(segments).values()]
+    node_tree = STRtree(node_pts) if node_pts else None
     tol = metres_to_deg(tol_m)
+
+    def at_lake(c: LonLat) -> bool:
+        return len(lake_tree.query(Point(c), predicate="dwithin", distance=tol)) > 0
+
+    def at_network(c: LonLat) -> bool:
+        return node_tree is not None and len(node_tree.query(Point(c), predicate="dwithin", distance=tol)) > 0
+
     added = 0
     for w in ex.connectors:
         if len(w.coords) < 2 or line_length(w.coords) > max_length_m:
             continue
-        ends_ok = all(len(tree.query(Point(c), predicate="dwithin", distance=tol)) > 0 for c in (w.coords[0], w.coords[-1]))
+        first, last = w.coords[0], w.coords[-1]
+        ends_ok = (at_lake(first) and (at_lake(last) or at_network(last))) or (at_lake(last) and at_network(first))
         if not ends_ok or any(n in ex.barrier_nodes for n in w.nodes):
             continue
         a, b = w.nodes[0], w.nodes[-1]
@@ -312,7 +323,8 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
     weir or dam, even when OSM has no weir node on it: an untagged twin chamber, a weir arm next to a lock
     canal, a river loop around a canalised section. For each lock the shortest such bypass within `max_m` is
     removed. Lake crossings are never removed (touching lakes are merged regardless of level), and bypasses
-    that contain another lock are not bypasses at all. Returns (kept, removed).
+    that contain another lock are not bypasses at all. A cut never disconnects anything: a segment is removed
+    only if its ends stay connected another way (through locks allowed). Returns (kept, removed).
     """
     adj: dict[int, list[int]] = defaultdict(list)
     for i, s in enumerate(segments):
@@ -327,7 +339,12 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
             path = _bypass(segments, adj, lengths, removed, lock.a, lock.b, max_m)
             if not path or any(segments[i].kind == "lake" for i in path):
                 break
-            removed.add(_weir_candidate(segments, path, lock, lengths))
+            cut = next((c for c in _weir_candidates(segments, path, lock, lengths)
+                        if _bypass(segments, adj, lengths, removed | {c}, segments[c].a, segments[c].b, 2 * max_m,
+                                   through_locks=True)), None)
+            if cut is None:
+                break
+            removed.add(cut)
     kept = [s for i, s in enumerate(segments) if i not in removed]
     log.info("removed %d segments bypassing locks (unmapped weirs, untagged twin chambers)", len(removed))
     return kept, [segments[i] for i in sorted(removed)]
@@ -336,18 +353,20 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
 MAX_BYPASS_CUTS = 10
 
 
-def _weir_candidate(segments: list[Segment], path: list[int], lock: Segment, lengths: list[float]) -> int:
-    """The one segment of a bypass to cut: where the unmapped weir most likely is.
+def _weir_candidates(segments: list[Segment], path: list[int], lock: Segment, lengths: list[float]) -> list[int]:
+    """Segments of a bypass in the order they should be cut: where the unmapped weir most likely is first.
 
-    Segments touching the lock's own ends are the canal leading to it, so they are avoided unless the bypass is
-    nothing else (an untagged twin chamber). Among the rest rivers come before canals, then the longest.
+    Segments touching the lock's own ends are the canal leading to it, so they come last (they are the bypass
+    itself only for an untagged twin chamber). Rivers and river-area bridges come before canals, then longer
+    before shorter.
     """
-    away = [i for i in path if not {segments[i].a, segments[i].b} & {lock.a, lock.b}] or path
-    return max(away, key=lambda i: (segments[i].kind == "river", lengths[i]))
+    return sorted(path, key=lambda i: (not ({segments[i].a, segments[i].b} & {lock.a, lock.b}),
+                                       segments[i].kind in ("river", "bridge"), lengths[i]), reverse=True)
 
 
-def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float) -> list[int] | None:
-    """Shortest lock-free path src -> dst (segment indices) not longer than max_m, or None."""
+def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float,
+            through_locks: bool = False) -> list[int] | None:
+    """Shortest path src -> dst (segment indices) not longer than max_m and, unless through_locks, using no lock."""
     dist = {src: 0.0}
     prev: dict[int, int] = {}
     heap = [(0.0, src)]
@@ -364,7 +383,7 @@ def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float) -
             continue
         for i in adj[u]:
             s = segments[i]
-            if s.lock or i in removed:
+            if (s.lock and not through_locks) or i in removed:
                 continue
             v = s.b if s.a == u else s.a
             nd = d + lengths[i]

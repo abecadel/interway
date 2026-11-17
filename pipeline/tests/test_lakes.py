@@ -162,9 +162,24 @@ def test_target_pairs_small_and_large():
     small = lakes._target_pairs([1, 2, 3], pos)
     assert small == {1: {2, 3}, 2: {1, 3}, 3: {1, 2}}
     big = lakes._target_pairs(list(range(1, 12)), pos)
-    assert big[1] >= {11, 2, 3, 4, 5, 6, 7, 8}  # eight nearest
-    assert 1 in big[2]  # spanning tree link is symmetric
-    assert all(len(v) >= 1 for v in big.values())
+    # collinear entries: each links to its neighbours along the line, nothing further
+    assert big[1] == {11, 2} and big[5] == {4, 6} and big[11] == {1}
+    assert sum(len(v) for v in big.values()) == 2 * 10  # a chain: O(n) links, not n² pairs
+
+
+def test_target_pairs_grid_and_duplicates():
+    pos = {i: (float(i % 5), float(i // 5)) for i in range(25)} | {99: (2.0, 2.0)}  # 99 shares 12's spot
+    wanted = lakes._target_pairs(list(pos), pos)
+    assert {7, 11, 13, 17, 99} <= wanted[12] and 12 in wanted[99]
+    assert wanted[99] - {12} == wanted[12] - {99}  # same position, same neighbours
+    assert all(len(v) <= 9 for v in wanted.values())  # local links only
+    comp = {0}
+    stack = [0]
+    while stack:
+        for v in wanted[stack.pop()] - comp:
+            comp.add(v)
+            stack.append(v)
+    assert comp == set(pos)  # connected
 
 
 def test_small_channel_areas_only_continue_dead_ends():
@@ -174,8 +189,8 @@ def test_small_channel_areas_only_continue_dead_ends():
     canal = Segment(a=10, b=11, coords=[(0.5, 0.0), (0.6, 0.0)], kind="canal")  # 11 is a dead end
     onward = Segment(a=20, b=21, coords=[(0.65, 0.0), (0.7, 0.0)], kind="canal")  # leaves the lake on the far side
     lake = Lake(5, "Pälitzsee", box(0.6 + 0.001, -0.01, 0.65, 0.01), False)
-    piece_on_river = Lake(6, "", box(0.04, -0.001, 0.06, 0.001), False)  # ~0.05 km² of river area
-    piece_at_end = Lake(7, "", box(0.6, -0.001, 0.6011, 0.001), False)  # canal end -> lake
+    piece_on_river = Lake(6, "", box(0.04, -0.001, 0.06, 0.001), False, kind="channel")
+    piece_at_end = Lake(7, "", box(0.6, -0.001, 0.6011, 0.001), False, kind="channel")  # canal end -> lake
     added = connect_lakes([river, feeder, canal, onward], [lake, piece_on_river, piece_at_end], [])
     comp = components([river, feeder, canal, onward, *added])
     assert comp[11] == comp[20]  # the dead end reaches the lake's far side through the small piece
@@ -183,15 +198,72 @@ def test_small_channel_areas_only_continue_dead_ends():
     assert not any(-0.002 < s.coords[0][1] < 0.002 and 0.03 < s.coords[0][0] < 0.07 for s in added)
 
 
-def test_useful_keeps_big_lakes_and_small_pieces_at_dead_ends_only():
-    from interway_pipeline.topology import node_positions
-    river = [Segment(a=1, b=2, coords=[(0.0, 0.0), (0.05, 0.0)], kind="river"),
-             Segment(a=2, b=3, coords=[(0.05, 0.0), (0.1, 0.0)], kind="river")]  # 1 and 3 are dead ends
-    tiny_mid = Lake(1, "", box(0.048, -0.0002, 0.052, 0.0002), False)   # ~0.02 km² around node 2
-    tiny_end = Lake(2, "", box(0.098, -0.0002, 0.102, 0.0002), False)   # around dead end 3
-    tiny_named = Lake(3, "Oczko", box(0.5, 0.5, 0.501, 0.501), True)   # allowlisted: always kept
-    big = Lake(4, "Duże", box(1, 1, 1.01, 1.01), False)
-    tol = metres_to_deg(lakes.ENTRY_TOLERANCE_M)
-    kept = lakes._useful([tiny_mid, tiny_end, tiny_named, big], river, node_positions(river), tol)
-    assert [lk.id for lk in kept] == [2, 3, 4]
-    assert lakes._useful([tiny_mid, big], [], {}, tol) == [big]  # no network at all
+def test_channel_bodies_only_bridge_dead_ends():
+    # A long river area (two touching pieces). The river line runs through the west piece; it is broken
+    # in the east piece: one part ends at 11, the next starts again at 12.
+    west = Lake(1, "Odra", box(0.0, -0.002, 0.1, 0.002), True, kind="channel")
+    east = Lake(2, "Odra", box(0.1, -0.002, 0.2, 0.002), True, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river", name="Odra"),
+             Segment(a=2, b=11, coords=[(0.05, 0.0), (0.12, 0.0)], kind="river", name="Odra"),
+             Segment(a=12, b=13, coords=[(0.17, 0.0), (0.3, 0.0)], kind="river", name="Odra")]
+    marinas = [("Przystań", (0.15, 0.001))]
+    added = connect_lakes(river, [west, east], marinas)
+    ends = {frozenset((s.a, s.b)) for s in added}
+    assert frozenset((11, 12)) in ends  # the gap is bridged
+    assert all({s.a, s.b} & {11, 12} for s in added)  # nothing else: the line stays the route
+    assert not any(s.a < 0 or s.b < 0 for s in added)  # marinas are not linked through river areas
+    comp = components([*river, *added])
+    assert comp[1] == comp[13]
+
+
+def test_channel_body_without_dead_ends_is_not_meshed():
+    area = Lake(1, "Narew", box(0.0, -0.002, 0.1, 0.002), True, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river"),
+             Segment(a=2, b=3, coords=[(0.05, 0.0), (0.15, 0.0)], kind="river"),
+             Segment(a=3, b=4, coords=[(0.15, 0.0), (0.2, 0.0)], kind="river")]
+    assert connect_lakes(river, [area], []) == []
+
+
+def test_lake_touching_channel_areas_is_meshed_normally():
+    lake = Lake(1, "Zalew", box(0.0, -0.05, 0.1, 0.05), False)
+    inflow = Lake(2, "Narew", box(-0.05, -0.002, 0.0, 0.002), False, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.1, 0.0), (-0.03, 0.0)], kind="river"),  # 2 ends inside the inflow area
+             Segment(a=3, b=4, coords=[(0.1003, 0.0), (0.2, 0.0)], kind="river")]  # 3 is on the far shore
+    added = connect_lakes(river, [lake, inflow], [("Marina", (0.05, 0.04))])
+    assert components([*river, *added])[1] == components([*river, *added])[4]
+    assert any(s.a < 0 or s.b < 0 for s in added)  # marinas on a real lake are linked
+
+
+def test_canal_along_a_reservoir_shore_is_not_linked_through_it():
+    # Dzierżno Duże case: the canal runs along the shore on two levels (a lock between them); the reservoir
+    # must not join them. A river that flows into the reservoir is an entry.
+    reservoir = Lake(1, "Dzierżno", box(0.0, 0.0, 0.1, 0.05), False)
+    shore = -metres_to_deg(30)
+    canal = [Segment(a=0, b=1, coords=[(-0.1, shore), (0.0, shore)], kind="canal"),  # continues beyond the lake
+             Segment(a=4, b=5, coords=[(0.1, shore), (0.2, shore)], kind="canal"),
+             Segment(a=1, b=2, coords=[(0.0, shore), (0.05, shore)], kind="canal"),
+             Segment(a=2, b=3, coords=[(0.05, shore), (0.051, shore)], kind="canal", lock=True),
+             Segment(a=3, b=4, coords=[(0.051, shore), (0.1, shore)], kind="canal")]
+    inflow = Segment(a=10, b=11, coords=[(0.05, 0.08), (0.05, 0.06), (0.05, 0.03)], kind="river")  # ends inside
+    outflow = Segment(a=12, b=13, coords=[(0.09, 0.04), (0.095, 0.045), (0.2, 0.045)], kind="river")  # leaves
+    # a river crossing the corner: node 31 lies in the water, reached by a segment drawn towards it
+    through = [Segment(a=30, b=31, coords=[(-0.05, 0.02), (0.005, 0.021), (0.01, 0.02)], kind="river"),
+               Segment(a=31, b=32, coords=[(0.01, 0.02), (0.02, 0.06)], kind="river")]
+    added = connect_lakes([*canal, inflow, outflow, *through], [reservoir], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {11, 12, 31} <= linked and not linked & {0, 1, 2, 3, 4, 5}
+
+
+def test_bridges_are_marked_and_can_be_cut_around_locks():
+    from interway_pipeline.topology import block_lock_bypasses
+    area = Lake(1, "Odra", box(0.0, -0.002, 0.2, 0.002), False, kind="channel")
+    river = [Segment(a=1, b=2, coords=[(-0.05, 0.0), (0.05, 0.0)], kind="river"),
+             Segment(a=12, b=13, coords=[(0.15, 0.0), (0.3, 0.0)], kind="river")]
+    added = connect_lakes(river, [area], [])
+    assert added and all(s.kind == "bridge" for s in added)
+    lock_canal = [Segment(a=2, b=20, coords=[(0.05, 0.0), (0.1, 0.01)], kind="canal"),
+                  Segment(a=20, b=21, coords=[(0.1, 0.01), (0.101, 0.01)], kind="canal", lock=True),
+                  Segment(a=21, b=12, coords=[(0.101, 0.01), (0.15, 0.0)], kind="canal")]
+    kept, removed = block_lock_bypasses([*river, *added, *lock_canal])
+    assert any(s.kind == "bridge" for s in removed)  # the bridge across the weir reach is cut, not the canal
+    assert all(s in kept for s in lock_canal)
