@@ -386,8 +386,9 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
     A lock joins two different water levels, so any path between its two ends that uses no lock must cross a
     weir or dam, even when OSM has no weir node on it: an untagged twin chamber, a weir arm next to a lock
     canal, a river loop around a canalised section. For each lock the shortest such bypass within `max_m` is
-    removed. Lake crossings are never removed (touching lakes are merged regardless of level), and bypasses
-    that contain another lock are not bypasses at all. A cut never disconnects anything: a segment is removed
+    removed. A bypass may run through a lake mesh (a reservoir whose shore reaches the dam crest), but lake
+    segments are never cut: touching lakes are merged regardless of level. Bypasses that contain another lock
+    are not bypasses at all. A cut never disconnects anything: a segment is removed
     only if its ends stay connected another way (through locks allowed). Returns (kept, removed).
     """
     adj: dict[int, list[int]] = defaultdict(list)
@@ -401,7 +402,7 @@ def block_lock_bypasses(segments: list[Segment], max_m: float = 30_000.0) -> tup
             continue
         for _ in range(MAX_BYPASS_CUTS):
             path = _bypass(segments, adj, lengths, removed, lock.a, lock.b, max_m)
-            if not path or any(segments[i].kind == "lake" for i in path):
+            if not path:
                 break
             cut = next((c for c in _weir_candidates(segments, path, lock, lengths)
                         if _bypass(segments, adj, lengths, removed | {c}, segments[c].a, segments[c].b, 2 * max_m,
@@ -424,8 +425,9 @@ def _weir_candidates(segments: list[Segment], path: list[int], lock: Segment, le
     itself only for an untagged twin chamber). Rivers and river-area bridges come before canals, then longer
     before shorter.
     """
-    return sorted(path, key=lambda i: (not ({segments[i].a, segments[i].b} & {lock.a, lock.b}),
-                                       segments[i].kind in ("river", "bridge"), lengths[i]), reverse=True)
+    return sorted((i for i in path if segments[i].kind not in ("lake", "sea")),
+                  key=lambda i: (not ({segments[i].a, segments[i].b} & {lock.a, lock.b}),
+                                 segments[i].kind in ("river", "bridge"), lengths[i]), reverse=True)
 
 
 def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float,
@@ -456,3 +458,25 @@ def _bypass(segments, adj, lengths, removed, src: int, dst: int, max_m: float,
                 prev[v] = i
                 heapq.heappush(heap, (nd, v))
     return None
+
+
+def mark_lock_areas(segments: list[Segment], areas: list, max_m: float = 1000.0) -> int:
+    """Lock chambers mapped only as a water=lock area (gates drawn as lines across the way, Przegalina): a
+    short segment lying mostly inside such an area is the chamber, so it becomes a lock."""
+    if not areas:
+        return 0
+    polys = [p for _, p in areas]
+    tree = STRtree(polys)
+    marked = 0
+    for s in segments:
+        if s.lock or s.length > max_m:
+            continue
+        line = LineString(s.coords)
+        for i in tree.query(line, predicate="intersects"):
+            if line.length and line.intersection(polys[i]).length >= 0.5 * line.length:
+                s.lock = True
+                s.name = areas[i][0]  # the river name would mislabel the lock; unnamed shows as "Lock"
+                marked += 1
+                break
+    log.info("marked %d segments inside lock areas as locks", marked)
+    return marked
