@@ -31,13 +31,19 @@ The full plan and roadmap are in [docs/PLAN.md](docs/PLAN.md).
 ```bash
 cd app
 npm install
-npm run dev            # http://localhost:5173  (uses the demo data in app/public/data)
+npm run dev            # http://localhost:5173  (uses the data in app/public/data)
 npm test               # unit tests
 ```
 
-The repository ships a demo graph for north-east Poland (Mazowsze, Podlasie, Warmia-Mazury), enough for
-routes like Zalew Zegrzyński → Mazury. Try
-`http://localhost:5173/?from=21.03,52.47&to=21.765,54.035`.
+The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Switzerland and France (≈11 MB),
+enough for routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam or the Baltic → Mediterranean "Le Cut".
+Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
+
+## Deployment
+
+`.github/workflows/pages.yml` builds the app and deploys it to GitHub Pages on every push to `main`
+(`https://<owner>.github.io/<repo>/`). One-time setup: repository **Settings → Pages → Source: GitHub Actions**.
+The build sets `VITE_BASE=/<repo>/` so the app, its data and the service worker live under that path.
 
 ## Building waterway data
 
