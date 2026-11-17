@@ -33,6 +33,8 @@ export interface RouteBrief {
   vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'avoidLocks' | 'avoidSea'>;
   totals: {
     km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
+    /** open sea charted shallower than the vessel's draft that the route crosses anyway, km */
+    tooShallowKm: number;
     /** tightest draft allowed by charted sea depth (EMODnet, minus a margin), m; null when unknown */
     maxSeaDraftM: number | null;
   };
@@ -131,6 +133,10 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     hazards.push(`Shallowest open-sea stretch at km ${km(at)}: charted depth allows about ${draft} m draft`
       + `${profile.draft > draft - 0.5 ? ` (yours is ${profile.draft} m)` : ''}. EMODnet bathymetry, ~0.5 km grid: not for navigation.`);
   }
+  if (route.tooShallow > 0) {
+    hazards.push(`${km(route.tooShallow)} km of open sea is charted shallower than your ${profile.draft} m draft and has no deeper way`
+      + ' in the planner\'s coarse sea network: there may be a dredged channel, or the passage may need a different route. Check official charts.');
+  }
   if (route.unverified > 0) hazards.push(`${km(route.unverified)} km on unverified connections (short channels or manual links): confirm locally.`);
   if (route.start.offset > 200 || route.end.offset > 200) {
     hazards.push(`Start/end were moved to the nearest navigable water (${km(route.start.offset)} km / ${km(route.end.offset)} km away).`);
@@ -145,6 +151,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), unverifiedKm: km(route.unverified),
+      tooShallowKm: km(route.tooShallow),
       maxSeaDraftM: route.shallowest?.draft ?? null,
     },
     legs,

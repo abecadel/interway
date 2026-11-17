@@ -24,6 +24,10 @@ export interface VesselProfile {
  * Wadden coast). Reported durations are real time without these penalties. */
 export const SEA_COST = 1.5;
 const AVOID_SEA_COST = 10;
+/** Open sea charted shallower than the draft costs this much more instead of being closed: the coarse sea network
+ * crosses banks where real boats follow dredged channels (Thames estuary, Wadden sea), so a hard limit would cut
+ * whole coasts off. Routes go round shallows where a deeper way exists and report what they could not avoid. */
+const SHALLOW_COST = 20;
 const AVOID_LOCKS_COST = 10;
 
 export const defaultProfile: VesselProfile = {
@@ -74,6 +78,8 @@ export interface Route {
   unverified: number;
   /** metres on open-sea legs */
   sea: number;
+  /** metres of open sea charted shallower than the vessel's draft that the route could not avoid */
+  tooShallow: number;
   /** tightest draft limit on open-sea legs (charted depth minus a margin), m, and where it is; null if none */
   shallowest: { draft: number; at: number } | null;
   events: RouteEvent[];
@@ -208,18 +214,22 @@ export class Router {
     const g = this.graph;
     const a = g.edgeAttr[e] * 4;
     const t = g.attrTable;
+    const flags = g.edgeFlags[e];
+    let shallow = false;
     if (a > 0) {
-      if (t[a] > 0 && p.draft > t[a]) return BLOCKED;
+      if (t[a] > 0 && p.draft > t[a]) {
+        if (!(flags & Flag.SEA)) return BLOCKED;
+        shallow = true;
+      }
       if (t[a + 1] > 0 && p.airDraft > t[a + 1]) return BLOCKED;
       if (t[a + 2] > 0 && p.beam > t[a + 2]) return BLOCKED;
       if (t[a + 3] > 0 && p.length > t[a + 3]) return BLOCKED;
     }
-    const flags = g.edgeFlags[e];
     let speed = p.speedKmh / 3.6;
     if (flags & Flag.DOWNSTREAM) speed += p.currentMs;
     else if (flags & Flag.UPSTREAM) speed = Math.max(speed - p.currentMs, 0.3);
     let cost = g.edgeLength[e] / speed;
-    if (flags & Flag.SEA) cost *= p.avoidSea ? AVOID_SEA_COST : SEA_COST;
+    if (flags & Flag.SEA) cost *= (p.avoidSea ? AVOID_SEA_COST : SEA_COST) * (shallow ? SHALLOW_COST : 1);
     if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? AVOID_LOCKS_COST : 1);
     return cost;
   }
@@ -307,15 +317,15 @@ export class Router {
     if (!Number.isFinite(cost[DST])) {
       throw new RouteError('No navigable route found between these points for this vessel');
     }
-    const route = this.buildRoute(s, t, prevEdge, prevNode, cost[DST]);
+    const route = this.buildRoute(s, t, prevEdge, prevNode, cost[DST], profile.draft);
     // the search cost includes routing penalties; report the time actually underway
     const seaFactor = profile.avoidSea ? AVOID_SEA_COST : SEA_COST;
-    route.duration -= (seaFactor - 1) * route.sea / (profile.speedKmh / 3.6)
+    route.duration -= ((seaFactor - 1) * route.sea + seaFactor * (SHALLOW_COST - 1) * route.tooShallow) / (profile.speedKmh / 3.6)
       + (profile.avoidLocks ? (AVOID_LOCKS_COST - 1) * profile.lockPenaltyMin * 60 * route.locks : 0);
     return route;
   }
 
-  private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number): Route {
+  private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number, vesselDraft: number): Route {
     const N = this.graph.nodeCount;
     const SRC = N, DST = N + 1;
     // Walk back from target to source.
@@ -326,7 +336,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0, unverified = 0, sea = 0;
+    let distance = 0, locks = 0, unverified = 0, sea = 0, tooShallow = 0;
     let shallowest: Route['shallowest'] = null;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
@@ -376,10 +386,11 @@ export class Router {
       addLeg(g, before);
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
-      const draft = this.seaDraft(g);
+      const draft = distance > before ? this.seaDraft(g) : 0; // a snap at the very end of a stretch does not cross it
       if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft, at: before };
+      if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
-    return { coordinates: coords, distance, duration, locks, unverified, sea, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, sea, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -441,6 +452,7 @@ export function joinRoutes(a: Route, b: Route): Route {
     locks: a.locks + b.locks,
     unverified: a.unverified + b.unverified,
     sea: a.sea + b.sea,
+    tooShallow: a.tooShallow + b.tooShallow,
     shallowest: [a.shallowest, b.shallowest && { ...b.shallowest, at: b.shallowest.at + a.distance }]
       .filter((x) => x !== null).sort((x, y) => x.draft - y.draft)[0] ?? null,
     events: [...a.events, ...b.events.map((e) => ({ ...e, at: e.at + a.distance }))],

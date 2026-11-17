@@ -130,6 +130,25 @@ describe('router edge cases', () => {
     expect(r.routeVia([[17.25, 51.15], [17.17, 51.07], [17.01, 51.0]]).shallowest!.draft).toBeCloseTo(2.5, 5);
   });
 
+  it('goes round sea charted too shallow for the draft, and crosses it when there is no other way', () => {
+    // P -> Q: a direct 14 km sea stretch over a bank (2 m), or a deeper sea way round, about 20% longer
+    const P: [number, number] = [17.0, 51.0], Q: [number, number] = [17.2, 51.0];
+    const bank = { points: [P, Q], kind: 'sea' as const, limits: [2, 0, 0, 0] as [number, number, number, number] };
+    const r = makeRouter([bank, { points: [P, [17.1, 51.06], Q], kind: 'sea' }]);
+    expect(r.route(P, Q).distance).toBeLessThan(15_000); // 1 m draft: over the bank
+    const deep = r.route(P, Q, { ...defaultProfile, draft: 3 });
+    expect(deep.distance).toBeGreaterThan(15_000);
+    expect(deep.tooShallow).toBe(0);
+    expect(deep.shallowest).toBeNull();
+    // only the bank: the route still crosses it, says so, and reports real time
+    const only = makeRouter([bank]).route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, draft: 3 });
+    expect(only.tooShallow).toBeCloseTo(only.distance, -2);
+    expect(only.shallowest!.draft).toBe(2);
+    expect(only.duration).toBeCloseTo(only.distance / (defaultProfile.speedKmh / 3.6), 0);
+    expect(makeRouter([bank]).routeVia([[17.001, 51.0], [17.1, 51.0], [17.199, 51.0]], { ...defaultProfile, draft: 3 }).tooShallow)
+      .toBeCloseTo(only.tooShallow, -2);
+  });
+
   it('prefers a comparable inland way to the open sea, and reports real time', () => {
     // P -> Q: 14 km of sea, or an inland canal 20% longer
     const P: [number, number] = [17.0, 51.0], Q: [number, number] = [17.2, 51.0];

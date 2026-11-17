@@ -20,7 +20,7 @@ from .lakes import connect_lakes
 from .model import Segment, haversine
 from .pois import load_places
 from .qa import gap_candidates
-from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh, to_merc
 from .topology import (
     add_connectors,
     apply_bridges,
@@ -189,6 +189,8 @@ def sea_network(land: Path, bbox: tuple[float, float, float, float], cache_dir: 
     return coast, sea
 
 
+# depth samples closer to land than this (Mercator m, ~1.2-1.6 km in Europe) are left out: harbour approaches
+SHORE_M = 2000.0
 SEA_VERSION = 2  # bump when sea_mesh output changes, invalidates cached meshes
 
 
@@ -215,7 +217,8 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     if land is not None:
         coast, sea = sea_network(land, sea_bbox, cache_dir)
         if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
-            apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)))
+            apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
+                            near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))
         segments += connect_to_sea(segments, sea, coast) + sea
     segments = merge_degree2(segments)
     segments, bypasses = block_lock_bypasses(segments)

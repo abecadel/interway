@@ -45,6 +45,15 @@ def test_min_along_and_limits():
     assert [s.limits.max_draft for s in sea] == [1.0, 0.0, 0.05, 0.0]
 
 
+def test_samples_next_to_land_are_left_out():
+    g = grid(t7_25=TILE)
+    sea = [Segment(a=1, b=2, coords=[(14.05, 50.9), (15.95, 50.9)], kind="sea"),       # bank near "land" (lon < 15)
+           Segment(a=2, b=3, coords=[(15.85, 50.01), (15.95, 50.02)], kind="sea")]     # 1 m, offshore
+    assert apply_sea_depth(sea[1:], g, near_land=lambda p: p[:, 0] < 15.0) == 1
+    assert sea[1].limits.max_draft == 0.5
+    assert apply_sea_depth(sea[:1], g, near_land=lambda p: p[:, 0] < 15.0) == 0  # only 40 m water left
+
+
 def test_tile_loader_caches_and_tolerates_failures(tmp_path):
     buf = io.BytesIO()
     tifffile.imwrite(buf, TILE)

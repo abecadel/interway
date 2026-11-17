@@ -73,27 +73,37 @@ class DepthGrid:
         return -v if v < 0 else None  # land pixels near the coast say nothing about the water
 
     def min_along(self, coords: list[LonLat], step_m: float = 500.0) -> float | None:
-        best: float | None = None
-        for a, b in itertools.pairwise(coords):
-            n = max(1, math.ceil(haversine(a, b) / step_m))
-            for k in range(n + 1):
-                t = k / n
-                d = self.depth(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
-                if d is not None and (best is None or d < best):
-                    best = d
-        return best
+        ds = [d for p in samples(coords, step_m) if (d := self.depth(*p)) is not None]
+        return min(ds, default=None)
 
 
-def apply_sea_depth(segments: list[Segment], grid: DepthGrid, *, safety_m: float = 0.5, max_m: float = 30.0,
-                    step_m: float = 500.0) -> int:
-    """Draft limits on sea segments shallower than max_m: the shallowest charted depth minus safety_m."""
-    limited = 0
-    for s in segments:
-        if s.kind != "sea":
-            continue
-        d = grid.min_along(s.coords, step_m)
+def samples(coords: list[LonLat], step_m: float) -> list[LonLat]:
+    """Points along a line, at most step_m apart, ends included."""
+    out: list[LonLat] = []
+    for a, b in itertools.pairwise(coords):
+        n = max(1, math.ceil(haversine(a, b) / step_m))
+        out += [(a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n) for k in range(n + 1)]
+    return out
+
+
+def apply_sea_depth(segments: list[Segment], grid: DepthGrid, *, near_land: Callable[[np.ndarray], np.ndarray] | None = None,
+                    safety_m: float = 0.5, max_m: float = 30.0, step_m: float = 500.0) -> int:
+    """Draft limits on sea segments shallower than max_m: the shallowest charted depth minus safety_m.
+
+    near_land(lonlat points) masks samples next to the shore: there the coarse grid mixes land and water cells
+    and reads almost zero everywhere, which says nothing about a harbour's dredged approach.
+    """
+    sea = [s for s in segments if s.kind == "sea"]
+    pts = [samples(s.coords, step_m) for s in sea]
+    flat = np.array([p for ps in pts for p in ps], dtype=float).reshape(-1, 2)
+    skip = near_land(flat) if near_land is not None else np.zeros(len(flat), dtype=bool)
+    limited, k = 0, 0
+    for s, ps in zip(sea, pts, strict=True):
+        ds = [d for i, p in enumerate(ps) if not skip[k + i] and (d := grid.depth(*p)) is not None]
+        k += len(ps)
+        d = min(ds, default=None)
         if d is not None and d < max_m:
             s.limits.max_draft = round(max(d - safety_m, 0.05), 2)  # 0 would mean "no limit"
             limited += 1
-    log.info("charted depth limits on %d of %d sea segments", limited, sum(s.kind == "sea" for s in segments))
+    log.info("charted depth limits on %d of %d sea segments", limited, len(sea))
     return limited
