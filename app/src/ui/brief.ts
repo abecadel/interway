@@ -31,7 +31,11 @@ export interface RouteBrief {
   title: string;
   link: string;
   vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'avoidLocks' | 'avoidSea'>;
-  totals: { km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number };
+  totals: {
+    km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
+    /** tightest draft allowed by charted sea depth (EMODnet, minus a margin), m; null when unknown */
+    maxSeaDraftM: number | null;
+  };
   legs: { name: string; fromKm: number; toKm: number; km: number }[];
   places: string[];
   stops: BriefStop[];
@@ -122,6 +126,11 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   }));
   const hazards: string[] = [];
   if (route.sea > 0) hazards.push(`${nm(route.sea)} NM on open sea (legs named "Open sea"): check weather, tides, traffic separation schemes and official charts.`);
+  if (route.shallowest) {
+    const { draft, at } = route.shallowest;
+    hazards.push(`Shallowest open-sea stretch at km ${km(at)}: charted depth allows about ${draft} m draft`
+      + `${profile.draft > draft - 0.5 ? ` (yours is ${profile.draft} m)` : ''}. EMODnet bathymetry, ~0.5 km grid: not for navigation.`);
+  }
   if (route.unverified > 0) hazards.push(`${km(route.unverified)} km on unverified connections (short channels or manual links): confirm locally.`);
   if (route.start.offset > 200 || route.end.offset > 200) {
     hazards.push(`Start/end were moved to the nearest navigable water (${km(route.start.offset)} km / ${km(route.end.offset)} km away).`);
@@ -136,6 +145,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), unverifiedKm: km(route.unverified),
+      maxSeaDraftM: route.shallowest?.draft ?? null,
     },
     legs,
     places: stops.filter((s) => s.type === 'place').map((s) => s.name),
@@ -187,7 +197,7 @@ export function briefMarkdown(b: RouteBrief): string {
     'Change the parameters of the link above and open it; the planner recomputes everything:',
     ...Object.entries(b.edit.parameters).map(([k, d]) => `- \`${k}\`: ${d}`),
     '',
-    'Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0). Not for navigation.',
+    'Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0), bathymetry © EMODnet (CC BY 4.0). Not for navigation.',
     '',
   ];
   return lines.join('\n');

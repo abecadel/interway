@@ -112,6 +112,24 @@ describe('router edge cases', () => {
     expect(avoid.duration).toBeGreaterThan(normal.duration);
   });
 
+  it('reports the shallowest open-sea stretch, also across waypoints', () => {
+    // three sea stretches with charted-depth draft limits 6, 2.5 and none; a river with its own draft limit
+    const r = makeRouter([
+      { points: [A, B], kind: 'river', limits: [1.5, 0, 0, 0] },
+      { points: [B, C], kind: 'sea', limits: [6, 0, 0, 0] },
+      { points: [C, D], kind: 'sea', limits: [2.5, 0, 0, 0] },
+      { points: [D, [17.3, 51.2]], kind: 'sea' },
+    ]);
+    const route = r.route([17.01, 51.0], [17.25, 51.15]);
+    expect(route.shallowest!.draft).toBeCloseTo(2.5, 5); // the river's 1.5 m is not sea
+    expect(route.shallowest!.at).toBeCloseTo(13_300, -2);
+    expect(r.route([17.01, 51.0], [17.09, 51.0]).shallowest).toBeNull();
+    const via = r.routeVia([[17.01, 51.0], [17.15, 51.0], [17.25, 51.15]]);
+    expect(via.shallowest!.draft).toBeCloseTo(2.5, 5);
+    expect(via.shallowest!.at).toBeGreaterThan(12_000);
+    expect(r.routeVia([[17.25, 51.15], [17.17, 51.07], [17.01, 51.0]]).shallowest!.draft).toBeCloseTo(2.5, 5);
+  });
+
   it('prefers a comparable inland way to the open sea, and reports real time', () => {
     // P -> Q: 14 km of sea, or an inland canal 20% longer
     const P: [number, number] = [17.0, 51.0], Q: [number, number] = [17.2, 51.0];

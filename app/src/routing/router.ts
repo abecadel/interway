@@ -74,6 +74,8 @@ export interface Route {
   unverified: number;
   /** metres on open-sea legs */
   sea: number;
+  /** tightest draft limit on open-sea legs (charted depth minus a margin), m, and where it is; null if none */
+  shallowest: { draft: number; at: number } | null;
   events: RouteEvent[];
   legs: RouteLeg[];
   start: Snap;
@@ -129,8 +131,18 @@ export class Router {
 
   /** Flags shared by both directions of geometry g (direction bits aside). */
   private geomFlags(g: number): number {
+    return this.graph.edgeFlags[this.geomEdge(g)];
+  }
+
+  private geomEdge(g: number): number {
     const f = this.geomFwd[g];
-    return this.graph.edgeFlags[f >= 0 ? f : this.geomRev[g]];
+    return f >= 0 ? f : this.geomRev[g];
+  }
+
+  /** Draft limit of geometry g when it is open sea, else 0 (unknown or unlimited). */
+  private seaDraft(g: number): number {
+    const e = this.geomEdge(g);
+    return this.graph.edgeFlags[e] & Flag.SEA ? this.graph.attrTable[this.graph.edgeAttr[e] * 4] : 0;
   }
 
   /** Waterway name of geometry g ('' when unnamed or the name table is missing). */
@@ -315,6 +327,7 @@ export class Router {
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
     let distance = 0, locks = 0, unverified = 0, sea = 0;
+    let shallowest: Route['shallowest'] = null;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
       if (last[0] === lon && last[1] === lat) return;
@@ -363,8 +376,10 @@ export class Router {
       addLeg(g, before);
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
+      const draft = this.seaDraft(g);
+      if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft, at: before };
     }
-    return { coordinates: coords, distance, duration, locks, unverified, sea, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, sea, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -426,6 +441,8 @@ export function joinRoutes(a: Route, b: Route): Route {
     locks: a.locks + b.locks,
     unverified: a.unverified + b.unverified,
     sea: a.sea + b.sea,
+    shallowest: [a.shallowest, b.shallowest && { ...b.shallowest, at: b.shallowest.at + a.distance }]
+      .filter((x) => x !== null).sort((x, y) => x.draft - y.draft)[0] ?? null,
     events: [...a.events, ...b.events.map((e) => ({ ...e, at: e.at + a.distance }))],
     legs,
     start: a.start,

@@ -261,11 +261,35 @@ def test_build_with_sea_routes(tmp_path):
     nocache = cli.build([osm], tmp_path / "out2", region="t", allowlist=None, patches=None, min_component_km=0.5,
                         land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0))
     assert nocache["stats"]["edges"] == m["stats"]["edges"]
+    assert nocache["attribution"] == "© OpenStreetMap contributors, ODbL"
+
+
+def test_build_with_sea_depth(tmp_path, monkeypatch):
+    # the whole test sea is 3 m deep: sea edges get a 2.5 m draft limit, the inland canal none
+    nodes = {1: (0.3, 0.5), 2: (0.4499, 0.5)}
+    osm = write_osm(tmp_path / "coast.osm", nodes, [(1, [1, 2], {"waterway": "canal", "CEMT": "IV", "name": "Kanał"})])
+    land = _land_shapefile(tmp_path / "land", [box(0.2, 0.2, 0.45, 0.8)])
+    seen = {}
+
+    def loader(cache_dir, scale):
+        seen.update(cache_dir=cache_dir, scale=scale)
+        return lambda i, j: np.full((4, 4), -3.0, dtype=np.float32)
+
+    monkeypatch.setattr(cli, "tile_loader", loader)
+    m = cli.build([osm], tmp_path / "out", region="t", allowlist=None, patches=None, min_component_km=0.5,
+                  land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0), depth_cache=tmp_path / "depth", depth_scale=0.5)
+    assert seen == {"cache_dir": tmp_path / "depth", "scale": 0.5}
+    assert "EMODnet" in m["attribution"]
+    g = read_graph(tmp_path / "out" / "graph.bin")
+    from interway_pipeline.export import SEA
+    drafts = {round(float(g["attrs"][4 * int(g["attr"][e])]), 2) for e in range(g["m"]) if g["flags"][e] & SEA}
+    assert 2.5 in drafts
 
 
 def test_main_sea_options(tmp_path, monkeypatch):
     seen = {}
     monkeypatch.setattr(cli, "build", lambda *a, **kw: seen.update(kw) or {"stats": {}})
-    main(["x.osm", "--land", "land.shp", "--sea-bbox", "1,2,3,4", "--places", "cities.txt"])
+    main(["x.osm", "--land", "land.shp", "--sea-bbox", "1,2,3,4", "--places", "cities.txt", "--depth-cache", "d",
+          "--depth-scale", "0.5"])
     assert str(seen["land"]) == "land.shp" and seen["sea_bbox"] == (1.0, 2.0, 3.0, 4.0)
-    assert str(seen["places"]) == "cities.txt"
+    assert str(seen["places"]) == "cities.txt" and str(seen["depth_cache"]) == "d" and seen["depth_scale"] == 0.5
