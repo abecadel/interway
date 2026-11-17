@@ -80,6 +80,8 @@ WAYS = [
     (173, [170, 171, 172, 170], {"landuse": "harbour", "name": "Broken port"}),
     (180, ring(180), {"natural": "water", "water": "canal", "name": "Kanałek"}),
     (190, ring(190), {"waterway": "riverbank", "name": "Brzeg"}),
+    (191, ring(110), {"natural": "water", "water": "lock", "name": "Śluza Przegalina"}),
+    (192, [170, 171, 172, 170], {"natural": "water", "water": "lock"}),  # degenerate
 ]
 RELATIONS = [
     (1, [("way", 130, "outer"), ("way", 140, "inner")], {"type": "multipolygon", "natural": "water", "name": "Wyspa"}),
@@ -211,3 +213,9 @@ def test_services(ex):
     got = {(k, n) for k, n, _ in ex.services}
     assert got == {("marina", "Port Node"), ("marina", "Port Area"), ("fuel", "Paliwo"), ("port", "Port Handlowy")}
     assert ("Port Handlowy", "port") not in dict(ex.marinas).items()  # only marinas feed lake entries
+
+
+def test_lock_areas(ex):
+    # chambers are kept apart from lakes (meshing them would bypass the lock)
+    assert [n for n, _ in ex.lock_areas] == ["Śluza Przegalina"]
+    assert "Śluza Przegalina" not in {lk.name for lk in ex.lakes}

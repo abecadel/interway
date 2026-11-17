@@ -112,6 +112,29 @@ describe('router edge cases', () => {
     expect(avoid.duration).toBeGreaterThan(normal.duration);
   });
 
+  it('prefers a comparable inland way to the open sea, and reports real time', () => {
+    // P -> Q: 14 km of sea, or an inland canal 20% longer
+    const P: [number, number] = [17.0, 51.0], Q: [number, number] = [17.2, 51.0];
+    const r = makeRouter([
+      { points: [P, Q], kind: 'sea' },
+      { points: [P, [17.1, 51.06], Q], name: 'Kanał', kind: 'canal' },
+    ]);
+    const inland = r.route(P, Q);
+    expect(inland.sea).toBe(0);
+    expect(inland.legs.map((l) => l.name)).toEqual(['Kanał']);
+    // without the inland way the sea is used, and its time is distance / speed, not the penalised cost
+    const seaOnly = makeRouter([{ points: [P, Q], kind: 'sea' }]).route([17.001, 51.0], [17.199, 51.0]);
+    expect(seaOnly.sea).toBeCloseTo(seaOnly.distance, 0);
+    expect(seaOnly.duration).toBeCloseTo(seaOnly.distance / (defaultProfile.speedKmh / 3.6), 0);
+    const avoiding = makeRouter([{ points: [P, Q], kind: 'sea' }]).route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, avoidSea: true });
+    expect(avoiding.duration).toBeCloseTo(seaOnly.duration, 0);
+    // avoiding locks does not add the extra penalty to the reported time
+    const locked = makeRouter([{ points: [A, B] }, { points: [B, C], lock: true }, { points: [C, [17.3, 51.0]] }]);
+    const normal = locked.route([17.05, 51.0], [17.25, 51.0]);
+    expect(normal.locks).toBe(1);
+    expect(locked.route([17.05, 51.0], [17.25, 51.0], { ...defaultProfile, avoidLocks: true }).duration).toBeCloseTo(normal.duration, 0);
+  });
+
   it('never goes slower than the upstream floor speed', () => {
     const r = makeRouter([{ points: [A, B], kind: 'river' }]);
     const p = { ...defaultProfile, speedKmh: 1, currentMs: 5 };
@@ -188,6 +211,18 @@ describe('router edge cases', () => {
     // nearer to the B->A stretch, but heading east only works on the other one
     const route = r.route([17.02, 51.0002], [17.08, 51.0002]);
     expect(route.coordinates[0][1]).toBeCloseTo(51.001, 5);
+  });
+
+  it('counts and names open-sea legs', () => {
+    const r = makeRouter([
+      { points: [A, B], name: 'Wisła', kind: 'river' },
+      { points: [B, C], kind: 'sea' },
+      { points: [C, D], name: 'Fairway', kind: 'sea' },
+    ]);
+    const route = r.route([17.01, 51.0], [17.16, 51.08]);
+    expect(route.legs.map((l) => l.name)).toEqual(['Wisła', 'Open sea', 'Fairway']);
+    expect(route.sea).toBeCloseTo(route.legs[1].distance + route.legs[2].distance, 0);
+    expect(r.route([17.01, 51.0], [17.05, 51.0]).sea).toBe(0);
   });
 
   it('snaps to zero-length geometries', () => {

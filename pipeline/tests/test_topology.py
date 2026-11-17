@@ -328,6 +328,18 @@ def test_bypasses_with_another_lock_or_across_lakes_are_kept():
     assert block_lock_bypasses(loop_lock)[1] == []
 
 
+def test_bypass_over_a_dam_beside_a_reservoir_is_cut():
+    from interway_pipeline.topology import block_lock_bypasses
+    # Włocławek case: the reservoir mesh reaches the dam crest (9), and the river continues over the dam
+    # to below the lock; the lake leg is never cut, the river over the dam is
+    segs = [_canal(1, 2, 0.0, 0.001, lock=True, name="Śluza"),
+            Segment(a=1, b=9, coords=[(0.0, 0.0), (0.0, 0.003)], kind="lake", name="Zalew"),
+            Segment(a=9, b=3, coords=[(0.0, 0.003), (0.003, 0.003)], kind="river", name="Wisła over the dam"),
+            _canal(2, 3, 0.001, 0.003, kind="river", name="Wisła below")]
+    kept, removed = block_lock_bypasses(segs)
+    assert [s.name for s in removed] == ["Wisła over the dam"]
+
+
 def test_bypass_cut_keeps_the_canal_and_prefers_rivers():
     from interway_pipeline.topology import block_lock_bypasses
     segs = [
@@ -400,3 +412,20 @@ def test_snap_to_lines_without_vertices_or_dead_ends():
     assert snap_dead_ends_to_lines([Segment(a=1, b=2, coords=[(0, 0), (1, 0)])]) == 0
     ring = [Segment(a=1, b=2, coords=[(0, 0), (0.5, 0.5), (1, 0)]), Segment(a=2, b=1, coords=[(1, 0), (0, 0)])]
     assert snap_dead_ends_to_lines(ring) == 0
+
+
+def test_mark_lock_areas():
+    from shapely.geometry import box
+
+    from interway_pipeline.topology import mark_lock_areas
+    chamber = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.001, 0.0)], kind="river", name="Martwa Wisła")
+    river = Segment(a=2, b=3, coords=[(0.001, 0.0), (0.02, 0.0)], kind="river", name="Martwa Wisła")
+    beside = Segment(a=4, b=5, coords=[(0.0, 0.0002), (0.0002, 0.0002), (0.0002, 0.01)], kind="river")
+    point = Segment(a=6, b=6, coords=[(0.0005, 0.0), (0.0005, 0.0)], kind="river")
+    segs = [chamber, river, beside, point]
+    area = box(-0.0001, -0.0001, 0.0011, 0.0003)
+    assert mark_lock_areas(segs, []) == 0
+    assert mark_lock_areas(segs, [("Śluza Przegalina", area)]) == 1
+    assert chamber.lock and chamber.name == "Śluza Przegalina"
+    assert not river.lock and not beside.lock and not point.lock  # mostly outside, or no length
+    assert mark_lock_areas([Segment(a=1, b=2, coords=chamber.coords, kind="river", name="x")], [("", area)]) == 1

@@ -175,6 +175,11 @@ export default function App({ client }: { client: RoutingApi }) {
                 Includes {fmtKm(route.unverified)} on unverified connections (short channels or manual links). Check locally before going.
               </div>
             )}
+            {route.sea > 0 && (
+              <div className="warn small">
+                {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
+              </div>
+            )}
             <ol className="legs">
               {route.legs.map((l, i) => (
                 <li key={i}><span>{l.name || 'unnamed waterway'}</span><span>{fmtKm(l.distance)}</span></li>
@@ -198,6 +203,10 @@ export default function App({ client }: { client: RoutingApi }) {
             <label className="check">
               <input type="checkbox" checked={profile.avoidLocks} onChange={(e) => setProfile({ ...profile, avoidLocks: e.target.checked })} />
               Avoid locks
+            </label>
+            <label className="check">
+              <input type="checkbox" checked={profile.avoidSea} onChange={(e) => setProfile({ ...profile, avoidSea: e.target.checked })} />
+              Avoid open sea
             </label>
           </div>
         </details>

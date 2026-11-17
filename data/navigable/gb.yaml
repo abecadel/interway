@@ -1,0 +1,8 @@
+# United Kingdom: the tidal and non-tidal River Thames (Port of London Authority below Teddington,
+# Environment Agency above) and the Medway; enough to reach the sea from London.
+waterways:
+  - River Thames
+  - Thames
+  - River Medway
+lakes: []
+exclude: []

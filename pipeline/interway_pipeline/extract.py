@@ -55,6 +55,8 @@ class Extract:
     barrier_nodes: set[int] = field(default_factory=set)
     lock_names: dict[int, str] = field(default_factory=dict)
     lakes: list[Lake] = field(default_factory=list)
+    # (name, polygon) of lock chambers mapped as water=lock areas; see topology.mark_lock_areas
+    lock_areas: list[tuple[str, Polygon | MultiPolygon]] = field(default_factory=list)
     bridges: list[tuple[LineString, float]] = field(default_factory=list)
     marinas: list[tuple[str, LonLat]] = field(default_factory=list)
     # (category, name, position) for the itinerary: fuel, marina, port, slipway, water, sanitary
@@ -151,6 +153,11 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     ex.services.append((kind, tags.get("name", ""), (c.x, c.y)))
                     if kind == "marina":
                         ex.marinas.append((tags.get("name", ""), (c.x, c.y)))
+                continue
+            if tags.get("water") == "lock":
+                poly = _area_polygon(o)
+                if poly is not None:
+                    ex.lock_areas.append((tags.get("name", ""), poly))
                 continue
             if not is_candidate_lake(tags):
                 continue
