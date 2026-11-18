@@ -469,3 +469,19 @@ def test_mark_lock_areas():
     assert chamber.lock and chamber.name == "Śluza Przegalina"
     assert not river.lock and not beside.lock and not point.lock  # mostly outside, or no length
     assert mark_lock_areas([Segment(a=1, b=2, coords=chamber.coords, kind="river", name="x")], [("", area)]) == 1
+
+
+def test_close_gaps_joins_a_ship_lift_whose_levels_meet_far_away():
+    m = metres_to_deg(1)
+    upper = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.01, 0.0)], kind="canal")
+    lower = Segment(a=3, b=4, coords=[(0.01 + 120 * m, 0.0), (0.03, 0.0)], kind="canal")
+    # the two levels also meet the long way round (Niederfinow: the Oder-Spree-Kanal), 30 km of network
+    loop = Segment(a=1, b=4, coords=[(0.0, 0.0), (0.0, 0.13), (0.03, 0.13), (0.03, 0.0)], kind="canal")
+    work = [upper, lower, loop]
+    assert close_gaps(work, dead_end_gap_m=300) == 1
+    assert {work[-1].a, work[-1].b} == {2, 3} and work[-1].lock
+    # dead ends already linked a short way round (a basin beside the lift) are not joined again
+    work = [Segment(a=1, b=2, coords=[(0.0, 0.0), (0.0, 200 * m)]),
+            Segment(a=3, b=4, coords=[(120 * m, 200 * m), (120 * m, 0.0)]),
+            Segment(a=1, b=4, coords=[(0.0, 0.0), (120 * m, 0.0)])]
+    assert close_gaps(work, dead_end_gap_m=300) == 0
