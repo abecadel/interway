@@ -34,6 +34,9 @@ vi.mock('maplibre-gl', () => {
     controls: unknown[] = [];
     fitBounds = vi.fn();
     flyTo = vi.fn();
+    easeTo = vi.fn();
+    getZoom = () => 10;
+    getBearing = () => 33;
     remove = vi.fn();
     constructor(opts: Record<string, unknown>) {
       this.opts = opts;
@@ -184,6 +187,29 @@ describe('MapView', () => {
     expect(map.flyTo).not.toHaveBeenCalled();
     rerender(<MapView {...base} focus={[18.1, 53.1]} />);
     expect(map.flyTo).toHaveBeenCalledWith({ center: [18.1, 53.1], zoom: 14 });
+  });
+
+  it('follows the boat heading up while navigating, until the user moves the map', () => {
+    const onUserMove = vi.fn();
+    const props = { ...base, follow: true, onUserMove, fitRoute: false };
+    const { rerender } = render(<MapView {...props} route={route} />);
+    const map = h.state.maps[0] as unknown as { easeTo: ReturnType<typeof vi.fn>; fitBounds: ReturnType<typeof vi.fn>; handlers: Record<string, Handler> };
+    expect(map.fitBounds).not.toHaveBeenCalled(); // a re-route keeps the view
+    expect(map.easeTo).not.toHaveBeenCalled(); // no fix yet
+    rerender(<MapView {...props} route={route} position={pos(null)} />);
+    expect(map.easeTo).toHaveBeenLastCalledWith({ center: [21, 52], bearing: 33, zoom: 14, duration: 600 });
+    rerender(<MapView {...props} route={route} position={pos(null)} course={120} />);
+    expect(map.easeTo).toHaveBeenLastCalledWith(expect.objectContaining({ bearing: 120 }));
+    map.handlers.dragstart({}); // our own easeTo
+    expect(onUserMove).not.toHaveBeenCalled();
+    map.handlers.dragstart({ originalEvent: {} });
+    map.handlers.rotatestart({ originalEvent: {} });
+    expect(onUserMove).toHaveBeenCalledTimes(2);
+    const calls = map.easeTo.mock.calls.length;
+    rerender(<MapView {...props} follow={false} route={route} position={pos(90)} />);
+    expect(map.easeTo).toHaveBeenCalledTimes(calls);
+    rerender(<MapView {...base} />);
+    map.handlers.dragstart({ originalEvent: {} }); // no handler: nothing to tell
   });
 
   it('removes the map on unmount', () => {

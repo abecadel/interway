@@ -7,8 +7,9 @@ export const fmtKm = (m: number) => (m >= 10_000 ? `${(m / 1000).toFixed(0)} km`
 export const fmtNm = (m: number) => `${(m / 1852).toFixed(1)} NM`;
 
 export function fmtDuration(s: number) {
-  const h = Math.floor(s / 3600);
-  const min = Math.round((s % 3600) / 60);
+  const total = Math.round(s / 60); // round once, so 1 h 59.6 min reads 2 h 0 min, not 1 h 60 min
+  const h = Math.floor(total / 60);
+  const min = total % 60;
   if (h >= 24) return `${Math.floor(h / 24)} d ${h % 24} h`;
   return h > 0 ? `${h} h ${min} min` : `${min} min`;
 }

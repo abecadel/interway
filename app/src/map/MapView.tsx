@@ -24,27 +24,43 @@ export interface MapViewProps {
   /** fly here when it changes (e.g. a stop picked in the itinerary) */
   focus?: LngLat | null;
   onMapClick: (p: LngLat) => void;
+  /** navigation: keep the boat centred, heading up along `course` */
+  follow?: boolean;
+  /** course over ground, degrees, when under way */
+  course?: number | null;
+  /** the user panned or rotated the map (ends follow mode) */
+  onUserMove?: () => void;
+  /** zoom to a new route (off while navigating, so a re-route keeps the view) */
+  fitRoute?: boolean;
 }
 
 const BASEMAP = 'https://tiles.openfreemap.org/styles/liberty';
 const SEAMARKS = 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 const NO_VIA: LngLat[] = [];
+const FOLLOW_ZOOM = 14;
 
 function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
   (map.getSource(id) as GeoJSONSource).setData(data);
 }
 
-export function MapView({ start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick }: MapViewProps) {
+export function MapView({
+  start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick,
+  follow = false, course = null, onUserMove, fitRoute = true,
+}: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
   const ready = useRef(false);
   const clickRef = useRef(onMapClick);
+  const moveRef = useRef(onUserMove);
+  const fitRef = useRef(fitRoute);
   const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker }>({});
   const viaMarkers = useRef<maplibregl.Marker[]>([]);
   const latest = useRef({ route, network, showSeamarks, pois });
   useEffect(() => {
     clickRef.current = onMapClick;
+    moveRef.current = onUserMove;
+    fitRef.current = fitRoute;
     latest.current = { route, network, showSeamarks, pois };
   });
 
@@ -60,6 +76,10 @@ export function MapView({ start, end, via = NO_VIA, route, position, network, sh
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
     map.addControl(new maplibregl.ScaleControl({ unit: 'nautical' }), 'bottom-right');
     map.on('click', (e: MapMouseEvent) => clickRef.current([e.lngLat.lng, e.lngLat.lat]));
+    // only gestures carry the browser event; easeTo calls from follow mode do not
+    const userMove = (e: { originalEvent?: unknown }) => { if (e.originalEvent) moveRef.current?.(); };
+    map.on('dragstart', userMove);
+    map.on('rotatestart', userMove);
     map.on('load', () => {
       map.addSource('seamarks', { type: 'raster', tiles: [SEAMARKS], tileSize: 256, maxzoom: 18 });
       map.addLayer({ id: 'seamarks', type: 'raster', source: 'seamarks', minzoom: 9 });
@@ -115,7 +135,7 @@ export function MapView({ start, end, via = NO_VIA, route, position, network, sh
     // The map is created by the first effect, so it exists here; sources exist only after 'load'.
     const map = mapRef.current!;
     if (ready.current) applyRoute(map, route);
-    if (route) {
+    if (route && fitRef.current) {
       const b = new maplibregl.LngLatBounds();
       route.coordinates.forEach((c) => b.extend(c));
       map.fitBounds(b, { padding: 60, maxZoom: 14 });
@@ -170,6 +190,17 @@ export function MapView({ start, end, via = NO_VIA, route, position, network, sh
     } else m.me.setLngLat(p);
     if (position.coords.heading != null && !Number.isNaN(position.coords.heading)) m.me.setRotation(position.coords.heading);
   }, [position]);
+
+  useEffect(() => {
+    if (!follow || !position) return;
+    const map = mapRef.current!;
+    map.easeTo({
+      center: [position.coords.longitude, position.coords.latitude],
+      bearing: course ?? map.getBearing(),
+      zoom: Math.max(map.getZoom(), FOLLOW_ZOOM),
+      duration: 600,
+    });
+  }, [follow, position, course]);
 
   return <div ref={container} className="map" />;
 }

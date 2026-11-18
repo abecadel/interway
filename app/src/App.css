@@ -58,3 +58,27 @@ button.active { background: #fff4d6; }
 .exports { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .exports .primary { font-weight: 600; }
 .hint { color: #667; margin: 6px 0 0; }
+
+.start-nav { font-weight: 600; padding: 10px; }
+.nav-panel {
+  position: fixed; top: 10px; left: 356px; right: 56px; z-index: 5; max-width: 560px;
+  background: #fff; color: #111; border: 2px solid #111; border-radius: 10px; padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 16px rgba(0,0,0,.25);
+}
+.nav-next { font-size: 1.35rem; font-weight: 600; line-height: 1.25; }
+.nav-next b { font-size: 1.6rem; }
+.nav-kind { color: #8a5a00; text-transform: uppercase; font-size: 0.8rem; letter-spacing: .04em; }
+.nav-then { margin: 0; padding: 0; list-style: none; color: #333; }
+.nav-data { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0; }
+.nav-data div { display: flex; flex-direction: column; }
+.nav-data dt { font-size: 0.7rem; color: #555; text-transform: uppercase; }
+.nav-data dd { margin: 0; font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.nav-data small { display: block; font-size: 0.75rem; font-weight: 400; color: #444; }
+.nav-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.nav-actions button { padding: 8px 14px; font-size: 1rem; color: #111; border-color: #111; }
+.nav-stop { background: #c33 !important; color: #fff !important; border-color: #c33 !important; }
+@media (max-width: 700px) {
+  .navigating .panel { display: none; }
+  .nav-panel { left: 8px; right: 8px; top: 8px; }
+  .nav-data { grid-template-columns: repeat(2, 1fr); }
+}
