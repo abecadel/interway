@@ -36,10 +36,11 @@ npm test               # unit tests
 ```
 
 The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Switzerland, France, the UK's
-rivers and canals, Austria, Czechia, Slovakia and the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria), joined
-by a sea network from the Atlantic to the Black Sea: enough for routes like Zalew Zegrzyński → Mazury,
-Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal, Vienna → the Black Sea or
-London → Crete.
+rivers and canals, Austria, Czechia, Slovakia, the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria),
+northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals) and Sweden (Göta
+and Trollhätte canals, Vänern, Vättern, Mälaren), joined by a sea network from the Atlantic to the Black Sea: enough for
+routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal,
+Vienna → the Black Sea, Gdańsk → Venice, Dublin → the Shannon or London → Crete.
 Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
 
 ## Deployment
