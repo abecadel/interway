@@ -1,5 +1,5 @@
 // The page URL is the route's public interface: people share it, and AI agents write it to create or change
-// a route. ?from=lon,lat&to=lon,lat&via=lon,lat;lon,lat&draft=1.2&air=3&beam=3&len=9&speed=10&avoidLocks=1&avoidSea=1
+// a route. ?from=lon,lat&to=lon,lat&via=lon,lat;lon,lat&draft=1.2&air=3&beam=0.5&len=9&speed=10&avoidLocks=1&avoidSea=1
 import type { LngLat } from '../graph/geo';
 import { defaultProfile, type VesselProfile } from '../routing/router';
 

@@ -217,7 +217,8 @@ describe('App', () => {
   });
 
   it('reads waypoints and the vessel from the URL, adds and removes waypoints', async () => {
-    localStorage.setItem('interway.profile', JSON.stringify({ draft: 1.8 }));
+    // a profile saved before the 0.5 m default carries the old 3 m beam as if chosen: it becomes the new default
+    localStorage.setItem('interway.profile', JSON.stringify({ ...defaultProfile, draft: 1.8, beam: 3 }));
     history.replaceState(null, '', '/?from=1,2&to=3,4&via=1.5,2.5&draft=2.4&avoidLocks=1');
     const client = fakeClient();
     render(<App client={client} />);
@@ -238,7 +239,8 @@ describe('App', () => {
   });
 
   it('edits and persists the vessel profile', async () => {
-    localStorage.setItem('interway.profile', JSON.stringify({ draft: 1.8 }));
+    // a profile saved before the 0.5 m default carries the old 3 m beam as if chosen: it becomes the new default
+    localStorage.setItem('interway.profile', JSON.stringify({ ...defaultProfile, draft: 1.8, beam: 3 }));
     history.replaceState(null, '', '/?from=1,2&to=3,4');
     const client = fakeClient();
     render(<App client={client} />);
@@ -250,7 +252,8 @@ describe('App', () => {
     await flush();
     const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true };
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
-    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual(expected);
+    // only what differs from the defaults is saved
+    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true });
   });
 
   it('toggles layers and loads the debug network once', async () => {

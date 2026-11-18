@@ -17,6 +17,7 @@ Parameters (decimal degrees, longitude first):
 - `from`, `to`: start and destination, `lon,lat`
 - `via`: waypoints in order, `lon,lat;lon,lat` (use these to force a particular way, e.g. through a canal)
 - `draft`, `air` (air draft), `beam`, `len`: vessel dimensions in metres; routes avoid waterways too small
+  (defaults: draft 1 m, air draft 3 m, beam 0.5 m, length 9 m: pass the real boat's values)
 - `speed`: cruising speed, km/h; `current`: assumed river current, m/s; `lockmin`: minutes per lock
 - `avoidLocks=1`: prefer routes with fewer locks
 - `avoidSea=1`: keep to inland waterways wherever an inland way exists (open sea already counts 1.5x by default)
@@ -42,7 +43,7 @@ registers tools an agent can call directly: `plan_route`, `get_route_brief`, `se
 
 ## Coverage and limits
 
-- Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France, the United Kingdom (Thames, Broads, the Canal & River Trust and Scottish canals), Austria, Czechia, Slovakia, the Danube to the Black Sea (Hungary, Croatia, Serbia, Romania, Bulgaria), northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals) and Sweden (Göta kanal, Trollhätte kanal, Mälaren). English narrow canals take boats up to 2.08 m (7 ft) beam: set the beam to fit.
+- Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France, the United Kingdom (Thames, Broads, the Canal & River Trust and Scottish canals), Austria, Czechia, Slovakia, the Danube to the Black Sea (Hungary, Croatia, Serbia, Romania, Bulgaria), northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals) and Sweden (Göta kanal, Trollhätte kanal, Mälaren). English narrow canals take boats up to 2.08 m (7 ft) beam.
 - When no route fits the vessel, the error names each structure that blocks it and its limit (e.g. "Staircase Top Lock
   Gate (km 20) limits beam to 2.08 m, yours is 3 m"); if the points are not connected at all, it says so.
 - Sea: European seas from the Atlantic coast to the Black Sea, as a coarse coastal network.

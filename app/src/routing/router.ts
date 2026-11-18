@@ -35,7 +35,7 @@ export const defaultProfile: VesselProfile = {
   currentMs: 0.5,
   draft: 1.0,
   airDraft: 3.0,
-  beam: 3.0,
+  beam: 0.5, // a small boat fits everywhere until the user enters theirs
   length: 9,
   lockPenaltyMin: 20,
   avoidLocks: false,
