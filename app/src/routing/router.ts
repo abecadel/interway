@@ -88,12 +88,40 @@ export interface Route {
   end: Snap;
 }
 
-export class RouteError extends Error {}
+export type LimitKind = 'draft' | 'airDraft' | 'beam' | 'length';
+
+/** A mapped limit on the way that the vessel does not fit. */
+export interface LimitBreak {
+  kind: LimitKind;
+  /** the structure's limit, m */
+  limit: number;
+  /** the vessel's value, m */
+  vessel: number;
+  name: string;
+  /** distance from the start of the route without limits, m */
+  at: number;
+}
+
+export class RouteError extends Error {
+  readonly limits: LimitBreak[];
+  constructor(message: string, limits: LimitBreak[] = []) {
+    super(message);
+    this.limits = limits;
+  }
+}
+
+const LIMIT_KINDS: LimitKind[] = ['draft', 'airDraft', 'beam', 'length'];
+const LIMIT_TEXT: Record<LimitKind, string> = { draft: 'draft', airDraft: 'air draft (headroom)', beam: 'beam', length: 'length' };
+const NO_LIMITS = { draft: 0, airDraft: 0, beam: 0, length: 0 };
+const NOT_CONNECTED = 'No navigable route found: these points are on waterways that are not connected in the data, '
+  + 'or only one way round';
 
 const BLOCKED = Infinity;
 
 export class Router {
   private index: Flatbush;
+  /** edges of the last route built, with where each starts (m): explains a route that limits block */
+  private lastPath: { edge: number; at: number }[] = [];
   /** directed edge that runs along geometry g in its stored direction (-1 if none) */
   private geomFwd: Int32Array;
   private geomRev: Int32Array;
@@ -237,6 +265,42 @@ export class Router {
   }
 
   route(from: LngLat, to: LngLat, profile: VesselProfile = defaultProfile): Route {
+    try {
+      return this.routeFor(from, to, profile);
+    } catch (e) {
+      throw this.explain(from, to, profile, e as RouteError);
+    }
+  }
+
+  /** Why there is no route: the limits the vessel breaks on the way it would take without them, or no way at all. */
+  private explain(from: LngLat, to: LngLat, profile: VesselProfile, error: RouteError): RouteError {
+    if (this.geom.geomCount === 0) return error;
+    if (Object.entries(NO_LIMITS).every(([k, v]) => profile[k as LimitKind] === v)) return new RouteError(NOT_CONNECTED);
+    try {
+      this.routeFor(from, to, { ...profile, ...NO_LIMITS });
+    } catch {
+      return new RouteError(NOT_CONNECTED);
+    }
+    const tightest = new Map<LimitKind, LimitBreak>();
+    for (const { edge, at } of this.lastPath) {
+      const a = this.graph.edgeAttr[edge] * 4; // row 0 holds no limits
+      LIMIT_KINDS.forEach((kind, i) => {
+        const limit = this.graph.attrTable[a + i];
+        if (limit <= 0 || Math.fround(profile[kind]) <= limit) return;
+        if (kind === 'draft' && this.graph.edgeFlags[edge] & Flag.SEA) return; // shallow sea costs more, never blocks
+        if ((tightest.get(kind)?.limit ?? Infinity) <= limit) return;
+        const g = this.graph.edgeGeom[edge];
+        const name = this.nameOf(g) || (this.graph.edgeFlags[edge] & Flag.LOCK ? 'A lock' : 'An unnamed stretch');
+        tightest.set(kind, { kind, limit: Math.round(limit * 100) / 100, vessel: profile[kind], name, at });
+      });
+    }
+    const limits = [...tightest.values()].sort((x, y) => x.at - y.at); // in the order they come
+    const text = limits.map((l) =>
+      `${l.name} (km ${(l.at / 1000).toFixed(0)}) limits ${LIMIT_TEXT[l.kind]} to ${l.limit} m, yours is ${l.vessel} m`);
+    return new RouteError(`No route for this vessel: ${text.join('; ')}. Change the vessel settings if your boat fits.`, limits);
+  }
+
+  private routeFor(from: LngLat, to: LngLat, profile: VesselProfile): Route {
     const ss = this.snapCandidates(from, profile), ts = this.snapCandidates(to, profile);
     if (!ss.length || !ts.length) throw new RouteError('No waterway data loaded');
     // start and end must lie in the same connected part; prefer the pair closest to the requested points
@@ -359,18 +423,21 @@ export class Router {
       else legs.push({ name, distance: d });
     };
 
+    this.lastPath = [];
     for (const { node, edge } of chain) {
       const before = distance;
       let g: number;
       if (edge === -2) {
         // Leaving the start snap along its geometry, possibly straight to the target on the same geometry.
         g = s.geom;
+        this.lastPath.push({ edge: this.geomEdge(g), at: before });
         const endSeg = node === DST ? t.seg : null;
         const toEnd = node === DST ? t.frac >= s.frac : node === this.geom.geomTo[g];
         this.walk(g, s.seg, toEnd, endSeg, push);
         if (node === DST) push(t.lat, t.lon);
       } else {
         g = this.graph.edgeGeom[edge];
+        this.lastPath.push({ edge, at: before });
         const reversed = (this.graph.edgeFlags[edge] & Flag.GEOM_REVERSED) !== 0;
         if (node === DST) {
           // Enter the target geometry from one end and stop at the snap.

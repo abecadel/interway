@@ -97,13 +97,42 @@ describe('router', () => {
 describe('router edge cases', () => {
   it('blocks edges by draft, beam and length limits', () => {
     const limited = (limits: [number, number, number, number]) => makeRouter([{ points: [A, B], limits }]);
-    expect(() => limited([0.5, 0, 0, 0]).route(A, B)).toThrow(/No waterway/);
-    expect(() => limited([0, 0, 2, 0]).route(A, B)).toThrow(RouteError);
-    expect(() => limited([0, 0, 0, 5]).route(A, B)).toThrow(RouteError);
+    expect(() => limited([0.5, 0, 0, 0]).route(A, B)).toThrow(/limits draft to 0.5 m, yours is 1 m/);
+    expect(() => limited([0, 0, 2, 0]).route(A, B)).toThrow(/limits beam to 2 m, yours is 3 m/);
+    expect(() => limited([0, 0, 0, 5]).route(A, B)).toThrow(/limits length to 5 m, yours is 9 m/);
     expect(limited([5, 10, 10, 50]).route(A, B).distance).toBeGreaterThan(6000);
     // a narrowboat exactly at a 2.08 m lock limit (stored as float32 2.0799999) fits
     expect(limited([0, 0, 2.08, 0]).route(A, B, { ...defaultProfile, beam: 2.08 }).distance).toBeGreaterThan(6000);
     expect(() => limited([0, 0, 2.08, 0]).route(A, B, { ...defaultProfile, beam: 2.09 })).toThrow(RouteError);
+  });
+
+  it('explains a failed route by the limits on the way the vessel would otherwise take', () => {
+    const r = makeRouter([
+      { points: [A, B], name: 'Hurleston Lock 1', lock: true, limits: [0, 0, 2.08, 0] },
+      { points: [B, C], limits: [0, 1.83, 2.5, 0] }, // an unnamed tunnel, wider than the lock
+      { points: [C, D], limits: [0, 2.5, 0, 0] },
+      { points: [D, [17.3, 51.2]], kind: 'sea', limits: [1, 2.0, 0, 0] }, // a low bridge; shallow sea never blocks
+    ]);
+    let err: RouteError | undefined;
+    try {
+      r.route([17.01, 51.0], [17.29, 51.19], { ...defaultProfile, draft: 2 });
+      expect.unreachable();
+    } catch (e) {
+      err = e as RouteError;
+    }
+    expect(err!.message).toMatch(/^No route for this vessel: Hurleston Lock 1 \(km 0\) limits beam to 2.08 m, yours is 3 m; /);
+    expect(err!.message).toMatch(/An unnamed stretch \(km \d+\) limits air draft \(headroom\) to 1.83 m, yours is 3 m\. Change/);
+    expect(err!.limits.map((l) => [l.kind, l.limit])).toEqual([['beam', 2.08], ['airDraft', 1.83]]);
+    // an unnamed lock is named as one
+    const lock = makeRouter([{ points: [A, B], lock: true, limits: [0, 0, 2, 0] }]);
+    expect(() => lock.route(A, B)).toThrow(/^No route for this vessel: A lock/);
+  });
+
+  it('says when the points are simply not connected', () => {
+    const r = makeRouter([{ points: [A, B], limits: [0, 0, 5, 0] }, { points: [C, [17.3, 51.0]] }]);
+    expect(() => r.route(A, C)).toThrow(/not connected in the data/);
+    // a vessel without any limits set gets the same answer at once
+    expect(() => r.route(A, C, { ...defaultProfile, draft: 0, airDraft: 0, beam: 0, length: 0 })).toThrow(/not connected/);
   });
 
   it('avoid-locks multiplies the lock penalty', () => {
