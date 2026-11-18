@@ -134,7 +134,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 9  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 10  # bump when read_osm output changes, invalidates --cache
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,

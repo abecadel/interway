@@ -290,6 +290,20 @@ def test_bridging_stays_within_a_window_around_dead_ends():
     assert all(max(x for x, _ in s.coords) < metres_to_deg(2000) + r for s in added)
 
 
+def test_bridges_are_no_longer_than_a_window(monkeypatch):
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 5000.0)
+    # Liffey case: dead ends 8 km apart along a long river area merge their 5 km windows into one body; they
+    # must not be linked through it to each other, only to the waterway 2 km off.
+    area = Lake(1, "Liffey", box(-0.01, -0.002, 0.7, 0.002), False, kind="channel")
+    step = metres_to_deg(8000)
+    river = [Segment(a=10 + i, b=20 + i, coords=[(i * step, -0.1), (i * step, 0.0)], kind="river") for i in range(6)]
+    river.append(Segment(a=40, b=41, coords=[(metres_to_deg(2000), 0.0), (metres_to_deg(2000), 0.1)], kind="river"))
+    added = connect_lakes(river, [area], [])
+    assert added and all(s.length <= 5000.0 for s in added)
+    comp = components([*river, *added])
+    assert comp[20] == comp[41] and len({comp[20 + i] for i in range(6)}) == 6
+
+
 def test_short_channel_area_between_lakes_is_a_strait():
     jagodne = Lake(1, "Jagodne", box(0.0, 0.0, 0.05, 0.05), False)
     boczne = Lake(2, "Boczne", box(0.06, 0.0, 0.11, 0.05), False)
