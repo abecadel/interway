@@ -290,18 +290,17 @@ def test_bridging_stays_within_a_window_around_dead_ends():
     assert all(max(x for x, _ in s.coords) < metres_to_deg(2000) + r for s in added)
 
 
-def test_bridges_are_no_longer_than_a_window(monkeypatch):
-    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 5000.0)
-    # Liffey case: dead ends 8 km apart along a long river area merge their 5 km windows into one body; they
-    # must not be linked through it to each other, only to the waterway 2 km off.
-    area = Lake(1, "Liffey", box(-0.01, -0.002, 0.7, 0.002), False, kind="channel")
-    step = metres_to_deg(8000)
-    river = [Segment(a=10 + i, b=20 + i, coords=[(i * step, -0.1), (i * step, 0.0)], kind="river") for i in range(6)]
-    river.append(Segment(a=40, b=41, coords=[(metres_to_deg(2000), 0.0), (metres_to_deg(2000), 0.1)], kind="river"))
-    added = connect_lakes(river, [area], [])
-    assert added and all(s.length <= 5000.0 for s in added)
-    comp = components([*river, *added])
-    assert comp[20] == comp[41] and len({comp[20 + i] for i in range(6)}) == 6
+def test_river_areas_are_not_crossed_over_weirs():
+    # Liffey case: a river area runs from a dead end (11) to another waterway (12); a weir across it in between
+    half = metres_to_deg(40)  # an 80 m wide river
+    area = Lake(1, "Liffey", box(-0.01, -half, 0.1, half), False, kind="channel")
+    river = [Segment(a=10, b=11, coords=[(0.0, -0.1), (0.0, 0.0)], kind="river"),
+             Segment(a=12, b=13, coords=[(0.05, 0.0), (0.05, 0.1)], kind="river")]
+    assert connect_lakes(river, [area], [])  # open water: bridged
+    for weir in (LineString([(0.03, -0.01), (0.03, 0.01)]), Point(0.03, 0.0)):
+        added = connect_lakes(river, [area], [], [weir, Point(5.0, 5.0)])
+        comp = components([*river, *added])
+        assert comp[11] != comp[12]
 
 
 def test_short_channel_area_between_lakes_is_a_strait():
