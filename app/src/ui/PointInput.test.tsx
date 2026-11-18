@@ -50,6 +50,34 @@ describe('PointInput', () => {
     expect(screen.queryByText('aborted')).toBeNull();
   });
 
+  it('shows waterway places from the data at once and adds online results', async () => {
+    const { buildLocalIndex } = await import('./localSearch');
+    const local = buildLocalIndex([{ type: 'lock', name: 'Schleuse Liepe', lon: 13.95, lat: 52.85 }]);
+    let resolve!: (r: unknown) => void;
+    searchPlaces.mockReturnValueOnce(new Promise((r) => { resolve = r; }));
+    const p = props({ local });
+    render(<PointInput {...p} />);
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'liepe' } });
+    expect(screen.getByText('Schleuse Liepe · lock')).toBeTruthy(); // before any network
+    await act(async () => { await vi.advanceTimersByTimeAsync(350); });
+    await act(async () => resolve([{ label: 'Liepe, Deutschland', position: [14, 54] }]));
+    expect(screen.getByText('Liepe, Deutschland')).toBeTruthy();
+    fireEvent.click(screen.getByText('Schleuse Liepe · lock'));
+    expect(p.onSelect).toHaveBeenCalledWith({ position: [13.95, 52.85], label: 'Schleuse Liepe · lock' });
+  });
+
+  it('says it is offline when only the data can answer', async () => {
+    const { buildLocalIndex } = await import('./localSearch');
+    const local = buildLocalIndex([{ type: 'lock', name: 'Schleuse Liepe', lon: 13.95, lat: 52.85 }]);
+    searchPlaces.mockRejectedValue(new TypeError('Failed to fetch'));
+    render(<PointInput {...props({ local })} />);
+    await type('liepe');
+    expect(screen.getByText('Offline: showing waterway places only')).toBeTruthy();
+    expect(screen.getByText('Schleuse Liepe · lock')).toBeTruthy();
+    await type('xyzzy');
+    expect(screen.getByText('Failed to fetch')).toBeTruthy();
+  });
+
   it('wires the buttons and shows the selected value', () => {
     const p = props({ value: { label: 'My position', position: [1, 2] }, picking: true });
     render(<PointInput {...p} />);

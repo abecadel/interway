@@ -22,7 +22,8 @@ navigable route over rivers, canals and lakes, with distance, ETA, locks and ves
   - short unverified channels between lakes are added as connectors (flagged)
 - **App** (`app/`, React + TypeScript + MapLibre): routing runs **in the browser** (Web Worker, A\*) on the
   downloaded graph, so it can work offline. Vessel profile (speed, draft, air draft, beam, length, lock
-  penalty), route summary and legs, GPX export, shareable URLs (`?from=lon,lat&to=lon,lat`).
+  penalty), route summary and legs, GPX export, shareable URLs (`?from=lon,lat&to=lon,lat`). Place search finds
+  marinas, ports, locks and towns in the downloaded data at once and offline; Photon adds the rest when online.
 - **Navigation mode:** the map follows the boat heading up; a panel shows the next lock or bridge and its distance,
   speed and course over ground, cross-track error, distance to go and ETA. Off the route it re-plans from the
   boat's position, and it keeps the screen on (Screen Wake Lock).
