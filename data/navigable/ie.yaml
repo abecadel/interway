@@ -1,0 +1,41 @@
+# Ireland and Northern Ireland: the Waterways Ireland navigations (Shannon, Shannon–Erne Waterway, Erne system,
+# Grand and Royal canals, Barrow Navigation, Lower Bann) and the navigable lakes on them. Names as mapped in OSM
+# (the Shannon and the Erne are mapped without "River"). The Grand Canal and the Royal Canal take boats up to about
+# 3.9 m beam and 18.5 m length; the Shannon–Erne Waterway about 4.5 m and 28 m.
+waterways:
+  - Shannon
+  - River Shannon
+  - Shannon-Erne Waterway
+  - Ballinamore & Ballyconnell Canal
+  - Erne
+  - River Erne
+  - Suck
+  - Boyle
+  - Lough Allen Canal
+  - Lecarrow Canal
+  - Grand Canal
+  - Grand Canal - Barrow Line
+  - Grand Canal - Naas Branch
+  - Grand Canal - Corbally Branch
+  - Royal Canal
+  - Barrow
+  - Barrow Navigation
+  - Barrow Canal
+  - Bann
+  - Lower Bann
+  - Corrib
+  - Eglinton Canal
+lakes:
+  - Lough Ree
+  - Lough Derg
+  - Lough Allen
+  - Lough Key
+  - Lough Boderg
+  - Lough Bofin
+  - Lough Forbes
+  - Lough Erne Upper
+  - Upper Lough Erne
+  - Lower Lough Erne
+  - Lough Neagh
+  - Lough Corrib - Loch Coirib
+exclude: []

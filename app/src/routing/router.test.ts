@@ -98,7 +98,8 @@ describe('router edge cases', () => {
   it('blocks edges by draft, beam and length limits', () => {
     const limited = (limits: [number, number, number, number]) => makeRouter([{ points: [A, B], limits }]);
     expect(() => limited([0.5, 0, 0, 0]).route(A, B)).toThrow(/limits draft to 0.5 m, yours is 1 m/);
-    expect(() => limited([0, 0, 2, 0]).route(A, B)).toThrow(/limits beam to 2 m, yours is 3 m/);
+    expect(() => limited([0, 0, 2, 0]).route(A, B, { ...defaultProfile, beam: 3 })).toThrow(/limits beam to 2 m, yours is 3 m/);
+    expect(limited([0, 0, 2, 0]).route(A, B).distance).toBeGreaterThan(6000); // the 0.5 m default fits
     expect(() => limited([0, 0, 0, 5]).route(A, B)).toThrow(/limits length to 5 m, yours is 9 m/);
     expect(limited([5, 10, 10, 50]).route(A, B).distance).toBeGreaterThan(6000);
     // a narrowboat exactly at a 2.08 m lock limit (stored as float32 2.0799999) fits
@@ -115,7 +116,7 @@ describe('router edge cases', () => {
     ]);
     let err: RouteError | undefined;
     try {
-      r.route([17.01, 51.0], [17.29, 51.19], { ...defaultProfile, draft: 2 });
+      r.route([17.01, 51.0], [17.29, 51.19], { ...defaultProfile, draft: 2, beam: 3 });
       expect.unreachable();
     } catch (e) {
       err = e as RouteError;
@@ -125,7 +126,7 @@ describe('router edge cases', () => {
     expect(err!.limits.map((l) => [l.kind, l.limit])).toEqual([['beam', 2.08], ['airDraft', 1.83]]);
     // an unnamed lock is named as one
     const lock = makeRouter([{ points: [A, B], lock: true, limits: [0, 0, 2, 0] }]);
-    expect(() => lock.route(A, B)).toThrow(/^No route for this vessel: A lock/);
+    expect(() => lock.route(A, B, { ...defaultProfile, beam: 3 })).toThrow(/^No route for this vessel: A lock/);
   });
 
   it('says when the points are simply not connected', () => {

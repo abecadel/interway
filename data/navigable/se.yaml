@@ -1,0 +1,26 @@
+# Sweden: the Göta kanal (Sjötorp–Mem, with Vättern, Boren, Roxen and Asplången), the Trollhätte kanal and Göta älv
+# (Sjöfartsverket's fairway from Gothenburg to Vänern), Säffle kanal, Dalslands kanal, Kinda kanal, the
+# Södertälje kanal into Mälaren, and Hjälmare kanal and Strömsholms kanal off it. Names as mapped in OSM.
+waterways:
+  - Göta kanal
+  - Göta Kanal
+  - Göta älv
+  - Trollhätte kanal
+  - Säffle Kanal
+  - Dalslands kanal
+  - Kinda kanal
+  - Motala ström
+  - Södertälje kanal
+  - Hjälmare kanal
+  - Strömsholms kanal
+  - Arbogaån
+lakes:  # lakes the canals pass are routable anyway; generic names (Viken) would pull in unrelated lakes
+  - Vänern
+  - Vättern
+  - Mälaren
+  - Hjälmaren
+  - Boren
+  - Roxen
+  - Asplången
+  - Glafsfjorden
+exclude: []

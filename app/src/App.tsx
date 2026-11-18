@@ -19,12 +19,23 @@ const PROFILE_KEY = 'interway.profile';
 
 const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
 
+// Earlier defaults that older saved profiles carry as if the user had chosen them.
+const OLD_DEFAULTS: Partial<VesselProfile> = { beam: 3 };
+
 function loadProfile(): VesselProfile {
   try {
-    return { ...defaultProfile, ...JSON.parse(localStorage.getItem(PROFILE_KEY) ?? '{}') };
+    const saved: Partial<VesselProfile> = JSON.parse(localStorage.getItem(PROFILE_KEY) ?? '{}');
+    for (const [k, v] of Object.entries(OLD_DEFAULTS)) if (saved[k as keyof VesselProfile] === v) delete saved[k as keyof VesselProfile];
+    return { ...defaultProfile, ...saved };
   } catch {
     return defaultProfile;
   }
+}
+
+/** Only what the user changed is saved, so a better default reaches everyone who kept the old one. */
+function saveProfile(p: VesselProfile) {
+  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => defaultProfile[k as keyof VesselProfile] !== v));
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(changed));
 }
 
 export default function App({ client }: { client: RoutingApi }) {
@@ -59,7 +70,7 @@ export default function App({ client }: { client: RoutingApi }) {
       .catch((e) => setDataStatus(e.message));
   }, [client]);
 
-  useEffect(() => localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)), [profile]);
+  useEffect(() => saveProfile(profile), [profile]);
 
   // Keep the route and vessel in the URL so routes can be shared, bookmarked and edited by AI agents.
   useEffect(() => {
