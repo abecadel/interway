@@ -1,0 +1,62 @@
+# Italy: the northern Italian waterway system (Sistema Idroviario Padano-Veneto): the Po from Cremona to the sea and its
+# delta branches, the Fissero–Tartaro–Canalbianco–Po di Levante idrovia to Mantua (Mincio), the Idrovia Ferrarese
+# (Po di Volano, Canale Boicelli), the Po–Brondolo idrovia to Chioggia and the Venetian lagoon, the Brenta rivers and
+# canals, and the Litoranea Veneta from the lagoon to Grado and Monfalcone. Also the big lakes (Garda, Maggiore, Como),
+# routable on their own. Names as mapped in OSM. Rivers that are mountain rivers for most of their length (Piave,
+# Tagliamento, Brenta, Livenza, Sile) are left to their boat-tagged lower reaches.
+waterways:
+  # Po and delta
+  - Po
+  - Fiume Po
+  - Po di Venezia
+  - Po di Levante
+  - Po di Goro
+  - Po di Pila
+  - Po di Tolle
+  - Po di Gnocca
+  - Po di Maistra
+  # idrovie
+  - Canalbianco
+  - Canale Bianco
+  - Fissero-Tartaro-Canalbianco
+  - Canale Fissero-Tartaro-Canalbianco
+  - Tartaro
+  - Fissero
+  - Mincio
+  - Fiume Mincio
+  - Po di Volano
+  - Idrovia Ferrarese
+  - Canale Boicelli
+  - Idrovia Po-Brondolo
+  - Canale di Valle
+  - Canale Pontelongo
+  - Canale di Pontelongo
+  - Naviglio del Brenta
+  - Naviglio Brenta
+  - Idrovia Padova-Venezia
+  # Litoranea Veneta
+  - Litoranea Veneta
+  - Idrovia Litoranea Veneta
+  - Taglio del Sile
+  - Cavetta
+  - Canale Cavetta
+  - Canale Revedoli
+  - Canale Commessera
+  - Canale dei Lovi
+  - Canal dei Lovi
+  - Canale Nicesolo
+  - Canale di Lugugnana (Idrovia Litoranea Veneta)
+  - Canale Cavanella (Idrovia Litoranea Veneta)
+  - Canale di Bevazzana (Idrovia Litoranea Veneta)
+  - Canale dei Pantani (o Canal de Bevazzana)
+  - Canale Taglio Novissimo
+  - Canale Novissimo
+  - Fiume Natissa
+lakes:
+  - Lago di Garda
+  - Lago Maggiore
+  - Lago di Como
+  - Lago Superiore
+  - Lago di Mezzo
+  - Lago Inferiore
+exclude: []

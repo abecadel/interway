@@ -42,7 +42,7 @@ registers tools an agent can call directly: `plan_route`, `get_route_brief`, `se
 
 ## Coverage and limits
 
-- Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France, the United Kingdom (Thames, Broads, the Canal & River Trust and Scottish canals), Austria, Czechia, Slovakia and the Danube to the Black Sea (Hungary, Croatia, Serbia, Romania, Bulgaria). English narrow canals take boats up to 2.08 m (7 ft) beam: set the beam to fit.
+- Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France, the United Kingdom (Thames, Broads, the Canal & River Trust and Scottish canals), Austria, Czechia, Slovakia, the Danube to the Black Sea (Hungary, Croatia, Serbia, Romania, Bulgaria), northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals) and Sweden (Göta kanal, Trollhätte kanal, Mälaren). English narrow canals take boats up to 2.08 m (7 ft) beam: set the beam to fit.
 - When no route fits the vessel, the error names each structure that blocks it and its limit (e.g. "Staircase Top Lock
   Gate (km 20) limits beam to 2.08 m, yours is 3 m"); if the points are not connected at all, it says so.
 - Sea: European seas from the Atlantic coast to the Black Sea, as a coarse coastal network.

@@ -522,3 +522,45 @@
   via: [Canal du Nivernais]
   min_locks: 80
   source: https://en.wikipedia.org/wiki/Nivernais_Canal (174 km, 112 locks)
+
+# --- Ireland and Sweden ---
+
+- name: Grand Canal, Dublin → Shannon Harbour
+  from: [-6.2365, 53.3405]
+  to: [-7.9495, 53.2205]
+  expected_km: 131
+  tolerance: 0.1
+  countries: [IE]
+  via: [Grand Canal]
+  min_locks: 35
+  source: https://waterwaysireland.org/our-waterways/grand-canal (131 km, 43 locks)
+
+- name: Shannon–Erne Waterway, Leitrim → Belturbet (Erne)
+  from: [-8.067, 53.99]
+  to: [-7.448, 54.101]
+  expected_km: 63
+  tolerance: 0.15
+  countries: [IE]
+  via: [Shannon-Erne Waterway]
+  min_locks: 14
+  source: https://en.wikipedia.org/wiki/Shannon%E2%80%93Erne_Waterway (63 km, 16 locks, Leitrim to Upper Lough Erne)
+
+- name: Göta kanal, Sjötorp (Vänern) → Mem (Baltic)
+  from: [14.0, 58.84]
+  to: [16.42, 58.48]
+  expected_km: 190
+  tolerance: 0.1
+  countries: [SE]
+  via: [Göta kanal]
+  min_locks: 45
+  source: https://www.gotacanal.se/en/the-journey/about-the-canal/ (190 km, 58 locks)
+
+- name: Trollhätte kanal, Gothenburg → Vänersborg
+  from: [11.96, 57.71]
+  to: [12.32, 58.38]
+  expected_km: 82
+  tolerance: 0.12
+  countries: [SE]
+  via: [Göta älv]
+  min_locks: 5
+  source: https://sjofartsverket.se/en/services/pilotage/lotsomrade-vanern/standards--procedures/bridges-and-locks/ (82 km, 6 locks)
