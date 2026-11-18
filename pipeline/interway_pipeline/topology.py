@@ -214,6 +214,8 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m:
 
     Within `max_gap_m` any node qualifies (common mapping slips). Up to `dead_end_gap_m` only another dead end
     does: two waterway ends facing each other across a ship lift, a lock mapped as an area or a short culvert.
+    Such ends may already be connected the long way round (Niederfinow: the Oder and the Havel also meet through
+    the Oder-Spree-Kanal), so they are joined unless the network already links them within LIFT_DETOUR_M.
     """
     pos = node_positions(segments)
     degree: Counter[int] = Counter()
@@ -231,6 +233,10 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m:
 
     ids = list(pos)
     tree = STRtree([Point(pos[n]) for n in ids])
+    adj: dict[int, list[tuple[int, float]]] = defaultdict(list)
+    for s in segments:
+        adj[s.a].append((s.b, s.length))
+        adj[s.b].append((s.a, s.length))
     added = 0
     for n in ids:
         if degree[n] != 1 or n in barrier_ends:
@@ -239,19 +245,43 @@ def close_gaps(segments: list[Segment], max_gap_m: float = 25.0, dead_end_gap_m:
         best, best_d = None, float("inf")
         for idx in tree.query(p.buffer(metres_to_deg(max(max_gap_m, dead_end_gap_m)) * 2)):
             m = ids[idx]
-            if root(comp[m]) == root(comp[n]) or m in barrier_ends:
+            if m == n or m in barrier_ends:
                 continue
             d = haversine(pos[n], pos[m])
-            if d < best_d and (d <= max_gap_m or (degree[m] == 1 and d <= dead_end_gap_m)):
-                best, best_d = m, d
+            if not (d < best_d and (d <= max_gap_m or (degree[m] == 1 and d <= dead_end_gap_m))):
+                continue
+            if root(comp[m]) == root(comp[n]) and (d <= max_gap_m or _within(adj, n, m, LIFT_DETOUR_M)):
+                continue
+            best, best_d = m, d
         if best is not None:
             # A join longer than a mapping slip spans a ship lift or a lock mapped only as an area: it changes
             # level, so it is routed like a lock (and is never a lock-free bypass around a real lock).
             segments.append(Segment(a=n, b=best, coords=[pos[n], pos[best]], kind="patch", lock=best_d > max_gap_m))
             parent[root(comp[best])] = root(comp[n])
+            adj[n].append((best, best_d))
+            adj[best].append((n, best_d))
             added += 1
     log.info("closed %d small gaps", added)
     return added
+
+
+LIFT_DETOUR_M = 5000.0
+
+
+def _within(adj: dict[int, list[tuple[int, float]]], src: int, dst: int, max_m: float) -> bool:
+    """Whether dst is reachable from src over at most max_m of network."""
+    dist = {src: 0.0}
+    heap = [(0.0, src)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if u == dst:
+            return True
+        for v, w in adj[u]:
+            nd = d + w
+            if nd <= max_m and nd < dist.get(v, float("inf")):
+                dist[v] = nd
+                heapq.heappush(heap, (nd, v))
+    return False
 
 
 def snap_dead_ends_to_lines(segments: list[Segment], max_gap_m: float = 25.0) -> int:

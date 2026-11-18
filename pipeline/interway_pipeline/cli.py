@@ -60,6 +60,7 @@ def merge_extracts(parts: list[Extract]) -> Extract:
         ex.lock_nodes |= p.lock_nodes
         ex.barrier_nodes |= p.barrier_nodes
         ex.lock_names.update(p.lock_names)
+        ex.weirs += p.weirs  # duplicates from overlapping extracts block the same edges
         # overlapping extracts (neighbouring countries) contain the same border objects twice
         for b in p.bridges:
             if (b[0].wkb, b[1]) not in seen_bridges:
@@ -134,7 +135,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 10  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 11  # bump when read_osm output changes, invalidates --cache
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,
@@ -212,7 +213,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # meshes added afterwards would turn the facing ends into junctions and hide the gap.
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     snap_dead_ends_to_lines(segments)
-    segments += connect_lakes(segments, ex.lakes, ex.marinas)
+    segments += connect_lakes(segments, ex.lakes, ex.marinas, ex.weirs)
     close_gaps(segments)  # mapping slips at the lake meshes
     if land is not None:
         coast, sea = sea_network(land, sea_bbox, cache_dir)

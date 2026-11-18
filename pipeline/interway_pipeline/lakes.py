@@ -71,9 +71,15 @@ def water_bodies(lakes: list[Lake]) -> list[tuple[Polygon | MultiPolygon, list[L
     return out
 
 
-def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tuple[str, LonLat]]) -> list[Segment]:
+def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tuple[str, LonLat]],
+                  weirs: list = ()) -> list[Segment]:
+    """Synthetic segments across lakes and through river/canal areas. No mesh edge crosses a weir or dam (the
+    Liffey's weirs keep a route from running up the river from Dublin to the Grand Canal)."""
     if not lakes:
         return []
+    # a weir mapped as a point sits on the river's centre line: it closes a river area of ordinary width
+    weir_tree = STRtree([w.buffer(metres_to_deg(WEIR_POINT_M if w.geom_type == "Point" else WEIR_M))
+                         for w in weirs]) if weirs else None
     pos = node_positions(segments)
     ids = list(pos)
     tree = STRtree([Point(pos[n]) for n in ids]) if ids else None
@@ -115,13 +121,15 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
             for i in marina_tree.query(body, predicate="intersects"):
                 entries.append((new_node_id(), marinas[i][1]))
         used += 1
-        added.extend(_mesh(body, members, entries, bridge))
+        added.extend(_mesh(body, members, entries, bridge, weir_tree))
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
 
 
 BRIDGE_WINDOW_M = 10000.0
+WEIR_M = 10.0  # mesh edges passing this close to a weir line are blocked
+WEIR_POINT_M = 50.0
 STRAIT_MAX_M = 3000.0
 
 
@@ -203,14 +211,14 @@ def _lake_namer(members: list[Lake]):
 
 
 def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]],
-          bridge: set[int] | None = None) -> list[Segment]:
+          bridge: set[int] | None = None, weirs: STRtree | None = None) -> list[Segment]:
     segs: list[Segment] = []
     if body.is_empty:
         return segs
     name_at = _lake_namer(members)
 
     def add(a: int, b: int, pa: LonLat, pb: LonLat):
-        if a != b and pa != pb:
+        if a != b and pa != pb and not (weirs is not None and len(weirs.query(LineString([pa, pb]), predicate="intersects"))):
             mid = ((pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2)
             segs.append(Segment(a=a, b=b, coords=[pa, pb], name=name_at(mid), kind="lake"))
 
@@ -284,9 +292,6 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
         ends = [t for t in targets if t in bridge]
         among = _target_pairs(ends, pos)
         wanted = {t: {o for o in w if t in bridge or o in bridge} | among.get(t, set()) for t, w in wanted.items()}
-    # A bridge closes a gap in a waterway line, not a whole river: windows around many dead ends can merge into
-    # one long river area (the Liffey from Dublin to the Grand Canal aqueduct), so paths stay within a window.
-    reach = BRIDGE_WINDOW_M if bridge is not None else float("inf")
     for src in targets:
         remaining = set(wanted[src])
         dist = {src: 0.0}
@@ -296,8 +301,6 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
             d, u = heapq.heappop(heap)
             if d > dist[u]:
                 continue
-            if d > reach:
-                break
             remaining.discard(u)
             for v, i in adj[u]:
                 nd = d + lengths[i]
@@ -307,8 +310,6 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
                     heapq.heappush(heap, (nd, v))
         tree: set[int] = set()  # edges of this source's shortest-path tree already walked
         for dst in wanted[src]:
-            if dist.get(dst, reach + 1) > reach:
-                continue
             node = dst
             while node in prev and prev[node] not in tree:
                 i = prev[node]

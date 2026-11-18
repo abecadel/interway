@@ -26,7 +26,7 @@ NODES = {
     20: (20.05, 52.0), 21: (20.06, 52.0), 22: (20.07, 52.0),
     # nodes carrying tags
     30: (20.1, 52.0), 31: (20.1, 52.01), 32: (20.1, 52.02), 33: (20.1, 52.03), 34: (20.1, 52.04),
-    35: (20.1, 52.05), 36: (20.1, 52.06), 37: (20.1, 52.07), 38: None, 39: (20.1, 52.08), 40: (20.1, 52.09),
+    35: (20.1, 52.05), 36: (20.1, 52.06), 37: (20.1, 52.07), 38: None, 39: (20.1, 52.08), 40: (20.1, 52.09), 41: None,
     **square(100, 21.0, 52.0, 0.01),     # big lake
     **square(110, 21.1, 52.0, 0.001),    # small lake
     **square(120, 21.2, 52.0, 0.001),    # small allowlisted lake
@@ -52,6 +52,7 @@ NODE_TAGS = {
     39: {"waterway": "lock_gate", "man_made": "storm_surge_barrier", "name": "Thames Barrier"},
     40: {"seamark:type": "gate", "seamark:gate:category": "flood_barrage"},
     20: {"waterway": "fuel", "name": "Paliwo"},
+    41: {"waterway": "weir"},  # no location
 }
 WAYS = [
     (1, [1, 2, 3, 4], {"waterway": "canal", "name": "Kanał", "CEMT": "II", "maxdraft": "1.8", "oneway": "-1",
@@ -70,6 +71,10 @@ WAYS = [
     (12, [3, 4], {"highway": "path", "bridge": "no", "maxheight": "2"}),
     (13, [3, 997], {"highway": "path", "bridge": "yes", "seamark:bridge:clearance_height": "2"}),
     (14, [3], {"highway": "path", "bridge": "yes", "seamark:bridge:clearance_height": "2"}),
+    (15, [30, 31], {"waterway": "weir"}),
+    (16, [32], {"waterway": "dam"}),                               # a single node
+    (17, [32, 996], {"waterway": "weir"}),                         # a missing node
+    (18, [33, 34], {"waterway": "weir", "lock": "yes"}),
     (100, ring(100), {"natural": "water", "name": "Duże"}),
     (110, ring(110), {"natural": "water", "name": "Oczko"}),
     (120, ring(120), {"natural": "water", "name": "Mały", "boat": "yes"}),
@@ -100,7 +105,12 @@ def ex(tmp_path_factory):
 def test_lock_and_barrier_nodes(ex):
     assert ex.lock_nodes == {30, 31, 32, 36}
     assert ex.lock_names == {30: "Śluza"}
-    assert ex.barrier_nodes == {33, 34, 35}
+    assert ex.barrier_nodes == {33, 34, 35, 41}
+
+
+def test_weirs(ex):
+    assert sorted(w.geom_type for w in ex.weirs) == ["LineString", "Point", "Point", "Point"]
+    assert [list(w.coords) for w in ex.weirs if w.geom_type == "LineString"] == [[(20.1, 52.0), (20.1, 52.01)]]
 
 
 def test_navigable_ways(ex):

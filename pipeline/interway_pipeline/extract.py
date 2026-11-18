@@ -7,7 +7,7 @@ from pathlib import Path
 
 import osmium
 import shapely
-from shapely.geometry import LineString, MultiPolygon, Polygon
+from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 
 from .classify import (
     Allowlist,
@@ -63,6 +63,8 @@ class Extract:
     services: list[tuple[str, str, LonLat]] = field(default_factory=list)
     # river/canal ways without navigability evidence; short ones may link lakes (see topology.add_connectors)
     connectors: list[NavWay] = field(default_factory=list)
+    # weirs and dams (points and lines): river/canal areas are not crossed over them, see lakes.connect_lakes
+    weirs: list = field(default_factory=list)
     timestamp: str = ""
 
 
@@ -121,6 +123,8 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     ex.lock_names[o.id] = tags.get("name")
             elif ww in ("weir", "dam", "waterfall") and tags.get("lock") != "yes":
                 ex.barrier_nodes.add(o.id)
+                if o.location.valid():
+                    ex.weirs.append(Point(o.lon, o.lat))
             kind = poi_type(tags)
             if kind and o.location.valid():
                 ex.services.append((kind, tags.get("name", ""), (o.lon, o.lat)))
@@ -140,6 +144,10 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
                     kept["kind"] = kind_of(tags)
                     ex.connectors.append(NavWay(o.id, [n.ref for n in o.nodes], coords, kept))
+            elif tags.get("waterway") in ("weir", "dam") and tags.get("lock") != "yes":
+                coords = _way_coords(o)
+                if coords is not None and len(coords) >= 2:
+                    ex.weirs.append(LineString(coords))
             elif "bridge" in tags and tags.get("bridge") not in ("no", "movable"):
                 # Only seamark clearance describes the space *under* a bridge. maxheight on a bridge way is the
                 # limit for traffic on it, and movable bridges open for boats.

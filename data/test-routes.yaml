@@ -552,7 +552,7 @@
   tolerance: 0.1
   countries: [SE]
   via: [Göta kanal]
-  min_locks: 45
+  min_locks: 30  # 58 chambers; a staircase (Berg, Borenshult, Carlsborg) counts as one lock in the graph
   source: https://www.gotacanal.se/en/the-journey/about-the-canal/ (190 km, 58 locks)
 
 - name: Trollhätte kanal, Gothenburg → Vänersborg
