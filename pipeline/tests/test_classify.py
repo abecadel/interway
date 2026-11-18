@@ -47,6 +47,7 @@ def test_has_name_checks_alternative_keys(allow):
     {"waterway": "river", "boat": "no", "CEMT": "II"},
     {"waterway": "river", "boat": "private", "name": "Narew"},
     {"waterway": "river"},
+    {"waterway": "flowline"},  # a line through a lake needs evidence like any river
     {"waterway": "river", "name": "Odra"},
     {"waterway": "river", "wikidata": "Q999"},
 ])
@@ -58,6 +59,7 @@ def test_not_navigable(tags, allow):
     {"waterway": "fairway"},
     {"waterway": "tidal_channel"},
     {"waterway": "canal", "CEMT": "Va"},
+    {"waterway": "flowline", "CEMT": "0"},
     {"waterway": "river", "cemt": "I"},
     {"waterway": "river", "ship": "yes"},
     {"waterway": "river", "motorboat": "designated"},
@@ -124,6 +126,7 @@ def test_lake_allowlisted(tags, expected, allow):
 
 
 @pytest.mark.parametrize("ww,kind", [("canal", "canal"), ("fairway", "fairway"), ("tidal_channel", "fairway"),
+                                     ("flowline", "fairway"),
                                      ("river", "river"), (None, "river")])
 def test_kind_of(ww, kind):
     assert kind_of({"waterway": ww} if ww else {}) == kind

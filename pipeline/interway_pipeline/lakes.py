@@ -284,6 +284,9 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
         ends = [t for t in targets if t in bridge]
         among = _target_pairs(ends, pos)
         wanted = {t: {o for o in w if t in bridge or o in bridge} | among.get(t, set()) for t, w in wanted.items()}
+    # A bridge closes a gap in a waterway line, not a whole river: windows around many dead ends can merge into
+    # one long river area (the Liffey from Dublin to the Grand Canal aqueduct), so paths stay within a window.
+    reach = BRIDGE_WINDOW_M if bridge is not None else float("inf")
     for src in targets:
         remaining = set(wanted[src])
         dist = {src: 0.0}
@@ -293,6 +296,8 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
             d, u = heapq.heappop(heap)
             if d > dist[u]:
                 continue
+            if d > reach:
+                break
             remaining.discard(u)
             for v, i in adj[u]:
                 nd = d + lengths[i]
@@ -302,6 +307,8 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
                     heapq.heappush(heap, (nd, v))
         tree: set[int] = set()  # edges of this source's shortest-path tree already walked
         for dst in wanted[src]:
+            if dist.get(dst, reach + 1) > reach:
+                continue
             node = dst
             while node in prev and prev[node] not in tree:
                 i = prev[node]

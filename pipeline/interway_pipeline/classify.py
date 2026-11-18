@@ -7,7 +7,8 @@ from pathlib import Path
 
 import yaml
 
-LINE_WATERWAYS = {"river", "canal", "fairway", "tidal_channel"}
+# flowline: the line of a river or fairway through a lake (Göta kanal through Vättern at Motala)
+LINE_WATERWAYS = {"river", "canal", "fairway", "tidal_channel", "flowline"}
 YES = {"yes", "designated", "permissive", "official"}
 NO = {"no", "private"}
 # water=lock areas are left out on purpose: a lock chamber joins two water levels, meshing it would bypass the lock
@@ -114,6 +115,6 @@ def kind_of(tags) -> str:
     ww = tags.get("waterway")
     if ww == "canal":
         return "canal"
-    if ww in ("fairway", "tidal_channel"):
+    if ww in ("fairway", "tidal_channel", "flowline"):  # a flowline crosses still water: no current
         return "fairway"
     return "river"
