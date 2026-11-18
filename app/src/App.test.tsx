@@ -201,6 +201,52 @@ describe('App', () => {
     expect(screen.queryByText(/GPS:/)).toBeNull();
   });
 
+  it('navigates: follows the boat, shows progress, re-routes when off the route and stops', async () => {
+    const { geo, watchers } = geolocation();
+    const at = (lon: number, lat: number, time: number, speed: number | null = null) =>
+      ({ coords: { longitude: lon, latitude: lat, accuracy: 10, speed, heading: speed ? 45 : null }, timestamp: time }) as GeolocationPosition;
+    history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
+    const client = fakeClient();
+    render(<App client={client} />);
+    await flush();
+    expect(mapProps.current!.follow).toBe(false);
+    expect(mapProps.current!.fitRoute).toBe(true);
+    const planned = location.search;
+    fireEvent.click(screen.getByText('Start navigation'));
+    expect(geo.watchPosition).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('Waiting for GPS…')).toBeTruthy();
+    await act(async () => watchers[0].ok(at(21.1, 52.1, 1000, 2)));
+    expect(screen.getByText('Destination', { exact: false })).toBeTruthy();
+    expect(mapProps.current!.follow).toBe(true);
+    expect(mapProps.current!.course).toBe(45);
+    expect(mapProps.current!.fitRoute).toBe(false);
+    act(() => (mapProps.current!.onUserMove as () => void)());
+    expect(mapProps.current!.follow).toBe(false);
+    fireEvent.click(screen.getByText('Recenter'));
+    expect(mapProps.current!.follow).toBe(true);
+    // three fixes well off the line: plan again from the boat; the link keeps the planned route
+    for (let i = 1; i <= 3; i++) await act(async () => watchers[0].ok(at(21.4, 52.1, 1000 + i * 1000)));
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([21.4, 52.1], [21.5, 52.5], defaultProfile, []);
+    expect(location.search).toBe(planned);
+    expect(screen.getAllByPlaceholderText('My position').length).toBeGreaterThan(0);
+    expect(mapProps.current!.course).toBeNull();
+    fireEvent.click(screen.getByText('Stop'));
+    expect(screen.queryByLabelText('Navigation')).toBeNull();
+    expect(location.search).toContain('from=21.40000,52.10000');
+  });
+
+  it('says why navigation could not start', async () => {
+    Object.defineProperty(navigator, 'geolocation', { value: undefined, configurable: true });
+    history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
+    render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Start navigation'));
+    await flush();
+    expect(screen.getByText('Navigation: Geolocation not supported')).toBeTruthy();
+    expect(screen.queryByLabelText('Navigation')).toBeNull();
+  });
+
   it('reports GPS errors and missing GPS', async () => {
     const { watchers } = geolocation();
     const { unmount } = render(<App client={fakeClient()} />);

@@ -1,0 +1,112 @@
+// Navigation mode: progress along the route at every GPS fix, the screen kept on, re-routing when off the route.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { LngLat } from '../graph/geo';
+import type { Stop } from '../routing/itinerary';
+import type { Route } from '../routing/router';
+import { alongOf, buildTrack, fixOf, isNewAnchor, motionOf, trackProgress, type Fix, type Motion, type Progress, type Track } from './progress';
+
+/** at most one automatic re-route this often */
+export const REROUTE_MS = 30_000;
+
+export interface NavigationOptions {
+  route: Route | null;
+  stops: Stop[];
+  via: LngLat[];
+  position: GeolocationPosition | null;
+  /** starts GPS updates (resolves with the first fix) */
+  startWatching: () => Promise<GeolocationPosition>;
+  /** plan again from the boat, through the waypoints still ahead */
+  onReroute: (from: LngLat, via: LngLat[]) => void;
+}
+
+export interface Navigation {
+  active: boolean;
+  follow: boolean;
+  progress: Progress | null;
+  motion: Motion | null;
+  rerouting: boolean;
+  error: string | null;
+  start: () => void;
+  stop: () => void;
+  setFollow: (f: boolean) => void;
+}
+
+export function useNavigation({ route, stops, via, position, startWatching, onReroute }: NavigationOptions): Navigation {
+  const [active, setActive] = useState(false);
+  const [follow, setFollow] = useState(true);
+  const [progress, setProgress] = useState<Progress | null>(null);
+  const [motion, setMotion] = useState<Motion | null>(null);
+  // the route a re-route was asked from: once a new route arrives, re-routing is over
+  const [reroutedFrom, setReroutedFrom] = useState<Track | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const track = useMemo(() => (route ? buildTrack(route, stops) : null), [route, stops]);
+  const prev = useRef<Progress | null>(null);
+  const prevTrack = useRef<Track | null>(null);
+  const anchor = useRef<Fix | null>(null);
+  const lastReroute = useRef(-Infinity);
+  const latest = useRef({ via, onReroute });
+  useEffect(() => {
+    latest.current = { via, onReroute };
+  });
+
+  useEffect(() => {
+    if (!active || !position || !track) return;
+    // a new route (re-planned from the boat) starts the progress afresh
+    if (prevTrack.current !== track) prev.current = null;
+    prevTrack.current = track;
+    const fix = fixOf(position);
+    const m = motionOf(fix, anchor.current);
+    if (isNewAnchor(fix, anchor.current)) anchor.current = fix;
+    const p = trackProgress(track, fix, prev.current, m);
+    prev.current = p;
+    setProgress(p);
+    setMotion(m);
+    if (p.offRoute && !p.arrived && fix.time - lastReroute.current >= REROUTE_MS) {
+      lastReroute.current = fix.time;
+      setReroutedFrom(track);
+      const ahead = latest.current.via.filter((v) => alongOf(track, v) > p.along);
+      latest.current.onReroute([fix.lon, fix.lat], ahead);
+    }
+  }, [active, position, track]);
+
+  // keep the screen on while navigating; the browser drops the lock when the page is hidden
+  useEffect(() => {
+    if (!active || !navigator.wakeLock) return;
+    let lock: WakeLockSentinel | null = null;
+    let done = false;
+    const acquire = () => {
+      if (document.visibilityState !== 'visible') return;
+      navigator.wakeLock.request('screen').then(
+        (l) => { if (done) void l.release(); else lock = l; },
+        () => {}, // not allowed (battery saver, no user gesture): navigation works without it
+      );
+    };
+    acquire();
+    document.addEventListener('visibilitychange', acquire);
+    return () => {
+      done = true;
+      document.removeEventListener('visibilitychange', acquire);
+      void lock?.release();
+    };
+  }, [active]);
+
+  const start = useCallback(() => {
+    setError(null);
+    setFollow(true);
+    setActive(true);
+    prev.current = null;
+    anchor.current = null;
+    lastReroute.current = -Infinity;
+    startWatching().catch((e: Error) => { setError(e.message); setActive(false); });
+  }, [startWatching]);
+
+  const stop = useCallback(() => {
+    setActive(false);
+    setProgress(null);
+    setMotion(null);
+    setReroutedFrom(null);
+  }, []);
+
+  const rerouting = active && reroutedFrom !== null && reroutedFrom === track;
+  return { active, follow, progress, motion, rerouting, error, start, stop, setFollow };
+}

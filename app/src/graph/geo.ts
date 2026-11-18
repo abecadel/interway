@@ -28,3 +28,11 @@ export function projectOnSegment(
   const lon = aLon + (bLon - aLon) * t;
   return { t, lat, lon, dist: haversine(pLat, pLon, lat, lon) };
 }
+
+/** Initial bearing from A to B, degrees clockwise from north (0..360). */
+export function bearing(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const p1 = lat1 * toRad, p2 = lat2 * toRad, dl = (lon2 - lon1) * toRad;
+  const y = Math.sin(dl) * Math.cos(p2);
+  const x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(dl);
+  return ((Math.atan2(y, x) / toRad) + 360) % 360;
+}

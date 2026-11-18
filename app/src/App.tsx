@@ -12,12 +12,16 @@ import { parseUrlState, writeUrlState } from './ui/urlState';
 import { briefMarkdown, buildBrief } from './ui/brief';
 import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
 import { searchPlaces } from './ui/search';
+import { useNavigation } from './nav/useNavigation';
+import { NavPanel } from './ui/NavPanel';
+import type { Stop } from './routing/itinerary';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
 
 const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
+const NO_STOPS: Stop[] = [];
 
 // Earlier defaults that older saved profiles carry as if the user had chosen them.
 const OLD_DEFAULTS: Partial<VesselProfile> = { beam: 3 };
@@ -71,12 +75,6 @@ export default function App({ client }: { client: RoutingApi }) {
   }, [client]);
 
   useEffect(() => saveProfile(profile), [profile]);
-
-  // Keep the route and vessel in the URL so routes can be shared, bookmarked and edited by AI agents.
-  useEffect(() => {
-    const s = writeUrlState(location.search, { from: start?.position ?? null, to: end?.position ?? null, via: viaPositions }, profile);
-    history.replaceState(null, '', s ? `?${s}` : location.pathname);
-  }, [start, end, viaPositions, profile]);
 
   useEffect(() => {
     if (!showNetwork || network || !dataReady) return;
@@ -148,6 +146,19 @@ export default function App({ client }: { client: RoutingApi }) {
       );
     });
 
+  const nav = useNavigation({
+    route, stops: itinerary?.stops ?? NO_STOPS, via: viaPositions, position, startWatching,
+    onReroute: (from, ahead) => { setStart({ position: from, label: 'My position' }); setVia(ahead.map(toPoint)); },
+  });
+  // Keep the route and vessel in the URL so routes can be shared, bookmarked and edited by AI agents. While
+  // navigating, re-routes move A to the boat at every turn: the link keeps the planned route.
+  useEffect(() => {
+    if (nav.active) return;
+    const s = writeUrlState(location.search, { from: start?.position ?? null, to: end?.position ?? null, via: viaPositions }, profile);
+    history.replaceState(null, '', s ? `?${s}` : location.pathname);
+  }, [start, end, viaPositions, profile, nav.active]);
+  const underWay = nav.motion?.sog != null && nav.motion.sog > 0.5;
+
   const setFromMyPosition = (set: (p: Point) => void) => {
     startWatching()
       .then((p) => set({ position: [p.coords.longitude, p.coords.latitude], label: 'My position' }))
@@ -193,7 +204,8 @@ export default function App({ client }: { client: RoutingApi }) {
   const near = position ? ([position.coords.longitude, position.coords.latitude] as LngLat) : undefined;
 
   return (
-    <div className="app">
+    <div className={nav.active ? 'app navigating' : 'app'}>
+      {nav.active && <NavPanel nav={nav} />}
       <aside className="panel">
         <h1>Interway</h1>
         <p className="tagline">Inland waterway &amp; coastal route planner</p>
@@ -253,6 +265,8 @@ export default function App({ client }: { client: RoutingApi }) {
               ))}
             </ol>
             <ItineraryView itinerary={itinerary!} onSelect={(lon, lat) => setFocus([lon, lat])} />
+            <button className="primary start-nav" onClick={nav.start}>Start navigation</button>
+            {nav.error && <div className="error small">Navigation: {nav.error}</div>}
             <div className="exports">
               <button className="primary" onClick={() => copyBrief(route)}>{copied ? 'Copied ✓' : 'Copy brief for AI'}</button>
               <button onClick={() => download(briefMarkdown(brief(route)), 'text/markdown', 'interway-route.md')}>Brief .md</button>
@@ -309,6 +323,10 @@ export default function App({ client }: { client: RoutingApi }) {
         pois={pois}
         focus={focus}
         onMapClick={onMapClick}
+        follow={nav.active && nav.follow}
+        course={underWay ? nav.motion!.cog : null}
+        onUserMove={() => nav.setFollow(false)}
+        fitRoute={!nav.active}
       />
     </div>
   );

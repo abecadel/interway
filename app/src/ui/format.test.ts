@@ -13,6 +13,7 @@ describe('formatting', () => {
     expect(fmtDuration(59 * 60)).toBe('59 min');
     expect(fmtDuration(3600 * 2 + 600)).toBe('2 h 10 min');
     expect(fmtDuration(3600 * 27)).toBe('1 d 3 h');
+    expect(fmtDuration(3600 + 59.6 * 60)).toBe('2 h 0 min');
   });
 
   it('positions in all hemispheres', () => {
