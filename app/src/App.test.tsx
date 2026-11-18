@@ -380,6 +380,13 @@ describe('App', () => {
     await flush();
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...profile, airDraft: 4 }, [[2, 3], [2.5, 3.5]]);
     expect(await tools.find_place.execute({ query: 'x' })).toEqual([]);
+    // nothing online, or offline: the waterway places in the data
+    const { searchPlaces } = await import('./ui/search');
+    expect(await tools.find_place.execute({ query: 'Sluza' })).toEqual([{ name: 'Śluza · lock', lon: 21, lat: 52 }]);
+    vi.mocked(searchPlaces).mockRejectedValueOnce(new Error('offline'));
+    expect(await tools.find_place.execute({ query: 'Sluza' })).toEqual([{ name: 'Śluza · lock', lon: 21, lat: 52 }]);
+    vi.mocked(searchPlaces).mockResolvedValueOnce([{ label: 'Giżycko', position: [21.7, 54] }]);
+    expect(await tools.find_place.execute({ query: 'Sluza' })).toEqual([{ name: 'Giżycko', lon: 21.7, lat: 54 }]);
     delete (document as { modelContext?: unknown }).modelContext;
   });
 

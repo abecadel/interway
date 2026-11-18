@@ -12,6 +12,7 @@ import { parseUrlState, writeUrlState } from './ui/urlState';
 import { briefMarkdown, buildBrief } from './ui/brief';
 import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
 import { searchPlaces } from './ui/search';
+import { buildLocalIndex } from './ui/localSearch';
 import { useNavigation } from './nav/useNavigation';
 import { NavPanel } from './ui/NavPanel';
 import type { Stop } from './routing/itinerary';
@@ -62,6 +63,11 @@ export default function App({ client }: { client: RoutingApi }) {
   const [showSeamarks, setShowSeamarks] = useState(true);
   const [pois, setPois] = useState<Poi[]>([]);
   const watchId = useRef<number | null>(null);
+  const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
+  const indexRef = useRef(localIndex);
+  useEffect(() => {
+    indexRef.current = localIndex;
+  });
 
   useEffect(() => {
     client
@@ -129,7 +135,11 @@ export default function App({ client }: { client: RoutingApi }) {
       setVessel: (v) => setProfile((p) => ({ ...p, ...v })),
       waypoints: () => latest.current.viaPositions,
       setWaypoints: (v) => setVia(v.map(toPoint)),
-      findPlace: (q) => searchPlaces(q),
+      // offline (or nothing found online): the waterway places in the downloaded data
+      findPlace: (q) => searchPlaces(q).then(
+        (r) => (r.length ? r : indexRef.current.search(q)),
+        () => indexRef.current.search(q),
+      ),
     };
     void registerSiteTools(bridge);
   }, [dataReady, client]);
@@ -211,13 +221,13 @@ export default function App({ client }: { client: RoutingApi }) {
         <p className="tagline">Inland waterway &amp; coastal route planner</p>
 
         <PointInput
-          label="A" value={start} picking={picking === 'start'} near={near}
+          label="A" value={start} picking={picking === 'start'} near={near} local={localIndex}
           onPick={() => setPicking(picking === 'start' ? null : 'start')}
           onMyPosition={() => setFromMyPosition(setStart)} onSelect={setStart}
         />
         <button className="swap" title="Swap" onClick={() => { setStart(end); setEnd(start); }}>⇅</button>
         <PointInput
-          label="B" value={end} picking={picking === 'end'} near={near}
+          label="B" value={end} picking={picking === 'end'} near={near} local={localIndex}
           onPick={() => setPicking(picking === 'end' ? null : 'end')}
           onMyPosition={() => setFromMyPosition(setEnd)} onSelect={setEnd}
         />
