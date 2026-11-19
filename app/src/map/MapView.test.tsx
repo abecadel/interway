@@ -5,7 +5,7 @@ import type { Route } from '../routing/router';
 type Handler = (e?: unknown) => void;
 
 const h = vi.hoisted(() => {
-  const state = { maps: [] as FakeMapT[], markers: [] as FakeMarkerT[], workerUrl: '' };
+  const state = { maps: [] as FakeMapT[], markers: [] as FakeMarkerT[], popups: [] as { lngLat?: unknown; content?: HTMLElement }[], workerUrl: '' };
   interface FakeMapT {
     opts: Record<string, unknown>;
     handlers: Record<string, Handler>;
@@ -35,6 +35,10 @@ vi.mock('maplibre-gl', () => {
     fitBounds = vi.fn();
     flyTo = vi.fn();
     easeTo = vi.fn();
+    hits: unknown[] = [];
+    queryRenderedFeatures = vi.fn(() => this.hits);
+    canvas = { style: { cursor: '' } };
+    getCanvas() { return this.canvas; }
     getZoom = () => 10;
     getBearing = () => 33;
     remove = vi.fn();
@@ -67,12 +71,22 @@ vi.mock('maplibre-gl', () => {
     pts: unknown[] = [];
     extend(p: unknown) { this.pts.push(p); return this; }
   }
+  class Popup {
+    opts: unknown;
+    lngLat?: unknown;
+    content?: HTMLElement;
+    constructor(opts: unknown) { this.opts = opts; h.state.popups.push(this as never); }
+    setLngLat(p: unknown) { this.lngLat = p; return this; }
+    setDOMContent(el: HTMLElement) { this.content = el; return this; }
+    addTo() { return this; }
+  }
   class NavigationControl {}
   class ScaleControl {}
-  return { Map, Marker, LngLatBounds, NavigationControl, ScaleControl, setWorkerUrl: (u: string) => { h.state.workerUrl = u; } };
+  return { Map, Marker, Popup, LngLatBounds, NavigationControl, ScaleControl, setWorkerUrl: (u: string) => { h.state.workerUrl = u; } };
 });
 
 const { MapView } = await import('./MapView');
+const { popupContent } = await import('./popup');
 
 it('points maplibre at the bundled worker file', () => {
   expect(h.state.workerUrl).toContain('maplibre-gl-worker');
@@ -89,12 +103,13 @@ const base = { start: null, end: null, route: null, position: null, network: nul
 const lock = { type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 };
 const poiFc = (names: string[]) => ({
   type: 'FeatureCollection',
-  features: names.map((name) => ({ type: 'Feature', properties: { type: 'lock', name }, geometry: { type: 'Point', coordinates: [21, 52] } })),
+  features: names.map((name) => ({ type: 'Feature', properties: { type: 'lock', name, detail: '' }, geometry: { type: 'Point', coordinates: [21, 52] } })),
 });
 
 beforeEach(() => {
   h.state.maps.length = 0;
   h.state.markers.length = 0;
+  h.state.popups.length = 0;
 });
 
 describe('MapView', () => {
@@ -106,14 +121,15 @@ describe('MapView', () => {
     expect(map.opts.style).toContain('openfreemap');
     expect(map.fitBounds).toHaveBeenCalledTimes(1);
     act(() => map.handlers.load());
-    expect(map.layers).toEqual(['seamarks', 'network', 'pois', 'poi-labels', 'route-casing', 'route', 'locks']);
+    expect(map.layers).toEqual(['seamarks', 'network', 'pois', 'poi-labels', 'route-casing', 'route', 'limits', 'locks']);
     expect(map.sources.pois.setData).toHaveBeenCalledWith(poiFc(['Śluza']));
+    expect(map.sources.limits.setData).toHaveBeenCalledWith({ type: 'FeatureCollection', features: [] });
     expect(map.layout.seamarks).toBe('none');
     expect(map.sources.network.setData).toHaveBeenCalledWith(net);
     expect(map.sources.route.setData).toHaveBeenCalledWith(expect.objectContaining({ geometry: expect.objectContaining({ type: 'LineString' }) }));
     expect(map.sources.locks.setData).toHaveBeenCalledWith({
       type: 'FeatureCollection',
-      features: [{ type: 'Feature', properties: { name: 'Lock 1' }, geometry: { type: 'Point', coordinates: [21.2, 52.2] } }],
+      features: [{ type: 'Feature', properties: { type: 'lock', name: 'Lock 1', at: 1 }, geometry: { type: 'Point', coordinates: [21.2, 52.2] } }],
     });
   });
 
@@ -210,6 +226,53 @@ describe('MapView', () => {
     expect(map.easeTo).toHaveBeenCalledTimes(calls);
     rerender(<MapView {...base} />);
     map.handlers.dragstart({ originalEvent: {} }); // no handler: nothing to tell
+  });
+
+  it('opens a popup for a lock or bridge under the click unless a point is being placed', () => {
+    const onMapClick = vi.fn();
+    const stops = [{ poi: { type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21, maxlength: 57, maxwidth: 9.6 }, at: 12_345, offset: 80 }];
+    const { rerender } = render(<MapView {...base} onMapClick={onMapClick} stops={stops} />);
+    const map = h.state.maps[0] as unknown as { hits: unknown[]; handlers: Record<string, Handler>; canvas: { style: { cursor: string } } };
+    const click = { point: { x: 1, y: 2 }, lngLat: { lng: 21, lat: 52 } };
+    const feature = { properties: { type: 'lock', name: 'Śluza', detail: '57 × 9.6 m' }, geometry: { type: 'Point', coordinates: [21, 52] } };
+    map.hits = [feature];
+    map.handlers.click(click); // before load: no layers to look at
+    expect(onMapClick).toHaveBeenCalledTimes(1);
+    act(() => map.handlers.load());
+    map.handlers.click(click);
+    expect(onMapClick).toHaveBeenCalledTimes(1);
+    expect(h.state.popups[0].lngLat).toEqual([21, 52]);
+    expect(h.state.popups[0].content!.textContent).toBe('LockŚluza57 × 9.6 mkm 12.3 on the route0.1 km off the route');
+    map.handlers.mousemove(click);
+    expect(map.canvas.style.cursor).toBe('pointer');
+    rerender(<MapView {...base} onMapClick={onMapClick} stops={stops} picking />);
+    map.handlers.click(click);
+    expect(onMapClick).toHaveBeenCalledTimes(2);
+    map.hits = [];
+    map.handlers.mousemove(click);
+    expect(map.canvas.style.cursor).toBe('');
+    rerender(<MapView {...base} onMapClick={onMapClick} />);
+    map.handlers.click(click);
+    expect(onMapClick).toHaveBeenCalledTimes(3);
+  });
+
+  it('describes route locks and services off the route', () => {
+    const text = (props: Record<string, unknown>, at: [number, number], stops = []) => popupContent(props, at, stops).textContent;
+    expect(text({ name: 'Lock 1', at: 2500 }, [1, 1])).toBe('LockLock 1km 2.5 on the route');
+    expect(text({ type: 'fuel' }, [1, 1])).toBe('Fuel');
+    const near = [{ poi: { type: 'marina' as const, name: 'M', lat: 1, lon: 1 }, at: 900, offset: 20 }];
+    expect(popupContent({ type: 'marina', name: 'M', detail: '' }, [1, 1], near).textContent).toBe('MarinaMkm 0.9 on the route');
+  });
+
+  it('rings the structures that limit the boat', () => {
+    const { rerender } = render(<MapView {...base} limits={[[21, 52]]} />);
+    const map = h.state.maps[0];
+    act(() => map.handlers.load());
+    expect(map.sources.limits.setData).toHaveBeenLastCalledWith({
+      type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [21, 52] } }],
+    });
+    rerender(<MapView {...base} limits={[]} />);
+    expect(map.sources.limits.setData).toHaveBeenLastCalledWith({ type: 'FeatureCollection', features: [] });
   });
 
   it('removes the map on unmount', () => {

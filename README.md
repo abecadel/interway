@@ -79,7 +79,7 @@ the network).
 - [x] Phase 0: app scaffold, map, GPS, A/B picking, search
 - [x] Phase 1: pipeline v1, lake mesh, Zegrze → Mazury routes in the browser
 - [ ] Phase 2: Germany + Netherlands + rest of Europe (Wrocław → Amsterdam), tiled geometry
-- [ ] Phase 3: lock/bridge details on the map, offline search
+- [x] Phase 3: lock/bridge details on the map, offline search
 - [x] Offline (PWA): app, waterway data and viewed map tiles cached by a service worker
 - [x] Phase 4: navigation mode
 - [x] Phase 5: sea routing (coastal mesh, EMODnet depth)
