@@ -574,7 +574,7 @@
   countries: [PT]
   via: [Douro]
   min_locks: 4
-  source: https://canalplan.co.uk/waterway/g1gz (Douro: Pocinho lock about km 180 from the mouth; Crestuma-Lever, Carrapatelo, Bagaúste, Valeira below it)
+  source: https://canalplan.co.uk/waterway/g1gz (Douro, Pocinho lock about km 180 from the mouth; Crestuma-Lever, Carrapatelo, Bagaúste, Valeira below it)
 
 - name: Seville → Sanlúcar de Barrameda (Guadalquivir)
   from: [-5.996, 37.383]
