@@ -1,0 +1,20 @@
+# Finland: the lake waterways are mapped as fairways (waterway=fairway with Traficom's recommended tracks), which
+# are navigable on their own. These are the canals that join them on the Saimaa, Päijänne and Näsijärvi routes
+# (Heinävesi route: Kerma, Karvio, Vihovuonne; Vuoksi and Saimaa: Taipale, Konnus, Varistaipale; Pirkanmaa:
+# Lempäälä, Kuru, Murole). Paddling routes drawn as fairways (canoe=*) are not boat routes (classify.py).
+waterways:
+  - Taipaleen kanava
+  - Konnuksen kanava
+  - Varistaipaleen kanava
+  - Kerman kanava
+  - Karvion kanava
+  - Vihovuonteen kanava
+  - Lempäälän kanava
+  - Kurunkanava
+  - Pilpan kanava
+  - Kallion kanava
+  - Vääräkosken avokanava
+  - Nerkoon kanava
+  - Kiekan kanava
+lakes: []
+exclude: []

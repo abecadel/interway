@@ -564,3 +564,42 @@
   via: [Göta älv]
   min_locks: 5
   source: https://sjofartsverket.se/en/services/pilotage/lotsomrade-vanern/standards--procedures/bridges-and-locks/ (82 km, 6 locks)
+
+# --- Iberia, Finland, Lithuania ----------------------------------------------------------------------------
+- name: Porto → Pocinho (Douro)
+  from: [-8.615, 41.140]
+  to: [-7.105, 41.136]
+  expected_km: 180
+  tolerance: 0.15
+  countries: [PT]
+  via: [Douro]
+  min_locks: 4
+  source: https://canalplan.co.uk/waterway/g1gz (Douro, Pocinho lock about km 180 from the mouth; Crestuma-Lever, Carrapatelo, Bagaúste, Valeira below it)
+
+- name: Seville → Sanlúcar de Barrameda (Guadalquivir)
+  from: [-5.996, 37.383]
+  to: [-6.355, 36.790]
+  expected_km: 85
+  tolerance: 0.2
+  countries: [ES]
+  via: [Guadalquivir]
+  source: https://en.wikipedia.org/wiki/Guadalquivir (navigable for seagoing ships from the mouth to Seville, nearly 80 km)
+
+- name: Savonlinna → Kuopio (Saimaa, Kallavesi)
+  from: [28.885, 61.868]
+  to: [27.690, 62.893]
+  expected_km: 160
+  tolerance: 0.25
+  countries: [FI]
+  via: [Kallavesi]
+  min_locks: 1
+  source: https://visitsavonlinna.fi/en/shops/s-s-heinavesi-canal-cruises-to-the-heinavesi-canal-savonlinna-kuopio (12 h by lake steamer, about 160 km by the Heinävesi canals; the shortest way runs through Varkaus and the Taipale lock instead, as some sailings do)
+
+- name: Kaunas → Nida (Nemunas, Curonian Lagoon)
+  from: [23.880, 54.890]
+  to: [21.005, 55.305]
+  expected_km: 225
+  tolerance: 0.2
+  countries: [LT]
+  via: [Nemunas]
+  source: https://www.visitneringa.com/en/information/arrival/boat/ (Kaunas–Nida summer boat on the Nemunas through the delta; E41 Kaunas–Klaipėda about 270 km, Nida about 45 km short of Klaipėda)

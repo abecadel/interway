@@ -62,7 +62,8 @@ def is_navigable_way(tags, allow: Allowlist) -> bool:
     if boat in NO and motor not in YES and ship not in YES:
         return False
     if ww in ("fairway", "tidal_channel"):
-        return True
+        # a paddling route drawn as a fairway (Finland's melontareitit, canoe=*, often through rapids) is no boat route
+        return not ("canoe" in tags and "seamark:type" not in tags and motor not in YES and ship not in YES)
     if "CEMT" in tags or "cemt" in tags:
         return True
     # boat=yes alone is not enough: it also covers canoes and kayaks on small rivers

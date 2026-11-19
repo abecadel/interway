@@ -1,0 +1,12 @@
+# Spain: the Guadalquivir from Seville to the sea (Eurovía Guadalquivir, Seville's port through the Canal de
+# Alfonso XIII and its sea lock), the Ría de Bilbao, and the lower Guadiana shared with Portugal. Names as mapped
+# in OSM.
+waterways:
+  - Río Guadalquivir
+  - Canal de Alfonso XIII
+  - Canal de Alfonso XII
+  - Ría de Bilbao
+  - Ibaizabal ibaia
+  - Río Guadiana / Rio Guadiana
+lakes: []
+exclude: []
