@@ -3,10 +3,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { LngLat } from '../graph/geo';
 import type { Stop } from '../routing/itinerary';
 import type { Route } from '../routing/router';
+import { announce, dueAlerts } from './alerts';
+import { addFix, loadTrack, saveTrack, type TrackPoint } from './track';
 import { alongOf, buildTrack, fixOf, isNewAnchor, motionOf, trackProgress, type Fix, type Motion, type Progress, type Track } from './progress';
 
 /** at most one automatic re-route this often */
 export const REROUTE_MS = 30_000;
+export const VOICE_KEY = 'interway.voice';
+/** the track is written to storage every this many new points (and when navigation stops) */
+const SAVE_EVERY = 10;
 
 export interface NavigationOptions {
   route: Route | null;
@@ -29,6 +34,20 @@ export interface Navigation {
   start: () => void;
   stop: () => void;
   setFollow: (f: boolean) => void;
+  /** speak warnings (vibration is always on) */
+  voice: boolean;
+  setVoice: (v: boolean) => void;
+  /** the track sailed, kept across reloads until cleared */
+  track: TrackPoint[];
+  clearTrack: () => void;
+}
+
+function loadVoice() {
+  try {
+    return localStorage.getItem(VOICE_KEY) === '1';
+  } catch {
+    return false;
+  }
 }
 
 export function useNavigation({ route, stops, via, position, startWatching, onReroute }: NavigationOptions): Navigation {
@@ -39,35 +58,50 @@ export function useNavigation({ route, stops, via, position, startWatching, onRe
   // the route a re-route was asked from: once a new route arrives, re-routing is over
   const [reroutedFrom, setReroutedFrom] = useState<Track | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const track = useMemo(() => (route ? buildTrack(route, stops) : null), [route, stops]);
+  const [voice, setVoiceState] = useState(loadVoice);
+  const [track, setTrack] = useState<TrackPoint[]>(loadTrack);
+  const alerted = useRef(new Set<string>());
+  const trackRef = useRef(track);
+  const unsaved = useRef(0);
+  const line = useMemo(() => (route ? buildTrack(route, stops) : null), [route, stops]);
   const prev = useRef<Progress | null>(null);
   const prevTrack = useRef<Track | null>(null);
   const anchor = useRef<Fix | null>(null);
   const lastReroute = useRef(-Infinity);
-  const latest = useRef({ via, onReroute });
+  const latest = useRef({ via, onReroute, voice });
   useEffect(() => {
-    latest.current = { via, onReroute };
+    latest.current = { via, onReroute, voice };
   });
 
   useEffect(() => {
-    if (!active || !position || !track) return;
+    if (!active || !position || !line) return;
     // a new route (re-planned from the boat) starts the progress afresh
-    if (prevTrack.current !== track) prev.current = null;
-    prevTrack.current = track;
+    if (prevTrack.current !== line) prev.current = null;
+    prevTrack.current = line;
     const fix = fixOf(position);
     const m = motionOf(fix, anchor.current);
     if (isNewAnchor(fix, anchor.current)) anchor.current = fix;
-    const p = trackProgress(track, fix, prev.current, m);
+    const p = trackProgress(line, fix, prev.current, m);
     prev.current = p;
     setProgress(p);
     setMotion(m);
+    for (const a of dueAlerts(p, alerted.current)) announce(a, latest.current.voice);
+    const next = addFix(trackRef.current, fix);
+    if (next !== trackRef.current) {
+      trackRef.current = next;
+      setTrack(next);
+      if (++unsaved.current >= SAVE_EVERY) {
+        unsaved.current = 0;
+        saveTrack(next);
+      }
+    }
     if (p.offRoute && !p.arrived && fix.time - lastReroute.current >= REROUTE_MS) {
       lastReroute.current = fix.time;
-      setReroutedFrom(track);
-      const ahead = latest.current.via.filter((v) => alongOf(track, v) > p.along);
+      setReroutedFrom(line);
+      const ahead = latest.current.via.filter((v) => alongOf(line, v) > p.along);
       latest.current.onReroute([fix.lon, fix.lat], ahead);
     }
-  }, [active, position, track]);
+  }, [active, position, line]);
 
   // keep the screen on while navigating; the browser drops the lock when the page is hidden
   useEffect(() => {
@@ -97,16 +131,35 @@ export function useNavigation({ route, stops, via, position, startWatching, onRe
     prev.current = null;
     anchor.current = null;
     lastReroute.current = -Infinity;
+    alerted.current = new Set();
     startWatching().catch((e: Error) => { setError(e.message); setActive(false); });
   }, [startWatching]);
 
   const stop = useCallback(() => {
+    saveTrack(trackRef.current);
+    unsaved.current = 0;
     setActive(false);
     setProgress(null);
     setMotion(null);
     setReroutedFrom(null);
   }, []);
 
-  const rerouting = active && reroutedFrom !== null && reroutedFrom === track;
-  return { active, follow, progress, motion, rerouting, error, start, stop, setFollow };
+  const setVoice = useCallback((v: boolean) => {
+    setVoiceState(v);
+    try {
+      localStorage.setItem(VOICE_KEY, v ? '1' : '0');
+    } catch {
+      // not remembered, still on for now
+    }
+  }, []);
+
+  const clearTrack = useCallback(() => {
+    trackRef.current = [];
+    unsaved.current = 0;
+    setTrack([]);
+    saveTrack([]);
+  }, []);
+
+  const rerouting = active && reroutedFrom !== null && reroutedFrom === line;
+  return { active, follow, progress, motion, rerouting, error, start, stop, setFollow, voice, setVoice, track, clearTrack };
 }

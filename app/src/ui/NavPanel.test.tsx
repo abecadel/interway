@@ -6,7 +6,7 @@ import { NavPanel } from './NavPanel';
 
 const nav = (over: Partial<Navigation> = {}): Navigation => ({
   active: true, follow: true, progress: null, motion: null, rerouting: false, error: null,
-  start: vi.fn(), stop: vi.fn(), setFollow: vi.fn(), ...over,
+  start: vi.fn(), stop: vi.fn(), setFollow: vi.fn(), voice: false, setVoice: vi.fn(), track: [], clearTrack: vi.fn(), ...over,
 });
 const progress = (over: Partial<Progress> = {}): Progress => ({
   time: new Date(2026, 5, 1, 10, 0).getTime(), along: 1000, crossTrack: 42, side: 'left', remaining: 12_500, eta: 3600, offCount: 0, offRoute: false, arrived: false,
@@ -38,6 +38,23 @@ describe('NavPanel', () => {
     expect(screen.getByText('left of route')).toBeTruthy();
     expect(screen.getByText('1 h 0 min · 11:00')).toBeTruthy();
     expect(screen.queryByText('Recenter')).toBeNull();
+  });
+
+  it('toggles voice and exports the track', () => {
+    const n = nav({ track: [{ lon: 1, lat: 2, time: 0 }, { lon: 1, lat: 2.001, time: 1000 }] });
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    URL.createObjectURL = vi.fn(() => 'blob:x');
+    URL.revokeObjectURL = vi.fn();
+    const { rerender } = render(<NavPanel nav={n} />);
+    fireEvent.click(screen.getByText('Voice off'));
+    expect(n.setVoice).toHaveBeenCalledWith(true);
+    fireEvent.click(screen.getByText('Track GPX'));
+    expect(click).toHaveBeenCalled();
+    rerender(<NavPanel nav={{ ...n, voice: true, track: [] }} />);
+    fireEvent.click(screen.getByText('Voice on'));
+    expect(n.setVoice).toHaveBeenLastCalledWith(false);
+    expect(screen.queryByText('Track GPX')).toBeNull();
+    click.mockRestore();
   });
 
   it('names the destination, arrival and re-routing, and has recenter and stop buttons', () => {

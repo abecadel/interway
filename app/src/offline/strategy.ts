@@ -4,6 +4,8 @@ export const CACHES = {
   app: 'interway-app-v1',
   data: 'interway-data-v1',
   tiles: 'interway-tiles-v1',
+  /** map saved along a route for offline use: never trimmed */
+  route: 'interway-route-v1',
 } as const;
 
 /** Tiles viewed most recently are kept; the oldest are dropped beyond this many entries. */
@@ -88,7 +90,8 @@ export async function handleFetch(
   const strategy = strategyFor(new URL(req.url), origin);
   if (strategy === 'app') return networkFirst(req, await caches.open(CACHES.app), fetchFn);
   if (strategy === 'data') return staleWhileRevalidate(req, await caches.open(CACHES.data), fetchFn, wait);
-  return cacheFirst(req, await caches.open(CACHES.tiles), fetchFn, wait);
+  const saved = await (await caches.open(CACHES.route)).match(req);
+  return saved ?? cacheFirst(req, await caches.open(CACHES.tiles), fetchFn, wait);
 }
 
 export function shouldHandle(req: Request, origin: string): boolean {

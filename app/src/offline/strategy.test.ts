@@ -98,6 +98,16 @@ describe('handleFetch', () => {
   });
 });
 
+describe('saved maps', () => {
+  it('serves a tile saved along a route before the trimmed tile cache or the network', async () => {
+    const { run, fetchFn, storage } = setup(async () => ok('network'));
+    const url = 'https://tiles.openfreemap.org/planet/8/1/1.pbf';
+    await (await storage.open(CACHES.route)).put(req(url), ok('saved'));
+    expect(await (await run(req(url))).text()).toBe('saved');
+    expect(fetchFn).not.toHaveBeenCalled();
+  });
+});
+
 describe('trim and cleanup', () => {
   it('drops the oldest entries over the limit', async () => {
     const c = new MemCache();

@@ -15,6 +15,9 @@ import { searchPlaces } from './ui/search';
 import { buildLocalIndex } from './ui/localSearch';
 import { useNavigation } from './nav/useNavigation';
 import { NavPanel } from './ui/NavPanel';
+import { OfflineMap } from './ui/OfflineMap';
+import { download } from './ui/download';
+import { trackGpx } from './nav/track';
 import type { Stop } from './routing/itinerary';
 import './App.css';
 
@@ -190,13 +193,6 @@ export default function App({ client }: { client: RoutingApi }) {
     setPicking(null);
   };
 
-  const download = (text: string, type: string, name: string) => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([text], { type }));
-    a.download = name;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
   const title = () => `${start!.label} → ${end!.label}`;
   const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href });
   const [copied, setCopied] = useState(false);
@@ -283,6 +279,7 @@ export default function App({ client }: { client: RoutingApi }) {
             <ItineraryView itinerary={itinerary!} onSelect={(lon, lat) => setFocus([lon, lat])} />
             <button className="primary start-nav" onClick={nav.start}>Start navigation</button>
             {nav.error && <div className="error small">Navigation: {nav.error}</div>}
+            <OfflineMap line={route.coordinates} />
             <div className="exports">
               <button className="primary" onClick={() => copyBrief(route)}>{copied ? 'Copied ✓' : 'Copy brief for AI'}</button>
               <button onClick={() => download(briefMarkdown(brief(route)), 'text/markdown', 'interway-route.md')}>Brief .md</button>
@@ -294,6 +291,14 @@ export default function App({ client }: { client: RoutingApi }) {
               contains the route link, which the assistant can change (waypoints, vessel) for you to open.
             </p>
           </section>
+        )}
+
+        {!nav.active && nav.track.length > 1 && (
+          <div className="track small">
+            Track: {nav.track.length} points{' '}
+            <button onClick={() => download(trackGpx(nav.track), 'application/gpx+xml', 'interway-track.gpx')}>Export GPX</button>{' '}
+            <button onClick={nav.clearTrack}>Clear</button>
+          </div>
         )}
 
         <details className="profile">
