@@ -1,5 +1,7 @@
 import type { Upcoming } from '../nav/progress';
 import type { Navigation } from '../nav/useNavigation';
+import { trackGpx } from '../nav/track';
+import { download } from './download';
 import { fmtDuration, fmtKm } from './format';
 
 const KIND: Record<Upcoming['kind'], string> = { lock: 'Lock', bridge: 'Bridge', end: 'Destination' };
@@ -33,6 +35,10 @@ export function NavPanel({ nav }: { nav: Navigation }) {
         <div><dt>To go</dt><dd>{p ? fmtKm(p.remaining) : '–'}<small>{p && arrival ? `${fmtDuration(p.eta)} · ${arrival.toTimeString().slice(0, 5)}` : ''}</small></dd></div>
       </dl>
       <div className="nav-actions">
+        <button aria-pressed={nav.voice} onClick={() => nav.setVoice(!nav.voice)}>{nav.voice ? 'Voice on' : 'Voice off'}</button>
+        {nav.track.length > 1 && (
+          <button onClick={() => download(trackGpx(nav.track), 'application/gpx+xml', 'interway-track.gpx')}>Track GPX</button>
+        )}
         {!nav.follow && <button onClick={() => nav.setFollow(true)}>Recenter</button>}
         <button className="nav-stop" onClick={nav.stop}>Stop</button>
       </div>

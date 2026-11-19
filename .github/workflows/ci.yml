@@ -15,6 +15,8 @@ jobs:
       - run: npx tsc -b
       - run: npm test   # vitest with 100 % coverage thresholds
       - run: npm run build
+      # a classic service worker cannot `import`: sw.js must not share a chunk with the page
+      - run: "! grep -q 'import' dist/sw.js"
   pipeline:
     runs-on: ubuntu-latest
     defaults: { run: { working-directory: pipeline } }

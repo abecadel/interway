@@ -26,7 +26,9 @@ navigable route over rivers, canals and lakes, with distance, ETA, locks and ves
   marinas, ports, locks and towns in the downloaded data at once and offline; Photon adds the rest when online.
 - **Navigation mode:** the map follows the boat heading up; a panel shows the next lock or bridge and its distance,
   speed and course over ground, cross-track error, distance to go and ETA. Off the route it re-plans from the
-  boat's position, and it keeps the screen on (Screen Wake Lock).
+  boat's position, and it keeps the screen on (Screen Wake Lock). It warns (vibration, optionally voice) 1 km and
+  200 m before each lock and bridge, and records the track for GPX export. "Save map for offline" stores the basemap
+  and seamark tiles along a route.
 
 The full plan and roadmap are in [docs/PLAN.md](docs/PLAN.md).
 

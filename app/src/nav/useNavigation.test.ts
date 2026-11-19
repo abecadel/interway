@@ -33,6 +33,7 @@ function wakeLock() {
 }
 
 afterEach(() => {
+  localStorage.clear();
   Object.defineProperty(navigator, 'wakeLock', { value: undefined, configurable: true });
   Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });
 });
@@ -88,6 +89,47 @@ describe('useNavigation', () => {
     // the new route from the boat clears the flag and starts afresh
     set({ via, route: route([[21.03, 52.012], [21.1, 52]]), position: pos(21.03, 52.012, 4000 + REROUTE_MS) });
     expect(result.current.rerouting).toBe(false);
+  });
+
+  it('warns ahead of events, records the track and keeps both across a reload', async () => {
+    const vibrate = vi.fn();
+    Object.defineProperty(navigator, 'vibrate', { value: vibrate, configurable: true });
+    const speak = vi.fn();
+    vi.stubGlobal('speechSynthesis', { speak });
+    vi.stubGlobal('SpeechSynthesisUtterance', class { text: string; constructor(t: string) { this.text = t; } });
+    const { result, set } = setup();
+    await act(async () => result.current.start());
+    act(() => result.current.setVoice(true));
+    expect(localStorage.getItem('interway.voice')).toBe('1');
+    // 21.1 E is the end: 1 km before it is about 21.0853 E at 52 N
+    for (let i = 0; i < 12; i++) set({ position: pos(21.081 + i * 0.0005, 52, i * 1000) });
+    expect(speak).toHaveBeenCalledWith(expect.objectContaining({ text: 'Destination in 1 kilometre' }));
+    expect(vibrate).toHaveBeenCalledTimes(1);
+    expect(result.current.track.length).toBe(12);
+    expect(JSON.parse(localStorage.getItem('interway.track')!)).toHaveLength(10); // saved every 10 points
+    act(() => result.current.stop());
+    expect(JSON.parse(localStorage.getItem('interway.track')!)).toHaveLength(12);
+    set({ position: pos(21.09, 52, 20_000) }); // not navigating: not recorded
+    const again = renderHook(() => useNavigation({ route: line, stops: [], via: [], position: null, startWatching: vi.fn(), onReroute: vi.fn() }));
+    expect(again.result.current.track).toHaveLength(12);
+    expect(again.result.current.voice).toBe(true);
+    act(() => again.result.current.setVoice(false));
+    expect(localStorage.getItem('interway.voice')).toBe('0');
+    act(() => again.result.current.clearTrack());
+    expect(again.result.current.track).toEqual([]);
+    expect(localStorage.getItem('interway.track')).toBeNull();
+    vi.unstubAllGlobals();
+  });
+
+  it('copes with blocked storage for the voice setting', () => {
+    const get = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
+    const setItem = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('blocked'); });
+    const { result } = setup();
+    expect(result.current.voice).toBe(false);
+    act(() => result.current.setVoice(true));
+    expect(result.current.voice).toBe(true);
+    get.mockRestore();
+    setItem.mockRestore();
   });
 
   it('keeps the screen on while navigating and takes the lock again when the page comes back', async () => {

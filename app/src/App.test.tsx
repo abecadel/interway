@@ -249,6 +249,20 @@ describe('App', () => {
     expect(mapProps.current!.picking).toBe(true);
   });
 
+  it('offers the last track for export and clearing', async () => {
+    localStorage.setItem('interway.track', JSON.stringify([{ lon: 1, lat: 2, time: 0 }, { lon: 1, lat: 2.001, time: 1000 }]));
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    URL.createObjectURL = vi.fn(() => 'blob:x');
+    URL.revokeObjectURL = vi.fn();
+    render(<App client={fakeClient()} />);
+    expect(screen.getByText('Track: 2 points', { exact: false })).toBeTruthy();
+    fireEvent.click(screen.getByText('Export GPX'));
+    expect(click).toHaveBeenCalled();
+    fireEvent.click(screen.getByText('Clear'));
+    expect(screen.queryByText(/Track:/)).toBeNull();
+    click.mockRestore();
+  });
+
   it('says why navigation could not start', async () => {
     Object.defineProperty(navigator, 'geolocation', { value: undefined, configurable: true });
     history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
