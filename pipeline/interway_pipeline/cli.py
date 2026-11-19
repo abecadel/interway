@@ -20,7 +20,7 @@ from .lakes import connect_lakes
 from .model import Segment, haversine
 from .pois import load_places
 from .qa import gap_candidates
-from .sea import DEFAULT_BBOX, Coast, connect_to_sea, sea_mesh, to_merc
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, sea_mesh, to_merc
 from .topology import (
     add_connectors,
     apply_bridges,
@@ -190,6 +190,16 @@ def sea_network(land: Path, bbox: tuple[float, float, float, float], cache_dir: 
     return coast, sea
 
 
+def meshed_lakes(lakes: list, lake_segs: list[Segment]) -> list:
+    """Polygons of the lakes (not river or canal areas) that got a mesh: some mesh point lies inside."""
+    polys = [lk.polygon for lk in lakes if lk.kind == "lake"]
+    pts = [Point(c) for s in lake_segs if s.kind == "lake" for c in s.coords]
+    if not polys or not pts:
+        return []
+    hit = STRtree(pts).query(polys, predicate="contains")[0]
+    return [polys[i] for i in sorted(set(hit.tolist()))]
+
+
 # depth samples closer to land than this (Mercator m, ~1.2-1.6 km in Europe) are left out: harbour approaches
 SHORE_M = 2000.0
 SEA_VERSION = 2  # bump when sea_mesh output changes, invalidates cached meshes
@@ -213,10 +223,12 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # meshes added afterwards would turn the facing ends into junctions and hide the gap.
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     snap_dead_ends_to_lines(segments)
-    segments += connect_lakes(segments, ex.lakes, ex.marinas, ex.weirs)
+    lake_segs = connect_lakes(segments, ex.lakes, ex.marinas, ex.weirs)
+    segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes
     if land is not None:
         coast, sea = sea_network(land, sea_bbox, cache_dir)
+        sea = drop_sheltered(sea, meshed_lakes(ex.lakes, lake_segs))
         if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
             apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
                             near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))

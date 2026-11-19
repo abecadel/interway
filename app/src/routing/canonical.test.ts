@@ -20,6 +20,8 @@ interface TestRoute {
   countries: string[];
   via?: string[];
   min_locks?: number;
+  // at most this much on the sea mesh ("Open sea" legs), e.g. 0 for a lagoon the coastline leaves open
+  max_sea_km?: number;
   // boat for the route when the default (3 m beam) does not fit, e.g. a narrowboat on the English narrow canals
   vessel?: Partial<VesselProfile>;
   source: string;
@@ -57,6 +59,7 @@ describe('canonical routes', () => {
         distance: parts.reduce((a, p) => a + p.distance, 0),
         locks: parts.reduce((a, p) => a + p.locks, 0),
         legs: parts.flatMap((p) => p.legs),
+        sea: parts.reduce((a, p) => a + p.sea, 0),
       };
       const km = route.distance / 1000;
       console.log(`${r.name}: ${km.toFixed(0)} km, ${route.locks} locks`);
@@ -65,6 +68,7 @@ describe('canonical routes', () => {
       const names = route.legs.map((l) => l.name.toLowerCase());
       for (const v of r.via ?? []) expect(names.some((n) => n.includes(v.toLowerCase())), `via ${v}`).toBe(true);
       if (r.min_locks !== undefined) expect(route.locks).toBeGreaterThanOrEqual(r.min_locks);
+      if (r.max_sea_km !== undefined) expect(route.sea / 1000, 'km on open sea').toBeLessThanOrEqual(r.max_sea_km);
     });
   }
 });

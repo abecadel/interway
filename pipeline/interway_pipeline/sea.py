@@ -172,6 +172,22 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
     return out
 
 
+def drop_sheltered(sea: list[Segment], sheltered: list, inset_m: float = 100.0) -> list[Segment]:
+    """The mesh without edges that touch a node inside `sheltered` (lon/lat polygons of lakes and lagoons that
+    have their own lake mesh, shrunk by `inset_m` Mercator metres). Water the coastline leaves open (the
+    Lithuanian half of the Curonian Lagoon) is then crossed on the lake mesh, not as open sea."""
+    if not sea or not sheltered:
+        return sea
+    mask = shapely.buffer(shapely.union_all([shapely.transform(p, to_merc) for p in sheltered]), -inset_m)
+    pos = node_positions(sea)
+    ids = list(pos)
+    inside = shapely.contains_xy(mask, *to_merc(np.array([pos[i] for i in ids])).T)
+    gone = {i for i, x in zip(ids, inside, strict=True) if x}
+    kept = [s for s in sea if s.a not in gone and s.b not in gone]
+    log.info("dropped %d sea mesh edges inside %d sheltered waters", len(sea) - len(kept), len(sheltered))
+    return kept
+
+
 def connect_to_sea(segments: list[Segment], sea: list[Segment], coast: Coast, *, max_link_m: float = 8000.0,
                    mouth_m: float = 150.0, links: int = 2) -> list[Segment]:
     """Links (kind "sea") from inland nodes to the mesh: nodes lying in sea water (estuaries, fairways,

@@ -4,7 +4,7 @@ import shapefile
 from shapely.geometry import LineString, Point, box
 
 from interway_pipeline.model import Segment
-from interway_pipeline.sea import Coast, _thin, connect_to_sea, from_merc, sea_mesh, to_merc
+from interway_pipeline.sea import Coast, _thin, connect_to_sea, drop_sheltered, from_merc, sea_mesh, to_merc
 from interway_pipeline.topology import components
 
 # Two islands 0.1° apart (about 11 km) in a 1° sea; the strait between them is navigable.
@@ -135,3 +135,16 @@ def test_open_water_crossings_are_nearly_straight():
                 dist[v] = d + w
                 heapq.heappush(heap, (d + w, v))
     assert dist[dst] / haversine(pos[src], pos[dst]) < 1.05
+
+
+def test_drop_sheltered_removes_the_mesh_inside_a_lagoon():
+    c = coast()
+    segs = sea_mesh(c, BBOX, coast_step_m=3000, grid_m=10000)
+    lagoon = box(0.0, 0.85, 1.0, 1.0)  # open to the sea on the south side
+    kept = drop_sheltered(segs, [lagoon])
+    assert 0 < len(kept) < len(segs)
+    inner = lagoon.buffer(-0.002)
+    assert not any(inner.contains(Point(p)) for s in kept for p in s.coords)
+    assert len(set(components(kept).values())) == 1  # the rest of the sea stays one mesh
+    assert drop_sheltered(segs, []) is segs
+    assert drop_sheltered([], [lagoon]) == []

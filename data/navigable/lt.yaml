@@ -9,4 +9,7 @@ waterways:
 lakes:
   - Kuršių marios
   - Kauno marios
+# the Curonian Lagoon relation is named "Kuršių marios - Куршский залив" (natural=bay, water=lagoon)
+wikidata:
+  - Q5596
 exclude: []
