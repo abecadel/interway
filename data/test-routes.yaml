@@ -585,14 +585,15 @@
   via: [Guadalquivir]
   source: https://en.wikipedia.org/wiki/Guadalquivir (navigable for seagoing ships from the mouth to Seville, nearly 80 km)
 
-- name: Savonlinna → Kuopio (Heinävesi route)
+- name: Savonlinna → Kuopio (Saimaa, Kallavesi)
   from: [28.885, 61.868]
   to: [27.690, 62.893]
   expected_km: 160
   tolerance: 0.25
   countries: [FI]
-  min_locks: 2
-  source: https://visitsavonlinna.fi/en/shops/s-s-heinavesi-canal-cruises-to-the-heinavesi-canal-savonlinna-kuopio (12 h by lake steamer through the Kerma and Karvio canals; about 160 km)
+  via: [Kallavesi]
+  min_locks: 1
+  source: https://visitsavonlinna.fi/en/shops/s-s-heinavesi-canal-cruises-to-the-heinavesi-canal-savonlinna-kuopio (12 h by lake steamer, about 160 km by the Heinävesi canals; the shortest way runs through Varkaus and the Taipale lock instead, as some sailings do)
 
 - name: Kaunas → Nida (Nemunas, Curonian Lagoon)
   from: [23.880, 54.890]
