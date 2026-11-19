@@ -293,3 +293,15 @@ def test_main_sea_options(tmp_path, monkeypatch):
           "--depth-scale", "0.5"])
     assert str(seen["land"]) == "land.shp" and seen["sea_bbox"] == (1.0, 2.0, 3.0, 4.0)
     assert str(seen["places"]) == "cities.txt" and str(seen["depth_cache"]) == "d" and seen["depth_scale"] == 0.5
+
+
+def test_meshed_lakes_keeps_only_lakes_with_a_mesh():
+    from shapely.geometry import box
+    meshed = Lake(1, "A", box(0, 0, 1, 1), True)
+    bare = Lake(2, "B", box(5, 5, 6, 6), True)
+    channel = Lake(3, "C", box(0, 0, 1, 1), True, kind="channel")
+    segs = [Segment(a=1, b=2, coords=[(0.2, 0.2), (0.8, 0.8)], kind="lake"),
+            Segment(a=3, b=4, coords=[(5.5, 5.5), (5.6, 5.6)], kind="river")]
+    assert cli.meshed_lakes([meshed, bare, channel], segs) == [meshed.polygon]
+    assert cli.meshed_lakes([], segs) == []
+    assert cli.meshed_lakes([meshed], []) == []

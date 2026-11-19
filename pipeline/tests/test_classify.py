@@ -110,6 +110,8 @@ def test_connector_candidate(tags, expected, allow):
     ({"waterway": "dock"}, True),
     ({"waterway": "riverbank"}, True),
     ({"natural": "wood"}, False),
+    ({"natural": "bay", "water": "lagoon"}, True),  # the Curonian Lagoon
+    ({"natural": "bay"}, False),
     ({}, False),
 ])
 def test_candidate_lake(tags, expected):

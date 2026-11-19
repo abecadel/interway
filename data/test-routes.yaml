@@ -599,7 +599,8 @@
   from: [23.880, 54.890]
   to: [21.005, 55.305]
   expected_km: 225
-  tolerance: 0.2
+  tolerance: 0.06
   countries: [LT]
-  via: [Nemunas]
+  via: [Nemunas, Kuršių marios]
+  max_sea_km: 0
   source: https://www.visitneringa.com/en/information/arrival/boat/ (Kaunas–Nida summer boat on the Nemunas through the delta; E41 Kaunas–Klaipėda about 270 km, Nida about 45 km short of Klaipėda)

@@ -94,7 +94,8 @@ CHANNEL_WATER = {"river", "canal", "harbour"}
 
 
 def is_candidate_lake(tags) -> bool:
-    if tags.get("natural") == "water":
+    # a lagoon may be mapped as a bay (the Curonian Lagoon: natural=bay + water=lagoon inside the coastline)
+    if tags.get("natural") == "water" or (tags.get("natural") == "bay" and tags.get("water") == "lagoon"):
         return tags.get("water", "lake") in LAKE_WATER and tags.get("intermittent") != "yes"
     return tags.get("landuse") == "reservoir" or tags.get("waterway") in ("dock", "riverbank")
 
