@@ -82,3 +82,5 @@ button.active { background: #fff4d6; }
   .nav-panel { left: 8px; right: 8px; top: 8px; }
   .nav-data { grid-template-columns: repeat(2, 1fr); }
 }
+.poi-popup { font-size: 0.85rem; color: #111; display: flex; flex-direction: column; gap: 2px; }
+.poi-popup b { text-transform: uppercase; font-size: 0.7rem; letter-spacing: .04em; color: #8a5a00; }

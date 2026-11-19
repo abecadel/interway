@@ -1,4 +1,4 @@
-import type { Itinerary } from '../routing/itinerary';
+import type { Itinerary, Stop } from '../routing/itinerary';
 import type { PoiType } from '../routing/service';
 import { countLabel, fmtKm, POI_LABEL, poiDetail } from './format';
 
@@ -6,10 +6,13 @@ const SUMMARY: PoiType[] = ['lock', 'fuel', 'marina', 'port', 'slipway', 'water'
 
 /** "Along the route": counts per kind and the stops in order with their kilometre. */
 export function ItineraryView({ itinerary, onSelect }: { itinerary: Itinerary; onSelect: (lon: number, lat: number) => void }) {
-  const { stops, counts, minClearance } = itinerary;
+  const { stops, counts, minClearance, narrowestLock, shortestLock } = itinerary;
   if (!stops.length) return <div className="small info">No locks, bridges or services known along this route.</div>;
   const parts = SUMMARY.filter((t) => counts[t]).map((t) => countLabel(counts[t]!, t));
   if (minClearance !== undefined) parts.push(`lowest bridge ${minClearance.toFixed(1)} m`);
+  const named = (s: Stop) => (s.poi.name ? ` (${s.poi.name})` : '');
+  if (narrowestLock) parts.push(`narrowest lock ${narrowestLock.poi.maxwidth} m${named(narrowestLock)}`);
+  if (shortestLock) parts.push(`shortest lock ${shortestLock.poi.maxlength} m${named(shortestLock)}`);
   return (
     <details className="itinerary" open>
       <summary>Along the route</summary>

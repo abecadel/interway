@@ -12,6 +12,7 @@ const itinerary: Itinerary = {
   counts: { lock: 1, fuel: 1, bridge: 1 },
   minClearance: 3.25,
 };
+const limited = (over: Partial<Itinerary>): Itinerary => ({ ...itinerary, ...over });
 
 describe('ItineraryView', () => {
   it('lists stops with km, kind, name and details, and selects them', () => {
@@ -29,6 +30,13 @@ describe('ItineraryView', () => {
   it('says so when nothing is known', () => {
     render(<ItineraryView itinerary={{ stops: [], counts: {} }} onSelect={() => {}} />);
     expect(screen.getByText(/No locks, bridges or services/)).toBeTruthy();
+  });
+
+  it('names the narrowest and the shortest lock', () => {
+    const [lock] = itinerary.stops;
+    const unnamed = { ...lock, poi: { ...lock.poi, name: '', maxlength: 38 } };
+    render(<ItineraryView itinerary={limited({ narrowestLock: lock, shortestLock: unnamed })} onSelect={() => {}} />);
+    expect(screen.getByText('1 lock · 1 fuel · lowest bridge 3.3 m · narrowest lock 9.6 m (Śluza Czersko Polskie) · shortest lock 38 m')).toBeTruthy();
   });
 
   it('omits the clearance summary when unknown', () => {

@@ -236,6 +236,19 @@ describe('App', () => {
     expect(location.search).toContain('from=21.40000,52.10000');
   });
 
+  it('rings the structures that limit the boat and lets the map open popups once A and B are set', async () => {
+    history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
+    const lock = { type: 'lock' as const, name: 'Narrow', lat: 52, lon: 21, maxwidth: 5.3, maxlength: 38 };
+    const base = fakeClient();
+    const client = fakeClient({ load: vi.fn(async () => ({ ...(await base.load('')), pois: [lock] })) });
+    render(<App client={client} />);
+    await flush();
+    expect(mapProps.current!.limits).toEqual([[21, 52], [21, 52]]);
+    expect(mapProps.current!.picking).toBe(false);
+    fireEvent.click(screen.getByText('+ Add waypoint'));
+    expect(mapProps.current!.picking).toBe(true);
+  });
+
   it('says why navigation could not start', async () => {
     Object.defineProperty(navigator, 'geolocation', { value: undefined, configurable: true });
     history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');

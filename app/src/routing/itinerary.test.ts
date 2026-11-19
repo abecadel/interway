@@ -25,6 +25,20 @@ describe('buildItinerary', () => {
     expect(it.stops[0].offset).toBeCloseTo(200, 0);
     expect(it.counts).toEqual({ fuel: 1, lock: 1, bridge: 3, marina: 1, place: 1 });
     expect(it.minClearance).toBe(3.1);
+    expect(it.lowestBridge!.poi.clearance).toBe(3.1);
+    expect(it.narrowestLock!.poi.name).toBe('Śluza');
+    expect(it.shortestLock!.poi.name).toBe('Śluza');
+  });
+
+  it('finds the narrowest and the shortest lock, which need not be the same', () => {
+    const it = buildItinerary(route, [
+      poi({ type: 'lock', name: 'Wide short', lon: 0.03, lat: 0, maxlength: 30, maxwidth: 12 }),
+      poi({ type: 'lock', name: 'Narrow long', lon: 0.06, lat: 0, maxlength: 80, maxwidth: 5.3 }),
+      poi({ type: 'lock', name: 'Unknown', lon: 0.09, lat: 0 }),
+      poi({ type: 'lock', name: 'Middle', lon: 0.15, lat: 0, maxlength: 50, maxwidth: 8 }),
+    ]);
+    expect(it.narrowestLock!.poi.name).toBe('Narrow long');
+    expect(it.shortestLock!.poi.name).toBe('Wide short');
   });
 
   it('skips points too far from the route', () => {

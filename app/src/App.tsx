@@ -103,6 +103,12 @@ export default function App({ client }: { client: RoutingApi }) {
   const busy = !!start && !!end && dataReady && !current;
   const itinerary = useMemo(() => (route ? buildItinerary(route, pois) : null), [route, pois]);
   const [focus, setFocus] = useState<LngLat | null>(null);
+  const limits = useMemo(
+    () => [itinerary?.lowestBridge, itinerary?.narrowestLock, itinerary?.shortestLock]
+      .filter((s) => s !== undefined)
+      .map((s) => [s.poi.lon, s.poi.lat] as LngLat),
+    [itinerary],
+  );
 
   // AI agents in WebMCP browsers drive the planner through site tools; they see the same state as the UI.
   const latest = useRef({ route, itinerary, profile, viaPositions, start, end, pois });
@@ -337,6 +343,9 @@ export default function App({ client }: { client: RoutingApi }) {
         course={underWay ? nav.motion!.cog : null}
         onUserMove={() => nav.setFollow(false)}
         fitRoute={!nav.active}
+        stops={itinerary?.stops}
+        limits={limits}
+        picking={picking !== null || !start || !end}
       />
     </div>
   );

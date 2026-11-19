@@ -17,6 +17,10 @@ export interface Itinerary {
   counts: Partial<Record<PoiType, number>>;
   /** lowest bridge clearance on the route, m (undefined when none is known) */
   minClearance?: number;
+  /** the lowest bridge, the narrowest and the shortest lock on the route (those that limit the boat) */
+  lowestBridge?: Stop;
+  narrowestLock?: Stop;
+  shortestLock?: Stop;
 }
 
 /** Services count when within this distance of the route; locks and bridges are on it. */
@@ -47,12 +51,15 @@ export function buildItinerary(route: Route, pois: Poi[]): Itinerary {
   stops.sort((x, y) => x.at - y.at);
   const merged = dedupe(stops);
   const counts: Partial<Record<PoiType, number>> = {};
-  let minClearance: number | undefined;
-  for (const { poi } of merged) {
+  let lowestBridge: Stop | undefined, narrowestLock: Stop | undefined, shortestLock: Stop | undefined;
+  for (const s of merged) {
+    const { poi } = s;
     counts[poi.type] = (counts[poi.type] ?? 0) + 1;
-    if (poi.clearance !== undefined && (minClearance === undefined || poi.clearance < minClearance)) minClearance = poi.clearance;
+    if (poi.clearance !== undefined && (!lowestBridge || poi.clearance < lowestBridge.poi.clearance!)) lowestBridge = s;
+    if (poi.maxwidth && (!narrowestLock || poi.maxwidth < narrowestLock.poi.maxwidth!)) narrowestLock = s;
+    if (poi.maxlength && (!shortestLock || poi.maxlength < shortestLock.poi.maxlength!)) shortestLock = s;
   }
-  return { stops: merged, counts, minClearance };
+  return { stops: merged, counts, minClearance: lowestBridge?.poi.clearance, lowestBridge, narrowestLock, shortestLock };
 }
 
 /** The same thing mapped twice (a named lock patch and an automatic join, two marina nodes): keep one, named first. */
