@@ -178,11 +178,14 @@ def drop_sheltered(sea: list[Segment], sheltered: list, inset_m: float = 100.0) 
     Lithuanian half of the Curonian Lagoon) is then crossed on the lake mesh, not as open sea."""
     if not sea or not sheltered:
         return sea
-    mask = shapely.buffer(shapely.union_all([shapely.transform(p, to_merc) for p in sheltered]), -inset_m)
+    # one polygon at a time: a union of thousands of detailed lakes takes too much memory
+    polys = np.array([shapely.transform(p, to_merc) for p in sheltered], dtype=object)
     pos = node_positions(sea)
     ids = list(pos)
-    inside = shapely.contains_xy(mask, *to_merc(np.array([pos[i] for i in ids])).T)
-    gone = {i for i, x in zip(ids, inside, strict=True) if x}
+    pts = shapely.points(to_merc(np.array([pos[i] for i in ids])))
+    pi, li = STRtree(polys).query(pts, predicate="within")
+    deep = shapely.distance(pts[pi], shapely.boundary(polys[li])) > inset_m
+    gone = {ids[k] for k in pi[deep].tolist()}
     kept = [s for s in sea if s.a not in gone and s.b not in gone]
     log.info("dropped %d sea mesh edges inside %d sheltered waters", len(sea) - len(kept), len(sheltered))
     return kept
