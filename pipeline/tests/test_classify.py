@@ -48,6 +48,7 @@ def test_has_name_checks_alternative_keys(allow):
     {"waterway": "river", "boat": "private", "name": "Narew"},
     {"waterway": "river"},
     {"waterway": "flowline"},  # a line through a lake needs evidence like any river
+    {"waterway": "fairway", "canoe": "yes", "rapids": "1"},  # a paddling route
     {"waterway": "river", "name": "Odra"},
     {"waterway": "river", "wikidata": "Q999"},
 ])
@@ -58,6 +59,9 @@ def test_not_navigable(tags, allow):
 @pytest.mark.parametrize("tags", [
     {"waterway": "fairway"},
     {"waterway": "tidal_channel"},
+    {"waterway": "fairway", "canoe": "yes", "seamark:type": "recommended_track"},  # a boat fairway canoes may use
+    {"waterway": "fairway", "canoe": "yes", "motorboat": "yes"},
+    {"waterway": "fairway", "canoe": "yes", "ship": "yes"},
     {"waterway": "canal", "CEMT": "Va"},
     {"waterway": "flowline", "CEMT": "0"},
     {"waterway": "river", "cemt": "I"},

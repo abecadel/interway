@@ -1,0 +1,13 @@
+# Portugal: the Douro waterway (Via Navegável do Douro, Porto to the Spanish border at Barca d'Alva, five large
+# locks), the lower Tejo (Lisbon to the Tagus estuary towns), the Sado (Setúbal to Alcácer do Sal) and the
+# lower Guadiana (Vila Real de Santo António to Pomarão, shared with Spain). Names as mapped in OSM.
+waterways:
+  - Rio Douro
+  - Río Duero - Rio Douro
+  - Rio Tejo
+  - Rio Sado
+  - Rio Guadiana
+  - Guadiana
+  - Río Guadiana / Rio Guadiana
+lakes: []
+exclude: []

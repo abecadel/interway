@@ -1,0 +1,12 @@
+# Lithuania: the Nemunas from Kaunas to its delta (E41), the delta branches (Atmata, Skirvytė, Rusnė) and the
+# Curonian Lagoon to Nida and Klaipėda, plus the Kaunas Reservoir above the Kaunas dam. Names as mapped in OSM.
+waterways:
+  - Nemunas
+  - Atmata
+  - Skirvytė
+  - Pakalnė
+  - Neris
+lakes:
+  - Kuršių marios
+  - Kauno marios
+exclude: []
