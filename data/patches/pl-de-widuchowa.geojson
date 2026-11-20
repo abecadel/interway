@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "The Widuchowa weir (Odra km 704.1) closes the West Oder less than 100 m below where it leaves the Oder; boats on the Hohensaaten-Friedrichsthal waterway cannot pass it to the East Oder. OSM maps no weir there, so the West Oder's end was joined to the Oder through the river-area mesh. Source: https://www.gov.pl/web/wody-polskie-szczecin/calkowite-otwarcie-jazu-w-widuchowej--sygnalem-rozpoczecia-zimowego-sezonu",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Jaz Widuchowa", "weir": true},
+     "geometry": {"type": "LineString", "coordinates": [[14.3845, 53.14225], [14.3884, 53.14440]]}}
+  ]
+}

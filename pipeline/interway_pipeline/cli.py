@@ -97,8 +97,13 @@ def merge_extracts(parts: list[Extract]) -> Extract:
     return ex
 
 
-def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: float = 300.0) -> int:
-    """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node."""
+def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: float = 300.0,
+                  weirs: list | None = None) -> int:
+    """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node.
+
+    A LineString with the property "weir" is instead a weir OSM does not map, added to `weirs`: no lake or
+    river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder).
+    """
     if patch_dir is None or not patch_dir.exists():
         return 0
     pos = node_positions(segments)
@@ -113,6 +118,11 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             if geom.get("type") != "LineString":
                 continue
             coords = [tuple(c[:2]) for c in geom["coordinates"]]
+            props = feat.get("properties") or {}
+            if props.get("weir"):
+                if weirs is not None:
+                    weirs.append(LineString(coords))
+                continue
             ends = []
             for c in (coords[0], coords[-1]):
                 i = tree.nearest(Point(c))
@@ -124,7 +134,6 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
                 log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
                 continue
             coords[0], coords[-1] = pos[ends[0]], pos[ends[1]]
-            props = feat.get("properties") or {}
             segments.append(Segment(a=ends[0], b=ends[1], coords=coords, name=props.get("name", ""),
                                     kind="patch", lock=bool(props.get("lock"))))
             added += 1
@@ -234,7 +243,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     bridge_points: list = []
     apply_bridges(segments, ex.bridges, bridge_points)
     # Manual patches first: a gap they close (inclined planes, lifts) is no longer a dead end below.
-    apply_patches(segments, patches)
+    apply_patches(segments, patches, weirs=ex.weirs)
     # Dead-end joins (lifts, area-mapped locks, T-junctions) look at the line network alone: lake and river-area
     # meshes added afterwards would turn the facing ends into junctions and hide the gap.
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
