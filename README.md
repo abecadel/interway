@@ -24,8 +24,15 @@ navigable route over rivers, canals and lakes, with distance, ETA, locks and ves
   downloaded graph, so it can work offline. Vessel profile (speed, draft, air draft, beam, length, lock
   penalty), route summary and legs, GPX export, shareable URLs (`?from=lon,lat&to=lon,lat`). Place search finds
   marinas, ports, locks and towns in the downloaded data at once and offline; Photon adds the rest when online.
-- **Navigation mode:** the map follows the boat heading up; a panel shows the next lock or bridge and its distance,
-  speed and course over ground, cross-track error, distance to go and ETA. Off the route it re-plans from the
+- **Maps-app layout:** a full-screen map with a floating search box (saved and recent places), category chips
+  (marinas, harbours, fuel, locks, slipways, water, toilets: the nearest to the map centre), and a sheet for the
+  rest: a draggable bottom sheet on phones, a folding side panel on desktop. Tap a lock or marina, long-press (or
+  right-click) to drop a pin, then Directions / Start here / Save / Share. The directions card has boat-type chips
+  (small boat, motor cruiser, sailboat, narrowboat, custom). Round buttons for layers (day / night / auto map) and
+  your position; "/" focuses search, Esc closes. Installable as an app.
+- **Navigation mode:** the map follows the boat heading up; a green banner shows the next lock or bridge and its
+  distance, a bottom bar the time and distance to go and the arrival time, with speed and course over ground and
+  cross-track error above it. Off the route it re-plans from the
   boat's position, and it keeps the screen on (Screen Wake Lock). It warns (vibration, optionally voice) 1 km and
   200 m before each lock and bridge, and records the track for GPX export. "Save map for offline" stores the basemap
   and seamark tiles along a route.
@@ -86,6 +93,8 @@ the network).
 - [x] Offline (PWA): app, waterway data and viewed map tiles cached by a service worker
 - [x] Phase 4: navigation mode
 - [x] Phase 5: sea routing (coastal mesh, EMODnet depth)
+- [x] Phase 6: maps-app interface (search, places, bottom sheet, directions card, navigation banner)
+- [ ] Phase 7: alternative routes
 
 ## License and attribution
 

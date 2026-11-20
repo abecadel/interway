@@ -45,6 +45,7 @@ vi.mock('maplibre-gl', () => {
     getCanvas() { return this.canvas; }
     getZoom = () => 10;
     getBearing = () => 33;
+    getCenter = () => ({ lng: 21.5, lat: 52.5 });
     remove = vi.fn();
     constructor(opts: Record<string, unknown>) {
       this.opts = opts;
@@ -90,7 +91,6 @@ vi.mock('maplibre-gl', () => {
 });
 
 const { MapView } = await import('./MapView');
-const { popupContent } = await import('./popup');
 
 it('points maplibre at the bundled worker file', () => {
   expect(h.state.workerUrl).toContain('maplibre-gl-worker');
@@ -253,10 +253,10 @@ describe('MapView', () => {
     map.handlers.dragstart({ originalEvent: {} }); // no handler: nothing to tell
   });
 
-  it('opens a popup for a lock or bridge under the click unless a point is being placed', () => {
+  it('hands a tapped lock or service to the place sheet unless a point is being placed', () => {
     const onMapClick = vi.fn();
-    const stops = [{ poi: { type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21, maxlength: 57, maxwidth: 9.6 }, at: 12_345, offset: 80 }];
-    const { rerender } = render(<MapView {...base} onMapClick={onMapClick} stops={stops} />);
+    const onFeatureClick = vi.fn();
+    const { rerender } = render(<MapView {...base} onMapClick={onMapClick} onFeatureClick={onFeatureClick} />);
     const map = h.state.maps[0] as unknown as { hits: unknown[]; handlers: Record<string, Handler>; canvas: { style: { cursor: string } } };
     const click = { point: { x: 1, y: 2 }, lngLat: { lng: 21, lat: 52 } };
     const feature = { properties: { type: 'lock', name: 'Śluza', detail: '57 × 9.6 m' }, geometry: { type: 'Point', coordinates: [21, 52] } };
@@ -266,27 +266,65 @@ describe('MapView', () => {
     act(() => map.handlers.load());
     map.handlers.click(click);
     expect(onMapClick).toHaveBeenCalledTimes(1);
-    expect(h.state.popups[0].lngLat).toEqual([21, 52]);
-    expect(h.state.popups[0].content!.textContent).toBe('LockŚluza57 × 9.6 mkm 12.3 on the route0.1 km off the route');
+    expect(onFeatureClick).toHaveBeenLastCalledWith({ type: 'lock', name: 'Śluza', detail: '57 × 9.6 m', position: [21, 52] });
+    // a route lock knows its km; a bare feature falls back to a nameless lock
+    map.hits = [{ properties: { at: 2500 }, geometry: { type: 'Point', coordinates: [1, 1] } }];
+    map.handlers.click(click);
+    expect(onFeatureClick).toHaveBeenLastCalledWith({ type: 'lock', name: '', detail: '', position: [1, 1], at: 2500 });
     map.handlers.mousemove(click);
     expect(map.canvas.style.cursor).toBe('pointer');
-    rerender(<MapView {...base} onMapClick={onMapClick} stops={stops} picking />);
+    rerender(<MapView {...base} onMapClick={onMapClick} onFeatureClick={onFeatureClick} picking />);
     map.handlers.click(click);
     expect(onMapClick).toHaveBeenCalledTimes(2);
     map.hits = [];
     map.handlers.mousemove(click);
     expect(map.canvas.style.cursor).toBe('');
+    // no handler: a tap on a feature is a map click
+    map.hits = [feature];
     rerender(<MapView {...base} onMapClick={onMapClick} />);
     map.handlers.click(click);
     expect(onMapClick).toHaveBeenCalledTimes(3);
   });
 
-  it('describes route locks and services off the route', () => {
-    const text = (props: Record<string, unknown>, at: [number, number], stops = []) => popupContent(props, at, stops).textContent;
-    expect(text({ name: 'Lock 1', at: 2500 }, [1, 1])).toBe('LockLock 1km 2.5 on the route');
-    expect(text({ type: 'fuel' }, [1, 1])).toBe('Fuel');
-    const near = [{ poi: { type: 'marina' as const, name: 'M', lat: 1, lon: 1 }, at: 900, offset: 20 }];
-    expect(popupContent({ type: 'marina', name: 'M', detail: '' }, [1, 1], near).textContent).toBe('MarinaMkm 0.9 on the route');
+  it('drops a pin on right click or a long press, and reports where the map stopped', () => {
+    vi.useFakeTimers();
+    const onLongPress = vi.fn();
+    const onViewChange = vi.fn();
+    const { rerender } = render(<MapView {...base} onLongPress={onLongPress} onViewChange={onViewChange} />);
+    const map = h.state.maps[0] as unknown as { handlers: Record<string, Handler> };
+    const at = { lngLat: { lng: 21, lat: 52 }, points: [{ x: 1, y: 1 }] };
+    map.handlers.contextmenu(at);
+    expect(onLongPress).toHaveBeenLastCalledWith([21, 52]);
+    map.handlers.touchstart(at);
+    vi.advanceTimersByTime(600);
+    expect(onLongPress).toHaveBeenCalledTimes(2);
+    for (const end of ['touchmove', 'touchend', 'touchcancel']) {
+      map.handlers.touchstart(at);
+      map.handlers[end]();
+      vi.advanceTimersByTime(600);
+    }
+    map.handlers.touchstart({ ...at, points: [{ x: 1, y: 1 }, { x: 2, y: 2 }] }); // a pinch is no press
+    vi.advanceTimersByTime(600);
+    expect(onLongPress).toHaveBeenCalledTimes(2);
+    map.handlers.moveend();
+    expect(onViewChange).toHaveBeenLastCalledWith([21.5, 52.5]);
+    rerender(<MapView {...base} />);
+    map.handlers.contextmenu(at);
+    map.handlers.touchstart(at);
+    vi.advanceTimersByTime(600);
+    map.handlers.moveend();
+    expect(onLongPress).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
+  });
+
+  it('marks the place shown in the place sheet', () => {
+    const { rerender } = render(<MapView {...base} place={[21, 52]} />);
+    const pin = h.state.markers.at(-1)!;
+    expect(pin.lngLat).toEqual([21, 52]);
+    rerender(<MapView {...base} place={[22, 53]} />);
+    expect(pin.lngLat).toEqual([22, 53]);
+    rerender(<MapView {...base} />);
+    expect(pin.removed).toBe(true);
   });
 
   it('rings the structures that limit the boat', () => {

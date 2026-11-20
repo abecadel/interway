@@ -76,9 +76,11 @@ describe('App', () => {
     await flush();
     expect(screen.getByText('Test: 1,234 nodes, 5,678 edges')).toBeTruthy();
     expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile, []);
-    expect(screen.getByText('123 km')).toBeTruthy();
-    expect(screen.getByText('(66.7 NM)')).toBeTruthy();
-    expect(screen.getByText('5 h 0 min at 10 km/h · 2 locks')).toBeTruthy();
+    expect(screen.getByText('5 h 0 min')).toBeTruthy();
+    expect(screen.getByText('123 km (66.7 NM) · 2 locks · at 10 km/h')).toBeTruthy();
+    // legs and stops are behind Steps
+    expect(screen.queryByText('unnamed waterway')).toBeNull();
+    fireEvent.click(screen.getByText('Steps'));
     expect(screen.getByText('unnamed waterway')).toBeTruthy();
     expect(screen.queryByText(/snapped/)).toBeNull();
     expect(screen.queryByText(/unverified/)).toBeNull();
@@ -155,6 +157,9 @@ describe('App', () => {
     const client = fakeClient();
     render(<App client={client} />);
     await flush();
+    fireEvent.click(screen.getByText('map-click-1')); // exploring: a tap on the map plans nothing
+    expect(mapProps.current!.start).toBeNull();
+    fireEvent.click(screen.getByLabelText('Directions'));
     fireEvent.click(screen.getByText('map-click-1')); // no point yet -> A
     fireEvent.click(screen.getByText('map-click-2')); // A set -> B
     await flush();
@@ -200,7 +205,7 @@ describe('App', () => {
       pending[0].resolve(route({ distance: 999_000 }));
       pending[1].reject(new Error('second failed'));
     });
-    expect(screen.queryByText('999 km')).toBeNull();
+    expect(screen.queryByText(/999 km/)).toBeNull();
     expect(screen.getByText('second failed')).toBeTruthy();
     fireEvent.click(screen.getByTitle('Swap')); // request 3
     await flush();
@@ -209,7 +214,7 @@ describe('App', () => {
     await act(async () => pending[2].reject(new Error('stale error')));
     await act(async () => pending[3].resolve(route()));
     expect(screen.queryByText('stale error')).toBeNull();
-    expect(screen.getByText('123 km')).toBeTruthy();
+    expect(screen.getByText('5 h 0 min')).toBeTruthy();
   });
 
   it('uses GPS for A and B and keeps watching', async () => {
@@ -217,6 +222,7 @@ describe('App', () => {
     const client = fakeClient();
     render(<App client={client} />);
     await flush();
+    fireEvent.click(screen.getByLabelText('Directions'));
     fireEvent.click(screen.getAllByText('My position')[0]);
     await act(async () => watchers[0].ok(fix(21.5, 52.5)));
     expect(screen.getAllByPlaceholderText('My position')).toHaveLength(1);
@@ -243,7 +249,7 @@ describe('App', () => {
     expect(mapProps.current!.follow).toBe(false);
     expect(mapProps.current!.fitRoute).toBe(true);
     const planned = location.search;
-    fireEvent.click(screen.getByText('Start navigation'));
+    fireEvent.click(screen.getByText('Start'));
     expect(geo.watchPosition).toHaveBeenCalledTimes(1);
     expect(screen.getByText('Waiting for GPS…')).toBeTruthy();
     await act(async () => watchers[0].ok(at(21.1, 52.1, 1000, 2)));
@@ -260,9 +266,9 @@ describe('App', () => {
     await flush();
     expect(client.route).toHaveBeenLastCalledWith([21.4, 52.1], [21.5, 52.5], defaultProfile, []);
     expect(location.search).toBe(planned);
-    expect(screen.getAllByPlaceholderText('My position').length).toBeGreaterThan(0);
+    expect(mapProps.current!.start).toEqual([21.4, 52.1]);
     expect(mapProps.current!.course).toBeNull();
-    fireEvent.click(screen.getByText('Stop'));
+    fireEvent.click(screen.getByLabelText('Stop'));
     expect(screen.queryByLabelText('Navigation')).toBeNull();
     expect(location.search).toContain('from=21.40000,52.10000');
   });
@@ -276,7 +282,7 @@ describe('App', () => {
     await flush();
     expect(mapProps.current!.limits).toEqual([[21, 52], [21, 52]]);
     expect(mapProps.current!.picking).toBe(false);
-    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('Add waypoint'));
     expect(mapProps.current!.picking).toBe(true);
   });
 
@@ -299,7 +305,7 @@ describe('App', () => {
     history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
     render(<App client={fakeClient()} />);
     await flush();
-    fireEvent.click(screen.getByText('Start navigation'));
+    fireEvent.click(screen.getByText('Start'));
     await flush();
     expect(screen.getByText('Navigation: Geolocation not supported')).toBeTruthy();
     expect(screen.queryByLabelText('Navigation')).toBeNull();
@@ -308,6 +314,7 @@ describe('App', () => {
   it('reports GPS errors and missing GPS', async () => {
     const { watchers } = geolocation();
     const { unmount } = render(<App client={fakeClient()} />);
+    fireEvent.click(screen.getByLabelText('Directions'));
     fireEvent.click(screen.getAllByText('My position')[0]);
     await act(async () => watchers[0].err({ message: 'denied' } as GeolocationPositionError));
     expect(screen.getByText('GPS: denied')).toBeTruthy();
@@ -315,7 +322,7 @@ describe('App', () => {
 
     Object.defineProperty(navigator, 'geolocation', { value: undefined, configurable: true });
     render(<App client={fakeClient()} />);
-    fireEvent.click(screen.getAllByText('My position')[0]);
+    fireEvent.click(screen.getByLabelText('Show my position')); // the round button: same GPS, same error
     await flush();
     expect(screen.getByText('GPS: Geolocation not supported')).toBeTruthy();
   });
@@ -330,9 +337,9 @@ describe('App', () => {
     const profile = { ...defaultProfile, draft: 2.4, avoidLocks: true }; // the URL wins over stored settings
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[1.5, 2.5]]);
     expect(mapProps.current!.via).toEqual([[1.5, 2.5]]);
-    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('Add waypoint'));
     fireEvent.click(screen.getByText('Click the map to add a waypoint…'));
-    fireEvent.click(screen.getByText('+ Add waypoint'));
+    fireEvent.click(screen.getByText('Add waypoint'));
     fireEvent.click(screen.getByText('map-click-1'));
     await flush();
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], profile, [[1.5, 2.5], [21.1, 52.1]]);
@@ -350,6 +357,17 @@ describe('App', () => {
     render(<App client={client} />);
     await flush();
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 }, []);
+    // a boat type sets speed and size; Custom opens every field
+    expect(screen.getByText('Custom…').getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByText('Narrowboat'));
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expect.objectContaining({ beam: 2.08, length: 18, speedKmh: 6 }), []);
+    expect(screen.getByText('Narrowboat').getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByText('Small boat'));
+    await flush();
+    expect(screen.queryByLabelText('Air draft (m)')).toBeNull();
+    fireEvent.click(screen.getByText('Custom…'));
+    fireEvent.change(screen.getByLabelText('Draft (m)'), { target: { value: '1.8' } });
     fireEvent.change(screen.getByLabelText('Air draft (m)'), { target: { value: '4.5' } });
     fireEvent.click(screen.getByLabelText('Avoid locks'));
     fireEvent.click(screen.getByLabelText('Avoid open sea'));
@@ -364,6 +382,7 @@ describe('App', () => {
     const client = fakeClient();
     render(<App client={client} />);
     await flush();
+    fireEvent.click(screen.getByRole('button', { name: 'Layers' }));
     fireEvent.click(screen.getByLabelText('OpenSeaMap seamarks'));
     expect(mapProps.current!.showSeamarks).toBe(false);
     fireEvent.click(screen.getByLabelText('Routable network (debug)'));
@@ -376,51 +395,181 @@ describe('App', () => {
     expect(client.network).toHaveBeenCalledTimes(1);
   });
 
-  it('folds the panel into a one-line sheet on phones and remembers it', async () => {
+  it('explores: search, tap or drop a place, save it, list a category, and plan from a place', async () => {
+    const { watchers, fix } = geolocation();
+    localStorage.setItem('interway.sheet', 'peek'); // a folded sheet opens for a place
+    const base = fakeClient();
+    const client = fakeClient({ load: vi.fn(async () => ({ ...(await base.load('')), pois: [{ type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 }, { type: 'lock' as const, name: '', lat: 52.001, lon: 21 }] })) });
+    render(<App client={client} />);
+    await flush();
+    const props = () => mapProps.current as Record<string, (...a: unknown[]) => void> & Record<string, unknown>;
+    // "/" focuses the search box; a search result opens its place sheet
+    fireEvent.keyDown(window, { key: '/' });
+    expect(document.activeElement).toBe(screen.getByLabelText('Search'));
+    fireEvent.change(screen.getByLabelText('Search'), { target: { value: 'Śl' } });
+    fireEvent.click(screen.getByText('Śluza · lock'));
+    expect(screen.getByRole('heading', { name: 'Śluza' })).toBeTruthy();
+    expect(screen.getByText('Lock')).toBeTruthy();
+    expect(props().place).toEqual([21, 52]);
+    expect(props().focus).toEqual([21, 52]);
+    fireEvent.click(screen.getByText('Save'));
+    expect(JSON.parse(localStorage.getItem('interway.saved')!)).toEqual([{ label: 'Śluza', position: [21, 52] }]);
+    expect(JSON.parse(localStorage.getItem('interway.recent')!)).toHaveLength(1);
+    fireEvent.keyDown(screen.getByLabelText('Search'), { key: '/' }); // typing: ignored
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(screen.queryByLabelText('Place')).toBeNull();
+    expect(localStorage.getItem('interway.sheet')).toBe('half');
+    fireEvent.keyDown(window, { key: 'Escape' }); // nothing open: nothing to do
+    // a saved place comes back from the empty search box
+    fireEvent.focus(screen.getByLabelText('Search'));
+    fireEvent.click(screen.getByText('Śluza', { selector: 'button' }));
+    expect(screen.getByRole('heading', { name: 'Śluza' })).toBeTruthy();
+    expect(screen.queryByText('Lock')).toBeNull();
+    // a tapped map symbol, and a dropped pin; a tap on the map closes it
+    act(() => props().onFeatureClick({ type: 'bridge', name: '', detail: 'clearance 3.2 m', position: [5, 5] }));
+    expect(screen.getByRole('heading', { name: 'Bridge' })).toBeTruthy();
+    act(() => props().onFeatureClick({ type: 'lock', name: 'Route lock', detail: '', position: [6, 6], at: 2500 }));
+    expect(screen.getByText('km 2.5 on the route')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Close place'));
+    expect(screen.queryByLabelText('Place')).toBeNull();
+    act(() => props().onLongPress([7, 8]));
+    expect(screen.getByRole('heading', { name: 'Dropped pin' })).toBeTruthy();
+    fireEvent.click(screen.getByText('map-click-1'));
+    expect(screen.queryByLabelText('Place')).toBeNull();
+    // a category lists the nearest places to the map centre; picking one opens it
+    act(() => props().onViewChange([21, 52]));
+    fireEvent.click(screen.getByText('Locks'));
+    expect(screen.getByText('Locks nearby')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Close list'));
+    expect(screen.queryByText('Locks nearby')).toBeNull();
+    fireEvent.click(screen.getByText('Locks'));
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(screen.queryByText('Locks nearby')).toBeNull();
+    fireEvent.click(screen.getByText('Locks'));
+    fireEvent.click(screen.getByText('Locks')); // a second tap closes the list
+    expect(screen.queryByText('Locks nearby')).toBeNull();
+    fireEvent.click(screen.getByText('Locks'));
+    fireEvent.click(screen.getByText('Lock', { selector: '.name' })); // the nameless one
+    expect(screen.getByRole('heading', { name: 'Lock' })).toBeTruthy();
+    fireEvent.click(screen.getByText('Locks'));
+    fireEvent.click(screen.getByText('Śluza'));
+    expect(screen.getByRole('heading', { name: 'Śluza' })).toBeTruthy();
+    // the layers card closes first on Esc
+    fireEvent.click(screen.getByRole('button', { name: 'Layers' }));
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(screen.queryByText('Map type')).toBeNull();
+    fireEvent.keyDown(window, { key: 'x' });
+    // Start here, then Directions to another place: a route between them
+    fireEvent.click(screen.getByText('Start here'));
+    expect(props().start).toEqual([21, 52]);
+    act(() => props().onLongPress([7, 8]));
+    fireEvent.click(screen.getByText('Directions', { selector: 'button' }));
+    await flush();
+    expect(client.route).toHaveBeenLastCalledWith([21, 52], [7, 8], defaultProfile, []);
+    // closing directions clears the route and goes back to exploring
+    fireEvent.click(screen.getByLabelText('Close directions'));
+    expect(props().start).toBeNull();
+    expect(screen.getByLabelText('Search')).toBeTruthy();
+    // with a GPS fix, Directions starts from the boat; the round button centres the map on it
+    fireEvent.click(screen.getByLabelText('Show my position'));
+    await act(async () => watchers[0].ok(fix(20, 50)));
+    expect(props().focus).toEqual([20, 50]);
+    act(() => props().onLongPress([7, 8]));
+    fireEvent.click(screen.getByText('Directions', { selector: 'button' }));
+    expect(props().start).toEqual([20, 50]);
+    expect(screen.getAllByPlaceholderText('My position')).toHaveLength(1);
+    // the vessel form opens from Custom
+    fireEvent.click(screen.getByText('Custom…'));
+    expect(screen.getByLabelText('Air draft (m)')).toBeTruthy();
+  });
+
+  it('places a tapped lock on the route', async () => {
+    history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
+    render(<App client={fakeClient()} />);
+    await flush();
+    const props = () => mapProps.current as Record<string, (...a: unknown[]) => void>;
+    act(() => props().onFeatureClick({ type: 'lock', name: 'Śluza', detail: '', position: [21, 52] }));
+    expect(screen.getByText('km 0.0 on the route')).toBeTruthy();
+    act(() => props().onFeatureClick({ type: 'lock', name: 'Other', detail: '', position: [21, 60] }));
+    expect(screen.queryByText(/on the route/)).toBeNull();
+  });
+
+  it('folds the desktop side panel and remembers it', async () => {
     history.replaceState(null, '', '/?from=1,2&to=3,4');
     const { unmount } = render(<App client={fakeClient()} />);
     await flush();
-    const handle = screen.getByRole('button', { name: /123 km · 5 h/ });
-    expect(handle.getAttribute('aria-expanded')).toBe('true');
-    fireEvent.click(handle);
-    expect(handle.getAttribute('aria-expanded')).toBe('false');
-    expect(handle.closest('aside')!.className).toBe('panel collapsed');
-    expect(localStorage.getItem('interway.sheet')).toBe('closed');
-    fireEvent.click(handle);
-    expect(localStorage.getItem('interway.sheet')).toBe('open');
-    fireEvent.click(handle);
+    fireEvent.click(screen.getByLabelText('Collapse side panel'));
+    expect(screen.queryByText('5 h 0 min')).toBeNull();
+    expect(localStorage.getItem('interway.sheet')).toBe('peek');
     unmount();
-    history.replaceState(null, '', '/');
-    const again = render(<App client={fakeClient()} />);
+    render(<App client={fakeClient()} />);
     await flush();
-    expect(screen.getByRole('button', { name: /Plan a route/ }).getAttribute('aria-expanded')).toBe('false');
-    again.unmount();
-    // storage blocked: the sheet starts open and still toggles
-    const realGet = Storage.prototype.getItem, realSet = Storage.prototype.setItem;
-    const blocked = (k: string) => { if (k === 'interway.sheet') throw new Error('blocked'); };
-    const get = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (this: Storage, k) { blocked(k); return realGet.call(this, k); });
-    const set = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, k, v) { blocked(k); realSet.call(this, k, v); });
+    fireEvent.click(screen.getByLabelText('Expand side panel'));
+    expect(screen.getByText('5 h 0 min')).toBeTruthy();
+    expect(localStorage.getItem('interway.sheet')).toBe('half');
+  });
+
+  it('on phones: a bottom sheet under a top bar, a folded directions card, and the sheet remembered', async () => {
+    const mm = window.matchMedia;
+    window.matchMedia = ((q: string) => ({ matches: q === '(max-width: 700px)', addEventListener() {}, removeEventListener() {} })) as never;
+    // the sheet's top stops below the top bar, measured as it changes
+    const observed: (() => void)[] = [];
+    const disconnect = vi.fn();
+    vi.stubGlobal('ResizeObserver', class { constructor(cb: () => void) { observed.push(cb); } observe() {} disconnect = disconnect; });
     try {
-      render(<App client={fakeClient()} />);
+      history.replaceState(null, '', '/?from=1,2&to=3,4');
+      const { unmount } = render(<App client={fakeClient()} />);
       await flush();
-      const open = screen.getByRole('button', { name: /Plan a route/ });
-      expect(open.getAttribute('aria-expanded')).toBe('true');
-      fireEvent.click(open);
-      expect(open.getAttribute('aria-expanded')).toBe('false');
+      const handle = screen.getByRole('button', { name: '5 h 0 min · 123 km' });
+      expect(handle.getAttribute('aria-expanded')).toBe('true');
+      fireEvent.click(handle);
+      expect(handle.getAttribute('aria-expanded')).toBe('false');
+      expect(handle.textContent).toBe('5 h 0 min · 123 km');
+      expect(localStorage.getItem('interway.sheet')).toBe('peek');
+      fireEvent.click(handle);
+      act(() => observed.at(-1)!());
+      expect(document.querySelector<HTMLElement>('.app')!.style.getPropertyValue('--topbar-h')).toBe('0px');
+      // with a route the directions card is one line; tapped, it opens for editing
+      expect(screen.queryByText('Pick on map')).toBeNull();
+      fireEvent.click(screen.getByLabelText('Edit route'));
+      expect(screen.getAllByText('Pick on map')).toHaveLength(2);
+      fireEvent.click(screen.getByText('Steps')); // steps open the sheet all the way
+      expect(localStorage.getItem('interway.sheet')).toBe('full');
+      unmount();
+
+      // storage blocked: the sheet starts half open and still moves
+      const realGet = Storage.prototype.getItem, realSet = Storage.prototype.setItem;
+      const blocked = (k: string) => { if (k === 'interway.sheet') throw new Error('blocked'); };
+      const get = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (this: Storage, k) { blocked(k); return realGet.call(this, k); });
+      const set = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, k, v) { blocked(k); realSet.call(this, k, v); });
+      try {
+        history.replaceState(null, '', '/');
+        render(<App client={fakeClient()} />);
+        await flush();
+        const explore = screen.getByRole('button', { name: 'Explore' });
+        expect(explore.getAttribute('aria-expanded')).toBe('true');
+        fireEvent.click(explore);
+        expect(explore.getAttribute('aria-expanded')).toBe('false');
+      } finally {
+        get.mockRestore();
+        set.mockRestore();
+      }
     } finally {
-      get.mockRestore();
-      set.mockRestore();
+      window.matchMedia = mm;
+      vi.unstubAllGlobals();
     }
+    expect(disconnect).toHaveBeenCalled();
   });
 
   it('switches the map to night colours and offers to install the app', async () => {
     render(<App client={fakeClient()} />);
     await flush();
     expect(mapProps.current!.night).toBe(false);
-    fireEvent.change(screen.getByLabelText('Colours'), { target: { value: 'night' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Layers' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Night' }));
     expect(mapProps.current!.night).toBe(true);
     expect(document.documentElement.getAttribute('data-theme')).toBe('night');
-    fireEvent.change(screen.getByLabelText('Colours'), { target: { value: 'auto' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
     expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
 
     expect(screen.queryByText('Install app')).toBeNull();
@@ -437,9 +586,12 @@ describe('App', () => {
     const client = fakeClient({ network: vi.fn(async () => { throw new Error('network failed'); }) });
     render(<App client={client} />);
     await flush();
+    fireEvent.click(screen.getByRole('button', { name: 'Layers' }));
     fireEvent.click(screen.getByLabelText('Routable network (debug)'));
     await flush();
     expect(screen.getByText('network failed')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Close layers'));
+    expect(screen.queryByLabelText('Routable network (debug)')).toBeNull();
   });
 
   it('exports the route as GPX', async () => {

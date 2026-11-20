@@ -36,7 +36,8 @@ describe('NavPanel', () => {
     expect(screen.getByText('007°')).toBeTruthy();
     expect(screen.getByText('42 m')).toBeTruthy();
     expect(screen.getByText('left of route')).toBeTruthy();
-    expect(screen.getByText('1 h 0 min · 11:00')).toBeTruthy();
+    expect(screen.getByText('1 h 0 min')).toBeTruthy();
+    expect(screen.getByText(/13 km · 11:00/)).toBeTruthy();
     expect(screen.queryByText('Recenter')).toBeNull();
   });
 
@@ -67,7 +68,7 @@ describe('NavPanel', () => {
     expect(screen.getByText('Off the route: re-routing from here…')).toBeTruthy();
     fireEvent.click(screen.getByText('Recenter'));
     expect(n.setFollow).toHaveBeenCalledWith(true);
-    fireEvent.click(screen.getByText('Stop'));
+    fireEvent.click(screen.getByLabelText('Stop'));
     expect(n.stop).toHaveBeenCalled();
     rerender(<NavPanel nav={{ ...n, progress: progress({ next: { kind: 'lock', name: '', at: 1, distance: 500 } }) }} />);
     expect(screen.getByText('Lock', { exact: false }).textContent).toBe('Lock in 0.5 km');

@@ -5,10 +5,8 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import { useEffect, useRef } from 'react';
 import type { LngLat } from '../graph/geo';
 import type { Route } from '../routing/router';
-import type { Stop } from '../routing/itinerary';
 import type { Poi } from '../routing/service';
 import { poiDetail } from '../ui/format';
-import { popupContent } from './popup';
 
 // maplibre-gl v6 looks for its worker next to its own module, which the production bundle does not keep;
 // point it at the worker file Vite emits instead (also under a GitHub Pages sub-path).
@@ -35,15 +33,33 @@ export interface MapViewProps {
   onUserMove?: () => void;
   /** zoom to a new route (off while navigating, so a re-route keeps the view) */
   fitRoute?: boolean;
-  /** what the route passes, for "km 12.3 on the route" in a lock's or bridge's popup */
-  stops?: Stop[];
   /** the structures that limit the boat on this route (lowest bridge, narrowest and shortest lock): ringed */
   limits?: LngLat[];
   /** a click sets a point (A, B, waypoint) rather than opening a popup */
   picking?: boolean;
   /** dark basemap with dimmed seamarks */
   night?: boolean;
+  /** a lock, bridge or service was tapped (not while picking) */
+  onFeatureClick?: (f: MapFeature) => void;
+  /** long press (touch) or right click: drop a pin here */
+  onLongPress?: (p: LngLat) => void;
+  /** the map stopped moving: its centre */
+  onViewChange?: (center: LngLat) => void;
+  /** the place shown in the place sheet: a pin */
+  place?: LngLat | null;
 }
+
+/** What a tap on a map symbol hands over: the POI's kind, name, limits, and km on the route when known. */
+export interface MapFeature {
+  type: string;
+  name: string;
+  detail: string;
+  position: LngLat;
+  /** metres from the route start (route locks) */
+  at?: number;
+}
+
+const LONG_PRESS_MS = 550;
 
 const BASEMAP = 'https://tiles.openfreemap.org/styles/liberty';
 const BASEMAP_NIGHT = 'https://tiles.openfreemap.org/styles/dark';
@@ -52,7 +68,6 @@ const SEAMARKS = 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 const NO_VIA: LngLat[] = [];
 const FOLLOW_ZOOM = 14;
-const NO_STOPS: Stop[] = [];
 const CLICKABLE = ['locks', 'pois'];
 
 function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
@@ -61,8 +76,8 @@ function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
 
 export function MapView({
   start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick,
-  follow = false, course = null, onUserMove, fitRoute = true, stops = NO_STOPS, limits = NO_VIA, picking = false,
-  night = false,
+  follow = false, course = null, onUserMove, fitRoute = true, limits = NO_VIA, picking = false,
+  night = false, onFeatureClick, onLongPress, onViewChange, place = null,
 }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
@@ -72,15 +87,21 @@ export function MapView({
   const clickRef = useRef(onMapClick);
   const moveRef = useRef(onUserMove);
   const fitRef = useRef(fitRoute);
-  const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker }>({});
+  const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker; place?: maplibregl.Marker }>({});
+  const featureRef = useRef(onFeatureClick);
+  const longRef = useRef(onLongPress);
+  const viewRef = useRef(onViewChange);
   const viaMarkers = useRef<maplibregl.Marker[]>([]);
-  const latest = useRef({ route, network, showSeamarks, pois, stops, limits, picking, night });
+  const latest = useRef({ route, network, showSeamarks, pois, limits, picking, night });
   const styleRef = useRef(styleOf(night));
   useEffect(() => {
     clickRef.current = onMapClick;
     moveRef.current = onUserMove;
     fitRef.current = fitRoute;
-    latest.current = { route, network, showSeamarks, pois, stops, limits, picking, night };
+    featureRef.current = onFeatureClick;
+    longRef.current = onLongPress;
+    viewRef.current = onViewChange;
+    latest.current = { route, network, showSeamarks, pois, limits, picking, night };
   });
 
   useEffect(() => {
@@ -92,13 +113,29 @@ export function MapView({
       attributionControl: { compact: true, customAttribution: '© OpenSeaMap contributors' },
     });
     mapRef.current = map;
-    map.addControl(new maplibregl.NavigationControl(), 'top-right');
-    map.addControl(new maplibregl.ScaleControl({ unit: 'nautical' }), 'bottom-right');
+    map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+    map.addControl(new maplibregl.ScaleControl({ unit: 'nautical' }), 'bottom-left');
     map.on('click', (e: MapMouseEvent) => {
-      // a lock, bridge or service under the click shows its details, unless the user is placing A, B or a waypoint
+      // a lock, bridge or service under the click opens its place sheet, unless the user is placing A, B or a waypoint
       const hit = ready.current && !latest.current.picking ? map.queryRenderedFeatures(e.point, { layers: CLICKABLE })[0] : undefined;
-      if (hit) showPopup(map, hit, latest.current.stops);
+      if (hit && featureRef.current) featureRef.current(featureOf(hit));
       else clickRef.current([e.lngLat.lng, e.lngLat.lat]);
+    });
+    // drop a pin: right click, or a finger held still
+    map.on('contextmenu', (e: MapMouseEvent) => longRef.current?.([e.lngLat.lng, e.lngLat.lat]));
+    let press: ReturnType<typeof setTimeout> | undefined;
+    const cancelPress = () => clearTimeout(press);
+    map.on('touchstart', (e: maplibregl.MapTouchEvent) => {
+      cancelPress();
+      if (e.points.length !== 1) return;
+      press = setTimeout(() => longRef.current?.([e.lngLat.lng, e.lngLat.lat]), LONG_PRESS_MS);
+    });
+    map.on('touchmove', cancelPress);
+    map.on('touchend', cancelPress);
+    map.on('touchcancel', cancelPress);
+    map.on('moveend', () => {
+      const c = map.getCenter();
+      viewRef.current?.([c.lng, c.lat]);
     });
     map.on('mousemove', (e: MapMouseEvent) => {
       const over = ready.current && map.queryRenderedFeatures(e.point, { layers: CLICKABLE }).length > 0;
@@ -138,12 +175,12 @@ export function MapView({
       map.addLayer({
         id: 'route-casing', type: 'line', source: 'route',
         layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-color': '#fff', 'line-width': 8 },
+        paint: { 'line-color': '#0b57d0', 'line-width': 9 },
       });
       map.addLayer({
         id: 'route', type: 'line', source: 'route',
         layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-color': '#d0336b', 'line-width': 4.5 },
+        paint: { 'line-color': '#4c8df6', 'line-width': 6 },
       });
       map.addSource('limits', { type: 'geojson', data: empty });
       map.addLayer({
@@ -231,8 +268,17 @@ export function MapView({
       else m[key] = new maplibregl.Marker({ color }).setLngLat(p).addTo(map);
     };
     place('a', start, '#2a7');
-    place('b', end, '#c33');
+    place('b', end, '#ea4335');
   }, [start, end]);
+
+  useEffect(() => {
+    const m = markers.current;
+    if (!place) {
+      m.place?.remove();
+      m.place = undefined;
+    } else if (m.place) m.place.setLngLat(place);
+    else m.place = new maplibregl.Marker({ color: '#ea4335' }).setLngLat(place).addTo(mapRef.current!);
+  }, [place]);
 
   useEffect(() => {
     const map = mapRef.current!;
@@ -292,7 +338,11 @@ function points(ps: LngLat[]): GeoJSON.FeatureCollection {
   return { type: 'FeatureCollection', features: ps.map((p) => ({ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: p } })) };
 }
 
-function showPopup(map: MLMap, f: maplibregl.MapGeoJSONFeature, stops: Stop[]) {
-  const at = (f.geometry as GeoJSON.Point).coordinates as LngLat;
-  new maplibregl.Popup({ maxWidth: '260px' }).setLngLat(at).setDOMContent(popupContent(f.properties, at, stops)).addTo(map);
+function featureOf(f: maplibregl.MapGeoJSONFeature): MapFeature {
+  const p = f.properties;
+  return {
+    type: String(p.type ?? 'lock'), name: String(p.name ?? ''), detail: String(p.detail ?? ''),
+    position: (f.geometry as GeoJSON.Point).coordinates as LngLat,
+    ...(typeof p.at === 'number' ? { at: p.at } : {}),
+  };
 }
