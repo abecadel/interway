@@ -30,9 +30,11 @@ export interface BriefStage {
 export interface RouteBrief {
   title: string;
   link: string;
-  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'avoidLocks' | 'avoidSea'>;
+  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'avoidLocks' | 'avoidSea'>;
   totals: {
     km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
+    /** km with the river current (downstream) and against it (upstream) */
+    downstreamKm: number; upstreamKm: number;
     /** open sea charted shallower than the vessel's draft that the route crosses anyway, km */
     tooShallowKm: number;
     /** tightest draft allowed by charted sea depth (EMODnet, minus a margin), m; null when unknown */
@@ -147,11 +149,12 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   return {
     title: nameEnds(title, route, itinerary.stops),
     link,
-    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
+    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), unverifiedKm: km(route.unverified),
       tooShallowKm: km(route.tooShallow),
+      downstreamKm: km(route.downstream), upstreamKm: km(route.upstream),
       maxSeaDraftM: route.shallowest?.draft ?? null,
     },
     legs,
@@ -176,6 +179,7 @@ export function briefMarkdown(b: RouteBrief): string {
     `- Distance: ${t.km} km (${t.nm} NM)`,
     `- Time underway: ${fmtDuration(t.hours * 3600)} at ${v.speedKmh} km/h, about ${t.days} day(s) of 8 h`,
     `- Locks: ${t.locks}`,
+    ...(t.downstreamKm + t.upstreamKm > 0 ? [`- River current: ${v.currentMs} m/s, ${t.downstreamKm} km with it, ${t.upstreamKm} km against it`] : []),
     ...(t.seaNm > 0 ? [`- Open sea: ${t.seaNm} NM`] : []),
     ...(b.places.length ? [`- Towns on the way: ${b.places.join(', ')}`] : []),
     '',

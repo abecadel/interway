@@ -73,6 +73,10 @@ describe('router', () => {
     const up = r.route([17.09, 51.0], [17.01, 51.0]);
     expect(up.duration).toBeGreaterThan(down.duration);
     expect(up.distance).toBeCloseTo(down.distance, 0);
+    expect(down.downstream).toBeCloseTo(down.distance, 0);
+    expect(down.upstream).toBe(0);
+    expect(up.upstream).toBeCloseTo(up.distance, 0);
+    expect(up.downstream).toBe(0);
   });
 
   it('routes within one segment', () => {
