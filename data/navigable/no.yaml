@@ -1,0 +1,11 @@
+# Norway: the Telemark Canal, Skien to Dalen through Norsjø, Flåvatn, Kviteseidvatn and Bandak (18 locks).
+waterways:
+  - Norsjø-Skienkanalen
+  - Bandak-Norsjøkanalen
+  - Telemarkskanalen
+lakes:
+  - Norsjø
+  - Flåvatn
+  - Kviteseidvatn
+  - Bandak
+exclude: []
