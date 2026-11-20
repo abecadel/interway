@@ -239,7 +239,9 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # meshes added afterwards would turn the facing ends into junctions and hide the gap.
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     snap_dead_ends_to_lines(segments)
-    lake_segs = connect_lakes(segments, ex.lakes, ex.marinas, ex.weirs)
+    # marinas and harbours (passenger quays: the Telemark Canal boats at Dalen) are places to steer to on a lake
+    harbours = ex.marinas + [(name, p) for kind, name, p in ex.services if kind == "port"]
+    lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes
     if land is not None:
