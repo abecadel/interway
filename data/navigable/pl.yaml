@@ -107,4 +107,8 @@ lakes:
   - Jeziorak
   - Zalew Włocławski
   - Zbiornik Włocławski
+# the Vistula Lagoon relation is natural=bay + water=lagoon, named "Zalew Wiślany - Калининградский залив"; its
+# Russian half comes from the Kaliningrad extract, so the polygon is whole
+wikidata:
+  - Q5605
 exclude: []

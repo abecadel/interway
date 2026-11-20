@@ -604,3 +604,64 @@
   via: [Nemunas, Kuršių marios]
   max_sea_km: 0
   source: https://www.visitneringa.com/en/information/arrival/boat/ (Kaunas–Nida summer boat on the Nemunas through the delta; E41 Kaunas–Klaipėda about 270 km, Nida about 45 km short of Klaipėda)
+
+- name: Kelheim → Sulina (the whole navigable Danube)
+  from: [11.88, 48.92]
+  to: [29.66, 45.16]
+  expected_km: 2411
+  tolerance: 0.05
+  countries: [DE, AT, SK, HU, HR, RS, RO, BG]
+  via: [Donau, Dunav, Dunărea]
+  min_locks: 16
+  source: https://www.danubecommission.org (Danube km 2411 Kelheim, where the Main-Donau-Kanal joins, to km 0 Sulina; above Kelheim the dams have no boat locks)
+
+- name: Elbląg → Frombork (Vistula Lagoon)
+  from: [19.40, 54.17]
+  to: [19.68, 54.36]
+  expected_km: 33
+  tolerance: 0.15
+  countries: [PL]
+  via: [Elbląg, Zalew Wiślany]
+  max_sea_km: 0
+  source: https://www.zeglugagdanska.pl (Elbląg – Frombork excursion boats, about 33 km down the Elbląg river and across the lagoon)
+
+- name: Szczecin → Wolgast (Szczecin Lagoon, Peenestrom)
+  from: [14.56, 53.43]
+  to: [13.78, 54.05]
+  expected_km: 115
+  tolerance: 0.1
+  countries: [PL, DE]
+  via: [Stettiner Haff, Peenestrom]
+  max_sea_km: 0
+  source: https://www.elwis.de (Westoder and Oder to the lagoon, then the Peenestrom to Wolgast, about 62 NM)
+
+- name: Chioggia → Venice (Venetian lagoon)
+  from: [12.28, 45.22]
+  to: [12.34, 45.43]
+  expected_km: 26
+  tolerance: 0.15
+  countries: [IT]
+  via: [Laguna di Venezia]
+  max_sea_km: 0
+  source: https://actv.avmspa.it (Chioggia – Venice through the lagoon by Pellestrina and Lido, about 26 km)
+
+- name: Tulcea → Sulina (Danube delta, Sulina channel)
+  from: [28.80, 45.18]
+  to: [29.66, 45.16]
+  expected_km: 71
+  tolerance: 0.05
+  countries: [RO]
+  via: [Sulina]
+  max_sea_km: 0
+  source: https://www.danubecommission.org (Sulina channel, Tulcea at km 71 to Sulina at km 0)
+
+- name: Sète → Marseillan (Étang de Thau)
+  from: [3.697, 43.404]
+  to: [3.54, 43.35]
+  expected_km: 16
+  tolerance: 0.25
+  sea: true
+  countries: [FR]
+  via: [Étang de Thau]
+  max_sea_km: 0
+  source: https://www.vnf.fr (Sète through its canals into the Étang de Thau, about 16 km across to Marseillan)
