@@ -6,13 +6,18 @@ waterways:
 lakes:
   - Norsjø
   - Flåvatn
-  - Kviteseidvatnet
+  - Kviteseidvatn  # OSM names it Kviteseidvatnet; meshed as a lake on the route all the same. Fix at the next full re-read: any name change here re-reads every country
   - Bandak
 # The reaches between the locks and the straits between the upper lakes are rivers named Eidselva and Straumen,
 # names shared with many unnavigable Norwegian rivers, so they are allowlisted by way id: Eidselva from
 # Ulefoss to Vrangfoss, Straumen from Vrangfoss through Lunde and Kjeldal to Hogga and on into Flåvatn,
-# Fjågesund-straumen (Flåvatn - Kviteseidvatnet) and Strauman (Kviteseidvatnet - Bandak).
+# Fjågesund-straumen (Flåvatn - Kviteseidvatnet) and Strauman (Kviteseidvatnet - Bandak). Below Skien lock the
+# canal reaches the sea down the Skienselva and Porsgrunnselva (boat=yes) to the Frierfjord; Skien sluse itself is
+# an unnamed canal way with lock_name.
 ways:
+  - 176725219
+  - 972366090
+  - 1216170190
   - 194411250
   - 503402239
   - 1162480016

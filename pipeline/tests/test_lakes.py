@@ -262,6 +262,67 @@ def test_canal_along_a_reservoir_shore_is_not_linked_through_it():
     assert {11, 12, 31} <= linked and not linked & {0, 1, 2, 3, 4, 5}
 
 
+def test_lakes_a_lock_runs_between_are_not_one_body():
+    # Hjellevannet above Skien lock and Bryggevannet below it touch at the dam
+    lock = ((K - metres_to_deg(20), K / 2), (K + GAP + metres_to_deg(20), K / 2))
+    assert sorted(len(m) for _, m in water_bodies([WEST, EAST], [lock])) == [1, 1]
+    # either way round
+    assert sorted(len(m) for _, m in water_bodies([WEST, EAST], [lock[::-1]])) == [1, 1]
+    # a lock inside one lake (even by the shore it shares with the other), or far from both, keeps them together
+    inside = ((K - metres_to_deg(40), K / 2), (K - metres_to_deg(20), K / 2))
+    far = ((20 * K, 0.0), (21 * K, 0.0))
+    assert sorted(len(m) for _, m in water_bodies([WEST, EAST], [inside, far])) == [2]
+
+
+def test_reservoir_above_a_lock_is_not_meshed_with_the_basin_below():
+    above_lake = Lake(1, "Hjellevannet", box(-0.01, 0.0, 0.0, 0.01), False)
+    below_lake = Lake(2, "Bryggevannet", box(0.0, 0.0, 0.01, 0.01), False)
+    upper = Segment(a=1, b=2, coords=[(-0.005, 0.02), (-0.005, 0.005), (-0.0003, 0.005)], kind="river")
+    lock = Segment(a=2, b=3, coords=[(-0.0003, 0.005), (0.0003, 0.005)], kind="canal", lock=True)
+    lower = Segment(a=3, b=4, coords=[(0.0003, 0.005), (0.005, 0.005), (0.005, 0.05)], kind="river")
+    chamber = Lake(3, "", box(-0.0004, 0.0049, 0.0004, 0.0051), False)  # water=lock, touching both
+    added = connect_lakes([upper, lock, lower], [above_lake, below_lake, chamber], [])
+    segs = [upper, lock, lower, *added]
+    free = [s for s in segs if not s.lock]
+    reach = {1}
+    while True:
+        more = {n for s in free for n in (s.a, s.b) if {s.a, s.b} & reach} - reach
+        if not more:
+            break
+        reach |= more
+    assert 4 not in reach  # from above the lock, the reach below is only through the lock
+
+
+def test_a_lock_is_not_a_way_into_the_basin_below_it():
+    # Skien: the lock chamber's middle lies in the harbour basin below; the reach above the lock must not be
+    # joined to the basin, or routes skip the lock. The river below continues into the basin and is an entry.
+    basin = Lake(1, "Bryggevannet", box(0.0, 0.0, 0.01, 0.01), False)
+    above = Segment(a=1, b=2, coords=[(-0.05, 0.005), (-0.0002, 0.005)], kind="river")
+    lock = Segment(a=2, b=3, coords=[(-0.0002, 0.005), (0.0004, 0.005)], kind="canal", lock=True)
+    below = Segment(a=3, b=4, coords=[(0.0004, 0.005), (0.005, 0.005), (0.005, 0.05)], kind="river")
+    out = Segment(a=5, b=6, coords=[(0.0098, 0.002), (0.0099, 0.001), (0.05, 0.001)], kind="river")
+    added = connect_lakes([above, lock, below, out], [basin], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {3, 5} <= linked and 2 not in linked
+    # the same with the reach above mapped only as an area: the lock's upper end is a dead end
+    added = connect_lakes([lock, below, out], [basin], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {3, 5} <= linked and 2 not in linked
+
+
+def test_a_lock_inside_one_river_area_opens_on_both_ends(monkeypatch):
+    # Lilla Edet: the Göta älv is mapped only as one area around the lock; its lower end lies a metre outside
+    # the area and its upper end inside. Both ends are dead ends and both are ways into the river.
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)
+    area = Lake(1, "Göta älv", box(0.0, -0.002, 0.2, 0.002), False, kind="channel")
+    up = metres_to_deg(1.0)
+    lock = Segment(a=2, b=3, coords=[(0.1, 0.0), (0.101, 0.002 + up)], kind="canal", lock=True)
+    below = Segment(a=5, b=6, coords=[(-0.05, 0.0), (0.0, 0.0)], kind="river")
+    added = connect_lakes([lock, below], [area], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {2, 3, 6} <= linked
+
+
 def test_bridges_are_marked_and_can_be_cut_around_locks(monkeypatch):
     monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)  # the test geometry spans tens of km
     from interway_pipeline.topology import block_lock_bypasses
