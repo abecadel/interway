@@ -5,7 +5,7 @@ import type { Route } from '../routing/router';
 import { REROUTE_MS, useNavigation, type NavigationOptions } from './useNavigation';
 
 const route = (coordinates: LngLat[]): Route => ({
-  coordinates, distance: 0, duration: 3600, locks: 0, unverified: 0, sea: 0, tooShallow: 0, shallowest: null,
+  coordinates, distance: 0, duration: 3600, locks: 0, unverified: 0, sea: 0, downstream: 0, upstream: 0, tooShallow: 0, shallowest: null,
   events: [], legs: [], start: { offset: 0 } as never, end: { offset: 0 } as never,
 });
 const line = route([[21, 52], [21.1, 52]]);

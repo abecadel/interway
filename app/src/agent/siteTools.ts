@@ -44,12 +44,12 @@ const vessel = {
   properties: {
     draft: { type: 'number', description: 'm' }, airDraft: { type: 'number', description: 'height above water, m' },
     beam: { type: 'number', description: 'm' }, length: { type: 'number', description: 'm' },
-    speedKmh: { type: 'number' }, avoidLocks: { type: 'boolean' },
+    speedKmh: { type: 'number' }, currentMs: { type: 'number', description: 'river current, m/s' }, avoidLocks: { type: 'boolean' },
     avoidSea: { type: 'boolean', description: 'keep to inland waterways where possible' },
   },
   additionalProperties: false,
 };
-const VESSEL_KEYS = ['draft', 'airDraft', 'beam', 'length', 'speedKmh', 'avoidLocks', 'avoidSea'] as const;
+const VESSEL_KEYS = ['draft', 'airDraft', 'beam', 'length', 'speedKmh', 'currentMs', 'avoidLocks', 'avoidSea'] as const;
 
 export function getModelContext(doc: Document = document, nav: Navigator = navigator): ModelContext | null {
   const ctx = (doc as { modelContext?: ModelContext }).modelContext ?? (nav as { modelContext?: ModelContext }).modelContext;

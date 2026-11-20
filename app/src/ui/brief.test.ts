@@ -8,7 +8,7 @@ import { VESSEL_PARAMS } from './urlState';
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
 const route: Route = {
-  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
+  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
   events: [], legs: [{ name: 'Wisła', distance: 150_000 }, { name: '', distance: 50_000 }],
   start: snap, end: { ...snap, offset: 700 },
 };
@@ -30,7 +30,7 @@ describe('route brief', () => {
   const b = buildBrief({ route, itinerary, profile: { ...defaultProfile, length: 9, beam: 3, airDraft: 3 }, title: 'Warsaw → Gdańsk', link: 'https://x/?from=1,2' });
 
   it('sums up the route and checks the vessel against locks and bridges', () => {
-    expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, days: 3, locks: 1, seaNm: 10, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4 });
+    expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, days: 3, locks: 1, seaNm: 10, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
     expect(b.legs).toEqual([
       { name: 'Wisła', fromKm: 0, toKm: 150, km: 150 },
       { name: 'unnamed waterway', fromKm: 150, toKm: 200, km: 50 },
@@ -71,14 +71,16 @@ describe('route brief', () => {
     expect(md).toContain('# Route: Warsaw → Gdańsk');
     expect(md).toContain('Open or edit: https://x/?from=1,2');
     expect(md).toContain('- Open sea: 10 NM');
+    expect(md).toContain('- River current: 0.5 m/s, 150 km with it, 0 km against it');
     expect(md).toContain('- Towns on the way: Toruń, Grudziądz');
     expect(md).toContain('| 0–150 | Wisła | 150 km |');
     expect(md).toContain('| 1 | 0–70 | 70 km | 7 h | Marina Przystań |');
     expect(md).toContain('| 20 | Lock | Śluza Włocławek | 8 × 2.5 m; ⚠ vessel length 9 m exceeds chamber 8 m |');
     expect(md).toContain('| 155 | Port | A / B |  |');
     expect(md).toContain('- `via`: waypoints in order');
-    const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0 }, vessel: { ...b.vessel, avoidLocks: true, avoidSea: true } });
+    const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0, downstreamKm: 0 }, vessel: { ...b.vessel, avoidLocks: true, avoidSea: true } });
     expect(quiet).not.toContain('Open sea:');
+    expect(quiet).not.toContain('River current');
     expect(quiet).not.toContain('Towns on the way');
     expect(quiet).toContain('avoiding locks where possible, avoiding open sea.');
   });

@@ -78,6 +78,9 @@ export interface Route {
   unverified: number;
   /** metres on open-sea legs */
   sea: number;
+  /** metres travelled with the river current (downstream) and against it (upstream) */
+  downstream: number;
+  upstream: number;
   /** metres of open sea charted shallower than the vessel's draft that the route could not avoid */
   tooShallow: number;
   /** tightest draft limit on open-sea legs (charted depth minus a margin), m, and where it is; null if none */
@@ -166,6 +169,12 @@ export class Router {
   /** Flags shared by both directions of geometry g (direction bits aside). */
   private geomFlags(g: number): number {
     return this.graph.edgeFlags[this.geomEdge(g)];
+  }
+
+  /** Whether geometry g is a river drawn downstream (its forward edge runs with the current). */
+  private flows(g: number): boolean {
+    const f = this.geomFwd[g], r = this.geomRev[g];
+    return (f >= 0 && (this.graph.edgeFlags[f] & Flag.DOWNSTREAM) !== 0) || (r >= 0 && (this.graph.edgeFlags[r] & Flag.UPSTREAM) !== 0);
   }
 
   private geomEdge(g: number): number {
@@ -402,7 +411,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0, unverified = 0, sea = 0, tooShallow = 0;
+    let distance = 0, locks = 0, unverified = 0, sea = 0, tooShallow = 0, downstream = 0, upstream = 0;
     let shallowest: Route['shallowest'] = null;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
@@ -426,6 +435,7 @@ export class Router {
     this.lastPath = [];
     for (const { node, edge } of chain) {
       const before = distance;
+      let current = 0; // +1 with the river current, -1 against it
       let g: number;
       if (edge === -2) {
         // Leaving the start snap along its geometry, possibly straight to the target on the same geometry.
@@ -435,9 +445,13 @@ export class Router {
         const toEnd = node === DST ? t.frac >= s.frac : node === this.geom.geomTo[g];
         this.walk(g, s.seg, toEnd, endSeg, push);
         if (node === DST) push(t.lat, t.lon);
+        if (this.flows(g)) current = toEnd ? 1 : -1;
       } else {
         g = this.graph.edgeGeom[edge];
         this.lastPath.push({ edge, at: before });
+        const f = this.graph.edgeFlags[edge];
+        if (f & Flag.DOWNSTREAM) current = 1;
+        else if (f & Flag.UPSTREAM) current = -1;
         const reversed = (this.graph.edgeFlags[edge] & Flag.GEOM_REVERSED) !== 0;
         if (node === DST) {
           // Enter the target geometry from one end and stop at the snap.
@@ -455,11 +469,13 @@ export class Router {
       addLeg(g, before);
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
+      if (current > 0) downstream += distance - before;
+      else if (current < 0) upstream += distance - before;
       const draft = distance > before ? this.seaDraft(g) : 0; // a snap at the very end of a stretch does not cross it
       if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft: Math.round(draft * 100) / 100, at: before };
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
-    return { coordinates: coords, distance, duration, locks, unverified, sea, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, sea, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -521,6 +537,8 @@ export function joinRoutes(a: Route, b: Route): Route {
     locks: a.locks + b.locks,
     unverified: a.unverified + b.unverified,
     sea: a.sea + b.sea,
+    downstream: a.downstream + b.downstream,
+    upstream: a.upstream + b.upstream,
     tooShallow: a.tooShallow + b.tooShallow,
     shallowest: [a.shallowest, b.shallowest && { ...b.shallowest, at: b.shallowest.at + a.distance }]
       .filter((x) => x !== null).sort((x, y) => x.draft - y.draft)[0] ?? null,

@@ -105,6 +105,18 @@ export default function App({ client }: { client: RoutingApi }) {
   const routeError = current?.error ?? null;
   const busy = !!start && !!end && dataReady && !current;
   const itinerary = useMemo(() => (route ? buildItinerary(route, pois) : null), [route, pois]);
+  // On a river the way back takes a different time: route it once the route is known.
+  const [back, setBack] = useState<{ key: string; duration: number } | null>(null);
+  useEffect(() => {
+    if (!route || !start || !end || route.downstream + route.upstream === 0) return;
+    let cancelled = false;
+    client
+      .route(end.position, start.position, profile, [...viaPositions].reverse())
+      .then((r) => { if (!cancelled) setBack({ key: routeKey, duration: r.duration }); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [route, start, end, viaPositions, profile, client, routeKey]);
+  const backDuration = route && back?.key === routeKey && route.downstream + route.upstream > 0 ? back.duration : null;
   const [focus, setFocus] = useState<LngLat | null>(null);
   const limits = useMemo(
     () => [itinerary?.lowestBridge, itinerary?.narrowestLock, itinerary?.shortestLock]
@@ -254,6 +266,12 @@ export default function App({ client }: { client: RoutingApi }) {
           <section className="summary">
             <div className="big">{fmtKm(route.distance)} <span>({fmtNm(route.distance)})</span></div>
             <div>{fmtDuration(route.duration)} at {profile.speedKmh} km/h · {route.locks} locks</div>
+            {route.downstream + route.upstream > 0 && (
+              <div className="small current">
+                With the current {fmtKm(route.downstream)} · against it {fmtKm(route.upstream)} ({profile.currentMs} m/s)
+                {backDuration !== null && ` · return about ${fmtDuration(backDuration)}`}
+              </div>
+            )}
             {(route.start.offset > 200 || route.end.offset > 200) && (
               <div className="warn small">
                 Start/end snapped to the nearest navigable water ({fmtKm(route.start.offset)} / {fmtKm(route.end.offset)} away).

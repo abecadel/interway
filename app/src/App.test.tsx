@@ -29,6 +29,8 @@ const route = (over: Partial<Route> = {}): Route => ({
   locks: 2,
   unverified: 0,
   sea: 0,
+  downstream: 0,
+  upstream: 0,
   tooShallow: 0,
   shallowest: null,
   events: [],
@@ -108,6 +110,35 @@ describe('App', () => {
     expect(screen.getByText(/snapped to the nearest navigable water \(1\.5 km/)).toBeTruthy();
     expect(screen.getByText(/Includes 2\.5 km on unverified connections/)).toBeTruthy();
     expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). 4 km charted shallower than your draft');
+  });
+
+  it('shows the river current and the time of the way back', async () => {
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const river = route({ downstream: 80_000, upstream: 20_000 });
+    const back = vi.fn().mockResolvedValueOnce(river).mockResolvedValueOnce(route({ duration: 8 * 3600 }));
+    const r = render(<App client={fakeClient({ route: back })} />);
+    await flush();
+    await flush();
+    expect(back).toHaveBeenLastCalledWith([3, 4], [1, 2], expect.anything(), []);
+    expect(screen.getByText(/With the current 80(\.0)? km · against it 20(\.0)? km \(0\.5 m\/s\) · return about 8 h/)).toBeTruthy();
+    r.unmount();
+
+    // the way back fails: the current is still shown, without a return time
+    const failing = vi.fn().mockResolvedValueOnce(river).mockRejectedValueOnce(new Error('no way back'));
+    const f = render(<App client={fakeClient({ route: failing })} />);
+    await flush();
+    await flush();
+    expect(screen.getByText(/With the current/).textContent).not.toContain('return about');
+    f.unmount();
+
+    // leaving before the way back is known drops its result
+    let resolveBack: (r: Route) => void = () => {};
+    const slow = vi.fn().mockResolvedValueOnce(river).mockReturnValueOnce(new Promise<Route>((res) => { resolveBack = res; }));
+    const u = render(<App client={fakeClient({ route: slow })} />);
+    await flush();
+    u.unmount();
+    resolveBack(route());
+    await flush();
   });
 
   it('ignores invalid URL points and a corrupt stored profile', async () => {
