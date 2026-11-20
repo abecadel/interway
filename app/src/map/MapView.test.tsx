@@ -8,6 +8,8 @@ const h = vi.hoisted(() => {
   const state = { maps: [] as FakeMapT[], markers: [] as FakeMarkerT[], popups: [] as { lngLat?: unknown; content?: HTMLElement }[], workerUrl: '' };
   interface FakeMapT {
     opts: Record<string, unknown>;
+    layerSpecs: Record<string, { paint?: Record<string, unknown> }>;
+    setStyle: ReturnType<typeof vi.fn>;
     handlers: Record<string, Handler>;
     sources: Record<string, { setData: ReturnType<typeof vi.fn>; spec: unknown }>;
     layers: string[];
@@ -30,7 +32,9 @@ vi.mock('maplibre-gl', () => {
     handlers: Record<string, Handler> = {};
     sources: Record<string, { setData: ReturnType<typeof vi.fn>; spec: unknown }> = {};
     layers: string[] = [];
+    layerSpecs: Record<string, unknown> = {};
     layout: Record<string, string> = {};
+    setStyle = vi.fn();
     controls: unknown[] = [];
     fitBounds = vi.fn();
     flyTo = vi.fn();
@@ -49,7 +53,7 @@ vi.mock('maplibre-gl', () => {
     addControl(c: unknown) { this.controls.push(c); }
     on(ev: string, fn: Handler) { this.handlers[ev] = fn; }
     addSource(id: string, spec: unknown) { this.sources[id] = { spec, setData: vi.fn() }; }
-    addLayer(l: { id: string }) { this.layers.push(l.id); }
+    addLayer(l: { id: string }) { this.layers.push(l.id); this.layerSpecs[l.id] = l; }
     getSource(id: string) { return this.sources[id]; }
     setLayoutProperty(id: string, _k: string, v: string) { this.layout[id] = v; }
   }
@@ -131,6 +135,27 @@ describe('MapView', () => {
       type: 'FeatureCollection',
       features: [{ type: 'Feature', properties: { type: 'lock', name: 'Lock 1', at: 1 }, geometry: { type: 'Point', coordinates: [21.2, 52.2] } }],
     });
+  });
+
+  it('switches to the night basemap and puts its layers back once the new style has loaded', () => {
+    const { rerender } = render(<MapView {...base} />);
+    const map = h.state.maps[0];
+    act(() => map.handlers['style.load']()); // the first style load: 'load' adds the layers
+    expect(map.layers).toEqual([]);
+    act(() => map.handlers.load());
+    expect(map.layerSpecs.seamarks.paint).toEqual({ 'raster-opacity': 1 });
+    rerender(<MapView {...base} />);
+    expect(map.setStyle).not.toHaveBeenCalled();
+    rerender(<MapView {...base} night />);
+    expect(map.setStyle).toHaveBeenCalledWith(expect.stringContaining('/styles/dark'), { diff: false });
+    // while the new style loads our sources are gone: updates wait
+    rerender(<MapView {...base} night route={route} />);
+    expect(map.sources.route.setData).toHaveBeenCalledTimes(1);
+    map.layers.length = 0;
+    act(() => map.handlers['style.load']());
+    expect(map.layers).toContain('route');
+    expect(map.layerSpecs.seamarks.paint).toEqual({ 'raster-opacity': 0.7 });
+    expect(map.sources.route.setData).toHaveBeenLastCalledWith(expect.objectContaining({ geometry: expect.objectContaining({ type: 'LineString' }) }));
   });
 
   it('updates layers after load and ignores updates before load', () => {
