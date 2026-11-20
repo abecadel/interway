@@ -36,6 +36,7 @@ MAX_DIRECT_ENTRIES = 40
 NEAREST_TARGETS = 8
 
 
+LOCK_SIDE_M = 10.0  # a lock's dead end opens on a water area no more than this farther from it than the other end
 CHAMBER_MAX_M = 1000.0  # a water area holding both ends of a lock and no bigger than this is the lock chamber
 
 
@@ -227,7 +228,8 @@ def _enters(node: int, segs: list[Segment], inside, dead_ends: set[int], body=No
         if s.lock and body is not None:
             # a lock ending in nothing (the river above is mapped only as an area) opens on its own side
             here, there = (s.coords[0], s.coords[-1]) if s.a == node else (s.coords[-1], s.coords[0])
-            return body.distance(Point(here)) <= body.distance(Point(there))
+            # (within a few metres: one river area holding both ends opens on both, Lilla Edet on the Göta älv)
+            return body.distance(Point(here)) <= body.distance(Point(there)) + metres_to_deg(LOCK_SIDE_M)
         return True
     for s in segs:
         if s.lock:

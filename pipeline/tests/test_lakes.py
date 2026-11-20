@@ -310,6 +310,19 @@ def test_a_lock_is_not_a_way_into_the_basin_below_it():
     assert {3, 5} <= linked and 2 not in linked
 
 
+def test_a_lock_inside_one_river_area_opens_on_both_ends(monkeypatch):
+    # Lilla Edet: the Göta älv is mapped only as one area around the lock; its lower end lies a metre outside
+    # the area and its upper end inside. Both ends are dead ends and both are ways into the river.
+    monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)
+    area = Lake(1, "Göta älv", box(0.0, -0.002, 0.2, 0.002), False, kind="channel")
+    up = metres_to_deg(1.0)
+    lock = Segment(a=2, b=3, coords=[(0.1, 0.0), (0.101, 0.002 + up)], kind="canal", lock=True)
+    below = Segment(a=5, b=6, coords=[(-0.05, 0.0), (0.0, 0.0)], kind="river")
+    added = connect_lakes([lock, below], [area], [])
+    linked = {n for s in added for n in (s.a, s.b)}
+    assert {2, 3, 6} <= linked
+
+
 def test_bridges_are_marked_and_can_be_cut_around_locks(monkeypatch):
     monkeypatch.setattr(lakes, "BRIDGE_WINDOW_M", 100_000.0)  # the test geometry spans tens of km
     from interway_pipeline.topology import block_lock_bypasses
