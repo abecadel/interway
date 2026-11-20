@@ -6,7 +6,7 @@ waterways:
 lakes:
   - Norsjø
   - Flåvatn
-  - Kviteseidvatn  # OSM names it Kviteseidvatnet; meshed as a lake on the route all the same. Fix at the next full re-read: any name change here re-reads every country
+  - Kviteseidvatnet
   - Bandak
 # The reaches between the locks and the straits between the upper lakes are rivers named Eidselva and Straumen,
 # names shared with many unnavigable Norwegian rivers, so they are allowlisted by way id: Eidselva from
