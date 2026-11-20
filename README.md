@@ -54,9 +54,13 @@ The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Sw
 rivers and canals, Austria, Czechia, Slovakia, the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria),
 northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals), Sweden (Göta
 and Trollhätte canals, Vänern, Vättern, Mälaren), Finland (the Saimaa lakes and their canals), Lithuania (Nemunas,
-Curonian Lagoon), Spain (Guadalquivir, Ría de Bilbao) and Portugal (Douro, Tejo, Guadiana), joined by a sea network from the Atlantic to the Black Sea: enough for
+Curonian Lagoon), Spain (Guadalquivir, Ría de Bilbao), Portugal (Douro, Tejo, Guadiana), Denmark (Limfjord), Norway
+(the Telemark Canal), Estonia (Emajõgi, Lake Peipus), Latvia (Daugava, Lielupe), Ukraine (the Danube's Kilia arm) and the
+whole Mediterranean coast (Greece with the Corinth Canal, Slovenia, Montenegro, Albania, Malta, Cyprus, Monaco, Turkey,
+Morocco, Algeria, Tunisia, Egypt), joined by a sea network from the Atlantic to the Black Sea: enough for
 routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal,
-Vienna → the Black Sea, Gdańsk → Venice, Dublin → the Shannon or London → Crete.
+Kelheim → Sulina along the whole Danube, Gdańsk → Venice, Marseille → Piraeus through the Corinth Canal, Dublin → the
+Shannon or London → Crete.
 Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
 
 ## Deployment
