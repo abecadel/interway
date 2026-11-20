@@ -3,15 +3,14 @@ import type { LngLat } from './graph/geo';
 import { MapView } from './map/MapView';
 import type { RoutingApi } from './routing/client';
 import { buildItinerary } from './routing/itinerary';
-import type { Poi } from './routing/service';
-import { ItineraryView } from './ui/ItineraryView';
+import type { Poi, PoiType } from './routing/service';
 import { defaultProfile, type Route, type VesselProfile } from './routing/router';
-import { fmtDuration, fmtKm, fmtNm, fmtPos, toGpx } from './ui/format';
-import { PointInput, type Point } from './ui/PointInput';
+import { fmtDuration, fmtKm, fmtPos, POI_LABEL, poiDetail, toGpx } from './ui/format';
+import type { Point } from './ui/PointInput';
 import { parseUrlState, writeUrlState } from './ui/urlState';
 import { briefMarkdown, buildBrief } from './ui/brief';
 import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
-import { searchPlaces } from './ui/search';
+import { type Place, searchPlaces } from './ui/search';
 import { buildLocalIndex } from './ui/localSearch';
 import { useNavigation } from './nav/useNavigation';
 import { NavPanel } from './ui/NavPanel';
@@ -19,8 +18,21 @@ import { OfflineMap } from './ui/OfflineMap';
 import { download } from './ui/download';
 import { trackGpx } from './nav/track';
 import type { Stop } from './routing/itinerary';
+import type { MapFeature } from './map/MapView';
+import { CATEGORIES } from './ui/categories';
+import { CategoryChips, CategoryList } from './ui/CategoryChips';
+import { DirectionsCard } from './ui/DirectionsCard';
+import { Icon } from './ui/icons';
+import { LayersCard } from './ui/LayersCard';
+import { PlaceCard, type PlaceInfo } from './ui/PlaceCard';
+import { addRecent, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, toggleSaved } from './ui/places';
+import { RouteSummary } from './ui/RouteSummary';
+import { SearchBar } from './ui/SearchBar';
+import { Sheet } from './ui/Sheet';
+import type { Snap } from './ui/sheetSnap';
+import { PHONE, useMediaQuery } from './ui/useMediaQuery';
 import { useInstallPrompt } from './ui/useInstallPrompt';
-import { type Theme, useTheme } from './ui/useTheme';
+import { useTheme } from './ui/useTheme';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
@@ -29,6 +41,7 @@ const SHEET_KEY = 'interway.sheet';
 
 const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
 const NO_STOPS: Stop[] = [];
+const NO_LIMITS: LngLat[] = [];
 
 // Earlier defaults that older saved profiles carry as if the user had chosen them.
 const OLD_DEFAULTS: Partial<VesselProfile> = { beam: 3 };
@@ -43,11 +56,12 @@ function loadProfile(): VesselProfile {
   }
 }
 
-function loadSheetOpen(): boolean {
+function loadSnap(): Snap {
   try {
-    return localStorage.getItem(SHEET_KEY) !== 'closed';
+    const v = localStorage.getItem(SHEET_KEY);
+    return v === 'peek' || v === 'full' ? v : 'half';
   } catch {
-    return true;
+    return 'half';
   }
 }
 
@@ -78,17 +92,39 @@ export default function App({ client }: { client: RoutingApi }) {
   const [pois, setPois] = useState<Poi[]>([]);
   const { theme, setTheme, night } = useTheme();
   const install = useInstallPrompt();
-  // phones: the panel is a bottom sheet over the map, open or folded down to one line
-  const [sheetOpen, setSheetOpen] = useState(loadSheetOpen);
-  const toggleSheet = () => {
-    const open = !sheetOpen;
-    setSheetOpen(open);
+  // The map is the screen: a search box (or the directions card) floats on top and a sheet holds the rest, a
+  // bottom sheet on phones and a side panel on desktop.
+  const phone = useMediaQuery(PHONE);
+  const [snap, setSnapState] = useState<Snap>(loadSnap);
+  const setSnap = (s: Snap) => {
+    setSnapState(s);
     try {
-      localStorage.setItem(SHEET_KEY, open ? 'open' : 'closed');
+      localStorage.setItem(SHEET_KEY, s);
     } catch {
-      // storage blocked: the sheet still toggles
+      // storage blocked: the sheet still moves
     }
   };
+  const [place, setPlace] = useState<PlaceInfo | null>(null);
+  const [category, setCategory] = useState<PoiType | null>(null);
+  const [layersOpen, setLayersOpen] = useState(false);
+  const [dirOpen, setDirOpen] = useState(false);
+  const [customOpen, setCustomOpen] = useState(false);
+  // the directions card folds to one line once its route is shown, until the user taps it to edit
+  const [editKey, setEditKey] = useState<string | null>(null);
+  const [center, setCenter] = useState<LngLat>([19, 52]);
+  const [recent, setRecent] = useState(() => loadPlaces(RECENT_KEY));
+  const [saved, setSaved] = useState(() => loadPlaces(SAVED_KEY));
+  const searchRef = useRef<HTMLInputElement>(null);
+  // phones: the sheet stops below the search box or directions card, whatever their height
+  const appRef = useRef<HTMLDivElement>(null);
+  const topbarRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const bar = topbarRef.current;
+    if (!bar || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => appRef.current!.style.setProperty('--topbar-h', `${bar.offsetHeight}px`));
+    ro.observe(bar);
+    return () => ro.disconnect();
+  });
   const watchId = useRef<number | null>(null);
   const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
   const indexRef = useRef(localIndex);
@@ -220,14 +256,96 @@ export default function App({ client }: { client: RoutingApi }) {
       .catch((e) => setGeoError(e.message));
   };
 
+  // directions mode: planning a route (A or B set, or the directions button pressed); else exploring the map
+  const directions = dirOpen || !!start || !!end;
   const onMapClick = (p: LngLat) => {
     const pt = toPoint(p);
+    if (!picking && !directions) {
+      setPlace(null); // a tap on the map closes the place sheet
+      return;
+    }
     if (picking === 'via') setVia([...via, pt]);
     else if (picking === 'start' || (!picking && !start)) setStart(pt);
     else if (picking === 'end' || !end) setEnd(pt);
     else return;
     setPicking(null);
   };
+
+  const showSheet = () => { if (snap === 'peek') setSnap('half'); };
+  const openPlace = (info: PlaceInfo) => {
+    setPlace(info);
+    setCategory(null);
+    showSheet();
+  };
+  // a place on the route: where along it, and how far off its line
+  const onRoute = (pos: LngLat) => {
+    const stop = itinerary?.stops.find((s) => Math.abs(s.poi.lon - pos[0]) < 1e-6 && Math.abs(s.poi.lat - pos[1]) < 1e-6);
+    return stop ? { at: stop.at, offset: stop.offset } : {};
+  };
+  const openPoi = (poi: Poi) => {
+    const pos: LngLat = [poi.lon, poi.lat];
+    openPlace({ label: poi.name || POI_LABEL[poi.type], position: pos, kind: POI_LABEL[poi.type], detail: poiDetail(poi), ...onRoute(pos) });
+    setFocus(pos);
+  };
+  const onFeature = (f: MapFeature) => {
+    const kind = POI_LABEL[f.type as PoiType];
+    const route = onRoute(f.position);
+    openPlace({ label: f.name || kind, position: f.position, kind, detail: f.detail, ...route, ...(f.at !== undefined ? { at: f.at } : {}) });
+  };
+  const onSearch = (p: Place) => {
+    setRecent(addRecent(recent, p));
+    // waterway places from the data come as "Schleuse Liepe · lock"
+    const [label, kind] = p.label.split(' · ');
+    openPlace({ label, position: p.position, ...(kind ? { kind: kind[0].toUpperCase() + kind.slice(1) } : {}) });
+    setFocus(p.position);
+  };
+  const directionsTo = (info: PlaceInfo) => {
+    setEnd({ position: info.position, label: info.label });
+    // from the boat's position when it is known, as a maps app does
+    if (!start && position) setStart({ position: [position.coords.longitude, position.coords.latitude], label: 'My position' });
+    setDirOpen(true);
+    setPlace(null);
+    showSheet();
+  };
+  const startHere = (info: PlaceInfo) => {
+    setStart({ position: info.position, label: info.label });
+    setDirOpen(true);
+    setPlace(null);
+  };
+  const closeDirections = () => {
+    setStart(null);
+    setEnd(null);
+    setVia([]);
+    setPicking(null);
+    setDirOpen(false);
+    setCustomOpen(false);
+  };
+  const locate = () => {
+    startWatching()
+      .then((p) => setFocus([p.coords.longitude, p.coords.latitude]))
+      .catch((e) => setGeoError(e.message));
+  };
+
+  // "/" focuses the search box, Esc closes what is open on top of the map
+  const escape = useRef<(() => void) | null>(null);
+  useEffect(() => {
+    escape.current = () => {
+      if (layersOpen) setLayersOpen(false);
+      else if (place) setPlace(null);
+      else if (category) setCategory(null);
+    };
+  });
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const typing = e.target instanceof HTMLElement && /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName);
+      if (e.key === '/' && !typing && searchRef.current) {
+        e.preventDefault();
+        searchRef.current.focus();
+      } else if (e.key === 'Escape' && !typing) escape.current!();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   const title = () => `${start!.label} → ${end!.label}`;
   const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href });
@@ -251,104 +369,73 @@ export default function App({ client }: { client: RoutingApi }) {
   );
   const near = position ? ([position.coords.longitude, position.coords.latitude] as LngLat) : undefined;
 
-  return (
-    <div className={nav.active ? 'app navigating' : 'app'}>
-      {nav.active && <NavPanel nav={nav} />}
-      <aside className={sheetOpen ? 'panel' : 'panel collapsed'}>
-        <button type="button" className="sheet-handle" aria-expanded={sheetOpen} onClick={toggleSheet}>
-          {route ? `${fmtKm(route.distance)} · ${fmtDuration(route.duration)}` : 'Plan a route'}
-          <span aria-hidden="true">{sheetOpen ? '▾' : '▴'}</span>
-        </button>
-        <h1>Interway</h1>
-        <p className="tagline">Inland waterway &amp; coastal route planner</p>
+  const sheetTitle = route && directions
+    ? `${fmtDuration(route.duration)} · ${fmtKm(route.distance)}`
+    : place ? place.label : category ? CATEGORIES.find(([t]) => t === category)![1] : directions ? 'Directions' : 'Explore';
 
-        <PointInput
-          label="A" value={start} picking={picking === 'start'} near={near} local={localIndex}
-          onPick={() => setPicking(picking === 'start' ? null : 'start')}
-          onMyPosition={() => setFromMyPosition(setStart)} onSelect={setStart}
+  const top = directions ? (
+    <DirectionsCard
+      start={start} end={end} via={via} picking={picking} near={near} local={localIndex} profile={profile} customOpen={customOpen}
+      setStart={setStart} setEnd={setEnd} setVia={setVia} setPicking={setPicking} myPosition={setFromMyPosition}
+      setProfile={setProfile} onCustom={() => { setCustomOpen(!customOpen); showSheet(); }} onClose={closeDirections}
+      compact={phone && !!route && !!start && !!end && editKey !== routeKey && !customOpen && picking === null} onEdit={() => setEditKey(routeKey)}
+    />
+  ) : (
+    <div className="explore-top">
+      <SearchBar
+        near={near ?? center} local={localIndex} recent={recent} saved={saved} inputRef={searchRef}
+        onSelect={onSearch} onDirections={() => { setDirOpen(true); setPlace(null); }}
+      />
+      <CategoryChips active={category} onSelect={(t) => { setCategory(t); setPlace(null); if (t) showSheet(); }} />
+    </div>
+  );
+
+  const track = !nav.active && nav.track.length > 1 && (
+    <div className="track small">
+      Track: {nav.track.length} points{' '}
+      <button onClick={() => download(trackGpx(nav.track), 'application/gpx+xml', 'interway-track.gpx')}>Export GPX</button>{' '}
+      <button onClick={nav.clearTrack}>Clear</button>
+    </div>
+  );
+
+  const body = place ? (
+    <PlaceCard
+      place={place} saved={isSaved(saved, place)} onClose={() => setPlace(null)}
+      onDirections={() => directionsTo(place)} onFrom={() => startHere(place)}
+      onToggleSave={() => setSaved(toggleSaved(saved, { label: place.label, position: place.position }))}
+    />
+  ) : category ? (
+    <CategoryList pois={pois} type={category} center={near ?? center} onSelect={openPoi} onClose={() => setCategory(null)} />
+  ) : directions ? (
+    <>
+      {busy && <div className="info">Calculating route…</div>}
+      {routeError && <div className="error">{routeError}</div>}
+      {!start && !end && <p className="info small">Choose a start and a destination: search, use your position, or tap the map.</p>}
+      {route && (
+        <RouteSummary
+          route={route} itinerary={itinerary!} profile={profile} back={backDuration} onStart={nav.start}
+          onStepsOpen={() => setSnap('full')} onFocus={(lon, lat) => setFocus([lon, lat])}
+          more={(
+            <>
+              <OfflineMap line={route.coordinates} />
+              <div className="exports">
+                <button className="primary" onClick={() => copyBrief(route)}>{copied ? 'Copied ✓' : 'Copy brief for AI'}</button>
+                <button onClick={() => download(briefMarkdown(brief(route)), 'text/markdown', 'interway-route.md')}>Brief .md</button>
+                <button onClick={() => download(JSON.stringify(brief(route), null, 1), 'application/json', 'interway-route.json')}>JSON</button>
+                <button onClick={() => download(toGpx(route, title(), itinerary!.stops), 'application/gpx+xml', 'interway-route.gpx')}>GPX</button>
+              </div>
+              <p className="small hint">
+                Paste the brief into ChatGPT, Claude or another assistant to ask about locks, stops and hazards. It
+                contains the route link, which the assistant can change (waypoints, vessel) for you to open.
+              </p>
+            </>
+          )}
         />
-        <button className="swap" title="Swap" onClick={() => { setStart(end); setEnd(start); }}>⇅</button>
-        <PointInput
-          label="B" value={end} picking={picking === 'end'} near={near} local={localIndex}
-          onPick={() => setPicking(picking === 'end' ? null : 'end')}
-          onMyPosition={() => setFromMyPosition(setEnd)} onSelect={setEnd}
-        />
-        {via.length > 0 && (
-          <ol className="via">
-            {via.map((p, i) => (
-              <li key={i}>
-                <span>{p.label}</span>
-                <button title="Remove waypoint" onClick={() => setVia(via.filter((_, j) => j !== i))}>✕</button>
-              </li>
-            ))}
-          </ol>
-        )}
-        <button className={picking === 'via' ? 'active' : ''} onClick={() => setPicking(picking === 'via' ? null : 'via')}>
-          {picking === 'via' ? 'Click the map to add a waypoint…' : '+ Add waypoint'}
-        </button>
-        {geoError && <div className="error small">GPS: {geoError}</div>}
-
-        {busy && <div className="info">Calculating route…</div>}
-        {routeError && <div className="error">{routeError}</div>}
-        {route && (
-          <section className="summary">
-            <div className="big">{fmtKm(route.distance)} <span>({fmtNm(route.distance)})</span></div>
-            <div>{fmtDuration(route.duration)} at {profile.speedKmh} km/h · {route.locks} locks</div>
-            {route.downstream + route.upstream > 0 && (
-              <div className="small current">
-                With the current {fmtKm(route.downstream)} · against it {fmtKm(route.upstream)} ({profile.currentMs} m/s)
-                {backDuration !== null && ` · return about ${fmtDuration(backDuration)}`}
-              </div>
-            )}
-            {(route.start.offset > 200 || route.end.offset > 200) && (
-              <div className="warn small">
-                Start/end snapped to the nearest navigable water ({fmtKm(route.start.offset)} / {fmtKm(route.end.offset)} away).
-              </div>
-            )}
-            {route.unverified > 0 && (
-              <div className="warn small">
-                Includes {fmtKm(route.unverified)} on unverified connections (short channels or manual links). Check locally before going.
-              </div>
-            )}
-            {route.sea > 0 && (
-              <div className="warn small">
-                {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
-                {route.shallowest && ` Shallowest stretch allows about ${route.shallowest.draft} m draft (km ${(route.shallowest.at / 1000).toFixed(0)}).`}
-                {route.tooShallow > 0 && ` ${(route.tooShallow / 1000).toFixed(0)} km charted shallower than your draft: check charts for a channel.`}
-              </div>
-            )}
-            <ol className="legs">
-              {route.legs.map((l, i) => (
-                <li key={i}><span>{l.name || 'unnamed waterway'}</span><span>{fmtKm(l.distance)}</span></li>
-              ))}
-            </ol>
-            <ItineraryView itinerary={itinerary!} onSelect={(lon, lat) => setFocus([lon, lat])} />
-            <button className="primary start-nav" onClick={nav.start}>Start navigation</button>
-            {nav.error && <div className="error small">Navigation: {nav.error}</div>}
-            <OfflineMap line={route.coordinates} />
-            <div className="exports">
-              <button className="primary" onClick={() => copyBrief(route)}>{copied ? 'Copied ✓' : 'Copy brief for AI'}</button>
-              <button onClick={() => download(briefMarkdown(brief(route)), 'text/markdown', 'interway-route.md')}>Brief .md</button>
-              <button onClick={() => download(JSON.stringify(brief(route), null, 1), 'application/json', 'interway-route.json')}>JSON</button>
-              <button onClick={() => download(toGpx(route, title(), itinerary!.stops), 'application/gpx+xml', 'interway-route.gpx')}>GPX</button>
-            </div>
-            <p className="small hint">
-              Paste the brief into ChatGPT, Claude or another assistant to ask about locks, stops and hazards. It
-              contains the route link, which the assistant can change (waypoints, vessel) for you to open.
-            </p>
-          </section>
-        )}
-
-        {!nav.active && nav.track.length > 1 && (
-          <div className="track small">
-            Track: {nav.track.length} points{' '}
-            <button onClick={() => download(trackGpx(nav.track), 'application/gpx+xml', 'interway-track.gpx')}>Export GPX</button>{' '}
-            <button onClick={nav.clearTrack}>Clear</button>
-          </div>
-        )}
-
-        <details className="profile">
-          <summary>Vessel profile</summary>
+      )}
+      {nav.error && <div className="error small">Navigation: {nav.error}</div>}
+      {customOpen && (
+        <section className="profile" aria-label="Vessel profile">
+          <h3>Your boat</h3>
           <div className="grid">
             {num('speedKmh', 'Speed (km/h)', 0.5)}
             {num('currentMs', 'River current (m/s)')}
@@ -366,33 +453,40 @@ export default function App({ client }: { client: RoutingApi }) {
               Avoid open sea
             </label>
           </div>
-        </details>
+        </section>
+      )}
+      {track}
+    </>
+  ) : (
+    <section className="explore">
+      <h1>Interway</h1>
+      <p className="tagline">Inland waterway &amp; coastal route planner</p>
+      <p className="small muted">Search a place, pick a category, or long-press the map (right-click on a computer) to drop a pin.</p>
+      {track}
+    </section>
+  );
 
-        <details className="layers">
-          <summary>Layers</summary>
-          <label className="check"><input type="checkbox" checked={showSeamarks} onChange={(e) => setShowSeamarks(e.target.checked)} /> OpenSeaMap seamarks</label>
-          <label className="check"><input type="checkbox" checked={showNetwork} onChange={(e) => setShowNetwork(e.target.checked)} /> Routable network (debug)</label>
-          <label className="check">
-            Colours
-            <select value={theme} onChange={(e) => setTheme(e.target.value as Theme)}>
-              <option value="auto">Auto (system)</option>
-              <option value="day">Day</option>
-              <option value="night">Night</option>
-            </select>
-          </label>
-        </details>
+  const footer = (
+    <footer>
+      {geoError && <div className="error small">GPS: {geoError}</div>}
+      <div className="small">{dataStatus}</div>
+      <div className="small disclaimer">Not for navigation. Always use official charts and notices to skippers.</div>
+      {install && <button type="button" className="install" onClick={install}>Install app</button>}
+    </footer>
+  );
+  const locateButton = (
+    <button type="button" className="fab" aria-label="Show my position" title="Show my position" onClick={locate}>
+      <Icon name="myLocation" size={22} />
+    </button>
+  );
 
-        <footer>
-          <div className="small">{dataStatus}</div>
-          <div className="small disclaimer">Not for navigation. Always use official charts and notices to skippers.</div>
-          {install && <button type="button" className="install" onClick={install}>Install app</button>}
-        </footer>
-      </aside>
+  return (
+    <div ref={appRef} className={nav.active ? 'app navigating' : 'app'}>
       <MapView
         start={start?.position ?? null}
         end={end?.position ?? null}
         via={viaPositions}
-        route={route}
+        route={directions ? route : null}
         position={position}
         network={showNetwork ? network : null}
         showSeamarks={showSeamarks}
@@ -403,11 +497,39 @@ export default function App({ client }: { client: RoutingApi }) {
         course={underWay ? nav.motion!.cog : null}
         onUserMove={() => nav.setFollow(false)}
         fitRoute={!nav.active}
-        stops={itinerary?.stops}
-        limits={limits}
-        picking={picking !== null || !start || !end}
+        limits={directions ? limits : NO_LIMITS}
+        picking={picking !== null || (directions && (!start || !end))}
         night={night}
+        onFeatureClick={onFeature}
+        onLongPress={(p) => openPlace({ label: 'Dropped pin', position: p })}
+        onViewChange={setCenter}
+        place={place?.position ?? null}
       />
+      {nav.active ? (
+        <NavPanel nav={nav} />
+      ) : (
+        <>
+          {phone && <div ref={topbarRef} className="topbar">{top}</div>}
+          <div className="map-tools">
+            <button type="button" className="fab" aria-label="Layers" title="Layers" aria-expanded={layersOpen} onClick={() => setLayersOpen(!layersOpen)}>
+              <Icon name="layers" size={22} />
+            </button>
+            {!phone && locateButton}
+          </div>
+          {layersOpen && (
+            <div className="layers-pop">
+              <LayersCard
+                theme={theme} setTheme={setTheme} seamarks={showSeamarks} setSeamarks={setShowSeamarks}
+                network={showNetwork} setNetwork={setShowNetwork} onClose={() => setLayersOpen(false)}
+              />
+            </div>
+          )}
+          <Sheet phone={phone} snap={snap} onSnap={setSnap} title={sheetTitle} top={phone ? undefined : top} fab={phone ? locateButton : undefined}>
+            {body}
+            {footer}
+          </Sheet>
+        </>
+      )}
     </div>
   );
 }

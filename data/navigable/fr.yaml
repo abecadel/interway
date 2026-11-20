@@ -60,6 +60,10 @@ waterways:
   - Canal des houillères de la Sarre
   - Canal de la Haute-Seine
   - Grand Canal d'Alsace
+  # Sète: the canals between the harbour and the Étang de Thau
+  - Canal de Sète
+  - Canal Maritime
+  - Canal de la Peyrade
   - Canal d'Alsace
 lakes:
   - Étang de Thau
