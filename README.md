@@ -78,6 +78,8 @@ pip install -e '.[dev]'
 # Where neither is reachable, cut a bounding box out of the streamed Europe file (needs osmium-tool):
 #   tools/stream-extract.sh https://ftp5.gwdg.de/pub/misc/openstreetmap/download.geofabrik.de/europe-latest.osm.pbf \
 #     13.4,41.2,29.9,48.7 danube.osm.pbf && interway-filter danube.osm.pbf -o filtered/
+# A water area cut between two extracts (the Vistula Lagoon, Poland and Kaliningrad) assembles from its own file:
+#   tools/join-relation.sh 8140878 filtered/vistula-lagoon.osm.pbf filtered/poland.filtered.osm.pbf filtered/kaliningrad.filtered.osm.pbf
 python -m interway_pipeline.cli poland.osm.pbf germany.osm.pbf netherlands.osm.pbf \
     --region "PL-DE-NL" -o ../app/public/data --cache cache/
 pytest -q
@@ -87,7 +89,8 @@ cd ../app && INTERWAY_DATA=public/data npm run test:routes
 ```
 
 `qa-components.json` in the output lists the disconnected parts of the network. Fix gaps by adding
-names to `data/navigable/*.yaml` or connectors to `data/patches/*.geojson` (LineStrings whose ends snap to
+names to `data/navigable/*.yaml` (or, for a river whose name is too common, its OSM way ids under `ways:`;
+these apply after the cached extracts, so no country file is read again) or connectors to `data/patches/*.geojson` (LineStrings whose ends snap to
 the network).
 
 ## Status

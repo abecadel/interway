@@ -39,6 +39,21 @@ log = logging.getLogger("interway")
 REPO = Path(__file__).resolve().parents[2]
 
 
+def promote_ways(ex: Extract, ids: set[int]) -> int:
+    """Moves the allowlisted way ids from the connector candidates to the navigable ways. Applied after the
+    (cached) extract, so allowlisting a way by id re-reads no country file."""
+    if not ids:
+        return 0
+    found = [w for w in ex.connectors if w.id in ids]
+    ex.connectors = [w for w in ex.connectors if w.id not in ids]
+    ex.ways += found
+    missing = ids - {w.id for w in ex.ways}
+    if missing:
+        log.warning("allowlisted way ids not among the river/canal ways read: %s", sorted(missing))
+    log.info("allowlisted %d ways by id", len(found))
+    return len(found)
+
+
 def merge_extracts(parts: list[Extract]) -> Extract:
     if len(parts) == 1:
         return parts[0]
@@ -212,6 +227,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
           depth_cache: Path | None = None, depth_scale: float = 0.25) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
+    promote_ways(ex, allow.ways)
     segments = split_ways(ex)
     mark_lock_areas(segments, ex.lock_areas)
     add_connectors(segments, ex)

@@ -8,4 +8,22 @@ lakes:
   - Flåvatn
   - Kviteseidvatn
   - Bandak
+# The reaches between the locks and the straits between the upper lakes are rivers named Eidselva and Straumen,
+# names shared with many unnavigable Norwegian rivers, so they are allowlisted by way id: Eidselva from
+# Ulefoss to Vrangfoss, Straumen from Vrangfoss through Lunde and Kjeldal to Hogga and on into Flåvatn,
+# Fjågesund-straumen (Flåvatn - Kviteseidvatnet) and Strauman (Kviteseidvatnet - Bandak).
+ways:
+  - 194411250
+  - 503402239
+  - 1162480016
+  - 194411251
+  - 503402229
+  - 1161815936
+  - 1161815937
+  - 503402175
+  - 43773065
+  - 52596570
+  - 31153512
+  - 1270797813
+  - 1270797811
 exclude: []

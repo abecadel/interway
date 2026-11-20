@@ -20,6 +20,8 @@ class Allowlist:
     names: set[str] = field(default_factory=set)
     wikidata: set[str] = field(default_factory=set)
     lakes: set[str] = field(default_factory=set)
+    # OSM way ids of river/canal ways navigable under a name too common to allowlist (Norway's many "Straumen")
+    ways: set[int] = field(default_factory=set)
     exclude_names: set[str] = field(default_factory=set)
     exclude_patterns: list[re.Pattern] = field(default_factory=list)
 
@@ -33,6 +35,7 @@ class Allowlist:
             al.names |= {n.casefold() for n in data.get("waterways", [])}
             al.wikidata |= set(data.get("wikidata", []))
             al.lakes |= {n.casefold() for n in data.get("lakes", [])}
+            al.ways |= {int(w) for w in data.get("ways", [])}
             al.exclude_names |= {n.casefold() for n in data.get("exclude", [])}
             al.exclude_patterns += [re.compile(p, re.IGNORECASE) for p in data.get("exclude_patterns", [])]
         return al

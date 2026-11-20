@@ -11,13 +11,28 @@ from shapely.geometry import LineString, box
 
 from interway_pipeline import cli
 from interway_pipeline.classify import Allowlist
-from interway_pipeline.cli import apply_patches, main, merge_extracts, read_cached
+from interway_pipeline.cli import apply_patches, main, merge_extracts, promote_ways, read_cached
 from interway_pipeline.extract import Extract, Lake, NavWay
 from interway_pipeline.model import Segment, metres_to_deg
 
 
 def navway(wid):
     return NavWay(wid, [wid, wid + 1], [(0.0, 0.0), (0.0, 0.01)], {"kind": "canal"})
+
+
+# --- promote_ways ------------------------------------------------------------------------------------------
+
+def test_promote_ways_moves_allowlisted_connectors(caplog):
+    ex = Extract(ways=[navway(1)], connectors=[navway(10), navway(11)])
+    assert promote_ways(ex, set()) == 0
+    with caplog.at_level(logging.WARNING):
+        assert promote_ways(ex, {1, 11, 99}) == 1
+    assert [w.id for w in ex.ways] == [1, 11] and [w.id for w in ex.connectors] == [10]
+    assert "[99]" in caplog.text  # 1 is navigable already: not reported
+    caplog.clear()
+    with caplog.at_level(logging.WARNING):
+        assert promote_ways(ex, {10}) == 1
+    assert caplog.text == ""
 
 
 # --- merge_extracts ---------------------------------------------------------------------------------------

@@ -86,6 +86,15 @@ def test_connect_skips_links_that_cross_land():
     assert connect_to_sea(river, sea, c, max_link_m=100000) == []
 
 
+@pytest.mark.parametrize(("mole_deg", "linked"), [(0.0003, True), (0.002, False)])
+def test_connect_crosses_a_sliver_of_land(mole_deg, linked):
+    # a mole across the way to the only mesh node: ~30 m (simplification noise) is crossed, ~200 m is not
+    c = coast(WEST, box(0.05, 0.13, 0.15, 0.13 + mole_deg))
+    sea = [Segment(a=-1, b=-2, coords=[(0.1, 0.15), (0.1, 0.16)], kind="sea")]
+    fairway = [Segment(a=5, b=6, coords=[(0.1, 0.1), (0.1, 0.11)], kind="fairway")]
+    assert bool(connect_to_sea(fairway, sea, c, max_link_m=20000)) is linked
+
+
 @pytest.mark.parametrize("pt", [(0.3, 0.5)])
 def test_on_land(pt):
     c = coast()
