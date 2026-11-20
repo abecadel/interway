@@ -34,6 +34,8 @@ DEFAULT_BBOX = (-11.0, 30.0, 42.0, 66.0)
 NARROWS = {
     "Bosphorus": (28.95, 40.98, 29.20, 41.26),
     "Dardanelles": (26.15, 39.98, 26.75, 40.48),
+    # Porsgrunn to the Skagerrak, the Telemark Canal's way to the sea: Brevikstrømmen is about 300 m wide
+    "Frierfjord": (9.55, 58.97, 9.80, 59.14),
 }
 
 

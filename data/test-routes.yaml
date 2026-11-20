@@ -737,9 +737,19 @@
   expected_km: 105
   tolerance: 0.15
   countries: [NO]
-  via: [Bandak-Norsjøkanalen]
-  min_locks: 7
+  via: [Bandak-Norsjøkanalen, Løveid, Ulefoss, Eidsfoss, Vrangfoss, Kjeldal, Lunde, Hogga]
+  min_locks: 8
   source: https://www.telemarkskanalen.no (Skien – Dalen 105 km, 18 lock chambers at 8 sites; OSM maps each staircase as one lock, so the route counts sites)
+
+- name: Langesund → Dalen (Frierfjord, Porsgrunnselva, Skienselva, Telemark Canal)
+  from: [9.70, 59.03]
+  to: [8.00, 59.44]
+  expected_km: 130
+  tolerance: 0.1
+  countries: [NO]
+  via: [Porsgrunnselva, Skienselva, Bandak-Norsjøkanalen]
+  min_locks: 8
+  source: https://www.telemarkskanalen.no (Skien – Dalen 105 km; Langesund – Skien about 25 km up the Frierfjord and the river)
 
 - name: Tartu → Mustvee (Emajõgi, Lake Peipus)
   from: [26.72, 58.38]

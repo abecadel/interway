@@ -16,6 +16,7 @@ from __future__ import annotations
 import heapq
 import logging
 from collections import Counter, defaultdict
+from collections.abc import Sequence
 from dataclasses import replace
 
 import shapely
@@ -35,9 +36,39 @@ MAX_DIRECT_ENTRIES = 40
 NEAREST_TARGETS = 8
 
 
-def _clusters(polys: list[Polygon | MultiPolygon], gap_deg: float) -> list[list[int]]:
+CHAMBER_MAX_M = 1000.0  # a water area holding both ends of a lock and no bigger than this is the lock chamber
+
+
+def _span(poly: Polygon | MultiPolygon) -> float:
+    minx, miny, maxx, maxy = poly.bounds
+    return haversine((minx, miny), (maxx, maxy))
+
+
+def _apart(polys: list[Polygon | MultiPolygon], tree: STRtree, locks: Sequence[tuple[LonLat, LonLat]],
+           tol: float) -> set[tuple[int, int]]:
+    """Pairs of water areas a lock runs between: one end nearer each (Hjellevannet above Skien lock and
+    Bryggevannet below it touch at the dam). They lie at different levels and are never one body. The
+    chamber's own area (water=lock, holding both ends) is kept apart from all of them: it touches both."""
+    out: set[tuple[int, int]] = set()
+    for a, b in locks:
+        pa, pb = Point(a), Point(b)
+        near = [int(i) for i in tree.query(LineString([a, b]), predicate="dwithin", distance=tol)]
+        d = {i: (polys[i].distance(pa), polys[i].distance(pb)) for i in near}
+        chamber = {i for i in near if max(d[i]) == 0 and _span(polys[i]) <= CHAMBER_MAX_M}
+        for i in near:
+            for j in near:
+                if i < j:
+                    (ai, bi), (aj, bj) = d[i], d[j]
+                    if (ai < aj and bj < bi) or (aj < ai and bi < bj) or i in chamber or j in chamber:
+                        out.add((i, j))
+    return out
+
+
+def _clusters(polys: list[Polygon | MultiPolygon], gap_deg: float,
+              locks: Sequence[tuple[LonLat, LonLat]] = ()) -> list[list[int]]:
     tree = STRtree(polys)
     parent = list(range(len(polys)))
+    apart = _apart(polys, tree, locks, metres_to_deg(ENTRY_TOLERANCE_M)) if locks else set()
 
     def find(x: int) -> int:
         while parent[x] != x:
@@ -47,6 +78,8 @@ def _clusters(polys: list[Polygon | MultiPolygon], gap_deg: float) -> list[list[
 
     for i, p in enumerate(polys):
         for j in tree.query(p, predicate="dwithin", distance=gap_deg):
+            if (min(i, int(j)), max(i, int(j))) in apart:
+                continue
             ri, rj = find(i), find(int(j))
             if ri != rj:
                 parent[ri] = rj
@@ -56,10 +89,11 @@ def _clusters(polys: list[Polygon | MultiPolygon], gap_deg: float) -> list[list[
     return list(groups.values())
 
 
-def water_bodies(lakes: list[Lake]) -> list[tuple[Polygon | MultiPolygon, list[Lake]]]:
+def water_bodies(lakes: list[Lake],
+                 locks: Sequence[tuple[LonLat, LonLat]] = ()) -> list[tuple[Polygon | MultiPolygon, list[Lake]]]:
     gap = metres_to_deg(MERGE_GAP_M)
     out = []
-    for group in _clusters([lk.polygon for lk in lakes], gap):
+    for group in _clusters([lk.polygon for lk in lakes], gap, locks):
         members = [lakes[i] for i in group]
         if len(members) == 1:
             out.append((members[0].polygon, members))
@@ -98,8 +132,9 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     used = 0
     # Lakes are crossed among themselves; river/canal areas (with the lakes they touch) only bridge dead ends,
     # meshed within a window around each dead end so whole-river water areas are never triangulated.
-    lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"] + _straits(lakes))
-    channel_bodies = _channel_windows(lakes, [pos[n] for n in dead_ends])
+    locks = [(pos[s.a], pos[s.b]) for s in segments if s.lock and s.a != s.b]
+    lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"] + _straits(lakes), locks)
+    channel_bodies = _channel_windows(lakes, [pos[n] for n in dead_ends], locks)
     bodies = lake_bodies + channel_bodies
     for body, members in bodies:
         zone = body.buffer(tol)
@@ -107,7 +142,7 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
         if tree is not None:
             inside = prepared.prep(body)
             entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")
-                       if _enters(ids[i], touching[ids[i]], inside, dead_ends)]
+                       if _enters(ids[i], touching[ids[i]], inside, dead_ends, body)]
         # A body made only of river/canal areas is not a lake to cross: it only bridges places where a
         # waterway line stops (dead ends), and its mesh links those to the rest instead of replacing the line.
         bridge = None
@@ -156,7 +191,8 @@ def _straits(lakes: list[Lake]) -> list[Lake]:
     return out
 
 
-def _channel_windows(lakes: list[Lake], dead_end_pos: list[LonLat]) -> list[tuple[Polygon | MultiPolygon, list[Lake]]]:
+def _channel_windows(lakes: list[Lake], dead_end_pos: list[LonLat],
+                     locks: Sequence[tuple[LonLat, LonLat]] = ()) -> list[tuple[Polygon | MultiPolygon, list[Lake]]]:
     """Water bodies for bridging: river/canal areas (and lakes they touch) clipped to windows around dead ends."""
     channels = [lk for lk in lakes if lk.kind == "channel"]
     if not channels or not dead_end_pos:
@@ -176,18 +212,26 @@ def _channel_windows(lakes: list[Lake], dead_end_pos: list[LonLat]) -> list[tupl
             piece = lk.polygon.intersection(window)
             if piece.area > 0:  # pieces touching the window only at a point or line are no water
                 clipped.append(replace(lk, polygon=piece))
-        out += [b for b in water_bodies(clipped) if any(m.kind == "channel" for m in b[1])]
+        out += [b for b in water_bodies(clipped, locks) if any(m.kind == "channel" for m in b[1])]
     return out
 
 
-def _enters(node: int, segs: list[Segment], inside, dead_ends: set[int]) -> bool:
+def _enters(node: int, segs: list[Segment], inside, dead_ends: set[int], body=None) -> bool:
     """A node is a way into the water only where its waterway ends there or continues into the water.
 
-    A canal that merely runs along a reservoir's shore must not be connected through the reservoir.
+    A canal that merely runs along a reservoir's shore must not be connected through the reservoir, and a lock
+    leads to another water level: the node above Skien lock is not a way into the harbour basin below it.
     """
     if node in dead_ends:
+        s = segs[0]
+        if s.lock and body is not None:
+            # a lock ending in nothing (the river above is mapped only as an area) opens on its own side
+            here, there = (s.coords[0], s.coords[-1]) if s.a == node else (s.coords[-1], s.coords[0])
+            return body.distance(Point(here)) <= body.distance(Point(there))
         return True
     for s in segs:
+        if s.lock:
+            continue
         if len(s.coords) == 2:
             nxt = ((s.coords[0][0] + s.coords[1][0]) / 2, (s.coords[0][1] + s.coords[1][1]) / 2)
         else:
