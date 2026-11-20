@@ -41,9 +41,13 @@ export interface MapViewProps {
   limits?: LngLat[];
   /** a click sets a point (A, B, waypoint) rather than opening a popup */
   picking?: boolean;
+  /** dark basemap with dimmed seamarks */
+  night?: boolean;
 }
 
 const BASEMAP = 'https://tiles.openfreemap.org/styles/liberty';
+const BASEMAP_NIGHT = 'https://tiles.openfreemap.org/styles/dark';
+const styleOf = (night: boolean) => (night ? BASEMAP_NIGHT : BASEMAP);
 const SEAMARKS = 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 const NO_VIA: LngLat[] = [];
@@ -58,27 +62,31 @@ function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
 export function MapView({
   start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick,
   follow = false, course = null, onUserMove, fitRoute = true, stops = NO_STOPS, limits = NO_VIA, picking = false,
+  night = false,
 }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
+  // ready: our sources exist (false while a new basemap style loads); loaded: the map's first load is done
   const ready = useRef(false);
+  const loaded = useRef(false);
   const clickRef = useRef(onMapClick);
   const moveRef = useRef(onUserMove);
   const fitRef = useRef(fitRoute);
   const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker }>({});
   const viaMarkers = useRef<maplibregl.Marker[]>([]);
-  const latest = useRef({ route, network, showSeamarks, pois, stops, limits, picking });
+  const latest = useRef({ route, network, showSeamarks, pois, stops, limits, picking, night });
+  const styleRef = useRef(styleOf(night));
   useEffect(() => {
     clickRef.current = onMapClick;
     moveRef.current = onUserMove;
     fitRef.current = fitRoute;
-    latest.current = { route, network, showSeamarks, pois, stops, limits, picking };
+    latest.current = { route, network, showSeamarks, pois, stops, limits, picking, night };
   });
 
   useEffect(() => {
     const map = new maplibregl.Map({
       container: container.current!,
-      style: BASEMAP,
+      style: styleRef.current,
       center: [19.0, 52.0],
       zoom: 5.5,
       attributionControl: { compact: true, customAttribution: '© OpenSeaMap contributors' },
@@ -100,9 +108,14 @@ export function MapView({
     const userMove = (e: { originalEvent?: unknown }) => { if (e.originalEvent) moveRef.current?.(); };
     map.on('dragstart', userMove);
     map.on('rotatestart', userMove);
-    map.on('load', () => {
+    // Our sources and layers sit on top of the basemap style; a style change (day/night) drops them, so they
+    // are added on the first load and again whenever a new style has loaded.
+    const addOverlays = () => {
       map.addSource('seamarks', { type: 'raster', tiles: [SEAMARKS], tileSize: 256, maxzoom: 18 });
-      map.addLayer({ id: 'seamarks', type: 'raster', source: 'seamarks', minzoom: 9 });
+      map.addLayer({
+        id: 'seamarks', type: 'raster', source: 'seamarks', minzoom: 9,
+        paint: { 'raster-opacity': latest.current.night ? 0.7 : 1 },
+      });
       map.addSource('network', { type: 'geojson', data: empty });
       map.addLayer({ id: 'network', type: 'line', source: 'network', paint: { 'line-color': '#0a8', 'line-width': 1.5, 'line-opacity': 0.7 } });
       map.addSource('pois', { type: 'geojson', data: empty });
@@ -142,18 +155,29 @@ export function MapView({
         id: 'locks', type: 'circle', source: 'locks',
         paint: { 'circle-radius': 6, 'circle-color': '#fc0', 'circle-stroke-color': '#333', 'circle-stroke-width': 1.5 },
       });
-      ready.current = true;
       const l = latest.current;
       applyRoute(map, l.route);
       setData(map, 'network', l.network ?? empty);
       setData(map, 'pois', poiCollection(l.pois));
       setData(map, 'limits', points(l.limits));
       map.setLayoutProperty('seamarks', 'visibility', l.showSeamarks ? 'visible' : 'none');
+    };
+    map.on('load', () => {
+      loaded.current = true;
+      addOverlays();
+      ready.current = true;
+    });
+    // the first style load comes before 'load', which adds the overlays itself
+    map.on('style.load', () => {
+      if (!loaded.current) return;
+      addOverlays();
+      ready.current = true;
     });
     return () => {
       map.remove();
       mapRef.current = null;
       ready.current = false;
+      loaded.current = false;
     };
   }, []);
 
@@ -171,6 +195,14 @@ export function MapView({
   useEffect(() => {
     if (ready.current) setData(mapRef.current!, 'network', network ?? empty);
   }, [network]);
+
+  useEffect(() => {
+    const url = styleOf(night);
+    if (url === styleRef.current) return;
+    styleRef.current = url;
+    ready.current = false;
+    mapRef.current!.setStyle(url, { diff: false }); // a full reload fires 'style.load', which re-adds the overlays
+  }, [night]);
 
   useEffect(() => {
     if (ready.current) setData(mapRef.current!, 'pois', poiCollection(pois));

@@ -376,6 +376,63 @@ describe('App', () => {
     expect(client.network).toHaveBeenCalledTimes(1);
   });
 
+  it('folds the panel into a one-line sheet on phones and remembers it', async () => {
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const { unmount } = render(<App client={fakeClient()} />);
+    await flush();
+    const handle = screen.getByRole('button', { name: /123 km · 5 h/ });
+    expect(handle.getAttribute('aria-expanded')).toBe('true');
+    fireEvent.click(handle);
+    expect(handle.getAttribute('aria-expanded')).toBe('false');
+    expect(handle.closest('aside')!.className).toBe('panel collapsed');
+    expect(localStorage.getItem('interway.sheet')).toBe('closed');
+    fireEvent.click(handle);
+    expect(localStorage.getItem('interway.sheet')).toBe('open');
+    fireEvent.click(handle);
+    unmount();
+    history.replaceState(null, '', '/');
+    const again = render(<App client={fakeClient()} />);
+    await flush();
+    expect(screen.getByRole('button', { name: /Plan a route/ }).getAttribute('aria-expanded')).toBe('false');
+    again.unmount();
+    // storage blocked: the sheet starts open and still toggles
+    const realGet = Storage.prototype.getItem, realSet = Storage.prototype.setItem;
+    const blocked = (k: string) => { if (k === 'interway.sheet') throw new Error('blocked'); };
+    const get = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (this: Storage, k) { blocked(k); return realGet.call(this, k); });
+    const set = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, k, v) { blocked(k); realSet.call(this, k, v); });
+    try {
+      render(<App client={fakeClient()} />);
+      await flush();
+      const open = screen.getByRole('button', { name: /Plan a route/ });
+      expect(open.getAttribute('aria-expanded')).toBe('true');
+      fireEvent.click(open);
+      expect(open.getAttribute('aria-expanded')).toBe('false');
+    } finally {
+      get.mockRestore();
+      set.mockRestore();
+    }
+  });
+
+  it('switches the map to night colours and offers to install the app', async () => {
+    render(<App client={fakeClient()} />);
+    await flush();
+    expect(mapProps.current!.night).toBe(false);
+    fireEvent.change(screen.getByLabelText('Colours'), { target: { value: 'night' } });
+    expect(mapProps.current!.night).toBe(true);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('night');
+    fireEvent.change(screen.getByLabelText('Colours'), { target: { value: 'auto' } });
+    expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
+
+    expect(screen.queryByText('Install app')).toBeNull();
+    const offer = Object.assign(new Event('beforeinstallprompt', { cancelable: true }), {
+      prompt: vi.fn(async () => {}), userChoice: Promise.resolve({ outcome: 'dismissed' }),
+    });
+    act(() => { window.dispatchEvent(offer); });
+    await act(async () => { fireEvent.click(screen.getByText('Install app')); });
+    expect(offer.prompt).toHaveBeenCalled();
+    expect(screen.queryByText('Install app')).toBeNull();
+  });
+
   it('reports network loading errors', async () => {
     const client = fakeClient({ network: vi.fn(async () => { throw new Error('network failed'); }) });
     render(<App client={client} />);

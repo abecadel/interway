@@ -19,10 +19,13 @@ import { OfflineMap } from './ui/OfflineMap';
 import { download } from './ui/download';
 import { trackGpx } from './nav/track';
 import type { Stop } from './routing/itinerary';
+import { useInstallPrompt } from './ui/useInstallPrompt';
+import { type Theme, useTheme } from './ui/useTheme';
 import './App.css';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
+const SHEET_KEY = 'interway.sheet';
 
 const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
 const NO_STOPS: Stop[] = [];
@@ -37,6 +40,14 @@ function loadProfile(): VesselProfile {
     return { ...defaultProfile, ...saved };
   } catch {
     return defaultProfile;
+  }
+}
+
+function loadSheetOpen(): boolean {
+  try {
+    return localStorage.getItem(SHEET_KEY) !== 'closed';
+  } catch {
+    return true;
   }
 }
 
@@ -65,6 +76,19 @@ export default function App({ client }: { client: RoutingApi }) {
   const [showNetwork, setShowNetwork] = useState(false);
   const [showSeamarks, setShowSeamarks] = useState(true);
   const [pois, setPois] = useState<Poi[]>([]);
+  const { theme, setTheme, night } = useTheme();
+  const install = useInstallPrompt();
+  // phones: the panel is a bottom sheet over the map, open or folded down to one line
+  const [sheetOpen, setSheetOpen] = useState(loadSheetOpen);
+  const toggleSheet = () => {
+    const open = !sheetOpen;
+    setSheetOpen(open);
+    try {
+      localStorage.setItem(SHEET_KEY, open ? 'open' : 'closed');
+    } catch {
+      // storage blocked: the sheet still toggles
+    }
+  };
   const watchId = useRef<number | null>(null);
   const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
   const indexRef = useRef(localIndex);
@@ -230,7 +254,11 @@ export default function App({ client }: { client: RoutingApi }) {
   return (
     <div className={nav.active ? 'app navigating' : 'app'}>
       {nav.active && <NavPanel nav={nav} />}
-      <aside className="panel">
+      <aside className={sheetOpen ? 'panel' : 'panel collapsed'}>
+        <button type="button" className="sheet-handle" aria-expanded={sheetOpen} onClick={toggleSheet}>
+          {route ? `${fmtKm(route.distance)} · ${fmtDuration(route.duration)}` : 'Plan a route'}
+          <span aria-hidden="true">{sheetOpen ? '▾' : '▴'}</span>
+        </button>
         <h1>Interway</h1>
         <p className="tagline">Inland waterway &amp; coastal route planner</p>
 
@@ -344,11 +372,20 @@ export default function App({ client }: { client: RoutingApi }) {
           <summary>Layers</summary>
           <label className="check"><input type="checkbox" checked={showSeamarks} onChange={(e) => setShowSeamarks(e.target.checked)} /> OpenSeaMap seamarks</label>
           <label className="check"><input type="checkbox" checked={showNetwork} onChange={(e) => setShowNetwork(e.target.checked)} /> Routable network (debug)</label>
+          <label className="check">
+            Colours
+            <select value={theme} onChange={(e) => setTheme(e.target.value as Theme)}>
+              <option value="auto">Auto (system)</option>
+              <option value="day">Day</option>
+              <option value="night">Night</option>
+            </select>
+          </label>
         </details>
 
         <footer>
           <div className="small">{dataStatus}</div>
           <div className="small disclaimer">Not for navigation. Always use official charts and notices to skippers.</div>
+          {install && <button type="button" className="install" onClick={install}>Install app</button>}
         </footer>
       </aside>
       <MapView
@@ -369,6 +406,7 @@ export default function App({ client }: { client: RoutingApi }) {
         stops={itinerary?.stops}
         limits={limits}
         picking={picking !== null || !start || !end}
+        night={night}
       />
     </div>
   );
