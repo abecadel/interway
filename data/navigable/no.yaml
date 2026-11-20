@@ -1,4 +1,4 @@
-# Norway: the Telemark Canal, Skien to Dalen through Norsjø, Flåvatn, Kviteseidvatn and Bandak (18 locks).
+# Norway: the Telemark Canal, Skien to Dalen through Norsjø, Flåvatn, Kviteseidvatnet and Bandak (18 locks).
 waterways:
   - Norsjø-Skienkanalen
   - Bandak-Norsjøkanalen
@@ -6,7 +6,7 @@ waterways:
 lakes:
   - Norsjø
   - Flåvatn
-  - Kviteseidvatn
+  - Kviteseidvatnet
   - Bandak
 # The reaches between the locks and the straits between the upper lakes are rivers named Eidselva and Straumen,
 # names shared with many unnavigable Norwegian rivers, so they are allowlisted by way id: Eidselva from
