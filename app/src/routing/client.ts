@@ -47,9 +47,14 @@ export class RoutingClient {
     return this.call<Route>({ type: 'route', from, to, profile, via });
   }
 
+  /** Other reasonable routes than the best one, best first (none when there is no real choice). */
+  alternatives(from: LngLat, to: LngLat, profile: VesselProfile) {
+    return this.call<Route[]>({ type: 'alternatives', from, to, profile });
+  }
+
   network() {
     return this.call<GeoJSON.FeatureCollection>({ type: 'network' });
   }
 }
 
-export type RoutingApi = Pick<RoutingClient, 'load' | 'route' | 'network'>;
+export type RoutingApi = Pick<RoutingClient, 'load' | 'route' | 'alternatives' | 'network'>;

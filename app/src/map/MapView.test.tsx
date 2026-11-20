@@ -125,7 +125,7 @@ describe('MapView', () => {
     expect(map.opts.style).toContain('openfreemap');
     expect(map.fitBounds).toHaveBeenCalledTimes(1);
     act(() => map.handlers.load());
-    expect(map.layers).toEqual(['seamarks', 'network', 'pois', 'poi-labels', 'route-casing', 'route', 'limits', 'locks']);
+    expect(map.layers).toEqual(['seamarks', 'network', 'pois', 'poi-labels', 'alts', 'alt-labels', 'route-casing', 'route', 'limits', 'locks']);
     expect(map.sources.pois.setData).toHaveBeenCalledWith(poiFc(['Śluza']));
     expect(map.sources.limits.setData).toHaveBeenCalledWith({ type: 'FeatureCollection', features: [] });
     expect(map.layout.seamarks).toBe('none');
@@ -315,6 +315,25 @@ describe('MapView', () => {
     map.handlers.moveend();
     expect(onLongPress).toHaveBeenCalledTimes(2);
     vi.useRealTimers();
+  });
+
+  it('draws the other routes with their times and chooses one when tapped', () => {
+    const onAlternative = vi.fn();
+    const alt = { coordinates: [[1, 1], [2, 2], [3, 3]] as [number, number][], label: '6 h 40 min' };
+    const { rerender } = render(<MapView {...base} alternatives={[alt]} onAlternative={onAlternative} />);
+    const map = h.state.maps[0] as unknown as { hits: unknown[]; handlers: Record<string, Handler>; sources: Record<string, { setData: ReturnType<typeof vi.fn> }>; queryRenderedFeatures: ReturnType<typeof vi.fn> };
+    act(() => map.handlers.load());
+    expect(map.sources.alts.setData).toHaveBeenLastCalledWith({
+      type: 'FeatureCollection', features: [{ type: 'Feature', properties: { i: 0 }, geometry: { type: 'LineString', coordinates: alt.coordinates } }],
+    });
+    expect(map.sources['alt-labels'].setData).toHaveBeenLastCalledWith({
+      type: 'FeatureCollection', features: [{ type: 'Feature', properties: { i: 0, label: '6 h 40 min' }, geometry: { type: 'Point', coordinates: [2, 2] } }],
+    });
+    map.hits = [{ properties: { i: 0 }, geometry: { type: 'Point', coordinates: [2, 2] } }];
+    map.handlers.click({ point: { x: 1, y: 1 }, lngLat: { lng: 2, lat: 2 } });
+    expect(onAlternative).toHaveBeenCalledWith(0);
+    rerender(<MapView {...base} />);
+    expect(map.sources.alts.setData).toHaveBeenLastCalledWith({ type: 'FeatureCollection', features: [] });
   });
 
   it('marks the place shown in the place sheet', () => {

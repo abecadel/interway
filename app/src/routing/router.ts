@@ -120,11 +120,21 @@ const NOT_CONNECTED = 'No navigable route found: these points are on waterways t
   + 'or only one way round';
 
 const BLOCKED = Infinity;
+/** Alternatives: stretches used by routes found so far cost this much more in the next search... */
+const ALT_PENALTY = 1.8;
+/** ...and a new route counts when it shares at most this share of its length with them and takes at most this
+ * many times the best route's time. */
+const ALT_MAX_SHARED = 0.7;
+const ALT_MAX_SLOWER = 1.4;
 
 export class Router {
   private index: Flatbush;
   /** edges of the last route built, with where each starts (m): explains a route that limits block */
   private lastPath: { edge: number; at: number }[] = [];
+  /** metres along each geometry of the last route built */
+  private lastGeoms = new Map<number, number>();
+  /** extra cost factor per geometry while searching for alternatives */
+  private penalty: Map<number, number> | null = null;
   /** directed edge that runs along geometry g in its stored direction (-1 if none) */
   private geomFwd: Int32Array;
   private geomRev: Int32Array;
@@ -270,7 +280,33 @@ export class Router {
     let cost = g.edgeLength[e] / speed;
     if (flags & Flag.SEA) cost *= (p.avoidSea ? AVOID_SEA_COST : SEA_COST) * (shallow ? SHALLOW_COST : 1);
     if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? AVOID_LOCKS_COST : 1);
-    return cost;
+    return this.penalty ? cost * (this.penalty.get(g.edgeGeom[e]) ?? 1) : cost;
+  }
+
+  /**
+   * Up to `max` other reasonable routes than the best one (by the penalty method): the stretches of the routes
+   * found so far cost more, and a route found then counts when it is mostly different and not much slower.
+   */
+  alternatives(from: LngLat, to: LngLat, profile: VesselProfile = defaultProfile, max = 2): Route[] {
+    const best = this.route(from, to, profile);
+    const seen = new Map(this.lastGeoms);
+    const out: Route[] = [];
+    // penalties only make ways costlier, never closed: with a best route, each search finds one
+    this.penalty = new Map();
+    try {
+      for (let tries = 0; tries < max + 2 && out.length < max; tries++) {
+        for (const g of seen.keys()) this.penalty.set(g, (this.penalty.get(g) ?? 1) * ALT_PENALTY);
+        const r = this.routeFor(from, to, profile);
+        if (r.duration > best.duration * ALT_MAX_SLOWER) break;
+        let shared = 0;
+        for (const [g, m] of this.lastGeoms) if (seen.has(g)) shared += m;
+        for (const [g, m] of this.lastGeoms) seen.set(g, m);
+        if (shared <= r.distance * ALT_MAX_SHARED) out.push(r);
+      }
+    } finally {
+      this.penalty = null;
+    }
+    return out;
   }
 
   route(from: LngLat, to: LngLat, profile: VesselProfile = defaultProfile): Route {
@@ -392,7 +428,7 @@ export class Router {
     if (!Number.isFinite(cost[DST])) {
       throw new RouteError('No navigable route found between these points for this vessel');
     }
-    const route = this.buildRoute(s, t, prevEdge, prevNode, cost[DST], profile.draft);
+    const route = this.buildRoute(s, t, prevEdge, prevNode, cost[DST], profile);
     // the search cost includes routing penalties; report the time actually underway
     const seaFactor = profile.avoidSea ? AVOID_SEA_COST : SEA_COST;
     route.duration -= ((seaFactor - 1) * route.sea + seaFactor * (SHALLOW_COST - 1) * route.tooShallow) / (profile.speedKmh / 3.6)
@@ -400,7 +436,11 @@ export class Router {
     return route;
   }
 
-  private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number, vesselDraft: number): Route {
+  private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number, profile: VesselProfile): Route {
+    const vesselDraft = profile.draft;
+    // searching for alternatives, the cost carries their penalties: the time is summed from the stretches instead
+    const penalty = this.penalty;
+    let unpenalized = 0;
     const N = this.graph.nodeCount;
     const SRC = N, DST = N + 1;
     // Walk back from target to source.
@@ -433,9 +473,11 @@ export class Router {
     };
 
     this.lastPath = [];
+    this.lastGeoms = new Map();
     for (const { node, edge } of chain) {
       const before = distance;
       let current = 0; // +1 with the river current, -1 against it
+      let travelled = -1; // the directed edge this stretch runs along
       let g: number;
       if (edge === -2) {
         // Leaving the start snap along its geometry, possibly straight to the target on the same geometry.
@@ -443,11 +485,13 @@ export class Router {
         this.lastPath.push({ edge: this.geomEdge(g), at: before });
         const endSeg = node === DST ? t.seg : null;
         const toEnd = node === DST ? t.frac >= s.frac : node === this.geom.geomTo[g];
+        travelled = toEnd ? this.geomFwd[g] : this.geomRev[g];
         this.walk(g, s.seg, toEnd, endSeg, push);
         if (node === DST) push(t.lat, t.lon);
         if (this.flows(g)) current = toEnd ? 1 : -1;
       } else {
         g = this.graph.edgeGeom[edge];
+        travelled = edge;
         this.lastPath.push({ edge, at: before });
         const f = this.graph.edgeFlags[edge];
         if (f & Flag.DOWNSTREAM) current = 1;
@@ -467,6 +511,12 @@ export class Router {
         }
       }
       addLeg(g, before);
+      this.lastGeoms.set(g, (this.lastGeoms.get(g) ?? 0) + distance - before);
+      if (penalty && distance > before) {
+        // the search moves along a geometry only where an edge runs that way, so `travelled` is set
+        const e = travelled;
+        unpenalized += (this.edgeCost(e, profile) / (penalty.get(g) ?? 1)) * ((distance - before) / this.graph.edgeLength[e]);
+      }
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
       if (current > 0) downstream += distance - before;
@@ -475,6 +525,7 @@ export class Router {
       if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft: Math.round(draft * 100) / 100, at: before };
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
+    if (penalty) duration = unpenalized;
     return { coordinates: coords, distance, duration, locks, unverified, sea, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 

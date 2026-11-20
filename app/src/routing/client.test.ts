@@ -21,7 +21,10 @@ describe('RoutingClient', () => {
     const load = c.load('/data/');
     const route = c.route([1, 2], [3, 4], defaultProfile);
     const net = c.network();
-    expect(w.sent.map((m) => [m.id, m.type])).toEqual([[1, 'load'], [2, 'route'], [3, 'network']]);
+    const alts = c.alternatives([1, 2], [3, 4], defaultProfile);
+    expect(w.sent.map((m) => [m.id, m.type])).toEqual([[1, 'load'], [2, 'route'], [3, 'network'], [4, 'alternatives']]);
+    w.reply({ id: 4, ok: true, result: [] });
+    await expect(alts).resolves.toEqual([]);
     w.reply({ id: 3, ok: true, result: 'net' });
     w.reply({ id: 2, ok: false, error: 'no route' });
     w.reply({ id: 1, ok: true, result: 'loaded' });
