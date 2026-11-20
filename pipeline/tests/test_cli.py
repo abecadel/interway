@@ -93,12 +93,16 @@ def test_patches_snap_to_network(tmp_path, caplog):
         {"type": "Feature", "properties": {"name": "no geometry"}, "geometry": None},
         feature([[0.03, 0], [0.03, 0.01]], name="Far"),  # 1.1 km from any node
         feature([[0.0, 0.0], [0.0, 10 * m]], name="Loop"),  # both ends snap to node 1
+        feature([[0.015, -0.001], [0.015, 0.001]], name="Jaz", weir=True),  # a weir, not a connector
     ]}), encoding="utf-8")
     (tmp_path / "b.geojson").write_text(json.dumps({"type": "FeatureCollection"}), encoding="utf-8")
     (tmp_path / "notes.txt").write_text("ignored", encoding="utf-8")
+    weirs: list = []
     with caplog.at_level(logging.WARNING):
-        assert apply_patches(segs, tmp_path) == 2
-    p1, p2 = segs[2:]
+        assert apply_patches(segs, tmp_path, weirs=weirs) == 2
+    assert [list(w.coords) for w in weirs] == [[(0.015, -0.001), (0.015, 0.001)]]
+    assert apply_patches(segs[:2], tmp_path) == 2  # without a weir list the weir is skipped all the same
+    p1, p2 = segs[2:4]
     assert (p1.a, p1.b, p1.name, p1.lock, p1.kind) == (2, 3, "Przekop", True, "patch")
     assert p1.coords == [(0.01, 0.0), (0.015, 0.001), (0.02, 0.0)]  # ends moved onto the nodes
     assert (p2.a, p2.b, p2.name, p2.lock) == (2, 3, "", False)
