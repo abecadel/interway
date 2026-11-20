@@ -54,9 +54,13 @@ The repository ships the graph for Poland, Germany, the Netherlands, Belgium, Sw
 rivers and canals, Austria, Czechia, Slovakia, the Danube countries (Hungary, Croatia, Serbia, Romania, Bulgaria),
 northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals), Sweden (Göta
 and Trollhätte canals, Vänern, Vättern, Mälaren), Finland (the Saimaa lakes and their canals), Lithuania (Nemunas,
-Curonian Lagoon), Spain (Guadalquivir, Ría de Bilbao) and Portugal (Douro, Tejo, Guadiana), joined by a sea network from the Atlantic to the Black Sea: enough for
+Curonian Lagoon), Spain (Guadalquivir, Ría de Bilbao), Portugal (Douro, Tejo, Guadiana), Denmark (Limfjord), Norway
+(the Telemark Canal), Estonia (Emajõgi, Lake Peipus), Latvia (Daugava, Lielupe), Ukraine (the Danube's Kilia arm) and the
+whole Mediterranean coast (Greece with the Corinth Canal, Slovenia, Montenegro, Albania, Malta, Cyprus, Monaco, Turkey,
+Morocco, Algeria, Tunisia, Egypt), joined by a sea network from the Atlantic to the Black Sea: enough for
 routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal,
-Vienna → the Black Sea, Gdańsk → Venice, Dublin → the Shannon or London → Crete.
+Kelheim → Sulina along the whole Danube, Gdańsk → Venice, Marseille → Piraeus through the Corinth Canal, Dublin → the
+Shannon or London → Crete.
 Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
 
 ## Deployment
@@ -74,6 +78,8 @@ pip install -e '.[dev]'
 # Where neither is reachable, cut a bounding box out of the streamed Europe file (needs osmium-tool):
 #   tools/stream-extract.sh https://ftp5.gwdg.de/pub/misc/openstreetmap/download.geofabrik.de/europe-latest.osm.pbf \
 #     13.4,41.2,29.9,48.7 danube.osm.pbf && interway-filter danube.osm.pbf -o filtered/
+# A water area cut between two extracts (the Vistula Lagoon, Poland and Kaliningrad) assembles from its own file:
+#   tools/join-relation.sh 8140878 filtered/vistula-lagoon.osm.pbf filtered/poland.filtered.osm.pbf filtered/kaliningrad.filtered.osm.pbf
 python -m interway_pipeline.cli poland.osm.pbf germany.osm.pbf netherlands.osm.pbf \
     --region "PL-DE-NL" -o ../app/public/data --cache cache/
 pytest -q
@@ -83,7 +89,8 @@ cd ../app && INTERWAY_DATA=public/data npm run test:routes
 ```
 
 `qa-components.json` in the output lists the disconnected parts of the network. Fix gaps by adding
-names to `data/navigable/*.yaml` or connectors to `data/patches/*.geojson` (LineStrings whose ends snap to
+names to `data/navigable/*.yaml` (or, for a river whose name is too common, its OSM way ids under `ways:`;
+these apply after the cached extracts, so no country file is read again) or connectors to `data/patches/*.geojson` (LineStrings whose ends snap to
 the network).
 
 ## Status

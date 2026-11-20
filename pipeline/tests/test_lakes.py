@@ -74,6 +74,11 @@ def test_lakes_need_two_entries_to_produce_edges():
     added = connect_lakes([], [Lake(1, "Wigry", box(0, 0, 3 * K, 2 * K), True)], marinas)
     assert len(added) == 1 and added[0].name == "Wigry"
     assert sorted(added[0].coords) == [(0.2 * K, 0.2 * K), (2.8 * K, 1.8 * K)]
+    # a quay mapped on the shore (30 m off the polygon) still counts; one 200 m inland does not
+    shore = [("Quay", (3.03 * K, 1.0 * K)), ("Inland", (0.5 * K, 2.2 * K))] + marinas[:1]
+    added = connect_lakes([], [Lake(1, "Wigry", box(0, 0, 3 * K, 2 * K), True)], shore)
+    ends = {c for s in added for c in (s.coords[0], s.coords[-1])}
+    assert (3.03 * K, 1.0 * K) in ends and (0.5 * K, 2.2 * K) not in ends
 
 
 def test_namer_uses_member_or_nearest():

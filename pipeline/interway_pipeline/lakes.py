@@ -118,7 +118,8 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
         elif not entries and not any(m.allowlisted for m in members):
             continue
         if marina_tree is not None and bridge is None:
-            for i in marina_tree.query(body, predicate="intersects"):
+            # within the entry tolerance: a quay is often mapped on the shoreline (Dalen bryggje on Bandak)
+            for i in marina_tree.query(zone, predicate="intersects"):
                 entries.append((new_node_id(), marinas[i][1]))
         used += 1
         added.extend(_mesh(body, members, entries, bridge, weir_tree))

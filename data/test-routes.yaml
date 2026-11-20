@@ -618,12 +618,12 @@
 - name: Elbląg → Frombork (Vistula Lagoon)
   from: [19.40, 54.17]
   to: [19.68, 54.36]
-  expected_km: 33
+  expected_km: 40
   tolerance: 0.15
   countries: [PL]
   via: [Elbląg, Zalew Wiślany]
   max_sea_km: 0
-  source: https://www.zeglugagdanska.pl (Elbląg – Frombork excursion boats, about 33 km down the Elbląg river and across the lagoon)
+  source: https://www.zeglugagdanska.pl (Elbląg – Frombork excursion boats; about 11 km down the Elbląg river, then some 28 km across the lagoon, the mouth being 27.5 km from Frombork as the crow flies)
 
 - name: Szczecin → Wolgast (Szczecin Lagoon, Peenestrom)
   from: [14.56, 53.43]
@@ -658,13 +658,13 @@
 - name: Sète → Marseillan (Étang de Thau)
   from: [3.697, 43.404]
   to: [3.54, 43.35]
-  expected_km: 16
-  tolerance: 0.25
+  expected_km: 19
+  tolerance: 0.15
   sea: true
   countries: [FR]
   via: [Étang de Thau]
   max_sea_km: 0
-  source: https://www.vnf.fr (Sète through its canals into the Étang de Thau, about 16 km across to Marseillan)
+  source: https://www.vnf.fr (Sète's Canal de Sète into the Étang de Thau, then the marked line across it towards Les Onglous and Marseillan; about 2.5 km of canal and 15.5 km straight across)
 
 - name: Marseille → Piraeus (Strait of Messina, Corinth Canal)
   from: [5.36, 43.30]
@@ -738,8 +738,8 @@
   tolerance: 0.15
   countries: [NO]
   via: [Bandak-Norsjøkanalen]
-  min_locks: 14
-  source: https://www.telemarkskanalen.no (Skien – Dalen 105 km, 18 locks)
+  min_locks: 7
+  source: https://www.telemarkskanalen.no (Skien – Dalen 105 km, 18 lock chambers at 8 sites; OSM maps each staircase as one lock, so the route counts sites)
 
 - name: Tartu → Mustvee (Emajõgi, Lake Peipus)
   from: [26.72, 58.38]

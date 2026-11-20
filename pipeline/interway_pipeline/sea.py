@@ -84,6 +84,11 @@ class Coast:
         hits = self.tree.query(geom, predicate="intersects")
         return bool(len(hits)) and shapely.union_all(self.land[hits]).covers(geom)
 
+    def land_length(self, line) -> float:
+        """Metres of `line` over land."""
+        hits = self.tree.query(line, predicate="intersects")
+        return float(shapely.intersection(line, shapely.union_all(self.land[hits])).length) if len(hits) else 0.0
+
     def crossing(self, lines: np.ndarray) -> np.ndarray:
         """Mask of Mercator lines that touch land."""
         mask = np.zeros(len(lines), dtype=bool)
@@ -192,10 +197,11 @@ def drop_sheltered(sea: list[Segment], sheltered: list, inset_m: float = 100.0) 
 
 
 def connect_to_sea(segments: list[Segment], sea: list[Segment], coast: Coast, *, max_link_m: float = 8000.0,
-                   mouth_m: float = 150.0, links: int = 2) -> list[Segment]:
+                   mouth_m: float = 150.0, links: int = 2, slack_m: float = 50.0) -> list[Segment]:
     """Links (kind "sea") from inland nodes to the mesh: nodes lying in sea water (estuaries, fairways,
     harbours), and dead ends inside land but within `mouth_m` of the sea (rivers ending at the coastline).
-    A link must stay in water except within `mouth_m` of the inland node."""
+    A link must stay in water except within `mouth_m` of the inland node; beyond that it may cross up to
+    `slack_m` of land, the error of the simplified coastline (the moles at the mouth of the Corinth Canal)."""
     if not sea or not segments:
         return []
     pos = node_positions(segments)
@@ -219,7 +225,7 @@ def connect_to_sea(segments: list[Segment], sea: list[Segment], coast: Coast, *,
         made = 0
         for j in near:
             line = shapely.difference(LineString([p, sea_merc[j]]), Point(p).buffer(mouth_m))
-            if line.is_empty or not coast.crossing(np.array([line]))[0]:
+            if line.is_empty or not coast.crossing(np.array([line]))[0] or coast.land_length(line) <= slack_m:
                 out.append(Segment(a=ids[k], b=sea_ids[j], coords=[pos[ids[k]], sea_pos[sea_ids[j]]], kind="sea"))
                 made += 1
                 if made == links:
