@@ -47,7 +47,17 @@ export interface MapViewProps {
   onViewChange?: (center: LngLat) => void;
   /** the place shown in the place sheet: a pin */
   place?: LngLat | null;
+  /** other routes on offer: grey lines with their time, tapped to choose */
+  alternatives?: AltLine[];
+  onAlternative?: (i: number) => void;
 }
+
+export interface AltLine {
+  coordinates: LngLat[];
+  /** "6 h 40 min" */
+  label: string;
+}
+const NO_ALTS: AltLine[] = [];
 
 /** What a tap on a map symbol hands over: the POI's kind, name, limits, and km on the route when known. */
 export interface MapFeature {
@@ -69,6 +79,7 @@ const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: 
 const NO_VIA: LngLat[] = [];
 const FOLLOW_ZOOM = 14;
 const CLICKABLE = ['locks', 'pois'];
+const ALT_LAYERS = ['alts', 'alt-labels'];
 
 function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
   (map.getSource(id) as GeoJSONSource).setData(data);
@@ -77,7 +88,7 @@ function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
 export function MapView({
   start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick,
   follow = false, course = null, onUserMove, fitRoute = true, limits = NO_VIA, picking = false,
-  night = false, onFeatureClick, onLongPress, onViewChange, place = null,
+  night = false, onFeatureClick, onLongPress, onViewChange, place = null, alternatives = NO_ALTS, onAlternative,
 }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
@@ -91,8 +102,9 @@ export function MapView({
   const featureRef = useRef(onFeatureClick);
   const longRef = useRef(onLongPress);
   const viewRef = useRef(onViewChange);
+  const altRef = useRef(onAlternative);
   const viaMarkers = useRef<maplibregl.Marker[]>([]);
-  const latest = useRef({ route, network, showSeamarks, pois, limits, picking, night });
+  const latest = useRef({ route, network, showSeamarks, pois, limits, picking, night, alternatives });
   const styleRef = useRef(styleOf(night));
   useEffect(() => {
     clickRef.current = onMapClick;
@@ -101,7 +113,8 @@ export function MapView({
     featureRef.current = onFeatureClick;
     longRef.current = onLongPress;
     viewRef.current = onViewChange;
-    latest.current = { route, network, showSeamarks, pois, limits, picking, night };
+    altRef.current = onAlternative;
+    latest.current = { route, network, showSeamarks, pois, limits, picking, night, alternatives };
   });
 
   useEffect(() => {
@@ -117,6 +130,11 @@ export function MapView({
     map.addControl(new maplibregl.ScaleControl({ unit: 'nautical' }), 'bottom-left');
     map.on('click', (e: MapMouseEvent) => {
       // a lock, bridge or service under the click opens its place sheet, unless the user is placing A, B or a waypoint
+      const alt = ready.current && altRef.current ? map.queryRenderedFeatures(e.point, { layers: ALT_LAYERS })[0] : undefined;
+      if (alt) {
+        altRef.current!(Number(alt.properties.i));
+        return;
+      }
       const hit = ready.current && !latest.current.picking ? map.queryRenderedFeatures(e.point, { layers: CLICKABLE })[0] : undefined;
       if (hit && featureRef.current) featureRef.current(featureOf(hit));
       else clickRef.current([e.lngLat.lng, e.lngLat.lat]);
@@ -171,6 +189,18 @@ export function MapView({
         layout: { 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.1], 'text-anchor': 'top' },
         paint: { 'text-color': '#234', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
       });
+      map.addSource('alts', { type: 'geojson', data: empty });
+      map.addLayer({
+        id: 'alts', type: 'line', source: 'alts',
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-color': '#9aa0a6', 'line-width': 6 },
+      });
+      map.addSource('alt-labels', { type: 'geojson', data: empty });
+      map.addLayer({
+        id: 'alt-labels', type: 'symbol', source: 'alt-labels',
+        layout: { 'text-field': ['get', 'label'], 'text-size': 13, 'text-allow-overlap': true },
+        paint: { 'text-color': '#3c4043', 'text-halo-color': '#fff', 'text-halo-width': 2.5 },
+      });
       map.addSource('route', { type: 'geojson', data: empty });
       map.addLayer({
         id: 'route-casing', type: 'line', source: 'route',
@@ -197,6 +227,7 @@ export function MapView({
       setData(map, 'network', l.network ?? empty);
       setData(map, 'pois', poiCollection(l.pois));
       setData(map, 'limits', points(l.limits));
+      applyAlternatives(map, l.alternatives);
       map.setLayoutProperty('seamarks', 'visibility', l.showSeamarks ? 'visible' : 'none');
     };
     map.on('load', () => {
@@ -248,6 +279,10 @@ export function MapView({
   useEffect(() => {
     if (ready.current) setData(mapRef.current!, 'limits', points(limits));
   }, [limits]);
+
+  useEffect(() => {
+    if (ready.current) applyAlternatives(mapRef.current!, alternatives);
+  }, [alternatives]);
 
   useEffect(() => {
     if (focus) mapRef.current!.flyTo({ center: focus, zoom: 14 });
@@ -336,6 +371,21 @@ function applyRoute(map: MLMap, route: Route | null) {
 
 function points(ps: LngLat[]): GeoJSON.FeatureCollection {
   return { type: 'FeatureCollection', features: ps.map((p) => ({ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: p } })) };
+}
+
+/** Grey lines for the other routes, each labelled with its time halfway along. */
+function applyAlternatives(map: MLMap, alts: AltLine[]) {
+  setData(map, 'alts', {
+    type: 'FeatureCollection',
+    features: alts.map((a, i) => ({ type: 'Feature', properties: { i }, geometry: { type: 'LineString', coordinates: a.coordinates } })),
+  });
+  setData(map, 'alt-labels', {
+    type: 'FeatureCollection',
+    features: alts.map((a, i) => ({
+      type: 'Feature', properties: { i, label: a.label },
+      geometry: { type: 'Point', coordinates: a.coordinates[Math.floor(a.coordinates.length / 2)] },
+    })),
+  });
 }
 
 function featureOf(f: maplibregl.MapGeoJSONFeature): MapFeature {

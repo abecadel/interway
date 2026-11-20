@@ -18,7 +18,7 @@ import { OfflineMap } from './ui/OfflineMap';
 import { download } from './ui/download';
 import { trackGpx } from './nav/track';
 import type { Stop } from './routing/itinerary';
-import type { MapFeature } from './map/MapView';
+import type { AltLine, MapFeature } from './map/MapView';
 import { CATEGORIES } from './ui/categories';
 import { CategoryChips, CategoryList } from './ui/CategoryChips';
 import { DirectionsCard } from './ui/DirectionsCard';
@@ -42,6 +42,7 @@ const SHEET_KEY = 'interway.sheet';
 const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
 const NO_STOPS: Stop[] = [];
 const NO_LIMITS: LngLat[] = [];
+const NO_ALTS: AltLine[] = [];
 
 // Earlier defaults that older saved profiles carry as if the user had chosen them.
 const OLD_DEFAULTS: Partial<VesselProfile> = { beam: 3 };
@@ -161,7 +162,31 @@ export default function App({ client }: { client: RoutingApi }) {
   }, [start, end, viaPositions, profile, dataReady, client, routeKey]);
   // Only show a result computed for the current inputs.
   const current = start && end && result?.key === routeKey ? result : null;
-  const route = current?.route ?? null;
+  const best = current?.route ?? null;
+  // Other routes on offer (not with waypoints: those fix the way), and which one the user chose.
+  const [alts, setAlts] = useState<{ key: string; routes: Route[] } | null>(null);
+  const [choice, setChoice] = useState<{ key: string; index: number } | null>(null);
+  useEffect(() => {
+    if (!best || !start || !end || viaPositions.length) return;
+    let cancelled = false;
+    client
+      .alternatives(start.position, end.position, profile)
+      .then((r) => { if (!cancelled) setAlts({ key: routeKey, routes: r }); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [best, start, end, viaPositions, profile, client, routeKey]);
+  const options = useMemo(
+    () => (best ? [best, ...(alts?.key === routeKey ? alts.routes : [])] : []),
+    [best, alts, routeKey],
+  );
+  const chosen = choice?.key === routeKey ? Math.min(choice.index, options.length - 1) : 0;
+  const route = options[chosen] ?? null;
+  const choose = (index: number) => setChoice({ key: routeKey, index });
+  const altLines = useMemo(
+    () => options.map((r, i) => ({ i, r })).filter(({ i }) => i !== chosen)
+      .map(({ i, r }) => ({ index: i, coordinates: r.coordinates, label: fmtDuration(r.duration) })),
+    [options, chosen],
+  );
   const routeError = current?.error ?? null;
   const busy = !!start && !!end && dataReady && !current;
   const itinerary = useMemo(() => (route ? buildItinerary(route, pois) : null), [route, pois]);
@@ -414,6 +439,7 @@ export default function App({ client }: { client: RoutingApi }) {
       {route && (
         <RouteSummary
           route={route} itinerary={itinerary!} profile={profile} back={backDuration} onStart={nav.start}
+          options={options} chosen={chosen} onChoose={choose}
           onStepsOpen={() => setSnap('full')} onFocus={(lon, lat) => setFocus([lon, lat])}
           more={(
             <>
@@ -504,6 +530,8 @@ export default function App({ client }: { client: RoutingApi }) {
         onLongPress={(p) => openPlace({ label: 'Dropped pin', position: p })}
         onViewChange={setCenter}
         place={place?.position ?? null}
+        alternatives={directions && !nav.active ? altLines : NO_ALTS}
+        onAlternative={(i) => choose(altLines[i].index)}
       />
       {nav.active ? (
         <NavPanel nav={nav} />

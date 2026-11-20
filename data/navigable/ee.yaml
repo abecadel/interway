@@ -1,0 +1,9 @@
+# Estonia: the Emajõgi from Võrtsjärv through Tartu to Lake Peipus, and the Narva.
+waterways:
+  - Emajõgi
+  - Narva jõgi
+  - Narva jõgi / Нарва
+lakes:
+  - Võrtsjärv
+  - Peipsi järv / Чудское озеро
+exclude: []

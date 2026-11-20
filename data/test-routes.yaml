@@ -665,3 +665,106 @@
   via: [Étang de Thau]
   max_sea_km: 0
   source: https://www.vnf.fr (Sète through its canals into the Étang de Thau, about 16 km across to Marseillan)
+
+- name: Marseille → Piraeus (Strait of Messina, Corinth Canal)
+  from: [5.36, 43.30]
+  to: [23.63, 37.94]
+  expected_km: 1760
+  tolerance: 0.15
+  sea: true
+  countries: [FR, GR]
+  via: [Κορίνθου]
+  source: https://www.sea-distances.org (Marseille – Messina about 540 NM, Messina – Corinth Canal about 380 NM, then Piraeus; about 950 NM in all)
+
+- name: Piraeus → Rhodes (Aegean)
+  from: [23.63, 37.94]
+  to: [28.23, 36.45]
+  expected_km: 460
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.sea-distances.org (Piraeus – Rhodes about 250 NM)
+
+- name: Split → Valletta (Adriatic, Ionian Sea)
+  from: [16.44, 43.50]
+  to: [14.51, 35.90]
+  expected_km: 1220
+  tolerance: 0.2
+  sea: true
+  countries: [HR, MT]
+  source: https://www.sea-distances.org (Split – Otranto about 330 NM, Otranto – Valletta about 330 NM)
+
+- name: Gibraltar → Alexandria (the whole Mediterranean)
+  from: [-5.35, 36.13]
+  to: [29.89, 31.20]
+  expected_km: 3330
+  tolerance: 0.12
+  sea: true
+  countries: [ES, EG]
+  source: https://www.sea-distances.org (Gibraltar – Alexandria about 1,800 NM)
+
+- name: Istanbul → Antalya (Dardanelles, Aegean)
+  from: [28.98, 41.02]
+  to: [30.70, 36.88]
+  expected_km: 1040
+  tolerance: 0.2
+  sea: true
+  countries: [TR]
+  source: https://www.sea-distances.org (Istanbul – Antalya about 560 NM by the Dardanelles)
+
+- name: Barcelona → Tunis
+  from: [2.18, 41.37]
+  to: [10.30, 36.81]
+  expected_km: 870
+  tolerance: 0.2
+  sea: true
+  countries: [ES, TN]
+  source: https://www.sea-distances.org (Barcelona – Tunis about 470 NM)
+
+- name: Izmail → Vylkove (Danube, Kilia arm)
+  from: [28.83, 45.34]
+  to: [29.59, 45.40]
+  expected_km: 75
+  tolerance: 0.12
+  countries: [UA]
+  via: [Кілійське]
+  max_sea_km: 0
+  source: https://www.danubecommission.org (Kilia arm, Izmail at km 93 to Vylkove at km 18)
+
+- name: Skien → Dalen (Telemark Canal)
+  from: [9.61, 59.21]
+  to: [8.00, 59.44]
+  expected_km: 105
+  tolerance: 0.15
+  countries: [NO]
+  via: [Bandak-Norsjøkanalen]
+  min_locks: 14
+  source: https://www.telemarkskanalen.no (Skien – Dalen 105 km, 18 locks)
+
+- name: Tartu → Mustvee (Emajõgi, Lake Peipus)
+  from: [26.72, 58.38]
+  to: [26.95, 58.85]
+  expected_km: 110
+  tolerance: 0.25
+  countries: [EE]
+  via: [Emajõgi, Peipsi]
+  source: https://www.visittartu.com (Emajõgi from Tartu to Peipus about 60 km, then along the west shore to Mustvee)
+
+- name: Riga → Jūrmala (Daugava, Buļļupe, Lielupe)
+  from: [24.10, 56.95]
+  to: [23.79, 56.97]
+  expected_km: 35
+  tolerance: 0.3
+  sea: true
+  countries: [LV]
+  via: [Lielupe]
+  source: https://www.liveriga.com (Riga – Jūrmala river boats down the Daugava and up the Lielupe, about 35 km)
+
+- name: Aalborg → Thyborøn (Limfjord)
+  from: [9.92, 57.05]
+  to: [8.21, 56.70]
+  expected_km: 160
+  tolerance: 0.25
+  sea: true
+  countries: [DK]
+  source: https://www.visitlimfjorden.com (the Limfjord from Aalborg to the North Sea at Thyborøn, about 85 NM)

@@ -6,7 +6,7 @@ import { Icon } from './icons';
 import { ItineraryView } from './ItineraryView';
 
 /** Time first, then distance and locks, warnings, and Start / Steps; the rest (exports, offline map) under More. */
-export function RouteSummary({ route, itinerary, profile, back, onStart, onStepsOpen, onFocus, more }: {
+export function RouteSummary({ route, itinerary, profile, back, onStart, onStepsOpen, onFocus, more, options = [], chosen = 0, onChoose }: {
   route: Route;
   itinerary: Itinerary;
   profile: VesselProfile;
@@ -17,10 +17,23 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
   onStepsOpen: () => void;
   onFocus: (lon: number, lat: number) => void;
   more: ReactNode;
+  /** the route and its alternatives, the best first; with more than one they are offered as choices */
+  options?: Route[];
+  chosen?: number;
+  onChoose?: (i: number) => void;
 }) {
   const [steps, setSteps] = useState(false);
   return (
     <section className="summary" aria-label="Route">
+      {options.length > 1 && (
+        <div className="chips route-options" role="group" aria-label="Route options">
+          {options.map((r, i) => (
+            <button key={i} type="button" className="chip" aria-pressed={i === chosen} onClick={() => onChoose?.(i)}>
+              {fmtDuration(r.duration)} · {fmtKm(r.distance)}{i === 0 ? ' · best' : ''}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="summary-head">
         <div className="big">{fmtDuration(route.duration)}</div>
         <div className="muted">

@@ -36,6 +36,7 @@ export interface LoadResult {
 export type WorkerRequest =
   | { id: number; type: 'load'; baseUrl: string }
   | { id: number; type: 'route'; from: LngLat; to: LngLat; profile: VesselProfile; via?: LngLat[] }
+  | { id: number; type: 'alternatives'; from: LngLat; to: LngLat; profile: VesselProfile }
   | { id: number; type: 'network' };
 
 export type WorkerResponse =
@@ -83,6 +84,8 @@ export class RoutingService {
       }
       case 'route':
         return this.loaded().routeVia([msg.from, ...(msg.via ?? []), msg.to], msg.profile);
+      case 'alternatives':
+        return this.loaded().alternatives(msg.from, msg.to, msg.profile);
       case 'network':
         return networkGeoJson(this.loaded());
     }

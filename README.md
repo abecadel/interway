@@ -30,6 +30,8 @@ navigable route over rivers, canals and lakes, with distance, ETA, locks and ves
   right-click) to drop a pin, then Directions / Start here / Save / Share. The directions card has boat-type chips
   (small boat, motor cruiser, sailboat, narrowboat, custom). Round buttons for layers (day / night / auto map) and
   your position; "/" focuses search, Esc closes. Installable as an app.
+- **Route options:** up to two other reasonable routes (mostly different, at most 40 % slower) are drawn in grey with
+  their times; tap one on the map or in the summary to take it.
 - **Navigation mode:** the map follows the boat heading up; a green banner shows the next lock or bridge and its
   distance, a bottom bar the time and distance to go and the arrival time, with speed and course over ground and
   cross-track error above it. Off the route it re-plans from the
@@ -94,7 +96,7 @@ the network).
 - [x] Phase 4: navigation mode
 - [x] Phase 5: sea routing (coastal mesh, EMODnet depth)
 - [x] Phase 6: maps-app interface (search, places, bottom sheet, directions card, navigation banner)
-- [ ] Phase 7: alternative routes
+- [x] Phase 7: alternative routes
 
 ## License and attribution
 

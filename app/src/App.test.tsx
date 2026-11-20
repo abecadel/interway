@@ -44,6 +44,7 @@ function fakeClient(over: Partial<RoutingApi> = {}) {
   return {
     load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '' }, nodes: 1234, edges: 5678, pois: [{ type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 }] })),
     route: vi.fn(async () => route()),
+    alternatives: vi.fn(async (): Promise<Route[]> => []),
     network: vi.fn(async () => ({ type: 'FeatureCollection' as const, features: [] })),
     ...over,
   };
@@ -492,6 +493,47 @@ describe('App', () => {
     expect(screen.getByText('km 0.0 on the route')).toBeTruthy();
     act(() => props().onFeatureClick({ type: 'lock', name: 'Other', detail: '', position: [21, 60] }));
     expect(screen.queryByText(/on the route/)).toBeNull();
+  });
+
+  it('offers other routes and lets the user choose one, in the summary or on the map', async () => {
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const other = route({ duration: 6 * 3600, distance: 140_000, coordinates: [[1, 2], [2, 3], [3, 4]] });
+    const client = fakeClient({ alternatives: vi.fn(async () => [other]) });
+    const { unmount } = render(<App client={client} />);
+    await flush();
+    await flush();
+    expect(client.alternatives).toHaveBeenCalledWith([1, 2], [3, 4], defaultProfile);
+    expect(screen.getByText('5 h 0 min · 123 km · best').getAttribute('aria-pressed')).toBe('true');
+    expect(mapProps.current!.alternatives).toEqual([{ index: 1, coordinates: other.coordinates, label: '6 h 0 min' }]);
+    fireEvent.click(screen.getByText('6 h 0 min · 140 km'));
+    expect(screen.getByText('6 h 0 min', { selector: '.big' })).toBeTruthy();
+    expect(mapProps.current!.route).toBe(other);
+    // the best one is now the grey line: a tap on it takes it back
+    act(() => (mapProps.current!.onAlternative as (i: number) => void)(0));
+    expect(mapProps.current!.route).not.toBe(other);
+    unmount();
+
+    // waypoints fix the way: no alternatives asked; a failed or late answer changes nothing
+    history.replaceState(null, '', '/?from=1,2&to=3,4&via=1.5,2.5');
+    const quiet = fakeClient({ alternatives: vi.fn(async () => { throw new Error('busy'); }) });
+    const q = render(<App client={quiet} />);
+    await flush();
+    expect(quiet.alternatives).not.toHaveBeenCalled();
+    q.unmount();
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const failing = fakeClient({ alternatives: vi.fn(async () => { throw new Error('busy'); }) });
+    const f = render(<App client={failing} />);
+    await flush();
+    await flush();
+    expect(screen.queryByText(/· best/)).toBeNull();
+    f.unmount();
+    let late: (r: Route[]) => void = () => {};
+    const slow = fakeClient({ alternatives: vi.fn(() => new Promise<Route[]>((res) => { late = res; })) });
+    const l = render(<App client={slow} />);
+    await flush();
+    l.unmount();
+    late([other]);
+    await flush();
   });
 
   it('folds the desktop side panel and remembers it', async () => {
