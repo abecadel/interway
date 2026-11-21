@@ -1,5 +1,5 @@
 // Builds an in-memory Graph + Geometry from simple segment lists. Used by tests and the demo graph.
-import { COORD_SCALE, Flag, type Geometry, type Graph } from './format';
+import { COORD_SCALE, Flag, SPEED_SHIFT, type Geometry, type Graph } from './format';
 import { haversine, type LngLat } from './geo';
 
 export interface SegmentInput {
@@ -14,6 +14,10 @@ export interface SegmentInput {
   noDepth?: boolean;
   /** open sea far from the coast (OFFSHORE) */
   offshore?: boolean;
+  /** motorboats not allowed (NO_MOTOR) */
+  noMotor?: boolean;
+  /** posted speed limit, km/h (1-31) */
+  maxSpeed?: number;
   /** [maxDraft, maxHeight, maxWidth, maxLength] */
   limits?: [number, number, number, number];
 }
@@ -70,6 +74,8 @@ export function buildGraph(segments: SegmentInput[]): { graph: Graph; geometry: 
     if (s.kind === 'patch') base |= Flag.PATCH;
     if (s.noDepth) base |= Flag.NO_DEPTH;
     if (s.offshore) base |= Flag.OFFSHORE;
+    if (s.noMotor) base |= Flag.NO_MOTOR;
+    base |= (s.maxSpeed ?? 0) << SPEED_SHIFT;
     edges.push({ from: a, to: b, len, geom: g, attr, flags: base | (s.kind === 'river' ? Flag.DOWNSTREAM : 0) });
     if (!s.oneway) {
       edges.push({ from: b, to: a, len, geom: g, attr, flags: base | Flag.GEOM_REVERSED | (s.kind === 'river' ? Flag.UPSTREAM : 0) });

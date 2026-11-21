@@ -11,7 +11,7 @@ from shapely import STRtree
 from shapely.geometry import LineString, Point
 
 from .extract import Extract, NavWay
-from .model import Limits, LonLat, Segment, haversine, line_length, metres_to_deg, parse_metres
+from .model import Limits, LonLat, Segment, access_of, haversine, line_length, metres_to_deg, parse_metres
 
 log = logging.getLogger(__name__)
 # the longest lock chamber in Europe is about 450 m (Kieldrecht); a lock way longer than this is not just a chamber
@@ -94,6 +94,7 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
         return next((ex.lock_names[x] for x in nodes[i0:i1 + 1] if x in ex.lock_names), tags.get("lock_name", ""))
 
     out: list[Segment] = []
+    no_motor, max_speed = access_of(tags)
 
     def emit(a: int, b: int, pts: list[LonLat], lock: bool, seg_name: str) -> None:
         # A weir/dam blocks passage: disconnect the segment at that node.
@@ -105,7 +106,8 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
             barrier_ends.add(b)
         if a != b or len(pts) > 2:
             out.append(Segment(a=a, b=b, coords=pts, name=seg_name, kind=kind, lock=lock, oneway=oneway,
-                               flows=(kind == "river"), limits=_limits(tags), osm_way=w.id))
+                               flows=(kind == "river"), limits=_limits(tags), osm_way=w.id, no_motor=no_motor,
+                               max_speed=max_speed))
 
     start, start_node = 0, nodes[0]
     for i in range(1, len(nodes)):
@@ -121,7 +123,8 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
             gate = new_node_id()
             emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
             out.append(Segment(a=n, b=gate, coords=[coords[i], coords[i]], name=lock_name_of(i, i) or name,
-                               kind=kind, lock=True, oneway=oneway, limits=_limits(tags), osm_way=w.id))
+                               kind=kind, lock=True, oneway=oneway, limits=_limits(tags), osm_way=w.id,
+                               no_motor=no_motor, max_speed=max_speed))
             start, start_node = i, gate
             continue
         emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
@@ -371,8 +374,7 @@ def merge_degree2(segments: list[Segment]) -> list[Segment]:
         s, t = order
         if s.a == t.b:
             continue  # would create a loop segment
-        merged = Segment(a=s.a, b=t.b, coords=s.coords + t.coords[1:], name=s.name, kind=s.kind, lock=False,
-                         oneway=s.oneway, flows=s.flows, limits=s.limits, osm_way=s.osm_way)
+        merged = replace(s, b=t.b, coords=s.coords + t.coords[1:], lock=False)  # same merge_key: same attributes
         segments[i] = merged
         alive[j] = False
         # update incidence lists in place: the loop above holds references to them
@@ -385,8 +387,7 @@ def merge_degree2(segments: list[Segment]) -> list[Segment]:
 
 
 def _reversed(s: Segment) -> Segment:
-    return Segment(a=s.b, b=s.a, coords=s.coords[::-1], name=s.name, kind=s.kind, lock=s.lock, oneway=s.oneway,
-                   flows=s.flows, limits=s.limits, osm_way=s.osm_way)
+    return replace(s, a=s.b, b=s.a, coords=s.coords[::-1])
 
 
 def _orient(first: Segment, second: Segment, node: int) -> tuple[Segment, Segment] | None:

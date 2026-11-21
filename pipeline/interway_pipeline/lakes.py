@@ -317,6 +317,27 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
     return prune_and_smooth(segs, {nid for nid, _ in entries}, water, bridge)
 
 
+def mark_lake_access(segs: list[Segment], lakes: list[Lake]) -> int:
+    """Carry a lake's motorboat ban and speed limit onto the mesh segments crossing it; returns how many."""
+    ruled = [lk for lk in lakes if lk.no_motor or lk.max_speed]
+    if not ruled:
+        return 0
+    tree = STRtree([lk.polygon for lk in ruled])
+    n = 0
+    for s in segs:
+        mid = s.coords[len(s.coords) // 2] if len(s.coords) > 2 else (
+            (s.coords[0][0] + s.coords[-1][0]) / 2, (s.coords[0][1] + s.coords[-1][1]) / 2)
+        hits = tree.query(Point(mid), predicate="intersects")
+        if not len(hits):
+            continue
+        lk = ruled[int(hits[0])]
+        s.no_motor = s.no_motor or lk.no_motor
+        s.max_speed = min(x for x in (s.max_speed, lk.max_speed) if x) if (s.max_speed or lk.max_speed) else 0
+        n += 1
+    log.info("lake access rules on %d segments (%d lakes with a motorboat ban or speed limit)", n, len(ruled))
+    return n
+
+
 def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[int] | None = None) -> list[Segment]:
     """Keep only mesh edges on shortest paths between entries, then straighten each chain.
 

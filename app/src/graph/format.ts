@@ -13,7 +13,13 @@ export const Flag = {
   PATCH: 1 << 7,
   NO_DEPTH: 1 << 8,
   OFFSHORE: 1 << 9,
+  /** OSM says motorboats are not allowed here (motorboat=no, boat=no) */
+  NO_MOTOR: 1 << 10,
 } as const;
+
+/** Bits 11-15 of the flags: the posted speed limit in km/h (1-31, 0 = none known). */
+export const SPEED_SHIFT = 11;
+export const speedLimitOf = (flags: number) => (flags >> SPEED_SHIFT) & 31;
 
 export interface Graph {
   nodeCount: number;

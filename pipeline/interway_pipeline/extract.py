@@ -18,7 +18,7 @@ from .classify import (
     kind_of,
     lake_allowlisted,
 )
-from .model import MIN_LAKE_KM2, LonLat, area_km2, parse_metres
+from .model import MIN_LAKE_KM2, LonLat, access_of, area_km2, parse_metres
 from .pois import poi_type, port_info
 
 log = logging.getLogger(__name__)
@@ -47,6 +47,8 @@ class Lake:
     # "lake" (meshed for crossing) or "channel" (a river/canal stretch mapped as an area: used only where a
     # waterway dead-ends into it, see lakes._useful)
     kind: str = "lake"
+    no_motor: bool = False  # motorboat=no / boat=no on the lake
+    max_speed: int = 0  # posted speed limit on the lake, km/h
 
 
 @dataclass
@@ -180,10 +182,12 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
             # rough km² at mid-latitude, enough for a size threshold
             km2 = area_km2(poly)
             allowed = lake_allowlisted(tags, allow)
+            no_motor, speed = access_of(tags)
             if is_channel_area(tags):
-                ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed, kind="channel"))
+                ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed, kind="channel", no_motor=no_motor,
+                                     max_speed=speed))
             elif km2 >= min_lake_km2 or allowed:
-                ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed))
+                ex.lakes.append(Lake(o.id, tags.get("name", ""), poly, allowed, no_motor=no_motor, max_speed=speed))
     log.info("read %d ways: %d navigable, %d connector candidates, %d lakes, %d bridges w/ clearance, %d lock nodes, %d marinas",
              n_ways, len(ex.ways), len(ex.connectors), len(ex.lakes), len(ex.bridges), len(ex.lock_nodes), len(ex.marinas))
     return ex

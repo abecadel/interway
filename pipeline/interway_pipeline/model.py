@@ -18,6 +18,12 @@ CANAL = 1 << 6
 PATCH = 1 << 7
 NO_DEPTH = 1 << 8  # open sea without charted depth (outside the bathymetry's coverage)
 OFFSHORE = 1 << 9  # open sea far from the coast: a small boat keeping near the coast avoids it
+NO_MOTOR = 1 << 10  # OSM says motorboats are not allowed (motorboat=no, boat=no on the way or the lake)
+SPEED_SHIFT = 11  # bits 11-15: posted speed limit in km/h (1-31; 0 = none known, 31 = 31 or more)
+MAX_SPEED_KMH = 31
+
+KNOT_KMH = 1.852
+MPH_KMH = 1.609344
 
 LonLat = tuple[float, float]
 
@@ -76,6 +82,8 @@ class Segment:
     osm_way: int = 0
     depth_unknown: bool = False  # sea segment with no charted depth along it
     offshore: bool = False  # sea segment whose middle is far from land (see sea.mark_offshore)
+    no_motor: bool = False  # motorboats not allowed (OSM motorboat=no or boat=no)
+    max_speed: int = 0  # posted speed limit, km/h (0 = none known)
 
     @property
     def length(self) -> float:
@@ -83,7 +91,28 @@ class Segment:
 
     def merge_key(self):
         return (self.name, self.kind, self.lock, self.oneway, self.flows, self.limits.as_tuple(),
-                self.depth_unknown, self.offshore)
+                self.depth_unknown, self.offshore, self.no_motor, self.max_speed)
+
+
+def parse_speed(value: str | None) -> int:
+    """Parse OSM maxspeed values for boats ('10', '5 knots', '6 kn', '3 mph') to whole km/h, 0 when unknown."""
+    if not value:
+        return 0
+    v = value.strip().lower().split(";")[0]
+    factor = KNOT_KMH if any(u in v for u in ("knot", "kn", "kt")) else MPH_KMH if "mph" in v else 1.0
+    num = "".join(c for c in v.split()[0] if c.isdigit() or c in ".,").replace(",", ".") if v.split() else ""
+    try:
+        x = float(num) * factor
+    except ValueError:
+        return 0
+    return min(MAX_SPEED_KMH, max(1, int(x + 0.5))) if x > 0 else 0
+
+
+def access_of(tags: dict[str, str]) -> tuple[bool, int]:
+    """(motorboats not allowed, posted speed limit km/h) from a waterway's or a lake's tags."""
+    motor, boat = tags.get("motorboat"), tags.get("boat")
+    no_motor = motor in ("no", "private") or (boat in ("no", "private") and motor not in ("yes", "designated", "permissive"))
+    return no_motor, parse_speed(tags.get("maxspeed:boat") or tags.get("maxspeed"))
 
 
 def parse_metres(value: str | None) -> float:

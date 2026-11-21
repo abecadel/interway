@@ -121,3 +121,12 @@ def test_offshore_sea_is_flagged(tmp_path):
     from interway_pipeline.model import OFFSHORE
     export([Segment(a=1, b=2, coords=[(0, 0), (0.1, 0)], kind="sea", offshore=True)], tmp_path, region="t")
     assert all(f & OFFSHORE for _, _, f in edges(read_graph(tmp_path / "graph.bin")))
+
+
+def test_motorboat_ban_and_speed_limit_are_flagged(tmp_path):
+    from interway_pipeline.model import NO_MOTOR, SPEED_SHIFT
+    export([Segment(a=1, b=2, coords=[(0, 0), (0.1, 0)], no_motor=True, max_speed=12),
+            Segment(a=2, b=3, coords=[(0.1, 0), (0.2, 0)])], tmp_path, region="t")
+    flags = {(u, v): f for u, v, f in edges(read_graph(tmp_path / "graph.bin"))}
+    assert flags[(0, 1)] & NO_MOTOR and flags[(0, 1)] >> SPEED_SHIFT == 12 and flags[(1, 0)] >> SPEED_SHIFT == 12
+    assert not flags[(1, 2)] & NO_MOTOR and flags[(1, 2)] >> SPEED_SHIFT == 0

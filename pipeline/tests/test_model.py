@@ -37,3 +37,21 @@ def test_segment_merge_key_and_length():
     t.limits.max_width = 9
     assert s.merge_key() != t.merge_key()
     assert s.length == pytest.approx(haversine((0, 0), (0, 1)))
+
+
+@pytest.mark.parametrize("value,expected", [
+    (None, 0), ("", 0), ("10", 10), ("5 knots", 9), ("6 kn", 11), ("3 kt", 6), ("5 mph", 8), ("12;6", 12),
+    ("80", 31), ("0", 0), ("walk", 0), ("0.4", 1), ("8,5", 9),
+])
+def test_parse_speed(value, expected):
+    from interway_pipeline.model import parse_speed
+    assert parse_speed(value) == expected
+
+
+def test_access_of():
+    from interway_pipeline.model import access_of
+    assert access_of({}) == (False, 0)
+    assert access_of({"motorboat": "no", "maxspeed": "6 kn"}) == (True, 11)
+    assert access_of({"boat": "no"}) == (True, 0)  # no boats at all: no motorboats either
+    assert access_of({"boat": "private", "motorboat": "yes"}) == (False, 0)
+    assert access_of({"motorboat": "private", "maxspeed:boat": "12", "maxspeed": "50"}) == (True, 12)

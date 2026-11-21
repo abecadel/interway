@@ -382,3 +382,16 @@ def test_short_channel_area_between_lakes_is_a_strait():
     assert comp[2] == comp[3]  # through the strait
     assert {lk.name for lk in lakes._straits([jagodne, boczne, kula, long_river, pond_link])} == {"Kanał Kula"}
     assert lakes._straits([kula]) == []
+
+
+def test_lake_access_rules_reach_the_mesh_segments():
+    from interway_pipeline.lakes import mark_lake_access
+    quiet = Lake(1, "Quiet", box(0, 0, 1, 1), True, no_motor=True, max_speed=10)
+    slow = Lake(2, "Slow", box(2, 0, 3, 1), True, max_speed=6)
+    free = Lake(3, "Free", box(4, 0, 5, 1), True)
+    segs = [Segment(a=1, b=2, coords=[(0.2, 0.5), (0.8, 0.5)], kind="lake"),
+            Segment(a=3, b=4, coords=[(2.2, 0.5), (2.5, 0.5), (2.8, 0.5)], kind="lake", max_speed=12),
+            Segment(a=5, b=6, coords=[(4.2, 0.5), (4.8, 0.5)], kind="lake")]
+    assert mark_lake_access(segs, [quiet, slow, free]) == 2
+    assert [(s.no_motor, s.max_speed) for s in segs] == [(True, 10), (False, 6), (False, 0)]
+    assert mark_lake_access(segs, [free]) == 0

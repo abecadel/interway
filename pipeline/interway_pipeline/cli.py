@@ -16,7 +16,7 @@ from .depth import ATTRIBUTION as DEPTH_ATTRIBUTION
 from .depth import DepthGrid, apply_sea_depth, tile_loader
 from .export import export
 from .extract import Extract, read_osm
-from .lakes import connect_lakes
+from .lakes import connect_lakes, mark_lake_access
 from .model import Segment, haversine
 from .pois import load_places
 from .qa import gap_candidates
@@ -159,7 +159,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 13  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 14  # bump when read_osm output changes, invalidates --cache
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,
@@ -251,6 +251,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # marinas and harbours (passenger quays: the Telemark Canal boats at Dalen) are places to steer to on a lake
     harbours = ex.marinas + [(name, p) for kind, name, p, _ in ex.services if kind == "port"]
     lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs)
+    mark_lake_access(lake_segs, ex.lakes)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes
     if land is not None:

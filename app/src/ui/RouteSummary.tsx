@@ -55,6 +55,11 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
           Start/end snapped to the nearest navigable water ({fmtKm(route.start.offset)} / {fmtKm(route.end.offset)} away).
         </div>
       )}
+      {route.noMotor > 500 && (
+        <div className="warn small">
+          {fmtKm(route.noMotor)} on waters where OpenStreetMap says motorboats are not allowed, with no other way. Check the local rules.
+        </div>
+      )}
       {route.unverified > 0 && (
         <div className="warn small">
           Includes {fmtKm(route.unverified)} on unverified connections (short channels or manual links). Check locally before going.
