@@ -45,6 +45,15 @@ def test_way_crossing_itself_splits_at_the_repeated_node():
     assert len(segs[0].coords) == 4
 
 
+def test_a_dam_on_a_lock_way_is_the_dam_the_lock_passes():
+    ex = Extract(ways=[way(1, [1, 2], kind="river"), way(2, [2, 3, 4], kind="river", lock="yes"),
+                       way(3, [4, 5], kind="river")], barrier_nodes={3, 5})
+    segs = split_ways(ex)
+    assert ex.barrier_nodes == {5}
+    assert len(set(components(segs).values())) == 1
+    assert any(s.lock for s in segs)
+
+
 def test_degenerate_two_node_loop_dropped():
     assert split_ways(Extract(ways=[way(1, [5, 5])])) == []
 

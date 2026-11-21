@@ -1,0 +1,154 @@
+# United States: the federally maintained inland waterways used by recreational boats, the New York State
+# Canal System, the Intracoastal Waterways and the Okeechobee Waterway. OSM rarely tags these with ship or
+# motorboat tags, so most are listed by name; rivers navigable only in part carry the box of their navigable
+# reach (west, south, east, north). The open bays and sounds the ICW crosses (Chesapeake, Albemarle, Pamlico,
+# Mobile Bay) are sea and reached by the sea mesh.
+# Sources: USACE Navigation Data Center, "Waterways of the United States" and the lock list
+# (https://www.iwr.usace.army.mil/About/Technical-Centers/WCSC-Waterborne-Commerce-Statistics-Center/);
+# NY State Canal Corporation (https://www.canals.ny.gov/navinfo/); NOAA Coast Pilot 3–5 and 7
+# (https://nauticalcharts.noaa.gov/publications/coast-pilot/); America's Great Loop Cruisers' Association route.
+waterways:
+  # New York State Canal System: Erie, Oswego, Champlain, Cayuga–Seneca canals and the rivers they use
+  - Erie Canal
+  - Erie Barge Canal
+  - New York State Barge Canal
+  - Oswego Canal
+  - Champlain Canal
+  - Cayuga-Seneca Canal
+  - Cayuga–Seneca Canal
+  - {name: Oswego River, bbox: [-76.6, 43.1, -76.2, 43.47]}
+  - {name: Seneca River, bbox: [-77.0, 42.85, -76.15, 43.25]}
+  - {name: Oneida River, bbox: [-76.35, 43.15, -76.0, 43.3]}
+  - {name: Mohawk River, bbox: [-75.5, 42.75, -73.68, 43.3]}
+  - {name: Tonawanda Creek, bbox: [-78.95, 43.0, -78.68, 43.1]}
+  - Black Rock Canal
+  # Hudson: New York to Troy (tidal), and on to Fort Edward as part of the Champlain Canal
+  - {name: Hudson River, bbox: [-74.3, 40.48, -73.5, 43.3]}
+  - {name: Niagara River, bbox: [-79.1, 42.85, -78.85, 43.06]}  # Buffalo to above the falls only
+  # Great Lakes connecting channels
+  - Detroit River
+  - Saint Clair River
+  - St. Clair River
+  - St. Marys River
+  - Saint Marys River
+  - Saint Marys Falls Canal
+  # Illinois Waterway: Lake Michigan to the Mississippi at Grafton
+  - Chicago Sanitary and Ship Canal
+  - Chicago River
+  - North Branch Chicago River
+  - South Branch Chicago River
+  - Calumet-Sag Channel
+  - Cal-Sag Channel
+  - {name: Calumet River, bbox: [-87.65, 41.6, -87.52, 41.75]}
+  - {name: Little Calumet River, bbox: [-87.7, 41.6, -87.55, 41.68]}
+  - {name: Des Plaines River, bbox: [-88.3, 41.38, -87.95, 41.6]}
+  - Illinois River
+  - Illinois Waterway
+  # Mississippi from Minneapolis (Lower St. Anthony Falls) to the Gulf, and its navigable tributaries
+  - {name: Mississippi River, bbox: [-95.5, 28.8, -88.9, 44.99]}
+  - {name: Minnesota River, bbox: [-93.6, 44.75, -93.15, 44.9]}
+  - {name: Saint Croix River, bbox: [-92.9, 44.7, -92.7, 45.2]}
+  - {name: St. Croix River, bbox: [-92.9, 44.7, -92.7, 45.2]}
+  - {name: Missouri River, bbox: [-96.5, 38.5, -90.1, 42.6]}  # St. Louis to Sioux City
+  - {name: Ohio River, bbox: [-89.2, 36.9, -79.9, 40.7]}  # Pittsburgh to Cairo
+  - {name: Monongahela River, bbox: [-80.3, 39.4, -79.9, 40.45]}
+  - {name: Allegheny River, bbox: [-80.05, 40.42, -79.5, 40.95]}
+  - {name: Kanawha River, bbox: [-82.2, 38.15, -81.25, 38.85]}
+  - {name: Green River, bbox: [-87.6, 37.1, -86.7, 37.95]}
+  - {name: Cumberland River, bbox: [-88.3, 36.0, -85.6, 37.1]}
+  - Tennessee River
+  - Tennessee-Tombigbee Waterway
+  - Tennessee–Tombigbee Waterway
+  - Tenn-Tom Waterway
+  - {name: Tombigbee River, bbox: [-88.6, 30.9, -87.9, 34.0]}
+  - {name: Black Warrior River, bbox: [-88.0, 32.5, -86.9, 33.7]}
+  - Mobile River
+  - {name: Alabama River, bbox: [-88.0, 31.0, -86.2, 32.5]}
+  - {name: Arkansas River, bbox: [-95.8, 33.7, -91.0, 35.9]}  # McClellan–Kerr to Muskogee
+  - McClellan-Kerr Arkansas River Navigation System
+  - {name: Verdigris River, bbox: [-95.8, 35.7, -95.3, 36.25]}  # Muskogee to Catoosa (Tulsa)
+  - {name: Red River, bbox: [-94.0, 31.0, -91.6, 32.7]}  # J. Bennett Johnston Waterway to Shreveport
+  - {name: Ouachita River, bbox: [-92.3, 31.2, -91.8, 33.2]}
+  - Atchafalaya River
+  - {name: Pearl River, bbox: [-89.9, 30.15, -89.5, 30.8]}
+  # Gulf and Atlantic Intracoastal Waterways: the named canal cuts and land cuts
+  - Gulf Intracoastal Waterway
+  - Intracoastal Waterway
+  - Atlantic Intracoastal Waterway
+  - Houston Ship Channel
+  - Inner Harbor Navigation Canal
+  - Industrial Canal
+  - Harvey Canal
+  - Algiers Canal
+  - Chesapeake and Delaware Canal
+  - Chesapeake & Delaware Canal
+  - Cape May Canal
+  - Point Pleasant Canal
+  - Dismal Swamp Canal
+  - Albemarle and Chesapeake Canal
+  - Alligator River-Pungo River Canal
+  - Alligator–Pungo Canal
+  - Adams Creek Canal
+  - Pasquotank River
+  - {name: Elizabeth River, bbox: [-76.4, 36.7, -76.2, 36.95]}
+  - {name: North Landing River, bbox: [-76.2, 36.4, -75.95, 36.75]}
+  - {name: Alligator River, bbox: [-76.2, 35.6, -75.85, 35.95]}
+  - {name: Pungo River, bbox: [-76.7, 35.3, -76.4, 35.6]}
+  - Snows Cut
+  - Waccamaw River
+  - {name: Cape Fear River, bbox: [-78.05, 33.85, -77.9, 34.25]}
+  - {name: Savannah River, bbox: [-81.2, 31.98, -80.85, 32.15]}
+  - {name: Saint Johns River, bbox: [-81.8, 28.8, -81.3, 30.45]}  # Jacksonville to Sanford
+  - {name: St. Johns River, bbox: [-81.8, 28.8, -81.3, 30.45]}
+  - Indian River
+  - Halifax River
+  - Mosquito Lagoon
+  - Haulover Canal
+  - Matanzas River
+  - Tolomato River
+  - Okeechobee Waterway
+  - Caloosahatchee River
+  - Caloosahatchee Canal
+  - St. Lucie Canal
+  - Saint Lucie Canal
+  - {name: St. Lucie River, bbox: [-80.4, 27.1, -80.15, 27.25]}
+  - {name: Saint Lucie River, bbox: [-80.4, 27.1, -80.15, 27.25]}
+  - {name: Delaware River, bbox: [-75.8, 38.7, -74.6, 40.25]}  # the bay to Trenton
+  - {name: Potomac River, bbox: [-77.3, 37.9, -76.2, 38.95]}  # Chesapeake Bay to Washington
+  - {name: James River, bbox: [-77.45, 36.9, -76.3, 37.55]}  # Hampton Roads to Richmond
+  - Chesapeake Channel
+  # West: Columbia–Snake system, Willamette, Lake Washington Ship Canal, Sacramento–San Joaquin delta
+  - {name: Columbia River, bbox: [-124.1, 45.5, -118.9, 46.3]}  # the bar to the Tri-Cities
+  - {name: Snake River, bbox: [-119.1, 46.1, -116.9, 46.7]}  # Pasco to Lewiston
+  - {name: Willamette River, bbox: [-122.9, 45.3, -122.5, 45.7]}  # Portland to Oregon City
+  - Lake Washington Ship Canal
+  - Montlake Cut
+  - Fremont Cut
+  - {name: Sacramento River, bbox: [-122.0, 37.95, -121.45, 38.6]}
+  - {name: San Joaquin River, bbox: [-121.9, 37.9, -121.25, 38.1]}
+  - Stockton Deep Water Ship Channel
+  - Sacramento Deep Water Ship Channel
+lakes:
+  - Lake Erie
+  - Lake Huron
+  - Lake Michigan
+  - Lake Superior
+  - Lake Saint Clair
+  - Lake St. Clair
+  - Lake Champlain
+  - Oneida Lake
+  - Onondaga Lake
+  - Cross Lake
+  - Cayuga Lake
+  - Seneca Lake
+  - Lake Okeechobee
+  - Lake Washington
+  - Lake Union
+  - Kentucky Lake
+  - Lake Barkley
+  - Pickwick Lake
+  - Wheeler Lake
+  - Wilson Lake
+  - Guntersville Lake
+  - Lake Pepin
+exclude: []

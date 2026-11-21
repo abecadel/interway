@@ -903,7 +903,6 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/barcelona-palma (about 130 NM; other ferry sites give 110–112 NM, so the midpoint and a wide tolerance)
 
 - name: Bonifacio → Santa Teresa Gallura (Strait of Bonifacio)
-  known_gap: the sea route is 25 km against about 17; Porto Longone still joins the coarse mesh away from the strait
   from: [9.1600, 41.3892]
   to: [9.1956, 41.2378]
   expected_km: 17
@@ -2877,7 +2876,6 @@
     gives 20 NM Ajaccio – Propriano
 
 - name: Bonifacio → Rondinara (via the Lavezzi islands)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [9.157, 41.3889]
   to: [9.27, 41.47]
   waypoints:
@@ -3557,7 +3555,6 @@
   source: 'https://www.gotakanal.se/sv/media/811 (Göta kanalbolag express itinerary: "Free time/crossing Lake Vättern, 32.5 km", Motala harbour – Karlsborg)'
 
 - name: Göta kanal stage 4 — Karlsborg → Töreboda (Bottensjön, Forsvik, Viken, Tåtorp)
-  known_gap: 'not yet diagnosed: the route differs from the source'
   from: [14.52, 58.537]
   to: [14.1245, 58.7065]
   expected_km: 46
