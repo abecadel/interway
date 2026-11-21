@@ -36,6 +36,12 @@ describe('useTheme', () => {
     unmount();
     expect(mq.removeEventListener).toHaveBeenCalled();
     expect(renderHook(() => useTheme(win)).result.current.theme).toBe('night');
+    // the helm's red is a night theme: the map is dark (and tinted red by the stylesheet)
+    const helm = renderHook(() => useTheme(win));
+    act(() => helm.result.current.setTheme('helm'));
+    expect(helm.result.current.night).toBe(true);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('helm');
+    expect(renderHook(() => useTheme(win)).result.current.theme).toBe('helm');
   });
 
   it('works without matchMedia or storage', () => {

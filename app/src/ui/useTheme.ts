@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
-/** Colours of the page and the map: follow the system (auto), or force day or night. */
-export type Theme = 'auto' | 'day' | 'night';
+/** Colours of the page and the map: follow the system (auto), force day or night, or red for the helm at night
+ *  (keeps night vision: no white or blue light). */
+export type Theme = 'auto' | 'day' | 'night' | 'helm';
 export const THEME_KEY = 'interway.theme';
 const DARK_QUERY = '(prefers-color-scheme: dark)';
 
 function loadTheme(): Theme {
   try {
     const v = localStorage.getItem(THEME_KEY);
-    return v === 'day' || v === 'night' ? v : 'auto';
+    return v === 'day' || v === 'night' || v === 'helm' ? v : 'auto';
   } catch {
     return 'auto';
   }
@@ -35,5 +36,5 @@ export function useTheme(win: Window = window) {
       // storage blocked: the choice lasts for this visit
     }
   }, [theme, win]);
-  return { theme, setTheme, night: theme === 'night' || (theme === 'auto' && systemDark) };
+  return { theme, setTheme, night: theme === 'night' || theme === 'helm' || (theme === 'auto' && systemDark) };
 }

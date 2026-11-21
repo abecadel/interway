@@ -87,6 +87,7 @@ function saveProfile(p: VesselProfile, entered: ReadonlySet<string>) {
 export default function App({ client }: { client: RoutingApi }) {
   const [dataStatus, setDataStatus] = useState<string>('Loading waterway data…');
   const [dataReady, setDataReady] = useState(false);
+  const [networkError, setNetworkError] = useState<string | null>(null);
   // the data version (its graph's checksum, else its build time): permalinks and snapshots record it
   const [dataId, setDataId] = useState<string | null>(null);
   // The URL wins over stored settings, so a shared (or agent-written) link reproduces the route exactly.
@@ -182,7 +183,7 @@ export default function App({ client }: { client: RoutingApi }) {
 
   useEffect(() => {
     if (!showNetwork || network || !dataReady) return;
-    client.network().then(setNetwork).catch((e) => setDataStatus(e.message));
+    client.network().then(setNetwork).catch((e) => setNetworkError(e.message));
   }, [showNetwork, network, dataReady, client]);
 
   // a route opened from a snapshot is shown as it was saved, until the user changes the trip or recomputes it
@@ -578,7 +579,7 @@ export default function App({ client }: { client: RoutingApi }) {
       )}
       {changed.length > 0 && <div className="warn small">This permalink was planned on earlier data: {changed.join('; ')}.</div>}
       {snapshotError && <div className="error small">{snapshotError}</div>}
-      {routeError && <div className="error">{routeError}</div>}
+      {routeError && <div className="error" role="alert">{routeError}</div>}
       {!start && !end && <p className="info small">Choose a start and a destination: search, use your position, or tap the map. {snapshotInput}</p>}
       {route && (
         <RouteSummary
@@ -656,10 +657,15 @@ export default function App({ client }: { client: RoutingApi }) {
     </section>
   );
 
+  // what a screen reader hears when the route changes: computing, then the result in one line
+  const announcement = busy ? 'Calculating route' : route ? `Route: ${fmtDuration(route.duration)}, ${fmtKm(route.distance)}, ${route.locks} locks` : '';
   const footer = (
     <footer>
+      <div className="visually-hidden" aria-live="polite">{announcement}</div>
       {geoError && <div className="error small">GPS: {geoError}</div>}
-      <div className="small">{dataStatus}</div>
+      {/* loading or failing is news; once loaded, what is loaded is in Layers */}
+      {!dataReady && <div className="small" role="status">{dataStatus}</div>}
+      {networkError && <div className="error small" role="alert">{networkError}</div>}
       <div className="small disclaimer">Not for navigation. Always use official charts and notices to skippers.</div>
       {install && <button type="button" className="install" onClick={install}>Install app</button>}
     </footer>
@@ -713,7 +719,7 @@ export default function App({ client }: { client: RoutingApi }) {
             <div className="layers-pop">
               <LayersCard
                 theme={theme} setTheme={setTheme} seamarks={showSeamarks} setSeamarks={setShowSeamarks}
-                network={showNetwork} setNetwork={setShowNetwork} onClose={() => setLayersOpen(false)}
+                network={showNetwork} setNetwork={setShowNetwork} onClose={() => setLayersOpen(false)} about={dataReady ? dataStatus : undefined}
               />
             </div>
           )}

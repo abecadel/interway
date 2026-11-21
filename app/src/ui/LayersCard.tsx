@@ -1,10 +1,12 @@
 import { Icon } from './icons';
 import type { Theme } from './useTheme';
 
-const THEMES: [Theme, string][] = [['auto', 'Auto'], ['day', 'Day'], ['night', 'Night']];
+const THEMES: [Theme, string][] = [['auto', 'Auto'], ['day', 'Day'], ['night', 'Night'], ['helm', 'Helm (red)']];
 
 /** Map type and overlays, opened from the round layers button. */
-export function LayersCard({ theme, setTheme, seamarks, setSeamarks, network, setNetwork, onClose }: {
+export function LayersCard({ theme, setTheme, seamarks, setSeamarks, network, setNetwork, onClose, about }: {
+  /** what data is loaded (region, nodes, edges) */
+  about?: string;
   theme: Theme;
   setTheme: (t: Theme) => void;
   seamarks: boolean;
@@ -29,6 +31,7 @@ export function LayersCard({ theme, setTheme, seamarks, setSeamarks, network, se
       <h3>Map details</h3>
       <label className="check"><input type="checkbox" checked={seamarks} onChange={(e) => setSeamarks(e.target.checked)} /> OpenSeaMap seamarks</label>
       <label className="check"><input type="checkbox" checked={network} onChange={(e) => setNetwork(e.target.checked)} /> Routable network (debug)</label>
+      {about && <p className="small muted">Data: {about}</p>}
     </section>
   );
 }

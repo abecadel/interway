@@ -71,6 +71,7 @@ h3 { margin: 10px 0 4px; font-size: 0.95rem; }
 .map-type { flex-direction: column; border: 0; padding: 0; font-size: 0.8rem; gap: 4px; }
 .map-type .thumb { width: 64px; height: 64px; border-radius: 10px; border: 2px solid var(--line); background: linear-gradient(135deg, #e8f0e3 50%, #aad3df 50%); }
 .map-type-night .thumb { background: linear-gradient(135deg, #2b3542 50%, #17263c 50%); }
+.map-type-helm .thumb { background: linear-gradient(135deg, #2a0806 50%, #0a0000 50%); }
 .map-type-auto .thumb { background: linear-gradient(135deg, #e8f0e3 50%, #17263c 50%); }
 .map-type[aria-pressed='true'] { color: var(--accent); }
 .map-type[aria-pressed='true'] .thumb { border-color: var(--accent); }
@@ -199,3 +200,11 @@ footer { margin-top: 8px; color: var(--muted); display: flex; flex-direction: co
 .port-facts div { display: grid; grid-template-columns: 7em 1fr; gap: 0.5em; }
 .port-facts dt { color: var(--muted); }
 .port-facts dd { margin: 0; overflow-wrap: anywhere; }
+
+/* tap targets of at least 44 px (WCAG 2.5.5) */
+.pill, .icon-btn, .exports button, .fab { min-height: 44px; }
+.icon-btn { min-width: 44px; }
+details > summary { min-height: 44px; padding-block: 10px; }
+/* chips stay compact to the eye, with a 44 px tall hit area */
+.chip { position: relative; }
+.chip::after { content: ''; position: absolute; inset: -6px 0; }
