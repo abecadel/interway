@@ -5,6 +5,7 @@ import { defaultProfile, type Route, type VesselProfile } from '../routing/route
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
 import { noticesFor } from './notices';
+import { type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 
 export interface BriefStop {
   km: number;
@@ -53,6 +54,8 @@ export interface RouteBrief {
   stages: BriefStage[];
   hazards: string[];
   edit: { link: string; parameters: Record<string, string> };
+  /** researched sheets of the waterways on the route, in route order */
+  waterways: WaterwayInfo[];
 }
 
 const km = (m: number) => Math.round(m / 100) / 10;
@@ -185,6 +188,8 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   if (route.start.offset > 200 || route.end.offset > 200) {
     hazards.push(`Start/end were moved to the nearest navigable water (${km(route.start.offset)} km / ${km(route.end.offset)} km away).`);
   }
+  const waterways = waterwaysOn(route.legs.map((l) => l.name));
+  hazards.push(...waterwayWarnings(waterways, profile.draft, profile.airDraft));
   const legStages = stages(route, itinerary.stops, hoursPerDay);
   for (const st of legStages.filter((x) => x.atSea && x.hours > hoursPerDay)) {
     hazards.push(`km ${st.fromKm}–${st.toKm}: ${nm(1000 * st.km)} NM of open sea with no harbour on the planned line, about ${Math.round(st.hours)} h`
@@ -216,10 +221,32 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     stages: legStages,
     hazards,
     edit: { link, parameters: EDIT_PARAMETERS },
+    waterways,
   };
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');
+
+function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
+  if (!ws.length) return [];
+  const line = (label: string, v: string | null | false) => (v ? [`- ${label}: ${v}`] : []);
+  return ['## Waterways', ...ws.flatMap((w) => [
+    '',
+    `### ${w.name} (${w.navigable})`,
+    w.reach,
+    ...line('Gauge', w.class),
+    ...line('Depth', [w.depth.usualM !== null && `usually ${w.depth.usualM} m`, w.depth.maxDraftM !== null && `draft up to ${w.depth.maxDraftM} m`, w.depth.notes].filter(Boolean).join('; ')),
+    ...line('Lowest bridge', w.airDraftM !== null && `${w.airDraftM} m`),
+    ...line('Current', [w.current.typicalMs !== null && `about ${w.current.typicalMs} m/s`, w.current.notes].filter(Boolean).join('; ')),
+    ...line('Locks', [w.locks.count !== null && `${w.locks.count}`, w.locks.chamber, w.locks.hours, w.locks.notes].filter(Boolean).join('; ')),
+    ...line('Best season', w.season.best),
+    ...line('Closures', w.season.closures),
+    ...line('Authority', `${w.authority.name}${w.authority.url ? ` (${w.authority.url})` : ''}`),
+    ...line('Notices', w.notices),
+    ...line('Notes', w.notes),
+    `- Sources (checked ${w.checked}): ${w.sources.join(', ')}`,
+  ]), ''];
+}
 /** a dimension left at the planner's default says so: it was not entered for this boat */
 const dim = (v: number, d: number) => `${v} m${v === d ? ' (default, not entered)' : ''}`;
 
@@ -246,6 +273,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),
     '',
+    ...waterwaysMarkdown(b.waterways),
     '## Legs',
     '| km | waterway | length |',
     '|---|---|---|',

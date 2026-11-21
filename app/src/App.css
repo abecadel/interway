@@ -183,3 +183,15 @@ footer { margin-top: 8px; color: var(--muted); display: flex; flex-direction: co
 .directions-card.dir-compact { flex-direction: row; align-items: center; gap: 4px; }
 .dir-compact .dir-summary { flex: 1; min-width: 0; overflow: hidden; justify-content: flex-start; border: 0; text-align: left; padding: 6px 4px; font-weight: 500; }
 .dir-summary span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* researched waterway sheets in the route summary */
+.waterways { list-style: none; margin: 0.5em 0 0; padding: 0; }
+.waterways li { padding: 0.6em 0; border-top: 1px solid var(--line); }
+.waterway-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5em; }
+.waterways dl { margin: 0.3em 0; }
+.waterways dl div { display: grid; grid-template-columns: 7.5em 1fr; gap: 0.5em; }
+.waterways dt { color: var(--muted); }
+.waterways dd { margin: 0; }
+.badge { font-size: 0.75rem; padding: 0.1em 0.5em; border-radius: 1em; border: 1px solid var(--line); white-space: nowrap; }
+.badge.seasonal, .badge.restricted { color: var(--warn); border-color: var(--warn); }
+.badge.closed { color: var(--error); border-color: var(--error); }

@@ -1,9 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { Itinerary } from '../routing/itinerary';
 import { defaultProfile, type Route } from '../routing/router';
 import type { Poi } from '../routing/service';
+import { restricted } from '../test/waterwayFixture';
 import { briefMarkdown, buildBrief, EDIT_PARAMETERS } from './brief';
 import { VESSEL_PARAMS } from './urlState';
+
+vi.mock('../data/waterways.json', async () => ({ default: [(await import('../test/waterwayFixture')).kanal] }));
 
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
@@ -125,5 +128,19 @@ describe('route brief', () => {
 
   it('documents every URL parameter', () => {
     for (const k of [...Object.keys(VESSEL_PARAMS), 'from', 'to', 'via', 'avoidLocks', 'avoidSea', 'coastal']) expect(EDIT_PARAMETERS[k]).toBeTruthy();
+  });
+
+  it('describes the researched waterways on the route and warns where the boat does not fit', () => {
+    const onKanal = buildBrief({ route: { ...route, legs: [{ name: 'Kanal', distance: 200_000 }] }, itinerary, profile: { ...defaultProfile, draft: 2 },
+      title: 't', link: 'l' });
+    expect(onKanal.waterways.map((w) => w.id)).toEqual(['kanal']);
+    expect(onKanal.hazards).toContain('Kanal (A – B): draft 2 m exceeds the usual 1.5 m.');
+    const md = briefMarkdown(onKanal);
+    expect(md).toContain('## Waterways\n\n### Kanal (A – B) (seasonal)\nA to B\n- Gauge: Vb');
+    expect(md).toContain('- Locks: 3; 190 × 12 m; 6–22');
+    expect(md).toContain('- Authority: WSA (https://www.wsa.example)');
+    expect(md).toContain('- Sources (checked 2026-11-21): https://www.elwis.de/a, https://de.wikipedia.org/wiki/Kanal');
+    expect(briefMarkdown({ ...onKanal, waterways: [restricted] })).toContain('- Authority: Nobody\n- Notes: until 30 November');
+    expect(briefMarkdown(b)).not.toContain('## Waterways');
   });
 });

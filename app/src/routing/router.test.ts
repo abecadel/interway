@@ -258,6 +258,18 @@ describe('router edge cases', () => {
     expect(up.duration).toBeCloseTo(up.distance / 0.3, -1);
   });
 
+  it('uses the researched current of a waterway instead of the assumed one', () => {
+    const r = makeRouter([{ points: [A, B], kind: 'river', name: 'Rhein' }, { points: [B, C], kind: 'river', name: 'Bach' }]);
+    const p = { ...defaultProfile, speedKmh: 10.8, currentMs: 0.5 }; // 3 m/s through the water
+    const before = r.route([17.09, 51.0], [17.01, 51.0], p); // upstream on the Rhein
+    r.setCurrents(new Map([['rhein', 2]]));
+    const up = r.route([17.09, 51.0], [17.01, 51.0], p);
+    expect(up.duration).toBeCloseTo(up.distance / 1, -1); // 3 - 2 m/s
+    expect(up.duration).toBeGreaterThan(before.duration * 2);
+    const bach = r.route([17.19, 51.0], [17.11, 51.0], p); // no sheet: the assumed 0.5 m/s
+    expect(bach.duration).toBeCloseTo(bach.distance / 2.5, -1);
+  });
+
   it('returns null snaps and an error without geometry', () => {
     const r = makeRouter([]);
     expect(r.snap(A)).toBeNull();

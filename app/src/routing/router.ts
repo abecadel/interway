@@ -150,6 +150,8 @@ export class Router {
   private geomRev: Int32Array;
   private geomLength: Float64Array;
   private component: Int32Array;
+  /** typical current per geometry from the waterway sheets (NaN: the profile's assumed current) */
+  private geomCurrent: Float32Array | null = null;
   readonly names: string[];
   readonly graph: Graph;
   readonly geom: Geometry;
@@ -267,6 +269,12 @@ export class Router {
   }
 
   /** Travel time for a directed edge in seconds, or Infinity if the vessel cannot use it. */
+  /** Use researched typical currents (m/s, by waterway name) instead of the profile's single assumed current. */
+  setCurrents(byName: Map<string, number>): void {
+    const byIndex = this.names.map((n) => byName.get(n.trim().toLocaleLowerCase()) ?? NaN);
+    this.geomCurrent = Float32Array.from(this.geom.nameIndex, (i) => byIndex[i]); // a missing name becomes NaN
+  }
+
   edgeCost(e: number, p: VesselProfile): number {
     const g = this.graph;
     const a = g.edgeAttr[e] * 4;
@@ -285,8 +293,10 @@ export class Router {
       if (t[a + 3] > 0 && f(p.length) > t[a + 3]) return BLOCKED;
     }
     let speed = p.speedKmh / 3.6;
-    if (flags & Flag.DOWNSTREAM) speed += p.currentMs;
-    else if (flags & Flag.UPSTREAM) speed = Math.max(speed - p.currentMs, 0.3);
+    const known = this.geomCurrent?.[g.edgeGeom[e]];
+    const current = known !== undefined && !Number.isNaN(known) ? known : p.currentMs;
+    if (flags & Flag.DOWNSTREAM) speed += current;
+    else if (flags & Flag.UPSTREAM) speed = Math.max(speed - current, 0.3);
     let cost = g.edgeLength[e] / speed;
     if (flags & Flag.SEA) cost *= (p.avoidSea ? AVOID_SEA_COST : SEA_COST) * (shallow ? SHALLOW_COST : 1);
     if (p.coastal && flags & Flag.OFFSHORE) cost *= COASTAL_COST;

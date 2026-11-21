@@ -2,6 +2,7 @@
 import { COORD_SCALE, decodeGeometry, decodeGraph } from '../graph/format';
 import type { LngLat } from '../graph/geo';
 import { Router, type VesselProfile } from './router';
+import { currentsByName } from './waterways';
 
 export interface Manifest {
   version: number;
@@ -81,6 +82,7 @@ export class RoutingService {
         const manifest = (await res.json()) as Manifest;
         const [g, s] = await Promise.all([this.buffer(base + manifest.files.graph), this.buffer(base + manifest.files.geom)]);
         this.router = new Router(decodeGraph(g), decodeGeometry(s), manifest.names);
+        this.router.setCurrents(currentsByName());
         const pois = manifest.files.pois ? await this.pois(base + manifest.files.pois) : [];
         return { manifest, nodes: this.router.graph.nodeCount, edges: this.router.graph.edgeCount, pois } satisfies LoadResult;
       }
