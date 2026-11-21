@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # stream-extract.sh URL W,S,E,N OUT.osm.pbf
+# stream-extract.sh URL EXTRACTS.json OUT_DIR    (several areas in one pass: an osmium extract config)
 #
 # Cut a bounding box out of a large OSM .pbf (e.g. europe-latest.osm.pbf, 35 GB) without storing it: the file
 # is downloaded in 1 GB ranges (each retried on its own, so a dropped connection costs one chunk), piped into
@@ -9,6 +10,7 @@
 # Used for countries whose extracts are not reachable directly, e.g. the Danube countries:
 #   tools/stream-extract.sh https://ftp5.gwdg.de/pub/misc/openstreetmap/download.geofabrik.de/europe-latest.osm.pbf \
 #     13.4,41.2,29.9,48.7 danube.osm.pbf
+# A config lists {"output": "name.osm.pbf", "bbox": [w, s, e, n]} under "extracts"; each lands in OUT_DIR.
 set -euo pipefail
 url=$1 bbox=$2 out=$3
 chunk=$((1 << 30))
@@ -36,9 +38,18 @@ feed() {
   rm -f "$out.part"
 }
 
+if [ -f "$bbox" ]; then
+  mkdir -p "$out"
+  part="$out/.stream"
+  target=(-c "$bbox" -d "$out")
+else
+  part="$out"
+  target=(-b "$bbox" -o "$out")
+fi
+out=$part  # where the chunk buffer goes
 feed | tee >(md5sum | cut -d' ' -f1 > "$sums") \
-  | osmium extract -s simple -b "$bbox" -F pbf -o "$out" --overwrite -
+  | osmium extract -s simple "${target[@]}" -F pbf --overwrite -
 sleep 1
 got=$(cat "$sums")
 if [ -n "$want" ] && [ "$got" != "$want" ]; then echo "md5 mismatch: $got != $want" >&2; exit 1; fi
-echo "extracted $bbox -> $out ($(du -h "$out" | cut -f1)), md5 ${got:-unchecked}"
+echo "extracted $bbox -> $3 ($(du -sh "$3" | cut -f1)), md5 ${got:-unchecked}"
