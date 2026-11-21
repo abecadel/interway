@@ -1,0 +1,297 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mockup: place card with fishing</title><style>:root{
+  --bg:#fff; --surface:#fff; --surface-2:#f3f6f9; --fg:#14202b; --fg-2:#4a5a6a; --fg-3:#6b7a89; --line:#e3e8ee;
+  --accent:#0b62a4; --accent-fg:#fff; --accent-soft:#e3f0fb; --accent-soft-fg:#08487a;
+  --ok:#137333; --warn-bg:#fff4dc; --warn-fg:#7a4d00; --warn-line:#f2d18b; --err:#b3261e; --err-bg:#fde7e6;
+  --water:#a9d3ea; --water-deep:#8ec4e2; --land:#f1efe8; --park:#dcebd3; --road:#fff; --label:#3b4a57;
+  --route:#1a73e8; --route-casing:#0b4fb3;
+  --e1:0 1px 2px rgba(16,24,40,.12),0 1px 3px rgba(16,24,40,.08);
+  --e2:0 2px 6px rgba(16,24,40,.12),0 8px 24px rgba(16,24,40,.10);
+  --e3:0 -4px 24px rgba(16,24,40,.16);
+  --r-sm:8px; --r-md:12px; --r-lg:20px; --r-pill:999px;
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--fg);
+  -webkit-font-smoothing:antialiased;
+}
+.dark{ --bg:#0f151b; --surface:#151d25; --surface-2:#1d2731; --fg:#e8eef4; --fg-2:#b3c0cc; --fg-3:#8796a5; --line:#26313c;
+  --accent:#7cc0f5; --accent-fg:#06233a; --accent-soft:#17324a; --accent-soft-fg:#bfe0fb; --ok:#81c995;
+  --warn-bg:#3a2c0c; --warn-fg:#ffd27a; --warn-line:#5c4614; --err:#ff8a80; --err-bg:#3d1714;
+  --water:#0f2c42; --water-deep:#0b2336; --land:#1a1f24; --park:#18241b; --road:#2a3138; --label:#9fb0bf;
+  --route:#5aa2ff; --route-casing:#1c4f9c;
+  --e1:0 1px 2px rgba(0,0,0,.5); --e2:0 4px 16px rgba(0,0,0,.5); --e3:0 -4px 24px rgba(0,0,0,.6); }
+.helm{ --bg:#000; --surface:#120202; --surface-2:#1c0505; --fg:#ff6b5e; --fg-2:#d2463b; --fg-3:#a3342b; --line:#3a0d0a;
+  --accent:#ff5446; --accent-fg:#1a0000; --accent-soft:#2c0806; --accent-soft-fg:#ff8a7e; --ok:#ff6b5e;
+  --warn-bg:#2c0806; --warn-fg:#ff8a7e; --warn-line:#4d120d; --err:#ff5446; --err-bg:#2c0806;
+  --water:#1a0302; --water-deep:#140202; --land:#050000; --park:#070000; --road:#1f0503; --label:#a3342b;
+  --route:#ff3b30; --route-casing:#5c0d08; --e1:none; --e2:0 0 0 1px #3a0d0a; --e3:0 0 0 1px #3a0d0a; }
+*{box-sizing:border-box} body{margin:0;background:#dfe5ea}
+.num{font-variant-numeric:tabular-nums}
+.badge-m{display:inline-flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.helm .badge-m{filter:grayscale(1) sepia(1) hue-rotate(-50deg) saturate(5) brightness(.75);border-color:#300}
+.phone{color:var(--fg);width:390px;height:844px;position:relative;overflow:hidden;background:var(--land);border-radius:0}
+.map{position:absolute;inset:0}
+.mk{position:absolute;transform:translate(-50%,-50%);display:flex}
+.maplabel{position:absolute;font-size:11px;font-weight:600;color:var(--label);text-shadow:0 0 3px var(--land),0 0 3px var(--land),0 0 3px var(--land);white-space:nowrap}
+.maplabel.water{font-style:italic;font-weight:500;color:#3d7aa3;text-shadow:0 0 3px var(--water),0 0 3px var(--water)}
+.dark .maplabel.water{color:#5f9cc6}
+.helm .maplabel.water{color:#7a1f18;text-shadow:none}
+.statusbar{position:absolute;top:0;left:0;right:0;height:47px;display:flex;justify-content:space-between;align-items:center;padding:12px 28px 0;font-weight:600;font-size:15px;color:var(--fg);z-index:9}
+.fab{width:48px;height:48px;border-radius:50%;background:var(--surface);color:var(--fg);display:flex;align-items:center;justify-content:center;box-shadow:var(--e2)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;box-shadow:var(--e3);z-index:5}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--line);margin:8px auto 4px}
+.dark .grab{background:#3a4652}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:var(--surface-2);color:var(--fg-2);display:flex;align-items:center;justify-content:center;border:0}
+.btn{height:44px;border-radius:var(--r-pill);display:inline-flex;align-items:center;gap:8px;padding:0 16px;font-weight:600;font-size:15px;border:0;white-space:nowrap}
+.btn.primary{background:var(--accent);color:var(--accent-fg)}
+.btn.tonal{background:var(--accent-soft);color:var(--accent-soft-fg)}
+.btn.outline{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1px var(--line)}
+.h-xl{font-size:28px;line-height:34px;font-weight:700;letter-spacing:-.01em}
+.h-l{font-size:22px;line-height:28px;font-weight:700;letter-spacing:-.01em}
+.h-m{font-size:17px;line-height:22px;font-weight:650}
+.t-b{font-size:15px;line-height:21px}
+.t-s{font-size:13px;line-height:18px;color:var(--fg-2)}
+.t-xs{font-size:12px;line-height:16px;color:var(--fg-3)}
+.overline{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+.row{display:flex;align-items:center;gap:12px}
+.listrow{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 0;border-top:1px solid var(--line)}
+.listrow .grow{flex:1;min-width:0}
+.chev{color:var(--fg-3);display:flex}
+.annot{position:absolute;background:#ffeb3b;color:#222;font:600 11px/14px system-ui;padding:3px 6px;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.3);z-index:20;white-space:nowrap}
+
+.wrap{display:flex;gap:28px;padding:24px;align-items:flex-start}
+.top{position:absolute;top:52px;left:12px;right:12px;z-index:6}
+.pill-search{height:52px;border-radius:26px;background:var(--surface);box-shadow:var(--e2);display:flex;align-items:center;gap:10px;padding:0 6px 0 16px;color:var(--fg-3);font-size:16px}
+.pill-search .go{margin-left:auto;width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-fg);display:flex;align-items:center;justify-content:center}
+.chips{display:flex;gap:8px;margin-top:10px;overflow:hidden}
+.chip{height:36px;flex:none;display:inline-flex;align-items:center;gap:6px;padding:0 12px 0 8px;border-radius:18px;background:var(--surface);box-shadow:var(--e1);font-size:14px;font-weight:550;color:var(--fg)}
+.chip .badge-m{border-width:0;box-shadow:none}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:14px -16px 0;padding:0 16px}
+.tab{height:44px;display:flex;align-items:center;padding:0 12px;font-weight:600;font-size:14px;color:var(--fg-3);border-bottom:3px solid transparent}
+.tab.on{color:var(--accent);border-color:var(--accent)}
+.daybar{position:relative;height:44px;border-radius:10px;overflow:hidden;background:#1c2d40;margin-top:8px}
+.daybar .day{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,#f6c768,#fde9b0 25%,#fde9b0 75%,#f6c768)}
+.daybar .maj{position:absolute;top:6px;bottom:6px;border-radius:6px;background:#00897b;box-shadow:0 0 0 2px rgba(255,255,255,.9)}
+.daybar .min{position:absolute;top:14px;bottom:14px;border-radius:4px;background:#4db6ac;box-shadow:0 0 0 2px rgba(255,255,255,.8)}
+.daybar .now{position:absolute;top:-2px;bottom:-2px;width:2px;background:#e53935}
+.ticks{display:flex;justify-content:space-between;margin-top:4px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.tile{background:var(--surface-2);border-radius:var(--r-md);padding:10px;display:flex;flex-direction:column;gap:2px}
+.tile .v{font-size:17px;font-weight:700}
+.tile .ic{color:var(--fg-3);display:flex}
+.cardbtn{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r-md);border:1px dashed var(--line);margin-top:10px;color:var(--accent)}
+.legend{display:flex;gap:14px;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+</style></head><body>
+<div class="wrap">
+
+<div class="phone light">
+  <svg class="map" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" fill="var(--land)"/>
+  <path d="M-10 520 C40 500 70 470 60 430 C50 390 90 380 120 400 C160 425 150 470 190 480 C230 490 250 450 290 440 C330 430 360 460 400 450 L400 900 L-10 900Z" fill="var(--park)" opacity=".7"/>
+  <path d="M150 -10 C140 40 175 70 165 120 C155 170 120 190 130 240 C140 290 200 300 215 350 C230 400 190 430 205 480 C220 530 290 540 300 600 C310 660 250 700 270 760 C285 800 330 820 340 860 L420 860 L420 -10Z" fill="var(--water)"/>
+  <path d="M200 -10 C195 50 230 80 225 130 C220 180 185 200 195 250 C205 300 260 310 270 360 C280 410 250 440 262 490 C275 540 340 550 350 610 C360 660 320 700 335 760 C345 800 380 820 390 860 L420 860 L420 -10Z" fill="var(--water-deep)" opacity=".6"/>
+  <path d="M30 140 C60 120 100 135 105 165 C110 200 70 215 45 205 C20 195 5 160 30 140Z" fill="var(--water)"/>
+  <path d="M-10 300 C30 290 60 310 70 340 C78 365 40 380 10 372 C-5 368 -10 350 -10 340Z" fill="var(--water)"/>
+  <path d="M0 610 C40 600 80 620 85 650 C90 690 40 700 0 690Z" fill="var(--water)"/>
+  <g stroke="var(--road)" fill="none" stroke-linecap="round">
+    <path d="M0 250 C60 255 100 230 140 245" stroke-width="5"/>
+    <path d="M0 470 C40 465 80 480 120 470 C140 465 160 450 175 455" stroke-width="4"/>
+    <path d="M60 0 C70 100 40 200 80 300 C110 380 60 460 90 560 C110 640 70 740 90 860" stroke-width="5"/>
+    <path d="M90 560 C120 580 150 590 190 610" stroke-width="3"/>
+  </g>
+</svg>
+
+  <div class="statusbar"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="mk" style="left:205px;top:220px"><span data-b="marina" data-s="26"></span></div>
+  <div class="mk" style="left:222px;top:250px"><span data-b="fuel" data-s="26"></span></div>
+  <div class="mk" style="left:178px;top:190px"><span data-b="port" data-s="26"></span></div>
+  <div class="mk" style="left:240px;top:300px"><span data-b="slipway" data-s="24"></span></div>
+  <div class="mk" style="left:152px;top:250px"><span data-b="fishing" data-s="24"></span></div>
+  <div class="mk" style="left:305px;top:180px"><span data-b="wreck" data-s="24"></span></div>
+  <div class="mk" style="left:185px;top:330px"><span data-b="lock" data-s="24"></span></div>
+  <div class="maplabel" style="left:120px;top:163px">Giżycko</div>
+  <div class="maplabel water" style="left:262px;top:240px">Jezioro Niegocin</div>
+  <div class="mk" style="left:118px;top:205px"><svg width="34" height="44" viewBox="0 0 34 44"><path d="M17 43C17 43 32 27 32 16A15 15 0 0 0 2 16C2 27 17 43 17 43Z" fill="#d93025" stroke="#fff" stroke-width="2"/><circle cx="17" cy="16" r="6" fill="#fff"/></svg></div>
+  <div class="top">
+    <div class="pill-search"><span data-i="search" data-s="20"></span>Search marinas, locks, towns<span class="go"><span data-i="route" data-s="20"></span></span></div>
+    <div class="chips"><span class="chip"><span data-b="marina" data-s="22"></span>Marinas</span><span class="chip"><span data-b="fuel" data-s="22"></span>Fuel</span><span class="chip"><span data-b="lock" data-s="22"></span>Locks</span><span class="chip"><span data-b="fishing" data-s="22"></span>Fishing</span></div>
+  </div>
+  <div style="position:absolute;right:12px;top:372px;z-index:4" class="fab"><span data-i="locate" data-s="22"></span></div>
+  <div class="sheet" style="top:420px;padding:0 16px">
+    <div class="grab"></div>
+    <div class="row" style="align-items:flex-start;margin-top:6px">
+      <div style="flex:1;min-width:0">
+        <div class="h-l">Giżycko</div>
+        <div class="t-s">Town · Masurian lakes</div>
+      </div>
+      <button class="iconbtn" aria-label="Share"><span data-i="share" data-s="18"></span></button>
+      <button class="iconbtn" aria-label="Close"><span data-i="x" data-s="20"></span></button>
+    </div>
+    <div class="row" style="gap:8px;margin-top:12px;overflow:hidden">
+      <span class="btn primary"><span data-i="route" data-s="18"></span>Directions</span>
+      <span class="btn tonal"><span data-i="nav" data-s="18"></span>Start</span>
+      <span class="btn tonal"><span data-i="star" data-s="18"></span>Save</span>
+    </div>
+    <div class="tabs"><span class="tab">Overview</span><span class="tab on">Fishing</span><span class="tab">Nearby · 14</span></div>
+    <div style="margin-top:12px" class="row"><span class="overline">Today · Sat 21 Nov</span><span class="t-xs" style="margin-left:auto">Best: <b style="color:var(--fg)">12:40–14:40</b></span></div>
+    <div class="daybar">
+      <div class="day" style="left:29%;right:35%"></div>
+      <div class="min" style="left:20%;width:5%"></div>
+      <div class="maj" style="left:52.5%;width:8.4%"></div>
+      <div class="min" style="left:73%;width:5%"></div>
+      <div class="maj" style="left:2%;width:8.4%"></div>
+      <div class="now" style="left:41%"></div>
+    </div>
+    <div class="ticks t-xs num"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+    <div class="legend t-xs"><span><i class="sw" style="background:#00897b"></i>Major</span><span><i class="sw" style="background:#4db6ac"></i>Minor</span><span><i class="sw" style="background:#fde9b0"></i>Daylight</span><span><i class="sw" style="background:#e53935;width:3px"></i>Now</span></div>
+    <div class="tiles">
+      <div class="tile"><span class="ic"><span data-i="sunrise" data-s="18"></span></span><span class="v num">06:58</span><span class="t-xs">Sunrise</span></div>
+      <div class="tile"><span class="ic"><span data-i="sunset" data-s="18"></span></span><span class="v num">15:41</span><span class="t-xs">Sunset</span></div>
+      <div class="tile"><span class="ic"><span data-i="moon" data-s="18"></span></span><span class="v num">74%</span><span class="t-xs">Waxing gibbous</span></div>
+    </div>
+    <div class="cardbtn"><span data-i="wind" data-s="20"></span><div style="flex:1"><div style="font-weight:600">Wind, pressure &amp; water temp</div><div class="t-xs">Loads from Open-Meteo when you tap</div></div><span class="chev"><span data-i="chevR" data-s="18"></span></span></div>
+  </div>
+</div>
+
+
+<div class="phone dark">
+  <svg class="map" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" fill="var(--land)"/>
+  <path d="M-10 520 C40 500 70 470 60 430 C50 390 90 380 120 400 C160 425 150 470 190 480 C230 490 250 450 290 440 C330 430 360 460 400 450 L400 900 L-10 900Z" fill="var(--park)" opacity=".7"/>
+  <path d="M150 -10 C140 40 175 70 165 120 C155 170 120 190 130 240 C140 290 200 300 215 350 C230 400 190 430 205 480 C220 530 290 540 300 600 C310 660 250 700 270 760 C285 800 330 820 340 860 L420 860 L420 -10Z" fill="var(--water)"/>
+  <path d="M200 -10 C195 50 230 80 225 130 C220 180 185 200 195 250 C205 300 260 310 270 360 C280 410 250 440 262 490 C275 540 340 550 350 610 C360 660 320 700 335 760 C345 800 380 820 390 860 L420 860 L420 -10Z" fill="var(--water-deep)" opacity=".6"/>
+  <path d="M30 140 C60 120 100 135 105 165 C110 200 70 215 45 205 C20 195 5 160 30 140Z" fill="var(--water)"/>
+  <path d="M-10 300 C30 290 60 310 70 340 C78 365 40 380 10 372 C-5 368 -10 350 -10 340Z" fill="var(--water)"/>
+  <path d="M0 610 C40 600 80 620 85 650 C90 690 40 700 0 690Z" fill="var(--water)"/>
+  <g stroke="var(--road)" fill="none" stroke-linecap="round">
+    <path d="M0 250 C60 255 100 230 140 245" stroke-width="5"/>
+    <path d="M0 470 C40 465 80 480 120 470 C140 465 160 450 175 455" stroke-width="4"/>
+    <path d="M60 0 C70 100 40 200 80 300 C110 380 60 460 90 560 C110 640 70 740 90 860" stroke-width="5"/>
+    <path d="M90 560 C120 580 150 590 190 610" stroke-width="3"/>
+  </g>
+</svg>
+
+  <div class="statusbar"><span>9:41</span><span>●●● ▮</span></div>
+  <div class="mk" style="left:205px;top:220px"><span data-b="marina" data-s="26"></span></div>
+  <div class="mk" style="left:222px;top:250px"><span data-b="fuel" data-s="26"></span></div>
+  <div class="mk" style="left:178px;top:190px"><span data-b="port" data-s="26"></span></div>
+  <div class="mk" style="left:240px;top:300px"><span data-b="slipway" data-s="24"></span></div>
+  <div class="mk" style="left:152px;top:250px"><span data-b="fishing" data-s="24"></span></div>
+  <div class="mk" style="left:305px;top:180px"><span data-b="wreck" data-s="24"></span></div>
+  <div class="mk" style="left:185px;top:330px"><span data-b="lock" data-s="24"></span></div>
+  <div class="maplabel" style="left:120px;top:163px">Giżycko</div>
+  <div class="maplabel water" style="left:262px;top:240px">Jezioro Niegocin</div>
+  <div class="mk" style="left:118px;top:205px"><svg width="34" height="44" viewBox="0 0 34 44"><path d="M17 43C17 43 32 27 32 16A15 15 0 0 0 2 16C2 27 17 43 17 43Z" fill="#d93025" stroke="#fff" stroke-width="2"/><circle cx="17" cy="16" r="6" fill="#fff"/></svg></div>
+  <div class="top">
+    <div class="pill-search"><span data-i="search" data-s="20"></span>Search marinas, locks, towns<span class="go"><span data-i="route" data-s="20"></span></span></div>
+    <div class="chips"><span class="chip"><span data-b="marina" data-s="22"></span>Marinas</span><span class="chip"><span data-b="fuel" data-s="22"></span>Fuel</span><span class="chip"><span data-b="lock" data-s="22"></span>Locks</span><span class="chip"><span data-b="fishing" data-s="22"></span>Fishing</span></div>
+  </div>
+  <div style="position:absolute;right:12px;top:372px;z-index:4" class="fab"><span data-i="locate" data-s="22"></span></div>
+  <div class="sheet" style="top:420px;padding:0 16px">
+    <div class="grab"></div>
+    <div class="row" style="align-items:flex-start;margin-top:6px">
+      <div style="flex:1;min-width:0">
+        <div class="h-l">Giżycko</div>
+        <div class="t-s">Town · Masurian lakes</div>
+      </div>
+      <button class="iconbtn" aria-label="Share"><span data-i="share" data-s="18"></span></button>
+      <button class="iconbtn" aria-label="Close"><span data-i="x" data-s="20"></span></button>
+    </div>
+    <div class="row" style="gap:8px;margin-top:12px;overflow:hidden">
+      <span class="btn primary"><span data-i="route" data-s="18"></span>Directions</span>
+      <span class="btn tonal"><span data-i="nav" data-s="18"></span>Start</span>
+      <span class="btn tonal"><span data-i="star" data-s="18"></span>Save</span>
+    </div>
+    <div class="tabs"><span class="tab">Overview</span><span class="tab on">Fishing</span><span class="tab">Nearby · 14</span></div>
+    <div style="margin-top:12px" class="row"><span class="overline">Today · Sat 21 Nov</span><span class="t-xs" style="margin-left:auto">Best: <b style="color:var(--fg)">12:40–14:40</b></span></div>
+    <div class="daybar">
+      <div class="day" style="left:29%;right:35%"></div>
+      <div class="min" style="left:20%;width:5%"></div>
+      <div class="maj" style="left:52.5%;width:8.4%"></div>
+      <div class="min" style="left:73%;width:5%"></div>
+      <div class="maj" style="left:2%;width:8.4%"></div>
+      <div class="now" style="left:41%"></div>
+    </div>
+    <div class="ticks t-xs num"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+    <div class="legend t-xs"><span><i class="sw" style="background:#00897b"></i>Major</span><span><i class="sw" style="background:#4db6ac"></i>Minor</span><span><i class="sw" style="background:#fde9b0"></i>Daylight</span><span><i class="sw" style="background:#e53935;width:3px"></i>Now</span></div>
+    <div class="tiles">
+      <div class="tile"><span class="ic"><span data-i="sunrise" data-s="18"></span></span><span class="v num">06:58</span><span class="t-xs">Sunrise</span></div>
+      <div class="tile"><span class="ic"><span data-i="sunset" data-s="18"></span></span><span class="v num">15:41</span><span class="t-xs">Sunset</span></div>
+      <div class="tile"><span class="ic"><span data-i="moon" data-s="18"></span></span><span class="v num">74%</span><span class="t-xs">Waxing gibbous</span></div>
+    </div>
+    <div class="cardbtn"><span data-i="wind" data-s="20"></span><div style="flex:1"><div style="font-weight:600">Wind, pressure &amp; water temp</div><div class="t-xs">Loads from Open-Meteo when you tap</div></div><span class="chev"><span data-i="chevR" data-s="18"></span></span></div>
+  </div>
+</div>
+
+</div>
+
+<script>// Lucide (ISC) paths + custom glyphs drawn on the same 24px / 2px-stroke grid
+const I = {
+  anchor:'<path d="M12 6v16"/><path d="m19 13 2-1a9 9 0 0 1-18 0l2 1"/><path d="M9 11h6"/><circle cx="12" cy="4" r="2"/>',
+  sailboat:'<path d="M10 2v15"/><path d="M7 22a4 4 0 0 1-4-4 1 1 0 0 1 1-1h16a1 1 0 0 1 1 1 4 4 0 0 1-4 4z"/><path d="M9.159 2.46a1 1 0 0 1 1.521-.193l9.977 8.98A1 1 0 0 1 20 13H4a1 1 0 0 1-.824-1.567z"/>',
+  fuel:'<path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5"/><path d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16"/><path d="M2 21h13"/><path d="M3 9h11"/>',
+  droplet:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>',
+  toilet:'<path d="M7 12h13a1 1 0 0 1 1 1 5 5 0 0 1-5 5h-.598a.5.5 0 0 0-.424.765l1.544 2.47a.5.5 0 0 1-.424.765H5.402a.5.5 0 0 1-.424-.765L7 18"/><path d="M8 18a5 5 0 0 1-5-5V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8"/>',
+  bridge:'<path d="M10 9.728V16"/><path d="M14 9.728V16"/><path d="M18 20V4"/><path d="m22 11-4-4A7.5 7.5 0 0 1 6 7l-4 4"/><path d="M22 16H2"/><path d="M6 20V4"/>',
+  hook:'<path d="m17.586 11.414-5.93 5.93a1 1 0 0 1-8-8l3.137-3.137a.707.707 0 0 1 1.207.5V10"/><path d="M20.414 8.586 22 7"/><circle cx="19" cy="10" r="2"/>',
+  rod:'<path d="M4 11h1"/><path d="M8 15a2 2 0 0 1-4 0V3a1 1 0 0 1 1-1h.5C14 2 20 9 20 18v4"/><circle cx="18" cy="18" r="2"/>',
+  alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  town:'<path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>',
+  // custom: canal lock seen from above (chamber walls, two mitre gates)
+  lock:'<path d="M5 2v20"/><path d="M19 2v20"/><path d="m5 6 7 3 7-3"/><path d="m5 15 7 3 7-3"/>',
+  // custom: slipway (ramp into water)
+  slipway:'<path d="M2 15 15 8h7"/><path d="M2 20q2.5 2 5 0t5 0 5 0 5 0"/>',
+  // custom: pump-out (U pipe draining down)
+  pumpout:'<path d="M7 3v5a5 5 0 0 0 10 0V3"/><path d="M12 13v8"/><path d="m8.5 17.5 3.5 3.5 3.5-3.5"/>',
+  // custom: wreck (INT1 K-symbol: hull line, three masts)
+  wreck:'<path d="M2 13h20"/><path d="M7 9v8"/><path d="M12 6v14"/><path d="M17 9v8"/>',
+  // custom: fish farm (fish in a net pen)
+  fishfarm:'<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2.5"/><path d="M7 12c2.2-3 6.2-3 8.5 0-2.3 3-6.3 3-8.5 0z"/><path d="m15.5 12 2.5-2v4z"/>',
+  search:'<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+  nav:'<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
+  route:'<path d="M9 5h8.5a1 1 0 010 7h-11a1 1 0 000 7H15"/><circle cx="18" cy="19" r="3"/><circle cx="6" cy="5" r="3"/>',
+  layers:'<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
+  locate:'<line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/>',
+  x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  star:'<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+  chevR:'<path d="m9 18 6-6-6-6"/>', chevD:'<path d="m6 9 6 6 6-6"/>',
+  sunrise:'<path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>',
+  sunset:'<path d="M12 10V2"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m16 6-4 4-4-4"/><path d="M16 18a4 4 0 0 0-8 0"/>',
+  moon:'<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
+  wind:'<path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/>',
+  gauge:'<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+  plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
+  list:'<path d="M11 5h10"/><path d="M11 12h10"/><path d="M11 19h10"/><path d="M4 4h1v5"/><path d="M4 9h2"/><path d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  book:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+  download:'<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',
+  waves:'<path d="M2 12q2.5 2 5 0t5 0 5 0 5 0"/><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0"/><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0"/>',
+  boat:'<path d="M12 2v2"/><path d="M12 9.189V13"/><path d="M19 12V6a2 2 0 00-2-2H7a2 2 0 00-2 2v6"/><path d="M19.38 19A11.6 11.6 0 0021 13l-8.188-3.639a2 2 0 00-1.624 0L3 13.001a11.6 11.6 0 002.81 7.76"/><path d="M2 20c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+  swap:'<path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>',
+  back:'<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+};
+// category -> glyph, badge colour, shape (c circle = facility, s rounded square = structure, d diamond = hazard)
+const CAT = {
+  marina:['sailboat','#1d6fd8','c'], port:['anchor','#0b3d91','c'], fuel:['fuel','#c2185b','c'],
+  water:['droplet','#0288d1','c'], sanitary:['toilet','#6a4fd6','c'], pumpout:['pumpout','#6a4fd6','c'],
+  slipway:['slipway','#2e8b3e','c'], lock:['lock','#e0a100','s'], bridge:['bridge','#8d6e3f','s'],
+  fishing:['hook','#00897b','c'], tackle:['rod','#795548','c'], fishfarm:['fishfarm','#7a8a12','s'],
+  wreck:['wreck','#c62828','d'], obstruction:['alert','#c62828','d'], town:['town','#455a64','c'],
+};
+function svg(name, size=20, sw=2, color='currentColor'){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[name]}</svg>`;
+}
+function badge(cat, size=26){
+  const [g,col,sh] = CAT[cat];
+  const glyph = cat==='lock' ? '#3a2a00' : '#fff';
+  const r = sh==='c' ? '50%' : sh==='s' ? '28%' : '4px';
+  const rot = sh==='d' ? 'transform:rotate(45deg);' : '';
+  const inner = sh==='d' ? 'transform:rotate(-45deg);display:flex' : 'display:flex';
+  const s = sh==='d' ? size*0.82 : size;
+  return `<span class="badge-m" style="width:${s}px;height:${s}px;border-radius:${r};background:${col};${rot}"><span style="${inner}">${svg(g, Math.round(size*0.6), 2.4, glyph)}</span></span>`;
+}
+document.querySelectorAll('[data-i]').forEach(e=>{ e.innerHTML = svg(e.dataset.i, +e.dataset.s||20, +e.dataset.w||2); });
+document.querySelectorAll('[data-b]').forEach(e=>{ e.innerHTML = badge(e.dataset.b, +e.dataset.s||26); });
+</script>
+</body></html>
