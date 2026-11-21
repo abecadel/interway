@@ -48,15 +48,16 @@ export function parseUrlState(search: string): UrlState {
 
 const fmt = ([lon, lat]: LngLat) => `${lon.toFixed(5)},${lat.toFixed(5)}`;
 
-/** Query string (without "?") for the route; vessel values are written only where they differ from defaults. */
-export function writeUrlState(search: string, s: Omit<UrlState, 'vessel'>, profile: VesselProfile): string {
+/** Query string (without "?") for the route; vessel values are written where they differ from defaults or were
+ *  given (an agent's air=3 stays in the link, so the brief does not call it a default). */
+export function writeUrlState(search: string, s: Omit<UrlState, 'vessel'>, profile: VesselProfile, entered?: ReadonlySet<string>): string {
   const q = new URLSearchParams(search);
   const set = (k: string, v: string | null) => (v ? q.set(k, v) : q.delete(k));
   set('from', s.from && fmt(s.from));
   set('to', s.to && fmt(s.to));
   set('via', s.via.length ? s.via.map(fmt).join(';') : null);
   for (const [param, field] of Object.entries(VESSEL_PARAMS)) {
-    set(param, profile[field] !== defaultProfile[field] ? String(profile[field]) : null);
+    set(param, profile[field] !== defaultProfile[field] || entered?.has(field) ? String(profile[field]) : null);
   }
   set('avoidLocks', profile.avoidLocks ? '1' : null);
   set('avoidSea', profile.avoidSea ? '1' : null);

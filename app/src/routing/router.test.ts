@@ -310,6 +310,13 @@ describe('router edge cases', () => {
     expect(tall.duration).toBeCloseTo(tall.distance / (defaultProfile.speedKmh / 3.6), -1);
     only.setWaterways([{ ...sheets[0], months: undefined, airDraftM: 2.5 }]);
     expect(name(only.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, airDraft: 3 }))).toEqual(['Kanal']);
+    // a long open-sea way round (here 2 × 56 km) is not taken to avoid a seasonal closure: the canal is kept
+    const bySea = makeRouter([
+      { points: [A, C], name: 'Kanal' },
+      { points: [A, [17.1, 51.5]], kind: 'sea' }, { points: [[17.1, 51.5], C], kind: 'sea' },
+    ]);
+    bySea.setWaterways([sheets[0]]);
+    expect(name(bySea.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, departure: '2027-08-10' }))).toEqual(['Kanal']);
     expect(dateAfter('2027-01-31', 8 * 3600)).toBe('2027-02-01');
     expect(dateAfter('nonsense', 0)).toBeNull();
     expect(dateAfter('2027-02-30', 0)).toBe('2027-03-02'); // rolled over like Date does

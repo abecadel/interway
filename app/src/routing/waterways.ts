@@ -37,11 +37,16 @@ export interface WaterwayInfo {
   bbox?: [number, number, number, number];
 }
 
-/** A leg's name and a point halfway along it. */
+/** A leg's name, a point halfway along it and its length (m). */
 export interface LegAt {
   name: string;
   at?: LngLat;
+  distance?: number;
 }
+
+/** Legs shorter than this do not bring in a waterway's sheet: a lock basin or junction carrying the name of the
+ *  canal that leaves there (the Canal entre Champagne et Bourgogne where it meets the Saône) is not that canal. */
+const MIN_LEG_M = 1000;
 
 /** The route's legs with the point halfway along each. */
 export function legPoints(route: Route): LegAt[] {
@@ -56,7 +61,7 @@ export function legPoints(route: Route): LegAt[] {
       walked += step;
       i++;
     }
-    out.push({ name: leg.name, at: c[Math.min(i, c.length - 1)] });
+    out.push({ name: leg.name, at: c[Math.min(i, c.length - 1)], distance: leg.distance });
     start += leg.distance;
   }
   return out;
@@ -90,7 +95,8 @@ const DEFAULT_INDEX = aliasIndex();
 export function waterwaysOn(legs: (string | LegAt)[], index: Map<string, WaterwayInfo[]> = DEFAULT_INDEX): WaterwayInfo[] {
   const out: WaterwayInfo[] = [];
   for (const l of legs) {
-    const { name, at } = typeof l === 'string' ? { name: l, at: undefined } : l;
+    const { name, at, distance } = typeof l === 'string' ? { name: l, at: undefined, distance: undefined } : l;
+    if (distance !== undefined && distance < MIN_LEG_M) continue;
     for (const w of index.get(key(name)) ?? []) if (!out.includes(w) && inBox(w.bbox, at)) out.push(w);
   }
   return out;
@@ -138,6 +144,7 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
   const speed = route.distance / Math.max(route.duration, 1);
   const out: string[] = [];
   const seen = new Set<WaterwayInfo>();
+  let closedOnRoute = false;
   let at = 0;
   for (const [i, leg] of legPoints(route).entries()) {
     for (const w of waterwaysOn([leg], index)) {
@@ -145,14 +152,25 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
       seen.add(w);
       const date = dateAfter(profile.departure, at / speed)!;
       const m = Number(date.slice(5, 7));
-      const what = [w.months.closed.includes(m) && 'usually closed', w.months.lowWater.includes(m) && 'usually low water',
+      const what = [w.months.closed.includes(m) ? 'usually closed' : w.months.lowWater.includes(m) && 'low water likely',
         w.months.highWater.includes(m) && 'high water likely', w.months.ice.includes(m) && 'ice likely'].filter(Boolean);
+      if (w.months.closed.includes(m)) closedOnRoute = true;
       if (what.length) out.push(`${w.name}, reached around ${date}: ${what.join(', ')} in ${MONTH[m]}${w.months.notes ? ` (${w.months.notes})` : ''}.`);
     }
     at += route.legs[i].distance;
   }
+  // when to go instead: the months in which none of this route's waterways is usually closed
+  if (closedOnRoute) {
+    const closed = new Set([...seen].flatMap((w) => w.months!.closed));
+    const months = Array.from({ length: 12 }, (_, k) => k + 1).filter((k) => !closed.has(k));
+    out.push(months.length ? `All the waterways of this route are usually open in ${months.map((k) => SHORT[k]).join(', ')}: a trip then avoids these closures.`
+      : 'Some waterway of this route is usually closed in every month: compare the alternatives.');
+  }
   return out;
 }
+
+/** A bridge clearance less than this above the air draft is worth a warning (arches are lower at the sides). */
+const NEAR_BRIDGE_M = 0.5;
 
 /** What the boat cannot do on these waterways (deeper or taller than they allow) and what is closed or restricted. */
 export function waterwayWarnings(infos: WaterwayInfo[], draft: number, airDraft: number): string[] {
@@ -163,6 +181,10 @@ export function waterwayWarnings(infos: WaterwayInfo[], draft: number, airDraft:
     else if (w.navigable === 'restricted') out.push(`${w.name}: navigation restricted as of ${w.checked}, see About the waterways.`);
     if (w.depth.maxDraftM !== null && draft > w.depth.maxDraftM) out.push(`${w.name}: draft ${draft} m exceeds the usual ${w.depth.maxDraftM} m.`);
     if (w.airDraftM !== null && airDraft >= w.airDraftM) out.push(`${w.name}: air draft ${airDraft} m vs lowest bridge ${w.airDraftM} m.`);
+    else if (w.airDraftM !== null && airDraft > w.airDraftM - NEAR_BRIDGE_M) {
+      out.push(`${w.name}: lowest bridge ${w.airDraftM} m leaves ${Math.round((w.airDraftM - airDraft) * 100) / 100} m above your air draft`
+        + ` ${airDraft} m; arched bridges are lower towards the sides: see About the waterways.`);
+    }
   }
   return out;
 }

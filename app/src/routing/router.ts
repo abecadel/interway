@@ -40,6 +40,9 @@ const AVOID_LOCKS_COST = 10;
  *  waterways found closed on the last one: in late summer every canal from the Seine to the Saône (Champagne–
  *  Bourgogne, Briare–Centre, Bourgogne) can be closed in turn. */
 const SEASON_ROUNDS = 6;
+/** Going round seasonal closures never adds more open sea than this (m): a canal closed in September is not
+ *  "avoided" by sending a small boat round Brittany and across Biscay; the inland way is kept and warned. */
+const SEASON_MAX_EXTRA_SEA = 100_000;
 /** A waterway whose sheet gives a usual maximum draft or lowest bridge the boat exceeds (where OSM records none)
  *  costs this much more: routes go round it where another way exists, and use it, warned, where none does. */
 const SHEET_LIMIT_COST = 30;
@@ -416,13 +419,16 @@ export class Router {
     this.season = null;
     try {
       let r = this.routeFor(from, to, profile);
+      const sea = r.sea;
       // with a departure date: go round waterways usually closed in the month the boat reaches them, where possible
       for (let round = 0; round < SEASON_ROUNDS; round++) {
         const closed = this.closedOnArrival(r, profile);
         if (!closed.size) break;
         this.season ??= new Map();
         for (let g = 0; g < this.geom.geomCount; g++) if (closed.has(this.geomSheet![g])) this.season.set(g, CLOSED_SEASON_COST);
-        r = this.routeFor(from, to, profile);
+        const next = this.routeFor(from, to, profile);
+        if (next.sea > sea + SEASON_MAX_EXTRA_SEA) break;
+        r = next;
       }
       return r;
     } catch (e) {

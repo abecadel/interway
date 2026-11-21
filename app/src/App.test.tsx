@@ -361,13 +361,21 @@ describe('App', () => {
   it('edits and persists the vessel profile', async () => {
     // a profile saved before the 0.5 m default carries the old 3 m beam as if chosen: it becomes the new default
     localStorage.setItem('interway.profile', JSON.stringify({ ...defaultProfile, draft: 1.8, beam: 3 }));
+    history.replaceState(null, '', '/?from=1,2'); // a start only: not a route link, the saved boat applies
+    const first = render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Custom…'));
+    expect((screen.getByLabelText('Draft (m)') as HTMLInputElement).value).toBe('1.8');
+    expect((screen.getByLabelText('Beam (m)') as HTMLInputElement).value).toBe('0.5');
+    first.unmount();
+    // a route link is the whole route: the boat saved in this browser does not change it, nor is it overwritten
     history.replaceState(null, '', '/?from=1,2&to=3,4');
     const client = fakeClient();
     render(<App client={client} />);
     await flush();
-    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...defaultProfile, draft: 1.8 }, []);
+    expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], defaultProfile, []);
+    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toMatchObject({ draft: 1.8 });
     // a boat type sets speed and size; Custom opens every field
-    expect(screen.getByText('Custom…').getAttribute('aria-pressed')).toBe('true');
     fireEvent.click(screen.getByText('Narrowboat'));
     await flush();
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expect.objectContaining({ beam: 2.08, length: 18, speedKmh: 6 }), []);
@@ -385,8 +393,11 @@ describe('App', () => {
     await flush();
     const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true, departure: '2027-05-01' };
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
-    // only what differs from the defaults is saved
-    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true });
+    // what differs from the defaults, or was chosen (the boat type's sizes), is saved; the date is not
+    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual(
+      { draft: 1.8, airDraft: 4.5, beam: expected.beam, length: expected.length, speedKmh: expected.speedKmh, avoidLocks: true, avoidSea: true, coastal: true });
+    // the link keeps the values given, even those equal to the default
+    expect(location.search).toContain(`len=${expected.length}`);
   });
 
   it('toggles layers and loads the debug network once', async () => {
@@ -709,6 +720,29 @@ describe('App', () => {
     await act(async () => { await tools.add_waypoint.execute({ point: { lon: 2.5, lat: 3.5 } }); });
     await flush();
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], { ...profile, airDraft: 4 }, [[2, 3], [2.5, 3.5]]);
+    // values an agent gives stay in the link and are not called defaults, even when equal to the default
+    await act(async () => { await tools.set_vessel.execute({ airDraft: 4, length: defaultProfile.length }); });
+    await flush();
+    const given = await tools.get_route_brief.execute({}) as RouteBrief;
+    expect(given.link).toContain(`len=${defaultProfile.length}`);
+    expect(given.vessel.defaults).toEqual(['beam']);
+    await act(async () => { await tools.set_vessel.execute({ length: defaultProfile.length }); }); // already given
+    expect(((await tools.get_route_brief.execute({})) as RouteBrief).link).toBe(given.link);
+    // straight after a change the brief waits for the recomputed route, and a route that fails says why
+    let fresh: Promise<unknown> | undefined;
+    await act(async () => {
+      await tools.set_vessel.execute({ draft: 1.6 });
+      fresh = tools.get_route_brief.execute({}); // asked before the page has even rendered the change
+    });
+    await flush();
+    await flush();
+    expect(((await fresh) as RouteBrief).vessel.draft).toBe(1.6);
+    vi.mocked(client.route).mockRejectedValueOnce(new Error('too deep'));
+    await act(async () => { await tools.set_vessel.execute({ draft: 9 }); });
+    await flush();
+    await expect(tools.get_route_brief.execute({})).rejects.toThrow('No route: too deep');
+    await act(async () => { await tools.set_vessel.execute({ draft: 1.6 }); });
+    await flush();
     expect(await tools.find_place.execute({ query: 'x' })).toEqual([]);
     // nothing online, or offline: the waterway places in the data
     const { searchPlaces } = await import('./ui/search');

@@ -49,13 +49,13 @@ const NO_ALTS: AltLine[] = [];
 // Earlier defaults that older saved profiles carry as if the user had chosen them.
 const OLD_DEFAULTS: Partial<VesselProfile> = { beam: 3 };
 
-function loadProfile(): VesselProfile {
+function loadSaved(): Partial<VesselProfile> {
   try {
     const saved: Partial<VesselProfile> = JSON.parse(localStorage.getItem(PROFILE_KEY) ?? '{}');
     for (const [k, v] of Object.entries(OLD_DEFAULTS)) if (saved[k as keyof VesselProfile] === v) delete saved[k as keyof VesselProfile];
-    return { ...defaultProfile, ...saved };
+    return saved;
   } catch {
-    return defaultProfile;
+    return {};
   }
 }
 
@@ -68,10 +68,10 @@ function loadSnap(): Snap {
   }
 }
 
-/** Only what the user changed is saved, so a better default reaches everyone who kept the old one. */
-function saveProfile(p: VesselProfile) {
+/** Only what the user changed or gave is saved, so a better default reaches everyone who kept the old one. */
+function saveProfile(p: VesselProfile, entered: ReadonlySet<string>) {
   // a trip's departure date is not the boat's: it is not kept for the next visit
-  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'departure' && defaultProfile[k as keyof VesselProfile] !== v));
+  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'departure' && (defaultProfile[k as keyof VesselProfile] !== v || entered.has(k))));
   localStorage.setItem(PROFILE_KEY, JSON.stringify(changed));
 }
 
@@ -85,7 +85,20 @@ export default function App({ client }: { client: RoutingApi }) {
   const [via, setVia] = useState<Point[]>(() => initial.via.map(toPoint));
   const [picking, setPicking] = useState<'start' | 'end' | 'via' | null>(null);
   const [result, setResult] = useState<{ key: string; route: Route | null; error: string | null } | null>(null);
-  const [profile, setProfile] = useState<VesselProfile>(() => ({ ...loadProfile(), ...initial.vessel }));
+  // a route link (from and to) is the whole route: the boat saved in this browser does not change it
+  const [savedBoat] = useState(() => (initial.from && initial.to ? {} : loadSaved()));
+  const [linkProfile] = useState<VesselProfile>(() => ({ ...defaultProfile, ...savedBoat, ...initial.vessel }));
+  const [profile, setProfile] = useState<VesselProfile>(linkProfile);
+  // the vessel fields given (in the link, saved, typed or by an agent), even where equal to the default
+  const [entered, setEntered] = useState<ReadonlySet<string>>(() => new Set([...Object.keys(savedBoat), ...Object.keys(initial.vessel)]));
+  const prevProfile = useRef(profile);
+  useEffect(() => {
+    const prev = prevProfile.current;
+    prevProfile.current = profile;
+    const changed = (Object.keys(profile) as (keyof VesselProfile)[]).filter((k) => profile[k] !== prev[k] && !entered.has(k));
+    if (changed.length) setEntered(new Set([...entered, ...changed]));
+  }, [profile, entered]);
+  const give = (keys: string[]) => setEntered((e) => (keys.every((k) => e.has(k)) ? e : new Set([...e, ...keys])));
   const viaPositions = useMemo(() => via.map((p) => p.position), [via]);
   const routeKey = JSON.stringify([start?.position, end?.position, viaPositions, profile]);
   const [position, setPosition] = useState<GeolocationPosition | null>(null);
@@ -147,7 +160,8 @@ export default function App({ client }: { client: RoutingApi }) {
       .catch((e) => setDataStatus(e.message));
   }, [client]);
 
-  useEffect(() => saveProfile(profile), [profile]);
+  // opened from a link, the boat is saved once the user (or an agent) changes something
+  useEffect(() => { if (profile !== linkProfile) saveProfile(profile, entered); }, [profile, linkProfile, entered]);
 
   useEffect(() => {
     if (!showNetwork || network || !dataReady) return;
@@ -214,14 +228,17 @@ export default function App({ client }: { client: RoutingApi }) {
   );
 
   // AI agents in WebMCP browsers drive the planner through site tools; they see the same state as the UI.
-  const latest = useRef({ route, itinerary, profile, viaPositions, start, end, pois });
+  const latest = useRef({ route, itinerary, profile, viaPositions, start, end, pois, entered, current });
+  // set when an agent changes the vessel or waypoints, cleared once the page has rendered the change
+  const changing = useRef(false);
   useEffect(() => {
-    latest.current = { route, itinerary, profile, viaPositions, start, end, pois };
+    latest.current = { route, itinerary, profile, viaPositions, start, end, pois, entered, current };
+    changing.current = false;
   });
   useEffect(() => {
     if (!dataReady) return;
-    const pageLink = (from: LngLat, to: LngLat, via: LngLat[], p: VesselProfile) =>
-      `${location.origin}${location.pathname}?${writeUrlState('', { from, to, via }, p)}`;
+    const pageLink = (from: LngLat, to: LngLat, via: LngLat[], p: VesselProfile, e: ReadonlySet<string>) =>
+      `${location.origin}${location.pathname}?${writeUrlState('', { from, to, via }, p, e)}`;
     const bridge: PlannerBridge = {
       planRoute: async ({ from, to, via, vessel }) => {
         const prof = { ...latest.current.profile, ...vessel };
@@ -230,20 +247,24 @@ export default function App({ client }: { client: RoutingApi }) {
         setEnd(toPoint(to));
         setVia(via.map(toPoint));
         setProfile(prof);
+        const e = new Set([...latest.current.entered, ...Object.keys(vessel)]);
+        give(Object.keys(vessel));
         const it = buildItinerary(r, latest.current.pois);
-        return buildBrief({ route: r, itinerary: it, profile: prof, title: `${fmtPos(from)} → ${fmtPos(to)}`, link: pageLink(from, to, via, prof) });
+        return buildBrief({ route: r, itinerary: it, profile: prof, title: `${fmtPos(from)} → ${fmtPos(to)}`, link: pageLink(from, to, via, prof, e), entered: e });
       },
       brief: () => {
         const l = latest.current;
-        if (!l.route || !l.itinerary || !l.start || !l.end) return null;
+        if (changing.current || !l.route || !l.itinerary || !l.start || !l.end) return null;
         return buildBrief({
           route: l.route, itinerary: l.itinerary, profile: l.profile, title: `${l.start.label} → ${l.end.label}`,
-          link: pageLink(l.start.position, l.end.position, l.viaPositions, l.profile),
+          link: pageLink(l.start.position, l.end.position, l.viaPositions, l.profile, l.entered), entered: l.entered,
         });
       },
-      setVessel: (v) => setProfile((p) => ({ ...p, ...v })),
+      routing: () => changing.current || (!!latest.current.start && !!latest.current.end && !latest.current.current),
+      error: () => latest.current.current?.error ?? null,
+      setVessel: (v) => { changing.current = true; give(Object.keys(v)); setProfile((p) => ({ ...p, ...v })); },
       waypoints: () => latest.current.viaPositions,
-      setWaypoints: (v) => setVia(v.map(toPoint)),
+      setWaypoints: (v) => { changing.current = true; setVia(v.map(toPoint)); },
       // offline (or nothing found online): the waterway places in the downloaded data
       findPlace: (q) => searchPlaces(q).then(
         (r) => (r.length ? r : indexRef.current.search(q)),
@@ -273,9 +294,9 @@ export default function App({ client }: { client: RoutingApi }) {
   // navigating, re-routes move A to the boat at every turn: the link keeps the planned route.
   useEffect(() => {
     if (nav.active) return;
-    const s = writeUrlState(location.search, { from: start?.position ?? null, to: end?.position ?? null, via: viaPositions }, profile);
+    const s = writeUrlState(location.search, { from: start?.position ?? null, to: end?.position ?? null, via: viaPositions }, profile, entered);
     history.replaceState(null, '', s ? `?${s}` : location.pathname);
-  }, [start, end, viaPositions, profile, nav.active]);
+  }, [start, end, viaPositions, profile, entered, nav.active]);
   const underWay = nav.motion?.sog != null && nav.motion.sog > 0.5;
   // the map draws a new route a moment after it arrives: the re-routing note stays up until it shows
   const [drawn, setDrawn] = useState<Route | null>(null);
@@ -383,7 +404,7 @@ export default function App({ client }: { client: RoutingApi }) {
   }, []);
 
   const title = () => `${start!.label} → ${end!.label}`;
-  const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href });
+  const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href, entered });
   const [copied, setCopied] = useState(false);
   const copyBrief = (route: Route) => {
     const md = briefMarkdown(brief(route));
