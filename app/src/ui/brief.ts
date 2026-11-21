@@ -5,7 +5,7 @@ import { defaultProfile, type Route, type VesselProfile } from '../routing/route
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
 import { noticesFor } from './notices';
-import { tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
+import { legPoints, tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 
 export interface BriefStop {
   km: number;
@@ -188,7 +188,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   if (route.start.offset > 200 || route.end.offset > 200) {
     hazards.push(`Start/end were moved to the nearest navigable water (${km(route.start.offset)} km / ${km(route.end.offset)} km away).`);
   }
-  const waterways = waterwaysOn(route.legs.map((l) => l.name));
+  const waterways = waterwaysOn(legPoints(route));
   hazards.push(...waterwayWarnings(waterways, profile.draft, profile.airDraft));
   const legStages = stages(route, itinerary.stops, hoursPerDay);
   for (const st of legStages.filter((x) => x.atSea && x.hours > hoursPerDay)) {

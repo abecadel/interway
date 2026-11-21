@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { empty, kanal, restricted } from '../test/waterwayFixture';
 
 vi.mock('../data/waterways.json', () => ({ default: [] }));
-const { aliasIndex, currentsByName, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
+const { aliasIndex, currentsByName, legPoints, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
 
 describe('waterway sheets', () => {
   const index = aliasIndex([kanal, empty, restricted]);
@@ -12,6 +12,24 @@ describe('waterway sheets', () => {
     expect(waterwaysOn(['Kanal'], index).map((w) => w.id)).toEqual(['kanal', 'r']);
     expect(waterwaysOn(['Kanal'])).toEqual([]); // the bundled data: empty in this test
     expect(WATERWAYS).toEqual([]);
+  });
+
+  it('tell sheets sharing a name apart by where the leg lies', () => {
+    const north = { ...kanal, id: 'n', bbox: [0, 10, 10, 20] as [number, number, number, number] };
+    const south = { ...kanal, id: 's', bbox: [0, 0, 10, 10] as [number, number, number, number] };
+    const idx = aliasIndex([north, south]);
+    expect(waterwaysOn([{ name: 'Kanal', at: [5, 15] }], idx).map((w) => w.id)).toEqual(['n']);
+    expect(waterwaysOn([{ name: 'Kanal', at: [5, 5] }, { name: 'Kanal', at: [50, 5] }], idx).map((w) => w.id)).toEqual(['s']);
+    expect(waterwaysOn([{ name: 'Kanal' }], idx).map((w) => w.id)).toEqual(['n', 's']); // no point: both
+  });
+
+  it('find the point halfway along each leg', () => {
+    const route = { coordinates: [[0, 0], [0.01, 0], [0.02, 0], [0.03, 0]], legs: [{ name: 'A', distance: 1113 }, { name: 'B', distance: 2226 }] };
+    const pts = legPoints(route as never);
+    expect(pts.map((p) => p.name)).toEqual(['A', 'B']);
+    expect(pts[0].at).toEqual([0, 0]); // halfway along A (556 m) is still before the first vertex step
+    expect(pts[1].at).toEqual([0.02, 0]);
+    expect(legPoints({ coordinates: [[1, 1]], legs: [{ name: 'X', distance: 10 }] } as never)).toEqual([{ name: 'X', at: [1, 1] }]);
   });
 
   it('describe tides only where a waterway is tidal', () => {
@@ -30,11 +48,9 @@ describe('waterway sheets', () => {
     expect(waterwayWarnings([kanal, empty, restricted], 2, 4)).toEqual([
       'Kanal (A – B): draft 2 m exceeds the usual 1.5 m.',
       'Kanal (A – B): air draft 4 m vs lowest bridge 4 m.',
-      'Bare canal: closed (see the notices).',
-      'Low canal: navigation restricted (until 30 November).',
+      'Bare canal: closed as of 2026-11-21, see About the waterways.',
+      'Low canal: navigation restricted as of 2026-11-21, see About the waterways.',
     ]);
     expect(waterwayWarnings([kanal], 1, 3)).toEqual([]);
-    expect(waterwayWarnings([{ ...empty, notes: 'ice' }, { ...restricted, notes: null }], 1, 3))
-      .toEqual(['Bare canal: closed (ice).', 'Low canal: navigation restricted (see the notices).']);
   });
 });

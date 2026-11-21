@@ -2,6 +2,8 @@
 // their hours, season and closures, the authority and where its notices are published, each fact with its sources.
 // The sheets live in data/waterways.json and are matched to a route's legs by the waterway names OSM uses.
 import sheets from '../data/waterways.json';
+import { haversine, type LngLat } from '../graph/geo';
+import type { Route } from './router';
 
 export type Navigable = 'yes' | 'seasonal' | 'restricted' | 'closed';
 
@@ -28,7 +30,38 @@ export interface WaterwayInfo {
   sources: string[];
   /** when these facts were checked (YYYY-MM-DD) */
   checked: string;
+  /** where the sheet applies (west, south, east, north): sheets sharing a name (La Saône, La Moselle, Open sea) are
+   *  told apart by where the leg is */
+  bbox?: [number, number, number, number];
 }
+
+/** A leg's name and a point halfway along it. */
+export interface LegAt {
+  name: string;
+  at?: LngLat;
+}
+
+/** The route's legs with the point halfway along each. */
+export function legPoints(route: Route): LegAt[] {
+  const c = route.coordinates;
+  const out: LegAt[] = [];
+  let i = 0, walked = 0, start = 0;
+  for (const leg of route.legs) {
+    const mid = start + leg.distance / 2;
+    while (i < c.length - 1) {
+      const step = haversine(c[i][1], c[i][0], c[i + 1][1], c[i + 1][0]);
+      if (walked + step >= mid) break;
+      walked += step;
+      i++;
+    }
+    out.push({ name: leg.name, at: c[Math.min(i, c.length - 1)] });
+    start += leg.distance;
+  }
+  return out;
+}
+
+const inBox = (b: WaterwayInfo['bbox'], p: LngLat | undefined) =>
+  !b || !p || (p[0] >= b[0] && p[0] <= b[2] && p[1] >= b[1] && p[1] <= b[3]);
 
 /** "tidal, spring range about 0.3 m: notes", or null for non-tidal waterways and sheets without tide data. */
 export function tideText(w: WaterwayInfo): string | null {
@@ -50,10 +83,14 @@ export function aliasIndex(infos: WaterwayInfo[] = WATERWAYS): Map<string, Water
 
 const DEFAULT_INDEX = aliasIndex();
 
-/** The sheets of the waterways a route's legs follow, in route order, each once. */
-export function waterwaysOn(legNames: string[], index: Map<string, WaterwayInfo[]> = DEFAULT_INDEX): WaterwayInfo[] {
+/** The sheets of the waterways a route's legs follow, in route order, each once (a sheet with a box only where the
+ *  leg lies in it). */
+export function waterwaysOn(legs: (string | LegAt)[], index: Map<string, WaterwayInfo[]> = DEFAULT_INDEX): WaterwayInfo[] {
   const out: WaterwayInfo[] = [];
-  for (const n of legNames) for (const w of index.get(key(n)) ?? []) if (!out.includes(w)) out.push(w);
+  for (const l of legs) {
+    const { name, at } = typeof l === 'string' ? { name: l, at: undefined } : l;
+    for (const w of index.get(key(name)) ?? []) if (!out.includes(w) && inBox(w.bbox, at)) out.push(w);
+  }
   return out;
 }
 
@@ -72,8 +109,9 @@ export function currentsByName(infos: WaterwayInfo[] = WATERWAYS): Map<string, n
 export function waterwayWarnings(infos: WaterwayInfo[], draft: number, airDraft: number): string[] {
   const out: string[] = [];
   for (const w of infos) {
-    if (w.navigable === 'closed') out.push(`${w.name}: closed (${w.notes ?? 'see the notices'}).`);
-    else if (w.navigable === 'restricted') out.push(`${w.name}: navigation restricted (${w.notes ?? 'see the notices'}).`);
+    // the reasons and dates are in the sheet: the warning says what and as of when
+    if (w.navigable === 'closed') out.push(`${w.name}: closed as of ${w.checked}, see About the waterways.`);
+    else if (w.navigable === 'restricted') out.push(`${w.name}: navigation restricted as of ${w.checked}, see About the waterways.`);
     if (w.depth.maxDraftM !== null && draft > w.depth.maxDraftM) out.push(`${w.name}: draft ${draft} m exceeds the usual ${w.depth.maxDraftM} m.`);
     if (w.airDraftM !== null && airDraft >= w.airDraftM) out.push(`${w.name}: air draft ${airDraft} m vs lowest bridge ${w.airDraftM} m.`);
   }
