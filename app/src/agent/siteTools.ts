@@ -57,12 +57,14 @@ export function getModelContext(doc: Document = document, nav: Navigator = navig
   return typeof ctx?.registerTool === 'function' ? ctx : null;
 }
 
+const FLAGS = new Set<string>(['avoidLocks', 'avoidSea', 'coastal']);
+
 function cleanVessel(v: unknown): Partial<VesselProfile> {
   const out: Record<string, unknown> = {};
   if (v && typeof v === 'object') {
     for (const k of VESSEL_KEYS) {
       const x = (v as Record<string, unknown>)[k];
-      if (k === 'avoidLocks' ? typeof x === 'boolean' : typeof x === 'number' && Number.isFinite(x) && x >= 0) out[k] = x;
+      if (FLAGS.has(k) ? typeof x === 'boolean' : typeof x === 'number' && Number.isFinite(x) && x >= 0) out[k] = x;
     }
   }
   return out as Partial<VesselProfile>;

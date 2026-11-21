@@ -54,6 +54,8 @@ describe('site tools', () => {
   it('edits the vessel and the waypoints', async () => {
     const { b, tools } = bridge();
     expect(await tools.set_vessel.execute({ airDraft: 4.5, length: 'x' })).toEqual({ updated: ['airDraft'] });
+    // every yes/no setting is taken, not only avoidLocks (avoidSea and coastal were dropped)
+    expect(await tools.set_vessel.execute({ avoidSea: true, coastal: false, avoidLocks: 'yes' })).toEqual({ updated: ['avoidSea', 'coastal'] });
     expect(b.setVessel).toHaveBeenCalledWith({ airDraft: 4.5 });
     expect(await tools.add_waypoint.execute({ point: 'Toruń', index: 0 })).toEqual({ waypoints: [[18.6, 53.0], [1, 1]] });
     expect(await tools.add_waypoint.execute({ point: { lon: 2, lat: 2 } })).toEqual({ waypoints: [[18.6, 53.0], [1, 1], [2, 2]] });
