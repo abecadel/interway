@@ -1,4 +1,4 @@
-import type { WaterwayInfo } from '../routing/waterways';
+import { tideText, type WaterwayInfo } from '../routing/waterways';
 
 const STATUS: Record<WaterwayInfo['navigable'], string> = {
   yes: 'navigable', seasonal: 'seasonal', restricted: 'restricted', closed: 'closed',
@@ -24,6 +24,7 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
           ['Lowest bridge', w.airDraftM !== null ? `${w.airDraftM} m` : null],
           ['Current', [w.current.typicalMs !== null && `about ${w.current.typicalMs} m/s`, w.current.notes].filter(Boolean).join('; ') || null],
           ['Locks', [w.locks.count !== null && `${w.locks.count}`, w.locks.chamber, w.locks.hours, w.locks.notes].filter(Boolean).join('; ') || null],
+          ['Tides', tideText(w)],
           ['Best season', w.season.best],
           ['Closures', w.season.closures],
         ];
@@ -33,7 +34,7 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
               <strong>{w.name}</strong>
               <span className={`badge ${w.navigable}`}>{STATUS[w.navigable]}</span>
             </div>
-            <div className="small muted">{w.reach}</div>
+            <div className="small muted">{w.reach} · checked {w.checked}</div>
             <dl className="small">
               {facts.filter(([, v]) => v).map(([k, v]) => (
                 <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
@@ -45,7 +46,7 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
               {w.notices && <> · <a href={w.notices} target="_blank" rel="noreferrer">notices to skippers</a></>}
             </div>
             <div className="small muted">
-              Sources (checked {w.checked}):{' '}
+              Sources:{' '}
               {w.sources.map((s, i) => <span key={s}>{i > 0 && ', '}<a href={s} target="_blank" rel="noreferrer">{host(s)}</a></span>)}
             </div>
           </li>

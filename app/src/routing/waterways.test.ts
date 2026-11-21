@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { empty, kanal, restricted } from '../test/waterwayFixture';
 
 vi.mock('../data/waterways.json', () => ({ default: [] }));
-const { aliasIndex, currentsByName, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
+const { aliasIndex, currentsByName, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
 
 describe('waterway sheets', () => {
   const index = aliasIndex([kanal, empty, restricted]);
@@ -12,6 +12,13 @@ describe('waterway sheets', () => {
     expect(waterwaysOn(['Kanal'], index).map((w) => w.id)).toEqual(['kanal', 'r']);
     expect(waterwaysOn(['Kanal'])).toEqual([]); // the bundled data: empty in this test
     expect(WATERWAYS).toEqual([]);
+  });
+
+  it('describe tides only where a waterway is tidal', () => {
+    expect(tideText(kanal)).toBe('tidal, spring range about 0.3 m: to the first lock');
+    expect(tideText({ ...kanal, tides: { tidal: true, rangeM: null, notes: null } })).toBe('tidal');
+    expect(tideText({ ...kanal, tides: { tidal: false, rangeM: null, notes: null } })).toBeNull();
+    expect(tideText(empty)).toBeNull(); // no tide data in the sheet
   });
 
   it('give currents by name, the lower where sheets share a name', () => {

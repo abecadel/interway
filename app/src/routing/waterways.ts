@@ -20,11 +20,21 @@ export interface WaterwayInfo {
   current: { typicalMs: number | null; notes: string | null };
   locks: { count: number | null; chamber: string | null; hours: string | null; notes: string | null };
   season: { best: string | null; closures: string | null };
+  /** tidal reach: spring range and practical notes (tidal limit, timing, streams); absent in older sheets */
+  tides?: { tidal: boolean; rangeM: number | null; notes: string | null };
   authority: { name: string; url: string | null };
   notices: string | null;
   notes: string | null;
   sources: string[];
+  /** when these facts were checked (YYYY-MM-DD) */
   checked: string;
+}
+
+/** "tidal, spring range about 0.3 m: notes", or null for non-tidal waterways and sheets without tide data. */
+export function tideText(w: WaterwayInfo): string | null {
+  const t = w.tides;
+  if (!t?.tidal) return null;
+  return [t.rangeM !== null ? `tidal, spring range about ${t.rangeM} m` : 'tidal', t.notes].filter(Boolean).join(': ');
 }
 
 export const WATERWAYS = sheets as WaterwayInfo[];

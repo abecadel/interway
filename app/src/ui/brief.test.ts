@@ -138,6 +138,7 @@ describe('route brief', () => {
     const md = briefMarkdown(onKanal);
     expect(md).toContain('## Waterways\n\n### Kanal (A – B) (seasonal)\nA to B\n- Gauge: Vb');
     expect(md).toContain('- Locks: 3; 190 × 12 m; 6–22');
+    expect(md).toContain('- Tides: tidal, spring range about 0.3 m: to the first lock');
     expect(md).toContain('- Authority: WSA (https://www.wsa.example)');
     expect(md).toContain('- Sources (checked 2026-11-21): https://www.elwis.de/a, https://de.wikipedia.org/wiki/Kanal');
     expect(briefMarkdown({ ...onKanal, waterways: [restricted] })).toContain('- Authority: Nobody\n- Notes: until 30 November');

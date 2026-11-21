@@ -12,6 +12,8 @@ describe('WaterwaysView', () => {
     expect(screen.getByText('about 1.2 m/s; faster in spring')).toBeTruthy();
     expect(screen.getByText('3; 190 × 12 m; 6–22')).toBeTruthy();
     expect(screen.getByText('4 m')).toBeTruthy();
+    expect(screen.getByText('tidal, spring range about 0.3 m: to the first lock')).toBeTruthy();
+    expect(screen.getByText('A to B · checked 2026-11-21')).toBeTruthy();
     expect((screen.getByText('WSA') as HTMLAnchorElement).href).toBe('https://www.wsa.example/');
     expect((screen.getByText('notices to skippers') as HTMLAnchorElement).href).toBe('https://www.elwis.de/');
     expect(screen.getByText('de.wikipedia.org')).toBeTruthy();

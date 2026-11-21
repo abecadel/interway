@@ -5,7 +5,7 @@ import { defaultProfile, type Route, type VesselProfile } from '../routing/route
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
 import { noticesFor } from './notices';
-import { type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
+import { tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 
 export interface BriefStop {
   km: number;
@@ -239,6 +239,7 @@ function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
     ...line('Lowest bridge', w.airDraftM !== null && `${w.airDraftM} m`),
     ...line('Current', [w.current.typicalMs !== null && `about ${w.current.typicalMs} m/s`, w.current.notes].filter(Boolean).join('; ')),
     ...line('Locks', [w.locks.count !== null && `${w.locks.count}`, w.locks.chamber, w.locks.hours, w.locks.notes].filter(Boolean).join('; ')),
+    ...line('Tides', tideText(w)),
     ...line('Best season', w.season.best),
     ...line('Closures', w.season.closures),
     ...line('Authority', `${w.authority.name}${w.authority.url ? ` (${w.authority.url})` : ''}`),

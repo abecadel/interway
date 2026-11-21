@@ -7,6 +7,7 @@ export const kanal: WaterwayInfo = {
   current: { typicalMs: 1.2, notes: 'faster in spring' },
   locks: { count: 3, chamber: '190 × 12 m', hours: '6–22', notes: null },
   season: { best: 'May–September', closures: 'ice in January' },
+  tides: { tidal: true, rangeM: 0.3, notes: 'to the first lock' },
   authority: { name: 'WSA', url: 'https://www.wsa.example' }, notices: 'https://www.elwis.de',
   notes: 'Sportbootführerschein needed.', sources: ['https://www.elwis.de/a', 'https://de.wikipedia.org/wiki/Kanal'], checked: '2026-11-21',
 };
