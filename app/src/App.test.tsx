@@ -116,7 +116,19 @@ describe('App', () => {
     const r = render(<App client={client} />);
     await flush();
     expect(screen.getByText('No navigable route')).toBeTruthy();
+    // not connected: pick B again, or look at the waterways
+    fireEvent.click(screen.getByText('Show the waterways'));
+    expect(screen.getByText('Show the waterways').getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByText('Pick B again'));
+    expect(mapProps.current!.picking).toBe(true);
     r.unmount();
+    // the boat does not fit: the vessel settings open
+    const tooBig = fakeClient({ route: vi.fn(async () => { throw new Error('No route for this vessel: lowest bridge 3 m. Change the vessel settings if your boat fits.'); }) });
+    const t = render(<App client={tooBig} />);
+    await flush();
+    fireEvent.click(screen.getByText('Vessel settings'));
+    expect(screen.queryByText('Pick B again')).toBeNull();
+    t.unmount();
 
     const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, seaNoDepth: 9260, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
     render(<App client={far} />);

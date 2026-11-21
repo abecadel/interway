@@ -616,7 +616,22 @@ export default function App({ client }: { client: RoutingApi }) {
       )}
       {changed.length > 0 && <div className="warn small">This permalink was planned on earlier data: {changed.join('; ')}.</div>}
       {snapshotError && <div className="error small">{snapshotError}</div>}
-      {routeError && <div className="error" role="alert">{routeError}</div>}
+      {routeError && (
+        <div className="error-card" role="alert">
+          <div className="error-title">No route</div>
+          <p className="small">{routeError}</p>
+          <div className="action-row">
+            {/^No route for this vessel/.test(routeError) ? (
+              <button type="button" className="pill" onClick={() => { setCustomOpen(true); showSheet(); }}>Vessel settings</button>
+            ) : (
+              <>
+                <button type="button" className="pill" onClick={() => setPicking('end')}>Pick B again</button>
+                <button type="button" className="pill" aria-pressed={showNetwork} onClick={() => setShowNetwork(!showNetwork)}>Show the waterways</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
       {!start && !end && <p className="info small">Choose a start and a destination: search, use your position, or tap the map. {snapshotInput}</p>}
       {route && (
         <RouteSummary
