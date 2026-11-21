@@ -56,13 +56,21 @@ class Coast:
         self.tree = STRtree(self.land)
 
     @classmethod
-    def load(cls, path: Path, bbox: tuple[float, float, float, float] = DEFAULT_BBOX, simplify_m: float = 50.0) -> "Coast":
+    def load(cls, path: Path, bbox: tuple[float, float, float, float] | list = DEFAULT_BBOX, simplify_m: float = 50.0) -> "Coast":
+        """Land polygons in `bbox`, or in each of a list of bboxes (each split polygon loaded once)."""
         import shapefile  # pyshp, only needed when building sea routes
 
+        boxes = [bbox] if isinstance(bbox, tuple) else list(bbox)
+        seen: set[int] = set()
+        polys = []
         with shapefile.Reader(str(path)) as r:
-            polys = [shapely.geometry.shape(s.__geo_interface__) for s in r.iterShapes(bbox=bbox)]
+            for box in boxes:
+                for s in r.iterShapes(bbox=box):
+                    if s.oid not in seen:  # boxes that overlap share split polygons
+                        seen.add(s.oid)
+                        polys.append(shapely.geometry.shape(s.__geo_interface__))
         polys = shapely.simplify(np.asarray(polys, dtype=object), metres_to_deg(simplify_m), preserve_topology=True)
-        log.info("loaded %d land polygons in %s", len(polys), bbox)
+        log.info("loaded %d land polygons in %s", len(polys), boxes)
         return cls(list(polys))
 
     def near_land(self, pts: np.ndarray, dist: float) -> np.ndarray:
@@ -139,21 +147,36 @@ def _grid_moves(grid: np.ndarray, x0: float, y0: float, step: float) -> np.ndarr
 
 def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBOX, *, coast_step_m: float = 3000.0,
              coast_offset_m: float = 500.0, grid_m: float = 25000.0, grid_clear_m: float = 3000.0,
-             max_offshore_m: float = 400000.0, narrows: dict | None = None) -> list[Segment]:
+             max_offshore_m: float = 400000.0, narrows: dict | None = None, areas: list[dict] | None = None) -> list[Segment]:
     """Segments (kind "sea") of a mesh over the water in `bbox`. Distances are Mercator metres (true metres
-    times 1/cos(latitude)). Each `narrows` bbox gets extra coast points at a sixth of the spacing and offset."""
-    coast_pts = _coast_points(coast, bbox, coast_step_m, coast_offset_m)
+    times 1/cos(latitude)). Each `narrows` bbox gets extra coast points at a sixth of the spacing and offset.
+
+    `areas` ({"bbox": (w, s, e, n)} with an optional "max_offshore_m" each) replaces `bbox`: the areas are
+    meshed together on one offshore grid anchored at the first area's corner, so areas that touch or overlap
+    join up, and an area far from others (another continent) forms its own part."""
+    areas = areas or [{"bbox": bbox}]
+    coast_pts = np.vstack([_coast_points(coast, a["bbox"], coast_step_m, coast_offset_m) for a in areas])
     for area in (NARROWS if narrows is None else narrows).values():
         coast_pts = np.vstack([coast_pts, _coast_points(coast, area, coast_step_m / 6, coast_offset_m / 6)])
-    (x0, y0), (x1, y1) = to_merc(np.array([[bbox[0], bbox[1]], [bbox[2], bbox[3]]]))
+    x0, y0 = to_merc(np.array([areas[0]["bbox"][:2]]))[0]
+    coast_tree = STRtree(shapely.points(coast_pts)) if len(coast_pts) else None
 
-    gx, gy = np.meshgrid(np.arange(x0, x1, grid_m), np.arange(y0, y1, grid_m))
-    grid = np.column_stack([gx.ravel(), gy.ravel()])
-    grid = grid[~coast.near_land(grid, grid_clear_m)]
-    if len(coast_pts) and len(grid):
-        idx, _ = STRtree(shapely.points(coast_pts)).query_nearest(
-            shapely.points(grid), max_distance=max_offshore_m, return_distance=True, all_matches=False)
-        grid = grid[np.unique(idx[0])]
+    grids = []
+    for area in areas:
+        (ax0, ay0), (ax1, ay1) = to_merc(np.array([area["bbox"][:2], area["bbox"][2:]]))
+        # lattice indices covering the area (for the first area: exactly arange(x0, x1, grid_m))
+        gx, gy = np.meshgrid(x0 + np.arange(np.ceil((ax0 - x0) / grid_m), np.ceil((ax1 - x0) / grid_m)) * grid_m,
+                             y0 + np.arange(np.ceil((ay0 - y0) / grid_m), np.ceil((ay1 - y0) / grid_m)) * grid_m)
+        grid = np.column_stack([gx.ravel(), gy.ravel()])
+        grid = grid[~coast.near_land(grid, grid_clear_m)]
+        if coast_tree is not None and len(grid):
+            idx, _ = coast_tree.query_nearest(shapely.points(grid), max_distance=area.get("max_offshore_m", max_offshore_m),
+                                              return_distance=True, all_matches=False)
+            grid = grid[np.unique(idx[0])]
+        grids.append(grid)
+    grid = grids[0] if len(grids) == 1 else np.unique(np.vstack(grids), axis=0)
+    if len(areas) > 1:
+        coast_pts = np.unique(coast_pts, axis=0)  # overlapping areas find the same coast points
     nodes = np.vstack([coast_pts, grid])
     if len(nodes) < 3:
         return []

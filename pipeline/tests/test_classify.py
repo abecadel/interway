@@ -36,6 +36,7 @@ def test_allowlist_load_merges_files(tmp_path):
 def test_has_name_checks_alternative_keys(allow):
     assert allow.has_name({"name:de": "NAREW"})
     assert allow.has_name({"name": "Narwia", "alt_name": "Narew"})
+    assert allow.has_name({"name": "Narwia", "name:fr": "Narew"})  # bilingual Canada: French names
     assert not allow.has_name({"name": "Odra", "name:en": "Oder"})
     assert not allow.has_name({})
 
@@ -122,6 +123,7 @@ def test_candidate_lake(tags, expected):
 @pytest.mark.parametrize("tags,expected", [
     ({"name": "Śniardwy"}, True),  # lakes list
     ({"name:de": "narew"}, True),  # waterway names count too
+    ({"name": "Jezioro", "name:fr": "Śniardwy"}, True),
     ({"wikidata": "Q123"}, True),
     ({"boat": "yes"}, True),
     ({"motorboat": "official"}, True),

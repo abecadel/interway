@@ -34,6 +34,33 @@ def test_load_reads_only_the_bbox(tmp_path):
     assert c.on_land(np.array([Point(*to_merc(np.array([[0.3, 0.5]]))[0])])).tolist() == [True]
 
 
+def test_load_reads_each_polygon_once_for_overlapping_boxes(tmp_path):
+    with shapefile.Writer(str(tmp_path / "land"), shapeType=shapefile.POLYGON) as w:
+        w.field("id", "N")
+        for i, b in enumerate([WEST, EAST, box(10, 10, 11, 11)]):
+            w.poly([list(b.exterior.coords)[::-1]])
+            w.record(i)
+    c = Coast.load(tmp_path / "land.shp", [(0.0, 0.0, 0.5, 1.0), (0.3, 0.0, 1.0, 1.0)])
+    assert len(c.land) == 2  # WEST lies in both boxes and is loaded once; the far island in neither
+
+
+def test_areas_mesh_together_and_far_areas_form_their_own_part():
+    c = coast(WEST, EAST, box(3.2, 0.2, 3.45, 0.8))
+    # the first area as a single bbox gives the same mesh as before
+    one = sea_mesh(c, BBOX, grid_m=10000)
+    same = sea_mesh(c, areas=[{"bbox": BBOX}], grid_m=10000)
+    assert sorted(s.coords for s in one) == sorted(s.coords for s in same)
+    # an overlapping neighbour on the same grid joins up; an area 2° away is a part of its own
+    both = sea_mesh(c, areas=[{"bbox": BBOX}, {"bbox": (0.8, 0.0, 1.6, 1.0)}, {"bbox": (3.0, 0.0, 3.6, 1.0)}], grid_m=10000)
+    parts = components(both)
+    assert len(set(parts.values())) == 2
+    xs = {round(x, 6) for s in both for x, _ in s.coords}
+    assert max(xs) > 3.4 and any(1.0 < x < 1.6 for x in xs)
+    # each area may keep its grid closer to the coast
+    near = sea_mesh(c, areas=[{"bbox": BBOX}, {"bbox": (3.0, 0.0, 3.6, 1.0), "max_offshore_m": 1.0}], grid_m=10000)
+    assert sum(1 for s in near for x, _ in s.coords if x > 3.0) < sum(1 for s in both for x, _ in s.coords if x > 3.0)
+
+
 def test_masks_handle_empty_input():
     c = coast()
     assert c.near_land(np.zeros((0, 2)), 10).size == 0

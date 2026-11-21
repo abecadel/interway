@@ -46,7 +46,7 @@ class Allowlist:
         return name.casefold() in self.exclude_names or any(p.search(name) for p in self.exclude_patterns)
 
     def has_name(self, tags) -> bool:
-        for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "official_name", "alt_name"):
+        for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "name:fr", "official_name", "alt_name"):
             v = tags.get(key)
             if v and v.casefold() in self.names:
                 return True
@@ -109,7 +109,7 @@ def is_channel_area(tags) -> bool:
 
 
 def lake_allowlisted(tags, allow: Allowlist) -> bool:
-    for key in ("name", "name:pl", "name:de", "name:nl", "name:en"):
+    for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "name:fr"):
         v = tags.get(key)
         if v and (v.casefold() in allow.lakes or v.casefold() in allow.names):
             return True

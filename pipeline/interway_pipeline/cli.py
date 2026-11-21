@@ -189,21 +189,21 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
     return pois
 
 
-def sea_network(land: Path, bbox: tuple[float, float, float, float], cache_dir: Path | None) -> tuple[Coast, list[Segment]]:
-    """Land polygons and the sea mesh (cached by land file and bbox). Mesh node ids are renumbered so they
-    never clash with ids made in this run."""
-    coast = Coast.load(land, bbox)
+def sea_network(land: Path, areas: list[dict], cache_dir: Path | None) -> tuple[Coast, list[Segment]]:
+    """Land polygons and the sea mesh over `areas` (cached by land file and areas). Mesh node ids are renumbered
+    so they never clash with ids made in this run."""
+    coast = Coast.load(land, [tuple(a["bbox"]) for a in areas])
     sea = None
     f = None
     if cache_dir is not None:
         st = land.stat()
-        key = hashlib.sha256(repr((str(land.resolve()), st.st_size, st.st_mtime, bbox, SEA_VERSION)).encode()).hexdigest()[:16]
+        key = hashlib.sha256(repr((str(land.resolve()), st.st_size, st.st_mtime, areas, SEA_VERSION)).encode()).hexdigest()[:16]
         f = cache_dir / f"sea.{key}.pickle"
         if f.exists():
             log.info("using cached sea mesh %s", f.name)
             sea = pickle.loads(f.read_bytes())
     if sea is None:
-        sea = sea_mesh(coast, bbox)
+        sea = sea_mesh(coast, areas=areas)
         if f is not None:
             cache_dir.mkdir(parents=True, exist_ok=True)
             f.write_bytes(pickle.dumps(sea, protocol=pickle.HIGHEST_PROTOCOL))
@@ -233,7 +233,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
           min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
           dead_end_gap_m: float = 300.0, countries: list[str] | None = None, land: Path | None = None,
           sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX, places: Path | None = None,
-          depth_cache: Path | None = None, depth_scale: float = 0.25) -> dict:
+          depth_cache: Path | None = None, depth_scale: float = 0.25, sea_areas: list[dict] | None = None) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     promote_ways(ex, allow.ways)
@@ -254,7 +254,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes
     if land is not None:
-        coast, sea = sea_network(land, sea_bbox, cache_dir)
+        coast, sea = sea_network(land, sea_areas or [{"bbox": tuple(sea_bbox)}], cache_dir)
         sea = drop_sheltered(sea, meshed_lakes(ex.lakes, lake_segs))
         if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
             apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
@@ -294,6 +294,8 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--land", type=Path, default=None,
                     help="OSM land polygons shapefile (land-polygons-split-4326/land_polygons.shp) to add sea routes")
     ap.add_argument("--sea-bbox", default=",".join(map(str, DEFAULT_BBOX)), help="west,south,east,north of the sea mesh")
+    ap.add_argument("--sea-areas", type=Path, default=None,
+                    help='sea areas JSON ({"name", "bbox": [w, s, e, n], optional "max_offshore_m"}) instead of --sea-bbox')
     ap.add_argument("--places", type=Path, default=None, help="GeoNames cities5000.txt: towns along routes")
     ap.add_argument("--depth-cache", type=Path, default=None,
                     help="directory for EMODnet bathymetry tiles; enables depth limits on sea routes (needs --land)")
@@ -306,6 +308,7 @@ def main(argv: list[str] | None = None) -> None:
               dead_end_gap_m=args.dead_end_gap_m, land=args.land, places=args.places,
               depth_cache=args.depth_cache, depth_scale=args.depth_scale,
               sea_bbox=tuple(float(v) for v in args.sea_bbox.split(",")),
+              sea_areas=json.loads(args.sea_areas.read_text()) if args.sea_areas else None,
               countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()])
     print(json.dumps(m["stats"]))
 
