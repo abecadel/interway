@@ -497,3 +497,11 @@ def test_close_gaps_joins_a_ship_lift_whose_levels_meet_far_away():
             Segment(a=3, b=4, coords=[(120 * m, 200 * m), (120 * m, 0.0)]),
             Segment(a=1, b=4, coords=[(0.0, 0.0), (120 * m, 0.0)])]
     assert close_gaps(work, dead_end_gap_m=300) == 0
+
+
+def test_ways_carry_motorboat_bans_and_speed_limits_through_merges():
+    ex = Extract(ways=[way(1, [1, 2, 3], motorboat="no", maxspeed="10"), way(2, [3, 4]), way(3, [4, 5])])
+    segs = merge_degree2(split_ways(ex))
+    banned = [s for s in segs if s.no_motor]
+    assert [(s.a, s.b, s.max_speed) for s in banned] == [(1, 3, 10)]
+    assert [(s.a, s.b) for s in segs if not s.no_motor] == [(3, 5)]  # the two plain ways still merge

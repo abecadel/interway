@@ -251,6 +251,24 @@ describe('router edge cases', () => {
     expect(r.routeVia([[17.001, 51.0], [17.1, 51.0], [17.199, 51.0]]).offshore).toBeCloseTo(across.offshore, -2);
   });
 
+  it('keeps to posted speed limits and goes round waters closed to motorboats', () => {
+    // a 12 km/h boat on a 6 km/h stretch takes twice as long
+    const slow = makeRouter([{ points: [A, B], maxSpeed: 6 }]).route([17.01, 51.0], [17.09, 51.0], { ...defaultProfile, speedKmh: 12 });
+    expect(slow.duration).toBeCloseTo(slow.distance / (6 / 3.6), -1);
+    // the short way crosses a lake closed to motorboats, the long way goes round it
+    const r = makeRouter([
+      { points: [A, C], noMotor: true, kind: 'lake' },
+      { points: [A, D] }, { points: [D, C] },
+    ]);
+    const round = r.route([17.001, 51.0], [17.199, 51.0]);
+    expect(round.noMotor).toBeLessThan(500); // only where the start point snaps onto the lake
+    // with no other way it crosses, at the real time, and says how far
+    const only = makeRouter([{ points: [A, C], noMotor: true, kind: 'lake' }]).route([17.001, 51.0], [17.199, 51.0]);
+    expect(only.noMotor).toBeCloseTo(only.distance, -2);
+    expect(only.duration).toBeCloseTo(only.distance / (defaultProfile.speedKmh / 3.6), -1);
+    expect(makeRouter([{ points: [A, C], noMotor: true }]).routeVia([[17.001, 51.0], [17.1, 51.0], [17.199, 51.0]]).noMotor).toBeGreaterThan(10_000);
+  });
+
   it('never goes slower than the upstream floor speed', () => {
     const r = makeRouter([{ points: [A, B], kind: 'river' }]);
     const p = { ...defaultProfile, speedKmh: 1, currentMs: 5 };

@@ -37,6 +37,8 @@ Coordinates are stored as `int32` in units of 1e-7 degree (≈1 cm).
 | 7 | `PATCH` | manual connector from `data/patches` |
 | 8 | `NO_DEPTH` | open sea with no charted depth along it (outside EMODnet's European coverage); unset sea edges without a draft limit are charted deeper than 30 m |
 | 9 | `OFFSHORE` | open sea whose middle is more than 10 km from land; a boat keeping to the coast avoids it |
+| 10 | `NO_MOTOR` | OSM says motorboats are not allowed (`motorboat=no`/`private`, or `boat=no`/`private` without `motorboat=yes`) on the way or the lake; routes go round it where they can |
+| 11–15 | speed limit | posted speed limit in km/h, 1–31 (`maxspeed:boat` or `maxspeed`; knots and mph converted; 31 = 31 or more), 0 = none known |
 
 Every undirected waterway segment is normally stored as two directed edges sharing one geometry id;
 a one-way segment has only one.

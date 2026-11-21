@@ -10,7 +10,22 @@ from pathlib import Path
 import numpy as np
 from shapely.geometry import LineString
 
-from .model import CANAL, DOWNSTREAM, GEOM_REVERSED, LAKE, LOCK, NO_DEPTH, OFFSHORE, PATCH, SEA, UPSTREAM, Segment, metres_to_deg
+from .model import (
+    CANAL,
+    DOWNSTREAM,
+    GEOM_REVERSED,
+    LAKE,
+    LOCK,
+    NO_DEPTH,
+    NO_MOTOR,
+    OFFSHORE,
+    PATCH,
+    SEA,
+    SPEED_SHIFT,
+    UPSTREAM,
+    Segment,
+    metres_to_deg,
+)
 
 log = logging.getLogger(__name__)
 SCALE = 1e7
@@ -81,7 +96,8 @@ def export(segments: list[Segment], out_dir: Path, *, region: str, osm_timestamp
         attr = attr_index[t]
         base = (LOCK if s.lock else 0) | (LAKE if s.kind in ("lake", "bridge") else 0) | (CANAL if s.kind == "canal" else 0) \
             | (SEA if s.kind == "sea" else 0) | (PATCH if s.kind in ("patch", "connector") else 0) \
-            | (NO_DEPTH if s.depth_unknown else 0) | (OFFSHORE if s.offshore else 0)
+            | (NO_DEPTH if s.depth_unknown else 0) | (OFFSHORE if s.offshore else 0) \
+            | (NO_MOTOR if s.no_motor else 0) | (s.max_speed << SPEED_SHIFT)
         length = s.length
         edges.append((a, b, length, g, attr, base | (DOWNSTREAM if s.flows else 0)))
         if not s.oneway:

@@ -192,6 +192,10 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     hazards.push(`${km(route.tooShallow)} km of open sea is charted shallower than your ${profile.draft} m draft and has no deeper way`
       + ' in the planner\'s coarse sea network: there may be a dredged channel, or the passage may need a different route. Check official charts.');
   }
+  if (route.noMotor > 500) {
+    hazards.push(`${km(route.noMotor)} km on waters where OpenStreetMap says motorboats are not allowed (motorboat=no or boat=no)`
+      + ' and there is no other way: check the local rules, or plan another route.');
+  }
   if (route.unverified > 0) hazards.push(`${km(route.unverified)} km on unverified connections (short channels or manual links): confirm locally.`);
   if (route.start.offset > 200 || route.end.offset > 200) {
     hazards.push(`Start/end were moved to the nearest navigable water (${km(route.start.offset)} km / ${km(route.end.offset)} km away).`);

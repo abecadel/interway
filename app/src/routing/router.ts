@@ -1,5 +1,5 @@
 import Flatbush from 'flatbush';
-import { COORD_SCALE, Flag, type Geometry, type Graph } from '../graph/format';
+import { COORD_SCALE, Flag, speedLimitOf, type Geometry, type Graph } from '../graph/format';
 import { haversine, projectOnSegment, type LngLat } from '../graph/geo';
 import { MinHeap } from './heap';
 
@@ -46,6 +46,9 @@ const SEASON_MAX_EXTRA_SEA = 100_000;
 /** A waterway whose sheet gives a usual maximum draft or lowest bridge the boat exceeds (where OSM records none)
  *  costs this much more: routes go round it where another way exists, and use it, warned, where none does. */
 const SHEET_LIMIT_COST = 30;
+/** Waters where OSM says motorboats are not allowed cost this much more: routes go round them where they can, and
+ *  report what they could not avoid (a ban may be mapped on a whole lake that has an allowed channel). */
+const NO_MOTOR_COST = 50;
 
 export const defaultProfile: VesselProfile = {
   speedKmh: 10,
@@ -130,6 +133,8 @@ export interface Route {
   seaNoDepth: number;
   /** metres of open sea more than 10 km from land */
   offshore: number;
+  /** metres on waters where OSM says motorboats are not allowed */
+  noMotor: number;
   /** metres travelled with the river current (downstream) and against it (upstream) */
   downstream: number;
   upstream: number;
@@ -357,7 +362,8 @@ export class Router {
   private factor(g: number, p: VesselProfile): number {
     const s = this.geomSheet?.[g] ?? -1;
     const over = s >= 0 && (Math.fround(p.draft) > this.sheetDraft[s] || Math.fround(p.airDraft) > this.sheetAir[s]);
-    return (this.penalty?.get(g) ?? 1) * (this.season?.get(g) ?? 1) * (over ? SHEET_LIMIT_COST : 1);
+    const banned = this.geomFlags(g) & Flag.NO_MOTOR;
+    return (this.penalty?.get(g) ?? 1) * (this.season?.get(g) ?? 1) * (over ? SHEET_LIMIT_COST : 1) * (banned ? NO_MOTOR_COST : 1);
   }
 
   edgeCost(e: number, p: VesselProfile): number {
@@ -377,7 +383,9 @@ export class Router {
       if (t[a + 2] > 0 && f(p.beam) > t[a + 2]) return BLOCKED;
       if (t[a + 3] > 0 && f(p.length) > t[a + 3]) return BLOCKED;
     }
-    let speed = p.speedKmh / 3.6;
+    // a posted speed limit caps the speed through the water
+    const limit = speedLimitOf(flags);
+    let speed = (limit > 0 ? Math.min(p.speedKmh, limit) : p.speedKmh) / 3.6;
     const known = this.geomCurrent?.[g.edgeGeom[e]];
     const current = known !== undefined && !Number.isNaN(known) ? known : p.currentMs;
     if (flags & Flag.DOWNSTREAM) speed += current;
@@ -386,7 +394,7 @@ export class Router {
     if (flags & Flag.SEA) cost *= (p.avoidSea ? AVOID_SEA_COST : SEA_COST) * (shallow ? SHALLOW_COST : 1);
     if (p.coastal && flags & Flag.OFFSHORE) cost *= COASTAL_COST;
     if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? AVOID_LOCKS_COST : 1);
-    return this.penalty || this.season || this.geomSheet ? cost * this.factor(g.edgeGeom[e], p) : cost;
+    return cost * this.factor(g.edgeGeom[e], p);
   }
 
   /**
@@ -581,8 +589,8 @@ export class Router {
 
   private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number, profile: VesselProfile): Route {
     const vesselDraft = profile.draft;
-    // searching for alternatives, the cost carries their penalties: the time is summed from the stretches instead
-    const penalty = this.penalty || this.season || this.geomSheet;
+    // the search cost carries penalties (alternatives, seasons, sheet limits, motorboat bans): the time reported is
+    // summed from the stretches without them
     let unpenalized = 0;
     const N = this.graph.nodeCount;
     const SRC = N, DST = N + 1;
@@ -594,7 +602,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0, unverified = 0, sea = 0, seaNoDepth = 0, offshore = 0, tooShallow = 0, downstream = 0, upstream = 0;
+    let distance = 0, locks = 0, unverified = 0, sea = 0, seaNoDepth = 0, offshore = 0, noMotor = 0, tooShallow = 0, downstream = 0, upstream = 0;
     let shallowest: Route['shallowest'] = null;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
@@ -655,7 +663,7 @@ export class Router {
       }
       addLeg(g, before);
       this.lastGeoms.set(g, (this.lastGeoms.get(g) ?? 0) + distance - before);
-      if (penalty && distance > before) {
+      if (distance > before) {
         // the search moves along a geometry only where an edge runs that way, so `travelled` is set
         const e = travelled;
         unpenalized += (this.edgeCost(e, profile) / this.factor(g, profile)) * ((distance - before) / this.graph.edgeLength[e]);
@@ -664,14 +672,15 @@ export class Router {
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
       if (this.geomFlags(g) & Flag.NO_DEPTH) seaNoDepth += distance - before;
       if (this.geomFlags(g) & Flag.OFFSHORE) offshore += distance - before;
+      if (this.geomFlags(g) & Flag.NO_MOTOR) noMotor += distance - before;
       if (current > 0) downstream += distance - before;
       else if (current < 0) upstream += distance - before;
       const draft = distance > before ? this.seaDraft(g) : 0; // a snap at the very end of a stretch does not cross it
       if (draft > 0 && (!shallowest || draft < shallowest.draft)) shallowest = { draft: Math.round(draft * 100) / 100, at: before };
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
-    if (penalty) duration = unpenalized;
-    return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, offshore, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    duration = unpenalized;
+    return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, offshore, noMotor, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -735,6 +744,7 @@ export function joinRoutes(a: Route, b: Route): Route {
     sea: a.sea + b.sea,
     seaNoDepth: a.seaNoDepth + b.seaNoDepth,
     offshore: a.offshore + b.offshore,
+    noMotor: a.noMotor + b.noMotor,
     downstream: a.downstream + b.downstream,
     upstream: a.upstream + b.upstream,
     tooShallow: a.tooShallow + b.tooShallow,
