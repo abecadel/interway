@@ -35,7 +35,7 @@ import { DirectionsCard } from './ui/DirectionsCard';
 import { Icon } from './ui/icons';
 import { LayersCard } from './ui/LayersCard';
 import { PlaceCard, type PlaceInfo } from './ui/PlaceCard';
-import { addRecent, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, toggleSaved } from './ui/places';
+import { addRecent, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, toggleSaved, townLabel } from './ui/places';
 import { RouteSummary } from './ui/RouteSummary';
 import { timeDiff } from './ui/routeOptions';
 import { SearchBar } from './ui/SearchBar';
@@ -51,6 +51,7 @@ import { portFacts } from './ui/portFacts';
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
 const SHEET_KEY = 'interway.sheet';
+const HINT_KEY = 'interway.hint';
 /** the desktop side panel's width with its margin */
 const SIDE_PANEL_PX = 424;
 
@@ -152,6 +153,12 @@ export default function App({ client }: { client: RoutingApi }) {
   // the private catch log (this browser only) and whether its list is open
   const [catches, setCatches] = useState(() => loadCatches());
   const [catchesOpen, setCatchesOpen] = useState(false);
+  // the one-time hint on the start screen
+  const [hintSeen, setHintSeen] = useState(() => { try { return localStorage.getItem(HINT_KEY) === '1'; } catch { return false; } });
+  const dismissHint = () => {
+    setHintSeen(true);
+    try { localStorage.setItem(HINT_KEY, '1'); } catch { /* storage blocked: hidden for this visit */ }
+  };
   const searchRef = useRef<HTMLInputElement>(null);
   // phones: the sheet stops below the search box or directions card, whatever their height
   const appRef = useRef<HTMLDivElement>(null);
@@ -169,6 +176,13 @@ export default function App({ client }: { client: RoutingApi }) {
   });
   const watchId = useRef<number | null>(null);
   const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
+  // a point picked on the map or given by a link is shown by its nearest town, not its coordinates
+  const towns = useMemo(() => pois.filter((p) => p.type === 'place'), [pois]);
+  const named = (p: Point | null): Point | null => {
+    if (!p || p.label !== fmtPos(p.position)) return p;
+    const town = townLabel(towns, p.position);
+    return town ? { ...p, label: town } : p;
+  };
   const indexRef = useRef(localIndex);
   useEffect(() => {
     indexRef.current = localIndex;
@@ -450,7 +464,7 @@ export default function App({ client }: { client: RoutingApi }) {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const title = () => `${start!.label} → ${end!.label}`;
+  const title = () => `${named(start)!.label} → ${named(end)!.label}`;
   const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href, entered, data: dataId });
   const base = `${location.origin}${location.pathname}`;
   const routePermalink = (route: Route) => permalink(base, { from: start!.position, to: end!.position, via: viaPositions }, profile, dataId,
@@ -531,7 +545,7 @@ export default function App({ client }: { client: RoutingApi }) {
 
   const top = directions ? (
     <DirectionsCard
-      start={start} end={end} via={via} picking={picking} near={near} local={localIndex} profile={profile} customOpen={customOpen}
+      start={named(start)} end={named(end)} via={via} picking={picking} near={near} local={localIndex} profile={profile} customOpen={customOpen}
       setStart={setStart} setEnd={setEnd} setVia={setVia} setPicking={setPicking} myPosition={setFromMyPosition}
       setProfile={setProfile} onCustom={() => { setCustomOpen(!customOpen); showSheet(); }} onClose={closeDirections}
       compact={phone && !!route && !!start && !!end && editKey !== routeKey && !customOpen && picking === null} onEdit={() => setEditKey(routeKey)}
@@ -672,9 +686,27 @@ export default function App({ client }: { client: RoutingApi }) {
     <section className="explore">
       <h1>Interway</h1>
       <p className="tagline">Inland waterway &amp; coastal route planner</p>
-      <p className="small muted">Search a place, pick a category, or long-press the map (right-click on a computer) to drop a pin.</p>
+      <button type="button" className="pill primary plan-trip" onClick={() => { setDirOpen(true); setPlace(null); }}><Icon name="directions" />Plan a trip</button>
+      {!hintSeen && (
+        <div className="hint-card" role="note">
+          <span>Long-press the map (right-click on a computer) to drop a pin · tap a symbol for details.</span>
+          <button type="button" className="icon-btn" aria-label="Dismiss hint" onClick={dismissHint}><Icon name="close" /></button>
+        </div>
+      )}
+      {recent.length > 0 && (
+        <>
+          <h2 className="list-head">Recent</h2>
+          <ul className="place-list">
+            {recent.slice(0, 3).map((p) => (
+              <li key={p.label}><button type="button" onClick={() => onSearch(p)}><Icon name="history" /><span className="name">{p.label}</span></button></li>
+            ))}
+          </ul>
+        </>
+      )}
+      <ul className="place-list">
+        <li><button type="button" onClick={() => setCatchesOpen(true)}><span className="name">My catches</span><span className="muted small">{catches.length}</span></button></li>
+      </ul>
       <p className="small">{snapshotInput}</p>
-      <p className="small"><button type="button" onClick={() => setCatchesOpen(true)}>My catches ({catches.length})</button></p>
       {snapshotError && <div className="error small">{snapshotError}</div>}
       {track}
     </section>

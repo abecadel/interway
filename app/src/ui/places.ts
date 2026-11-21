@@ -1,5 +1,5 @@
 // Recent searches and saved places, kept in this browser.
-import type { LngLat } from '../graph/geo';
+import { haversine, type LngLat } from '../graph/geo';
 import type { Place } from './search';
 
 export const RECENT_KEY = 'interway.recent';
@@ -44,3 +44,19 @@ export const shareLink = (p: LngLat, loc: Location = location) =>
 
 /** A spot shared "approximately": rounded to 0.01° (about 1 km), so a good fishing place is not given away exactly. */
 export const approximate = ([lon, lat]: LngLat): LngLat => [Math.round(lon * 100) / 100, Math.round(lat * 100) / 100];
+
+/** a point is named after a town this close */
+export const TOWN_NEAR_M = 3000;
+/** closer than this it is the town itself; further, "near" it */
+const TOWN_IN_M = 1500;
+
+/** A name for a bare point from the nearest town: "Giżycko", "near Giżycko", or null with none within 3 km. */
+export function townLabel(towns: { name: string; lat: number; lon: number }[], [lon, lat]: LngLat): string | null {
+  let best: { name: string; d: number } | null = null;
+  for (const t of towns) {
+    if (Math.abs(t.lat - lat) > 0.05) continue; // about 5.5 km: cheap pre-filter
+    const d = haversine(lat, lon, t.lat, t.lon);
+    if (d <= TOWN_NEAR_M && (!best || d < best.d)) best = { name: t.name, d };
+  }
+  return best && (best.d <= TOWN_IN_M ? best.name : `near ${best.name}`);
+}
