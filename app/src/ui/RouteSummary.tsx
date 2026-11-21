@@ -4,7 +4,7 @@ import type { Route, VesselProfile } from '../routing/router';
 import { fmtDuration, fmtKm, fmtNm } from './format';
 import { Icon } from './icons';
 import { ItineraryView } from './ItineraryView';
-import { legPoints, waterwaysOn, waterwayWarnings } from '../routing/waterways';
+import { legPoints, seasonWarnings, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 import { WaterwaysView } from './WaterwaysView';
 
 /** Time first, then distance and locks, warnings, and Start / Steps; the rest (exports, offline map) under More. */
@@ -26,7 +26,7 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
 }) {
   const [steps, setSteps] = useState(false);
   const waterways = waterwaysOn(legPoints(route));
-  const warnings = waterwayWarnings(waterways, profile.draft, profile.airDraft);
+  const warnings = [...waterwayWarnings(waterways, profile.draft, profile.airDraft), ...seasonWarnings(route, profile)];
   return (
     <section className="summary" aria-label="Route">
       {options.length > 1 && (

@@ -381,8 +381,9 @@ describe('App', () => {
     fireEvent.click(screen.getByLabelText('Avoid locks'));
     fireEvent.click(screen.getByLabelText('Avoid open sea'));
     fireEvent.click(screen.getByLabelText('Stay near the coast (harbour to harbour)'));
+    fireEvent.change(screen.getByLabelText('Departure date'), { target: { value: '2027-05-01' } });
     await flush();
-    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true };
+    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true, departure: '2027-05-01' };
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
     // only what differs from the defaults is saved
     expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true });

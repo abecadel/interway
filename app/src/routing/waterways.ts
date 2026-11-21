@@ -3,7 +3,7 @@
 // The sheets live in data/waterways.json and are matched to a route's legs by the waterway names OSM uses.
 import sheets from '../data/waterways.json';
 import { haversine, type LngLat } from '../graph/geo';
-import type { Route } from './router';
+import { dateAfter, type Route, type VesselProfile } from './router';
 
 export type Navigable = 'yes' | 'seasonal' | 'restricted' | 'closed';
 
@@ -22,6 +22,8 @@ export interface WaterwayInfo {
   current: { typicalMs: number | null; notes: string | null };
   locks: { count: number | null; chamber: string | null; hours: string | null; notes: string | null };
   season: { best: string | null; closures: string | null };
+  /** typical conditions by month (1 = January): usually closed, low water, high water, ice */
+  months?: { closed: number[]; lowWater: number[]; highWater: number[]; ice: number[]; notes: string | null };
   /** tidal reach: spring range and practical notes (tidal limit, timing, streams); absent in older sheets */
   tides?: { tidal: boolean; rangeM: number | null; notes: string | null };
   authority: { name: string; url: string | null };
@@ -101,6 +103,53 @@ export function currentsByName(infos: WaterwayInfo[] = WATERWAYS): Map<string, n
     const c = w.current.typicalMs;
     if (c === null) continue;
     for (const a of w.aliases) out.set(key(a), Math.min(out.get(key(a)) ?? Infinity, c));
+  }
+  return out;
+}
+
+const MONTH = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const SHORT = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** "usually closed Jul–Oct; low water Aug–Sep" from a sheet's months, or null when it has none. */
+export function monthsText(w: WaterwayInfo): string | null {
+  const m = w.months;
+  if (!m) return null;
+  const span = (ms: number[]) => {
+    const s = [...new Set(ms)].sort((a, b) => a - b);
+    const runs: string[] = [];
+    let start = s[0], prev = s[0];
+    for (const x of [...s.slice(1), 99]) {
+      if (x !== prev + 1) {
+        runs.push(start === prev ? SHORT[start] : `${SHORT[start]}–${SHORT[prev]}`);
+        start = x;
+      }
+      prev = x;
+    }
+    return runs.join(', ');
+  };
+  const parts = [['closed', m.closed], ['low water', m.lowWater], ['high water', m.highWater], ['ice', m.ice]]
+    .filter(([, ms]) => (ms as number[]).length).map(([k, ms]) => `${k} ${span(ms as number[])}`);
+  return parts.length || m.notes ? [parts.length ? `usually ${parts.join('; ')}` : '', m.notes].filter(Boolean).join('. ') : null;
+}
+
+/** For a departure date: what each waterway is usually like in the month the boat reaches it. */
+export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<string, WaterwayInfo[]> = DEFAULT_INDEX): string[] {
+  if (dateAfter(profile.departure, 0) === null || route.distance <= 0) return [];
+  const speed = route.distance / Math.max(route.duration, 1);
+  const out: string[] = [];
+  const seen = new Set<WaterwayInfo>();
+  let at = 0;
+  for (const [i, leg] of legPoints(route).entries()) {
+    for (const w of waterwaysOn([leg], index)) {
+      if (seen.has(w) || !w.months) continue;
+      seen.add(w);
+      const date = dateAfter(profile.departure, at / speed)!;
+      const m = Number(date.slice(5, 7));
+      const what = [w.months.closed.includes(m) && 'usually closed', w.months.lowWater.includes(m) && 'usually low water',
+        w.months.highWater.includes(m) && 'high water likely', w.months.ice.includes(m) && 'ice likely'].filter(Boolean);
+      if (what.length) out.push(`${w.name}, reached around ${date}: ${what.join(', ')} in ${MONTH[m]}${w.months.notes ? ` (${w.months.notes})` : ''}.`);
+    }
+    at += route.legs[i].distance;
   }
   return out;
 }

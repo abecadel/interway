@@ -2,7 +2,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { empty, kanal, restricted } from '../test/waterwayFixture';
 
 vi.mock('../data/waterways.json', () => ({ default: [] }));
-const { aliasIndex, currentsByName, legPoints, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
+const { aliasIndex, currentsByName, legPoints, monthsText, seasonWarnings, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
+const { defaultProfile } = await import('./router');
 
 describe('waterway sheets', () => {
   const index = aliasIndex([kanal, empty, restricted]);
@@ -30,6 +31,34 @@ describe('waterway sheets', () => {
     expect(pts[0].at).toEqual([0, 0]); // halfway along A (556 m) is still before the first vertex step
     expect(pts[1].at).toEqual([0.02, 0]);
     expect(legPoints({ coordinates: [[1, 1]], legs: [{ name: 'X', distance: 10 }] } as never)).toEqual([{ name: 'X', at: [1, 1] }]);
+  });
+
+  it('sum up the months as runs', () => {
+    expect(monthsText(kanal)).toBe('usually closed Jul–Oct; low water Jun; high water Feb–Mar; ice Jan. summit pound short of water');
+    expect(monthsText({ ...kanal, months: { closed: [12, 1, 2, 5], lowWater: [], highWater: [], ice: [], notes: null } })).toBe('usually closed Jan–Feb, May, Dec');
+    expect(monthsText({ ...kanal, months: { closed: [], lowWater: [], highWater: [], ice: [], notes: 'chômage 1–10 March' } })).toBe('chômage 1–10 March');
+    expect(monthsText({ ...kanal, months: { closed: [], lowWater: [], highWater: [], ice: [], notes: null } })).toBeNull();
+    expect(monthsText(empty)).toBeNull();
+  });
+
+  it('warn about each waterway as it is in the month the boat reaches it', () => {
+    // 100 km at 10 km/h: 10 h underway, so the second leg (km 50) is reached on day 1 (8 h a day)
+    const route = { distance: 100_000, duration: 36_000, coordinates: [[0, 0], [0.45, 0], [0.9, 0]],
+      legs: [{ name: 'Low', distance: 50_000 }, { name: 'Kanal', distance: 50_000 }] } as never;
+    const idx = aliasIndex([kanal, restricted]);
+    expect(seasonWarnings(route, defaultProfile, idx)).toEqual([]); // no date
+    expect(seasonWarnings(route, { ...defaultProfile, departure: 'next summer' }, idx)).toEqual([]); // not a date
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, idx))
+      .toEqual(['Kanal (A – B), reached around 2027-07-31: usually closed in July (summit pound short of water).']);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-01-15' }, idx))
+      .toEqual(['Kanal (A – B), reached around 2027-01-15: ice likely in January (summit pound short of water).']);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-04-15' }, idx)).toEqual([]); // nothing in April
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-02-15' }, idx))
+      .toEqual(['Kanal (A – B), reached around 2027-02-15: high water likely in February (summit pound short of water).']);
+    expect(seasonWarnings({ ...(route as object), distance: 0 } as never, { ...defaultProfile, departure: '2027-07-01' }, idx)).toEqual([]);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-06-01' }, aliasIndex([{ ...kanal, months: { ...kanal.months!, notes: null } }])))
+      .toEqual(['Kanal (A – B), reached around 2027-06-01: usually low water in June.']);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-01' })).toEqual([]); // bundled data: empty here
   });
 
   it('describe tides only where a waterway is tidal', () => {

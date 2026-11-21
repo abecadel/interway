@@ -1,4 +1,4 @@
-import { tideText, type WaterwayInfo } from '../routing/waterways';
+import { monthsText, tideText, type WaterwayInfo } from '../routing/waterways';
 
 const STATUS: Record<WaterwayInfo['navigable'], string> = {
   yes: 'navigable', seasonal: 'seasonal', restricted: 'restricted', closed: 'closed',
@@ -24,6 +24,7 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
           ['Lowest bridge', w.airDraftM !== null ? `${w.airDraftM} m` : null],
           ['Current', [w.current.typicalMs !== null && `about ${w.current.typicalMs} m/s`, w.current.notes].filter(Boolean).join('; ') || null],
           ['Locks', [w.locks.count !== null && `${w.locks.count}`, w.locks.chamber, w.locks.hours, w.locks.notes].filter(Boolean).join('; ') || null],
+          ['By month', monthsText(w)],
           ['Tides', tideText(w)],
           ['Best season', w.season.best],
           ['Closures', w.season.closures],

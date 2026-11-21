@@ -70,7 +70,8 @@ function loadSnap(): Snap {
 
 /** Only what the user changed is saved, so a better default reaches everyone who kept the old one. */
 function saveProfile(p: VesselProfile) {
-  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => defaultProfile[k as keyof VesselProfile] !== v));
+  // a trip's departure date is not the boat's: it is not kept for the next visit
+  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'departure' && defaultProfile[k as keyof VesselProfile] !== v));
   localStorage.setItem(PROFILE_KEY, JSON.stringify(changed));
 }
 
@@ -479,6 +480,10 @@ export default function App({ client }: { client: RoutingApi }) {
             {num('beam', 'Beam (m)')}
             {num('length', 'Length (m)', 0.5)}
             {num('lockPenaltyMin', 'Minutes per lock', 5)}
+            <label>
+              Departure date
+              <input type="date" value={profile.departure} onChange={(e) => setProfile({ ...profile, departure: e.target.value })} />
+            </label>
             <label className="check">
               <input type="checkbox" checked={profile.avoidLocks} onChange={(e) => setProfile({ ...profile, avoidLocks: e.target.checked })} />
               Avoid locks

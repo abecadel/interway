@@ -139,6 +139,12 @@ describe('route brief', () => {
     expect(md).toContain('## Waterways\n\n### Kanal (A – B) (seasonal)\nA to B\n- Gauge: Vb');
     expect(md).toContain('- Locks: 3; 190 × 12 m; 6–22');
     expect(md).toContain('- Tides: tidal, spring range about 0.3 m: to the first lock');
+    expect(md).toContain('- By month: usually closed Jul–Oct; low water Jun; high water Feb–Mar; ice Jan. summit pound short of water');
+    const dated = buildBrief({ route: { ...route, legs: [{ name: 'Kanal', distance: 200_000 }] }, itinerary, profile: { ...defaultProfile, departure: '2027-08-01' },
+      title: 't', link: 'l' });
+    expect(dated.stages.map((s) => s.date)).toEqual(['2027-08-01', '2027-08-02', '2027-08-03']);
+    expect(dated.hazards).toContain('Kanal (A – B), reached around 2027-08-01: usually closed in August (summit pound short of water).');
+    expect(briefMarkdown(dated)).toContain('| 1 (2027-08-01) | 0–70 |');
     expect(md).toContain('- Authority: WSA (https://www.wsa.example)');
     expect(md).toContain('- Sources (checked 2026-11-21): https://www.elwis.de/a, https://de.wikipedia.org/wiki/Kanal');
     expect(briefMarkdown({ ...onKanal, waterways: [restricted] })).toContain('- Authority: Nobody\n- Notes: until 30 November');
