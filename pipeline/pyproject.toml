@@ -11,6 +11,7 @@ dev = ["pytest>=8", "pytest-cov>=5"]
 [project.scripts]
 interway-build = "interway_pipeline.cli:main"
 interway-filter = "interway_pipeline.prefilter:main"
+interway-candidates = "interway_pipeline.candidates:main"
 
 [tool.setuptools]
 packages = ["interway_pipeline"]

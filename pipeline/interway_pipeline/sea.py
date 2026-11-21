@@ -145,6 +145,43 @@ def _grid_moves(grid: np.ndarray, x0: float, y0: float, step: float) -> np.ndarr
     return shapely.linestrings(np.stack([grid[a], grid[b]], axis=1))
 
 
+# Cruising grounds full of islands and narrow channels (refine areas) get a finer coast, a denser offshore grid
+# and edges that skip a node where the straight line stays in water: a coarse mesh makes short passages there
+# 30-150 % too long (zigzags between the shores of a sound, detours round islands).
+REFINE_COAST = 1 / 3  # coast step factor
+REFINE_OFFSET = 0.4  # coast offset factor
+REFINE_GRID = 0.4  # offshore grid factor
+REFINE_CLEAR = 0.5  # offshore clearance factor
+REFINE_BAND_M = 6000.0  # the finer grid and the skipping edges only this close to land (Mercator m)
+
+
+def _inside(pts: np.ndarray, boxes: list) -> np.ndarray:
+    """Mask of Mercator points inside any of the lon/lat `boxes`."""
+    mask = np.zeros(len(pts), dtype=bool)
+    for b in boxes:
+        (x0, y0), (x1, y1) = to_merc(np.array([b[:2], b[2:]]))
+        mask |= (pts[:, 0] >= x0) & (pts[:, 0] <= x1) & (pts[:, 1] >= y0) & (pts[:, 1] <= y1)
+    return mask
+
+
+def _two_hop(coast: Coast, edges: np.ndarray, keep: np.ndarray) -> np.ndarray:
+    """Lines between nodes two `edges` apart, both ends in `keep` (Mercator xy rows), that touch no land."""
+    if not len(edges) or not len(keep):
+        return np.zeros(0, dtype=object)
+    ends = shapely.get_coordinates(edges).reshape(-1, 2, 2)
+    keys = {tuple(p) for p in map(tuple, keep)}
+    nb: dict[tuple, set] = {}
+    for a, b in map(lambda e: (tuple(e[0]), tuple(e[1])), ends):
+        nb.setdefault(a, set()).add(b)
+        nb.setdefault(b, set()).add(a)
+    pairs = {(min(a, c), max(a, c)) for a in nb if a in keys for b in nb[a] for c in nb[b]
+             if c != a and c in keys and c not in nb[a]}
+    if not pairs:
+        return np.zeros(0, dtype=object)
+    lines = shapely.linestrings(np.array(sorted(pairs)))
+    return lines[~coast.crossing(lines)]
+
+
 def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBOX, *, coast_step_m: float = 3000.0,
              coast_offset_m: float = 500.0, grid_m: float = 25000.0, grid_clear_m: float = 3000.0,
              max_offshore_m: float = 400000.0, narrows: dict | None = None, areas: list[dict] | None = None) -> list[Segment]:
@@ -153,11 +190,17 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
 
     `areas` ({"bbox": (w, s, e, n)} with an optional "max_offshore_m" each) replaces `bbox`: the areas are
     meshed together on one offshore grid anchored at the first area's corner, so areas that touch or overlap
-    join up, and an area far from others (another continent) forms its own part."""
+    join up, and an area far from others (another continent) forms its own part. Areas marked "refine" lie
+    inside the others and make the mesh finer there (see REFINE_COAST)."""
     areas = areas or [{"bbox": bbox}]
+    refine = [a["bbox"] for a in areas if a.get("refine")]
+    areas = [a for a in areas if not a.get("refine")]
     coast_pts = np.vstack([_coast_points(coast, a["bbox"], coast_step_m, coast_offset_m) for a in areas])
     for area in (NARROWS if narrows is None else narrows).values():
         coast_pts = np.vstack([coast_pts, _coast_points(coast, area, coast_step_m / 6, coast_offset_m / 6)])
+    for area in refine:
+        coast_pts = np.vstack([coast_pts, _coast_points(coast, area, coast_step_m * REFINE_COAST,
+                                                        coast_offset_m * REFINE_OFFSET)])
     x0, y0 = to_merc(np.array([areas[0]["bbox"][:2]]))[0]
     coast_tree = STRtree(shapely.points(coast_pts)) if len(coast_pts) else None
 
@@ -174,8 +217,15 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
                                               return_distance=True, all_matches=False)
             grid = grid[np.unique(idx[0])]
         grids.append(grid)
+    fine_m = grid_m * REFINE_GRID
+    for area in refine:
+        (ax0, ay0), (ax1, ay1) = to_merc(np.array([area[:2], area[2:]]))
+        gx, gy = np.meshgrid(np.arange(ax0, ax1, fine_m), np.arange(ay0, ay1, fine_m))
+        fine = np.column_stack([gx.ravel(), gy.ravel()])
+        fine = fine[coast.near_land(fine, REFINE_BAND_M) & ~coast.near_land(fine, grid_clear_m * REFINE_CLEAR)]
+        grids.append(fine)
     grid = grids[0] if len(grids) == 1 else np.unique(np.vstack(grids), axis=0)
-    if len(areas) > 1:
+    if len(areas) > 1 or refine:
         coast_pts = np.unique(coast_pts, axis=0)  # overlapping areas find the same coast points
     nodes = np.vstack([coast_pts, grid])
     if len(nodes) < 3:
@@ -185,6 +235,9 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
     edges = edges[shapely.length(edges) <= 3 * grid_m]
     edges = np.concatenate([edges, _grid_moves(grid, x0, y0, grid_m)])
     edges = edges[~coast.crossing(edges)]
+    if refine:
+        near = nodes[_inside(nodes, refine)]
+        edges = np.concatenate([edges, _two_hop(coast, edges, near[coast.near_land(near, REFINE_BAND_M)])])
 
     ids: dict[tuple[float, float], int] = {}
     seen: set[tuple[int, int]] = set()

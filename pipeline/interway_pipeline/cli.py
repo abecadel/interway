@@ -226,7 +226,7 @@ def meshed_lakes(lakes: list, lake_segs: list[Segment]) -> list:
 
 # depth samples closer to land than this (Mercator m, ~1.2-1.6 km in Europe) are left out: harbour approaches
 SHORE_M = 2000.0
-SEA_VERSION = 3  # bump when sea_mesh output changes, invalidates cached meshes
+SEA_VERSION = 4  # bump when sea_mesh output changes, invalidates cached meshes
 
 
 def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None, patches: Path | None,

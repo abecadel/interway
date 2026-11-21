@@ -778,3 +778,511 @@
   sea: true
   countries: [DK]
   source: https://www.visitlimfjorden.com (the Limfjord from Aalborg to the North Sea at Thyborøn, about 85 NM)
+
+# --- Baltic Sea: popular passages -------------------------------------------------------------------
+
+- name: Brunsbüttel → Kiel-Holtenau (Kiel Canal)
+  from: [9.1460, 53.8870]
+  to: [10.1560, 54.3660]
+  expected_km: 98
+  tolerance: 0.2
+  countries: [DE]
+  via: [Nord-Ostsee-Kanal]
+  min_locks: 2
+  source: https://en.wikipedia.org/wiki/Kiel_Canal (98.26 km from the Brunsbüttel locks on the Elbe to the Holtenau locks on the Kiel Fjord)
+
+- name: Helsinki → Tallinn (Gulf of Finland)
+  from: [24.9572, 60.1640]
+  to: [24.7635, 59.4456]
+  expected_km: 78
+  tolerance: 0.2
+  sea: true
+  countries: [FI, EE]
+  source: https://www.yacht.de/en/travel-and-charter/worldwide/estonia-destination-tallinn-from-the-middle-ages-to-the-modern-age/ (Helsinki to the Tallinn Old City Marina, 42 NM)
+
+- name: Stockholm → Mariehamn (Stockholm archipelago, Åland Sea)
+  from: [18.0930, 59.3255]
+  to: [19.9243, 60.0980]
+  expected_km: 130
+  tolerance: 0.3
+  sea: true
+  countries: [SE, FI]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/baltic-sea-aland-islands-archipelago-dream-between-sweden-and-finland/ (about 70 NM from Stockholm to Mariehamn on your own keel; the way through the archipelago can be longer)
+
+- name: Mariehamn → Turku (Archipelago Sea)
+  from: [19.9500, 60.0975]
+  to: [22.2467, 60.4405]
+  expected_km: 159
+  tolerance: 0.3
+  sea: true
+  countries: [FI]
+  source: https://portofturku.fi/en/passenger-traffic/international-cruise-traffic/port-location (Turku–Mariehamn 92 NM; boote-magazin.de gives 80 NM; 86 NM used)
+
+- name: Turku → Helsinki (via Hanko)
+  from: [22.2467, 60.4405]
+  to: [24.9572, 60.1640]
+  expected_km: 272
+  tolerance: 0.25
+  sea: true
+  countries: [FI]
+  source: https://portofturku.fi/en/passenger-traffic/international-cruise-traffic/port-location (Turku–Helsinki via Hanko 147 NM)
+
+- name: Sassnitz → Rønne (Bornholm)
+  from: [13.6430, 54.5094]
+  to: [14.6880, 55.0980]
+  expected_km: 93
+  tolerance: 0.2
+  sea: true
+  countries: [DE, DK]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/bornholm-scandinavia-s-jewel-a-top-cruising-destination-with-eight-harbours/ (from Sassnitz about 50 NM to Rønne)
+
+- name: Kalmar → Borgholm (Kalmar Sound, Öland)
+  from: [16.3673, 56.6604]
+  to: [16.6460, 56.8794]
+  expected_km: 31
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/journey-from-kalmar-to-riga-part-1-stone-on-stone/ (Kalmar – Borgholm 17 NM, under the Öland Bridge)
+
+- name: Nynäshamn → Visby (Gotland)
+  from: [17.9448, 58.8905]
+  to: [18.2839, 57.6400]
+  expected_km: 139
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  source: https://ca.directferries.com/nynashamn_visby_ferry.htm (about 75 NM / 139 km)
+
+- name: Rostock-Warnemünde → Gedser
+  from: [12.0900, 54.1820]
+  to: [11.9224, 54.5807]
+  expected_km: 50
+  tolerance: 0.2
+  sea: true
+  countries: [DE, DK]
+  source: https://ca.directferries.com/rostock_gedser_ferry.htm (about 27 NM / 50 km from Rostock; from Warnemünde slightly less)
+
+- name: Klaipėda → Liepāja
+  from: [21.1190, 55.7060]
+  to: [21.0139, 56.5128]
+  expected_km: 93
+  tolerance: 0.2
+  sea: true
+  countries: [LT, LV]
+  source: https://www.yacht.de/en/travel-and-charter/germany/baltic-sea-with-the-charter-yacht-to-the-baltic-states/ (Klaipėda – Liepāja 50 NM)
+
+- name: Marstal (Ærø) → Heiligenhafen
+  from: [10.5240, 54.8540]
+  to: [10.9850, 54.3760]
+  expected_km: 69
+  tolerance: 0.2
+  sea: true
+  countries: [DK, DE]
+  source: https://www.yacht.de/en/travel-and-charter/germany/chartering-the-ideal-week-on-the-baltic-sea/ (day 6, Marstal – Heiligenhafen 37 NM)
+
+- name: Svendborg → Marstal (South Funen Archipelago)
+  from: [10.6160, 55.0584]
+  to: [10.5240, 54.8540]
+  expected_km: 33
+  tolerance: 0.25
+  sea: true
+  countries: [DK]
+  source: https://www.yacht.de/en/travel-and-charter/germany/chartering-the-ideal-week-on-the-baltic-sea/ (day 5, Svendborg – Marstal 18 NM)
+
+# --- Mediterranean Sea: popular passages ------------------------------------------------------------
+
+- name: Barcelona → Palma de Mallorca
+  from: [2.1838, 41.3744]
+  to: [2.6380, 39.5660]
+  expected_km: 225
+  tolerance: 0.25
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/barcelona-palma (about 130 NM; other ferry sites give 110–112 NM, so the midpoint and a wide tolerance)
+
+- name: Bonifacio → Santa Teresa Gallura (Strait of Bonifacio)
+  from: [9.1600, 41.3892]
+  to: [9.1956, 41.2378]
+  expected_km: 17
+  tolerance: 0.2
+  sea: true
+  countries: [FR, IT]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/bonifacio-santa-teresa-gallura (about 9 NM)
+
+- name: Milazzo → Lipari (Aeolian Islands)
+  from: [15.2420, 38.2190]
+  to: [14.9600, 38.4700]
+  expected_km: 37
+  tolerance: 0.2
+  sea: true
+  countries: [IT]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/milazzo-lipari (20 NM)
+
+- name: Valletta → Pozzallo (Malta–Sicily)
+  from: [14.5180, 35.8950]
+  to: [14.8324, 36.7115]
+  expected_km: 93
+  tolerance: 0.2
+  sea: true
+  countries: [MT, IT]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/malta-sicily (Valletta – Pozzallo about 50 NM)
+
+- name: Piraeus Zea Marina → Perdika (Aegina, Saronic Gulf)
+  from: [23.6560, 37.9348]
+  to: [23.4530, 37.6908]
+  expected_km: 33
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.moorings.com/destinations/mediterranean/greece/athens-zea-yacht-charters/itinerary/7-day-saronic-gulf-sailing-itinerary (day 1, Zea to Perdika 18 NM)
+
+- name: Aegina (Agia Marina) → Poros (Saronic Gulf)
+  from: [23.5370, 37.7420]
+  to: [23.4560, 37.4976]
+  expected_km: 30
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.sailogy.com/blog/golfo-saronico-itinerario (day 2, Agia Marina – Poros 16 NM)
+
+- name: Mykonos → Syros (Ermoupoli, Cyclades)
+  from: [25.3230, 37.4640]
+  to: [24.9440, 37.4400]
+  expected_km: 33
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.helm.yt/itinerary/cyclades-yacht-charter (day 5, Mykonos – Syros 18 NM)
+
+- name: Kos → Bodrum (Dodecanese–Turkish coast)
+  from: [27.2890, 36.8954]
+  to: [27.4248, 37.0330]
+  expected_km: 19
+  tolerance: 0.2
+  sea: true
+  countries: [GR, TR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-kos-bodrum (about 10 NM)
+
+- name: Lefkas Marina → Kioni (Ithaca) via the Lefkas Canal
+  from: [20.7128, 38.8296]
+  to: [20.6920, 38.4488]
+  expected_km: 46
+  tolerance: 0.25
+  sea: true
+  countries: [GR]
+  via: [Λευκάδας]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route N day 2, Lefkas – Kioni 25 NM, south through the Lefkas Canal)
+
+- name: Gaios (Paxos) → Gouvia Marina (Corfu)
+  from: [20.1872, 39.1969]
+  to: [19.8560, 39.6492]
+  expected_km: 67
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route B day 7, Gaios – Gouvia 36 NM)
+
+- name: Milna (Brač) → Hvar
+  from: [16.4484, 43.3258]
+  to: [16.4407, 43.1715]
+  expected_km: 27
+  tolerance: 0.3
+  sea: true
+  countries: [HR]
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/split-sailing-itineraries-and-routes/split-5 (day 3, Milna – Pakleni Otoci – Hvar 14.5 NM, through the Pakleni channel)
+
+- name: Dubrovnik (Gruž) → Kotor (Bay of Kotor)
+  from: [18.0842, 42.6600]
+  to: [18.7670, 42.4240]
+  expected_km: 78
+  tolerance: 0.25
+  sea: true
+  countries: [HR, ME]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/dubrovnik-kotor (about 42 NM)
+
+# --- USA and Canada ---------------------------------------------------------------------------------
+# America's Great Loop in its classic legs, and other popular routes. Most distances are from NOAA's
+# "Distances Between United States Ports" (https://nauticalcharts.noaa.gov/publications/docs/distances.pdf).
+
+- name: Great Loop — New York (the Battery) → Waterford (Hudson River, Troy Lock)
+  from: [-74.0215, 40.7000]
+  to: [-73.6760, 42.7860]
+  expected_km: 253
+  tolerance: 0.15
+  countries: [US]
+  via: [Hudson River]
+  min_locks: 1
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 5, the Battery to Troy Lock 134 NM ≈ 248 km; Troy Lock to Lock E2 at Waterford about 2.7 statute miles, https://www.offshoreblue.com/cruise/erie-canal-distances.php)
+
+- name: Great Loop — Waterford → Oswego (Erie Canal to Three Rivers, Oswego Canal)
+  from: [-73.6760, 42.7860]
+  to: [-76.5153, 43.4624]
+  expected_km: 296
+  tolerance: 0.15
+  countries: [US]
+  via: [Erie Canal, Oswego]
+  min_locks: 24
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 6, Troy Lock to Oswego 186.5 statute miles; 22 Erie locks E2–E23 to Three Rivers, then 7 on the Oswego Canal)
+
+- name: Great Loop — Oswego → Kingston ON (Lake Ontario)
+  from: [-76.5153, 43.4624]
+  to: [-76.4760, 44.2280]
+  expected_km: 89
+  tolerance: 0.2
+  countries: [US, CA]
+  via: [Lake Ontario]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Oswego to Kingston, Ontario 55 statute miles)
+
+- name: Great Loop — Kingston → Trenton ON (Bay of Quinte)
+  from: [-76.4760, 44.2280]
+  to: [-77.5730, 44.0960]
+  expected_km: 114
+  tolerance: 0.15
+  countries: [CA]
+  via: [Bay of Quinte]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Kingston to Trenton, Ontario 71 statute miles)
+
+- name: Great Loop — Trent–Severn Waterway, Trenton → Port Severn (44 locks)
+  from: [-77.5730, 44.0960]
+  to: [-79.7208, 44.8093]
+  expected_km: 386
+  tolerance: 0.15
+  countries: [CA]
+  via: [Trent, Severn]
+  min_locks: 37
+  source: https://en.wikipedia.org/wiki/Trent–Severn_Waterway (Trenton to Port Severn 386 km, 44 locks including the Peterborough and Kirkfield lift locks; the Big Chute marine railway is not a lock)
+
+- name: Great Loop — Port Severn → Little Current (Georgian Bay)
+  from: [-79.7208, 44.8093]
+  to: [-81.9255, 45.9811]
+  expected_km: 250
+  tolerance: 0.25
+  countries: [CA]
+  via: [Georgian Bay]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Midland to Little Current 140 statute miles across open Georgian Bay, Port Severn about 8 more; the inside Small Craft Route is longer, hence the wide tolerance)
+
+- name: Great Loop — Little Current → Mackinac Island (North Channel, De Tour)
+  from: [-81.9255, 45.9811]
+  to: [-84.6170, 45.8475]
+  expected_km: 220
+  tolerance: 0.15
+  countries: [CA, US]
+  via: [North Channel]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Mackinac Island to Little Current 137 statute miles via the False Detour and North Channels)
+
+- name: Great Loop — Chicago (Navy Pier) → Mackinac Island (Lake Michigan)
+  from: [-87.6010, 41.8870]
+  to: [-84.6170, 45.8475]
+  expected_km: 536
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Michigan]
+  source: https://en.wikipedia.org/wiki/Chicago_Yacht_Club_Race_to_Mackinac (race course 333 statute miles / 289 NM, Chicago Harbor Light to Round Island Channel; NOAA Table 25 Chicago to Old Mackinac Point 324 statute miles)
+
+- name: Great Loop — Illinois Waterway, Chicago → Grafton (8 locks)
+  from: [-87.6010, 41.8870]
+  to: [-90.4350, 38.9600]
+  expected_km: 536
+  tolerance: 0.15
+  countries: [US]
+  via: [Chicago Sanitary and Ship Canal, Illinois River]
+  min_locks: 7
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, the Chicago River at Chicago is mile 333 above the Illinois' mouth at Grafton; https://en.wikipedia.org/wiki/Illinois_Waterway lists 8 locks)
+
+- name: Great Loop — Grafton → Paducah (Mississippi to Cairo, Ohio River)
+  from: [-90.4350, 38.9600]
+  to: [-88.5900, 37.0880]
+  expected_km: 425
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River, Ohio River]
+  min_locks: 2
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Grafton mile 1,172 AHP to the Ohio's mouth mile 954 = 218 statute miles, then 46 to the Tennessee's mouth at Paducah; Mel Price Lock 26 and Lock 27)
+
+- name: Great Loop — Paducah → Mobile (Tennessee River, Tenn-Tom, Tombigbee)
+  from: [-88.5900, 37.0880]
+  to: [-88.0372, 30.6907]
+  expected_km: 1072
+  tolerance: 0.15
+  countries: [US]
+  via: [Tennessee River, Tombigbee]
+  min_locks: 12
+  source: https://www.tenntom.org/locks-dams/ (about 666 statute miles — Tennessee River to the Tenn-Tom junction at TN mile 215, the Tenn-Tom from mile 450.7 to Mobile; 14 locks with Kentucky, Pickwick, Demopolis and Coffeeville)
+
+- name: Great Loop — Mobile → Apalachicola (Gulf Intracoastal Waterway)
+  from: [-88.0372, 30.6907]
+  to: [-84.9790, 29.7250]
+  expected_km: 396
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Gulf Intracoastal Waterway]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Mobile to Apalachicola 246 statute miles / 214 NM, across Mobile Bay and St. Andrew and St. Joseph bays)
+
+- name: Great Loop — Okeechobee Waterway, Fort Myers → Stuart (5 locks)
+  from: [-81.8700, 26.6480]
+  to: [-80.2401, 27.2094]
+  expected_km: 206
+  tolerance: 0.15
+  countries: [US]
+  via: [Caloosahatchee, Okeechobee, St. Lucie]
+  min_locks: 4
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 14, Fort Myers to Stuart 128 statute miles across the lake; https://www.offshoreblue.com/cruise/okeechobee.php lists 5 locks)
+
+- name: Great Loop — Atlantic ICW, Miami (Mile 1089) → Norfolk (Mile 0)
+  from: [-80.1800, 25.7700]
+  to: [-76.2983, 36.8483]
+  expected_km: 1754
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Atlantic Intracoastal Waterway]
+  min_locks: 1
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 14, inside route Norfolk to Miami 1,090 statute miles; https://www.offshoreblue.com/cruise/aicw-intro.php puts Miami at Mile 1089; Great Bridge Lock)
+
+- name: Great Loop — Norfolk → Cape May (Chesapeake Bay, C&D Canal, Delaware Bay)
+  from: [-76.2983, 36.8483]
+  to: [-74.8880, 38.9530]
+  expected_km: 483
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Chesapeake and Delaware Canal]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Norfolk to the C&D Canal's east entrance 209 NM; Table 8, on to Cape May Harbor 52 NM)
+
+- name: Great Loop — Cape May → New York (the Battery), New Jersey coast
+  from: [-74.8880, 38.9530]
+  to: [-74.0215, 40.7000]
+  expected_km: 256
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 8, New York (the Battery) to Cape May Harbor 138 NM, outside to Manasquan Inlet)
+
+- name: Erie Canal, Waterford → Tonawanda (35 locks)
+  from: [-73.6760, 42.7860]
+  to: [-78.8886, 43.0225]
+  expected_km: 543
+  tolerance: 0.15
+  countries: [US]
+  via: [Erie Canal]
+  min_locks: 28
+  source: https://www.offshoreblue.com/cruise/erie-canal-distances.php (338.75 statute miles from Lock E2 to the Niagara River at Tonawanda; https://canals.ny.gov gives 339 miles; 35 locks)
+
+- name: Champlain Canal + Lake Champlain, Waterford → Rouses Point
+  from: [-73.6760, 42.7860]
+  to: [-73.3550, 44.9950]
+  expected_km: 274
+  tolerance: 0.15
+  countries: [US]
+  via: [Champlain Canal, Lake Champlain]
+  min_locks: 9
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 6, Troy Lock to Rouses Point 173.0 statute miles; https://en.wikipedia.org/wiki/Champlain_Canal 11 locks)
+
+- name: Richelieu River and Chambly Canal, Rouses Point → Sorel (10 locks)
+  from: [-73.3550, 44.9950]
+  to: [-73.1182, 46.0429]
+  expected_km: 125
+  tolerance: 0.15
+  countries: [US, CA]
+  via: [Richelieu, Chambly]
+  min_locks: 8
+  source: https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries (Lake Champlain to Chambly 55 km, Chambly to Sorel 70 km; 9 Chambly Canal locks and Saint-Ours)
+
+- name: Rideau Canal, Ottawa → Kingston (45 locks)
+  from: [-75.7018, 45.4315]
+  to: [-76.4760, 44.2280]
+  expected_km: 202
+  tolerance: 0.15
+  countries: [CA]
+  via: [Rideau]
+  min_locks: 38
+  source: https://en.wikipedia.org/wiki/Rideau_Canal (202 km from Ottawa to Kingston, 45 locks at 23 lock stations)
+
+- name: Ottawa River, Montreal → Ottawa (Sainte-Anne, Carillon)
+  from: [-73.5480, 45.5040]
+  to: [-75.7018, 45.4315]
+  expected_km: 180
+  tolerance: 0.15
+  countries: [CA]
+  via: [Ottawa River]
+  min_locks: 3
+  source: https://parks.canada.ca/lhn-nhs/qc/annedebellevue/activ/navigation/circuits-itineraries (Montréal to Ottawa about 180 km by water; Sainte-Anne-de-Bellevue and Carillon locks, plus the Lachine Canal or Seaway locks)
+
+- name: St. Lawrence Seaway, Montreal → Kingston (7 locks)
+  from: [-73.5480, 45.5040]
+  to: [-76.4760, 44.2280]
+  expected_km: 298
+  tolerance: 0.15
+  countries: [CA, US]
+  via: [Saint-Laurent]
+  min_locks: 6
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Montreal to Kingston 185 statute miles; https://en.wikipedia.org/wiki/Saint_Lawrence_Seaway 7 locks)
+
+- name: Welland Canal, Port Weller → Port Colborne (8 locks)
+  from: [-79.2140, 43.2480]
+  to: [-79.2500, 42.8700]
+  expected_km: 44
+  tolerance: 0.15
+  countries: [CA]
+  via: [Welland Canal]
+  min_locks: 7
+  source: https://en.wikipedia.org/wiki/Welland_Canal (43.5 km from Port Weller to Port Colborne, 8 locks)
+
+- name: Inside Passage, Seattle → Ketchikan
+  from: [-122.3500, 47.6050]
+  to: [-131.6500, 55.3400]
+  expected_km: 1220
+  tolerance: 0.15
+  sea: true
+  countries: [US, CA]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 34, inside passage, Seattle to Ketchikan 659 NM)
+
+- name: San Juan Islands, Anacortes → Friday Harbor
+  from: [-122.6150, 48.5300]
+  to: [-123.0120, 48.5370]
+  expected_km: 33
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 31, Anacortes to Friday Harbor 18 NM)
+
+- name: Lake Washington Ship Canal, Lake Washington → Shilshole Bay (Ballard Locks)
+  from: [-122.2850, 47.6500]
+  to: [-122.4166, 47.6711]
+  expected_km: 13
+  tolerance: 0.25
+  countries: [US]
+  via: [Lake Washington Ship Canal]
+  min_locks: 1
+  source: https://en.wikipedia.org/wiki/Lake_Washington_Ship_Canal (8 miles / 13 km from Union Bay through Montlake Cut, Lake Union and Fremont Cut to Shilshole Bay; Hiram M. Chittenden Locks)
+
+- name: Columbia–Snake River System, Astoria → Lewiston ID (8 locks)
+  from: [-123.8300, 46.1950]
+  to: [-117.0390, 46.4250]
+  expected_km: 724
+  tolerance: 0.15
+  countries: [US]
+  via: [Columbia River, Snake River]
+  min_locks: 7
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 30, Astoria to Lewiston 450 statute miles; 8 locks Bonneville to Lower Granite)
+
+- name: Dismal Swamp Canal, Norfolk (ICW Mile 0) → Elizabeth City
+  from: [-76.2983, 36.8483]
+  to: [-76.2144, 36.2962]
+  expected_km: 82
+  tolerance: 0.15
+  countries: [US]
+  via: [Dismal Swamp Canal, Pasquotank]
+  min_locks: 2
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13 footnote, Norfolk to Elizabeth City 51 statute miles via the Dismal Swamp Canal; Deep Creek and South Mills locks)
+
+- name: Chesapeake Bay, Norfolk → Baltimore
+  from: [-76.2983, 36.8483]
+  to: [-76.6060, 39.2830]
+  expected_km: 320
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Norfolk to Baltimore 173 NM)
