@@ -21,18 +21,28 @@ export interface PlaceInfo {
   facts?: Fact[];
 }
 
-export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, onClose, children }: {
+/** a tab of the place card after Overview (Fishing, Nearby) */
+export interface PlaceTab {
+  id: string;
+  label: string;
+  content: ReactNode;
+}
+
+export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, onClose, tabs = [] }: {
   place: PlaceInfo;
   saved: boolean;
-  /** more about the place below its facts (the fishing panel) */
-  children?: ReactNode;
+  tabs?: PlaceTab[];
   onDirections: () => void;
   onFrom: () => void;
   onToggleSave: () => void;
   onClose: () => void;
 }) {
   const [shared, setShared] = useState<'exact' | 'approx' | null>(null);
+  const [menu, setMenu] = useState(false);
+  const [tab, setTab] = useState('overview');
+  const shown = tabs.some((t) => t.id === tab) ? tab : 'overview';
   const share = (how: 'exact' | 'approx') => {
+    setMenu(false);
     const url = shareLink(how === 'approx' ? approximate(place.position) : place.position);
     const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
     const done = () => { setShared(how); setTimeout(() => setShared(null), 2000); };
@@ -48,7 +58,10 @@ export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, on
             {[place.kind, place.detail].filter(Boolean).join(' · ')}
           </div>
         </div>
-        <button type="button" className="icon-btn" aria-label="Close place" onClick={onClose}><Icon name="close" /></button>
+        <div className="header-btns">
+          <button type="button" className="icon-btn" aria-label="Share" aria-expanded={menu} onClick={() => setMenu(!menu)}><Icon name="share" /></button>
+          <button type="button" className="icon-btn" aria-label="Close place" onClick={onClose}><Icon name="close" /></button>
+        </div>
       </header>
       <div className="action-row">
         <button type="button" className="pill primary" onClick={onDirections}><Icon name="directions" />Directions</button>
@@ -56,28 +69,41 @@ export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, on
         <button type="button" className="pill" aria-pressed={saved} onClick={onToggleSave}>
           <Icon name={saved ? 'star' : 'starOutline'} />{saved ? 'Saved' : 'Save'}
         </button>
-        <button type="button" className="pill" onClick={() => share('exact')}><Icon name="share" />{shared === 'exact' ? 'Link copied' : 'Share'}</button>
-        <button type="button" className="pill" title="Rounded to about 1 km, without the name" onClick={() => share('approx')}>
-          {shared === 'approx' ? 'Link copied' : 'Share approx.'}
-        </button>
       </div>
-      <ul className="facts small">
-        {place.at !== undefined && <li>km {(place.at / 1000).toFixed(1)} on the route</li>}
-        {place.offset !== undefined && place.offset > 60 && <li>{fmtKm(place.offset)} off the route</li>}
-        <li className="muted">{fmtPos(place.position)}</li>
-      </ul>
-      {place.facts && place.facts.length > 0 && (
-        <dl className="facts small port-facts">
-          {place.facts.map((f) => (
-            <div key={f.label}>
-              <dt>{f.label}</dt>
-              <dd>{f.href ? <a href={f.href} target={f.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{f.value}</a> : f.value}</dd>
-            </div>
-          ))}
-          <div className="muted"><dt>Source</dt><dd>OpenStreetMap: check with the harbour before you go</dd></div>
-        </dl>
+      {shared && <div className="info small" role="status">Link copied</div>}
+      {menu && (
+        <div className="share-menu" role="group" aria-label="Share options">
+          <button type="button" onClick={() => share('exact')}>Exact location</button>
+          <button type="button" onClick={() => share('approx')}>Approximate (about 1 km, no name)</button>
+        </div>
       )}
-      {children}
+      {tabs.length > 0 && (
+        <div className="tabs" role="tablist" aria-label="About this place">
+          {[{ id: 'overview', label: 'Overview' }, ...tabs].map((t) => (
+            <button key={t.id} type="button" role="tab" aria-selected={shown === t.id} onClick={() => setTab(t.id)}>{t.label}</button>
+          ))}
+        </div>
+      )}
+      {shown === 'overview' ? (
+        <>
+        <ul className="facts small">
+          {place.at !== undefined && <li>km {(place.at / 1000).toFixed(1)} on the route</li>}
+          {place.offset !== undefined && place.offset > 60 && <li>{fmtKm(place.offset)} off the route</li>}
+          <li className="muted">{fmtPos(place.position)}</li>
+        </ul>
+        {place.facts && place.facts.length > 0 && (
+          <dl className="facts small port-facts">
+            {place.facts.map((f) => (
+              <div key={f.label}>
+                <dt>{f.label}</dt>
+                <dd>{f.href ? <a href={f.href} target={f.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{f.value}</a> : f.value}</dd>
+              </div>
+            ))}
+            <div className="muted"><dt>Source</dt><dd>OpenStreetMap: check with the harbour before you go</dd></div>
+          </dl>
+        )}
+        </>
+      ) : tabs.find((t) => t.id === shown)!.content}
     </section>
   );
 }

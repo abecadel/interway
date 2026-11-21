@@ -29,7 +29,7 @@ import { download } from './ui/download';
 import { trackGpx } from './nav/track';
 import type { Stop } from './routing/itinerary';
 import type { AltLine, MapFeature } from './map/MapView';
-import { CATEGORIES } from './ui/categories';
+import { CATEGORIES, nearbyPois } from './ui/categories';
 import { CategoryChips, CategoryList } from './ui/CategoryChips';
 import { DirectionsCard } from './ui/DirectionsCard';
 import { Icon } from './ui/icons';
@@ -178,6 +178,8 @@ export default function App({ client }: { client: RoutingApi }) {
   const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
   // a point picked on the map or given by a link is shown by its nearest town, not its coordinates
   const towns = useMemo(() => pois.filter((p) => p.type === 'place'), [pois]);
+  // the services and structures near the open place, for its Nearby tab
+  const placeNearby = useMemo(() => (place ? nearbyPois(pois, place.position) : []), [pois, place]);
   const named = (p: Point | null): Point | null => {
     if (!p || p.label !== fmtPos(p.position)) return p;
     const town = townLabel(towns, p.position);
@@ -589,15 +591,26 @@ export default function App({ client }: { client: RoutingApi }) {
     </section>
   ) : place ? (
     <PlaceCard
+      key={`${place.position}`}
       place={place} saved={isSaved(saved, place)} onClose={() => setPlace(null)}
       onDirections={() => directionsTo(place)} onFrom={() => startHere(place)}
       onToggleSave={() => setSaved(toggleSaved(saved, { label: place.label, position: place.position }))}
-    >
-      <details className="more">
-        <summary>Fishing here</summary>
-        <FishingPanel position={place.position} label={place.label} onLog={(c) => setCatches(addCatch(catches, c))} rules={fishingHere(place.position)} />
-      </details>
-    </PlaceCard>
+      tabs={[
+        { id: 'fishing', label: 'Fishing', content: <FishingPanel position={place.position} label={place.label} onLog={(c) => setCatches(addCatch(catches, c))} rules={fishingHere(place.position)} /> },
+        ...(placeNearby.length ? [{ id: 'nearby', label: `Nearby · ${placeNearby.length}`, content: (
+          <ul className="place-list">
+            {placeNearby.map(({ poi, d }, i) => (
+              <li key={i}>
+                <button type="button" onClick={() => openPoi(poi)}>
+                  <span className="name">{poi.name || POI_LABEL[poi.type]}<span className="muted small"> · {POI_LABEL[poi.type]}</span></span>
+                  <span className="dist">{fmtKm(d)}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) }] : []),
+      ]}
+    />
   ) : category ? (
     <CategoryList pois={pois} type={category} center={near ?? center} onSelect={openPoi} onClose={() => setCategory(null)} />
   ) : directions ? (

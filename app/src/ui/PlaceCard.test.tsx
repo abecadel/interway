@@ -38,36 +38,56 @@ describe('PlaceCard', () => {
     expect(screen.getByText(/check with the harbour/)).toBeTruthy();
   });
 
-  it('shares with the system sheet, or copies the link', async () => {
+  it('shares exactly or approximately, with the system sheet or by copying the link', async () => {
     vi.useFakeTimers();
     const share = vi.fn(async () => {});
     Object.defineProperty(navigator, 'share', { value: share, configurable: true });
+    const pick = (what: string) => { fireEvent.click(screen.getByLabelText('Share')); fireEvent.click(screen.getByText(what)); };
+    const pickLater = async (what: string) => {
+      fireEvent.click(screen.getByLabelText('Share'));
+      await act(async () => { fireEvent.click(screen.getByText(what)); });
+    };
     const { unmount } = render(<PlaceCard place={place} saved={false} {...handlers()} />);
-    fireEvent.click(screen.getByText('Share'));
+    fireEvent.click(screen.getByLabelText('Share'));
+    expect(screen.getByRole('group', { name: 'Share options' })).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Share')); // closes the menu
+    expect(screen.queryByRole('group', { name: 'Share options' })).toBeNull();
+    pick('Exact location');
     expect(share).toHaveBeenCalledWith({ title: 'Śluza', url: expect.stringContaining('?place=21.00000,52.00000') });
+    expect(screen.queryByRole('group', { name: 'Share options' })).toBeNull();
     // approximately: rounded to about 1 km, without the name
-    fireEvent.click(screen.getByText('Share approx.'));
+    pick('Approximate (about 1 km, no name)');
     expect(share).toHaveBeenLastCalledWith({ title: 'A place (approximate)', url: expect.stringContaining('?place=21.00000,52.00000') });
     unmount();
     Object.defineProperty(navigator, 'share', { value: () => Promise.reject(new Error('cancelled')), configurable: true });
     const r = render(<PlaceCard place={place} saved={false} {...handlers()} />);
-    await act(async () => { fireEvent.click(screen.getByText('Share')); });
+    await pickLater('Exact location');
     r.unmount();
     Object.defineProperty(navigator, 'share', { value: undefined, configurable: true });
     const writeText = vi.fn().mockResolvedValueOnce(undefined).mockRejectedValueOnce(new Error('denied'));
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
     render(<PlaceCard place={place} saved={false} {...handlers()} />);
-    await act(async () => { fireEvent.click(screen.getByText('Share')); });
+    await pickLater('Exact location');
     expect(screen.getByText('Link copied')).toBeTruthy();
-    expect(screen.getByText('Share approx.')).toBeTruthy(); // only the one used says copied
     act(() => { vi.advanceTimersByTime(2100); });
-    expect(screen.getByText('Share')).toBeTruthy();
-    await act(async () => { fireEvent.click(screen.getByText('Share')); });
-    expect(screen.getByText('Share')).toBeTruthy();
+    expect(screen.getByLabelText('Share')).toBeTruthy();
+    await pickLater('Exact location'); // copying refused: nothing said
+    expect(screen.getByLabelText('Share')).toBeTruthy();
     writeText.mockResolvedValueOnce(undefined);
-    await act(async () => { fireEvent.click(screen.getByText('Share approx.')); });
+    await pickLater('Approximate (about 1 km, no name)');
     expect(writeText).toHaveBeenLastCalledWith(expect.stringContaining('?place=21.00000,52.00000'));
-    expect(screen.getAllByText('Link copied')).toHaveLength(1);
+    expect(screen.getByText('Link copied')).toBeTruthy();
     act(() => { vi.advanceTimersByTime(2100); });
+  });
+
+  it('has Overview and the tabs given, and falls back to Overview when a tab goes', () => {
+    const tabs = [{ id: 'fishing', label: 'Fishing', content: <p>fish</p> }];
+    const { rerender } = render(<PlaceCard place={place} saved={false} {...handlers()} tabs={tabs} />);
+    expect(screen.getByRole('tab', { name: 'Overview' }).getAttribute('aria-selected')).toBe('true');
+    fireEvent.click(screen.getByRole('tab', { name: 'Fishing' }));
+    expect(screen.getByText('fish')).toBeTruthy();
+    rerender(<PlaceCard place={place} saved={false} {...handlers()} />);
+    expect(screen.queryByText('fish')).toBeNull();
+    expect(screen.queryByRole('tablist')).toBeNull();
   });
 });

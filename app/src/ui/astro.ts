@@ -104,3 +104,9 @@ export function solunar(e: DayEvents): Period[] {
     ...around(e.moonrise, 'minor', 1_800_000), ...around(e.moonset, 'minor', 1_800_000),
   ].sort((a, b) => a.start - b.start);
 }
+
+/** The next major solunar period still to come (or under way), else the day's first. */
+export function bestPeriod(periods: Period[], now: number): Period | null {
+  const major = periods.filter((p) => p.kind === 'major');
+  return major.find((p) => p.end > now) ?? major[0] ?? null;
+}
