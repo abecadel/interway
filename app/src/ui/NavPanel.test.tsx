@@ -5,7 +5,7 @@ import type { Navigation } from '../nav/useNavigation';
 import { NavPanel } from './NavPanel';
 
 const nav = (over: Partial<Navigation> = {}): Navigation => ({
-  active: true, follow: true, progress: null, motion: null, rerouting: false, error: null,
+  active: true, follow: true, progress: null, motion: null, rerouting: false, route: null, error: null,
   start: vi.fn(), stop: vi.fn(), setFollow: vi.fn(), voice: false, setVoice: vi.fn(), track: [], clearTrack: vi.fn(), ...over,
 });
 const progress = (over: Partial<Progress> = {}): Progress => ({

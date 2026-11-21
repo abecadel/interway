@@ -30,6 +30,8 @@ export interface Navigation {
   progress: Progress | null;
   motion: Motion | null;
   rerouting: boolean;
+  /** the route to draw: while navigating, the last one stays until a re-route from the boat replaces it */
+  route: Route | null;
   error: string | null;
   start: () => void;
   stop: () => void;
@@ -56,14 +58,19 @@ export function useNavigation({ route, stops, via, position, startWatching, onRe
   const [progress, setProgress] = useState<Progress | null>(null);
   const [motion, setMotion] = useState<Motion | null>(null);
   // the route a re-route was asked from: once a new route arrives, re-routing is over
-  const [reroutedFrom, setReroutedFrom] = useState<Track | null>(null);
+  const [reroutedFrom, setReroutedFrom] = useState<Route | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [voice, setVoiceState] = useState(loadVoice);
   const [track, setTrack] = useState<TrackPoint[]>(loadTrack);
   const alerted = useRef(new Set<string>());
   const trackRef = useRef(track);
   const unsaved = useRef(0);
-  const line = useMemo(() => (route ? buildTrack(route, stops) : null), [route, stops]);
+  // the app drops the old route as soon as a re-route moves A to the boat: keep following it until the new one arrives
+  const [held, setHeld] = useState<{ route: Route; stops: Stop[] } | null>(null);
+  if (route && held?.route !== route) setHeld({ route, stops });
+  const shown = route ?? (active ? held?.route ?? null : null);
+  const shownStops = route || !held ? stops : held.stops;
+  const line = useMemo(() => (shown ? buildTrack(shown, shownStops) : null), [shown, shownStops]);
   const prev = useRef<Progress | null>(null);
   const prevTrack = useRef<Track | null>(null);
   const anchor = useRef<Fix | null>(null);
@@ -97,11 +104,11 @@ export function useNavigation({ route, stops, via, position, startWatching, onRe
     }
     if (p.offRoute && !p.arrived && fix.time - lastReroute.current >= REROUTE_MS) {
       lastReroute.current = fix.time;
-      setReroutedFrom(line);
+      setReroutedFrom(shown);
       const ahead = latest.current.via.filter((v) => alongOf(line, v) > p.along);
       latest.current.onReroute([fix.lon, fix.lat], ahead);
     }
-  }, [active, position, line]);
+  }, [active, position, line, shown]);
 
   // keep the screen on while navigating; the browser drops the lock when the page is hidden
   useEffect(() => {
@@ -160,7 +167,6 @@ export function useNavigation({ route, stops, via, position, startWatching, onRe
     saveTrack([]);
   }, []);
 
-  // the app drops the old route as soon as A moves to the boat, so no route at all also means "still re-routing"
-  const rerouting = active && reroutedFrom !== null && (line === null || reroutedFrom === line);
-  return { active, follow, progress, motion, rerouting, error, start, stop, setFollow, voice, setVoice, track, clearTrack };
+  const rerouting = active && reroutedFrom !== null && reroutedFrom === shown;
+  return { active, follow, progress, motion, rerouting, route: shown, error, start, stop, setFollow, voice, setVoice, track, clearTrack };
 }
