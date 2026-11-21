@@ -22,7 +22,7 @@ from .model import MIN_LAKE_KM2, LonLat, access_of, area_km2, parse_metres
 from .pois import poi_type, port_info
 
 log = logging.getLogger(__name__)
-INFO_KINDS = {"marina", "port", "fuel"}  # services whose OSM facts (contacts, berths, VHF ...) are kept
+INFO_KINDS = {"marina", "port", "fuel", "tackle", "wreck"}  # services whose OSM facts (contacts, berths, VHF ...) are kept
 
 TAG_KEYS = (
     "name", "waterway", "lock", "lock_name", "oneway", "maxdraft", "draft", "maxheight", "maxwidth",

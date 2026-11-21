@@ -16,7 +16,9 @@ export interface Manifest {
   attribution: string;
 }
 
-export type PoiType = 'lock' | 'bridge' | 'marina' | 'port' | 'fuel' | 'slipway' | 'water' | 'sanitary' | 'place';
+export type PoiType = 'lock' | 'bridge' | 'marina' | 'port' | 'fuel' | 'slipway' | 'water' | 'sanitary' | 'place'
+  // for anglers: fishing spots and tackle shops; wrecks, obstructions and fish farms (structure, and hazards)
+  | 'fishing' | 'tackle' | 'wreck' | 'obstruction' | 'fishfarm';
 
 export interface Poi {
   type: PoiType;

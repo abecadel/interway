@@ -159,7 +159,10 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 14  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 15  # bump when read_osm output changes, invalidates --cache
+
+
+WIDE_KINDS = {"place", "fishing", "tackle"}
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,
@@ -184,7 +187,8 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
         for kind, name, p, facts in services:
             nearest = lines[tree.nearest(Point(p))]
             q = nearest.interpolate(nearest.project(Point(p)))
-            if haversine(p, (q.x, q.y)) <= (place_m if kind == "place" else max_m):
+            # towns, fishing spots and tackle shops count a little further from the water than services at the quay
+            if haversine(p, (q.x, q.y)) <= (place_m if kind in WIDE_KINDS else max_m):
                 pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1], **dict(facts)})
     return pois
 

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { LngLat } from '../graph/geo';
 import { fmtKm, fmtPos } from './format';
 import { Icon } from './icons';
 import type { Fact } from './portFacts';
-import { shareLink } from './places';
+import { approximate, shareLink } from './places';
 
 /** A place shown in the sheet: a search result, a tapped lock or marina, or a dropped pin. */
 export interface PlaceInfo {
@@ -21,20 +21,22 @@ export interface PlaceInfo {
   facts?: Fact[];
 }
 
-export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, onClose }: {
+export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, onClose, children }: {
   place: PlaceInfo;
   saved: boolean;
+  /** more about the place below its facts (the fishing panel) */
+  children?: ReactNode;
   onDirections: () => void;
   onFrom: () => void;
   onToggleSave: () => void;
   onClose: () => void;
 }) {
-  const [shared, setShared] = useState(false);
-  const share = () => {
-    const url = shareLink(place.position);
+  const [shared, setShared] = useState<'exact' | 'approx' | null>(null);
+  const share = (how: 'exact' | 'approx') => {
+    const url = shareLink(how === 'approx' ? approximate(place.position) : place.position);
     const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
-    const done = () => { setShared(true); setTimeout(() => setShared(false), 2000); };
-    if (nav.share) nav.share({ title: place.label, url }).catch(() => {});
+    const done = () => { setShared(how); setTimeout(() => setShared(null), 2000); };
+    if (nav.share) nav.share({ title: how === 'approx' ? 'A place (approximate)' : place.label, url }).catch(() => {});
     else nav.clipboard.writeText(url).then(done, () => {});
   };
   return (
@@ -54,7 +56,10 @@ export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, on
         <button type="button" className="pill" aria-pressed={saved} onClick={onToggleSave}>
           <Icon name={saved ? 'star' : 'starOutline'} />{saved ? 'Saved' : 'Save'}
         </button>
-        <button type="button" className="pill" onClick={share}><Icon name="share" />{shared ? 'Link copied' : 'Share'}</button>
+        <button type="button" className="pill" onClick={() => share('exact')}><Icon name="share" />{shared === 'exact' ? 'Link copied' : 'Share'}</button>
+        <button type="button" className="pill" title="Rounded to about 1 km, without the name" onClick={() => share('approx')}>
+          {shared === 'approx' ? 'Link copied' : 'Share approx.'}
+        </button>
       </div>
       <ul className="facts small">
         {place.at !== undefined && <li>km {(place.at / 1000).toFixed(1)} on the route</li>}
@@ -72,6 +77,7 @@ export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, on
           <div className="muted"><dt>Source</dt><dd>OpenStreetMap: check with the harbour before you go</dd></div>
         </dl>
       )}
+      {children}
     </section>
   );
 }

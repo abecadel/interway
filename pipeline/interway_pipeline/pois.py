@@ -15,7 +15,15 @@ SERVICE_TAGS: list[tuple[str, str, str]] = [
     ("slipway", "leisure", "slipway"),
     ("water", "waterway", "water_point"),
     ("sanitary", "waterway", "sanitary_dump_station"),
+    # for anglers: fishing spots and tackle shops; wrecks, obstructions and fish farms (structure to fish, and hazards)
+    ("fishing", "leisure", "fishing"),
+    ("tackle", "shop", "fishing"),
+    ("wreck", "seamark:type", "wreck"),
+    ("obstruction", "seamark:type", "obstruction"),
+    ("fishfarm", "seamark:type", "marine_farm"),
+    ("fishfarm", "landuse", "aquaculture"),
 ]
+FISHING_KINDS = {"fishing", "tackle", "wreck", "obstruction", "fishfarm"}
 
 
 def poi_type(tags) -> str | None:

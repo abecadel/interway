@@ -4,6 +4,7 @@ import type { Poi, PoiType } from '../routing/service';
 export const CATEGORIES: [PoiType, string][] = [
   ['marina', 'Marinas'], ['port', 'Harbours'], ['fuel', 'Fuel'], ['lock', 'Locks'],
   ['slipway', 'Slipways'], ['water', 'Water'], ['sanitary', 'Toilets'],
+  ['fishing', 'Fishing spots'], ['tackle', 'Tackle shops'], ['wreck', 'Wrecks'],
 ];
 const LIMIT = 20;
 

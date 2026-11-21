@@ -28,6 +28,10 @@ const itinerary: Itinerary = {
     stop(30_000, { type: 'bridge', clearance: 2.5 }),
     stop(40_000, { type: 'bridge', clearance: 9 }),
     stop(60_000, { type: 'fuel', name: 'Stacja' }),
+    stop(65_000, { type: 'fishfarm', name: 'Hodowla' }, 120),
+    stop(66_000, { type: 'obstruction' }, 250),
+    stop(67_000, { type: 'fishfarm' }, 900), // too far off to matter
+    stop(68_000, { type: 'tackle', name: 'Wędkarz' }, 800),
     stop(70_000, { type: 'marina', name: 'Przystań', vhf: '9', phone: '+48 1' }),   // 70 km: inside the last fifth of day 1 (64–80 km)
     stop(150_000, { type: 'place', name: 'Grudziądz' }),  // day 2 ends at km 150 without a marina: near the town
     stop(155_000, { type: 'port', name: 'A | B' }),       // after day 2's end
@@ -150,6 +154,12 @@ describe('route brief', () => {
     expect(md).toContain('- [ ] Landland: licence');
     expect(md).toContain('- Countries: Landland (from km 10)');
     expect(md).toContain('- Fuel: 1 on the route; longest stretch without: 140 km (km 60–200)');
+    expect(b.hazards).toContain('km 65: fish farm Hodowla 120 m from the route line: keep clear.');
+    expect(b.hazards).toContain('km 66: obstruction 250 m from the route line: keep clear.');
+    expect(b.hazards.some((h) => h.startsWith('km 67'))).toBe(false);
+    expect(b.services.tackle).toEqual({ count: 1, longestKm: 132, fromKm: 68, toKm: 200 });
+    expect(md).toContain('- Tackle shops: 1 on the route; longest stretch without: 132 km (km 68–200)');
+    expect(briefMarkdown({ ...b, services: { ...b.services, tackle: { count: 0, longestKm: 200, fromKm: 0, toKm: 200 } } })).not.toContain('Tackle shops');
     expect(md).toContain('| Marina Przystań | VHF: channel 9; Phone: +48 1 |');
     expect(md).toContain('- Shallowest charted sea: about 1.4 m draft');
     expect(briefMarkdown({ ...b, checklist: [] })).not.toContain('## Before you go');

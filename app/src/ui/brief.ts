@@ -84,10 +84,12 @@ export interface RouteBrief {
   /** the countries in route order, from where the route first passes one of their towns */
   countries: { cc: string; name: string; fromKm: number }[];
   /** fuel, water and overnight harbours along the route: how many and the longest stretch without one */
-  services: { fuel: ServiceGap; water: ServiceGap; harbour: ServiceGap };
+  services: { fuel: ServiceGap; water: ServiceGap; harbour: ServiceGap; tackle: ServiceGap };
 }
 
 const km = (m: number) => Math.round(m / 100) / 10;
+/** fish farms and obstructions this close to the route line are hazards */
+const HAZARD_NEAR_M = 300;
 const nm = (m: number) => Math.round(m / 185.2) / 10;
 const LAYOVER: PoiType[] = ['marina', 'port'];
 
@@ -241,6 +243,10 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
       + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
   }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
+  // fish farms and charted obstructions close to the line: keep clear (nets, moorings, wrecks near the surface)
+  for (const s of itinerary.stops.filter((x) => (x.poi.type === 'fishfarm' || x.poi.type === 'obstruction') && x.offset <= HAZARD_NEAR_M)) {
+    hazards.push(`km ${km(s.at)}: ${POI_LABEL[s.poi.type].toLowerCase()}${s.poi.name ? ` ${s.poi.name}` : ''} ${Math.round(s.offset)} m from the route line: keep clear.`);
+  }
   const countries = routeCountries(itinerary.stops);
   const notices = noticesFor(countries);
   hazards.push(notices.length
@@ -296,7 +302,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     checklist,
     limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
-    services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER) },
+    services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER), tackle: gap(['tackle']) },
   };
 }
 
@@ -364,7 +370,8 @@ const LIMIT_TEXT = { draft: 'Draft', airDraft: 'Air draft (headroom)', beam: 'Be
 
 function serviceLines(sv: RouteBrief['services']): string[] {
   const line = (what: string, g: ServiceGap) => `- ${what}: ${g.count} on the route; longest stretch without: ${g.longestKm} km (km ${g.fromKm}–${g.toKm})`;
-  return [line('Fuel', sv.fuel), line('Water', sv.water), line('Marinas and ports', sv.harbour)];
+  return [line('Fuel', sv.fuel), line('Water', sv.water), line('Marinas and ports', sv.harbour),
+    ...(sv.tackle.count ? [line('Tackle shops', sv.tackle)] : [])];
 }
 
 export function briefMarkdown(b: RouteBrief): string {

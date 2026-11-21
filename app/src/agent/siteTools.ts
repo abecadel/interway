@@ -139,7 +139,7 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
         properties: {
           types: {
             type: 'array',
-            items: { enum: ['lock', 'bridge', 'marina', 'port', 'fuel', 'slipway', 'water', 'sanitary', 'place'] },
+            items: { enum: ['lock', 'bridge', 'marina', 'port', 'fuel', 'slipway', 'water', 'sanitary', 'place', 'fishing', 'tackle', 'wreck', 'obstruction', 'fishfarm'] },
           },
         },
       },
