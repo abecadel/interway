@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { LngLat } from './graph/geo';
+import { haversine, type LngLat } from './graph/geo';
 import { MapView } from './map/MapView';
 import type { RoutingApi } from './routing/client';
 import { buildItinerary } from './routing/itinerary';
@@ -7,7 +7,10 @@ import type { Poi, PoiType } from './routing/service';
 import { defaultProfile, type Route, type VesselProfile } from './routing/router';
 import { fmtDuration, fmtKm, fmtPos, POI_LABEL, poiDetail, toGpx } from './ui/format';
 import type { Point } from './ui/PointInput';
-import { parseUrlState, writeUrlState } from './ui/urlState';
+import { parseUrlState, permalink, writeUrlState } from './ui/urlState';
+import { makeSnapshot, readSnapshot, snapshotName } from './ui/snapshot';
+import { WATERWAYS, type WaterwayInfo } from './routing/waterways';
+import { WaterwaysView } from './ui/WaterwaysView';
 import { briefMarkdown, buildBrief } from './ui/brief';
 import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
 import { type Place, searchPlaces } from './ui/search';
@@ -78,6 +81,8 @@ function saveProfile(p: VesselProfile, entered: ReadonlySet<string>) {
 export default function App({ client }: { client: RoutingApi }) {
   const [dataStatus, setDataStatus] = useState<string>('Loading waterway data…');
   const [dataReady, setDataReady] = useState(false);
+  // the data version (its graph's checksum, else its build time): permalinks and snapshots record it
+  const [dataId, setDataId] = useState<string | null>(null);
   // The URL wins over stored settings, so a shared (or agent-written) link reproduces the route exactly.
   const [initial] = useState(() => parseUrlState(location.search));
   const [start, setStart] = useState<Point | null>(() => initial.from && toPoint(initial.from));
@@ -122,6 +127,8 @@ export default function App({ client }: { client: RoutingApi }) {
     }
   };
   const [place, setPlace] = useState<PlaceInfo | null>(null);
+  // a waterway sheet opened by a link (?waterway=id)
+  const [waterwaySheet, setWaterwaySheet] = useState<WaterwayInfo | null>(() => WATERWAYS.find((w) => w.id === initial.waterway) ?? null);
   const [category, setCategory] = useState<PoiType | null>(null);
   const [layersOpen, setLayersOpen] = useState(false);
   const [dirOpen, setDirOpen] = useState(false);
@@ -153,6 +160,7 @@ export default function App({ client }: { client: RoutingApi }) {
     client
       .load(DATA_URL)
       .then(({ manifest, nodes, edges, pois }) => {
+        setDataId(manifest.sha256?.graph?.slice(0, 12) ?? manifest.built ?? null);
         setDataReady(true);
         setPois(pois);
         setDataStatus(`${manifest.region}: ${nodes.toLocaleString()} nodes, ${edges.toLocaleString()} edges`);
@@ -168,30 +176,33 @@ export default function App({ client }: { client: RoutingApi }) {
     client.network().then(setNetwork).catch((e) => setDataStatus(e.message));
   }, [showNetwork, network, dataReady, client]);
 
+  // a route opened from a snapshot is shown as it was saved, until the user changes the trip or recomputes it
+  const [frozen, setFrozen] = useState<{ key: string; route: Route; savedAt: string; data: string | null } | null>(null);
+  const isFrozen = frozen?.key === routeKey;
   useEffect(() => {
-    if (!start || !end || !dataReady) return;
+    if (!start || !end || !dataReady || isFrozen) return;
     let cancelled = false;
     client
       .route(start.position, end.position, profile, viaPositions)
       .then((r) => { if (!cancelled) setResult({ key: routeKey, route: r, error: null }); })
       .catch((e) => { if (!cancelled) setResult({ key: routeKey, route: null, error: e.message }); });
     return () => { cancelled = true; };
-  }, [start, end, viaPositions, profile, dataReady, client, routeKey]);
+  }, [start, end, viaPositions, profile, dataReady, client, routeKey, isFrozen]);
   // Only show a result computed for the current inputs.
-  const current = start && end && result?.key === routeKey ? result : null;
+  const current = isFrozen ? { key: routeKey, route: frozen.route, error: null } : start && end && result?.key === routeKey ? result : null;
   const best = current?.route ?? null;
   // Other routes on offer (not with waypoints: those fix the way), and which one the user chose.
   const [alts, setAlts] = useState<{ key: string; routes: Route[] } | null>(null);
   const [choice, setChoice] = useState<{ key: string; index: number } | null>(null);
   useEffect(() => {
-    if (!best || !start || !end || viaPositions.length) return;
+    if (!best || !start || !end || viaPositions.length || isFrozen) return;
     let cancelled = false;
     client
       .alternatives(start.position, end.position, profile)
       .then((r) => { if (!cancelled) setAlts({ key: routeKey, routes: r }); })
       .catch(() => {});
     return () => { cancelled = true; };
-  }, [best, start, end, viaPositions, profile, client, routeKey]);
+  }, [best, start, end, viaPositions, profile, client, routeKey, isFrozen]);
   const options = useMemo(
     () => (best ? [best, ...(alts?.key === routeKey ? alts.routes : [])] : []),
     [best, alts, routeKey],
@@ -340,6 +351,24 @@ export default function App({ client }: { client: RoutingApi }) {
       facts: portFacts(poi) });
     setFocus(pos);
   };
+  // a link to a place (?place=lon,lat) opens the nearest harbour, lock or town within 200 m, else a pin there
+  const placeOpened = useRef(false);
+  useEffect(() => {
+    if (!initial.place || !dataReady || placeOpened.current) return;
+    placeOpened.current = true;
+    const [lon, lat] = initial.place;
+    let near: Poi | null = null, best = 200;
+    for (const p of pois) {
+      const d = haversine(lat, lon, p.lat, p.lon);
+      if (d <= best) { best = d; near = p; }
+    }
+    if (near) openPoi(near);
+    else {
+      openPlace({ label: fmtPos(initial.place), position: initial.place, kind: 'Dropped pin' });
+      setFocus(initial.place);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, when the data (and its places) is in
+  }, [dataReady, pois]);
   const onFeature = (f: MapFeature) => {
     const kind = POI_LABEL[f.type as PoiType];
     const route = onRoute(f.position);
@@ -404,7 +433,50 @@ export default function App({ client }: { client: RoutingApi }) {
   }, []);
 
   const title = () => `${start!.label} → ${end!.label}`;
-  const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href, entered });
+  const brief = (route: Route) => buildBrief({ route, itinerary: itinerary!, profile, title: title(), link: location.href, entered, data: dataId });
+  const base = `${location.origin}${location.pathname}`;
+  const routePermalink = (route: Route) => permalink(base, { from: start!.position, to: end!.position, via: viaPositions }, profile, dataId,
+    { km: Math.round(route.distance / 100) / 10, locks: route.locks });
+  const [linked, setLinked] = useState(false);
+  const copyPermalink = (route: Route) => {
+    const url = routePermalink(route);
+    navigator.clipboard.writeText(url).then(() => { setLinked(true); setTimeout(() => setLinked(false), 2000); }, () => prompt('Permalink', url));
+  };
+  const saveSnapshot = (route: Route) => {
+    const s = makeSnapshot({ data: dataId, link: routePermalink(route), from: start!.position, to: end!.position, via: viaPositions, profile,
+      entered: [...entered], route, brief: brief(route) });
+    download(JSON.stringify(s), 'application/json', snapshotName(s));
+  };
+  const [snapshotError, setSnapshotError] = useState<string | null>(null);
+  const openSnapshot = (file: File) => {
+    file.text().then((text) => {
+      const s = readSnapshot(text);
+      const st = toPoint(s.from), en = toPoint(s.to), vi = s.via.map(toPoint);
+      setStart(st);
+      setEnd(en);
+      setVia(vi);
+      setProfile(s.profile);
+      setEntered(new Set(s.entered));
+      setFrozen({ key: JSON.stringify([s.from, s.to, s.via, s.profile]), route: s.route, savedAt: s.savedAt, data: s.data });
+      setSnapshotError(null);
+      setDirOpen(true);
+      setPlace(null);
+    }).catch((e: Error) => setSnapshotError(e.message));
+  };
+  const snapshotInput = (
+    <label className="button file">
+      Open snapshot
+      <input type="file" accept="application/json,.json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) openSnapshot(f); e.target.value = ''; }} />
+    </label>
+  );
+  // a permalink opened on newer data: what was planned then and what the route is now
+  const planned = initial.planned;
+  const plannedKey = useRef(routeKey);
+  const changed = planned && route && routeKey === plannedKey.current && !isFrozen ? [
+    planned.data && dataId && planned.data !== dataId && 'the waterway data has been updated since',
+    planned.km !== null && Math.abs(planned.km - route.distance / 1000) >= 0.5 && `distance ${planned.km} km then, ${Math.round(route.distance / 100) / 10} km now`,
+    planned.locks !== null && planned.locks !== route.locks && `${planned.locks} locks then, ${route.locks} now`,
+  ].filter(Boolean) : [];
   const [copied, setCopied] = useState(false);
   const copyBrief = (route: Route) => {
     const md = briefMarkdown(brief(route));
@@ -454,7 +526,15 @@ export default function App({ client }: { client: RoutingApi }) {
     </div>
   );
 
-  const body = place ? (
+  const body = waterwaySheet ? (
+    <section className="place-card" aria-label={waterwaySheet.name}>
+      <div className="waterway-head">
+        <strong>{waterwaySheet.name}</strong>
+        <button className="round" aria-label="Close" onClick={() => setWaterwaySheet(null)}>✕</button>
+      </div>
+      <WaterwaysView waterways={[waterwaySheet]} />
+    </section>
+  ) : place ? (
     <PlaceCard
       place={place} saved={isSaved(saved, place)} onClose={() => setPlace(null)}
       onDirections={() => directionsTo(place)} onFrom={() => startHere(place)}
@@ -465,8 +545,16 @@ export default function App({ client }: { client: RoutingApi }) {
   ) : directions ? (
     <>
       {busy && <div className="info">Calculating route…</div>}
+      {isFrozen && (
+        <div className="info small">
+          Snapshot saved {frozen.savedAt.slice(0, 10)}: shown as it was planned, not recomputed.{' '}
+          <button onClick={() => setFrozen(null)}>Recompute on today's data</button>
+        </div>
+      )}
+      {changed.length > 0 && <div className="warn small">This permalink was planned on earlier data: {changed.join('; ')}.</div>}
+      {snapshotError && <div className="error small">{snapshotError}</div>}
       {routeError && <div className="error">{routeError}</div>}
-      {!start && !end && <p className="info small">Choose a start and a destination: search, use your position, or tap the map.</p>}
+      {!start && !end && <p className="info small">Choose a start and a destination: search, use your position, or tap the map. {snapshotInput}</p>}
       {route && (
         <RouteSummary
           route={route} itinerary={itinerary!} profile={profile} back={backDuration} onStart={nav.start}
@@ -481,6 +569,15 @@ export default function App({ client }: { client: RoutingApi }) {
                 <button onClick={() => download(JSON.stringify(brief(route), null, 1), 'application/json', 'interway-route.json')}>JSON</button>
                 <button onClick={() => download(toGpx(route, title(), itinerary!.stops), 'application/gpx+xml', 'interway-route.gpx')}>GPX</button>
               </div>
+              <div className="exports">
+                <button onClick={() => copyPermalink(route)}>{linked ? 'Copied ✓' : 'Copy permalink'}</button>
+                <button onClick={() => saveSnapshot(route)}>Save snapshot</button>
+                {snapshotInput}
+              </div>
+              <p className="small hint">
+                A permalink keeps every setting and the data version: opened later it says if the route has changed.
+                A snapshot is the exact route and brief in a file, shown unchanged when you open it again.
+              </p>
               <p className="small hint">
                 Paste the brief into ChatGPT, Claude or another assistant to ask about locks, stops and hazards. It
                 contains the route link, which the assistant can change (waypoints, vessel) for you to open.
@@ -527,6 +624,8 @@ export default function App({ client }: { client: RoutingApi }) {
       <h1>Interway</h1>
       <p className="tagline">Inland waterway &amp; coastal route planner</p>
       <p className="small muted">Search a place, pick a category, or long-press the map (right-click on a computer) to drop a pin.</p>
+      <p className="small">{snapshotInput}</p>
+      {snapshotError && <div className="error small">{snapshotError}</div>}
       {track}
     </section>
   );

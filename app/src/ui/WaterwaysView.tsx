@@ -38,8 +38,9 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
             </dl>
             {w.notes && <p className="small">{w.notes}</p>}
             <div className="small">
-              {w.authority.url ? <a href={w.authority.url} target="_blank" rel="noreferrer">{w.authority.name}</a> : w.authority.name}
+              {w.authority.url ? <a href={w.authority.url} target="_blank" rel="noreferrer">{w.authority.name}</a> : <span>{w.authority.name}</span>}
               {w.notices && <> · <a href={w.notices} target="_blank" rel="noreferrer">notices to skippers</a></>}
+              {' · '}<a href={`?waterway=${encodeURIComponent(w.id)}`}>link to this sheet</a>
             </div>
             <div className="small muted">
               Sources:{' '}

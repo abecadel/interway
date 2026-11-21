@@ -38,6 +38,6 @@ export function toggleSaved(list: Place[], p: Place): Place[] {
   return store(SAVED_KEY, isSaved(list, p) ? list.filter((q) => !same(q, p)) : [...list, p]);
 }
 
-/** A link that opens the planner with this place as the destination. */
+/** A link that opens this place's card (the harbour, lock or town there), from which directions start. */
 export const shareLink = (p: LngLat, loc: Location = location) =>
-  `${loc.origin}${loc.pathname}?to=${p[0].toFixed(5)},${p[1].toFixed(5)}`;
+  `${loc.origin}${loc.pathname}?place=${p[0].toFixed(5)},${p[1].toFixed(5)}`;

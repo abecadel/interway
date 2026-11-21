@@ -75,6 +75,8 @@ export interface RouteBrief {
   waterways: WaterwayInfo[];
   /** the boating rules of the countries on the route (licence, permits, speed limits, ...), with sources */
   rules: CountryRules[];
+  /** the data version the route was computed on (a permalink records it) */
+  data: string | null;
   /** what to arrange before going: licences, permits and tolls, taxes, entry, data to complete */
   checklist: string[];
   /** the tightest mapped limit of each kind along the route and whether the boat fits */
@@ -180,10 +182,12 @@ function nameEnds(title: string, route: Route, stops: Stop[]): string {
   return ends.map((e, i) => (/°[NS] /.test(e) && town(i ? route.distance : 0)) || e).join(' → ');
 }
 
-export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered }: {
+export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered, data = null }: {
   route: Route; itinerary: Itinerary; profile: VesselProfile; title: string; link: string; hoursPerDay?: number;
   /** vessel fields the user (or agent) gave, even where equal to the default */
   entered?: ReadonlySet<string>;
+  /** the data version the route was computed on */
+  data?: string | null;
 }): RouteBrief {
   let at = 0;
   const legs = route.legs.map((l) => {
@@ -288,6 +292,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     edit: { link, parameters: EDIT_PARAMETERS },
     waterways,
     rules: countryRules,
+    data,
     checklist,
     limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
@@ -328,7 +333,7 @@ function rulesMarkdown(rs: CountryRules[], where: { inland: boolean; sea: boolea
   ]), ''];
 }
 
-function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
+function waterwaysMarkdown(ws: WaterwayInfo[], base: string): string[] {
   if (!ws.length) return [];
   const line = (label: string, v: string | null | false) => (v ? [`- ${label}: ${v}`] : []);
   return ['## Waterways', ...ws.flatMap((w) => [
@@ -343,6 +348,7 @@ function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
     ...line('By month', monthsText(w)),
     ...line('Tides', tideText(w)),
     ...line('Rules', rulesText(w)),
+    `- Sheet: ${base}?waterway=${encodeURIComponent(w.id)}`,
     ...line('Best season', w.season.best),
     ...line('Closures', w.season.closures),
     ...line('Authority', `${w.authority.name}${w.authority.url ? ` (${w.authority.url})` : ''}`),
@@ -394,7 +400,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),
     '',
-    ...waterwaysMarkdown(b.waterways),
+    ...waterwaysMarkdown(b.waterways, b.link.split('?')[0]),
     ...rulesMarkdown(b.rules, { inland: b.totals.km - b.totals.seaNm * 1.852 > 1, sea: b.totals.seaNm > 0 }),
     '## Legs',
     '| km | waterway | length |',
@@ -415,6 +421,7 @@ export function briefMarkdown(b: RouteBrief): string {
     'Change the parameters of the link above and open it; the planner recomputes everything:',
     ...Object.entries(b.edit.parameters).map(([k, d]) => `- \`${k}\`: ${d}`),
     '',
+    ...(b.data ? [`Computed on data version ${b.data}.`] : []),
     'Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0), bathymetry © EMODnet (CC BY 4.0). Not for navigation.',
     '',
   ];

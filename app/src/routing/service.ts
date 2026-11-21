@@ -8,6 +8,9 @@ export interface Manifest {
   version: number;
   region: string;
   osmTimestamp?: string;
+  /** when the data was built (ISO time) */
+  built?: string;
+  sha256?: { graph?: string; geom?: string };
   files: { graph: string; geom: string; pois?: string };
   names: string[];
   attribution: string;
