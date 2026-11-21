@@ -1,0 +1,6 @@
+[
+  {"name": "Europe: Baltic, North Sea, Channel, Biscay, Iberia, Mediterranean, Black Sea, Faroes", "bbox": [-11.0, 30.0, 42.0, 66.0]},
+  {"name": "North Atlantic: Iceland, joined to the Faroes across open water", "bbox": [-25.0, 60.0, -5.0, 67.5], "max_offshore_m": 1200000},
+  {"name": "North America east: Atlantic coast, Gulf of Mexico, Gulf of St. Lawrence, Newfoundland", "bbox": [-98.0, 24.0, -52.0, 52.0]},
+  {"name": "North America west: California to Alaska, the Inside Passage", "bbox": [-170.0, 32.0, -117.0, 61.0]}
+]

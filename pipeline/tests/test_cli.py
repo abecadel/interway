@@ -278,7 +278,7 @@ def test_build_with_sea_routes(tmp_path):
         assert m["stats"]["edges"] > 10
     assert list(cache.glob("sea.*.pickle"))
     nocache = cli.build([osm], tmp_path / "out2", region="t", allowlist=None, patches=None, min_component_km=0.5,
-                        land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0))
+                        land=land, sea_areas=[{"bbox": (0.0, 0.0, 1.0, 1.0)}])
     assert nocache["stats"]["edges"] == m["stats"]["edges"]
     assert nocache["attribution"] == "© OpenStreetMap contributors, ODbL"
 
@@ -312,6 +312,17 @@ def test_main_sea_options(tmp_path, monkeypatch):
           "--depth-scale", "0.5"])
     assert str(seen["land"]) == "land.shp" and seen["sea_bbox"] == (1.0, 2.0, 3.0, 4.0)
     assert str(seen["places"]) == "cities.txt" and str(seen["depth_cache"]) == "d" and seen["depth_scale"] == 0.5
+
+
+def test_main_reads_sea_areas(tmp_path, monkeypatch):
+    seen = {}
+    monkeypatch.setattr(cli, "build", lambda *a, **kw: seen.update(kw) or {"stats": {}})
+    areas = tmp_path / "areas.json"
+    areas.write_text('[{"name": "a", "bbox": [1, 2, 3, 4]}, {"name": "b", "bbox": [5, 6, 7, 8], "max_offshore_m": 9}]')
+    main(["x.osm", "--sea-areas", str(areas)])
+    assert seen["sea_areas"][1] == {"name": "b", "bbox": [5, 6, 7, 8], "max_offshore_m": 9}
+    main(["x.osm"])
+    assert seen["sea_areas"] is None
 
 
 def test_meshed_lakes_keeps_only_lakes_with_a_mesh():

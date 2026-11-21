@@ -23,6 +23,9 @@ log = logging.getLogger(__name__)
 WCS = "https://ows.emodnet-bathymetry.eu/wcs"
 TILE_DEG = 2  # larger requests are refused (HTTP 500) or resampled inconsistently by the service
 ATTRIBUTION = "Bathymetry © EMODnet Bathymetry Consortium (CC BY 4.0)"
+# lon/lat the DTM covers (European seas, the Atlantic to Iceland and the Azores): no requests outside it
+COVERAGE = (-36.0, 15.0, 43.0, 90.0)
+TIFF_MAGIC = (b"II*\x00", b"MM\x00*")
 
 
 def tile_url(i: int, j: int, scale: float) -> str:
@@ -37,15 +40,25 @@ def tile_loader(cache_dir: Path, scale: float = 0.25,
     import tifffile
 
     def load(i: int, j: int) -> np.ndarray | None:
+        w, s, e, n = COVERAGE
+        if i * TILE_DEG >= e or (i + 1) * TILE_DEG <= w or j * TILE_DEG >= n or (j + 1) * TILE_DEG <= s:
+            return None  # another continent: nothing to ask for
         f = cache_dir / f"emodnet_{i}_{j}_{scale}.tif"
+        missing = f.with_suffix(".none")  # a tile the service had no data for: not asked again
+        if missing.exists():
+            return None
         if not f.exists():
             try:
                 with opener(tile_url(i, j, scale), timeout=300) as r:
                     data = r.read()
-            except OSError as e:  # outside the coverage, or the service is down: no depth there
+            except OSError as e:  # the service is down or refused: try again next run
                 log.warning("no depth tile %d,%d: %s", i, j, e)
                 return None
             cache_dir.mkdir(parents=True, exist_ok=True)
+            if not data.startswith(TIFF_MAGIC):  # an error page or empty coverage, not a GeoTIFF
+                log.warning("no depth data in tile %d,%d", i, j)
+                missing.write_bytes(b"")
+                return None
             f.write_bytes(data)
         return tifffile.imread(f).astype(np.float32)
 

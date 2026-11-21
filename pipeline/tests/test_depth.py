@@ -70,10 +70,20 @@ def test_tile_loader_caches_and_tolerates_failures(tmp_path):
         calls.append(url)
         if "Long(0," in url:
             raise OSError("404")
+        if "Long(2," in url:
+            return Response(b"<ExceptionReport>no coverage</ExceptionReport>")
         return Response(buf.getvalue())
 
     load = tile_loader(tmp_path / "tiles", 0.25, opener)
     assert np.array_equal(load(7, 25), TILE)
     assert np.array_equal(load(7, 25), TILE)  # from the cache
     assert len(calls) == 1
-    assert load(0, 0) is None
+    assert load(0, 25) is None
+    assert load(0, 25) is None  # a refused request is tried again next time
+    assert sum("Long(0," in c for c in calls) == 2
+    assert load(1, 25) is None and load(1, 25) is None  # not a GeoTIFF: remembered as empty, asked once
+    assert sum("Long(2," in c for c in calls) == 1
+    n = len(calls)
+    # outside EMODnet (west, east, south, north of it): never asked
+    assert load(-40, 20) is None and load(30, 20) is None and load(0, 5) is None and load(0, 50) is None
+    assert len(calls) == n
