@@ -6,6 +6,8 @@ import { Icon } from './icons';
 import { ItineraryView } from './ItineraryView';
 import { legPoints, seasonWarnings, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 import { WaterwaysView } from './WaterwaysView';
+import { RulesView } from './RulesView';
+import { routeCountries, rulesFor } from '../routing/rules';
 
 /** Time first, then distance and locks, warnings, and Start / Steps; the rest (exports, offline map) under More. */
 export function RouteSummary({ route, itinerary, profile, back, onStart, onStepsOpen, onFocus, more, options = [], chosen = 0, onChoose }: {
@@ -26,6 +28,7 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
 }) {
   const [steps, setSteps] = useState(false);
   const waterways = waterwaysOn(legPoints(route));
+  const rules = rulesFor(routeCountries(itinerary.stops));
   const warnings = [...waterwayWarnings(waterways, profile.draft, profile.airDraft), ...seasonWarnings(route, profile)];
   return (
     <section className="summary" aria-label="Route">
@@ -94,6 +97,12 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
         <details className="more">
           <summary>About the waterways ({waterways.length})</summary>
           <WaterwaysView waterways={waterways} />
+        </details>
+      )}
+      {rules.length > 0 && (
+        <details className="more">
+          <summary>Rules by country ({rules.length})</summary>
+          <RulesView rules={rules} inland={route.distance - route.sea > 1000} sea={route.sea > 0} />
         </details>
       )}
       <details className="more">

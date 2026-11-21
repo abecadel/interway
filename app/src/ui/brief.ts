@@ -5,7 +5,8 @@ import { dateAfter, defaultProfile, type Route, type VesselProfile } from '../ro
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
 import { noticesFor } from './notices';
-import { legPoints, monthsText, seasonWarnings, tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
+import { type CountryRules, routeCountries, ruleFacts, rulesFor } from '../routing/rules';
+import { legPoints, monthsText, rulesText, seasonWarnings, tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 
 export interface BriefStop {
   km: number;
@@ -61,6 +62,8 @@ export interface RouteBrief {
   edit: { link: string; parameters: Record<string, string> };
   /** researched sheets of the waterways on the route, in route order */
   waterways: WaterwayInfo[];
+  /** the boating rules of the countries on the route (licence, permits, speed limits, ...), with sources */
+  rules: CountryRules[];
 }
 
 const km = (m: number) => Math.round(m / 100) / 10;
@@ -214,7 +217,8 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
       + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
   }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
-  const notices = noticesFor(itinerary.stops.flatMap((s) => (s.poi.type === 'place' && s.poi.cc ? [s.poi.cc] : [])));
+  const countries = routeCountries(itinerary.stops);
+  const notices = noticesFor(countries);
   hazards.push(notices.length
     ? `Today's closures, water levels and lock hours are not live here: check the notices to skippers for this route before going: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
     : "Today's closures, water levels and lock hours are not live here: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.");
@@ -241,10 +245,22 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     hazards,
     edit: { link, parameters: EDIT_PARAMETERS },
     waterways,
+    rules: rulesFor(countries),
   };
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');
+
+function rulesMarkdown(rs: CountryRules[], where: { inland: boolean; sea: boolean }): string[] {
+  if (!rs.length) return [];
+  return ['## Rules by country', ...rs.flatMap((r) => [
+    '',
+    `### ${r.name}`,
+    ...ruleFacts(r, where).map(([k, v]) => `- ${k}: ${v}`),
+    `- Authority: ${r.authority.name}${r.authority.url ? ` (${r.authority.url})` : ''}`,
+    `- Sources (checked ${r.checked}): ${r.sources.join(', ')}`,
+  ]), ''];
+}
 
 function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
   if (!ws.length) return [];
@@ -260,6 +276,7 @@ function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
     ...line('Locks', [w.locks.count !== null && `${w.locks.count}`, w.locks.chamber, w.locks.hours, w.locks.notes].filter(Boolean).join('; ')),
     ...line('By month', monthsText(w)),
     ...line('Tides', tideText(w)),
+    ...line('Rules', rulesText(w)),
     ...line('Best season', w.season.best),
     ...line('Closures', w.season.closures),
     ...line('Authority', `${w.authority.name}${w.authority.url ? ` (${w.authority.url})` : ''}`),
@@ -296,6 +313,7 @@ export function briefMarkdown(b: RouteBrief): string {
     ...b.hazards.map((h) => `- ${h}`),
     '',
     ...waterwaysMarkdown(b.waterways),
+    ...rulesMarkdown(b.rules, { inland: b.totals.km - b.totals.seaNm * 1.852 > 1, sea: b.totals.seaNm > 0 }),
     '## Legs',
     '| km | waterway | length |',
     '|---|---|---|',
