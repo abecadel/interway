@@ -269,3 +269,4 @@ details > summary { min-height: 44px; padding-block: 10px; }
 .day-bar .now { fill: #d93025; }
 .day-hours { display: flex; justify-content: space-between; }
 .header-btns { display: flex; gap: 2px; flex: none; }
+.chip img { vertical-align: -3px; margin-right: 6px; }

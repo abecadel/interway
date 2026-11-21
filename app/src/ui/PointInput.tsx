@@ -1,3 +1,4 @@
+import { Icon } from './icons';
 import { useState } from 'react';
 import type { LngLat } from '../graph/geo';
 import type { LocalIndex } from './localSearch';
@@ -31,7 +32,7 @@ export function PointInput(props: {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        {props.value && <button title="Clear" onClick={() => props.onSelect(null)}>✕</button>}
+        {props.value && <button title="Clear" aria-label="Clear" onClick={() => props.onSelect(null)}><Icon name="close" size={18} /></button>}
       </div>
       <div className="point-actions">
         <button onClick={props.onMyPosition}>My position</button>
