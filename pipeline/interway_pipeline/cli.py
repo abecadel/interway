@@ -20,7 +20,7 @@ from .lakes import connect_lakes
 from .model import Segment, haversine
 from .pois import load_places
 from .qa import gap_candidates
-from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, sea_mesh, to_merc
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, mark_offshore, sea_mesh, to_merc
 from .topology import (
     add_connectors,
     apply_bridges,
@@ -181,11 +181,11 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
     if services and segments:
         lines = [LineString(s.coords) for s in segments]
         tree = STRtree(lines)
-        for kind, name, p in services:
+        for kind, name, p, *country in services:
             nearest = lines[tree.nearest(Point(p))]
             q = nearest.interpolate(nearest.project(Point(p)))
             if haversine(p, (q.x, q.y)) <= (place_m if kind == "place" else max_m):
-                pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1]})
+                pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1], **({"cc": country[0]} if country and country[0] else {})})
     return pois
 
 
@@ -256,6 +256,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     if land is not None:
         coast, sea = sea_network(land, sea_areas or [{"bbox": tuple(sea_bbox)}], cache_dir)
         sea = drop_sheltered(sea, meshed_lakes(ex.lakes, lake_segs))
+        mark_offshore(sea, coast)
         if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
             apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
                             near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))

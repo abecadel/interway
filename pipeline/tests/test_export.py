@@ -115,3 +115,9 @@ def test_sea_without_charted_depth_is_flagged(tmp_path):
     flags = {(u, v): f for u, v, f in edges(g)}
     assert flags[(0, 1)] & NO_DEPTH and flags[(1, 0)] & NO_DEPTH
     assert not flags[(1, 2)] & NO_DEPTH and all(f & SEA for f in flags.values())
+
+
+def test_offshore_sea_is_flagged(tmp_path):
+    from interway_pipeline.model import OFFSHORE
+    export([Segment(a=1, b=2, coords=[(0, 0), (0.1, 0)], kind="sea", offshore=True)], tmp_path, region="t")
+    assert all(f & OFFSHORE for _, _, f in edges(read_graph(tmp_path / "graph.bin")))

@@ -47,7 +47,9 @@ def test_load_places(tmp_path):
     from interway_pipeline.pois import load_places
     f = tmp_path / "cities.txt"
     f.write_text("3083829\tToruń\tTorun\tThorn\t53.01375\t18.59814\tP\tPPLA\tPL\n\nbad\n4\t\tx\t\t1\t2\n", encoding="utf-8")
-    assert load_places(f) == [("place", "Toruń", (18.59814, 53.01375))]
+    assert load_places(f) == [("place", "Toruń", (18.59814, 53.01375), "PL")]
+    f.write_text("1\tLyon\tx\t\t45.75\t4.85\tP\tPPLA\n", encoding="utf-8")  # no country column
+    assert load_places(f) == [("place", "Lyon", (4.85, 45.75), "")]
 
 
 def test_load_places_skips_districts(tmp_path):
@@ -55,4 +57,4 @@ def test_load_places_skips_districts(tmp_path):
     f = tmp_path / "cities.txt"
     f.write_text("1\tLyon 01\tx\t\t45.77\t4.83\tP\tPPLX\tFR\n2\tMarseille 01\tx\t\t43.3\t5.38\tP\tPPLA5\tFR\n"
                  "3\tLyon\tx\t\t45.75\t4.85\tP\tPPLA\tFR\n", encoding="utf-8")
-    assert [n for _, n, _ in load_places(f)] == ["Lyon"]
+    assert [n for _, n, _, _ in load_places(f)] == ["Lyon"]

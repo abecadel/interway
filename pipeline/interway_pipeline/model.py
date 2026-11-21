@@ -17,6 +17,7 @@ GEOM_REVERSED = 1 << 5
 CANAL = 1 << 6
 PATCH = 1 << 7
 NO_DEPTH = 1 << 8  # open sea without charted depth (outside the bathymetry's coverage)
+OFFSHORE = 1 << 9  # open sea far from the coast: a small boat keeping near the coast avoids it
 
 LonLat = tuple[float, float]
 
@@ -74,13 +75,15 @@ class Segment:
     limits: Limits = field(default_factory=Limits)
     osm_way: int = 0
     depth_unknown: bool = False  # sea segment with no charted depth along it
+    offshore: bool = False  # sea segment whose middle is far from land (see sea.mark_offshore)
 
     @property
     def length(self) -> float:
         return line_length(self.coords)
 
     def merge_key(self):
-        return (self.name, self.kind, self.lock, self.oneway, self.flows, self.limits.as_tuple(), self.depth_unknown)
+        return (self.name, self.kind, self.lock, self.oneway, self.flows, self.limits.as_tuple(),
+                self.depth_unknown, self.offshore)
 
 
 def parse_metres(value: str | None) -> float:

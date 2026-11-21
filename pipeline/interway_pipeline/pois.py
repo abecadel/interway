@@ -35,10 +35,11 @@ NOT_TOWNS = {"PPLX", "PPLA5", "PPLH", "PPLQ", "PPLW"}
 
 
 def load_places(path: Path) -> list[tuple[str, str, tuple[float, float]]]:
-    """Towns from a GeoNames table (cities5000.txt, CC BY 4.0): ("place", name, (lon, lat)) per row."""
+    """Towns from a GeoNames table (cities5000.txt, CC BY 4.0): ("place", name, (lon, lat), country code) per row;
+    the code (ISO 3166, column 9) tells the app whose notices to skippers apply along a route."""
     out = []
     for line in path.read_text(encoding="utf-8").splitlines():
         cols = line.split("\t")
         if len(cols) > 5 and cols[1] and (len(cols) < 8 or cols[7] not in NOT_TOWNS):
-            out.append(("place", cols[1], (float(cols[5]), float(cols[4]))))
+            out.append(("place", cols[1], (float(cols[5]), float(cols[4])), cols[8] if len(cols) > 8 else ""))
     return out

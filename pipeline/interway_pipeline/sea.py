@@ -255,6 +255,28 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
     return out
 
 
+def mark_offshore(sea: list[Segment], coast: Coast, km: float = 10.0) -> int:
+    """Flag sea segments whose middle is more than `km` (true distance) from land: a small boat that keeps near
+    the coast, from harbour to harbour, avoids them. Returns how many were flagged."""
+    if not sea:
+        return 0
+    mid = np.array([((s.coords[0][0] + s.coords[-1][0]) / 2, (s.coords[0][1] + s.coords[-1][1]) / 2) for s in sea])
+    merc = to_merc(mid)
+    # Mercator stretches distances by 1/cos(latitude): compare in Mercator metres at each segment's latitude
+    limit = km * 1000 / np.cos(np.radians(mid[:, 1]))
+    near = np.zeros(len(sea), dtype=bool)
+    idx, _ = coast.tree.query_nearest(shapely.points(merc), max_distance=float(limit.max()), return_distance=True,
+                                      all_matches=False)
+    if len(idx[0]):
+        d = shapely.distance(shapely.points(merc[idx[0]]), coast.land[idx[1]])
+        near[idx[0][d <= limit[idx[0]]]] = True
+    for s, n in zip(sea, near, strict=True):
+        s.offshore = not n
+    flagged = int((~near).sum())
+    log.info("%d of %d sea segments are offshore (more than %.0f km from land)", flagged, len(sea), km)
+    return flagged
+
+
 def drop_sheltered(sea: list[Segment], sheltered: list, inset_m: float = 100.0) -> list[Segment]:
     """The mesh without edges that touch a node inside `sheltered` (lon/lat polygons of lakes and lagoons that
     have their own lake mesh, shrunk by `inset_m` Mercator metres). Water the coastline leaves open (the

@@ -4,7 +4,7 @@ import shapefile
 from shapely.geometry import LineString, Point, box
 
 from interway_pipeline.model import Segment
-from interway_pipeline.sea import Coast, _thin, connect_to_sea, drop_sheltered, from_merc, sea_mesh, to_merc
+from interway_pipeline.sea import Coast, _thin, connect_to_sea, drop_sheltered, from_merc, mark_offshore, sea_mesh, to_merc
 from interway_pipeline.topology import components
 
 # Two islands 0.1° apart (about 11 km) in a 1° sea; the strait between them is navigable.
@@ -231,3 +231,15 @@ def test_drop_sheltered_removes_the_mesh_inside_a_lagoon():
     assert len(set(components(kept).values())) == 1  # the rest of the sea stays one mesh
     assert drop_sheltered(segs, []) is segs
     assert drop_sheltered([], [lagoon]) == []
+
+
+def test_mark_offshore_flags_sea_far_from_land():
+    c = coast(box(0.0, 60.0, 0.1, 60.1))  # at 60°N a degree of longitude is about 55.7 km
+    near = Segment(a=1, b=2, coords=[(0.12, 60.05), (0.14, 60.05)], kind="sea")  # middle ~1.7 km off
+    far = Segment(a=3, b=4, coords=[(0.40, 60.05), (0.42, 60.05)], kind="sea")  # ~17 km off
+    assert mark_offshore([near, far], c, km=10) == 1
+    assert (near.offshore, far.offshore) == (False, True)
+    assert mark_offshore([], c) == 0
+    # no land within reach of any segment: all offshore
+    lone = Segment(a=5, b=6, coords=[(5.0, 60.0), (5.01, 60.0)], kind="sea")
+    assert mark_offshore([lone], c, km=10) == 1 and lone.offshore

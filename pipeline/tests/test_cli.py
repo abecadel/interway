@@ -261,7 +261,7 @@ def test_build_with_sea_routes(tmp_path):
     osm = write_osm(tmp_path / "coast.osm", nodes, [(1, [1, 2], {"waterway": "canal", "CEMT": "IV", "name": "Kanał"})])
     land = _land_shapefile(tmp_path / "land", [box(0.2, 0.2, 0.45, 0.8)])
     places = tmp_path / "cities.txt"
-    places.write_text("1\tKanałowo\tKanalowo\t\t0.51\t0.31\n2\tDaleko\tDaleko\t\t5.0\t5.0\n", encoding="utf-8")
+    places.write_text("1\tKanałowo\tKanalowo\t\t0.51\t0.31\tP\tPPL\tPL\n2\tDaleko\tDaleko\t\t5.0\t5.0\n", encoding="utf-8")
     cache = tmp_path / "cache"
     for _ in range(2):  # the second build uses the cached mesh
         out = tmp_path / "out"
@@ -269,6 +269,7 @@ def test_build_with_sea_routes(tmp_path):
                       land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0), places=places)
         pois = json.loads((out / "pois.json").read_text(encoding="utf-8"))
         assert [p["name"] for p in pois if p["type"] == "place"] == ["Kanałowo"]  # 1.5 km away; Daleko is not
+        assert [p["cc"] for p in pois if p["type"] == "place"] == ["PL"]  # its country, for notices to skippers
         manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["sea"] is True
         g = read_graph(out / "graph.bin")

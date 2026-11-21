@@ -36,6 +36,7 @@ Coordinates are stored as `int32` in units of 1e-7 degree (≈1 cm).
 | 6 | `CANAL` | canal (no current) |
 | 7 | `PATCH` | manual connector from `data/patches` |
 | 8 | `NO_DEPTH` | open sea with no charted depth along it (outside EMODnet's European coverage); unset sea edges without a draft limit are charted deeper than 30 m |
+| 9 | `OFFSHORE` | open sea whose middle is more than 10 km from land; a boat keeping to the coast avoids it |
 
 Every undirected waterway segment is normally stored as two directed edges sharing one geometry id;
 a one-way segment has only one.
