@@ -1,0 +1,3386 @@
+{
+ "AL": {
+  "inland": null,
+  "sea": {
+   "licence": "Categories in the Law on Fisheries: amateur, sport and tourist fishing. Shore angling reportedly needs no licence; fishing from pleasure boats for tourists needs an authorisation for tourist/recreational fishing (secondary sources; not confirmed officially)",
+   "visitors": "Tourist fishing from boats through the authorisation above (not confirmed)",
+   "reporting": "Not confirmed",
+   "bans": "All fishing banned in the Karaburun-Sazan National Marine Park; recreational fishing at least 500 m from professional fishing vessels (ministry decision 2022); no sale or exchange of catch",
+   "boat": "Gear set by ministry decision No. 6 of 11 April 2022 (details not confirmed)"
+  },
+  "seasons": [],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Agriculture and Rural Development",
+   "url": "https://bujqesia.gov.al"
+  },
+  "sources": [
+   "https://leap.unep.org/en/countries/al/national-legislation/decision-n-6-dated-11-april-2022-tools-used-recreational-fishing",
+   "https://www.faoadriamed.org/html/Legislation/LegALBComp.html",
+   "https://www.inca-al.org/media/files/2022/02/17/2-En_Manual_about_recreational_fishing_activities_close_to_the_marine_protected_area_of_Karaburun-Sazani_OK.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "AT": {
+  "inland": {
+   "licence": "Land fishing card (Fischerkarte, needs an exam or course in most Länder, plus the yearly Land fee) or a short Gastfischerkarte for visitors; rules differ in each of the nine Länder",
+   "permit": "Written Lizenz (day/week/year ticket) from the holder of the fishing right on that water (owner, club, Bundesforste); needed in addition to the card",
+   "visitors": "Upper Austria example: Gastfischerkarte valid 3 weeks, max 2 per calendar year, from age 12, issued by the OÖ Landesfischereiverband on request of the water's manager, carried with photo ID; a foreign photo licence is also accepted. Other Länder have similar guest cards",
+   "bans": "Closed seasons and minimum sizes per Land ordinance (e.g. Kärntner Fischereischonzeitenverordnung); fish under size or in season must be released at once",
+   "boat": "Whether boat fishing, trolling (Schleppfischen) or motors are allowed is set water by water in the Lizenz; many lakes ban motorboats"
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Pike (Hecht)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Carinthia (K-FSV, LGBl. 89/2024): closed 1 Jan-30 Apr except Weißensee and part of the Drau. Other Länder differ; the minimum size was not confirmed."
+   },
+   {
+    "species": "Zander",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Carinthia: minimum 45 cm (Ossiacher See 50 cm, Feldsee and Afritzer See 55 cm, 2024 text). The 1 Jan-31 May closure is from the 2021 text, not re-checked against 2024. Other Länder differ."
+   },
+   {
+    "species": "Lake trout (Seeforelle)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "02-28"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": null,
+    "notes": "Carinthia, from an older version of the K-FSV; not re-checked. Other Länder differ."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Land governments and Landesfischereiverbände (overview on oesterreich.gv.at)",
+   "url": "https://www.oesterreich.gv.at/themen/reisen_und_freizeit/freizeit-in-der-natur/fischen.html"
+  },
+  "sources": [
+   "https://www.oesterreich.gv.at/themen/reisen_und_freizeit/freizeit-in-der-natur/fischen/4/Seite.3170039.html",
+   "https://www.oesterreich.gv.at/de/themen/reisen_und_freizeit/freizeit-in-der-natur/fischen/2/Seite.3170030",
+   "https://ris.bka.gv.at/Dokumente/Landesnormen/LKT40019983/LKT40019983.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "BA": {
+  "inland": {
+   "licence": "Sport fishing permit (ribolovna dozvola: daily, weekend, annual) under entity law: FBiH Zakon o slatkovodnom ribarstvu, Republika Srpska Zakon o ribarstvu, Brčko District own law",
+   "permit": "Sold by the sport fishing associations managing each fishing area (cantonal concessions in FBiH)",
+   "visitors": "FBiH rulebook provides separate permit forms for foreign nationals; fees not confirmed",
+   "bans": "Closed seasons and sizes set by entity/cantonal rules; not confirmed",
+   "boat": "Not confirmed"
+  },
+  "sea": null,
+  "seasons": [],
+  "buy": null,
+  "authority": {
+   "name": "FBiH Federal Ministry of Agriculture, Water Management and Forestry; RS Ministry of Agriculture, Forestry and Water Management",
+   "url": "https://fmpvs.gov.ba"
+  },
+  "sources": [
+   "https://parlamentfbih.gov.ba/v2/userfiles/file/Usvojeni%20materijali_2025/B%20-%20Zakon_slatkovodno_ribarstvo.pdf",
+   "https://faolex.fao.org/docs/pdf/bih135214.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "BE": {
+  "inland": {
+   "licence": "Regional. Flanders: visverlof from the Agentschap voor Natuur en Bos (ANB), valid to 31 Dec. Types: gewoon visverlof €13 (bank only, daytime, release everything); groot visverlof €48 (boat and night allowed, may keep fish); jeugdvisverlof €5. Under-18s are exempt for 1 rod from the bank with release. Wallonia: permis de pêche from the Service public de Wallonie (not detailed here).",
+   "permit": "Flanders public waters (openbare wateren, navigable waterways): the visverlof is enough. Some waters need explicit consent from the owner or manager. Buy online at visverlof.be or at Flemish post offices.",
+   "visitors": "Same visverlof (online). To fish from a boat in Flanders you need the groot visverlof.",
+   "bans": "Flanders: never in locks, fish passes, from bridges over navigable waterways, or where ANB boards show a fishing ban. Ecologically valuable waters have extra closures (often 16 Apr-31 May) and some ban boats.",
+   "boat": "Flanders: the gewoon visverlof allows only bank, platform or jetty; boats need the groot visverlof. Max 2 rods, max 3 hooks per rod. No keep-nets. Boat fishing is banned on some listed waters. Wallonia: not confirmed."
+  },
+  "sea": {
+   "licence": "None found for rod fishing from shore or boat (not confirmed from an official federal source).",
+   "visitors": "Same.",
+   "reporting": "Belgium is listed as a RecFishing-app country; EU Control Reg. 2023/2842 Art. 55: since 10 Jan 2026 recreational sea anglers targeting species under EU recreational measures must register and report catches electronically.",
+   "bans": "Harbour rules and wind-farm zones (details not checked).",
+   "boat": "Not confirmed."
+  },
+  "seasons": [
+   {
+    "species": "Pike and zander (snoek, snoekbaars)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Flanders, all public waters. All other species closed 04-16 to 05-31: release every fish, no fish as bait. Wallonia (Maison wallonne de la Pêche, a federation source): fishing opens on the 1st Saturday of March, but pike may not be kept until the 1st Saturday of June; pike 60 cm, 1/day. The SPW text was not checked."
+   },
+   {
+    "species": "Zander (snoekbaars)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": "max 3 (and max 5 dead fish >15 cm in total)",
+    "notes": "Flanders: slot 45-70 cm, so fish over 70 cm must also be released. Only the groot visverlof allows keeping fish."
+   },
+   {
+    "species": "Trout (forel)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "02-28"
+     ],
+     [
+      "04-16",
+      "05-31"
+     ],
+     [
+      "10-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 30,
+    "bag": null,
+    "notes": "Flanders, brown trout (beekforel): 30 cm. Salmon and sea trout are fully protected."
+   },
+   {
+    "species": "Eel (paling)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 30,
+    "bag": "max 3",
+    "notes": "Flanders. Only eel may be kept alive (in a bucket)."
+   },
+   {
+    "species": "Eel (paling)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   },
+   {
+    "species": "Sea bass (zeebaars)",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "3 per day",
+    "notes": "Reg. (EU) 2026/249 Art. 10(5), ICES 4b, 4c, 6a, 7a-k: catch-and-release only 1 Feb-31 Mar 2026; otherwise max 3 bass/angler/day, min 42 cm, no fixed nets. Biscay (8a, 8b): max 2/day all year (Art. 11). The 2027 bass rule is set separately (not yet published)."
+   }
+  ],
+  "buy": "https://www.visverlof.be",
+  "authority": {
+   "name": "Agentschap voor Natuur en Bos (Flanders); Service public de Wallonie (Wallonia)",
+   "url": "https://natuurenbos.vlaanderen.be/vissen-en-hengelen"
+  },
+  "sources": [
+   "https://natuurenbos.vlaanderen.be/sites/default/files/documenten/reglement_openbare_visserij_2024.pdf",
+   "https://natuurenbos.vlaanderen.be/vissen-en-hengelen/meeneembeperking-en-toegelaten-vissoorten",
+   "https://www.maisondelapeche.be/fr/faq",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "BG": {
+  "inland": {
+   "licence": "Ticket for recreational fishing (билет за любителски риболов) from the Executive Agency for Fisheries and Aquaculture (IARA): weekly, monthly, six-month, annual (2025 fees reported 12/16/30/50 BGN)",
+   "permit": "Some dams and private waters need the operator's permission in addition",
+   "visitors": "Not confirmed",
+   "bans": "Yearly spawning-ban order of the Ministry of Agriculture (2026 order extends the pike, zander and asp net-gear ban); details for anglers not confirmed",
+   "boat": "Not confirmed"
+  },
+  "sea": {
+   "licence": "Same IARA ticket; a special permit (150 BGN reported) to catch quota species in the Black Sea",
+   "visitors": "Not confirmed",
+   "reporting": "EU RecFishing app since 10 Jan 2026 for EU-listed species",
+   "bans": "Turbot closure in the Black Sea (see seasons)",
+   "boat": "Not confirmed"
+  },
+  "seasons": [
+   {
+    "species": "Turbot (калкан)",
+    "waters": "sea",
+    "closed": [
+     [
+      "04-15",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "2026 closure in the Black Sea (Ministry notice, linked to EU Reg. 2026/266)."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Executive Agency for Fisheries and Aquaculture (IARA)",
+   "url": "https://www.iara.government.bg"
+  },
+  "sources": [
+   "https://www.mzh.government.bg/media/filer_public/2026/03/06/uvedomlenie_proekt_zapoved_zabrana_razmnozhitelna_2026.docx",
+   "https://nariba.com/newsdetail/2934.html",
+   "https://faolex.fao.org/docs/pdf/bul192125.pdf",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "CH": {
+  "inland": {
+   "licence": "Cantonal fishing patent (day, week, month, year); a patent valid more than one month needs the Swiss Sachkunde-Nachweis (SaNa) or an equivalent certificate",
+   "permit": "The patent is issued by the canton (or by the rights holder on private waters); lakes on borders (Bodensee, Lac Léman, Lago Maggiore) have intercantonal/international rules",
+   "visitors": "Short patents (up to one month: day, week, holiday patents) can be bought without the SaNa; the canton may require other measures instead. Prices and surcharges for non-residents are cantonal",
+   "bans": "Federal minimum rules (VBGF, SR 923.01) plus stricter cantonal closed seasons, sizes, bag limits and protected zones",
+   "boat": "Boat and trolling (Schleppangel) rules are cantonal and often need a special boat or trolling patent"
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Trout (Salmo trutta)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 22,
+    "bag": null,
+    "notes": "Federal minimum (VBGF Art. 2, 2017 amendment): 22 cm, or 35 cm in larger standing waters below 800 m. Closed seasons and stricter sizes are cantonal; current consolidated text not re-checked."
+   },
+   {
+    "species": "Pike, zander, perch",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Cantonal rules only; not confirmed here."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Federal Office for the Environment (BAFU) and cantonal fisheries offices",
+   "url": "https://www.bafu.admin.ch"
+  },
+  "sources": [
+   "https://www.Bafu.admin.ch/dam/bafu/de/dokumente/biodiversitaet/uv-umwelt-vollzug/vollzugshilfe_anforderungandiefangberechtigung.pdf.download.pdf/vollzugshilfe_anforderungandiefangberechtigung.pdf",
+   "https://www.vs.ch/de/web/scpf/obtenir-l-attestation-de-competences-sana",
+   "https://www.newsd.admin.ch/newsd/message/attachments/47596.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "CY": {
+  "inland": {
+   "licence": "Reservoir (dam) fishing licence from the Department of Fisheries and Marine Research (DFMR), from age 12 (12-18 with parental consent), applied for online",
+   "permit": "Valid only on reservoirs the Director declares open; Achna closed 1 Jan-30 Jun; several dams closed",
+   "visitors": "Not confirmed",
+   "bans": "One rod with one hook (multi-hook lures allowed for spinning); bank only, no boats or floats; fishing from 1 h before sunrise to 1 h after sunset; Achna and Polemidia catch-and-release; no sale",
+   "boat": "Not allowed on reservoirs"
+  },
+  "sea": {
+   "licence": "Rod and line fishing from shore or boat reportedly needs no licence (secondary sources); spearfishing licence needed (about €35/year reported); amateur licences via the DFMR portal",
+   "visitors": "Not confirmed",
+   "reporting": "EU RecFishing since 10 Jan 2026 for EU-listed species",
+   "bans": "Spearfishing banned in buoyed swimming zones; fines raised in 2026 (Regs. 139/2026) for protected species",
+   "boat": "Spearfishing breath-hold only with a red-flag buoy; other boat gear limits not confirmed"
+  },
+  "seasons": [
+   {
+    "species": "Trout (reservoirs)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": "5 per day (max 10 fish of listed species in total)",
+    "notes": "DFMR reservoir conditions as reproduced by the Cyprus Freshwater Angling Association (2026)."
+   },
+   {
+    "species": "Zander, bass, carp (reservoirs)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 30,
+    "bag": "2 each per day",
+    "notes": "Same source; it also says carp and bass must be released, which conflicts with the quota."
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "max 1 bluefin per vessel per day (EU rule); sale banned",
+    "notes": "EU Reg. 2023/2053: minimum 30 kg or 115 cm fork length; recreational vessels need a national authorisation; release live fish where possible. "
+   },
+   {
+    "species": "Swordfish (Xiphias gladius)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 100,
+    "bag": "max 1 swordfish per vessel per day; sale banned",
+    "notes": "Mediterranean: closed 1 Jan-31 Mar; minimum 100 cm lower-jaw fork length or 11.4 kg (EU Reg. 2019/1154 and Del. Reg. 2018/191, from ICCAT Rec. 16-05)."
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III); national bag limits may be stricter."
+   }
+  ],
+  "buy": "https://licence.dfmr.moa.gov.cy/",
+  "authority": {
+   "name": "Department of Fisheries and Marine Research (DFMR)",
+   "url": "https://www.gov.cy/moa-dfmr/"
+  },
+  "sources": [
+   "https://cyprusfaa.com/conditions2023",
+   "https://licence.dfmr.moa.gov.cy/",
+   "https://leap.unep.org/en/countries/cy/national-legislation/fisheries-amendment-regulations-no-139-2026",
+   "https://dom.com.cy/en/live/blog/fishing-in-cyprus/",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf",
+   "https://eur-lex.europa.eu/eli/reg_del/2018/191/oj/eng"
+  ],
+  "checked": "2026-11-21"
+ },
+ "CZ": {
+  "inland": {
+   "licence": "Rybářský lístek (state fishing card) from the municipal office with extended powers",
+   "permit": "Povolenka k lovu from the water's user: ČRS (Czech Angling Union, Bohemia) or MRS (Moravia), or a private owner; plus the union's catch record",
+   "visitors": "Foreigners need both the rybářský lístek and a povolenka; rules on proof of qualification for foreigners not confirmed here",
+   "bans": "Closed seasons and minimum sizes in decree 197/2004 Sb.; ČRS and MRS rules (Bližší podmínky, 2026-2027) set stricter sizes and daily limits; local unions can tighten further",
+   "boat": "Boat fishing and trolling only where the union's rules or water list allow it (not confirmed in detail)"
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Pike, zander, catfish, asp",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Decree 197/2004 Sb. (as amended 2006/2016): closed 1 Jan-15 Jun in non-trout waters."
+   },
+   {
+    "species": "Zander (candát)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Decree minimum 45 cm; ČRS rules raise pike to 60 cm and zander to 50 cm on its waters (version not confirmed for 2026)."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Agriculture (MZe) / Czech Angling Union (ČRS)",
+   "url": "https://mze.gov.cz"
+  },
+  "sources": [
+   "https://www.epravo.cz/top/zakony/sbirka-zakonu/sb/2006/239",
+   "https://www.epravo.cz/top/zakony/sbirka-zakonu/sb/2004/197",
+   "https://www.epravo.cz/top/zakony/sbirka-zakonu-new/sb/2023/292"
+  ],
+  "checked": "2026-11-21"
+ },
+ "DE": {
+  "inland": {
+   "licence": "Fischereischein issued by the Land (after an exam), plus the Fischereiabgabe (state fishing levy). Rules differ by Land. Mecklenburg-Vorpommern and Schleswig-Holstein offer an exam-free tourist licence (Touristenfischereischein in MV; Urlauberfischereischein in SH, valid up to 28 consecutive days). MV and SH: children under 14 need no Fischereischein.",
+   "permit": "Always also an Angelerlaubnis / Erlaubnisschein from the owner or lessee of the water (club, Landesanglerverband, fishery, municipality). In MV there are no free waters; fishing without a permit is poaching under StGB §293.",
+   "visitors": "Foreign visitors: in MV and SH, buy the tourist Fischereischein (municipal or tourist offices), pay the Fischereiabgabe and get a water permit. SH also issues the regular Fischereischein to people resident abroad. Other Länder have their own rules (not covered here).",
+   "bans": "MV: no fishing in fish passes or within 100 m of them in rivers. Local Schonbezirke are set by the rights holders and printed on permits. Harbours, piers and quays follow municipal rules. Wind-farm safety zones at sea.",
+   "boat": "MV: trolling (Schleppangeln) only on waters or parts where the permit allows it; follow boat-marking and collision rules. Rod numbers and anchoring duties are set by law or by the permit."
+  },
+  "sea": {
+   "licence": "MV coastal waters (Bodden, Haffe, Peenestrom, Achterwasser, Baltic to 12 nm): Fischereischein plus the state Angelerlaubnis Küstengewässer, sold by LALLF offices, shops and tourist offices or online (erlaubnis.angeln-mv.de, fiskado.de); Rostock (Unterwarnow, Breitling) issues its own. SH coast: Fischereischein or Urlauberfischereischein plus Fischereiabgabe; no further permit except in the Schlei, Lübecker Bucht and Untereider, where separate fishing rights apply. SH charter boats (Angelkutter): no Fischereischein needed, levy only.",
+   "visitors": "Tourist Fischereischein (MV) or Urlauberfischereischein (SH), plus the MV coastal permit where required.",
+   "reporting": "Germany is listed as a RecFishing-app country. EU Control Reg. 2023/2842 Art. 55: since 10 Jan 2026 recreational sea anglers targeting species under EU recreational measures must register and report catches electronically. (German rollout details not checked.)",
+   "bans": "MV Küstenfischereiverordnung: fishing banned all year in the straits that fish use for migration (Fischschonbezirke, §11 KüFO, signed with boards or buoys); temporary closures at river mouths for salmon and sea trout; spawning areas closed 1 Apr-31 May (§12); some winter refuges (§13). Keep 100 m from commercial gear (flagged buoys). Wind-farm safety zones.",
+   "boat": "MV: no trolling in the shallow coastal waters, Bodden and Haffe (fishery districts); no live bait. Coastal rigs max 6 hook points per rod. Some fishery districts require anchoring (Ankergebot). SH: live bait fish banned."
+  },
+  "seasons": [
+   {
+    "species": "Pike (Hecht)",
+    "waters": "sea",
+    "closed": [
+     [
+      "03-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": null,
+    "notes": "MV coastal waters. MV inland: 45 cm, with no statutory closed season (the permit may set one). SH inland: 45 cm, closed 02-15 to 04-15."
+   },
+   {
+    "species": "Pike (Hecht)",
+    "waters": "inland",
+    "closed": [
+     [
+      "02-15",
+      "04-15"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Schleswig-Holstein (BiFVO). MV inland: 45 cm, closed season set by the permit."
+   },
+   {
+    "species": "Zander",
+    "waters": "sea",
+    "closed": [
+     [
+      "04-23",
+      "05-22"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "MV coastal waters; 40 cm in the Darß-Zingst Bodden, Peenestrom and Stettiner Haff."
+   },
+   {
+    "species": "Zander",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-15",
+      "05-15"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Schleswig-Holstein. MV inland: 45 cm, no statutory closed season."
+   },
+   {
+    "species": "Perch (Barsch)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "MV: 20 cm coast, 17 cm inland. Other Länder differ."
+   },
+   {
+    "species": "Sea trout (Meerforelle)",
+    "waters": "sea",
+    "closed": [
+     [
+      "09-15",
+      "12-14"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "MV coast. SH coast: 40 cm, closed 10-01 to 12-31 for fish in spawning colours only (silvery fish exempt). MV inland 09-01 to 03-31; SH inland 10-01 to 02-28."
+   },
+   {
+    "species": "Salmon (Lachs)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "1 adipose-fin-clipped salmon per day",
+    "notes": "MV: wild salmon closed all year at sea; inland 09-01 to 03-31. EU 2026: max 1 adipose-fin-clipped (reared) salmon per angler per day in most of SD 22-31; wild salmon must be released. For 2027 the Commission proposed (COM(2026) 437) to allow recreational salmon fishing only north of 59°30'N within 4 nm, 1 May-31 Aug; press reports of the Oct 2026 Council say fishing for reared salmon stays allowed. Check the final 2027 text."
+   },
+   {
+    "species": "Eel (Aal)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027. MV inland: 50 cm, closed 12-01 to 02-28; SH inland 50 cm."
+   },
+   {
+    "species": "Cod (Dorsch)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught. North Sea (SH): 35 cm."
+   },
+   {
+    "species": "Asp (Rapfen)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "MV."
+   },
+   {
+    "species": "Wels catfish (Wels)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-01",
+      "06-30"
+     ]
+    ],
+    "minSizeCm": 70,
+    "bag": null,
+    "notes": "MV inland."
+   },
+   {
+    "species": "Turbot (Steinbutt)",
+    "waters": "sea",
+    "closed": [
+     [
+      "06-01",
+      "07-31"
+     ]
+    ],
+    "minSizeCm": 30,
+    "bag": null,
+    "notes": "MV and SH Baltic."
+   },
+   {
+    "species": "Flounder (Flunder)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "MV. SH suspended minimum sizes for flounder, whiting, herring and dab in its Baltic coastal waters until 31 Dec 2026 (Allgemeinverfügung; not checked in the original)."
+   },
+   {
+    "species": "Sea bass (Wolfsbarsch)",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "3 per day",
+    "notes": "North Sea (ICES 4b/4c). Reg. (EU) 2026/249 Art. 10(5), ICES 4b, 4c, 6a, 7a-k: catch-and-release only 1 Feb-31 Mar 2026; otherwise max 3 bass/angler/day, min 42 cm, no fixed nets. Biscay (8a, 8b): max 2/day all year (Art. 11). The 2027 bass rule is set separately (not yet published)."
+   }
+  ],
+  "buy": "https://erlaubnis.angeln-mv.de/",
+  "authority": {
+   "name": "LALLF Mecklenburg-Vorpommern (Fischerei); Landesamt LLUR / Ministerium Schleswig-Holstein; other Länder fisheries authorities",
+   "url": "https://www.lallf.de"
+  },
+  "sources": [
+   "https://www.lallf.de/fileadmin/media/PDF/fischer/9_sonstiges/Broschuere-zbFS-MV_20260526.pdf",
+   "https://www.schoenhagen-ostsee.de/fileadmin/bilder/PDF/Merkblatt_UrlauberFSchein_Stand_2021.pdf",
+   "https://www.schleswig-holstein.de/DE/fachinhalte/F/fischerei/Downloads/Merkblatt_UrlauberFSchein.pdf",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "DK": {
+  "inland": {
+   "licence": "Lystfiskertegn (state angling licence) from age 18 until state pension age, valid 1 day, 1 week or 12 months; sold at fisketegn.dk. The money goes to fish stocking and habitat work (fiskepleje).",
+   "permit": "In freshwater the fishing right belongs to the landowner, so you also need the owner's or club's permit (fiskekort).",
+   "visitors": "Same: buy a day, week or year lystfiskertegn online, plus the owner's permit in freshwater.",
+   "bans": "Streams: no fishing within 50 m of the inlet or outlet of an artificial fish pass, and none in the pass itself. Lakes over 10 ha: 50 m protected zone at inlets and outlets of streams wider than 1 m (rod and line only).",
+   "boat": "Owner's permit rules."
+  },
+  "sea": {
+   "licence": "Lystfiskertegn required at sea as well (same ages).",
+   "visitors": "Same licence.",
+   "reporting": "Denmark is listed as a RecFishing-app country; EU Control Reg. 2023/2842 Art. 55: since 10 Jan 2026 recreational sea anglers targeting species under EU recreational measures must register and report catches electronically. (Danish rollout details not checked.)",
+   "bans": "Fredningsbælter: all fishing banned within 500 m radius of stream mouths into fjords and the sea. All year if the mouth is 2 m wide or more, 16 Sep-15 Mar if narrower; extended zones in places (maps at fiskeristyrelsen.dk). Local harbour bans (e.g. Randers).",
+   "boat": "Trolling (dørgefiskeri) from a motor-driven boat: not closer than 100 m to land, measured from the lure to the low-water line. Planer boards and spreaders allowed only beyond 100 m, with one end lure. Isefjorden, Roskilde Fjord, Øresund and Køge Bugt: max 2 rods per person and 4 per boat when trolling, no spreading gear. Trolling banned in Tempelkrogen (Isefjorden). Special planer-board rules in the eastern Baltic and around Bornholm."
+  },
+  "seasons": [
+   {
+    "species": "Pike (gedde)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-15",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": null,
+    "notes": null
+   },
+   {
+    "species": "Pike (gedde)",
+    "waters": "sea",
+    "closed": [
+     [
+      "04-01",
+      "05-15"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": null,
+    "notes": null
+   },
+   {
+    "species": "Zander (sandart)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": null,
+    "notes": null
+   },
+   {
+    "species": "Perch (aborre)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "Parts of Sydsjælland, Møn, Lolland and Falster: slot 24-30 cm, and no landing 03-01 to 04-30 in listed freshwater areas."
+   },
+   {
+    "species": "Sea trout (havørred)",
+    "waters": "sea",
+    "closed": [
+     [
+      "11-16",
+      "01-15"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": null,
+    "notes": "Closed only for fish in spawning colours; bright fish may be kept. Wadden Sea and Bornholm: 09-15 to end of Feb. Freshwater: 11-16 to end of Feb. Ringkøbing, Nissum and Stadil fjords: protected all year."
+   },
+   {
+    "species": "Salmon (laks)",
+    "waters": "sea",
+    "closed": [
+     [
+      "11-16",
+      "01-15"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "1 fin-clipped salmon per day (EU)",
+    "notes": "Spawning-coloured fish only; Wadden Sea 09-15 to end of Feb. Freshwater: 40 cm, closed 11-16 to end of Feb. EU 2026: max 1 adipose-fin-clipped (reared) salmon per angler per day in most of SD 22-31; wild salmon must be released. For 2027 the Commission proposed (COM(2026) 437) to allow recreational salmon fishing only north of 59°30'N within 4 nm, 1 May-31 Aug; press reports of the Oct 2026 Council say fishing for reared salmon stays allowed. Check the final 2027 text."
+   },
+   {
+    "species": "Cod (torsk)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 30,
+    "bag": null,
+    "notes": "30 cm in Skagerrak/Kattegat; 35 cm in the North Sea, Belts and Baltic. Cod fishing banned all of 2026 in the western Baltic (SD 22-24). EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught."
+   },
+   {
+    "species": "Eel (ål)",
+    "waters": "all",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Miljøstyrelsen: recreational fishing for European eel banned in 2026, 2027 and 2028 (listed under salt water). Freshwater minimum 45 cm. Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   },
+   {
+    "species": "Plaice (rødspætte)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 27,
+    "bag": null,
+    "notes": "25 cm in the Belts and Baltic."
+   },
+   {
+    "species": "Sea bass (havbars)",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "3 per day",
+    "notes": "North Sea parts of ICES 4b/4c only. Reg. (EU) 2026/249 Art. 10(5), ICES 4b, 4c, 6a, 7a-k: catch-and-release only 1 Feb-31 Mar 2026; otherwise max 3 bass/angler/day, min 42 cm, no fixed nets. Biscay (8a, 8b): max 2/day all year (Art. 11). The 2027 bass rule is set separately (not yet published)."
+   }
+  ],
+  "buy": "https://www.fisketegn.dk",
+  "authority": {
+   "name": "Miljøstyrelsen (recreational fishing rules); Fiskeristyrelsen (control, fredningsbælter)",
+   "url": "https://mst.dk/borger/lyst-og-fritidsfiskeri"
+  },
+  "sources": [
+   "https://mst.dk/borger/lyst-og-fritidsfiskeri/mindstemaal-og-fredningstider",
+   "https://www.fiskepleje.dk/-/media/sites/fiskepleje/kyst/fiskeriregulering/lyst-og-fritidsfiskeri.pdf",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "EE": {
+  "inland": {
+   "licence": "Simple hand line: free on public waters. Spinning, trolling and other tackle (up to 3 items) need the paid recreational fishing right (harrastuspüügiõigus), bought online at kalaluba.ee. Exempt: pre-school children, students under 16, pensioners, disabled people and some others (carry proof).",
+   "permit": "Some salmon and trout rivers (North and Central Estonia) need a fishing card (kalastuskaart) in addition.",
+   "visitors": "Pay the fishing right at kalaluba.ee; fishing card where required.",
+   "bans": "Spawning-period spot closures in listed areas (e.g. Pärnu sea area and Pärnu/Sauga rivers 1 May-15 Jul 2026 for zander); see Keskkonnaamet.",
+   "boat": "Max 3 fishing tackles per person under the fishing right (trolling lines count as tackle)."
+  },
+  "sea": {
+   "licence": "Same fishing right (kalaluba.ee) for spinning and trolling at sea.",
+   "visitors": "Same.",
+   "reporting": "Estonia uses a national system (kalaluba.ee handles fishing rights and catch data), not RecFishing.",
+   "bans": "Seasonal spot bans per Keskkonnaamet.",
+   "boat": "Max 3 tackles per person."
+  },
+  "seasons": [
+   {
+    "species": "Pike (haug)",
+    "waters": "sea",
+    "closed": [
+     [
+      "03-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "5 per day",
+    "notes": "Sea: open 1 May to end of Feb. Võrtsjärv and other lakes: closed 03-15 to 04-30. Peipsi, Lämmijärv, Pihkva: closed 04-01 to 05-05."
+   },
+   {
+    "species": "Zander (koha)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-05",
+      "06-10"
+     ]
+    ],
+    "minSizeCm": 46,
+    "bag": "5 per day",
+    "notes": "51 cm in Võrtsjärv; 3/day in the Pärnu river area."
+   },
+   {
+    "species": "Zander (koha)",
+    "waters": "sea",
+    "closed": [
+     [
+      "05-15",
+      "07-15"
+     ]
+    ],
+    "minSizeCm": 46,
+    "bag": "5 per day",
+    "notes": "Pärnu sea area 2026: 05-01 to 07-15."
+   },
+   {
+    "species": "Perch (ahven)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 21,
+    "bag": "15 kg per day",
+    "notes": "Pärnu area 10 kg; Pärnumaa sea area closed 05-01 to 06-15 in 2026."
+   },
+   {
+    "species": "Salmon (lõhe)",
+    "waters": "inland",
+    "closed": [
+     [
+      "09-02",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "2 per day (salmon + sea trout combined)",
+    "notes": "Inland open 1 Jan-1 Sep, with December and autumn exceptions on named rivers (some need a fishing card)."
+   },
+   {
+    "species": "Sea trout (meriforell)",
+    "waters": "inland",
+    "closed": [
+     [
+      "09-02",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "2 per day (salmon + sea trout combined)",
+    "notes": null
+   },
+   {
+    "species": "Cod (tursk)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught."
+   },
+   {
+    "species": "Eel (angerjas)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   }
+  ],
+  "buy": "https://kalaluba.ee",
+  "authority": {
+   "name": "Keskkonnaamet (Environmental Board); Kliimaministeerium",
+   "url": "https://keskkonnaamet.ee/en/wildlife-nature-protection/fishing/closed-periods-and-locations-fishing-minimum-sizes"
+  },
+  "sources": [
+   "https://keskkonnaamet.ee/en/wildlife-nature-protection/fishing/closed-periods-and-locations-fishing-minimum-sizes",
+   "https://www.eesti.ee/en/artikkel/culture-leisure-and-hobbies/recreational-fishing-and-hunting/recreational-fishing-and-hunting",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "ES": {
+  "inland": {
+   "licence": "Inland fishing licence of the autonomous community (CCAA); some communities have interregional agreements",
+   "permit": "Controlled or preserved stretches (cotos, tramos) need an extra permit",
+   "visitors": "Foreigners buy the same CCAA licence",
+   "bans": "Seasons, sizes and limits set by each CCAA's yearly fishing order",
+   "boat": "Set by each CCAA and reservoir"
+  },
+  "sea": {
+   "licence": "CCAA recreational sea fishing licence (shore; boat licence issued per boat; underwater). In external waters RD 347/2011 applies on top",
+   "visitors": "Foreigners need the same CCAA licence",
+   "reporting": "PescaREC app (MAPA) compulsory since 20 Mar 2026: daily catch and release declarations within 24 h for species under differentiated protection (any waters) and EU-listed species (external waters); also requests for specific authorisations and bluefin pre-notices",
+   "bans": "Marine reserves (reservas marinas) need authorisation and a location device; keep 300 m from professional fishing boats (500 m when tuna fishing with rod), 148 m from their gear and 200 m from aquaculture; no transshipment of catch",
+   "boat": "Allowed gear: handline, rod, trolling (curricán), volantín, squid jig; max 2 electric reels per boat; no lights or attractants except chumming with small pelagics; spearfishing breath-hold only, no scuba on board, buoy within 25 m, not at night. Bluefin, albacore, bigeye, swordfish, marlins and sailfish need a specific state authorisation (via PescaREC)"
+  },
+  "seasons": [
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 42,
+    "bag": null,
+    "notes": "42 cm in the Cantábrico-Noroeste zone (RD 347/2011 Art. 4 bis); Mediterranean 25 cm (EU). CCAA bag limits apply."
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "max 1 per vessel per day (EU); retention only with state authorisation and under yearly rules",
+    "notes": "Annex II species: specific authorisation needed; EU minimum 30 kg/115 cm."
+   },
+   {
+    "species": "Swordfish (Xiphias gladius)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 100,
+    "bag": "max 1 per vessel per day",
+    "notes": "Mediterranean closure and size (EU); Annex II species needing authorisation."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "Mediterranean EU size; Atlantic sizes per RD 560/1995 (not re-checked)."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Mediterranean EU size; many CCAA restrict or ban recreational catch (not confirmed)."
+   },
+   {
+    "species": "All species (daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Daily catch limits per person and per boat are set by the state per zone and by each CCAA; not confirmed here."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Agriculture, Fisheries and Food (MAPA); autonomous communities",
+   "url": "https://www.mapa.gob.es/es/pesca/temas/pesca-maritima-de-recreo/"
+  },
+  "sources": [
+   "https://boe.es/buscar/pdf/2011/BOE-A-2011-6099-consolidado.pdf",
+   "https://www.boe.es/boe/dias/2026/11/09/pdfs/BOE-A-2026-23488.pdf",
+   "https://www.mapa.gob.es/va/pesca/temas/pesca-maritima-de-recreo/pesca-rec",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "FI": {
+  "inland": {
+   "licence": "Fisheries management fee (kalastonhoitomaksu, Metsähallitus/Eräluvat) for ages 18-69 when fishing with lures or traps (current Eräluvat; older sources say 18-64). Those who turned 65 by 31 Dec 2023 are exempt. Hook-and-line and ice fishing with one rod are free under general fishing rights. €100 fixed fine if unpaid.",
+   "permit": "The fee covers lure fishing with one rod and one lure in almost all still waters. Several rods (trolling) need a local lure-fishing joint permit (viehekalastuksen yhteislupa) or the water owner's permit. Not valid in rapids and running waters with migratory fish, in areas closed to fishing, or in Åland.",
+   "visitors": "Same: pay the fee online at eraluvat.fi, plus local permits for multi-rod trolling or rapids.",
+   "bans": "Local restrictions and closed areas: check kalastusrajoitus.fi (map).",
+   "boat": "Trolling with one rod is covered by the fee; multi-rod trolling needs a local permit (rod limits set by the permit)."
+  },
+  "sea": {
+   "licence": "Same as inland (fee for lure fishing, ages 18-69).",
+   "visitors": "Same.",
+   "reporting": "Finland uses a national system rather than RecFishing (EU Q&A); details not checked.",
+   "bans": "kalastusrajoitus.fi; EU Baltic measures.",
+   "boat": "Same as inland."
+  },
+  "seasons": [
+   {
+    "species": "Zander (kuha)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": 42,
+    "bag": null,
+    "notes": "National minimum; many areas set 45 cm (e.g. Helsinki 45 cm from 1 Apr 2026)."
+   },
+   {
+    "species": "Pike (hauki)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "No national minimum size or closed season; local rules may apply."
+   },
+   {
+    "species": "Salmon (lohi)",
+    "waters": "all",
+    "closed": [
+     [
+      "09-01",
+      "11-30"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "2 per day (national); EU Baltic 2026: 1 fin-clipped/day in most of SD 22-31",
+    "notes": "Closed season in rivers and streams only. 50 cm in the Bothnian Bay north of 63°30'N. EU 2026: max 1 adipose-fin-clipped (reared) salmon per angler per day in most of SD 22-31; wild salmon must be released. For 2027 the Commission proposed (COM(2026) 437) to allow recreational salmon fishing only north of 59°30'N within 4 nm, 1 May-31 Aug; press reports of the Oct 2026 Council say fishing for reared salmon stays allowed. Check the final 2027 text."
+   },
+   {
+    "species": "Sea trout, wild (taimen, adipose fin intact)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Fully protected in all sea areas, and inland south of 64°N (with exceptions). Fin-clipped trout: 50 cm. Rivers: closed 09-01 to 11-30."
+   },
+   {
+    "species": "Grayling (harjus)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "Fully protected in the Baltic Sea; inland south of 67°N closed 04-01 to 05-31, 35 cm (30 cm north of 67°N)."
+   },
+   {
+    "species": "Cod (turska)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught."
+   },
+   {
+    "species": "Eel (ankerias)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   }
+  ],
+  "buy": "https://www.eraluvat.fi",
+  "authority": {
+   "name": "Metsähallitus Eräluvat; Ministry of Agriculture and Forestry / ELY Centres",
+   "url": "https://www.eraluvat.fi/en/minimum-catch-sizes-and-protection-periods"
+  },
+  "sources": [
+   "https://www.eraluvat.fi/en/minimum-catch-sizes-and-protection-periods",
+   "https://www.eraluvat.fi/en/fisheries-management-fee",
+   "https://www.eraluvat.fi/en/frequently-asked-questions-about-fishing",
+   "https://www.hel.fi/en/culture-and-leisure/outdoor-activities-parks-and-nature-destinations/fishing/fishing-regulations",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "FR": {
+  "inland": {
+   "licence": "Carte de pêche: membership of an AAPPMA (approved angling association) plus the CPMA levy, sold by the departmental federations (FNPF network). Required on all free-flowing waters (eaux libres); not needed on private ponds with no link to the river network. Carry it, with a photo, while fishing.",
+   "permit": "The carte de pêche is the permit. Annual (majeure or interfédérale), weekly, daily or 'découverte' cards from cartedepeche.fr. On state-owned waters (domaine public fluvial) any AAPPMA card covers a single line. Some AAPPMA waters need a boat stamp (timbre bateau), including for float tubes and kayaks.",
+   "visitors": "Daily (journalière) or weekly (hebdomadaire) carte from cartedepeche.fr.",
+   "bans": "No fishing from dams, weirs (chaussées) or locks, nor for 50 m downstream of them, except with a single line (as stated in the Loire-Atlantique 2026 federation leaflet). Prefectoral orders add local reserves.",
+   "boat": "2nd category: up to 4 lines, kept close to the angler. 1st category: 1 line. Timbre bateau needed on some lots; navigation and motor rules vary by water."
+  },
+  "sea": {
+   "licence": "None.",
+   "visitors": "Same; RecFishing registration is required for the target species.",
+   "reporting": "RecFishing has been mandatory since 12 Feb 2026 (2026 is presented as a year of support for anglers). Channel/North Sea/Atlantic: all anglers aged 16+ targeting bass, pollack (lieu jaune), black-spot seabream (dorade rose) or mackerel must register and report each catch within 24 h, including fish released. Mediterranean: anglers 16+ must register and report dorade rose and dolphinfish. Use Catchmachine instead in the Calanques, Golfe du Lion and Cap Corse marine parks. Fines are possible.",
+   "bans": "Marine national parks and no-take zones (Calanques, Port-Cros etc.); prefectoral orders.",
+   "boat": "Gear limits per national rules (not detailed here); tail-clip marking of some species (not confirmed in detail)."
+  },
+  "seasons": [
+   {
+    "species": "Pike (brochet)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-26",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "3 predators per day (pike, zander, black-bass), of which max 2 pike",
+    "notes": "2nd-category waters: closed from the day after the last Sunday of January to the last Saturday of April (the range covers every year). Zander caught during the closure must be released. Many departments are stricter (e.g. Eure: 1 pike; Loire-Atlantique: 60-80 cm slot on some lakes). 1st category: open only from the last Saturday of April to the 3rd Sunday of September."
+   },
+   {
+    "species": "Zander (sandre)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-26",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "within the 3 predators/day",
+    "notes": "2nd category: closed in step with the pike closure (local variations). The 50 cm size is from the Loire-Atlantique 2026 leaflet."
+   },
+   {
+    "species": "Black-bass",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 40,
+    "bag": "within the 3 predators/day",
+    "notes": "Loire-Atlantique 2026 leaflet; closures vary."
+   },
+   {
+    "species": "Brown trout (truite fario)",
+    "waters": "inland",
+    "closed": [
+     [
+      "09-22",
+      "03-13"
+     ]
+    ],
+    "minSizeCm": 23,
+    "bag": null,
+    "notes": "1st category: open from the 2nd Saturday of March to the 3rd Sunday of September (the range covers every year). Local quotas, e.g. 3-6 trout/day in Loire-Atlantique."
+   },
+   {
+    "species": "Eel (anguille)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027. Freshwater eel periods are set nationally; the Loire-Atlantique leaflet mentions a planned recreational moratorium. Not confirmed."
+   },
+   {
+    "species": "Sea bass (bar)",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "3 per day",
+    "notes": "Channel, North Sea and Atlantic north of 48°N (ICES 4b/4c/7). Reg. (EU) 2026/249 Art. 10(5), ICES 4b, 4c, 6a, 7a-k: catch-and-release only 1 Feb-31 Mar 2026; otherwise max 3 bass/angler/day, min 42 cm, no fixed nets. Biscay (8a, 8b): max 2/day all year (Art. 11). The 2027 bass rule is set separately (not yet published). Bay of Biscay: 2/day all year."
+   },
+   {
+    "species": "Pollack (lieu jaune)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "2 per day",
+    "notes": "Bay of Biscay (ICES 8): 42 cm, 2/day, no retention 1 Jan-30 Apr (Reg. 2026/249 Art. 13). Channel/Celtic (ICES 7): 3/day, with no closed season (Art. 12)."
+   }
+  ],
+  "buy": "https://www.cartedepeche.fr",
+  "authority": {
+   "name": "DGAMPA / Ministère de la Mer (sea); Ministère de la Transition écologique, OFB and departmental fishing federations (freshwater)",
+   "url": "https://www.mer.gouv.fr/peche-de-loisir-en-mer"
+  },
+  "sources": [
+   "https://www.mer.gouv.fr/sites/default/files/2026-09/25048_peche-loisir-flyer_web-1.pdf",
+   "https://www.ecologie.gouv.fr/politiques-publiques/peche-eau-douce",
+   "https://www.federationpeche44.fr/wp-content/uploads/2022/01/2025_11_17-depliant-2026.pdf",
+   "https://www.eure.gouv.fr/contenu/telechargement/52188/384709/file/Affiche%20PECHE2024_modifi%C3%A9e.pdf",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "GB": {
+  "inland": {
+   "licence": "England and Wales: Environment Agency rod fishing licence from age 13 (buy at gov.uk/fishing-licences; NRW rules in Wales). Scotland: no rod licence, except the Border Esk region, which needs an England and Wales licence. Northern Ireland: DAERA or Loughs Agency rod licence (a GB licence is not valid).",
+   "permit": "Permission from the owner or fishery (club ticket, day ticket). NI: rod licence plus a permit or day ticket.",
+   "visitors": "Same as residents: buy the EA licence online, get the owner's permission or ticket, and in NI the DAERA/Loughs Agency licence plus permit.",
+   "bans": "Local EA byelaws set areas where fishing is not allowed and tackle rules; foul-hooked fish must be released.",
+   "boat": "Rods and methods are set by byelaws and fishery rules (not detailed here)."
+  },
+  "sea": {
+   "licence": "None for sea angling.",
+   "visitors": "Same.",
+   "reporting": "None (the UK is not in the EU, so RecFishing does not apply).",
+   "bans": "IFCA byelaws in England (local minimum sizes and closed areas); MPAs; protected wrecks.",
+   "boat": "Not detailed here."
+  },
+  "seasons": [
+   {
+    "species": "Coarse fish incl. pike, zander, perch (England & Wales)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-15",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": "Rivers: 1 pike (up to 65 cm), 15 small fish (up to 20 cm), 2 grayling (30-38 cm) per day",
+    "notes": "Coarse close season on rivers 15 Mar-15 Jun; most stillwaters and canals are open all year (check local byelaws). Pike 65 cm is a maximum size for taking. Scotland and NI: no national coarse close season."
+   },
+   {
+    "species": "Eel (England & Wales)",
+    "waters": "all",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "All eels (except conger) must be released alive, including in coastal waters."
+   },
+   {
+    "species": "Salmon and sea trout",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Close seasons and catch-and-release rules are set per river by local byelaws (e.g. all salmon must be released on the Thames, Medway, Severn, Trent and others). Selling rod-caught salmon or sea trout is illegal."
+   },
+   {
+    "species": "Sea bass",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "3 per day",
+    "notes": "Sea Fisheries (Amendment) Regulations 2026: catch-and-release only 1 Feb-31 Mar; 3/day otherwise; boat and shore."
+   }
+  ],
+  "buy": "https://www.gov.uk/fishing-licences",
+  "authority": {
+   "name": "Environment Agency (England); Natural Resources Wales; Marine Directorate (Scotland); DAERA (NI)",
+   "url": "https://www.gov.uk/freshwater-rod-fishing-rules"
+  },
+  "sources": [
+   "https://www.gov.uk/freshwater-rod-fishing-rules",
+   "https://www.gov.uk/freshwater-rod-fishing-rules/when-and-where-you-can-fish",
+   "https://www.gov.uk/freshwater-rod-fishing-rules/fish-size-and-catch-limits",
+   "https://www.gov.uk/fishing-licences/fishing-in-scotland-and-northern-ireland",
+   "https://www.nidirect.gov.uk/articles/angling-rod-licence-and-permit-regulations-rules",
+   "https://www.eastern-ifca.gov.uk/?p=10801"
+  ],
+  "checked": "2026-11-21"
+ },
+ "GR": {
+  "inland": null,
+  "sea": {
+   "licence": "No licence needed now: individual and boat recreational fishing licences were abolished by Law 4256/2014. A register of recreational fishers and boats has been announced repeatedly (2024, bill of Sept 2025 with free registration to 31 Dec 2026), but the fisheries bill passed on 25 Sep 2026 covered professional fishing only and the government said recreational fishing will get a separate later law. Check before 2027",
+   "visitors": "Only Greek-flagged vessels may fish recreationally in Greek territorial waters (Decree-Law 420/1970 Art. 32 and EU Reg. 1380/2013 Art. 5); foreign-flagged yachts may not fish",
+   "reporting": "EU RecFishing obligation since 10 Jan 2026 for EU-listed species; Greek implementation not confirmed",
+   "bans": "Port authority (Hellenic Coast Guard) local rules; no longlines from the shore; no remote-controlled hook throwing; spearfishing minimum age 16",
+   "boat": "Bluefin tuna and swordfish only by professional vessels with a special permit: live bluefin caught by amateurs must be released at once; a dead one must be reported to the port authority"
+  },
+  "seasons": [
+   {
+    "species": "All species (daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg of fish or cephalopods per 24 h (10 kg with longlines), not counting a single heavier fish",
+    "notes": "Coast Guard FAQ."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": "1 per day",
+    "notes": "Coast Guard FAQ; size EU Reg. 1967/2006."
+   },
+   {
+    "species": "Octopus",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "only octopus over 750 g",
+    "notes": null
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "0 for recreational fishers (release alive)",
+    "notes": "Coast Guard FAQ."
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "EU Reg. 1967/2006 Annex III."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "EU Reg. 1967/2006 Annex III."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Hellenic Coast Guard (fisheries) / Ministry of Rural Development and Food",
+   "url": "https://alieia.hcg.gr/faq/faq_eng.php"
+  },
+  "sources": [
+   "https://alieia.hcg.gr/faq/faq_eng.php",
+   "https://www.odigostoupoliti.eu/epanaferetai-erasitechniki-adeia-alieias/",
+   "https://www.boatfishing.gr/neo-nomoschedio-fernei-mitroo-erasitexnon-alieon-kai-skafon-erasitexnikis-alieias-aystira-prostima-kai-katasxeseis/",
+   "https://www.enikos.gr/politics/vouli-yperpsifistike-kata-pleiopsifia-to-nomoschedio-gia-ton-alieftiko-kodika-ti-katethesan-oi-armodioi-foreis/2647853/",
+   "https://www.makedonikanea.gr/politiki/boyli-yperpsifistike-o-alieytikos-kodikas-kai-arthro-74-shoinas-kanenas-den-amnisteyetai",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain"
+  ],
+  "checked": "2026-11-21"
+ },
+ "HR": {
+  "inland": {
+   "licence": "Sport fishing licence (dozvola za sportski ribolov) issued by the Ministry through the 132 fishing-rights holders (clubs/associations listed by the Croatian Sport Fishing Association, HSRS)",
+   "permit": "The licence is valid in the holder's zone (and other zones with reciprocal agreements); daily (€7.96, salmonids €19.91) or annual",
+   "visitors": "Foreigners pay the same fees as Croatians",
+   "bans": "Up to 3 rods each with 1 hook; salmonid waters single rod, artificial lure/fly, no natural bait; catch must be logged before leaving; closed seasons and sizes in the freshwater rules (not confirmed here)",
+   "boat": "From a boat for wels: 1 bućkalo, 1 rod or 1 line with 1 hook"
+  },
+  "sea": {
+   "licence": "Sea licence from the Ministry of Agriculture, Forestry and Fisheries, needed from shore and boat: 1, 3 or 7 days (€10/€25/€45 from 1 Jun 2026), 150-day or annual (annual sold 1 Dec-1 Mar); recreational or sport type; online with serial number by e-mail. Special add-on permits for longline, pots, spear, light and big-game tackle",
+   "visitors": "Foreigners buy the same licences with passport/ID number; under 14 no licence for one handline",
+   "reporting": "National mRecFish app: dolphinfish (lampuga) logs from 15 Aug 2026; daily logs for 1/3/7-day and adult annual/150-day licences from 1 Jan 2027 (within 24 h); trophy bluefin via mTunaRek; tail-fin clipping of kept sea bream, bass, grouper, dolphinfish etc.",
+   "bans": "National parks, nature parks and special reserves need special permits and may be closed (e.g. Mali Ždrelac per local rules); zones with special management regimes; no sale of catch; no scuba for collecting; squid jigging with light banned 1 Mar-30 Sep",
+   "boat": "Max 2 handlines, 2 kančenica, 2 trolling lines (panula), 2 squid jigs (3 lures each); big-game: max 2 rods ≥30 lb with special permit, circle non-stainless hooks; no towing divers or underwater scooters; no motor to move the boat while spearfishing; electric reels up to 800 W"
+  },
+  "seasons": [
+   {
+    "species": "All species (sea daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg per person per day (Law on Marine Fisheries; confirmed only by secondary sources)",
+    "notes": "Shellfish 2 kg (mussels 5 kg)."
+   },
+   {
+    "species": "Groupers (Epinephelus, Polyprion, Mycteroperca)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": "1 per day in total",
+    "notes": "NN 48/2026 Art. 11(4); minimum size from EU Reg. 1967/2006."
+   },
+   {
+    "species": "Octopus",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "2 per day",
+    "notes": "NN 48/2026."
+   },
+   {
+    "species": "Sharks and rays",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "0 (protected list)",
+    "notes": "NN 48/2026 Table 3."
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "only under trophy-fishing rules or quota competitions (1 per vessel per day in competitions)",
+    "notes": "EU minimum 30 kg/115 cm; big-game permit needed; report trophy catches in mTunaRek."
+   },
+   {
+    "species": "Swordfish (Xiphias gladius)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "0 (on the prohibited list for recreational fishing)",
+    "notes": "NN 48/2026 Table 3."
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "EU Reg. 1967/2006 Annex III."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "EU Reg. 1967/2006 Annex III."
+   },
+   {
+    "species": "Dentex (Dentex dentex)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Not in EU Annex III; national size not confirmed."
+   }
+  ],
+  "buy": "https://ribarstvo.mps.hr",
+  "authority": {
+   "name": "Ministry of Agriculture, Forestry and Fisheries, Directorate of Fisheries",
+   "url": "https://ribarstvo.mps.hr"
+  },
+  "sources": [
+   "https://www.gov.hr/en/marine-recreational-and-sport-fisheries/1542",
+   "https://narodne-novine.nn.hr/clanci/sluzbeni/2026_05_48_592.html",
+   "https://www.zakon.hr/c/podzakonski-propis/956909/nn-48-2026-%288.5.2026.%29%2C-pravilnik-o-sportskom-i-rekreacijskom-ribolovu-na-moru",
+   "https://gov.hr/default.aspx?id=1553",
+   "https://www.zakon.hr/c/podzakonski-propis/43031/pravilnik-o-sportskom-ribolovu-u-slatkovodnom-ribarstvu---procisceni-tekst",
+   "https://eurofish.dk/?p=2068",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "HU": {
+  "inland": {
+   "licence": "Állami horgászjegy (state fishing card, needs the state exam) or turista állami horgászjegy for tourists; fees set in decree 133/2013 VM",
+   "permit": "Területi jegy (area ticket) from the water's manager (MOHOSZ national/regional tickets or local clubs); Balaton has its own rules",
+   "visitors": "Tourist state fishing card (no exam) plus an area ticket, both sold online at horgaszjegy.hu; tourists have lower annual limits",
+   "bans": "Closed seasons, size range and daily limits in decree 133/2013 VM Annex 9; local rules can be stricter (e.g. Balaton zander 35 cm)",
+   "boat": "Boat fishing and number of rods set in national and local fishing rules (horgászrend); not confirmed in detail"
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Pike (csuka)",
+    "waters": "inland",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": "3 per day",
+    "notes": "Decree 133/2013 VM Annex 9."
+   },
+   {
+    "species": "Zander (süllő)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 30,
+    "bag": "3 per day",
+    "notes": "Balaton: 35 cm."
+   },
+   {
+    "species": "Perch (sügér)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 15,
+    "bag": "3 kg per day",
+    "notes": null
+   },
+   {
+    "species": "Carp (ponty)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-02",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 30,
+    "bag": "3 per day",
+    "notes": "Waters stocked with ≥100 kg/ha/year can get an exemption from the closed season."
+   },
+   {
+    "species": "Catfish (harcsa)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-02",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "3 per day",
+    "notes": null
+   },
+   {
+    "species": "Brown trout (sebes pisztráng)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 22,
+    "bag": "3 per day",
+    "notes": null
+   }
+  ],
+  "buy": "https://www.horgaszjegy.hu",
+  "authority": {
+   "name": "Ministry of Agriculture / MOHOSZ (Hungarian National Anglers' Association)",
+   "url": "https://www.mohosz.hu"
+  },
+  "sources": [
+   "https://njt.jog.gov.hu/jogszabaly/2013-133-20-2Y",
+   "https://www.penzcentrum.hu/hellovidek/20251211/horgaszok-figyelem-tobb-szabaly-is-valtozik-ezen-a-duna-agon-2026-ban-de-a-jegyarakrol-is-szo-esett-1190249/amp"
+  ],
+  "checked": "2026-11-21"
+ },
+ "IE": {
+  "inland": {
+   "licence": "State licence from Inland Fisheries Ireland (IFI) only for salmon and sea trout (over 40 cm), 1 day to 1 year, online or from distributors. No licence for pike, coarse fish or brown trout.",
+   "permit": "Fishery owner's or club permit where the fishing is private; many pike and coarse waters are free. Salmon fisheries: owner's permit plus licence; 72 rivers open for salmon angling in 2026.",
+   "visitors": "Same as residents: salmon/sea trout licence online if targeting them, plus local permits.",
+   "bans": "River-specific salmon status (open, catch-and-release, closed) set by annual bye-laws.",
+   "boat": "Not detailed here."
+  },
+  "sea": {
+   "licence": "None.",
+   "visitors": "Same.",
+   "reporting": "Ireland is listed as a RecFishing-app country; EU Control Reg. 2023/2842 Art. 55: since 10 Jan 2026 recreational sea anglers targeting species under EU recreational measures must register and report catches electronically. (Irish rollout details not checked.)",
+   "bans": "Not detailed here.",
+   "boat": "Not detailed here."
+  },
+  "seasons": [
+   {
+    "species": "Pike",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "1 per day",
+    "notes": "Pike Bye-law No. 809 of 2006: bag limit 1 pike/day and no killing of pike over 50 cm (an upper limit, per the 2011 IFI leaflet; check it is unchanged). Coarse fish: 4/day, none over 25 cm killed."
+   },
+   {
+    "species": "Sea bass",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ],
+     [
+      "05-15",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "2 per day",
+    "notes": "National Bass Bye-law No. 826 of 2007: no rod fishing for bass 15 May-15 Jun; 2 bass per 24 h (IFI 2015); national minimum 40 cm. The stricter EU 2026 rules also apply (ICES 7: catch-and-release 1 Feb-31 Mar, 42 cm)."
+   },
+   {
+    "species": "Pollack",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "3 per day",
+    "notes": "IFI 2026 bye-law giving effect to Reg. (EU) 2026/249 (ICES 6 and 7), in force from 1 Jun 2026."
+   },
+   {
+    "species": "Eel",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   },
+   {
+    "species": "Salmon and sea trout",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Seasons, bag limits and catch-and-release are set per river by the annual Inland Fisheries Bye-laws."
+   }
+  ],
+  "buy": "https://www.gov.ie/en/service/buy-a-salmon-fishing-licence",
+  "authority": {
+   "name": "Inland Fisheries Ireland",
+   "url": "https://www.fisheriesireland.ie"
+  },
+  "sources": [
+   "https://www.fisheriesireland.ie/sites/default/files/migrated/docman/Pike%20Conservation%20April%202011.pdf",
+   "https://www.irishstatutebook.ie/eli/2007/si/368",
+   "https://www.fisheriesireland.ie/news/media-releases/inland-fisheries-ireland-confirms-two-bass-daily-bag-limit",
+   "https://www.fisheriesireland.ie/news/media-releases/conservation-measures-introduced-for-recreational-fishing-of-pollack",
+   "https://www.gov.ie/en/department-of-climate-energy-and-the-environment/press-releases/72-rivers-open-for-salmon-angling-in-2026",
+   "https://www.oireachtas.ie/en/debates/question/2021-01-27/31/",
+   "https://www.gov.ie/en/service/buy-a-salmon-fishing-licence",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "IS": {
+  "inland": {
+   "licence": "No national licence.",
+   "permit": "Every river and lake is privately controlled. Buy permits from the fishing rights holders: salmon rivers are often leased to fishing clubs or tour operators, and the Veiðikortið card covers dozens of lakes. Seasons, methods and catch rules are set per water (e.g. Þingvallavatn 20 Apr-15 Sep).",
+   "visitors": "Same; gear used abroad must be disinfected before use (service at Keflavík airport, or a vet certificate).",
+   "bans": "Per water.",
+   "boat": "Per water."
+  },
+  "sea": {
+   "licence": "Sea angling for your own consumption only (rod or hand reel, no automatic jigger). Commercial sea-angling tourism needs a tour operator licence and catch reporting.",
+   "visitors": "Usually via licensed sea-angling tour operators.",
+   "reporting": "Tour operators report catches monthly; no individual app (not in the EU).",
+   "bans": "Salmon and trout may not be caught at sea.",
+   "boat": "Rods and hand reels only."
+  },
+  "seasons": [
+   {
+    "species": "Salmon and sea trout (lax, sjóbirtingur)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "No catching of salmon or trout at sea; river seasons are set per river."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Fiskistofa (Directorate of Fisheries)",
+   "url": "https://island.is/en/o/directorate-of-fisheries"
+  },
+  "sources": [
+   "https://island.is/en/angling",
+   "https://island.is/en/permits-to-fish",
+   "https://island.is/en/o/directorate-of-fisheries/announcements/special-fishing-permits-2026-2027-17-8-2026",
+   "https://www.mast.is/en/moya/adverts/198",
+   "https://www.thingvellir.is/en/things-to-do/angling/"
+  ],
+  "checked": "2026-11-21"
+ },
+ "IT": {
+  "inland": {
+   "licence": "Regional fishing licence (licenza di pesca, usually type B for recreational anglers), rules and fees set by each region",
+   "permit": "Some waters (private, club, no-kill or concession waters) need an extra permit",
+   "visitors": "Foreigners buy the regional licence or a short-term licence where the region offers one",
+   "bans": "Closed seasons, sizes and bag limits are regional; not summarised here",
+   "boat": "Regional"
+  },
+  "sea": {
+   "licence": "No paid licence, but a free communication (tesserino) to MASAF is compulsory before fishing at sea, filed online on the SIAN portal (SPID, CIE or CNS) or at the maritime authority",
+   "visitors": "Same communication required (filing needs Italian digital ID or the maritime authority office; practical route for foreigners not confirmed)",
+   "reporting": "EU RecFishing since 10 Jan 2026 for bluefin tuna, swordfish, albacore and dolphinfish; applies to anglers aged 16+ fishing from a boat or underwater, not to shore rod anglers (secondary source)",
+   "bans": "No sport fishing within 500 m of professional fishing vessels at work; spearfishing banned within 500 m of bathing beaches, 100 m of fixed nets and anchored ships, in fairways and from sunset to sunrise; marine protected areas (AMP zones A/B/C) have own rules",
+   "boat": "Max 5 rods per angler; fixed lines max 3 hooks per rod; longlines max 200 hooks per boat whatever the number aboard; max 2 pots per boat; no lights except a spearfishing torch; only recreational craft; spearfishing breath-hold only, float with red-white flag visible 300 m, stay within 50 m"
+  },
+  "seasons": [
+   {
+    "species": "All species (sea daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg per person per day of fish, molluscs and crustaceans, except a single heavier fish",
+    "notes": "DPR 1639/1968 Art. 142."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": "1 grouper per day",
+    "notes": "DPR 1639/1968 Art. 142; size EU Reg. 1967/2006."
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "max 1 bluefin per vessel per day (EU rule); sale banned",
+    "notes": "EU Reg. 2023/2053: minimum 30 kg or 115 cm fork length; recreational vessels need a national authorisation; release live fish where possible. Italy: bluefin needs a MASAF recreational authorisation; the season closes when the recreational quota is used (in 2024 MASAF closed it at 90% of the quota)."
+   },
+   {
+    "species": "Swordfish (Xiphias gladius)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 100,
+    "bag": "max 1 swordfish per vessel per day; sale banned",
+    "notes": "Mediterranean: closed 1 Jan-31 Mar; minimum 100 cm lower-jaw fork length or 11.4 kg (EU Reg. 2019/1154 and Del. Reg. 2018/191, from ICCAT Rec. 16-05)."
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III); national bag limits may be stricter."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Agriculture, Food Sovereignty and Forestry (MASAF); regions for inland waters",
+   "url": "https://www.masaf.gov.it"
+  },
+  "sources": [
+   "https://www.edizionieuropee.it/law/html/3/zn16_01_020.html",
+   "https://faolex.fao.org/docs/pdf/ita101339.pdf",
+   "https://www.fipsas.it/images/doc/federazione/decreti_ministeriali/MASAF-2024-0347930-BFT2024Chiusuirapescasportiva_ricreativa_signed.pdf",
+   "https://etruria.fishing/en/blog/permesso-per-pesca-in-mare",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf",
+   "https://eur-lex.europa.eu/eli/reg_del/2018/191/oj/eng"
+  ],
+  "checked": "2026-11-21"
+ },
+ "LT": {
+  "inland": {
+   "licence": "Recreational fishing permit (mėgėjų žvejybos leidimas), bought online via the ALIS system (alis.am.lt), at Maxima tills, Perlas terminals or by SMS. Online purchase needs a Lithuanian payment institution.",
+   "permit": "Leased state waters need the lessee's permit; limited-fishing waters need an amateur fisherman's card (ALIS or Perlas).",
+   "visitors": "Same permit (ALIS, shops, terminals).",
+   "bans": "Some areas closed year-round (e.g. Curonian Lagoon within 1 km of shore between the Atmata and Skirvytė rivers); not fully checked.",
+   "boat": "Not confirmed."
+  },
+  "sea": {
+   "licence": "Permit required per the official AAD table; an older (2018) report said none in public sea waters. Not confirmed.",
+   "visitors": "Not confirmed.",
+   "reporting": "Lithuania uses a national system (EU Q&A); details not checked.",
+   "bans": "Not checked.",
+   "boat": "Not checked."
+  },
+  "seasons": [
+   {
+    "species": "Pike (lydeka)",
+    "waters": "inland",
+    "closed": [
+     [
+      "02-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": "2 per day (AAD table); total catch max 5 kg (7 kg Curonian Lagoon)",
+    "notes": "AAD table: slot 50-80 cm. A ministry order (D1-79, from 14 May 2026) reportedly sets 1 pike and 1 zander per fishing trip with a 65 cm size. Sources disagree; check the consolidated rules on e-TAR."
+   },
+   {
+    "species": "Zander (sterkas)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": "2 per day (AAD table)",
+    "notes": "AAD table: slot 50-65 cm (65-90 cm protected on some waters). The 2026 amendment is unclear (see pike)."
+   },
+   {
+    "species": "Cod (menkė)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught."
+   },
+   {
+    "species": "Eel (ungurys)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   }
+  ],
+  "buy": "https://alis.am.lt",
+  "authority": {
+   "name": "Aplinkos apsaugos departamentas (Environmental Protection Department)",
+   "url": "https://aad.lrv.lt/en/memos-on-environmental-requirements/fishing/"
+  },
+  "sources": [
+   "https://aad.lrv.lt/en/memos-on-environmental-requirements/fishing/fishing-periods-permitted-quantities-and-sizes-of-fish-etc/",
+   "https://aad.lrv.lt/en/memos-on-environmental-requirements/fishing/recreational-fishing-permits/",
+   "https://am.lrv.lt/lt/naujienos/isigalioja-megeju-zvejybos-vidaus-vandenyse-taisykliu-svarbus-pakeitimai-0hMm/",
+   "https://siluteinfo.lt/en/leisure/fishing/",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "LU": {
+  "inland": {
+   "licence": "Permis de pêche, required from age 14 and issued online via MyGuichet.lu (PDF) or at Administration de l'enregistrement offices. Inland waters: permis ordinaire €18/year or €4/month for 2nd-category (leased) waters, which also needs the lessee's authorisation; permis spécial A €30/€6 (bank, Upper Sûre lake and the Sûre); permis spécial B €40/€8 (adds boat fishing). Border waters with Germany (Moselle, Sûre, Our): category A €15/year, €10/month, €5/week (bank); category B €40/€25/€10 (boat on the Moselle and Sûre).",
+   "permit": "2nd-category (leased) waters: authorisation of the fishing lessee. Vianden reservoir: permit from SEO; tourist permit at Vianden.",
+   "visitors": "Same permits; monthly or weekly 'permis touristique' available.",
+   "bans": "Border waters: no fishing below and above the Rosport-Ralingen dam (Sûre) or near the Palzem-Stadtbredimus and Grevenmacher-Wellen locks (signs). Not from islands, bridges, lock or dam structures, footbridges or landing stages. No night fishing (Nov-Mar 19:00-07:00, Apr-Oct 23:00-05:00). Upper Sûre lake: only in protection zone II.",
+   "boat": "Boat fishing only with the category B or permis spécial B. Moselle: 2 hand lines; Sûre and Our: 1. Upper Sûre lake: max 2 lines, 1 hook."
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Pike (brochet)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "1 per day",
+    "notes": "Inland waters and Moselle/Sûre border waters (closure read from the chart in the 2019 government overview). Border waters also have a general closure for all fishing, roughly March to 15 June. Upper Sûre lake: 2 pike or 2 zander, or 1 of each, per day."
+   },
+   {
+    "species": "Zander (sandre)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": "1 per day (pike or zander, Middle Sûre)",
+    "notes": "Inland and border waters, from the 2019 overview chart."
+   },
+   {
+    "species": "Eel (anguille)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "02-28"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": null,
+    "notes": "Inland waters (from the chart)."
+   },
+   {
+    "species": "Brown trout (truite de rivière)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "03-15"
+     ],
+     [
+      "10-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 25,
+    "bag": "3 salmonids per day",
+    "notes": "Dates read approximately from the chart. Minimum 20 cm in leased waters, 25 cm in public waters, 30 cm in the Upper Sûre lake. Salmon and sea trout fully protected."
+   }
+  ],
+  "buy": "https://www.myguichet.lu",
+  "authority": {
+   "name": "Administration de la gestion de l'eau – Service Biologie et Pêche",
+   "url": "https://eau.gouvernement.lu"
+  },
+  "sources": [
+   "https://eau.gouvernement.lu/dam-assets/publications/p%C3%AAche/Apercu-Eaux-front-F-2016.pdf",
+   "https://eau.gouvernement.lu/dam-assets/publications/p%C3%AAche/Apercu-Eaux-int-F-2016.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "LV": {
+  "inland": {
+   "licence": "Makšķerēšanas, vēžošanas un zemūdens medību karte (state angling card) for ages 16-65; people with disabilities exempt. Paper or bought online; carry ID.",
+   "permit": "Licensed waters (licencētā makšķerēšana) need a special licence; e.g. Salaca along its whole length, and set stretches below the Aiviekste, Brasla and Daugava hydropower dams.",
+   "visitors": "Same card (online) plus a licence on licensed waters.",
+   "bans": "No fishing within 100 m downstream of waterfalls, weirs, dams, locks and embankments; none from or under bridges; keep 50 m from marked commercial gear and fish passes. River mouths: all fishing banned within 2000 m (Venta), 1000 m (Daugava, Salaca, Gauja, Lielupe) or 200 m (other rivers) at sea, and 200 m upstream (exceptions for some moles). No anchoring or fishing from boats in marked fairways.",
+   "boat": "All fishing from boats banned 1 Mar-30 Apr in all waters except the Baltic Sea and Gulf of Riga. Inland: max 2 rods per person, max 3 hooks each."
+  },
+  "sea": {
+   "licence": "Same state card.",
+   "visitors": "Same.",
+   "reporting": "National system: since 10 Jan 2026 register and report catches of certain species from Baltic and Gulf of Riga coastal waters at www.makskeresanaskarte.lv (MK reg. 800, point 11.5, under Art. 55(3) of the control regulation).",
+   "bans": "River-mouth zones as above.",
+   "boat": "Coast: max 3 rods; unlimited rods at least 2 nm offshore (max 3 hooks each)."
+  },
+  "seasons": [
+   {
+    "species": "Pike (līdaka)",
+    "waters": "all",
+    "closed": [
+     [
+      "03-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "5 per day (max 1 over 75 cm)",
+    "notes": "Municipalities may extend closures by up to 10 days or lower bag limits."
+   },
+   {
+    "species": "Zander (zandarts)",
+    "waters": "all",
+    "closed": [
+     [
+      "04-16",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": "5 per day (max 1 over 75 cm)",
+    "notes": null
+   },
+   {
+    "species": "Asp (salate)",
+    "waters": "all",
+    "closed": [
+     [
+      "03-01",
+      "05-15"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": "3 per day",
+    "notes": null
+   },
+   {
+    "species": "Perch (asaris)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg inland, 10 kg sea",
+    "notes": "19 cm minimum for perch caught in the Baltic (per the regulation text)."
+   },
+   {
+    "species": "Salmon (lasis)",
+    "waters": "sea",
+    "closed": [
+     [
+      "10-01",
+      "11-15"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "1 per day",
+    "notes": "Inland: retention banned all year except the Buļļupe, Sausā Daugava, Daugava and licensed waters. Exception zone in the Gulf of Riga from Vecāķi to Vaivari. EU 2026: max 1 adipose-fin-clipped (reared) salmon per angler per day in most of SD 22-31; wild salmon must be released. For 2027 the Commission proposed (COM(2026) 437) to allow recreational salmon fishing only north of 59°30'N within 4 nm, 1 May-31 Aug; press reports of the Oct 2026 Council say fishing for reared salmon stays allowed. Check the final 2027 text."
+   },
+   {
+    "species": "Sea trout (taimiņš)",
+    "waters": "sea",
+    "closed": [
+     [
+      "10-01",
+      "11-15"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "1 per day",
+    "notes": null
+   },
+   {
+    "species": "Eel (zutis)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": 50,
+    "bag": "1 per day (3 in listed lakes)",
+    "notes": null
+   },
+   {
+    "species": "Eel (zutis)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   },
+   {
+    "species": "Wels catfish (sams)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": 60,
+    "bag": "3 per day",
+    "notes": null
+   },
+   {
+    "species": "Cod (menca)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "National rule: 35 cm, 5/day, but the EU ban applies. EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught."
+   }
+  ],
+  "buy": "https://www.makskeresanaskarte.lv",
+  "authority": {
+   "name": "Zemkopības ministrija; Valsts vides dienests (control)",
+   "url": "https://likumi.lv/ta/id/279205-makskeresanas-vezosanas-un-zemudens-medibu-noteikumi"
+  },
+  "sources": [
+   "https://likumi.lv/ta/id/279205-makskeresanas-vezosanas-un-zemudens-medibu-noteikumi",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "MC": {
+  "inland": null,
+  "sea": {
+   "licence": "No fishing licence, but a compulsory annual line-fishing declaration (Déclaration annuelle de pêche à la ligne, since 2025) from the Department of Maritime Affairs (marine@gouv.mc or in person); shore activity can be declared on monguichet.mc. Spearfishing: prior declaration with medical certificate and insurance or licence",
+   "visitors": "Same declaration; non-professionals on boats with a home port outside Monaco have gear restrictions (Code de la mer Art. O.244-22)",
+   "reporting": "Not confirmed",
+   "bans": "Only in authorised areas (chart given with the declaration; FMPS map carte.fmps.mc); Solarium area closed 1 May-31 Oct except 21:00-06:00; no sale of catch; explosives, poisons etc. banned",
+   "boat": "Gear limits not confirmed"
+  },
+  "seasons": [
+   {
+    "species": "All species (general)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 12,
+    "bag": null,
+    "notes": "Under 12 cm illegal unless the species' adult size is smaller; other species-specific sizes (FMPS list)."
+   },
+   {
+    "species": "Dusky grouper, brown meagre, shi drum",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "0 (protected)",
+    "notes": "OS 10.981 of 12 Dec 2024 list."
+   },
+   {
+    "species": "Lobsters and spiny lobsters",
+    "waters": "sea",
+    "closed": [
+     [
+      "08-15",
+      "02-15"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Egg-bearing females always released."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Département des Affaires Maritimes",
+   "url": "https://monservicepublic.gouv.mc/en/news/action-against-illegal-fishing-a-compulsory-annual-declaration-for-angling-comes-into-force"
+  },
+  "sources": [
+   "https://monservicepublic.gouv.mc/en/news/action-against-illegal-fishing-a-compulsory-annual-declaration-for-angling-comes-into-force",
+   "https://monaco-tribune.com/en/2024/03/fishing-in-monaco-regulations-are-complex",
+   "https://www.gouv.mc/en/news/a-new-online-service-on-monguichet.mc-for-declaring-shore-based-recreational-fishing-activities",
+   "https://leap.unep.org/en/countries/mc/national-legislation/ordonnance-souveraine-ndeg-10981-du-12-decembre-2024-modifiant-la"
+  ],
+  "checked": "2026-11-21"
+ },
+ "ME": {
+  "inland": {
+   "licence": "Freshwater sport-recreational permit (daily, monthly, annual) for the named fishing water",
+   "permit": "Issued by the water's user/club; Skadar Lake is a national park with its own permits (not confirmed)",
+   "visitors": "Not confirmed",
+   "bans": "Not confirmed",
+   "boat": "Not confirmed"
+  },
+  "sea": {
+   "licence": "Sea sport-recreational permit (Pravilnik of 9 Jun 2026 under the Law on Marine Fisheries 69/25): daily €5, daily big-game €30, daily spearfishing €20, up to 30 days €30, annual €50; under 14 free. Sold by the national sea sport fishing federation and licensed clubs; electronic register with QR/PIN",
+   "visitors": "Same permits; holder's citizenship and passport number recorded",
+   "reporting": "Catch records kept electronically through the ministry's information system; kept fish must be marked (lower tail lobe cut, cephalopods cut between the eyes)",
+   "bans": "Not confirmed in the 2026 rulebook (areas set in the Law)",
+   "boat": "Max 2 handlines/trolling lines (panula) with up to 3 hooks each (hook gap ≥5 mm), 2 rods with up to 3 hooks; big-game max 2 rods ≥30 lb; speargun and harpoon from age 18, breath-hold only with a signal buoy; gear marked with permit number or QR code"
+  },
+  "seasons": [],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Agriculture, Forestry and Water Management of Montenegro",
+   "url": "https://www.gov.me/mpsv"
+  },
+  "sources": [
+   "https://www.sluzbenilist.me/propisi/394977/download",
+   "https://faolex.fao.org/docs/pdf/mne154069.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "MT": {
+  "inland": null,
+  "sea": {
+   "licence": "Recreational fishing vessel licence from the Department of Fisheries and Aquaculture (DFA), annual, in recreational categories (codes MFC, S, VLT); shore rod fishing reportedly needs no licence (not confirmed officially)",
+   "visitors": "Private boats must be registered (Transport Malta); rules for visiting boats not confirmed",
+   "reporting": "EU RecFishing since 10 Jan 2026 for EU-listed species; special authorisations through the Malta Fisheries and Aquaculture (MAFA) app",
+   "bans": "Not confirmed",
+   "boat": "Special authorisation needed for bluefin tuna, albacore and dolphinfish (lampuki), applied for in the MAFA app"
+  },
+  "seasons": [
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "max 1 bluefin per vessel per day (EU rule); sale banned",
+    "notes": "EU Reg. 2023/2053: minimum 30 kg or 115 cm fork length; recreational vessels need a national authorisation; release live fish where possible. Malta: special DFA authorisation needed."
+   },
+   {
+    "species": "Swordfish (Xiphias gladius)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 100,
+    "bag": "max 1 swordfish per vessel per day; sale banned",
+    "notes": "Mediterranean: closed 1 Jan-31 Mar; minimum 100 cm lower-jaw fork length or 11.4 kg (EU Reg. 2019/1154 and Del. Reg. 2018/191, from ICCAT Rec. 16-05)."
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III); national bag limits may be stricter."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Department of Fisheries and Aquaculture (DFA)",
+   "url": "https://dfa.gov.mt"
+  },
+  "sources": [
+   "https://dfa.gov.mt/en/?p=5566",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf",
+   "https://eur-lex.europa.eu/eli/reg_del/2018/191/oj/eng",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "NL": {
+  "inland": {
+   "licence": "No separate state licence. The VISpas (or Kleine VISpas, JeugdVISpas), issued by the Sportvisunie clubs, is the written permission (schriftelijke toestemming) required by the Visserijwet 1963.",
+   "permit": "VISpas plus the VISplanner app or Lijst van Viswateren together form the permit. Order online at vispas.nl and get a temporary PDF at once. VISpas: 2 rods, all legal baits, valid one calendar year. Kleine VISpas (no club membership): daytime only, 1 rod, all fish must be released. Clubs may also sell day or week permits.",
+   "visitors": "Same documents. A visitor can order a Kleine VISpas or a VISpas (club membership) online at vispas.nl.",
+   "bans": "Water-specific rules in the VISplanner or Lijst. Protected species may not be fished.",
+   "boat": "Max 2 rods with a VISpas. Boat and trolling conditions are set per water in the VISplanner or Lijst; not confirmed here."
+  },
+  "sea": {
+   "licence": "None. No permit is needed for rod fishing in the visserijzone (North Sea), kustwateren (Wadden, Zeeland delta, Nieuwe Waterweg etc.) or zeegebied (IJmuiden, Scheveningen and Katwijk ports).",
+   "visitors": "Same; registration in the app is still required.",
+   "reporting": "Since 2 Feb 2026 recreational fishers aged 14 and over in coastal waters, sea areas and the fishery zone must register in an app and record catches of certain species (EU Reg. 2023/2842 Art. 55; NL is listed as a RecFishing country).",
+   "bans": "Harbour and local rules.",
+   "boat": "Kustwateren: max 2 rods with max 3 hooks each. Zeegebied: max 3 hooks per rod. Visserijzone: no limit on rods or hooks."
+  },
+  "seasons": [
+   {
+    "species": "Pike (snoek)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Closed 1 Mar until the last Saturday of May (the range ends on 31 May to cover every year). Bait ban (artificial lures, dead fish, pieces of fish) from 1 Apr to the last Saturday of May; on the IJsselmeer from 16 Mar to 1 Jul. Kleine VISpas: all fish must be released."
+   },
+   {
+    "species": "Zander (snoekbaars)",
+    "waters": "inland",
+    "closed": [
+     [
+      "04-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": null,
+    "notes": "Closed 1 Apr until the last Saturday of May (the range ends on 31 May to cover every year)."
+   },
+   {
+    "species": "Perch (baars)",
+    "waters": "inland",
+    "closed": [
+     [
+      "04-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 22,
+    "bag": null,
+    "notes": "Closed 1 Apr until the last Saturday of May."
+   },
+   {
+    "species": "Eel (aal/paling)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Legal duty to release (terugzetplicht) all year."
+   },
+   {
+    "species": "Eel (aal/paling)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   },
+   {
+    "species": "Salmon and sea trout (zalm, zeeforel)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Closed all year; legal duty to release."
+   },
+   {
+    "species": "Sea bass (zeebaars)",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 42,
+    "bag": "3 per day",
+    "notes": "Reg. (EU) 2026/249 Art. 10(5), ICES 4b, 4c, 6a, 7a-k: catch-and-release only 1 Feb-31 Mar 2026; otherwise max 3 bass/angler/day, min 42 cm, no fixed nets. Biscay (8a, 8b): max 2/day all year (Art. 11). The 2027 bass rule is set separately (not yet published)."
+   },
+   {
+    "species": "Cod (kabeljauw)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 35,
+    "bag": "max 25 fish or 20 kg in possession",
+    "notes": null
+   },
+   {
+    "species": "Plaice (schol)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 27,
+    "bag": null,
+    "notes": null
+   }
+  ],
+  "buy": "https://www.vispas.nl",
+  "authority": {
+   "name": "RVO / Ministerie van LVVN; Sportvisunie (VISpas)",
+   "url": "https://www.rvo.nl/onderwerpen/recreatief-vissen-zoutwater"
+  },
+  "sources": [
+   "https://a.storyblok.com/f/287388201423845/x/690383bb56/kleine-lijst-van-viswateren-2026.pdf",
+   "https://a.storyblok.com/f/287388201423845/x/33768665d0/veldgids-controle-visdocumenten-sportvisunie-2026.pdf",
+   "https://www.rvo.nl/onderwerpen/recreatief-vissen-zoutwater",
+   "https://english.rvo.nl/topics/seabass",
+   "https://zoek.officielebekendmakingen.nl/stb-1985-301.pdf",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "NO": {
+  "inland": {
+   "licence": "National fishing fee (fiskeravgift, Miljødirektoratet) only for anadromous salmon, sea trout and sea char in rivers and lakes; under-18s exempt.",
+   "permit": "Local fiskekort from the fishing rights holder, for all freshwater fishing. Online for many waters (inatur.no) or at local shops and tourist offices.",
+   "visitors": "Same: fiskeravgift for salmon/sea trout/char plus the local permit.",
+   "bans": "No poison, explosives, firearms (except for pike), electric current, spears or artificial light (except for eel and crayfish). Many rivers open for salmon only from 15 June or later; dates differ per river.",
+   "boat": "Local rules."
+  },
+  "sea": {
+   "licence": "None for rod and hand line; the national fee is not needed at sea.",
+   "visitors": "Free, hand gear only. Export of sea fish only after fishing through a registered fishing-tourism business: 15 kg of fish or fish products twice per calendar year; from 1 Jan 2027, 10 kg twice per year; tourists aged 12+; no extra trophy-fish allowance. The quota does not apply to salmon, trout, char or freshwater fish.",
+   "reporting": "Registered fishing camps report guests' catches daily; no individual reporting app (Norway is not in the EU).",
+   "bans": "Keep more than 100 m from fish farms (boats at least 20 m from farms and moorings). Cod protected all year in the Oslofjord; 14 areas from Lindesnes along the Skagerrak coast to the Oslofjord and the Swedish border closed for cod 1 Jan-30 Apr.",
+   "boat": "Handheld tackle only. Boating licence for boats 8-15 m or over 25 hp if born 1980 or later. Life jackets on boats under 8 m while under way."
+  },
+  "seasons": [
+   {
+    "species": "Cod (torsk)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 40,
+    "bag": null,
+    "notes": "40 cm south of 62°N. North of 62°N: 44 cm outside 4 nm from the baselines, 55 cm inside 4 nm. Oslofjord: protected all year. Skagerrak coast areas: closed 01-01 to 04-30."
+   },
+   {
+    "species": "Haddock (hyse)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 32,
+    "bag": null,
+    "notes": "40 cm north of 62°N."
+   },
+   {
+    "species": "Halibut (kveite)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 84,
+    "bag": null,
+    "notes": "Release all halibut over 2 m. Seasonal protection exists, but the dates were not confirmed."
+   },
+   {
+    "species": "Sea trout (sjøaure)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "30 cm in Nordland, Troms and Finnmark."
+   },
+   {
+    "species": "Plaice (rødspette)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 29,
+    "bag": null,
+    "notes": null
+   },
+   {
+    "species": "Eel (ål)",
+    "waters": "all",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Protected all year."
+   },
+   {
+    "species": "Saithe, pollack, mackerel (sei, lyr, makrell)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "No minimum size unless sold."
+   }
+  ],
+  "buy": "https://www.inatur.no",
+  "authority": {
+   "name": "Fiskeridirektoratet (sea); Miljødirektoratet (freshwater)",
+   "url": "https://www.fiskeridir.no/english/sea-angling-in-norway/regulations"
+  },
+  "sources": [
+   "https://www.fiskeridir.no/english/sea-angling-in-norway/regulations",
+   "https://www.fiskeridir.no/fritidsfiske/minstemaal",
+   "https://www.fiskeridir.no/English/Fishing-in-Norway/Export-quota",
+   "https://www.environmentagency.no/areas-of-activity/hunting-and-fishing/rules-for-recreational-fishing-in-rivers-and-lakes/",
+   "https://www.mattilsynet.no/en/fish-and-aquaculture/recreational-fishing-in-norway"
+  ],
+  "checked": "2026-11-21"
+ },
+ "PL": {
+  "inland": {
+   "licence": "Karta wędkarska issued by the starosta (county office) after the exam held by an angling association such as PZW; fee 10 zł. Required by the Inland Fisheries Act, Art. 7. Exempt: children under 14 fishing with an adult card holder, and foreigners staying temporarily in Poland. PZW membership is not a legal requirement; it is only needed for PZW waters.",
+   "permit": "Zezwolenie from the rights holder of the fishing district (obwód rybacki). Wody Polskie (RZGW) districts: electronic only since January 2026, bought via the Wirtualny Informator Rzeczny (wir.wody.gov.pl or the WIR app); you get a PDF with a QR code. PZW districts (okręgi) sell their own annual and short-term permits, each with its own rules. Permits often require a catch register (rejestr połowu); e.g. Wody Polskie Lublin wants it returned by 31 Jan.",
+   "visitors": "No karta wędkarska needed for foreigners staying temporarily, but the water permit (Wody Polskie via WIR, or PZW/other rights holder) is required.",
+   "bans": "No fishing in protective zones (obręby ochronne, signed with blue/yellow boards or buoys). These can cover fish passes and at least 50 m above and below them, spawning, wintering and migration sites. PZW district rules (e.g. Siedlce 2026, Katowice) ban fishing within 50 m of weirs, locks, dams and other damming structures; groynes and bed sills are exempt. Local permit rules apply.",
+   "boat": "Set by each permit. Example, Wody Polskie Lublin 2026: two rods for float or ledger fishing, or one rod for spinning or fly; trolling banned on all waters; keep 25 m from other anglers; boat fishing from 30 Apr to 15 Dec, at night only 1 Jun-15 Sep; no boats on ice-covered water. Other districts allow trolling only on waters named in the permit. Check the permit for each water."
+  },
+  "sea": {
+   "licence": "Fee-based right from GIRM (Główny Inspektorat Rybołówstwa Morskiego): proof of payment, no paper permit. 15 zł/week, 25 zł/month, 65 zł/12 months (50 zł with Karta Dużej Rodziny). Pay by bank transfer to the GIRM account (NBP O/Gdańsk 60 1010 1140 0003 5822 3100 0000) with title 'za wykonywanie rybołówstwa rekreacyjnego na okres ...' and your name. Carry ID plus proof of payment. Fishing from a boat on open Baltic waters, the EEZ, territorial sea, Puck Bay or the Gulf of Gdańsk: e-mail polowy.rekreacyjne@girm.gov.pl at least 2 h before you start (vessel name, start date/time, area or port).",
+   "visitors": "Same as residents: pay the GIRM fee and carry ID. No karta wędkarska is needed at sea.",
+   "reporting": "EU RecFishing app (Poland is a RecFishing country; EU Login or Profil Zaufany), per Reg. 2023/2842 Art. 55, since 10 Jan 2026. National rule as well: after fishing from a boat, if you caught cod, sprat, herring or eel, file a catch report before entering port and deliver it to GIRM by the next day (by e-mail, by post or at a GIRM office).",
+   "bans": "Not from navigation marks or bridges. Keep at least 100 m from areas closed to commercial fishing and from bathing areas. Boats: not in fairways or anchorages; keep 100 m from set fishing gear and from charted wrecks. Do not moor to navigation marks, fishing gear or buoys. No rod fishing in the ports of Darłowo, Dźwirzyno, Kołobrzeg, Łeba, Mrzeżyno, Rowy and Ustka from 15 Sep to end of Feb between 17:00 and 07:00; spinning and multi-hook rigs are also banned there in that period. Kołobrzeg Parsęta section closed 1 Sep-31 Dec.",
+   "boat": "Max 2 rods per person, or 1 rod for spinning/fly. Trolling (holowanie przynęt, no live fish) is allowed outside port waters: max 1 rod per angler in internal waters and lagoons, max 12 rods per boat on the open sea, territorial sea and EEZ. Keep 50 m between boats, 150 m when spinning. Retained fish must be landed whole; each angler keeps their own catch separate."
+  },
+  "seasons": [
+   {
+    "species": "Pike (szczupak)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "National minimum. Permits often set higher sizes and limits; e.g. Wody Polskie Lublin: 50 cm, and pike+zander 2/day combined."
+   },
+   {
+    "species": "Pike (szczupak)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "05-15"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "2 per day (pike + zander combined)",
+    "notes": "01-01 to 05-15 in internal waters of the Gulf of Gdańsk. In internal waters west of 15°23'14\"E (Szczecin Lagoon) and Lake Dąbie: 01-01 to 04-30."
+   },
+   {
+    "species": "Zander (sandacz)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "Permits may set higher sizes and limits; e.g. Wody Polskie Lublin: 50 cm, pike+zander 2/day."
+   },
+   {
+    "species": "Zander (sandacz)",
+    "waters": "sea",
+    "closed": [
+     [
+      "04-10",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "2 per day (pike + zander combined)",
+    "notes": "Closed season depends on longitude: 03-25 to 05-10 west of 16°40'E (Szczecin Lagoon area), 04-10 to 05-31 between 16°40'E and 19°21'E, 04-20 to 06-10 east of 19°21'E (Vistula Lagoon)."
+   },
+   {
+    "species": "Perch (okoń)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": "15 per day",
+    "notes": "No national closed season or minimum size inland; permits may set limits (e.g. Lublin 5/day, 20 cm)."
+   },
+   {
+    "species": "Sea trout (troć)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "Vistula below the Włocławek dam: 12-01 to end of Feb, with no fishing Fri-Sun 1 Mar-31 Aug. Vistula basin above Włocławek: 10-01 to 12-31, with no fishing Thu-Sun for the rest of the year. Lake trout (troć jeziorowa): 09-01 to 01-31, 50 cm."
+   },
+   {
+    "species": "Sea trout (troć)",
+    "waters": "sea",
+    "closed": [
+     [
+      "09-15",
+      "11-15"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "2 per day",
+    "notes": "Closed 09-15 to 11-15 within 4 nm of the coast, and 09-15 to 12-31 inside the ports of Darłowo, Dźwirzyno, Kołobrzeg, Łeba, Mrzeżyno, Rowy, Ustka, in internal waters west of 15°23'14\"E and in Lake Dąbie."
+   },
+   {
+    "species": "Salmon (łosoś)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": 35,
+    "bag": null,
+    "notes": "Same Vistula exceptions as sea trout."
+   },
+   {
+    "species": "Salmon (łosoś)",
+    "waters": "sea",
+    "closed": [
+     [
+      "09-15",
+      "11-15"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "1 adipose-fin-clipped salmon per day",
+    "notes": "Closed within 4 nm as for sea trout. EU 2026: max 1 adipose-fin-clipped (reared) salmon per angler per day in most of SD 22-31; wild salmon must be released. For 2027 the Commission proposed (COM(2026) 437) to allow recreational salmon fishing only north of 59°30'N within 4 nm, 1 May-31 Aug; press reports of the Oct 2026 Council say fishing for reared salmon stays allowed. Check the final 2027 text."
+   },
+   {
+    "species": "Eel (węgorz)",
+    "waters": "inland",
+    "closed": [
+     [
+      "12-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "2 per day",
+    "notes": null
+   },
+   {
+    "species": "Eel (węgorz)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Closed all year by Polish regulation Dz.U. 2023/2816. Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   },
+   {
+    "species": "Asp (boleń)",
+    "waters": "all",
+    "closed": [],
+    "minSizeCm": 40,
+    "bag": null,
+    "notes": "No closed season."
+   },
+   {
+    "species": "Wels catfish (sum)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 70,
+    "bag": null,
+    "notes": null
+   },
+   {
+    "species": "Wels catfish (sum)",
+    "waters": "sea",
+    "closed": [
+     [
+      "05-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 70,
+    "bag": "2 per day",
+    "notes": "Closed season only in internal waters west of 15°23'14\"E and in Lake Dąbie."
+   },
+   {
+    "species": "Cod (dorsz)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Closed all year by Polish regulation. EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught."
+   },
+   {
+    "species": "Turbot (skarp)",
+    "waters": "sea",
+    "closed": [
+     [
+      "06-01",
+      "07-31"
+     ]
+    ],
+    "minSizeCm": 30,
+    "bag": null,
+    "notes": "Closed season applies east of 15°00'E."
+   },
+   {
+    "species": "Flounder (stornia)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 23,
+    "bag": "7 kg total of other species per day",
+    "notes": null
+   }
+  ],
+  "buy": "https://wir.wody.gov.pl",
+  "authority": {
+   "name": "Wody Polskie (inland state waters); Główny Inspektorat Rybołówstwa Morskiego, GIRM (sea)",
+   "url": "https://www.gov.pl/web/girm/rybolowstwo-rekreacyjne"
+  },
+  "sources": [
+   "https://api.sejm.gov.pl/eli/acts/DU/2023/1373/text.html",
+   "https://api.sejm.gov.pl/eli/acts/DU/2022/883/text.html",
+   "https://api.sejm.gov.pl/eli/acts/DU/2023/2816/text.html",
+   "https://www.gov.pl/web/girm/informacje-ogolne-nt-rybolowstwa-rekreacyjnego",
+   "https://www.gov.pl/web/girm/recfishing--aplikacja-do-rejestracji-polowow-rekreacyjnych",
+   "https://www.gov.pl/web/wody-polskie-poznan/zakup-zezwolenia-na-wedkowanie-online",
+   "https://www.gov.pl/web/wody-polskie-lublin/regulamin-amatorskiego-polowu-ryb-na-2026-r",
+   "https://siedlce.pzw.org.pl/uploaded_files/1765393228_1765294738uchw-pzo-nr-78-79-z-13-11-2025-r.pdf",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "PT": {
+  "inland": {
+   "licence": "ICNF inland fishing licence for fresh waters, reservoirs and lakes under ICNF (DGRM sea licences are not valid there)",
+   "permit": "Some managed zones need an extra permit",
+   "visitors": "Foreigners can get the ICNF licence (online route not confirmed)",
+   "bans": "Not summarised",
+   "boat": "Not summarised"
+  },
+  "sea": {
+   "licence": "DGRM pesca lúdica licence: apeada (shore) €2/day, €4/month, €8/year; embarcada (boat, includes shore) €5/€12/€50; submarina €3/€10/€25; geral €20/month, €70/year. Valid in mainland Portugal only (Azores and Madeira have their own). Under 16 free with a licensed adult",
+   "visitors": "Foreigners get it at DGRM counters or via the Bmar portal (bank transfer); Multibanco only for nationals; licence is digital (no paper needed)",
+   "reporting": "RecFishing app compulsory since Jan 2026 for bluefin tuna, blue marlin, white marlin, roundscale spearfish and sea bass",
+   "bans": "No boat fishing in harbour bars, river mouths, access and buoyed channels; nothing within 100 m of harbours, docks, shipyards, fish farms and marked sewage outlets; boats keep 50 m from other boats, set gear and spearfishers; MPA rules (boat fishing in marine protected areas Thu-Mon and holidays only outside 1 Jun-30 Sep; Arrábida, Berlengas, Costa Vicentina zones)",
+   "boat": "Max 3 lines or rods and 9 hooks in total per angler; trolling (corrico) allowed; only registered recreational or maritime-tourism boats (no kayaks unless registered); lifejacket compulsory for everyone on board; no lights except for squid jigs; no speargun with breathing gear on board"
+  },
+  "seasons": [
+   {
+    "species": "All species (daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "10 kg of fish/cephalopods per angler per day, not counting the largest fish (spearfishing 15 kg); boats with more than 3 anglers max 25 kg",
+    "notes": "Portaria 14/2014 Art. 12."
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "retention banned except a national recreational total of 500 kg per year from DGRM-authorised fishing-tourism boats",
+    "notes": "Report in RecFishing."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "0 (catch and retention banned)",
+    "notes": null
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Report in RecFishing; minimum size per national/EU Atlantic rules (not confirmed)."
+   },
+   {
+    "species": "Sea breams Diplodus sargus/vulgaris",
+    "waters": "sea",
+    "closed": [
+     [
+      "02-01",
+      "02-28"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Shore fishing in Parque Natural do Sudoeste Alentejano e Costa Vicentina only."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Direção-Geral de Recursos Naturais, Segurança e Serviços Marítimos (DGRM); ICNF for inland",
+   "url": "https://www.dgrm.pt"
+  },
+  "sources": [
+   "https://dgrm.pt/documents/20143/121104/FAQ-Pesca+Ludica+2026.pdf/586f6137-df78-25e7-e7ad-8a3dcc1f9ffc",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ "RO": {
+  "inland": {
+   "licence": "Recreational fishing permit (permis de pescuit recreativ) from ANPA, usually online, valid for the calendar year",
+   "permit": "Plus the rules or ticket of the water's manager where it applies; Danube Delta Biosphere Reserve has its own permits",
+   "visitors": "Not confirmed",
+   "bans": "Annual joint MADR-MMAP prohibition order (2026 under Ordin 23/297/2025 as amended); Danube Delta: pike, zander, catfish and carp catch-and-release with max 1 fish of one species kept per day",
+   "boat": "Not confirmed"
+  },
+  "sea": {
+   "licence": "ANPA recreational permit (not confirmed for the Black Sea separately)",
+   "visitors": "Not confirmed",
+   "reporting": "EU RecFishing app since 10 Jan 2026 for EU-listed species",
+   "bans": "Not confirmed",
+   "boat": "Not confirmed"
+  },
+  "seasons": [
+   {
+    "species": "All species (general ban)",
+    "waters": "inland",
+    "closed": [
+     [
+      "04-09",
+      "06-07"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "2026 dates, set yearly; from press reports of the official order, not the Monitorul Oficial text."
+   },
+   {
+    "species": "Zander and perch",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-20",
+      "06-07"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "2026 dates, set yearly (press reports). Minimum sizes reported as zander 40 cm, carp 35 cm, catfish 50 or 60 cm (sources disagree)."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "National Agency for Fisheries and Aquaculture (ANPA)",
+   "url": "https://www.anpa.ro"
+  },
+  "sources": [
+   "https://www.capital.ro/prohibitie-generala-in-romania-se-aplica-de-joi-9-aprilie-2026-reguli-si-exceptii-pentru-pescari.html",
+   "https://tvrinfo.ro/tulcea-s-a-incheiat-prohibitia-generala-a-pescuitului-in-romania/",
+   "https://e-juridic.manager.ro/articole/pescuitul-recreativ-in-romania-cum-obtii-permisul-anpa-si-ce-spune-noua-lege-30280.html",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "RS": {
+  "inland": {
+   "licence": "Recreational fishing permit (dozvola za rekreativni ribolov): daily, multi-day or annual, set by ministry rulebook; 2027 prices: annual 9,000 RSD, daily 1,300, multi-day 2,600 (protected areas up to 10,000)",
+   "permit": "Issued by the user (manager) of the fishing area; some waters need an additional permit",
+   "visitors": "Foreigners buy the same permits; any separate rules not confirmed",
+   "bans": "Closed seasons, sizes and daily limits in the Naredba o merama za očuvanje i zaštitu ribljeg fonda; night fishing ban (21-03 h summer time, 18-05 h winter time) unless the user allows it; no harpoons or spearguns",
+   "boat": "Not confirmed"
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Pike (štuka)",
+    "waters": "inland",
+    "closed": [
+     [
+      "02-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": "3 per day combined with other listed predators",
+    "notes": "Naredba 104/2009 as amended 49/2010; later amendments (e.g. 56/15) not re-checked."
+   },
+   {
+    "species": "Zander (smuđ)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": "3 per day combined",
+    "notes": null
+   },
+   {
+    "species": "Catfish (som)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "3 per day combined",
+    "notes": null
+   },
+   {
+    "species": "Carp (šaran)",
+    "waters": "inland",
+    "closed": [
+     [
+      "04-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 30,
+    "bag": "3 per day combined",
+    "notes": null
+   },
+   {
+    "species": "Trout (all Salmo, rainbow trout)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "03-01"
+     ]
+    ],
+    "minSizeCm": 25,
+    "bag": "3 per day combined",
+    "notes": null
+   },
+   {
+    "species": "All native species (daily limit)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg per day; one fish over 5 kg fills the day",
+    "notes": null
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Environmental Protection of Serbia",
+   "url": "https://www.ekologija.gov.rs"
+  },
+  "sources": [
+   "https://faolex.fao.org/docs/pdf/srb153883.pdf",
+   "https://faolex.fao.org/docs/pdf/srb153884.pdf",
+   "https://www.carina.rs/upload/media/2020/10/20/47058/ZakonOZastitiIOdrzivomKoriscenjuRibljegFonda.pdf",
+   "https://biznis.rs/vesti/srbija/godisnja-dozvola-za-ribolov-9-000-dinara-u-zasticenim-podrucjima-do-10-000-dinara/"
+  ],
+  "checked": "2026-11-21"
+ },
+ "SE": {
+  "inland": {
+   "licence": "No national licence.",
+   "permit": "Fiskekort from the local fishing rights owner or fiskevårdsområde (fishery association) for most lakes and rivers. Free hand-gear fishing (rod, handline) in Vänern, Vättern, Mälaren, Hjälmaren and Storsjön.",
+   "visitors": "Same: local fiskekort, except in the five large lakes and on the coast.",
+   "bans": "Länsstyrelsen fredningsområden (closed areas) and local rules; check svenskafiskeregler.se (map).",
+   "boat": "Set by the local fiskekort; in the five free lakes national rules apply."
+  },
+  "sea": {
+   "licence": "None: free fishing with hand gear (rod, handline, trolling) along the entire coast.",
+   "visitors": "Same.",
+   "reporting": "Sweden is listed as a RecFishing-app country; EU Control Reg. 2023/2842 Art. 55: since 10 Jan 2026 recreational sea anglers targeting species under EU recreational measures must register and report catches electronically. (Swedish rollout details not checked.)",
+   "bans": "Many fredningsområden along the Baltic coast with total fishing bans, mostly in spring (e.g. Östergötland has 18 areas closed 1 Jan-15 Jun). From 15 Sep: salmon and sea trout fishing banned from Kullen lighthouse to Torhamns udde. From 1 Oct: salmon and sea trout banned in Skagerrak, Kattegat and the Bothnian Bay (svenskafiskeregler.se news).",
+   "boat": "Not detailed here."
+  },
+  "seasons": [
+   {
+    "species": "Pike (gädda)",
+    "waters": "sea",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": "3 per day (pike + zander combined)",
+    "notes": "Baltic south of the Västernorrland/Västerbotten border, hand gear: slot 40-75 cm, 3 pike+zander/day. Closed 03-01 to 05-31 only around Gotland and from Kalmarsund (incl. Öland) to Torhamns udde. HaV consultation 2026-3179 proposes from 1 Jan 2027: 1 pike and 1 zander per day, perch max 35 cm (30 cm Gotland) and 10 perch/day."
+   },
+   {
+    "species": "Zander (gös)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": "3 per day (pike + zander combined)",
+    "notes": "Baltic, hand gear: slot 45-60 cm. A 2027 limit of 1 per day is proposed."
+   },
+   {
+    "species": "Perch (abborre)",
+    "waters": "sea",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Closed only along Gotland and from Öland to Torhamns udde. 2027 proposal: max 35 cm and 10/day."
+   },
+   {
+    "species": "Cod (torsk)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Baltic SD 22-32 (incl. Öresund). EU Baltic fishing opportunities: recreational cod fishing prohibited in ICES subdivisions 22-32 all year in 2026 (ban covers the whole Baltic since 2025); the Council agreed on 27 Oct 2026 to keep it for 2027 (final 2027 regulation not yet seen). Release any cod caught. West coast cod rules not checked."
+   },
+   {
+    "species": "Salmon (lax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "1 adipose-fin-clipped salmon per day (EU, Baltic)",
+    "notes": "EU 2026: max 1 adipose-fin-clipped (reared) salmon per angler per day in most of SD 22-31; wild salmon must be released. For 2027 the Commission proposed (COM(2026) 437) to allow recreational salmon fishing only north of 59°30'N within 4 nm, 1 May-31 Aug; press reports of the Oct 2026 Council say fishing for reared salmon stays allowed. Check the final 2027 text."
+   },
+   {
+    "species": "Eel (ål)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "12-31"
+     ]
+    ],
+    "minSizeCm": null,
+    "bag": null,
+    "notes": "Reg. (EU) 2026/249 Art. 14(8): recreational fishing for European eel at all life stages prohibited in Union marine and brackish waters of ICES subareas 3, 4, 6, 7, 8, 9 (incl. estuaries/lagoons) for 1 Apr 2026-31 Mar 2027."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Havs- och vattenmyndigheten (HaV); Länsstyrelserna",
+   "url": "https://www.svenskafiskeregler.se/"
+  },
+  "sources": [
+   "https://www.havochvatten.se/download/18.4f10a1f91a0446e0e154aa87/1788247934526/remiss-2026-3179-fangstbegransningar.pdf",
+   "https://www.svenskafiskeregler.se/",
+   "https://www.lansstyrelsen.se/ostergotland/djur/fiske.html",
+   "https://lawplayer.com/eu/act/32026R0249",
+   "https://data.consilium.europa.eu/doc/document/ST-12522-2026-INIT/en/pdf",
+   "https://www.brusselstimes.com/2380418/eu-raises-crucial-baltic-fishing-quotas-but-keeps-cod-limits-strict",
+   "https://oceans-and-fisheries.ec.europa.eu/news/questions-and-answers-recfishing-2026-01-12_en"
+  ],
+  "checked": "2026-11-21"
+ },
+ "SI": {
+  "inland": {
+   "licence": "No separate state card: the fishing permit (ribolovna dovolilnica) from the water's manager is the document",
+   "permit": "Day or multi-day permit from the angling society (ribiška družina) or the Fisheries Research Institute (ZZRS) managing that water; also sold online at ribiskekarte.si",
+   "visitors": "Visitors buy the same permits; carry ID with the (printed or phone) permit",
+   "bans": "Closed seasons, minimum sizes and daily limits in the Pravilnik o ribolovnem režimu; many alpine rivers are fly-only or catch-and-release",
+   "boat": "Set per water in the managing society's rules"
+  },
+  "sea": {
+   "licence": "Daily or weekly sea fishing permit from the Sea Sport Fishing Federation of Slovenia (ZSRM) or sales points, also online (buy at least 1 hour before fishing); not needed for fishing from the coast",
+   "visitors": "Same permits; membership of a society not needed",
+   "reporting": "EU RecFishing app since 10 Jan 2026 for EU-listed species (bluefin tuna, swordfish, etc.)",
+   "bans": "No fishing in ports, at bathing sites 1 May-30 Oct, within 200 m of marked fish farms, 50 m of marked set nets, 300 m of a fishing vessel with lights or a purse seine, 50 m of a boat already sport-fishing; no sale of catch",
+   "boat": "Max 2 lines with up to 3 hooks each; fishing from a stationary or moving (trolling) boat allowed; no breathing apparatus; daily catch 5 kg (or one fish over 5 kg, or two fish totalling over 5 kg)"
+  },
+  "seasons": [
+   {
+    "species": "Pike (ščuka)",
+    "waters": "inland",
+    "closed": [
+     [
+      "02-01",
+      "04-30"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "within 5 kg/day",
+    "notes": "Danube basin (Pravilnik o ribolovnem režimu, 2007/2010 text); Adriatic basin may differ."
+   },
+   {
+    "species": "Zander (smuč)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "max 1 per day",
+    "notes": "Danube basin."
+   },
+   {
+    "species": "Catfish (som)",
+    "waters": "inland",
+    "closed": [
+     [
+      "05-01",
+      "06-30"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": null,
+    "notes": "Danube basin."
+   },
+   {
+    "species": "Brown trout (potočna postrv)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "02-28"
+     ]
+    ],
+    "minSizeCm": 25,
+    "bag": "max 3 trout per day",
+    "notes": "Danube basin."
+   },
+   {
+    "species": "Lake trout (jezerska postrv)",
+    "waters": "inland",
+    "closed": [
+     [
+      "10-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": "max 3 trout per day",
+    "notes": "Danube basin."
+   },
+   {
+    "species": "All species (inland daily limit)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg per day, incl. max 5 cyprinids, 3 trout, 2 grayling, 1 huchen, 1 zander, 1 asp",
+    "notes": null
+   },
+   {
+    "species": "All species (sea daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg per day, or one fish over 5 kg, or two fish over 5 kg in total",
+    "notes": "Rules on leisure sea fishing."
+   },
+   {
+    "species": "Bluefin tuna (Thunnus thynnus)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 115,
+    "bag": "max 1 bluefin per vessel per day (EU rule); sale banned",
+    "notes": "EU Reg. 2023/2053: minimum 30 kg or 115 cm fork length; recreational vessels need a national authorisation; release live fish where possible. "
+   },
+   {
+    "species": "Swordfish (Xiphias gladius)",
+    "waters": "sea",
+    "closed": [
+     [
+      "01-01",
+      "03-31"
+     ]
+    ],
+    "minSizeCm": 100,
+    "bag": "max 1 swordfish per vessel per day; sale banned",
+    "notes": "Mediterranean: closed 1 Jan-31 Mar; minimum 100 cm lower-jaw fork length or 11.4 kg (EU Reg. 2019/1154 and Del. Reg. 2018/191, from ICCAT Rec. 16-05)."
+   },
+   {
+    "species": "Sea bass (Dicentrarchus labrax)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 25,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Gilthead sea bream (Sparus aurata)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 20,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III)."
+   },
+   {
+    "species": "Groupers (Epinephelus spp.)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": 45,
+    "bag": null,
+    "notes": "EU Mediterranean minimum size (Reg. 1967/2006 Annex III); national bag limits may be stricter."
+   }
+  ],
+  "buy": "https://www.ribiskekarte.si",
+  "authority": {
+   "name": "Ministry of Agriculture, Forestry and Food; Sea Sport Fishing Federation of Slovenia (sea permits)",
+   "url": "https://spot.gov.si/en/activities-and-professions/activities/recreational-marine-fishing"
+  },
+  "sources": [
+   "https://spot.gov.si/en/activities-and-professions/activities/recreational-marine-fishing",
+   "https://faolex.fao.org/docs/pdf/slv101896.pdf",
+   "https://www.ribiskekarte.si/en/kako-deluje",
+   "https://legislation.gov.uk/eur/2006/1967/annex/III/2015-06-01?view=plain",
+   "https://faolex.fao.org/docs/pdf/eur223599.pdf",
+   "https://eur-lex.europa.eu/eli/reg_del/2018/191/oj/eng"
+  ],
+  "checked": "2026-11-21"
+ },
+ "SK": {
+  "inland": {
+   "licence": "Rybársky lístok (state fishing card, Act 216/2018 Z.z.)",
+   "permit": "Povolenie na rybolov from the water's user, mostly the Slovak Angling Union (SRZ) local organisations",
+   "visitors": "Foreigners need the card and the permit; exact rules for foreigners not confirmed",
+   "bans": "Closed seasons, minimum sizes and daily limits in decree 381/2018 Z.z.; fishing ends once the daily quota is kept",
+   "boat": "Lighting rule for night fishing from a boat exists (decree §19); other boat and trolling rules are set by the water's user"
+  },
+  "sea": null,
+  "seasons": [
+   {
+    "species": "Pike (šťuka)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 60,
+    "bag": "max 2 pike per day (within the combined daily limit)",
+    "notes": "Decree 381/2018 (2019 text)."
+   },
+   {
+    "species": "Zander (zubáč)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 50,
+    "bag": "max 2 per day",
+    "notes": "Decree 381/2018."
+   },
+   {
+    "species": "Catfish (sumec)",
+    "waters": "inland",
+    "closed": [
+     [
+      "01-01",
+      "06-15"
+     ]
+    ],
+    "minSizeCm": 70,
+    "bag": "max 1 per day",
+    "notes": "Decree 381/2018."
+   },
+   {
+    "species": "Carp (kapor)",
+    "waters": "inland",
+    "closed": [
+     [
+      "03-15",
+      "05-31"
+     ]
+    ],
+    "minSizeCm": 40,
+    "bag": "max 2 per day",
+    "notes": "Closure applies in carp waters; not on waters where year-round carp fishing is allowed."
+   },
+   {
+    "species": "Brown trout (pstruh potočný)",
+    "waters": "inland",
+    "closed": [
+     [
+      "09-01",
+      "04-15"
+     ]
+    ],
+    "minSizeCm": 27,
+    "bag": "max 2 per day",
+    "notes": "Decree 381/2018."
+   },
+   {
+    "species": "All species (daily limit)",
+    "waters": "inland",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "max 4 fish of listed species and 5 kg total per day; a first fish over 5 kg ends the day",
+    "notes": "Decree 381/2018 §14; the user can set lower limits per permit."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Environment of the Slovak Republic / Slovak Angling Union (SRZ)",
+   "url": "https://www.minzp.sk"
+  },
+  "sources": [
+   "https://static.slov-lex.sk/static/SK/ZZ/2018/381/20190101.html",
+   "https://static.slov-lex.sk/static/SK/ZZ/2018/216/20220101.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ "TR": {
+  "inland": {
+   "licence": "Amateur fisher certificate (Amatör Balıkçı Belgesi, 5 years) not compulsory for Turkish citizens unless the ministry requires it for a species, place or method; resident foreigners need a Misafir Amatör Balıkçı Belgesi (2 years)",
+   "permit": "Foreign tourists fishing inland (shore or boat) need an avlanma fişi from the provincial or district directorate, or fish with a licensed amateur-fishing-tourism operator",
+   "visitors": "See permit; no permit needed in competitions or leased recreational fishing areas",
+   "bans": "Notification 6/2 (2024/21, valid 1 Sep 2024-31 Aug 2028, amended 2025 and 16 Sep 2026); closed seasons and sizes in its tables (not extracted); live freshwater bait banned; no fuel-powered boats within 300 m of drinking-water intakes",
+   "boat": "Max 4 rods with up to 3 hooks each (trout: 2 rods with 2 hooks); max 10 count-limited fish in total"
+  },
+  "sea": {
+   "licence": "No licence for Turkish citizens (certificate optional); spearfishers need an Amatör Balıkçı Belgesi from 1 Jan 2026",
+   "visitors": "Foreign tourists fishing from a boat need an avlanma fişi or a licensed fishing-tourism boat; shore fishing at sea needs no permit",
+   "reporting": "Not confirmed",
+   "bans": "Within 200 m of shore inside buoyed swimming zones 1 Apr-15 Nov; within 100 m of fish farms; no diving to fish in ports, fishing shelters, moorings and slipways; named closed zones (e.g. parts of Gökova, Fethiye, Kaş, İzmir Körfezi) and monk-seal caves; no sale",
+   "boat": "Max 4 rods with up to 6 hooks each plus one çapari with up to 15 hooks; spearfishing only sunrise to sunset, snorkel only, no lights, marker buoy compulsory"
+  },
+  "seasons": [
+   {
+    "species": "All species (sea daily limit)",
+    "waters": "sea",
+    "closed": [],
+    "minSizeCm": null,
+    "bag": "5 kg per person (largest fish excluded for the 4 kg check); max 3 count-limited fish",
+    "notes": "Notification 6/2 (2024/21) Art. 15; species sizes and limits in its Çizelge 7 (not extracted)."
+   }
+  ],
+  "buy": null,
+  "authority": {
+   "name": "Ministry of Agriculture and Forestry, General Directorate of Fisheries and Aquaculture (BSGM)",
+   "url": "https://www.tarimorman.gov.tr/BSGM"
+  },
+  "sources": [
+   "https://www.lexpera.com.tr/resmi-gazete/metin/6-2-numarali-amator-amacli-su-urunleri-avciliginin-duzenlenmesi-hakkinda-teblig-no-2024-21-32629",
+   "https://resmigazete.gov.tr/eskiler/2024/08/20240811-3.htm",
+   "https://www.tarimorman.gov.tr/BSGM/Duyuru/195/Su-Urunleri-Avciligini-Duzenleyen-Ticari-Ve-Amator-Tebliglerde-Yapilan-Onemli-Degisiklikler-Resmi-Gazetede-Yayimlanarak-Yururluge-Girdi"
+  ],
+  "checked": "2026-11-21"
+ }
+}

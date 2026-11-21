@@ -11,6 +11,7 @@ vi.mock('../data/waterways.json', async () => ({
     (await import('../test/waterwayFixture')).empty],
 }));
 vi.mock('../data/rules.json', async () => ({ default: [{ ...(await import('../test/rulesFixture')).land, cc: 'PL' }] }));
+vi.mock('../data/fishing.json', async () => ({ default: { PL: (await import('../test/fishingFixture')).fishingPL } }));
 
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
@@ -166,6 +167,30 @@ describe('route brief', () => {
     // the data version, and a link to each waterway sheet
     expect(md).not.toContain('Computed on data version');
     expect(briefMarkdown({ ...b, data: 'abc123' })).toContain('Computed on data version abc123.');
+    // fishing rules of the countries on the route, with the seasons closed during the trip (or today)
+    const onTrip = buildBrief({ route, itinerary, profile: { ...defaultProfile, departure: '2027-04-29' }, title: 't', link: 'l', today: '2027-06-10' });
+    expect(onTrip.fishing.map((f) => [f.cc, f.days, f.closed.map((c) => c.species)])).toEqual([['PL', ['2027-04-29', '2027-05-01'], ['Pike', 'Cod']]]);
+    const fmd = briefMarkdown(onTrip);
+    expect(fmd).toContain('## Fishing rules by country');
+    expect(fmd).toContain('- Inland licence: state card');
+    expect(fmd).toContain('- At sea, catch reporting: RecFishing app');
+    expect(fmd).toContain('- Closed during 2027-04-29 – 2027-05-01: Pike (1 Jan–30 Apr); Cod (1 Jan–31 Dec)');
+    expect(fmd).toContain('- Buy online: https://wir.example');
+    const june = buildBrief({ route: { ...route, sea: 0 }, itinerary, profile: defaultProfile, title: 't', link: 'l', today: '2027-06-10' });
+    expect(june.fishing[0].days).toEqual(['2027-06-10', '2027-06-10']);
+    const jmd = briefMarkdown({ ...june, fishing: [{ ...june.fishing[0], rules: { ...june.fishing[0].rules, buy: null, inland: { ...june.fishing[0].rules.inland!, permit: null, visitors: null } } }] });
+    expect(jmd).toContain('- No closed season of the listed species on 2027-06-10');
+    expect(jmd).not.toContain('At sea licence');
+    expect(jmd).not.toContain('Buy online');
+    const seaOnly = briefMarkdown({ ...onTrip, totals: { ...onTrip.totals, km: onTrip.totals.seaNm * 1.852 }, fishing: [{ ...onTrip.fishing[0], rules: { ...onTrip.fishing[0].rules, sea: { licence: null, visitors: null, bans: null, boat: null } } }] });
+    expect(seaOnly).not.toContain('Inland licence');
+    expect(briefMarkdown({ ...b, fishing: [] })).not.toContain('## Fishing rules');
+    const summer = buildBrief({ route, itinerary, profile: { ...defaultProfile, departure: '2027-07-01' }, title: 't', link: 'l' });
+    const smd = briefMarkdown({ ...summer, fishing: [{ ...summer.fishing[0], closed: [], rules: { ...summer.fishing[0].rules, sea: null } }] });
+    expect(smd).toContain('- No closed season of the listed species during 2027-07-01 – 2027-07-03');
+    expect(smd).not.toContain('At sea');
+    expect(buildBrief({ route, itinerary, profile: { ...defaultProfile, departure: 'soon' }, title: 't', link: 'l' }).fishing[0].closed).toEqual([]);
+    expect(buildBrief({ route, itinerary: { counts: {}, stops: [] }, profile: defaultProfile, title: 't', link: 'l' }).fishing).toEqual([]);
     // all at sea: only the sea rules; inland only: only the inland ones; a country without researched rules keeps its code
     const towns = { counts: {}, stops: [stop(1_000, { type: 'place', name: 'Hel', cc: 'PL' }), stop(2_000, { type: 'place', name: 'X', cc: 'XX' })] };
     const atSea = buildBrief({ route: { ...route, sea: route.distance }, itinerary: towns, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });

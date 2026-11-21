@@ -848,6 +848,17 @@ describe('App', () => {
     expect(screen.queryByText(/planned on earlier data/)).toBeNull();
   });
 
+  it('shows the fishing rules of the country a place is in', async () => {
+    history.replaceState(null, '', '/?place=15.98,45.81');
+    render(<App client={fakeClient({
+      load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '' }, nodes: 1, edges: 1,
+        pois: [{ type: 'place' as const, name: 'Zagreb', lat: 45.81, lon: 15.98, cc: 'HR' }] })),
+    })} />);
+    await flush();
+    fireEvent.click(screen.getByText('Fishing here'));
+    expect(screen.getByText('Fishing rules: Croatia')).toBeTruthy();
+  });
+
   it('logs catches from a place, lists them, opens one and deletes it', async () => {
     localStorage.removeItem('interway.catches');
     history.replaceState(null, '', '/?place=21.0005,52.0005');

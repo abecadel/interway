@@ -8,7 +8,7 @@ const hm = (t: number | null) => (t === null ? '—' : new Date(t).toLocaleTimeS
 
 /** The day here for an angler: sun, moon and solunar periods (on the device), weather and sea on request, a catch
  *  to log, and the fishing rules of the country. */
-export function FishingPanel({ position, label, rules, onLog, now = Date.now(), fetchFn }: {
+export function FishingPanel({ position, label, rules, onLog, now: given, fetchFn }: {
   position: LngLat;
   label: string;
   /** "Fishing rules here", when the place's country is known */
@@ -17,6 +17,8 @@ export function FishingPanel({ position, label, rules, onLog, now = Date.now(), 
   now?: number;
   fetchFn?: (url: string) => Promise<Response>;
 }) {
+  const [opened] = useState(() => Date.now()); // the clock when the panel opened: stable across renders
+  const now = given ?? opened;
   const [lon, lat] = position;
   const midnight = new Date(now);
   midnight.setHours(0, 0, 0, 0);

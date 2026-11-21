@@ -14,6 +14,9 @@ import { WaterwaysView } from './ui/WaterwaysView';
 import { FishingPanel } from './ui/FishingPanel';
 import { CatchList } from './ui/CatchList';
 import { addCatch, loadCatches, removeCatch } from './ui/catches';
+import { FishingRulesView } from './ui/FishingRulesView';
+import { countryAt, FISHING } from './routing/fishing';
+import { COUNTRY_RULES } from './routing/rules';
 import { briefMarkdown, buildBrief } from './ui/brief';
 import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
 import { type Place, searchPlaces } from './ui/search';
@@ -532,6 +535,12 @@ export default function App({ client }: { client: RoutingApi }) {
     </div>
   );
 
+  // the fishing rules of the country a place is in (from the nearest town), for today
+  const fishingHere = (pos: LngLat) => {
+    const cc = countryAt(pos, pois);
+    const rules = cc ? FISHING[cc] : undefined;
+    return rules && <FishingRulesView rules={rules} country={COUNTRY_RULES.find((r) => r.cc === cc)!.name} day={new Date().toISOString().slice(0, 10)} />;
+  };
   const body = catchesOpen ? (
     <CatchList
       catches={catches} onRemove={(id) => setCatches(removeCatch(catches, id))} onClose={() => setCatchesOpen(false)} download={download}
@@ -553,7 +562,7 @@ export default function App({ client }: { client: RoutingApi }) {
     >
       <details className="more">
         <summary>Fishing here</summary>
-        <FishingPanel position={place.position} label={place.label} onLog={(c) => setCatches(addCatch(catches, c))} />
+        <FishingPanel position={place.position} label={place.label} onLog={(c) => setCatches(addCatch(catches, c))} rules={fishingHere(place.position)} />
       </details>
     </PlaceCard>
   ) : category ? (

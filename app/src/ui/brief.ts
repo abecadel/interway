@@ -7,6 +7,7 @@ import { fmtDuration, POI_LABEL, poiDetail } from './format';
 import { portFacts } from './portFacts';
 import { noticesFor } from './notices';
 import { type CountryRules, routeCountries, ruleFacts, rulesFor } from '../routing/rules';
+import { closedOn, FISHING, type FishingRules, type FishingWaters, rangeText, type Season, tripDays } from '../routing/fishing';
 import { legPoints, monthsText, rulesText, seasonWarnings, tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 
 export interface BriefStop {
@@ -77,6 +78,8 @@ export interface RouteBrief {
   rules: CountryRules[];
   /** the data version the route was computed on (a permalink records it) */
   data: string | null;
+  /** fishing rules of the countries on the route, and the seasons closed during the trip (or today) */
+  fishing: { cc: string; name: string; rules: FishingRules; closed: { species: string; waters: string; ranges: string } []; days: [string, string] }[];
   /** what to arrange before going: licences, permits and tolls, taxes, entry, data to complete */
   checklist: string[];
   /** the tightest mapped limit of each kind along the route and whether the boat fits */
@@ -184,12 +187,14 @@ function nameEnds(title: string, route: Route, stops: Stop[]): string {
   return ends.map((e, i) => (/°[NS] /.test(e) && town(i ? route.distance : 0)) || e).join(' → ');
 }
 
-export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered, data = null }: {
+export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered, data = null, today = new Date().toISOString().slice(0, 10) }: {
   route: Route; itinerary: Itinerary; profile: VesselProfile; title: string; link: string; hoursPerDay?: number;
   /** vessel fields the user (or agent) gave, even where equal to the default */
   entered?: ReadonlySet<string>;
   /** the data version the route was computed on */
   data?: string | null;
+  /** YYYY-MM-DD: closed fishing seasons are checked for today when no departure date is set */
+  today?: string;
 }): RouteBrief {
   let at = 0;
   const legs = route.legs.map((l) => {
@@ -299,6 +304,16 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     waterways,
     rules: countryRules,
     data,
+    fishing: countries.flatMap((cc) => {
+      const f = FISHING[cc];
+      if (!f) return []; // every fishing country has boating rules too, for its name (a test checks)
+      const first = profile.departure || today, last = profile.departure ? (dateAfter(profile.departure, Math.max(days - 1, 0) * hoursPerDay * 3600) ?? first) : first; // the last stage's day
+      const waters = [...(inland ? ['inland' as const] : []), ...(atSea ? ['sea' as const] : [])];
+      const closed = new Map<Season, true>();
+      for (const d of tripDays(first, last)) for (const s of closedOn(f, d, waters)) closed.set(s, true);
+      return [{ cc, name: countryRules.find((r) => r.cc === cc)!.name, rules: f, days: [first, last] as [string, string],
+        closed: [...closed.keys()].map((s) => ({ species: s.species, waters: s.waters, ranges: s.closed.map(rangeText).join(', ') })) }];
+    }),
     checklist,
     limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
@@ -327,6 +342,24 @@ function tightest(route: Route, profile: VesselProfile): RouteBrief['limits'] {
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');
+
+function fishingMarkdown(fs: RouteBrief['fishing'], where: { inland: boolean; sea: boolean }): string[] {
+  if (!fs.length) return [];
+  const w = (label: string, x: FishingWaters | null) => (x ? [
+    ...(x.licence ? [`- ${label} licence: ${x.licence}`] : []), ...(x.permit ? [`- ${label} permit: ${x.permit}`] : []),
+    ...(x.visitors ? [`- ${label}, visitors: ${x.visitors}`] : []), ...(x.reporting ? [`- ${label}, catch reporting: ${x.reporting}`] : []),
+  ] : []);
+  return ['## Fishing rules by country', 'If you fish on the way: licences, permits and the seasons closed on the trip\'s days.', ...fs.flatMap((f) => [
+    '',
+    `### ${f.name}`,
+    ...(where.inland ? w('Inland', f.rules.inland) : []),
+    ...(where.sea ? w('At sea', f.rules.sea) : []),
+    f.closed.length ? `- Closed ${f.days[0] === f.days[1] ? `on ${f.days[0]}` : `during ${f.days[0]} – ${f.days[1]}`}: ${f.closed.map((c) => `${c.species} (${c.ranges})`).join('; ')}`
+      : `- No closed season of the listed species ${f.days[0] === f.days[1] ? `on ${f.days[0]}` : `during ${f.days[0]} – ${f.days[1]}`}`,
+    ...(f.rules.buy ? [`- Buy online: ${f.rules.buy}`] : []),
+    `- Sources (checked ${f.rules.checked}): ${f.rules.sources.join(', ')}`,
+  ]), ''];
+}
 
 function rulesMarkdown(rs: CountryRules[], where: { inland: boolean; sea: boolean }): string[] {
   if (!rs.length) return [];
@@ -409,6 +442,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '',
     ...waterwaysMarkdown(b.waterways, b.link.split('?')[0]),
     ...rulesMarkdown(b.rules, { inland: b.totals.km - b.totals.seaNm * 1.852 > 1, sea: b.totals.seaNm > 0 }),
+    ...fishingMarkdown(b.fishing, { inland: b.totals.km - b.totals.seaNm * 1.852 > 1, sea: b.totals.seaNm > 0 }),
     '## Legs',
     '| km | waterway | length |',
     '|---|---|---|',
