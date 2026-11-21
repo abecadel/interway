@@ -12,6 +12,17 @@ LINE_WATERWAYS = {"river", "canal", "fairway", "tidal_channel", "flowline"}
 YES = {"yes", "designated", "permissive", "official"}
 NO = {"no", "private"}
 # water=lock areas are left out on purpose: a lock chamber joins two water levels, meshing it would bypass the lock
+# French names carry the article ("L'Yonne", "La Sarthe"); allowlists name the river without it
+ARTICLE = re.compile(r"^(?:l['’]\s*|la\s+|le\s+|les\s+)", re.IGNORECASE)
+
+
+def name_forms(v: str) -> tuple[str, ...]:
+    """The casefolded name, and the name without a leading French article when it has one."""
+    f = v.casefold()
+    bare = ARTICLE.sub("", f, count=1)
+    return (f, bare) if bare != f and bare else (f,)
+
+
 LAKE_WATER = {"lake", "reservoir", "lagoon", "basin", "oxbow", "river", "canal", "harbour", "bay"}
 
 
@@ -48,7 +59,7 @@ class Allowlist:
     def has_name(self, tags) -> bool:
         for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "name:fr", "official_name", "alt_name"):
             v = tags.get(key)
-            if v and v.casefold() in self.names:
+            if v and any(f in self.names for f in name_forms(v)):
                 return True
         return False
 
@@ -111,7 +122,7 @@ def is_channel_area(tags) -> bool:
 def lake_allowlisted(tags, allow: Allowlist) -> bool:
     for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "name:fr"):
         v = tags.get(key)
-        if v and (v.casefold() in allow.lakes or v.casefold() in allow.names):
+        if v and any(f in allow.lakes or f in allow.names for f in name_forms(v)):
             return True
     return tags.get("wikidata") in allow.wikidata or tags.get("boat") in YES or tags.get("motorboat") in YES
 

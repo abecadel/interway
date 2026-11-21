@@ -7,6 +7,7 @@ from interway_pipeline.classify import (
     is_navigable_way,
     kind_of,
     lake_allowlisted,
+    name_forms,
 )
 
 
@@ -37,6 +38,9 @@ def test_has_name_checks_alternative_keys(allow):
     assert allow.has_name({"name:de": "NAREW"})
     assert allow.has_name({"name": "Narwia", "alt_name": "Narew"})
     assert allow.has_name({"name": "Narwia", "name:fr": "Narew"})  # bilingual Canada: French names
+    # French names carry the article
+    assert allow.has_name({"name": "La Narew"}) and allow.has_name({"name": "L'Narew"}) and allow.has_name({"name": "L’ Narew"})
+    assert not allow.has_name({"name": "Lanarew"}) and not allow.has_name({"name": "La "})
     assert not allow.has_name({"name": "Odra", "name:en": "Oder"})
     assert not allow.has_name({})
 
@@ -124,6 +128,7 @@ def test_candidate_lake(tags, expected):
     ({"name": "Śniardwy"}, True),  # lakes list
     ({"name:de": "narew"}, True),  # waterway names count too
     ({"name": "Jezioro", "name:fr": "Śniardwy"}, True),
+    ({"name": "Le Śniardwy"}, True),
     ({"wikidata": "Q123"}, True),
     ({"boat": "yes"}, True),
     ({"motorboat": "official"}, True),
@@ -161,3 +166,10 @@ def test_channel_areas():
     assert is_channel_area({"waterway": "riverbank"})
     assert not is_channel_area({"natural": "water", "water": "lake"})
     assert not is_channel_area({"natural": "water"})
+
+
+def test_name_forms():
+    assert name_forms("L'Yonne") == ("l'yonne", "yonne")
+    assert name_forms("Les Andelys") == ("les andelys", "andelys")
+    assert name_forms("Yonne") == ("yonne",)
+    assert name_forms("La") == ("la",)
