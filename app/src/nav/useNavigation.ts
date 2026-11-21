@@ -160,6 +160,7 @@ export function useNavigation({ route, stops, via, position, startWatching, onRe
     saveTrack([]);
   }, []);
 
-  const rerouting = active && reroutedFrom !== null && reroutedFrom === line;
+  // the app drops the old route as soon as A moves to the boat, so no route at all also means "still re-routing"
+  const rerouting = active && reroutedFrom !== null && (line === null || reroutedFrom === line);
   return { active, follow, progress, motion, rerouting, error, start, stop, setFollow, voice, setVoice, track, clearTrack };
 }
