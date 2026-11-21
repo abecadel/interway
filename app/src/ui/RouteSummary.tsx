@@ -2,12 +2,21 @@ import { type ReactNode, useState } from 'react';
 import type { Itinerary } from '../routing/itinerary';
 import type { Route, VesselProfile } from '../routing/router';
 import { fmtDuration, fmtKm, fmtNm } from './format';
+import type { PoiType } from '../routing/service';
 import { Icon } from './icons';
 import { ItineraryView } from './ItineraryView';
-import { legPoints, seasonWarnings, waterwaysOn, waterwayWarnings } from '../routing/waterways';
+import { legPoints, waterwaysOn } from '../routing/waterways';
+import { badgeUrl } from '../map/sprites';
+import { Notices } from './Notices';
+import { routeNotices } from './routeNotices';
+import { optionName } from './routeOptions';
 import { WaterwaysView } from './WaterwaysView';
 import { RulesView } from './RulesView';
 import { routeCountries, rulesFor } from '../routing/rules';
+
+const STATS: [Exclude<PoiType, 'place'>, string, string][] = [
+  ['lock', 'lock', 'locks'], ['fuel', 'fuel berth', 'fuel berths'], ['marina', 'marina', 'marinas'], ['slipway', 'slipway', 'slipways'],
+];
 
 /** Time first, then distance and locks, warnings, and Start / Steps; the rest (exports, offline map) under More. */
 export function RouteSummary({ route, itinerary, profile, back, onStart, onStepsOpen, onFocus, more, options = [], chosen = 0, onChoose }: {
@@ -29,14 +38,15 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
   const [steps, setSteps] = useState(false);
   const waterways = waterwaysOn(legPoints(route));
   const rules = rulesFor(routeCountries(itinerary.stops));
-  const warnings = [...waterwayWarnings(waterways, profile.draft, profile.airDraft), ...seasonWarnings(route, profile)];
+  const notices = routeNotices(route, profile, waterways);
+  const stats = STATS.map(([kind, one, many]) => [kind, kind === 'lock' ? route.locks : itinerary.counts[kind] ?? 0, one, many] as const).filter(([, n]) => n > 0);
   return (
     <section className="summary" aria-label="Route">
       {options.length > 1 && (
         <div className="chips route-options" role="group" aria-label="Route options">
           {options.map((r, i) => (
             <button key={i} type="button" className="chip" aria-pressed={i === chosen} onClick={() => onChoose?.(i)}>
-              {fmtDuration(r.duration)} · {fmtKm(r.distance)}{i === 0 ? ' · best' : ''}
+              {optionName(options, i)} · {fmtDuration(r.duration)}
             </button>
           ))}
         </div>
@@ -44,39 +54,23 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
       <div className="summary-head">
         <div className="big">{fmtDuration(route.duration)}</div>
         <div className="muted">
-          {fmtKm(route.distance)} ({fmtNm(route.distance)}) · {route.locks} {route.locks === 1 ? 'lock' : 'locks'} · at {profile.speedKmh} km/h
+          {fmtKm(route.distance)} ({fmtNm(route.distance)}) · at {profile.speedKmh} km/h
         </div>
       </div>
+      {stats.length > 0 && (
+        <ul className="stat-chips" aria-label="On the way">
+          {stats.map(([kind, n, one, many]) => (
+            <li key={kind}><img src={badgeUrl(kind)} alt="" width="18" height="18" />{n} {n === 1 ? one : many}</li>
+          ))}
+        </ul>
+      )}
       {route.downstream + route.upstream > 0 && (
         <div className="small current">
           With the current {fmtKm(route.downstream)} · against it {fmtKm(route.upstream)} ({profile.currentMs} m/s)
           {back !== null && ` · return about ${fmtDuration(back)}`}
         </div>
       )}
-      {(route.start.offset > 200 || route.end.offset > 200) && (
-        <div className="warn small">
-          Start/end snapped to the nearest navigable water ({fmtKm(route.start.offset)} / {fmtKm(route.end.offset)} away).
-        </div>
-      )}
-      {route.noMotor > 500 && (
-        <div className="warn small">
-          {fmtKm(route.noMotor)} on waters where OpenStreetMap says motorboats are not allowed, with no other way. Check the local rules.
-        </div>
-      )}
-      {route.unverified > 0 && (
-        <div className="warn small">
-          Includes {fmtKm(route.unverified)} on unverified connections (short channels or manual links). Check locally before going.
-        </div>
-      )}
-      {route.sea > 0 && (
-        <div className="warn small">
-          {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
-          {route.shallowest && ` Shallowest stretch allows about ${route.shallowest.draft} m draft (km ${(route.shallowest.at / 1000).toFixed(0)}).`}
-          {route.seaNoDepth > 0 && ` Depth unknown for ${fmtNm(route.seaNoDepth)}: no charted depth in the planner there.`}
-          {route.tooShallow > 0 && ` ${(route.tooShallow / 1000).toFixed(0)} km charted shallower than your draft: check charts for a channel.`}
-        </div>
-      )}
-      {warnings.length > 0 && <div className="warn small">{warnings.join(' ')}</div>}
+      <Notices notices={notices} />
       <div className="action-row">
         <button type="button" className="pill primary start-nav" onClick={onStart}><Icon name="navigation" />Start</button>
         <button type="button" className="pill" aria-expanded={steps} onClick={() => { if (!steps) onStepsOpen(); setSteps(!steps); }}>

@@ -20,7 +20,7 @@ describe('RouteSummary', () => {
       <RouteSummary route={route} itinerary={{ stops: [], counts: {} }} profile={defaultProfile} back={null}
         onStart={() => {}} onStepsOpen={onStepsOpen} onFocus={() => {}} more={<span>more</span>} />,
     );
-    expect(screen.getByText(/· 1 lock ·/)).toBeTruthy();
+    expect(screen.getByText('1 lock')).toBeTruthy();
     fireEvent.click(screen.getByText('Steps'));
     expect(screen.getByText('Kanal')).toBeTruthy();
     fireEvent.click(screen.getByText('Steps'));

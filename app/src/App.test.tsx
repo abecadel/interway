@@ -88,7 +88,8 @@ describe('App', () => {
     fireEvent.click(screen.getByLabelText('Close layers'));
     expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile, []);
     expect(screen.getByText('5 h 0 min')).toBeTruthy();
-    expect(screen.getByText('123 km (66.7 NM) · 2 locks · at 10 km/h')).toBeTruthy();
+    expect(screen.getByText('123 km (66.7 NM) · at 10 km/h')).toBeTruthy();
+    expect(screen.getByText('2 locks')).toBeTruthy();
     // legs and stops are behind Steps
     expect(screen.queryByText('unnamed waterway')).toBeNull();
     fireEvent.click(screen.getByText('Steps'));
@@ -120,9 +121,14 @@ describe('App', () => {
     const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, seaNoDepth: 9260, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
     render(<App client={far} />);
     await flush();
-    expect(screen.getByText(/snapped to the nearest navigable water \(1\.5 km/)).toBeTruthy();
-    expect(screen.getByText(/Includes 2\.5 km on unverified connections/)).toBeTruthy();
-    expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). Depth unknown for 5.0 NM');
+    // the most serious first; the rest fold under it
+    expect(screen.getByText('4 km charted shallower than your draft')).toBeTruthy();
+    expect(screen.queryByText('2.5 km on unverified connections')).toBeNull();
+    fireEvent.click(screen.getByText('+ 3 more notes'));
+    expect(screen.getByText('Start or end moved to navigable water')).toBeTruthy();
+    expect(screen.getByText('Nearest navigable water: the start 1.5 km away.')).toBeTruthy();
+    expect(screen.getByText('2.5 km on unverified connections')).toBeTruthy();
+    expect(screen.getByText('10.0 NM on open sea').nextSibling!.textContent).toContain('The shallowest stretch allows about 2.3 m draft (km 40). Depth unknown for 5.0 NM');
   });
 
   it('shows the river current and the time of the way back', async () => {
@@ -543,9 +549,9 @@ describe('App', () => {
     await flush();
     await flush();
     expect(client.alternatives).toHaveBeenCalledWith([1, 2], [3, 4], defaultProfile);
-    expect(screen.getByText('5 h 0 min · 123 km · best').getAttribute('aria-pressed')).toBe('true');
-    expect(mapProps.current!.alternatives).toEqual([{ index: 1, coordinates: other.coordinates, label: '6 h 0 min' }]);
-    fireEvent.click(screen.getByText('6 h 0 min · 140 km'));
+    expect(screen.getByText('Best · 5 h 0 min').getAttribute('aria-pressed')).toBe('true');
+    expect(mapProps.current!.alternatives).toEqual([{ index: 1, coordinates: other.coordinates, label: '+1 h 0 min' }]);
+    fireEvent.click(screen.getByText('Option 2 · 6 h 0 min'));
     expect(screen.getByText('6 h 0 min', { selector: '.big' })).toBeTruthy();
     expect(mapProps.current!.route).toBe(other);
     // the best one is now the grey line: a tap on it takes it back
@@ -565,7 +571,7 @@ describe('App', () => {
     const f = render(<App client={failing} />);
     await flush();
     await flush();
-    expect(screen.queryByText(/· best/)).toBeNull();
+    expect(screen.queryByText(/Best ·/)).toBeNull();
     f.unmount();
     let late: (r: Route[]) => void = () => {};
     const slow = fakeClient({ alternatives: vi.fn(() => new Promise<Route[]>((res) => { late = res; })) });

@@ -182,20 +182,34 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
 /** A bridge clearance less than this above the air draft is worth a warning (arches are lower at the sides). */
 const NEAR_BRIDGE_M = 0.5;
 
+export type IssueKind = 'closed' | 'banned' | 'restricted' | 'draft' | 'air' | 'bridge';
+
+export interface WaterwayIssue {
+  kind: IssueKind;
+  waterway: WaterwayInfo;
+  text: string;
+}
+
 /** What the boat cannot do on these waterways (deeper or taller than they allow) and what is closed or restricted. */
-export function waterwayWarnings(infos: WaterwayInfo[], draft: number, airDraft: number): string[] {
-  const out: string[] = [];
+export function waterwayIssues(infos: WaterwayInfo[], draft: number, airDraft: number): WaterwayIssue[] {
+  const out: WaterwayIssue[] = [];
+  const add = (kind: IssueKind, w: WaterwayInfo, text: string) => out.push({ kind, waterway: w, text });
   for (const w of infos) {
     // the reasons and dates are in the sheet: the warning says what and as of when
-    if (w.navigable === 'closed') out.push(`${w.name}: closed as of ${w.checked}, see About the waterways.`);
-    if (w.rules?.motorboats === 'banned') out.push(`${w.name}: motorboats are not allowed (as of ${w.checked}), see About the waterways.`);
-    else if (w.navigable === 'restricted') out.push(`${w.name}: navigation restricted as of ${w.checked}, see About the waterways.`);
-    if (w.depth.maxDraftM !== null && draft > w.depth.maxDraftM) out.push(`${w.name}: draft ${draft} m exceeds the usual ${w.depth.maxDraftM} m.`);
-    if (w.airDraftM !== null && airDraft >= w.airDraftM) out.push(`${w.name}: air draft ${airDraft} m vs lowest bridge ${w.airDraftM} m.`);
+    if (w.navigable === 'closed') add('closed', w, `${w.name}: closed as of ${w.checked}, see About the waterways.`);
+    if (w.rules?.motorboats === 'banned') add('banned', w, `${w.name}: motorboats are not allowed (as of ${w.checked}), see About the waterways.`);
+    else if (w.navigable === 'restricted') add('restricted', w, `${w.name}: navigation restricted as of ${w.checked}, see About the waterways.`);
+    if (w.depth.maxDraftM !== null && draft > w.depth.maxDraftM) add('draft', w, `${w.name}: draft ${draft} m exceeds the usual ${w.depth.maxDraftM} m.`);
+    if (w.airDraftM !== null && airDraft >= w.airDraftM) add('air', w, `${w.name}: air draft ${airDraft} m vs lowest bridge ${w.airDraftM} m.`);
     else if (w.airDraftM !== null && airDraft > w.airDraftM - NEAR_BRIDGE_M) {
-      out.push(`${w.name}: lowest bridge ${w.airDraftM} m leaves ${Math.round((w.airDraftM - airDraft) * 100) / 100} m above your air draft`
+      add('bridge', w, `${w.name}: lowest bridge ${w.airDraftM} m leaves ${Math.round((w.airDraftM - airDraft) * 100) / 100} m above your air draft`
         + ` ${airDraft} m; arched bridges are lower towards the sides: see About the waterways.`);
     }
   }
   return out;
+}
+
+/** The same as sentences (for the brief). */
+export function waterwayWarnings(infos: WaterwayInfo[], draft: number, airDraft: number): string[] {
+  return waterwayIssues(infos, draft, airDraft).map((i) => i.text);
 }
