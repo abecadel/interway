@@ -24,6 +24,8 @@ interface TestRoute {
   max_sea_km?: number;
   // boat for the route when the default (3 m beam) does not fit, e.g. a narrowboat on the English narrow canals
   vessel?: Partial<VesselProfile>;
+  // a known gap in the data that makes this route fail today (expected to fail: when it passes, remove the gap)
+  known_gap?: string;
   source: string;
 }
 
@@ -47,7 +49,8 @@ describe('canonical routes', () => {
     only ? only.some((o: string) => r.name.includes(o)) : r.countries.every((c) => covered.has(c)) && (!r.sea || manifest.sea === true);
 
   for (const r of routes) {
-    it.skipIf(!wanted(r))(r.name, () => {
+    const test = !wanted(r) ? it.skip : r.known_gap ? it.fails : it;
+    test(r.known_gap ? `${r.name} [known gap: ${r.known_gap}]` : r.name, () => {
       const pts = [r.from, ...(r.waypoints ?? []), r.to];
       const profile = { ...defaultProfile, ...r.vessel };
       const parts = pts.slice(1).map((p, i) => router.route(pts[i], p, profile));

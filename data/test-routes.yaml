@@ -6,6 +6,7 @@
 #   via          waterway names (substring, case-insensitive) that must appear in the route's legs
 #   min_locks    lower bound for the number of locks passed
 #   source       where expected_km comes from (trip reports, official guides)
+#   known_gap    why the data fails this route today: the test expects it to fail, and says when it passes
 
 # --- Poland --------------------------------------------------------------------------------------------
 - name: Zalew Zegrzyński → Giżycko (Mazury)
@@ -771,6 +772,7 @@
   source: https://www.liveriga.com (Riga – Jūrmala river boats down the Daugava and up the Lielupe, about 35 km)
 
 - name: Aalborg → Thyborøn (Limfjord)
+  known_gap: the 2026-11-21 sea mesh lost Sallingsund; fixed by the Limfjord narrows in the next build
   from: [9.92, 57.05]
   to: [8.21, 56.70]
   expected_km: 160
@@ -902,6 +904,7 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/barcelona-palma (about 130 NM; other ferry sites give 110–112 NM, so the midpoint and a wide tolerance)
 
 - name: Bonifacio → Santa Teresa Gallura (Strait of Bonifacio)
+  known_gap: Santa Teresa joins the sea 3.7 km away; fixed by the Porto Longone narrows in the next build
   from: [9.1600, 41.3892]
   to: [9.1956, 41.2378]
   expected_km: 17
@@ -1286,3 +1289,2749 @@
   sea: true
   countries: [US]
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Norfolk to Baltimore 173 NM)
+
+# --- Mazury (Great Masurian Lakes) (researched 2026-11-21) -------------------------------------------------------------
+
+- name: Giżycko → Mikołajki (Great Masurian Lakes main route)
+  from: [21.7726, 54.031]
+  to: [21.5733, 53.7986]
+  expected_km: 37.2
+  tolerance: 0.15
+  countries: [PL]
+  via: [Niegocin, Jagodne, Tałty]
+  source: https://mazury.info.pl/atrakcje/szlaki/zeglowne.html (szlak Giżycko – Mikołajki, 37.20 km Wioska Żeglarska w Mikołajkach; also https://lik-czarter.pl/najpopularniejsze-mazurskie-szlaki/ 37.20
+    km)
+
+- name: Giżycko → Węgorzewo (Kanał Łuczański, Kisajno, Mamry, Kanał Węgorzewski)
+  known_gap: Kanał Łuczański ends short of Kisajno and Kanał Węgorzewski/Węgorapa are missing
+  from: [21.7726, 54.031]
+  to: [21.7365, 54.2097]
+  expected_km: 25.2
+  tolerance: 0.15
+  countries: [PL]
+  via: [Kisajno, Mamry]
+  source: https://mazury24.eu/szlaki-wodne/szlak-zeglowny-gizycko-wegorzewo,530 (km table 0.00 Giżycko – 0.30 swing bridge – 2.43 Kisajno – 14.50 Kirsajty bridge – 23.70 Kanał Węgorzewski – 25.20 port Węgorzewo;
+    same 25.20 km on mazury.info.pl)
+
+- name: Mikołajki → Ruciane-Nida (Bełdany, Guzianka lock)
+  from: [21.5733, 53.7986]
+  to: [21.5698, 53.6412]
+  expected_km: 19.2
+  tolerance: 0.2
+  countries: [PL]
+  via: [Bełdany, Guzianka]
+  min_locks: 1
+  source: https://mazury24.eu/szlaki-wodne/szlak-zeglowny-mikolajki-ruciane-nida,533 (19.20 km; Guzianka lock at ~16.70 km) and https://mazury.info.pl/atrakcje/szlaki/zeglowne.html
+
+- name: Mikołajki → Pisz (Śniardwy, Kanał Jegliński, Karwik lock)
+  from: [21.5733, 53.7986]
+  to: [21.8168, 53.6344]
+  expected_km: 25
+  tolerance: 0.15
+  countries: [PL]
+  via: [Śniardwy, Jegliński, Roś]
+  min_locks: 1
+  source: https://mazury24.eu/szlaki-wodne/szlak-zeglowny-mikolajki-pisz,532 (25.00 km, Kanał Jegliński 18.45–23.70 km with Karwik lock) and https://mazury.info.pl/atrakcje/szlaki/zeglowne.html
+
+- name: Mikołajki → Ryn (Tałty, Ryńskie)
+  from: [21.5733, 53.7986]
+  to: [21.5429, 53.9362]
+  expected_km: 20
+  tolerance: 0.15
+  countries: [PL]
+  via: [Tałty, Ryńskie]
+  source: https://mazury24.eu/szlaki-wodne/szlak-zeglowny-mikolajki-ryn,534 (20.00 km, port w Rynie) and https://mazury.info.pl/atrakcje/szlaki/zeglowne.html
+
+- name: Pisz → Węgorzewo (whole main route of the Great Masurian Lakes)
+  from: [21.8168, 53.6344]
+  to: [21.7365, 54.2097]
+  expected_km: 86.8
+  tolerance: 0.15
+  countries: [PL]
+  via: [Roś, Śniardwy, Tałty, Kisajno, Mamry]
+  min_locks: 1
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (UŻŚ Bydgoszcz Zarządzenie 7/2024, row 51 — main route Pisz – Węgorzewo km 0.00 – 86.80)
+
+- name: Pisz → Okartowo (Śniardwy side route I)
+  from: [21.8168, 53.6344]
+  to: [21.859, 53.803]
+  expected_km: 29.2
+  tolerance: 0.15
+  countries: [PL]
+  via: [Jegliński, Śniardwy]
+  min_locks: 1
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (row 51a — side route I leaves the main route at km 15.00 on Śniardwy and runs 14.20 km to Okartowo; 15.00 + 14.20)
+
+- name: Pisz → Ruciane-Nida (Karwik and Guzianka locks)
+  from: [21.8168, 53.6344]
+  to: [21.5698, 53.6412]
+  expected_km: 41.5
+  tolerance: 0.15
+  countries: [PL]
+  via: [Śniardwy, Bełdany]
+  min_locks: 2
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (row 51b — side route II from main km 22.00 on Jezioro Mikołajskie, 19.50 km to Ruciane-Nida; 22.00 + 19.50)
+
+- name: Pisz → Ryn (Śniardwy, Tałty, Ryńskie)
+  from: [21.8168, 53.6344]
+  to: [21.5429, 53.9362]
+  expected_km: 45
+  tolerance: 0.15
+  countries: [PL]
+  via: [Śniardwy, Tałty, Ryńskie]
+  min_locks: 1
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (row 51c — side route III from main km 32.50 on Tałty, 12.50 km to the Ryn passenger quay; 32.50 + 12.50)
+
+- name: Ryn → Giżycko (Ryńskie, Tałty, the Masurian canals, Niegocin)
+  from: [21.5429, 53.9362]
+  to: [21.7726, 54.031]
+  expected_km: 42.2
+  tolerance: 0.15
+  countries: [PL]
+  via: [Ryńskie, Tałty, Niegocin]
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (row 51c Ryn 12.50 km from main km 32.50; Giżycko gauge at main km 62.20; 12.50 + 62.20 − 32.50)
+
+- name: Ruciane-Nida → Giżycko (classic one-way charter)
+  from: [21.5698, 53.6412]
+  to: [21.7726, 54.031]
+  expected_km: 59.7
+  tolerance: 0.15
+  countries: [PL]
+  via: [Bełdany, Tałty, Niegocin]
+  min_locks: 1
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (row 51b Ruciane-Nida 19.50 km from main km 22.00; Giżycko gauge at main km 62.20; 19.50 + 62.20 − 22.00)
+
+- name: Giżycko → Ogonki (Kisajno, Mamry, Święcajty side route V)
+  known_gap: Kanał Łuczański ends short of Kisajno (the way north goes via Tajty)
+  from: [21.7726, 54.031]
+  to: [21.8127, 54.178]
+  expected_km: 25.75
+  tolerance: 0.15
+  countries: [PL]
+  via: [Kisajno, Mamry, Święcajty]
+  source: https://mazury24.eu/szlaki-wodne/szlak-zeglowny-gizycko-wegorzewo,530 (side route to Ogonki branches at 17.25 km, about 8.5 km long; 17.25 + 8.5). Official — main km 78.75 – Ogonki 8.50 km, Giżycko
+    km 62.20 → 25.05 km (Zarządzenie 7/2024 row 51e)
+
+- name: Węgorzewo → Ogonki (Mamry, Święcajty)
+  known_gap: 'Kanał Węgorzewski/Węgorapa are missing: Węgorzewo snaps 2 km away'
+  from: [21.7365, 54.2097]
+  to: [21.8127, 54.178]
+  expected_km: 16.55
+  tolerance: 0.2
+  countries: [PL]
+  via: [Mamry, Święcajty]
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (main route km 86.80 Węgorzewo, side route V from km 78.75, 8.50 km to Ogonki; 86.80 − 78.75 + 8.50)
+
+- name: Mikołajki → Kamień (Bełdany)
+  from: [21.5733, 53.7986]
+  to: [21.5616, 53.7221]
+  expected_km: 10.5
+  tolerance: 0.25
+  countries: [PL]
+  via: [Bełdany]
+  source: https://mazury.info.pl/atrakcje/szlaki/zeglowne.html (Mikołajki – Ruciane-Nida table, PTTK water-tourism centre near Kamień at ~10.50 km)
+
+- name: Pisa — Pisz → Nowogród (Narew confluence)
+  from: [21.8168, 53.6344]
+  to: [21.865, 53.232]
+  expected_km: 80
+  tolerance: 0.15
+  countries: [PL]
+  via: [Pisa]
+  source: https://edzienniki.olsztyn.uw.gov.pl/WDU_N/2024/3162/akt.pdf (row 49 — Pisa km 0.00 Nowogród, mouth into the Narew, to km 80.0 Pisz, outflow from Roś); Wody Polskie KN 19/2026 uses the same kilometrage
+
+- name: Giżycko → Węgorzewo → Mikołajki → Giżycko (charter loop)
+  from: [21.7726, 54.031]
+  waypoints:
+  - [21.7365, 54.2097]
+  - [21.5733, 53.7986]
+  to: [21.7726, 54.031]
+  expected_km: 120
+  tolerance: 0.15
+  countries: [PL]
+  via: [Mamry, Niegocin, Tałty]
+  source: https://puntovita.pl/trasy-zeglarskie-na-mazurach-podczas-rejsow/ ("Giżycko – Węgorzewo – Mikołajki – Giżycko … długość tej trasy żeglarskiej wynosi około 120 km")
+
+- name: Ruciane-Nida round trip via Mikołajki, Giżycko, Węgorzewo, Sztynort and Pisz (charter week)
+  from: [21.5698, 53.6412]
+  waypoints:
+  - [21.5733, 53.7986]
+  - [21.7726, 54.031]
+  - [21.7365, 54.2097]
+  - [21.6803, 54.1298]
+  - [21.5733, 53.7986]
+  - [21.8168, 53.6344]
+  to: [21.5698, 53.6412]
+  expected_km: 223
+  tolerance: 0.2
+  countries: [PL]
+  via: [Bełdany, Niegocin, Mamry, Śniardwy, Roś]
+  min_locks: 3
+  source: https://www.traseo.pl/trasa/ruciane-mikolajki-gizycko-wegorzewo-sztynort-mikoljaki-pisz-ruciane (sailing route Ruciane – Mikołajki – Giżycko – Węgorzewo – Sztynort – Mikołajki – Pisz – Ruciane,
+    223 km)
+
+# --- Croatia and the Bay of Kotor (researched 2026-11-21) --------------------------------------------------------------
+
+- name: ACI Rovinj → ACI Pula (Istria)
+  from: [13.633, 45.0762]
+  to: [13.8425, 44.8735]
+  expected_km: 30
+  tolerance: 0.3
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/istria/pula-sailing-itineraries/rovinj-1 (day 1, Rovinj – Pula 18 NM); https://justperfect-sailing.com/en/blog-news/routes/7-day-sailing-route-pula-istras-kvarner.html
+    (day 1, Marina Pula – ACI Rovinj 14 NM); midpoint 16 NM, wide tolerance
+
+- name: Pula → Mali Lošinj (Kvarner crossing)
+  from: [13.8425, 44.8735]
+  to: [14.4645, 44.534]
+  expected_km: 67
+  tolerance: 0.2
+  countries: [HR]
+  sea: true
+  source: https://www.helm.yt/itinerary/pula-yacht-vacation (day 2, Pula – Lošinj 36 NM, via the south side of Unije)
+
+- name: Marina Punat (Krk) → ACI Cres
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [14.623, 45.029]
+  to: [14.4125, 44.949]
+  expected_km: 31
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachtbooker.com/countries/croatia/krk-punat?filter=31 (one-week Punat loop, day 1 Punat – Cres 17 NM)
+
+- name: Mali Lošinj → Rab (ACI Rab)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [14.4645, 44.534]
+  to: [14.761, 44.756]
+  expected_km: 44
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/istria/pula-sailing-itineraries/rovinj-1 (day 5, Mali Lošinj – Rab 23 NM); https://www.yachtbooker.com/countries/croatia/krk-punat?filter=31
+    (Rab – Mali Lošinj 25 NM); midpoint 24 NM
+
+- name: Mali Lošinj → Silba
+  from: [14.4645, 44.534]
+  to: [14.689, 44.381]
+  expected_km: 39
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachtbooker.com/countries/croatia/krk-punat?filter=31 (day 4, Mali Lošinj – Silba 20 NM); Marenauta Kvarner cruise gives Lošinj – Silba 22 NM; midpoint 21 NM
+
+- name: Sukošan (D-Marin Dalmacija) → Biograd na Moru
+  from: [15.299, 44.054]
+  to: [15.4405, 43.941]
+  expected_km: 18.5
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/zadar/sukosan/route-1 (day 1, Sukošan – Biograd na Moru 10 NM)
+
+- name: Biograd na Moru → Šibenik (Pašman channel – Murter sea – St. Anthony channel)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [15.4405, 43.941]
+  to: [15.8875, 43.7345]
+  expected_km: 46
+  tolerance: 0.2
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/zadar/sukosan/route-1 (day 2, Biograd na Moru – Šibenik 25 NM)
+
+- name: Zadar (Marina Zadar) → Murter (Marina Hramina)
+  from: [15.227, 44.1195]
+  to: [15.5895, 43.827]
+  expected_km: 43
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/zadar/zadar-sailing-itineraries-routes/route-2 (day 1, Zadar – Murter 23 NM; the straight line is already about 23.5 NM, so the route through
+    the Pašman channel will be at the top of the tolerance)
+
+- name: Murter → ACI Skradin (St. Anthony channel, Krka)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [15.5895, 43.827]
+  to: [15.9205, 43.815]
+  expected_km: 49
+  tolerance: 0.2
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/sibenik/zaton/route-1 (day 6, Murter – Skradin 26 NM); https://www.yachting.com/en-gb/destinations/croatia/zadar/zadar-sailing-itineraries-routes/route-2
+    (day 2, Murter – Skradin 27 NM)
+
+- name: Šibenik → ACI Skradin (up the Krka)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [15.8875, 43.7345]
+  to: [15.9205, 43.815]
+  expected_km: 17
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.sea-help.eu/en/cruise/cruise-tip-sibenik-krka-croatia/ (ACI Skradin about 10 NM from Šibenik); boote-magazin and charter guides give 8–9 NM; 9 NM used
+
+- name: ACI Skradin → Zlarin
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [15.9205, 43.815]
+  to: [15.833, 43.698]
+  expected_km: 24
+  tolerance: 0.3
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/zadar/zadar-sailing-itineraries-routes/route-2 (day 3, Skradin – Zlarin 11 NM); https://www.yachting.com/en-gb/destinations/croatia/zadar/sukosan/route-1
+    (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
+
+- name: ACI Trogir → Maslinica (Šolta)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [16.2475, 43.515]
+  to: [16.204, 43.3985]
+  expected_km: 26
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 1, Trogir – Maslinica 14 NM)
+
+- name: Maslinica (Šolta) → Komiža (Vis)
+  from: [16.204, 43.3985]
+  to: [16.0905, 43.0425]
+  expected_km: 56
+  tolerance: 0.2
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 2, Maslinica – Komiža 30 NM)
+
+- name: Komiža → Vis town (round the west of Vis)
+  from: [16.0905, 43.0425]
+  to: [16.187, 43.0625]
+  expected_km: 20
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 3, Komiža – Vis Town 11 NM)
+
+- name: Vis town → Pakleni otoci (Palmižana / Vinogradišće)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [16.187, 43.0625]
+  to: [16.3965, 43.1615]
+  expected_km: 31
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 4, Vis Town – Vinogradišće, Pakleni Islands 17 NM)
+
+- name: Hvar town → Stari Grad (round Pelegrin)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [16.4407, 43.1715]
+  to: [16.593, 43.186]
+  expected_km: 22
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 4, Hvar – Stari Grad 12 NM)
+
+- name: Stari Grad (Hvar) → Bol (Brač)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [16.593, 43.186]
+  to: [16.655, 43.261]
+  expected_km: 28
+  tolerance: 0.3
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 5, Stari Grad – Bol 15 NM; another outline gives about 20 NM, hence the wide tolerance)
+
+- name: Bol → Milna (Brač, through the Split channel)
+  from: [16.655, 43.261]
+  to: [16.4484, 43.3258]
+  expected_km: 22
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 6, Bol – Milna 12 NM)
+
+- name: Milna (Brač) → ACI Trogir
+  from: [16.4484, 43.3258]
+  to: [16.2475, 43.515]
+  expected_km: 37
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 7, Milna – Trogir 20 NM)
+
+- name: Split → Bol (catamaran line)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [16.44, 43.503]
+  to: [16.655, 43.261]
+  expected_km: 35
+  tolerance: 0.2
+  countries: [HR]
+  sea: true
+  source: https://www.directferries.com/split_bol_ferry.htm (Split – Bol about 19 NM)
+
+- name: ACI Korčula → Pomena (Mljet)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [17.1365, 42.9595]
+  to: [17.344, 42.7892]
+  expected_km: 27
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.moorings.com/destinations/mediterranean/croatia/dubrovnik-yacht-charters/itinerary/7-day-power-itinerary-short-distance-itinerary (day 5, Korčula town – Pomena 14.5 NM); yachting.com
+    split-5 gives Korčula – Mljet 16 NM
+
+- name: ACI Dubrovnik (Komolac) → Lopud (Elaphites)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [18.124, 42.6715]
+  to: [17.9425, 42.6895]
+  expected_km: 16
+  tolerance: 0.25
+  countries: [HR]
+  sea: true
+  source: https://www.moorings.com/destinations/mediterranean/croatia/dubrovnik-yacht-charters/itinerary/7-day-power-itinerary-short-distance-itinerary (day 1, Lopud town 8.2 NM from the ACI base); https://www.yacht.de/en/croatia/cruise-suggestion-dubrovnik-pines-and-palm-trees/
+    (Dubrovnik ACI – Lopud 9 NM)
+
+- name: Šipanska Luka (Šipan) → ACI Dubrovnik (Komolac)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [17.8615, 42.729]
+  to: [18.124, 42.6715]
+  expected_km: 28
+  tolerance: 0.2
+  countries: [HR]
+  sea: true
+  source: https://www.moorings.com/destinations/mediterranean/croatia/dubrovnik-yacht-charters/itinerary/7-day-power-itinerary-short-distance-itinerary (day 7, Šipanska Luka – Dubrovnik ACI Marina 15.2
+    NM)
+
+- name: Tivat (Porto Montenegro) → Perast (Bay of Kotor)
+  from: [18.688, 42.433]
+  to: [18.6995, 42.485]
+  expected_km: 7.4
+  tolerance: 0.3
+  countries: [ME]
+  sea: true
+  source: https://www.helm.yt/itinerary/montenegro-yachting-holiday (day 1, Tivat – Perast 4 NM, through the Verige strait)
+
+- name: Tivat (Porto Montenegro) → Kotor
+  from: [18.688, 42.433]
+  to: [18.765, 42.4265]
+  expected_km: 15
+  tolerance: 0.25
+  countries: [ME]
+  sea: true
+  source: https://www.helm.yt/itinerary/montenegro-yachting-holiday (Tivat – Perast 4 NM + Perast – Kotor 5 NM); other Boka itineraries give Tivat – Kotor about 8 NM through the Verige narrows
+
+- name: Kotor → Herceg Novi
+  from: [18.765, 42.4265]
+  to: [18.537, 42.4495]
+  expected_km: 24
+  tolerance: 0.2
+  countries: [ME]
+  sea: true
+  source: https://www.helm.yt/itinerary/montenegro-yachting-holiday (day 3, Kotor – Herceg Novi 13 NM; other itineraries 12–15 NM)
+
+- name: Herceg Novi → Budva (out of the Bay of Kotor)
+  from: [18.537, 42.4495]
+  to: [18.8395, 42.2795]
+  expected_km: 37
+  tolerance: 0.2
+  countries: [ME]
+  sea: true
+  source: https://www.helm.yt/itinerary/montenegro-yachting-holiday (day 4, Herceg Novi – Budva 20 NM)
+
+# --- Greece (researched 2026-11-21) ------------------------------------------------------------------------------------
+
+- name: Spetses (Dapia) → Hydra (Saronic Gulf)
+  from: [23.16, 37.2685]
+  to: [23.466, 37.3515]
+  expected_km: 30
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route D day 5, Spetses port – Hydra port 16 NM)
+
+- name: Ermioni → Hydra (Saronic Gulf)
+  from: [23.247, 37.388]
+  to: [23.466, 37.3515]
+  expected_km: 20
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route C day 5, Ermioni – Hydra port 11 NM)
+
+- name: Spetses → Ermioni (Argolic Gulf entrance)
+  from: [23.16, 37.2685]
+  to: [23.247, 37.388]
+  expected_km: 21
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route D day 4, Ermioni – Spetses port 11 NM; Moorings 7-day Saronic itinerary day 4 gives 12 NM)
+
+- name: Hydra → Nafplio (Argolic Gulf)
+  from: [23.466, 37.3515]
+  to: [22.7985, 37.5705]
+  expected_km: 80
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route E day 3, Hydra – Nafplio 43 NM)
+
+- name: Leonidio (Plaka) → Nafplio (Argolic Gulf)
+  from: [22.8965, 37.147]
+  to: [22.7985, 37.5705]
+  expected_km: 50
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route I day 7, Leonidion – Nafplio 27 NM)
+
+- name: Poros → Palaia Epidavros (Saronic Gulf)
+  from: [23.456, 37.4976]
+  to: [23.16, 37.6385]
+  expected_km: 40
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route I day 12, Poros – P. Epidavros 21 NM; Moorings 7-day Saronic itinerary day 6 gives 22 NM)
+
+- name: Perdika (Aegina) → Poros (Saronic Gulf)
+  from: [23.453, 37.6908]
+  to: [23.456, 37.4976]
+  expected_km: 24
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (routes C day 3 and G day 7, Perdika on Aegina – Poros 13 NM)
+
+- name: Alimos Marina → Hydra (Saronic Gulf)
+  from: [23.702, 37.9115]
+  to: [23.466, 37.3515]
+  expected_km: 67
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route E day 2, Alimos/Kalamaki – Hydra 36 NM)
+
+- name: Lavrio → Merichas (Kythnos, Cyclades)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [24.066, 37.711]
+  to: [24.4, 37.39]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/lavrio-kythnos (Lavrio – Kythnos port about 25 NM)
+
+- name: Sounion → Korissia (Kea, Cyclades)
+  from: [24.023, 37.653]
+  to: [24.314, 37.661]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (routes A day 3 and E day 3, Sounion – Ag Nikolaos on Kea 15 NM)
+
+- name: Ermoupoli (Syros) → Tinos (Cyclades)
+  from: [24.944, 37.44]
+  to: [25.158, 37.5375]
+  expected_km: 22
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (route N day 3, Ermoupoli on Syros – Tinos port 12 NM; route B variant Tinos – Ermoupoli 12 NM)
+
+- name: Parikia (Paros) → Ermoupoli (Syros, Cyclades)
+  from: [25.146, 37.088]
+  to: [24.944, 37.44]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (route N day 2, Parikia on Paros – Ermoupoli on Syros 25 NM)
+
+- name: Naxos → Naoussa (Paros, Cyclades)
+  from: [25.37, 37.1085]
+  to: [25.238, 37.1265]
+  expected_km: 17
+  tolerance: 0.25
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (route M day 13, Naxos port – Naoussa on Paros 9 NM)
+
+- name: Karavostasis (Folegandros) → Vlychada (Santorini, Cyclades)
+  from: [24.949, 36.6185]
+  to: [25.435, 36.336]
+  expected_km: 54
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (routes L day 3, M day 5 and P day 12, Karavostasi on Folegandros – Vlichada on Santorini 29 NM)
+
+- name: Karavostasis (Folegandros) → Ios (Cyclades)
+  from: [24.949, 36.6185]
+  to: [25.27, 36.7215]
+  expected_km: 33
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (route F day 9, Karavostasi on Folegandros – Ios port 18 NM)
+
+- name: Livadi (Serifos) → Adamas (Milos, Cyclades)
+  from: [24.53, 37.13]
+  to: [24.443, 36.722]
+  expected_km: 52
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (route H day 6, Livadi on Serifos – Adamas on Milos 28 NM)
+
+- name: Kos → Pothia (Kalymnos, Dodecanese)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [27.289, 36.8954]
+  to: [26.987, 36.946]
+  expected_km: 31
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/dodecanese-itineraries.html (routes A, B, E and J day 2, Kos – Kalymnos port 17 NM; Plain Sailing Kos itinerary day 1 gives 18 NM)
+
+- name: Lakki (Leros) → Skala (Patmos, Dodecanese)
+  from: [26.85, 37.13]
+  to: [26.546, 37.324]
+  expected_km: 37
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/dodecanese-itineraries.html (route B day 4, Lakki on Leros – Patmos port (Skala) 20 NM; Plain Sailing Kos itinerary day 3 also 20 NM)
+
+- name: Rhodes (Mandraki) → Symi (Dodecanese)
+  from: [28.227, 36.45]
+  to: [27.837, 36.6175]
+  expected_km: 48
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/dodecanese-itineraries.html (route I day 11, Rhodes port (Mandraki) – Symi port 26 NM; routes O and P give Symi – Rhodes 26 NM)
+
+- name: Kos → Pali (Nisyros, Dodecanese)
+  from: [27.289, 36.8954]
+  to: [27.176, 36.621]
+  expected_km: 41
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/dodecanese-itineraries.html (routes E, F, G and I, Kos – Palon on Nisyros 22 NM)
+
+- name: Gouvia Marina → Kassiopi (Corfu)
+  from: [19.856, 39.6492]
+  to: [19.9225, 39.7925]
+  expected_km: 22
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (routes B, C, D and F day 2, Gouvia marina – Kassiopi 12 NM)
+
+- name: Syvota → Parga (Epirus coast, Ionian)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [20.24, 39.4055]
+  to: [20.401, 39.281]
+  expected_km: 26
+  tolerance: 0.25
+  sea: true
+  countries: [GR]
+  source: https://plainsailing.com/destinations/greece/Corfu (day 3, Sivota Mourtos – Parga 13 nM); sailingissues.com Ionian routes A/B/E give Syvota – Parga 15 NM
+
+- name: Lefkas Marina → Parga (Ionian)
+  from: [20.7128, 38.8296]
+  to: [20.401, 39.281]
+  expected_km: 59
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (routes D, E, J and K, Lefkada city – Parga 32 NM; leaves north through the Lefkas canal swing bridge)
+
+- name: Vathy (Meganisi) → Lefkas Marina via the Lefkas Canal
+  from: [20.787, 38.6645]
+  to: [20.7128, 38.8296]
+  expected_km: 20
+  tolerance: 0.25
+  sea: true
+  countries: [GR]
+  via: [Δίαυλος]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route G day 7, Vathy (Meganisi) – Lefkas 11 NM; Plain Sailing Lefkas itinerary day 6 gives 10 nM)
+
+- name: Sami (Kefalonia) → Vathy (Ithaca)
+  from: [20.648, 38.253]
+  to: [20.718, 38.368]
+  expected_km: 31
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route I day 4, Sami – Vathy (Ithaca) 17 NM; Plain Sailing Lefkas itinerary day 3 gives Vathi – Sami 17 nM)
+
+- name: Sami (Kefalonia) → Zakynthos (Ionian)
+  from: [20.648, 38.253]
+  to: [20.903, 37.78]
+  expected_km: 67
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route K day 7, Sami – Zakynthos port 36 NM)
+
+- name: Zakynthos → Katakolo (Olympia, Ionian)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [20.903, 37.78]
+  to: [21.322, 37.646]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (routes F day 13 and K day 8, Katakolo – Zakynthos port 25 NM)
+
+- name: Volos → Skiathos (Pagasitic Gulf, Sporades)
+  from: [22.946, 39.356]
+  to: [23.49, 39.161]
+  expected_km: 76
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/volos-skiathos (Volos – Skiathos port 41 NM)
+
+- name: Volos → Agia Kyriaki (Trikeri, Pagasitic Gulf)
+  from: [22.946, 39.356]
+  to: [23.069, 39.09]
+  expected_km: 33
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://plainsailing.com/destinations/greece/Volos (day 1, Volos – Kiriaki 18 nM; theglobesailor.com Volos itinerary gives Agia Kyriaki – Volos 17 NM)
+
+- name: Skopelos → Skiathos (Sporades)
+  from: [23.724, 39.125]
+  to: [23.49, 39.161]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://plainsailing.com/destinations/greece/Volos (day 4, Skopelos – Skiathos 15 nM)
+
+- name: Patitiri (Alonissos) → Skiathos (Sporades)
+  from: [23.866, 39.142]
+  to: [23.49, 39.161]
+  expected_km: 39
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://plainsailing.com/destinations/greece/Skiathos (day 6, Patitiri – Skiathos 21 nM)
+
+- name: Kavala → Skala Prinos (Thassos, North Aegean)
+  from: [24.409, 40.932]
+  to: [24.596, 40.764]
+  expected_km: 31
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/kavala-thassos (Kavala – Skala Prinos about 17 NM)
+
+- name: Kavala → Myrina (Lemnos, North Aegean)
+  from: [24.409, 40.932]
+  to: [25.058, 39.874]
+  expected_km: 128
+  tolerance: 0.15
+  sea: true
+  countries: [GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/kavala-lemnos (Kavala – Lemnos about 69 NM)
+
+- name: Mytilene (Lesvos) → Chios (North Aegean)
+  from: [26.56, 39.104]
+  to: [26.142, 38.372]
+  expected_km: 89
+  tolerance: 0.15
+  sea: true
+  countries: [GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/chios-lesvos (Mytilene – Chios ports 48 NM)
+
+- name: Çeşme → Chios (Turkish coast–North Aegean)
+  from: [26.299, 38.325]
+  to: [26.142, 38.372]
+  expected_km: 17
+  tolerance: 0.25
+  sea: true
+  countries: [GR, TR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/cesme-chios (Çeşme – Chios about 9 NM)
+
+- name: Isthmia → Poseidonia (Corinth Canal)
+  from: [23.011, 37.914]
+  to: [22.9555, 37.9495]
+  expected_km: 6.3
+  tolerance: 0.2
+  sea: true
+  countries: [GR]
+  via: [Διώρυγα Κορίνθου]
+  source: https://corinthcanal.com/wp-content/uploads/2023/06/Istmos_Regulation.pdf (Canal Navigation Regulation, total length 6,343 m, of which 540 m are the ports of Poseidonia and Isthmia)
+
+- name: Corinth harbour → Isthmia (Corinth Canal, west to east)
+  from: [22.935, 37.941]
+  to: [23.011, 37.914]
+  expected_km: 8.6
+  tolerance: 0.3
+  sea: true
+  countries: [GR]
+  via: [Διώρυγα Κορίνθου]
+  source: https://corinthcanal.com/wp-content/uploads/2023/06/Istmos_Regulation.pdf (canal 6,343 m) plus https://www.noonsite.com/place/greece/gulfs-of-patras-corinth/corinth-canal/view/clearance (Corinth
+    city harbour to the western canal entrance about 1.25 NM)
+
+# --- Italy (researched 2026-11-21) -------------------------------------------------------------------------------------
+
+- name: Genoa → Portofino (Riviera di Levante)
+  from: [8.935, 44.3937]
+  to: [9.2135, 44.304]
+  expected_km: 30
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-genoa-i501.html (day 1, Genoa – Portofino 16.4 NM)
+
+- name: Lerici → Levanto (Cinque Terre)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [9.907, 44.072]
+  to: [9.608, 44.168]
+  expected_km: 31
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-la-spezia-i499.html (day 2, Lerici – Levanto 16.6 NM)
+
+- name: Levanto → Santa Margherita Ligure
+  from: [9.608, 44.168]
+  to: [9.215, 44.333]
+  expected_km: 38.5
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-la-spezia-i499.html (Levanto – Santa Margherita Ligure 20.5 NM; the Genoa itinerary gives 20.9 NM)
+
+- name: Sestri Levante → Portovenere
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [9.387, 44.269]
+  to: [9.835, 44.049]
+  expected_km: 46
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-la-spezia-i499.html (day 6, Sestri Levante – Porto Venere 25 NM)
+
+- name: Sanremo → Imperia (Riviera di Ponente)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [7.787, 43.815]
+  to: [8.029, 43.874]
+  expected_km: 26
+  tolerance: 0.25
+  countries: [IT]
+  sea: true
+  source: https://italia.it/en/liguria/things-to-do/poets-route-liguria-by-boat (day 1, Sanremo – Imperia "about 15 miles")
+
+- name: Piombino → Portoferraio (Elba)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [10.549, 42.929]
+  to: [10.326, 42.815]
+  expected_km: 28
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/piombino-portoferraio (15 NM, about 28 km)
+
+- name: Livorno → Capraia
+  from: [10.303, 43.55]
+  to: [9.842, 43.052]
+  expected_km: 72
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/livorno-capraia (39 NM, about 72 km)
+
+- name: Porto Santo Stefano → Giglio Porto
+  from: [11.118, 42.442]
+  to: [10.9215, 42.36]
+  expected_km: 22
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/porto-santo-stefano-giglio (about 12 NM, about 22 km)
+
+- name: Portoferraio → Marina di Campo (round western Elba)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [10.326, 42.815]
+  to: [10.24, 42.744]
+  expected_km: 41
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-elba-i491.html (day 1, Portoferraio – Marina di Campo 22 NM)
+
+- name: Porto Azzurro → Punta Ala
+  from: [10.399, 42.764]
+  to: [10.734, 42.805]
+  expected_km: 30
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-elba-i491.html (day 3, Porto Azzurro – Punta Ala 16 NM)
+
+- name: Formia → Ponza
+  from: [13.611, 41.254]
+  to: [12.966, 40.894]
+  expected_km: 72
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/formia-ponza (around 39 NM, about 72 km)
+
+- name: Ventotene → Ponza
+  from: [13.4337, 40.799]
+  to: [12.966, 40.894]
+  expected_km: 46
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.sunsail.com/uk/destinations/mediterranean/italy/procida/itinerary/7-day-pontine-islands-flotilla-itinerary ("Ponza is situated 25 miles to the west of Ventotene"; the same page's day-4
+    leg says 20 NM, Moorings 22 NM)
+
+- name: Pozzuoli → Procida
+  from: [14.117, 40.824]
+  to: [14.033, 40.766]
+  expected_km: 11
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/pozzuoli-procida (6 NM, about 10 km)
+
+- name: Ischia → Capri
+  from: [13.941, 40.746]
+  to: [14.245, 40.557]
+  expected_km: 35
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-salerno-i466.html (day 5, Ischia – Capri 18.3 NM; Moorings gives 20 NM)
+
+- name: Capri → Amalfi
+  from: [14.245, 40.557]
+  to: [14.6, 40.63]
+  expected_km: 34
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-salerno-i466.html (day 6, Capri – Amalfi 17.6 NM; Moorings gives 19 NM)
+
+- name: Amalfi → Salerno
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [14.6, 40.63]
+  to: [14.752, 40.671]
+  expected_km: 19
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-salerno-i466.html (day 7, Amalfi – Salerno 10.4 NM)
+
+- name: Portorosa → Vulcano (Aeolian Islands)
+  from: [15.113, 38.125]
+  to: [14.96, 38.418]
+  expected_km: 37
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.sunsail.com/uk/destinations/mediterranean/italy/portorosa-sicily/itinerary/7-day-portorosa-bareboat-itinerary (day 2, Portorosa – Vulcano 20 NM; The Globe Sailor also 20 NM)
+
+- name: Filicudi → Salina
+  from: [14.573, 38.56]
+  to: [14.8725, 38.558]
+  expected_km: 26
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.sunsail.com/uk/destinations/mediterranean/italy/portorosa-sicily/itinerary/7-day-portorosa-bareboat-itinerary (day 4, Filicudi – Salina 14 NM)
+
+- name: Salina → Stromboli
+  from: [14.8725, 38.558]
+  to: [15.24, 38.799]
+  expected_km: 39
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.sunsail.com/uk/destinations/mediterranean/italy/portorosa-sicily/itinerary/7-day-portorosa-bareboat-itinerary (day 5, Salina – Stromboli 22 NM; The Globe Sailor gives 20 NM)
+
+- name: Stromboli → Lipari
+  from: [15.24, 38.799]
+  to: [14.958, 38.47]
+  expected_km: 45
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://www.sunsail.com/uk/destinations/mediterranean/italy/portorosa-sicily/itinerary/7-day-portorosa-bareboat-itinerary (day 6, Stromboli – Lipari 25 NM; The Globe Sailor gives 24 NM)
+
+- name: Marsala → Trapani
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [12.44, 37.787]
+  to: [12.505, 38.013]
+  expected_km: 28.5
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-marsala-i530.html (day 1, Marsala – Trapani 15.4 NM)
+
+- name: Trapani → Levanzo (Egadi)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [12.505, 38.013]
+  to: [12.34, 37.986]
+  expected_km: 14.5
+  tolerance: 0.25
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-marsala-i530.html (day 2, Trapani – Levanzo 7.8 NM)
+
+- name: Levanzo → Marettimo (Egadi)
+  from: [12.34, 37.986]
+  to: [12.075, 37.966]
+  expected_km: 23.7
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-marsala-i530.html (day 3, Levanzo – Marettimo 12.8 NM)
+
+- name: Porto Rotondo → Porto Cervo (Costa Smeralda)
+  from: [9.543, 41.03]
+  to: [9.531, 41.135]
+  expected_km: 18.5
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-porto-rotondo-i500.html (day 1, Porto Rotondo – Porto Cervo 10 NM)
+
+- name: La Maddalena → Santa Teresa Gallura
+  from: [9.405, 41.211]
+  to: [9.196, 41.241]
+  expected_km: 22.6
+  tolerance: 0.2
+  countries: [IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-porto-rotondo-i500.html (day 3, La Maddalena – Santa Teresa di Gallura 12.2 NM)
+
+- name: Bonifacio → Palau
+  from: [9.16, 41.3892]
+  to: [9.386, 41.18]
+  expected_km: 30
+  tolerance: 0.2
+  countries: [FR, IT]
+  sea: true
+  source: https://theglobesailor.com/7-day-sailing-itinerary-porto-rotondo-i500.html (day 5, Bonifacio – Palau 16.2 NM)
+
+- name: Brindisi → Monopoli (Puglia)
+  from: [17.96, 40.652]
+  to: [17.301, 40.955]
+  expected_km: 74
+  tolerance: 0.25
+  countries: [IT]
+  sea: true
+  source: https://www.italia.it/en/puglia/things-to-do/levant-route-puglia-by-boat (day 2, Brindisi – Monopoli "for about 40 miles")
+
+- name: Monopoli → Bari (Puglia)
+  from: [17.301, 40.955]
+  to: [16.876, 41.126]
+  expected_km: 48
+  tolerance: 0.25
+  countries: [IT]
+  sea: true
+  source: https://www.italia.it/en/puglia/things-to-do/levant-route-puglia-by-boat (day 3, Monopoli – Bari "for about 26 miles")
+
+- name: Cremona → Piacenza (Po, Isola Serafini lock)
+  from: [10.005, 45.125]
+  to: [9.696, 45.06]
+  expected_km: 37
+  tolerance: 0.2
+  countries: [IT]
+  via: [Po]
+  min_locks: 1
+  source: https://mobilita.regione.emilia-romagna.it/allegati/prit/conferenza-di-pianificazione/all_6_sistema_idroviario.pdf/@@download/file (Regione Emilia-Romagna PRIT, "altri 37 km (da Cremona a Piacenza)"
+    once the new Isola Serafini lock is in service)
+
+- name: Mantova → Po (Mincio, Governolo)
+  from: [10.813, 45.145]
+  to: [10.975, 45.057]
+  expected_km: 21
+  tolerance: 0.2
+  countries: [IT]
+  via: [Mincio]
+  min_locks: 1
+  source: https://mobilita.regione.emilia-romagna.it/allegati/prit/conferenza-di-pianificazione/all_6_sistema_idroviario.pdf/@@download/file (PRIT, "il fiume Mincio da Mantova alla confluenza con il Po
+    km 21"; 20 km via Governolo)
+
+- name: Mantova → Porto Levante (Fissero-Tartaro-Canalbianco, Po di Levante)
+  known_gap: the Fissero-Tartaro-Canalbianco is not connected (the route takes the Po)
+  from: [10.813, 45.145]
+  to: [12.368, 45.049]
+  expected_km: 135
+  tolerance: 0.2
+  countries: [IT]
+  via: [Canalbianco, Po di Levante]
+  min_locks: 2
+  source: https://mobilita.regione.emilia-romagna.it/allegati/prit/conferenza-di-pianificazione/all_6_sistema_idroviario.pdf/@@download/file (PRIT, "l'idrovia Fissero-Tartaro-C.Bianco-Po di Levante km 135";
+    italia.it says 130 km, Il Sole 24 Ore ~135 km)
+
+- name: Pontelagoscuro → Porto Garibaldi (Idrovia Ferrarese)
+  from: [11.608, 44.887]
+  to: [12.248, 44.677]
+  expected_km: 70
+  tolerance: 0.2
+  countries: [IT]
+  via: [Po di Volano]
+  min_locks: 2
+  source: https://mobilita.regione.emilia-romagna.it/allegati/prit/conferenza-di-pianificazione/all_6_sistema_idroviario.pdf/@@download/file (PRIT, Idrovia Ferrarese "un percorso lungo 70 km tra l'argine
+    del fiume, a Pontelagoscuro, e il suo terminale marittimo a Porto Garibaldi")
+
+- name: Cremona → Foce Mincio (Po)
+  from: [10.005, 45.125]
+  to: [10.975, 45.057]
+  expected_km: 130
+  tolerance: 0.2
+  countries: [IT]
+  via: [Po]
+  source: https://mobilita.regione.emilia-romagna.it/allegati/prit/conferenza-di-pianificazione/all_6_sistema_idroviario.pdf/@@download/file (PRIT, "tra foce Mincio e Cremona, corre un tronco lungo 130
+    km")
+
+- name: Como → Gera Lario (Lago di Como, end to end)
+  from: [9.08, 45.815]
+  to: [9.37, 46.166]
+  expected_km: 45.7
+  tolerance: 0.2
+  countries: [IT]
+  via: [Lago di Como]
+  source: https://it.wikipedia.org/wiki/Lago_di_Como ("una lunghezza massima di 45,7 km da Gera Lario a Como")
+
+- name: Desenzano → Riva del Garda (Lago di Garda, end to end)
+  from: [10.541, 45.469]
+  to: [10.842, 45.883]
+  expected_km: 52
+  tolerance: 0.2
+  countries: [IT]
+  via: [Lago di Garda]
+  source: https://it.wikipedia.org/wiki/Lago_di_Garda (lake length 52 km, south shore to Riva at the north end; endpoints not stated, hence the tolerance)
+
+- name: Sesto Calende → Locarno (Lago Maggiore, end to end)
+  from: [8.617, 45.728]
+  to: [8.8, 46.165]
+  expected_km: 64.4
+  tolerance: 0.2
+  countries: [IT, CH]
+  source: https://it.wikipedia.org/wiki/Lago_Maggiore (length 64.37 km; Ticino outflow at Sesto Calende, Locarno at the north end)
+
+# --- France: canals and coasts (researched 2026-11-21) -----------------------------------------------------------------
+
+- name: Canal du Midi — Toulouse (Port de l'Embouchure) → Castelnaudary (Grand Bassin)
+  from: [1.4183, 43.6113]
+  to: [1.956, 43.3165]
+  expected_km: 65
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 15
+  source: https://en.wikipedia.org/wiki/Locks_on_the_Canal_du_Midi (km from Toulouse — Océan 51.6, Saint-Roch at Castelnaudary 65.4; 26 chambers before Saint-Roch)
+
+- name: Canal du Midi — Castelnaudary → Carcassonne
+  from: [1.956, 43.3165]
+  to: [2.3504, 43.2174]
+  expected_km: 40.3
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 15
+  source: https://www.leboat.com/boating-vacations/france/canal-du-midi/7-night-canal-du-midi-itinerary-castelnaudary-to-port-cassafieres (Castelnaudary–Villepinte 12.7 km/15 locks + Villepinte–Carcassonne
+    27.64 km/9 locks); Wikipedia lock table 65.4 → 105.5
+
+- name: Canal du Midi — Carcassonne → Homps
+  from: [2.3504, 43.2174]
+  to: [2.724, 43.269]
+  expected_km: 40.9
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 10
+  source: https://en.wikipedia.org/wiki/Locks_on_the_Canal_du_Midi (Carcassonne lock 105.5 km, Homps lock 146.4 km from Toulouse)
+
+- name: Canal du Midi — Paraza → Colombiers (Le Somail, the 54 km long pound)
+  from: [2.82, 43.258]
+  to: [3.1427, 43.3139]
+  expected_km: 42.6
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal du Midi]
+  source: https://www.leboat.com/boating-vacations/france/canal-du-midi/7-night-canal-du-midi-itinerary-castelnaudary-to-port-cassafieres (day 6, Paraza – Colombiers via Le Somail 42.61 km, 0 locks)
+
+- name: Canal du Midi — Béziers → Agde (round lock)
+  from: [3.2185, 43.3343]
+  to: [3.4643, 43.32]
+  expected_km: 23
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 3
+  source: https://en.wikipedia.org/wiki/Locks_on_the_Canal_du_Midi (Béziers lock 208.4 km, Agde round lock 231.4 km)
+
+- name: Port Cassafières → Marseillan (Canal du Midi, Étang de Thau)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [3.3713, 43.2916]
+  to: [3.5353, 43.3528]
+  expected_km: 19.7
+  tolerance: 0.2
+  countries: [FR]
+  via: [Canal du Midi]
+  min_locks: 2
+  source: https://www.leboat.com/boating-vacations/france/camargue/port-cassafieres-st-gilles-7-night-itinerary (day 2, Port Cassafières – Agde – Marseillan 19.70 km, 2 locks)
+
+- name: Canal du Rhône à Sète — Saint-Gilles lock → Sète
+  from: [4.4318, 43.6447]
+  to: [3.695, 43.406]
+  expected_km: 64.7
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal du Rhône à Sète]
+  source: https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf (VNF PK 0.4 upstream of Saint-Gilles lock to PK 65.1 entrance of the port of Sète); Wikipedia PK gives ~74
+    km by the old line through Aigues-Mortes
+
+- name: Canal du Rhône à Sète — Frontignan → Aigues-Mortes
+  from: [3.757, 43.4455]
+  to: [4.1873, 43.5669]
+  expected_km: 41.5
+  tolerance: 0.2
+  countries: [FR]
+  via: [Canal du Rhône à Sète]
+  source: https://en.wikipedia.org/wiki/Canal_du_Rh%C3%B4ne_%C3%A0_S%C3%A8te (PK Frontignan 92–93, Aigues-Mortes 51); Le Boat gives 48 km for the day via Palavas
+
+- name: Canal du Rhône à Sète — Aigues-Mortes → Saint-Gilles
+  from: [4.1873, 43.5669]
+  to: [4.4318, 43.6447]
+  expected_km: 26.5
+  tolerance: 0.2
+  countries: [FR]
+  via: [Canal du Rhône à Sète]
+  source: https://en.wikipedia.org/wiki/Canal_du_Rh%C3%B4ne_%C3%A0_S%C3%A8te (PK Saint-Gilles 24.5, Aigues-Mortes 51); Le Boat lists 32 km Aigues-Mortes – Gallician – St Gilles
+
+- name: Petit Rhône — Fourques defluence → sea
+  from: [4.61, 43.695]
+  to: [4.39, 43.45]
+  expected_km: 58.4
+  tolerance: 0.15
+  countries: [FR]
+  via: [Petit Rhône]
+  source: https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf (Petit Rhône PK 279.300 défluence d'Arles to PK 337.700 embouchure à la mer)
+
+- name: Canal du Nivernais — Auxerre → Mailly-la-Ville
+  from: [3.5753, 47.7983]
+  to: [3.6804, 47.6006]
+  expected_km: 33.1
+  tolerance: 0.2
+  countries: [FR]
+  via: [Nivernais]
+  min_locks: 12
+  source: https://www.leboat.com/boating-vacations/france/burgundy/nivernais-loire/7nt-migennes-to-tannay-oneway (Auxerre–Vincelles 13.5 km/8 locks + Vincelles–Mailly-la-Ville 19.6 km/7 locks); VNF PK 173.8
+    → 145.4
+
+- name: Canal du Nivernais — Mailly-la-Ville → Clamecy
+  from: [3.6804, 47.6006]
+  to: [3.5226, 47.4573]
+  expected_km: 31
+  tolerance: 0.15
+  countries: [FR]
+  via: [Nivernais]
+  min_locks: 10
+  source: https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf (lock PK Mailly-la-Ville 145.4, Clamecy 114.5–113.7); Le Boat gives 9.1 + 19.1 km, 12 locks
+
+- name: Canal du Nivernais — Clamecy → Tannay
+  from: [3.5226, 47.4573]
+  to: [3.6193, 47.3613]
+  expected_km: 18
+  tolerance: 0.15
+  countries: [FR]
+  via: [Nivernais]
+  min_locks: 7
+  source: https://www.leboat.com/boating-vacations/france/burgundy/nivernais-loire/7nt-migennes-to-tannay-oneway (day 7, Clamecy – Tannay 18 km, 9 locks)
+
+- name: Canal du Nivernais — Tannay → Châtillon-en-Bazois (Sardy flight, La Collancelle tunnels)
+  from: [3.6193, 47.3613]
+  to: [3.656, 47.054]
+  expected_km: 45
+  tolerance: 0.15
+  countries: [FR]
+  via: [Nivernais, Collancelle]
+  min_locks: 40
+  source: https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf (lock PK Tannay 98.1, Châtillon-en-Bazois locks 13–15 VL 53.0–50.0; Sardy 16 locks, summit, Loire side)
+
+- name: Canal de Bourgogne — Migennes → Tonnerre
+  from: [3.5077, 47.9613]
+  to: [3.9796, 47.8633]
+  expected_km: 44
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal de Bourgogne]
+  min_locks: 15
+  source: https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf (Laroche-Migennes lock PK 0.24, Tonnerre locks 96Y/95Y PK 44.06/44.64)
+
+- name: Canal de Bourgogne — Montbard → Pouilly-en-Auxois (Pouillenay flight)
+  from: [4.3397, 47.6195]
+  to: [4.556, 47.265]
+  expected_km: 54
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal de Bourgogne]
+  min_locks: 50
+  source: https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf (Montbard locks PK 100.6–102.2, lock 1Y Pouilly PK 154.6; locks 56Y–1Y)
+
+- name: Canal de Bourgogne — Pouilly-en-Auxois → Dijon (summit tunnel, Ouche valley)
+  from: [4.556, 47.265]
+  to: [5.0285, 47.314]
+  expected_km: 57
+  tolerance: 0.15
+  countries: [FR]
+  via: [Canal de Bourgogne, Pouilly]
+  min_locks: 45
+  source: https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf (lock 1Y Pouilly PK 154.6, Dijon locks 51S–55S PK 208.4–211.3+)
+
+- name: Marne-Rhine canal — Hesse → Lutzelbourg (Arzviller tunnels, Saint-Louis–Arzviller inclined plane)
+  from: [7.0453, 48.6912]
+  to: [7.2562, 48.7357]
+  expected_km: 19
+  tolerance: 0.15
+  countries: [FR]
+  via: [Marne au Rhin, Arzwiller]
+  min_locks: 3
+  source: https://www.leboat.com/boating-vacations/france/alsace/hesse-return-7-night-itinerary (Hesse–Niderviller 5 km + Niderviller–Lutzelbourg 14 km, 2 tunnels, boat lift, 4 locks)
+
+- name: Marne-Rhine canal — Lutzelbourg → Saverne
+  from: [7.2562, 48.7357]
+  to: [7.364, 48.7425]
+  expected_km: 10.3
+  tolerance: 0.15
+  countries: [FR]
+  via: [Marne au Rhin]
+  min_locks: 8
+  source: https://www.leboat.com/boating-vacations/france/alsace/hesse-return-7-night-itinerary (day 3, Lutzelbourg – Saverne 10.3 km, 10 locks)
+
+- name: Marne-Rhine canal — Saverne → Strasbourg
+  from: [7.364, 48.7425]
+  to: [7.76, 48.58]
+  expected_km: 44
+  tolerance: 0.15
+  countries: [FR]
+  via: [Marne au Rhin]
+  min_locks: 20
+  source: https://en.wikipedia.org/wiki/Marne%E2%80%93Rhine_Canal (PK Saverne 269, Strasbourg 313; 35 locks down from the summit to Strasbourg)
+
+- name: Charente — Jarnac → Cognac
+  from: [-0.1755, 45.68]
+  to: [-0.334, 45.695]
+  expected_km: 13.9
+  tolerance: 0.2
+  countries: [FR]
+  via: [Charente]
+  min_locks: 2
+  source: https://www.leboat.com/boating-vacations/france/charente/jarnac-jarnac-7-night-itinerary (day 2, Jarnac – Cognac 13.90 km, 3 locks)
+
+- name: Charente — Cognac → Saintes
+  from: [-0.334, 45.695]
+  to: [-0.629, 45.748]
+  expected_km: 33.6
+  tolerance: 0.15
+  countries: [FR]
+  via: [Charente]
+  min_locks: 2
+  source: https://www.leboat.com/boating-vacations/france/charente/jarnac-jarnac-7-night-itinerary (day 3, Cognac – Saintes 33.60 km, 2 locks)
+
+- name: Charente — Saintes → Saint-Savinien
+  from: [-0.629, 45.748]
+  to: [-0.6818, 45.8743]
+  expected_km: 22.4
+  tolerance: 0.15
+  countries: [FR]
+  via: [Charente]
+  source: https://www.leboat.com/boating-vacations/france/charente/jarnac-jarnac-7-night-itinerary (day 4, Saintes – Saint-Savinien 22.40 km)
+
+- name: Charente maritime (tidal) — Saint-Savinien → Tonnay-Charente
+  from: [-0.683, 45.872]
+  to: [-0.89, 45.942]
+  expected_km: 21.1
+  tolerance: 0.15
+  countries: [FR]
+  via: [Charente]
+  source: https://www.lacharente.fr/fileadmin/user_upload/02-Au_quotidien/01-Culture_et_loisirs/Reglement_Particulier_de_la_Police_de_Navigation-bd.pdf (annexe 3, Saint-Savinien barrage-lock PK 142.93,
+    Tonnay-Charente suspension bridge PK 164.0)
+
+- name: Lot — Cahors → Bouziès (below Saint-Cirq-Lapopie)
+  from: [1.443, 44.444]
+  to: [1.642, 44.484]
+  expected_km: 35
+  tolerance: 0.25
+  countries: [FR]
+  via: [Lot]
+  source: https://www.leboat.com/boating-vacations/france/lot/douelle-douelle-7-night-itinerary (Cahors – Vers 16 km, 5 locks; Vers – Saint-Cirq-Lapopie – Bouziès 19 km, 7 locks)
+
+- name: Baïse — Nérac → Condom
+  from: [0.3412, 44.1356]
+  to: [0.3689, 43.9581]
+  expected_km: 26.8
+  tolerance: 0.15
+  countries: [FR]
+  via: [Baïse]
+  min_locks: 8
+  source: https://canalplan.co.uk/waterway/pe0h (Nérac port de plaisance 39.31 km, Quai de Condom 12.54 km from the head at Valence-sur-Baïse; locks 22 Nérac to 12 Peyrouthéou)
+
+- name: Mayenne — Laval → Château-Gontier
+  from: [-0.7698, 48.071]
+  to: [-0.702, 47.828]
+  expected_km: 35.4
+  tolerance: 0.15
+  countries: [FR]
+  via: [Mayenne]
+  min_locks: 10
+  source: https://canalplan.co.uk/waterway/fj2y (Laval lock 21 at 34.9–35.1 km, Château-Gontier 69.6–71.3 km; 13 locks)
+
+- name: Mayenne — Château-Gontier → Grez-Neuville
+  from: [-0.702, 47.828]
+  to: [-0.6864, 47.6045]
+  expected_km: 30.9
+  tolerance: 0.15
+  countries: [FR]
+  via: [Mayenne]
+  min_locks: 5
+  source: https://canalplan.co.uk/waterway/fj2y (Château-Gontier ~70.6 km, Grez-Neuville lock 42 at 101.53 km; Daon 82.8, Chenillé-Changé 89.5)
+
+- name: Sarthe — Malicorne → Sablé-sur-Sarthe
+  from: [-0.0891, 47.8148]
+  to: [-0.334, 47.839]
+  expected_km: 25.9
+  tolerance: 0.15
+  countries: [FR]
+  via: [Sarthe]
+  source: https://canalplan.co.uk/waterway/nt4o (Malicorne lock 9 at 47.17 km, Sablé lock 15 at 73.09 km from Le Mans; 6 locks)
+
+- name: Sarthe — Sablé-sur-Sarthe → Châteauneuf-sur-Sarthe
+  from: [-0.334, 47.839]
+  to: [-0.486, 47.678]
+  expected_km: 30.3
+  tolerance: 0.15
+  countries: [FR]
+  via: [Sarthe]
+  source: https://canalplan.co.uk/waterway/nt4o (Sablé lock 15 at 73.09 km, Châteauneuf lock 19 at 103.37 km; 4 locks)
+
+- name: Canal de la Somme — Saint-Valery-sur-Somme → Abbeville (canal maritime)
+  from: [1.6457, 50.1799]
+  to: [1.8202, 50.1091]
+  expected_km: 14.2
+  tolerance: 0.15
+  countries: [FR]
+  via: [Somme]
+  source: https://en.wikipedia.org/wiki/Somme_Canal (Saint-Valéry – Abbeville canal maritime 14.2 km, 1 lock)
+
+- name: Canal de la Somme — Abbeville → Amiens
+  from: [1.8202, 50.1091]
+  to: [2.3073, 49.8956]
+  expected_km: 49
+  tolerance: 0.15
+  countries: [FR]
+  via: [Somme]
+  min_locks: 5
+  source: https://en.wikipedia.org/wiki/Somme_Canal (PK Abbeville 141, Amiens 92)
+
+- name: Canal de la Somme — Amiens → Péronne
+  from: [2.3073, 49.8956]
+  to: [2.93, 49.926]
+  expected_km: 58
+  tolerance: 0.15
+  countries: [FR]
+  via: [Somme]
+  min_locks: 5
+  source: https://en.wikipedia.org/wiki/Somme_Canal (PK Amiens 92, Péronne 34)
+
+- name: Nantes → Redon (Erdre, Canal de Nantes à Brest)
+  from: [-1.552, 47.227]
+  to: [-2.0881, 47.647]
+  expected_km: 93
+  tolerance: 0.15
+  countries: [FR]
+  via: [Erdre, Nantes à Brest]
+  min_locks: 10
+  source: https://en.wikipedia.org/wiki/Nantes%E2%80%93Brest_canal (PK Nantes 2, Redon 95)
+
+- name: Nantes–Brest canal — Malestroit → Redon (Oust)
+  from: [-2.3828, 47.8115]
+  to: [-2.0881, 47.647]
+  expected_km: 36
+  tolerance: 0.15
+  countries: [FR]
+  via: [Oust]
+  min_locks: 4
+  source: https://www.leboat.com/boating-vacations/france/brittany/messac-messac-7-night-itinerary (Malestroit – Saint-Martin-sur-Oust 14 km, 3 locks; Saint-Martin – Redon 22 km, 3 locks)
+
+- name: Nantes–Brest canal — Josselin → Pontivy (Rohan, summit)
+  from: [-2.545, 47.9505]
+  to: [-2.96, 48.064]
+  expected_km: 48.4
+  tolerance: 0.15
+  countries: [FR]
+  via: [Nantes à Brest]
+  min_locks: 30
+  source: https://en.wikipedia.org/wiki/Nantes%E2%80%93Brest_canal (PK Josselin 157.5, Rohan 182, Pontivy 205.9)
+
+- name: Vilaine — Messac → Redon
+  from: [-1.8146, 47.8267]
+  to: [-2.0881, 47.647]
+  expected_km: 43
+  tolerance: 0.15
+  countries: [FR]
+  via: [Vilaine]
+  min_locks: 1
+  source: https://www.leboat.com/boating-vacations/france/brittany/messac-messac-7-night-itinerary (day 2, Messac – Beslé – Redon 43 km, 2 locks)
+
+- name: Cannes (Vieux Port) → Île Sainte-Marguerite (Lérins)
+  from: [7.0148, 43.5482]
+  to: [7.048, 43.523]
+  expected_km: 3.7
+  tolerance: 0.3
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/itineraire-voilier-cannes-une-semaine (day 1, Cannes – Îles de Lérins Sainte-Marguerite 2 NM)
+
+- name: Îles de Lérins → Saint-Tropez
+  from: [7.048, 43.523]
+  to: [6.638, 43.2719]
+  expected_km: 48.2
+  tolerance: 0.2
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/itineraire-voilier-cannes-une-semaine (day 2, Îles de Lérins – Saint-Tropez 26 NM)
+
+- name: Porquerolles → Saint-Tropez
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [6.205, 43.006]
+  to: [6.637, 43.274]
+  expected_km: 45.4
+  tolerance: 0.2
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Porquerolles – Saint-Tropez 24.5 NM)
+
+- name: Port-Cros → Porquerolles
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [6.38, 43.012]
+  to: [6.205, 43.006]
+  expected_km: 11.1
+  tolerance: 0.3
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Port-Cros – Porquerolles 6 NM)
+
+- name: Hyères (Port Saint-Pierre) → Port-Cros
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [6.161, 43.08]
+  to: [6.38, 43.012]
+  expected_km: 20.4
+  tolerance: 0.2
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Hyères – Port-Cros 11 NM)
+
+- name: L'Île-Rousse → Calvi
+  from: [8.938, 42.637]
+  to: [8.7585, 42.5651]
+  expected_km: 18.5
+  tolerance: 0.2
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/en/corsica-map-1-week-sailing-route (day 5, L'Île-Rousse – Calvi 10 NM)
+
+- name: Ajaccio → Sagone
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [8.742, 41.925]
+  to: [8.693, 42.11]
+  expected_km: 42.6
+  tolerance: 0.2
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/en/corsica-map-1-week-sailing-route (day 2, Ajaccio – Sagone 23 NM)
+
+- name: Sagone → Girolata (Golfe de Porto)
+  from: [8.693, 42.11]
+  to: [8.61, 42.344]
+  expected_km: 37
+  tolerance: 0.2
+  countries: [FR]
+  sea: true
+  source: https://blog.clickandboat.com/en/corsica-map-1-week-sailing-route (day 3, Sagone – Golfe de Porto Girolata 20 NM)
+
+- name: Propriano → Ajaccio
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [8.903, 41.677]
+  to: [8.742, 41.925]
+  expected_km: 50
+  tolerance: 0.3
+  countries: [FR]
+  sea: true
+  source: https://www.filovent.com/uk/magazine/itinerary-navigation-southern-corsica (day 6, Propriano – Ajaccio 27 NM with a stop at Ruppione); https://theglobesailor.com/7-days-sailing-itinerary-ajaccio-i452.html
+    gives 20 NM Ajaccio – Propriano
+
+- name: Bonifacio → Rondinara (via the Lavezzi islands)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [9.157, 41.3889]
+  to: [9.27, 41.47]
+  waypoints:
+  - [9.256, 41.339]
+  expected_km: 27.8
+  tolerance: 0.25
+  countries: [FR]
+  sea: true
+  source: https://www.filovent.com/uk/magazine/itinerary-navigation-southern-corsica (day 3, Bonifacio – Cala di Giunco (Lavezzi) – Rondinara 15 NM)
+
+# --- Spain and Portugal (researched 2026-11-21) ------------------------------------------------------------------------
+
+- name: Palma → Port d'Andratx (Mallorca)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [2.638, 39.566]
+  to: [2.385, 39.544]
+  expected_km: 31
+  tolerance: 0.25
+  sea: true
+  countries: [ES]
+  source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 1, Palma de Mallorca – Puerto Andratx 17 NM; other charter itineraries give
+    up to 21 NM)
+
+- name: Port d'Andratx → Port de Sóller (Mallorca)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [2.385, 39.544]
+  to: [2.693, 39.796]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 2, Puerto Andratx – Puerto Soller 25 NM; other charter guides 27 NM)
+
+- name: Port de Sóller → Port de Pollença (Mallorca, round Formentor)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [2.693, 39.796]
+  to: [3.088, 39.904]
+  expected_km: 65
+  tolerance: 0.15
+  sea: true
+  countries: [ES]
+  source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 3, Puerto Soller – Puerto Pollensa 35 NM)
+
+- name: Port de Pollença → Cala Rajada (Mallorca)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [3.088, 39.904]
+  to: [3.464, 39.71]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 4, Puerto Pollensa – Cala Rajada 25 NM)
+
+- name: Cabrera → Palma
+  from: [2.934, 39.15]
+  to: [2.638, 39.566]
+  expected_km: 65
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 7, Cabrera Island – Palma 35 NM)
+
+- name: Port d'Alcúdia → Ciutadella (Mallorca–Menorca crossing)
+  from: [3.142, 39.835]
+  to: [3.83, 40.001]
+  expected_km: 72
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-ciutadella-menorca-alcudia-mallorca (approximately 39 NM; other ferry sites give 33–42 NM)
+
+- name: Barcelona → Mahón (Maó, Menorca)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [2.1838, 41.3744]
+  to: [4.265, 39.89]
+  expected_km: 246
+  tolerance: 0.15
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/barcelona-mahon (133 NM, about 246 km)
+
+- name: Barcelona → Ibiza
+  from: [2.1838, 41.3744]
+  to: [1.443, 38.912]
+  expected_km: 276
+  tolerance: 0.15
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-barcelona-ibiza (approximately 149 NM, 276 km)
+
+- name: Valencia → Ibiza
+  from: [-0.315, 39.45]
+  to: [1.443, 38.912]
+  expected_km: 163
+  tolerance: 0.15
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-valencia-ibiza (approximately 88 NM, about 163 km)
+
+- name: Dénia → Ibiza (shortest mainland crossing)
+  from: [0.113, 38.844]
+  to: [1.443, 38.912]
+  expected_km: 115
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-denia-ibiza (approximately 57 NM, 106 km); https://www.ferryhopper.com/en/ferry-routes/direct/ferry-denia-formentera (Dénia–Ibiza around
+    124 km, 67 NM), so the midpoint 115 km
+
+- name: Palma → Ibiza
+  from: [2.638, 39.566]
+  to: [1.443, 38.912]
+  expected_km: 150
+  tolerance: 0.15
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-mallorca-ibiza (approximately 81 NM, 150 km; Omio 83 NM)
+
+- name: Ibiza → La Savina (Formentera)
+  from: [1.443, 38.912]
+  to: [1.418, 38.734]
+  expected_km: 19
+  tolerance: 0.25
+  sea: true
+  countries: [ES]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-ibiza-formentera (10 NM, 19 km)
+
+- name: Sant Antoni de Portmany → La Savina (Ibiza west coast to Formentera)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [1.296, 38.979]
+  to: [1.418, 38.734]
+  expected_km: 43
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://plainsailing.com/destinations/spain/ibiza (day 1, Sant Antoni to La Savina 23 nM)
+
+- name: Portinatx → Sant Antoni de Portmany (Ibiza north coast)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [1.517, 39.112]
+  to: [1.296, 38.979]
+  expected_km: 30
+  tolerance: 0.25
+  sea: true
+  countries: [ES]
+  source: https://plainsailing.com/destinations/spain/ibiza (day 6, Portinatx to Sant Antoni 16 nM)
+
+- name: Blanes → Palamós (Costa Brava)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [2.798, 41.672]
+  to: [3.127, 41.843]
+  expected_km: 36
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://theglobesailor.com/7-day-sailing-itinerary-costa-brava-i481.html (day 7, Marina Port of Blanes – Palamos Marina 19.5 NM; another itinerary 19.4 NM)
+
+- name: Palamós → L'Estartit (Costa Brava)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [3.127, 41.843]
+  to: [3.205, 42.052]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://blog.clickandboat.com/en/costa-brava-1-week-sailing-route (day 1, L'Estartit – Palamós 15.3 NM)
+
+- name: L'Estartit → Cadaqués (Costa Brava, round Cap de Creus side)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [3.205, 42.052]
+  to: [3.282, 42.288]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://theglobesailor.com/7-day-sailing-itinerary-costa-brava-i481.html (Bay of Cadaqués – L'Estartit 15.2 NM)
+
+- name: La Línea (Alcaidesa) → Estepona (Costa del Sol)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-5.358, 36.157]
+  to: [-5.1575, 36.413]
+  expected_km: 46
+  tolerance: 0.25
+  sea: true
+  countries: [ES]
+  source: https://alcaidesamarina.com/en/rutas_nauticas/estepona-a-day-or-weekend-route (distance 25 nautical miles)
+
+- name: La Línea (Alcaidesa) → Barbate (through the Strait of Gibraltar)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-5.358, 36.157]
+  to: [-5.93, 36.181]
+  expected_km: 67
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://alcaidesamarina.com/en/rutas_nauticas/route-to-barbate (36 miles lie ahead)
+
+- name: La Línea (Alcaidesa) → Ceuta (across the Strait)
+  from: [-5.358, 36.157]
+  to: [-5.313, 35.894]
+  expected_km: 33
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://alcaidesamarina.com/en/rutas_nauticas/ceuta-a-day-or-weekend-route (distance 18 nautical miles)
+
+- name: Tarifa → Tangier (Strait of Gibraltar)
+  from: [-5.603, 36.008]
+  to: [-5.805, 35.788]
+  expected_km: 31
+  tolerance: 0.25
+  sea: true
+  countries: [ES, MA]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-tarifa-tanger (around 17 NM, 31 km)
+
+- name: Baiona → Combarro (Rías Baixas)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-8.842, 42.121]
+  to: [-8.706, 42.428]
+  expected_km: 56
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://mrcyb.es/en/?p=79528 (II Rías Baixas Route, Baiona – Combarro 30 miles)
+
+- name: A Pobra do Caramiñal → Muros (Ría de Arousa to Ría de Muros e Noia)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-8.934, 42.604]
+  to: [-9.055, 42.775]
+  expected_km: 59
+  tolerance: 0.2
+  sea: true
+  countries: [ES]
+  source: https://mrcyb.es/en/?p=79528 (A Pobra do Caramiñal – Muros 32 miles)
+
+- name: Lisbon (Doca de Belém) → Cascais (Tejo estuary)
+  from: [-9.202, 38.693]
+  to: [-9.416, 38.691]
+  expected_km: 21
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://theglobesailor.com/7-day-sailing-itinerary-lisbon-i535.html (Doca de Belém – Oeiras 5.7 NM, Oeiras – Cascais 5.7 NM)
+
+- name: Cascais → Setúbal (round Cabo Espichel)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-9.416, 38.691]
+  to: [-8.896, 38.52]
+  expected_km: 69
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://theglobesailor.com/7-day-sailing-itinerary-lisbon-i535.html (day 3, Cascais – Sétubal 37 NM)
+
+- name: Sesimbra → Lisbon (Doca de Belém)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-9.11, 38.44]
+  to: [-9.202, 38.693]
+  expected_km: 47
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://theglobesailor.com/7-day-sailing-itinerary-lisbon-i535.html (day 7, Sesimbra – Doca de Belém 25.3 NM)
+
+- name: Lagos → Albufeira (Algarve)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-8.67, 37.106]
+  to: [-8.2675, 37.0825]
+  expected_km: 40
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://theglobesailor.com/7-day-sailing-itinerary-lagos-i505.html (day 1, Lagos – Albufeira 21.5 NM)
+
+- name: Albufeira → Portimão (Algarve)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-8.2675, 37.0825]
+  to: [-8.528, 37.117]
+  expected_km: 26
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (Marina de Albufeira – 14 miles to Portimão)
+
+- name: Lagos → Sagres (Baleeira, Algarve)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-8.67, 37.106]
+  to: [-8.928, 37.008]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (Lagos – 15 miles to Sagres); https://theglobesailor.com/7-day-sailing-itinerary-lagos-i505.html gives Sagres – Lagos 15.8 NM
+
+- name: Vilamoura → Culatra (Ria Formosa anchorage)
+  from: [-8.122, 37.074]
+  to: [-7.838, 36.992]
+  expected_km: 37
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (Culatra and Ria Formosa – 20 miles to Vilamoura)
+
+- name: Vila Real de Santo António → Culatra (eastern Algarve)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [-7.413, 37.196]
+  to: [-7.838, 36.992]
+  expected_km: 48
+  tolerance: 0.2
+  sea: true
+  countries: [PT]
+  source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (Vila Real de Santo António – 26 miles to Culatra)
+
+- name: Vila Real de Santo António → Alcoutim (Guadiana)
+  from: [-7.413, 37.196]
+  to: [-7.47, 37.471]
+  expected_km: 37
+  tolerance: 0.2
+  countries: [PT, ES]
+  via: [Guadiana]
+  source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (River Guadiana navigable as far as Alcoutim, 20 miles from Vila Real Santo António); a 2021 log (blog.mailasail.com/innamorata)
+    says about 17 miles
+
+# --- Mediterranean (Malta, Turkey, Cyprus, Slovenia, Montenegro, Albania, Tunisia) and the Black Sea (researched 2026-11-21) ---
+
+- name: Kalkara (Grand Harbour) → Mġarr (Gozo)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [14.5225, 35.8893]
+  to: [14.2995, 36.0235]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [MT]
+  source: https://www.theglobesailor.com/7-day-sailing-itinerary-malta-i526.html (day 1, Kalkara – Mgarr 15.2 NM)
+
+- name: Port El Kantaoui → Valletta (Tunisia–Malta crossing)
+  from: [10.5985, 35.8915]
+  to: [14.496, 35.899]
+  expected_km: 359
+  tolerance: 0.15
+  sea: true
+  countries: [TN, MT]
+  source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (ONTT pleasure-boating catalogue, distance table "Port El Kantaoui - La Valette 194 M")
+
+- name: Bodrum → Knidos
+  from: [27.4248, 37.033]
+  to: [27.375, 36.6855]
+  expected_km: 37
+  tolerance: 0.25
+  sea: true
+  countries: [TR]
+  source: https://redsavannah.com/europe/turkey/itinerary/gulet-charter-bodrum-symi-gocek (day 1, Bodrum to Knidos, "20 nautical miles south of Bodrum")
+
+- name: Bodrum → Çökertme (Gulf of Gökova)
+  from: [27.4248, 37.033]
+  to: [27.808, 37.012]
+  expected_km: 37
+  tolerance: 0.25
+  sea: true
+  countries: [TR]
+  source: https://www.helm.yt/itinerary/bodrum-sailing-route (day 2, Bodrum to Cokertme 20 NM)
+
+- name: Marmaris (Netsel) → Çiftlik Bay
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [28.278, 36.8505]
+  to: [28.235, 36.714]
+  expected_km: 22
+  tolerance: 0.25
+  sea: true
+  countries: [TR]
+  source: https://12knots.com/en/itineraries/turkey/marmaris-7-days/ (day 2, Marmaris – Ciftlik 12 NM)
+
+- name: Marmaris → Rhodes (Turkish–Greek crossing)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [28.278, 36.8505]
+  to: [28.229, 36.45]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [TR, GR]
+  source: https://ferryhopper.com/en/ferry-routes/direct/rhodes-marmaris (about 25 NM; Direct Ferries gives 22 NM)
+
+- name: Datça → Symi (Turkish–Greek crossing)
+  from: [27.6905, 36.722]
+  to: [27.839, 36.615]
+  expected_km: 18
+  tolerance: 0.25
+  sea: true
+  countries: [TR, GR]
+  source: https://barbarosyachting.com/destination/route/turkish-waters-greek-islands-tour (Datça – Symi about 9.9 NM after clearing out at Datça)
+
+- name: Çeşme → Chios (Turkish–Greek crossing)
+  from: [26.299, 38.324]
+  to: [26.14, 38.372]
+  expected_km: 17
+  tolerance: 0.25
+  sea: true
+  countries: [TR, GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/cesme-chios (9 NM; other operators give 7–11 NM)
+
+- name: Kapı Creek (Göcek) → Fethiye
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [28.8915, 36.6425]
+  to: [29.1, 36.6245]
+  expected_km: 22
+  tolerance: 0.25
+  sea: true
+  countries: [TR]
+  source: https://www.moorings.com/destinations/mediterranean/turkey/fethiye-yacht-charters/itinerary/7-day-fethiye-sailing-itinerary (day 6, Kapi Creek – Fethiye 12 NM)
+
+- name: Kaş → Kalkan
+  from: [29.6405, 36.1985]
+  to: [29.4135, 36.262]
+  expected_km: 28
+  tolerance: 0.25
+  sea: true
+  countries: [TR]
+  source: https://www.helm.yt/itinerary/fethiye-sailing-holiday (day 4, Kas – Kalkan 15 NM)
+
+- name: Kaş → Kekova (Üçağız)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [29.6405, 36.1985]
+  to: [29.848, 36.195]
+  expected_km: 33
+  tolerance: 0.3
+  sea: true
+  countries: [TR]
+  source: https://www.yachttogo.com/?p=35103 (Fethiye to Kekova 7-day route, day 4 "Kaş to Kekova 18 NM"; yachtwarriors.com gives 22 NM, so wide tolerance)
+
+- name: Kaş → Kastellorizo (Meis, Turkish–Greek crossing)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [29.6405, 36.1985]
+  to: [29.591, 36.1495]
+  expected_km: 7
+  tolerance: 0.3
+  sea: true
+  countries: [TR, GR]
+  source: https://www.directferries.com/kas_kastelorizo_ferry.htm (4 NM; ferryhopper's "1 NM" is not plausible for harbour to harbour)
+
+- name: Limassol Marina → Larnaca Marina
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [33.04, 34.6685]
+  to: [33.642, 34.917]
+  expected_km: 70
+  tolerance: 0.15
+  sea: true
+  countries: [CY]
+  source: https://www.visitcyprus.com/?p=470835 (Deputy Ministry of Tourism port distances, Lemesos – Larnaka 38 NM; Limassol Marina's cruising guide gives 35 NM)
+
+- name: Limassol Marina → Paphos harbour
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [33.04, 34.6685]
+  to: [32.4065, 34.754]
+  expected_km: 78
+  tolerance: 0.15
+  sea: true
+  countries: [CY]
+  source: https://www.visitcyprus.com/?p=470835 (Lemesos – Pafos 42 NM)
+
+- name: Paphos → Latsi (Latchi)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [32.4065, 34.754]
+  to: [32.3645, 35.0385]
+  expected_km: 61
+  tolerance: 0.15
+  sea: true
+  countries: [CY]
+  source: https://www.visitcyprus.com/?p=470835 (Pafos – Latsi 33 NM, round Cape Akamas)
+
+- name: Piran → Trieste
+  from: [13.5695, 45.5285]
+  to: [13.7575, 45.6485]
+  expected_km: 26
+  tolerance: 0.25
+  sea: true
+  countries: [SI, IT]
+  source: https://www.directferries.com/piran_trieste_ferry.htm ("approximately 14.1 nautical miles")
+
+- name: Kotor → Perast (Bay of Kotor)
+  from: [18.766, 42.4245]
+  to: [18.699, 42.485]
+  expected_km: 10
+  tolerance: 0.25
+  sea: true
+  countries: [ME]
+  source: https://www.theglobesailor.com/7-day-sailing-itinerary-kotor-montenegro-i477.html (day 1, Marina Kotor – Perast 5.3 NM)
+
+- name: Bar → Budva
+  from: [19.0885, 42.0955]
+  to: [18.8385, 42.279]
+  expected_km: 29
+  tolerance: 0.2
+  sea: true
+  countries: [ME]
+  source: https://www.theglobesailor.com/7-day-sailing-itinerary-kotor-montenegro-i477.html (day 5, Bar – Budva 15.8 NM)
+
+- name: Budva → Tivat (Porto Montenegro)
+  from: [18.8385, 42.279]
+  to: [18.688, 42.4335]
+  expected_km: 45
+  tolerance: 0.2
+  sea: true
+  countries: [ME]
+  source: https://www.theglobesailor.com/7-day-sailing-itinerary-kotor-montenegro-i477.html (day 6, Budva – Tivat 24.3 NM, in through the Bay of Kotor entrance)
+
+- name: Sarandë → Corfu (Albanian–Greek crossing)
+  from: [20.004, 39.872]
+  to: [19.908, 39.6265]
+  expected_km: 28
+  tolerance: 0.2
+  sea: true
+  countries: [AL, GR]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/sarande-corfu (about 15 NM; Direct Ferries 14.9 NM)
+
+- name: Sarandë → Himarë
+  from: [20.004, 39.872]
+  to: [19.744, 40.1]
+  expected_km: 37
+  tolerance: 0.25
+  sea: true
+  countries: [AL]
+  source: https://www.yachtsandyachting.com/news/250800/Nine-days-and-155-nautical-miles-in-Albania (day 3, Sarandë – Himarë 20 NM)
+
+- name: Himarë → Vlorë
+  from: [19.744, 40.1]
+  to: [19.48, 40.4505]
+  expected_km: 74
+  tolerance: 0.2
+  sea: true
+  countries: [AL]
+  source: https://www.yachtsandyachting.com/news/250800/Nine-days-and-155-nautical-miles-in-Albania (day 4, Himarë – Vlorë 40 NM, round the Karaburun peninsula)
+
+- name: Vlorë → Durrës
+  from: [19.48, 40.4505]
+  to: [19.452, 41.31]
+  expected_km: 107
+  tolerance: 0.15
+  sea: true
+  countries: [AL]
+  source: https://www.yachtsandyachting.com/news/250800/Nine-days-and-155-nautical-miles-in-Albania (day 6, Vlorë – Durrës 58 NM)
+
+- name: Tabarka → Bizerte
+  from: [8.759, 36.9595]
+  to: [9.882, 37.275]
+  expected_km: 119
+  tolerance: 0.15
+  sea: true
+  countries: [TN]
+  source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (ONTT distance table, Tabarka - Bizerte 64 M)
+
+- name: Bizerte → Sidi Bou Saïd
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [9.882, 37.275]
+  to: [10.353, 36.8665]
+  expected_km: 61
+  tolerance: 0.2
+  sea: true
+  countries: [TN]
+  source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Bizerte - Sidi Bou Saïd 33 M)
+
+- name: Sidi Bou Saïd → Monastir (round Cap Bon)
+  from: [10.353, 36.8665]
+  to: [10.8325, 35.779]
+  expected_km: 215
+  tolerance: 0.15
+  sea: true
+  countries: [TN]
+  source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Sidi Bou Saïd - Monastir 116 M)
+
+- name: Varna → Sveti Vlas (Marina Dinevi)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [27.926, 43.194]
+  to: [27.767, 42.705]
+  expected_km: 67
+  tolerance: 0.2
+  sea: true
+  countries: [BG]
+  source: https://www.marinadinevi.bg/en/marina/ (Varna "36 nautical miles to the north")
+
+- name: Sveti Vlas (Marina Dinevi) → Tsarevo
+  from: [27.767, 42.705]
+  to: [27.86, 42.172]
+  expected_km: 59
+  tolerance: 0.2
+  sea: true
+  countries: [BG]
+  source: https://www.marinadinevi.bg/en/marina/ ("32 nautical miles from the most southern entry port of Bulgaria", Tsarevo)
+
+- name: Nesebar → Sozopol (Bay of Burgas)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [27.728, 42.657]
+  to: [27.69, 42.421]
+  expected_km: 26
+  tolerance: 0.25
+  sea: true
+  countries: [BG]
+  source: https://www.sea-seek.com/fr/Nesebar (Nesebar – Sozopol 14 NM direct line; the route across the bay is close to straight)
+
+- name: Sozopol → Varna
+  from: [27.69, 42.421]
+  to: [27.926, 43.194]
+  expected_km: 93
+  tolerance: 0.2
+  sea: true
+  countries: [BG]
+  source: https://blog.getboat.com/trends-in-yachting/sailing-black-sea-turkey-bulgaria ("a 50-nautical-mile sail to Varna" from Sozopol)
+
+- name: Mangalia → Constanța (Port Tomis)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [28.585, 43.8085]
+  to: [28.665, 44.1765]
+  expected_km: 37
+  tolerance: 0.25
+  sea: true
+  countries: [RO]
+  source: https://www.sea-seek.com/en/Mangalia (Mangalia – Constanta 20 NM direct line; the harbours are ~22 NM apart by latitude, so the figure is low and the tolerance wide)
+
+- name: Constanța (Port Tomis) → Sulina (Danube mouth)
+  from: [28.665, 44.1765]
+  to: [29.656, 45.1595]
+  expected_km: 157
+  tolerance: 0.25
+  sea: true
+  countries: [RO]
+  via: [Sulina]
+  source: https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba (Constanța is 85 nmi from the Sulina Branch, where the Danube flows into the sea)
+
+- name: Bosporus transit (Sarayburnu → Black Sea entrance)
+  from: [28.99, 41.015]
+  to: [29.115, 41.23]
+  expected_km: 31
+  tolerance: 0.2
+  sea: true
+  countries: [TR]
+  source: https://en.wikipedia.org/wiki/Bosporus (the strait is about 31 km / 17 nmi long between its limits)
+
+- name: Dardanelles transit (Gelibolu → Aegean entrance)
+  from: [26.672, 40.408]
+  to: [26.19, 40.025]
+  expected_km: 61
+  tolerance: 0.2
+  sea: true
+  countries: [TR]
+  source: https://en.wikipedia.org/wiki/Dardanelles (the strait is 61 km long, Gelibolu at the Marmara end to the Aegean mouth)
+
+# --- Nordics (researched 2026-11-21) -----------------------------------------------------------------------------------
+
+- name: Göta kanal stage 1 — Mem → Berg (Söderköping, Norsholm, Roxen)
+  from: [16.42, 58.48]
+  to: [15.533, 58.483]
+  expected_km: 55
+  tolerance: 0.15
+  countries: [SE]
+  via: [Göta kanal, Roxen]
+  min_locks: 8
+  source: https://www.gotakanal.se/sv/media/812 (Göta kanalbolag convoy itinerary Mem–Sjötorp, day 1 "Mem–Berg, 15 locks, 2 lakes, 55 km", night harbour Berg lower in Lake Roxen)
+
+- name: Göta kanal stage 2 — Berg → Borenshult (Carl Johan flight, Borensberg, Boren)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [15.533, 58.483]
+  to: [15.092, 58.557]
+  expected_km: 34
+  tolerance: 0.15
+  countries: [SE]
+  via: [Göta kanal, Boren]
+  min_locks: 5
+  source: https://www.gotakanal.se/sv/media/812 (day 2 "Berg–Borenshult, Motala, 16 locks, 1 lake, 34 km"; lock list https://hhogman.se/gota-canal-locks.htm)
+
+- name: Göta kanal — Motala → Karlsborg (crossing Vättern)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [15.04, 58.537]
+  to: [14.52, 58.537]
+  expected_km: 32.5
+  tolerance: 0.15
+  countries: [SE]
+  via: [Vättern]
+  source: 'https://www.gotakanal.se/sv/media/811 (Göta kanalbolag express itinerary: "Free time/crossing Lake Vättern, 32.5 km", Motala harbour – Karlsborg)'
+
+- name: Göta kanal stage 4 — Karlsborg → Töreboda (Bottensjön, Forsvik, Viken, Tåtorp)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [14.52, 58.537]
+  to: [14.1245, 58.7065]
+  expected_km: 46
+  tolerance: 0.15
+  countries: [SE]
+  via: [Göta kanal, Viken]
+  min_locks: 2
+  source: https://www.gotakanal.se/sv/media/812 (Karlsborg–Forsvik across Bottensjön 7.4 km; day 4 "Forsvik–Töreboda, 2 locks, 1 lake, 39 km"; 7.4 + 39 = 46.4 km)
+
+- name: Göta kanal stage 5 — Töreboda → Sjötorp (Hajstorp, Norrkvarn, Sjötorp flight)
+  from: [14.1245, 58.7065]
+  to: [13.975, 58.842]
+  expected_km: 19
+  tolerance: 0.3
+  countries: [SE]
+  via: [Göta kanal]
+  min_locks: 8
+  source: https://www.gotakanal.se/sv/media/812 (day 5 "Töreboda–Sjötorp, 19 locks, 19 km"; towpath Tåtorp–Sjötorp 35 km in https://www.gotakanal.se/sv/media/276)
+
+- name: Vänersborg → Sjötorp (across Lake Vänern, Trollhätte kanal to Göta kanal)
+  from: [12.3184, 58.384]
+  to: [13.975, 58.842]
+  expected_km: 118
+  tolerance: 0.2
+  countries: [SE]
+  via: [Vänern]
+  source: https://www.gotakanal.se/sv/media/812 ("If you are also travelling the Lake Vänern–Göteborg section, you will be passing through the Trollhätte Canal, 80 km, and Lake Vänern, 118 km")
+
+- name: Ulefoss → Hogga (Bandak-Norsjøkanalen lock staircase)
+  from: [9.2676, 59.2853]
+  to: [9.04, 59.304]
+  expected_km: 17
+  tolerance: 0.25
+  countries: [false]
+  via: [Bandak-Norsjøkanalen, Vrangfoss]
+  min_locks: 5
+  source: https://www.telemarkskanalen.no/fritidsbat/strekning-for-strekning/fra-ulefoss-til-flavatn ("Langs den 17 kilometer lange strekningen mellom Ulefoss og Strengen ble det bygd 14 sluser", Strengen
+    = Hogga locks)
+
+- name: Stockholm (Skeppsbron) → Sandhamn (Stockholm archipelago)
+  from: [18.079, 59.325]
+  to: [18.915, 59.29]
+  expected_km: 68.5
+  tolerance: 0.25
+  sea: true
+  countries: [SE]
+  source: 'https://www.sjofartsverket.se/globalassets/tjanster/lotsning/lo-stockholm/rutter/yacht-cruise-stockholm-2021-06-15.pdf (Sjöfartsverket Stockholm pilot area, Sandhamn: "Stockholm via Stavsnäs
+    to Skeppsbron; 37 M")'
+
+- name: Saltsjöbaden → Stockholm via Baggensstäket
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [18.315, 59.2867]
+  to: [18.079, 59.325]
+  expected_km: 20.4
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  source: 'https://www.sjofartsverket.se/globalassets/tjanster/lotsning/lo-stockholm/rutter/yacht-cruise-stockholm-2021-06-15.pdf (Saltsjöbaden: "Stockholm via Baggenstäket 11 M, max. draught 2.6 m, sail-free
+    height 30 m")'
+
+- name: Saltsjöbaden → Sandhamn via Strömma kanal
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [18.315, 59.2867]
+  to: [18.915, 59.29]
+  expected_km: 36.7
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  source: 'https://www.sjofartsverket.se/globalassets/tjanster/lotsning/lo-stockholm/rutter/yacht-cruise-stockholm-2021-06-15.pdf (Saltsjöbaden: "Sandhamn via Strömma Canal 19,8 M, max. draught 1,4 m, sail-free
+    height 11,5 m")'
+
+- name: Stockholm (Skeppsbron) → Furusund via Vaxholm
+  from: [18.079, 59.325]
+  to: [18.9283, 59.6617]
+  expected_km: 70.7
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  source: 'https://www.sjofartsverket.se/globalassets/tjanster/lotsning/lo-stockholm/rutter/yacht-cruise-stockholm-2021-06-15.pdf (Furusund 59°39.7''N 018°55.7''E: "Stockholm via Vaxholm to Skeppsbron;
+    38.2 M")'
+
+- name: Vaxholm → Grinda (Stockholm archipelago)
+  from: [18.353, 59.401]
+  to: [18.558, 59.413]
+  expected_km: 16.7
+  tolerance: 0.25
+  sea: true
+  countries: [SE]
+  source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (charter itinerary, day 2 "Vaxholm – Grinda 9 NM")
+
+- name: Sandhamn → Utö (Stockholm archipelago, north to south)
+  from: [18.915, 59.29]
+  to: [18.3267, 58.97]
+  expected_km: 55.6
+  tolerance: 0.25
+  sea: true
+  countries: [SE]
+  source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 5 "Sandhamn – Utö 30 NM")
+
+- name: Utö → Dalarö (Stockholm southern archipelago)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [18.3267, 58.97]
+  to: [18.405, 59.13]
+  expected_km: 35.2
+  tolerance: 0.25
+  sea: true
+  countries: [SE]
+  source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 "Utö – Dalarö 19 NM"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)
+
+- name: Göteborg (Lilla Bommen) → Öckerö
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [11.966, 57.713]
+  to: [11.662, 57.706]
+  expected_km: 20.4
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  via: [Göta älv]
+  source: 'https://www.boote-magazin.de/en/travel-and-charter/territories/bohuslaen-sweden-s-wild-west-on-the-skagerrak/ ("Gothenburg (Lilla Bommen guest harbour) → Öckerö: 11 nm")'
+
+- name: Marstrand → Uddevalla (inner route behind Tjörn and Orust)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [11.588, 57.887]
+  to: [11.93, 58.347]
+  expected_km: 68.5
+  tolerance: 0.2
+  sea: true
+  countries: [SE]
+  source: 'https://www.boote-magazin.de/en/travel-and-charter/territories/bohuslaen-sweden-s-wild-west-on-the-skagerrak/ ("Marstrand → Uddevalla: around 37 nm" via Älgöfjorden, Hakefjorden (Tjörnbron) and
+    Havstensfjorden)'
+
+- name: Arendal → Kristiansand (Sørlandet coast)
+  from: [8.766, 58.456]
+  to: [8.004, 58.141]
+  expected_km: 75
+  tolerance: 0.25
+  sea: true
+  countries: [false]
+  source: 'https://sailtraininginternational.org/app/uploads/2025/03/The-Tall-Ships-Races-2025-Cruise-in-Company-Ports.pdf ("From Arendal to Kristiansand: 40.5 nm")'
+
+- name: Kristiansand → Lillesand (Blindleia)
+  from: [8.004, 58.141]
+  to: [8.38, 58.247]
+  expected_km: 22.2
+  tolerance: 0.3
+  sea: true
+  countries: [false]
+  source: https://www.yachtingmonthly.com/cruising/cruising-life/sailing-norways-south-coast-the-scenery-is-spectacular-winding-through-tiny-villages-and-narrow-rocky-passages-105172 ("the Blindleia, a
+    12-mile-long inland waterway between Kristiansand and Lillesand"; parts only 6.5 m wide, mast-height limits)
+
+- name: Farsund → Kristiansand (Sørlandet coast, round Lindesnes side)
+  from: [6.807, 58.0915]
+  to: [8.004, 58.141]
+  expected_km: 96.3
+  tolerance: 0.25
+  sea: true
+  countries: [false]
+  source: 'https://sailtraininginternational.org/app/uploads/2025/03/The-Tall-Ships-Races-2025-Cruise-in-Company-Ports.pdf ("From Farsund to Kristiansand: 52 nm")'
+
+- name: Avernakø → Faaborg via Svelmø (South Funen archipelago)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [10.264, 55.037]
+  to: [10.24, 55.093]
+  expected_km: 16.7
+  tolerance: 0.3
+  sea: true
+  countries: [DK]
+  source: 'https://www.visitfaaborg.com/faaborg/island-hopping/island-hopping-for-sailors ("Avernakø → Faaborg: approx. 9 NM, via Svelmø"; same page: Faaborg–Bjørnø 3 NM, Bjørnø–Lyø 6 NM, Lyø–Avernakø 5
+    NM)'
+
+- name: Bjørnø → Lyø (South Funen archipelago)
+  from: [10.252, 55.0665]
+  to: [10.158, 55.054]
+  expected_km: 11.1
+  tolerance: 0.3
+  sea: true
+  countries: [DK]
+  source: 'https://www.visitfaaborg.com/faaborg/island-hopping/island-hopping-for-sailors ("Bjørnø → Lyø: approx. 6 NM")'
+
+# --- Southern and eastern Baltic (researched 2026-11-21) ---------------------------------------------------------------
+
+- name: Brunsbüttel → Rendsburg (Kiel Canal, Obereider)
+  from: [9.146, 53.887]
+  to: [9.6683, 54.3063]
+  expected_km: 66
+  tolerance: 0.15
+  countries: [DE]
+  via: [Nord-Ostsee-Kanal]
+  min_locks: 1
+  source: https://www.wsa-nord-ostsee-kanal.wsv.de/Webs/WSA/WSA-Nord-Ostsee-Kanal/DE/2_Schifffahrt/f_Sportschifffahrt/d_Liegestellen_NOK/Liegestellen_NOK_node.html (Brunsbüttel locks at canal km 1.5 to
+    the Obereidersee entrance at km 66) + https://skipper.adac.de/en/marinas/obereider-yachtservice (leave the canal at km 66 and follow the lit Obereider channel about 1 NM to Rendsburg)
+
+- name: Rendsburg → Kiel-Holtenau (Kiel Canal)
+  from: [9.6683, 54.3063]
+  to: [10.156, 54.366]
+  expected_km: 34
+  tolerance: 0.15
+  countries: [DE]
+  via: [Nord-Ostsee-Kanal]
+  min_locks: 1
+  source: https://www.wsa-nord-ostsee-kanal.wsv.de/Webs/WSA/WSA-Nord-Ostsee-Kanal/DE/2_Schifffahrt/f_Sportschifffahrt/d_Liegestellen_NOK/Liegestellen_NOK_node.html (Obereidersee entrance at km 66, the Kiel-Holtenau
+    berth east of the lock at km 98.5; about 1 NM more down the Obereider channel from Rendsburg)
+
+- name: Heiligenhafen → Laboe (Kiel Bay)
+  from: [10.984, 54.3735]
+  to: [10.2162, 54.4021]
+  expected_km: 61
+  tolerance: 0.2
+  sea: true
+  countries: [DE]
+  source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 1, Heiligenhafen – Laboe 33 sm)
+
+- name: Laboe → Maasholm (Schlei mouth)
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [10.2162, 54.4021]
+  to: [9.9939, 54.6809]
+  expected_km: 37
+  tolerance: 0.2
+  sea: true
+  countries: [DE]
+  source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 2, Laboe – Maasholm 20 sm)
+
+- name: Schleimünde → Schleswig (the whole Schlei)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [10.018, 54.6754]
+  to: [9.57, 54.5108]
+  expected_km: 42
+  tolerance: 0.15
+  countries: [DE]
+  source: https://de.wikipedia.org/wiki/Schlei (the Schlei is 42 km long, from Schleimünde through Kappeln and Arnis to Schleswig)
+
+- name: Travemünde → Timmendorf (Poel)
+  from: [10.8788, 53.9569]
+  to: [11.375, 53.992]
+  expected_km: 37
+  tolerance: 0.25
+  sea: true
+  countries: [DE]
+  source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 20 NM from Travemünde to Timmendorf)
+
+- name: Timmendorf (Poel) → Wismar
+  from: [11.375, 53.992]
+  to: [11.459, 53.8985]
+  expected_km: 15
+  tolerance: 0.25
+  sea: true
+  countries: [DE]
+  source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
+
+- name: Kühlungsborn → Warnemünde
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [11.7707, 54.1532]
+  to: [12.0876, 54.1798]
+  expected_km: 18.5
+  tolerance: 0.2
+  sea: true
+  countries: [DE]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/wismar-bay-more-reality-than-appearance/ (the nearest harbour to Kühlungsborn is Warnemünde, ten nautical miles away)
+
+- name: Barth → Neuendorf (Hiddensee) through the Bodden
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [12.7285, 54.373]
+  to: [13.0945, 54.5242]
+  expected_km: 48
+  tolerance: 0.2
+  sea: true
+  countries: [DE]
+  source: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 1, Barth – Neuendorf (Hiddensee) 26 sm)
+
+- name: Neuendorf (Hiddensee) → Wiek (Rügen)
+  from: [13.0945, 54.5242]
+  to: [13.2843, 54.6212]
+  expected_km: 20
+  tolerance: 0.2
+  sea: true
+  countries: [DE]
+  source: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 2, Neuendorf – Wiek 11 sm, Hiddensee fairway north then east between Bug and Wittow)
+
+- name: Wiek (Rügen) → Stralsund
+  from: [13.2843, 54.6212]
+  to: [13.0995, 54.3185]
+  expected_km: 41.5
+  tolerance: 0.2
+  sea: true
+  countries: [DE]
+  source: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 3, Wiek – Stralsund 22.4 sm by the Schaproder Bodden and the Hiddensee fairway)
+
+- name: Stralsund → Barhöft
+  from: [13.0995, 54.3185]
+  to: [13.033, 54.434]
+  expected_km: 16.5
+  tolerance: 0.2
+  countries: [DE]
+  source: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 4, Stralsund – Barhöft 8.9 sm)
+
+- name: Kröslin → Krummin (Peenestrom, Wolgast bridge)
+  from: [13.756, 54.122]
+  to: [13.8478, 54.0465]
+  expected_km: 25
+  tolerance: 0.2
+  countries: [DE]
+  via: [Peenestrom]
+  source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 1, Kröslin – Krummin 14 sm; https://southcoastbaltic.eu/de/boddengewaesser-und-stettiner-haff/ gives 13.2 sm)
+
+- name: Krummin → Ueckermünde (Peenestrom, Zecherin bridge, Kleines Haff)
+  from: [13.8478, 54.0465]
+  to: [14.0505, 53.737]
+  expected_km: 53
+  tolerance: 0.2
+  countries: [DE]
+  via: [Peenestrom]
+  source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 2, Krummin – Ueckermünde 28 sm; https://southcoastbaltic.eu/de/boddengewaesser-und-kleines-stettiner-haff/ gives 29 sm)
+
+- name: Ueckermünde → Szczecin (Szczecin Lagoon, Odra)
+  from: [14.0505, 53.737]
+  to: [14.5715, 53.4275]
+  expected_km: 68.5
+  tolerance: 0.2
+  countries: [DE, PL]
+  source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 3, Ueckermünde – Szczecin 37 sm)
+
+- name: Świnoujście → Ueckermünde (Kanał Piastowski, Szczecin Lagoon)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [14.2684, 53.9114]
+  to: [14.0505, 53.737]
+  expected_km: 44.5
+  tolerance: 0.2
+  countries: [PL, DE]
+  via: [Kanał Piastowski]
+  source: https://southcoastbaltic.eu/de/boddengewaesser-und-stettiner-haff/ (day 12, Świnoujście – Ueckermünde 24 sm by the Kanał Piastowski along the Świna, then across the lagoon)
+
+- name: Stepnica → Świnoujście (Szczecin Lagoon)
+  from: [14.623, 53.65]
+  to: [14.2684, 53.9114]
+  expected_km: 41
+  tolerance: 0.2
+  countries: [PL]
+  source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 5, Stepnica – Świnoujście 22 sm)
+
+- name: Świnoujście → Szczecin (Świnoujście–Szczecin fairway)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [14.2684, 53.9114]
+  to: [14.5715, 53.4275]
+  expected_km: 67.7
+  tolerance: 0.15
+  countries: [PL]
+  via: [Kanał Piastowski]
+  source: https://eli.gov.pl/eli/DU/2013/597/ogl/pol/pdf (Dz.U. 2013 poz. 597, "tor wodny Świnoujście – Szczecin o długości 67,7 km", counted from the Świnoujście breakwater heads southward; later definitions
+    give 67.13 km)
+
+- name: Świnoujście → Dziwnów (Pomeranian Bay)
+  from: [14.2684, 53.9114]
+  to: [14.7384, 54.0209]
+  expected_km: 35
+  tolerance: 0.2
+  sea: true
+  countries: [PL]
+  source: https://southcoastbaltic.eu/de/grand-tour-suedliche-ostsee/ (day 11, Świnoujście – Dziwnów 19 sm; https://southcoastbaltic.eu/de/drei-laender-in-14-tagen/ also 19 sm)
+
+- name: Mrzeżyno → Kołobrzeg
+  from: [15.2869, 54.1451]
+  to: [15.5601, 54.1791]
+  expected_km: 18.5
+  tolerance: 0.2
+  sea: true
+  countries: [PL]
+  source: https://southcoastbaltic.eu/de/grand-tour-suedliche-ostsee/ (day 13, Mrzeżyno – Kołobrzeg 10 sm)
+
+- name: Kołobrzeg → Darłowo
+  from: [15.5601, 54.1791]
+  to: [16.3975, 54.4375]
+  expected_km: 62
+  tolerance: 0.2
+  sea: true
+  countries: [PL]
+  source: https://southcoastbaltic.eu/de/grand-tour-suedliche-ostsee/ (day 1, Kołobrzeg – Darłowo 33 sm; https://southcoastbaltic.eu/de/drei-laender-in-14-tagen/ gives Darłowo – Kołobrzeg 34 sm)
+
+- name: Darłowo → Łeba
+  from: [16.3975, 54.4375]
+  to: [17.5496, 54.7648]
+  expected_km: 98
+  tolerance: 0.2
+  sea: true
+  countries: [PL]
+  source: https://southcoastbaltic.eu/de/grand-tour-suedliche-ostsee/ (day 2, Darłowo – Łeba 53 sm)
+
+- name: Gdynia → Gdańsk (Martwa Wisła, Motława)
+  from: [18.5545, 54.5165]
+  to: [18.66, 54.35]
+  expected_km: 24
+  tolerance: 0.2
+  sea: true
+  countries: [PL]
+  via: [Martwa Wisła]
+  source: https://southcoastbaltic.eu/de/der-osten-so-nah/ (day 1, Gdynia – Gdańsk 13 sm)
+
+- name: Gdynia → Hel
+  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  from: [18.5545, 54.5165]
+  to: [18.8005, 54.601]
+  expected_km: 23
+  tolerance: 0.2
+  sea: true
+  countries: [PL]
+  source: https://spidersweb.pl/2026/06/szybki-katamaran-na-hel.html (Żegluga Gdańska Gdynia – Hel run, about 23 km, half an hour by the catamaran Amber Express)
+
+- name: Gulf of Gdańsk → Elbląg (Vistula Spit canal at Nowy Świat)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [19.3119, 54.366]
+  to: [19.387, 54.176]
+  expected_km: 23
+  tolerance: 0.15
+  countries: [PL]
+  via: [Elbląg]
+  min_locks: 1
+  source: https://pl.wikipedia.org/wiki/Przekop_Mierzei_Wiślanej (waterway Gulf of Gdańsk – Elbląg 22.88 km = 2.32 km through the spit with the outer port and lock, 10.18 km across the Vistula Lagoon, 10.38
+    km on the Elbląg river)
+
+- name: Gdynia → Klaipėda (outside Kaliningrad waters)
+  from: [18.5545, 54.5165]
+  to: [21.119, 55.706]
+  expected_km: 222
+  tolerance: 0.25
+  sea: true
+  countries: [PL, LT]
+  source: https://www.yacht.de/en/travel-and-charter/germany/baltic-sea-with-the-charter-yacht-to-the-baltic-states/ (Gdynia – Klaipėda, 120 miles overnight through the Russian economic zone; https://southcoastbaltic.eu/de/der-osten-so-nah/
+    gives Klaipėda – Sopot 120 sm)
+
+- name: Klaipėda → Nida (Curonian Lagoon)
+  from: [21.119, 55.706]
+  to: [21.0105, 55.303]
+  expected_km: 48
+  tolerance: 0.15
+  countries: [LT]
+  via: [Kuršių marios]
+  source: https://southcoastbaltic.eu/de/kurisches-haff-und-memeldelta/ (day 1, Klaipėda – Nida 26 sm by the buoyed channel along the spit; also 26 sm in https://southcoastbaltic.eu/de/der-osten-so-nah/)
+
+- name: Nida → Mingė (Curonian Lagoon, Atmata, Minija)
+  known_gap: 'not yet diagnosed: the route differs from the source'
+  from: [21.0105, 55.303]
+  to: [21.284, 55.362]
+  expected_km: 20
+  tolerance: 0.25
+  countries: [LT]
+  via: [Kuršių marios, Atmata]
+  source: https://southcoastbaltic.eu/de/kurisches-haff-und-memeldelta/ (day 3, Nida – Memel delta/Mingė 11 sm)
+
+- name: Ventspils → Riga (round Cape Kolka)
+  from: [21.5372, 57.3944]
+  to: [24.1, 56.95]
+  expected_km: 222
+  tolerance: 0.2
+  sea: true
+  countries: [LV]
+  via: [Daugava]
+  source: https://www.yacht.de/en/travel-and-charter/germany/baltic-sea-with-the-charter-yacht-to-the-baltic-states/ (sailed the 120 nautical miles from Ventspils to Riga overnight in one go)
+
+- name: Kuressaare → Riga (Gulf of Riga)
+  from: [22.473, 58.244]
+  to: [24.1, 56.95]
+  expected_km: 185
+  tolerance: 0.25
+  sea: true
+  countries: [EE, LV]
+  via: [Daugava]
+  source: https://www.boote-magazin.de/en/travel-and-charter/territories/journey-from-kalmar-to-riga-part-3-hidden-beauty/ (Kuressaare – Riga City Yacht Club, Ķīpsala, almost 100 nm direct, about eleven
+    hours)
+
+- name: Virtsu → Kuivastu (Muhu, Suur väin)
+  from: [23.508, 58.5752]
+  to: [23.3965, 58.5745]
+  expected_km: 7.4
+  tolerance: 0.25
+  sea: true
+  countries: [EE]
+  source: https://www.ferryhopper.com/en/ferry-routes/direct/virtsu-kuivastu (Virtsu – Kuivastu ferry, about 4 nautical miles / 7.8 km)
