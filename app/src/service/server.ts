@@ -44,8 +44,10 @@ export function serve(engine: Engine, o: Options): Server {
         res.writeHead(r.status, Object.fromEntries(r.headers));
         res.end(Buffer.from(await r.arrayBuffer()));
       } catch (e) {
+        // the reason goes to the log, not to the caller
+        console.error('request failed:', (e as Error).message);
         res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' });
-        res.end(`Internal error: ${(e as Error).message}`);
+        res.end('Internal error: try again later');
       }
     })();
   });

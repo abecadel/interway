@@ -47,7 +47,7 @@ export class RequestError extends Error {}
 
 /** Limits that keep one request cheap: a route visits at most MAX_STOPS stops, a place name is at most
  *  MAX_PLACE_CHARS long. */
-export const MAX_STOPS = 25;
+export const MAX_STOPS = 10;
 export const MAX_PLACE_CHARS = 120;
 
 /** A small least-recently-used cache. */
@@ -75,18 +75,30 @@ export class Lru<V> {
   }
 }
 
-/** The online search, each name asked once (the public geocoder is shared: be gentle with it). */
-export function cachedGeocoder(geocode: (q: string) => Promise<Place[]>, size = 2000): (q: string) => Promise<Place[]> {
+/** The online search, each name asked once, at most one new name per `gapMs` and never waiting longer than
+ *  `timeoutMs` (the public geocoder is shared: be gentle with it; without an answer the data's places serve). */
+export function cachedGeocoder(geocode: (q: string, near?: undefined, signal?: AbortSignal) => Promise<Place[]>, size = 2000,
+  { timeoutMs = 3000, gapMs = 1000, now = () => Date.now() } = {}): (q: string) => Promise<Place[]> {
   const cache = new Lru<Promise<Place[]>>(size);
+  let last = -Infinity;
   return (q) => {
     const k = fold(q.trim());
     let hit = cache.get(k);
     if (!hit) {
-      hit = geocode(q).catch(() => []);
+      if (now() - last < gapMs) return Promise.resolve([]); // over the budget: not cached, asked again later
+      last = now();
+      hit = geocode(q, undefined, AbortSignal.timeout(timeoutMs)).catch(() => []);
       cache.set(k, hit);
     }
     return hit;
   };
+}
+
+/** Text from users or the geocoder that the service echoes back to an assistant: one line, no markup, short. */
+export function clean(s: string, max = MAX_PLACE_CHARS): string {
+  // eslint-disable-next-line no-control-regex
+  const flat = s.replace(/[\u0000-\u001f\u007f<>`|[\]]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return flat.length > max ? `${flat.slice(0, max - 1)}…` : flat;
 }
 
 /** Coordinates as given; else a place in the data whose name starts with the text (marinas, locks, towns);
@@ -94,14 +106,14 @@ export function cachedGeocoder(geocode: (q: string) => Promise<Place[]>, size = 
 export async function resolvePlace(engine: Engine, value: string, what: string): Promise<Resolved> {
   if (value.length > MAX_PLACE_CHARS) throw new RequestError(`${what} is too long (at most ${MAX_PLACE_CHARS} characters)`);
   const p = parsePoint(value);
-  if (p) return { position: p, label: value };
+  if (p) return { position: p, label: clean(value) };
   const local = engine.index.search(value, undefined, 1)[0];
   const name = (h: Place) => h.label.split(' · ')[0];
-  if (local && fold(name(local)).startsWith(fold(value.trim()))) return { position: local.position, label: name(local) };
+  if (local && fold(name(local)).startsWith(fold(value.trim()))) return { position: local.position, label: clean(name(local)) };
   const online = engine.geocode ? (await engine.geocode(value).catch(() => []))[0] : undefined;
   const hit = online ?? local;
-  if (!hit) throw new RequestError(`No place found for ${what} "${value}": give coordinates as lon,lat, or another name`);
-  return { position: hit.position, label: name(hit) };
+  if (!hit) throw new RequestError(`No place found for ${what} "${clean(value)}": give coordinates as lon,lat, or another name`);
+  return { position: hit.position, label: clean(name(hit)) };
 }
 
 /** What a route request carries: the points as given (names or coordinates) and the vessel. */

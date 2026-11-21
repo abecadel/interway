@@ -34,6 +34,7 @@ describe('route service server', () => {
     const dir = await mkdtemp(join(tmpdir(), 'iw-'));
     for (const [name, b] of Object.entries(fixtureFiles())) await writeFile(join(dir, name), new Uint8Array(b));
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const errLog = vi.spyOn(console, 'error').mockImplementation(() => {});
     const server = await main({ DATA_DIR: dir, PORT: '0', GEOCODE: '0' });
     const base = `http://localhost:${port(server)}`;
     expect(await (await fetch(`${base}/api/route?from=Startowo&to=Metowo`)).text()).toContain('# Route: Startowo → Metowo');
@@ -50,7 +51,8 @@ describe('route service server', () => {
     await new Promise<void>((done) => broken.listen(0, done));
     const bad = await fetch(`http://localhost:${port(broken)}/api/place?q=a`);
     expect(bad.status).toBe(500);
-    expect(await bad.text()).toBe('Internal error: boom');
+    expect(await bad.text()).toBe('Internal error: try again later');
+    expect(errLog).toHaveBeenCalledWith('request failed:', 'boom');
     await new Promise((done) => broken.close(done));
     await new Promise((done) => server.close(done));
     expect(log).toHaveBeenCalledWith(expect.stringContaining('Interway route service on port'));

@@ -3,13 +3,36 @@
   "name": "interway",
   "main": "worker.ts",
   "compatibility_date": "2026-11-01",
-  "observability": { "enabled": true },
+  "workers_dev": true,
+  "preview_urls": false,
+  // Workers Cache: hits never run the Worker, so they never reach the rate limits or the container.
+  // Only the Cached entrypoint is cached; the default one runs on every request and normalises the URL.
+  "cache": { "enabled": true },
+  "exports": {
+    "default": { "type": "worker", "cache": { "enabled": false } },
+    "Cached": { "type": "worker", "cache": { "enabled": true } }
+  },
+  "ratelimits": [
+    // per caller (cf-connecting-ip), per Cloudflare location, cache hits included
+    { "name": "PER_IP", "namespace_id": "1001", "simple": { "limit": 60, "period": 60 } },
+    // per caller: requests that reach the container (cache misses and MCP calls)
+    { "name": "MISS_IP", "namespace_id": "1002", "simple": { "limit": 20, "period": 60 } },
+    // everyone, per location: about what one 1/4-vCPU container can answer
+    { "name": "ALL", "namespace_id": "1003", "simple": { "limit": 120, "period": 60 } }
+  ],
+  "limits": { "cpu_ms": 1000 },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    // place names are in the query string: keep them out of the logs
+    "redact_query_string": true
+  },
   "containers": [
     {
       "class_name": "InterwayService",
       "image": "./Dockerfile",
-      // 1 GiB: the router with the Europe data needs about 300 MB
       "instance_type": "basic",
+      // the Worker addresses one named instance ("interway"); 2 leaves room for a rollout and caps the bill
       "max_instances": 2
     }
   ],

@@ -61,12 +61,13 @@ describe('route service over HTTP', () => {
   });
 
   it('refuses oversized requests, caches answers and marks what may be cached', async () => {
-    const { MAX_QUERY_CHARS, MAX_BODY_BYTES, MAX_BATCH, CACHE_SECONDS } = await import('./handler');
+    const { MAX_QUERY_CHARS, MAX_BODY_BYTES, CACHE_SECONDS } = await import('./handler');
     expect((await get(`/api/route?from=${'a'.repeat(MAX_QUERY_CHARS)}&to=b`)).status).toBe(414);
     const big = await rpc({ jsonrpc: '2.0', id: 1, method: 'ping', params: { pad: 'x'.repeat(MAX_BODY_BYTES) } });
     expect([big.status, big.body.error.code]).toEqual([413, -32600]);
-    const many = await rpc(Array.from({ length: MAX_BATCH + 1 }, (_, i) => ({ jsonrpc: '2.0', id: i, method: 'ping' })));
-    expect(many.body.error.message).toBe(`At most ${MAX_BATCH} requests in a batch`);
+    const batch = await rpc([{ jsonrpc: '2.0', id: 1, method: 'ping' }]);
+    expect([batch.status, batch.body.error.message]).toEqual([400, 'Send one JSON-RPC message per request (no batches)']);
+    expect((await rpc('null')).status).toBe(400);
     const ok = await get('/api/route?from=Startowo&to=Metowo');
     expect(ok.headers.get('cache-control')).toBe(`public, max-age=${CACHE_SECONDS}`);
     expect((await get('/api/route?from=Startowo')).headers.get('cache-control')).toBe('no-store');
@@ -98,8 +99,6 @@ describe('route service over MCP', () => {
     expect((await rpc({ jsonrpc: '2.0', method: 'notifications/initialized' })).status).toBe(202);
     expect((await rpc({ jsonrpc: '2.0', id: 3, method: 'tools/list' })).body.result.tools.map((t: { name: string }) => t.name)).toEqual(TOOLS.map((t) => t.name));
     expect((await rpc({ jsonrpc: '2.0', id: 4, method: 'ping' })).body.result).toEqual({});
-    const batch = (await rpc([{ jsonrpc: '2.0', id: 5, method: 'ping' }, { jsonrpc: '2.0', method: 'notifications/x' }])).body;
-    expect(batch).toEqual([{ jsonrpc: '2.0', id: 5, result: {} }]);
   });
 
   it('refuses what it cannot do', async () => {

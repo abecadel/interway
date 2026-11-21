@@ -9,8 +9,7 @@ import { applyEdit, type Edit, type Engine, Lru, parseRequest, plan, requestFrom
 
 /** Limits on what one request may ask: longer queries and bodies are refused before any work. */
 export const MAX_QUERY_CHARS = 2000;
-export const MAX_BODY_BYTES = 64 * 1024;
-export const MAX_BATCH = 10;
+export const MAX_BODY_BYTES = 32 * 1024;
 /** Answers to GET requests may be cached this long (s): the data changes at most daily, and a permalink records
  *  the data version anyway. */
 export const CACHE_SECONDS = 3600;
@@ -200,8 +199,9 @@ async function mcp(engine: Engine, o: Options, req: Request): Promise<Response> 
   } catch {
     return json({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } }, 400, false);
   }
-  if (Array.isArray(body) && body.length > MAX_BATCH) {
-    return json({ jsonrpc: '2.0', id: null, error: { code: -32600, message: `At most ${MAX_BATCH} requests in a batch` } }, 400, false);
+  // MCP 2025-06-18 has no JSON-RPC batches: one POST, one message (and one route at most)
+  if (Array.isArray(body) || !body || typeof body !== 'object') {
+    return json({ jsonrpc: '2.0', id: null, error: { code: -32600, message: 'Send one JSON-RPC message per request (no batches)' } }, 400, false);
   }
   const one = async (m: RpcRequest) => {
     try {
@@ -210,11 +210,9 @@ async function mcp(engine: Engine, o: Options, req: Request): Promise<Response> 
       return { jsonrpc: '2.0', id: m.id, error: { code: (e as { code?: number }).code ?? -32603, message: (e as Error).message } };
     }
   };
-  const list = Array.isArray(body) ? body : [body];
-  // notifications (no id) get no answer
-  const answers = await Promise.all(list.filter((m) => m.id !== undefined).map(one));
-  if (!answers.length) return new Response(null, { status: 202, headers: CORS });
-  return json(Array.isArray(body) ? answers : answers[0], 200, false);
+  // a notification (no id) gets no answer
+  if (body.id === undefined) return new Response(null, { status: 202, headers: CORS });
+  return json(await one(body), 200, false);
 }
 
 export async function handle(engine: Engine, req: Request, options: Options): Promise<Response> {

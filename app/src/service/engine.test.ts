@@ -107,6 +107,28 @@ describe('limits and caches', () => {
     expect(await failing('x')).toEqual([]);
   });
 
+  it('asks the online search at most once a second, and gives up after the timeout', async () => {
+    const { cachedGeocoder } = await import('./engine');
+    let t = 0;
+    const inner = vi.fn(async (q: string, _near?: undefined, signal?: AbortSignal) => { expect(signal).toBeInstanceOf(AbortSignal); return [{ label: q, position: [1, 2] as [number, number] }]; });
+    const g = cachedGeocoder(inner, 10, { now: () => t });
+    expect(await g('a')).toHaveLength(1);
+    t = 500;
+    expect(await g('b')).toEqual([]); // too soon: not asked, not remembered
+    t = 1600;
+    expect(await g('b')).toHaveLength(1);
+    expect(inner).toHaveBeenCalledTimes(2);
+    expect(await cachedGeocoder(inner)('c')).toHaveLength(1); // the real clock
+  });
+
+  it('cleans text it echoes back', async () => {
+    const { clean } = await import('./engine');
+    expect(clean('  Port <b>Hercule</b>\n| [x] `y`  ')).toBe('Port b Hercule /b x y');
+    expect(clean('x'.repeat(200), 10)).toBe(`${'x'.repeat(9)}…`);
+    const e = await loadEngine(fixtureReader(), async () => [{ label: 'Evil\u0007 <script>', position: [17.2, 51] as [number, number] }]);
+    expect((await resolvePlace(e, 'Somewhere', 'to')).label).toBe('Evil script');
+  });
+
   it('refuses requests too big to be cheap', async () => {
     const { MAX_PLACE_CHARS, MAX_STOPS } = await import('./engine');
     const e = await loadEngine(fixtureReader());
