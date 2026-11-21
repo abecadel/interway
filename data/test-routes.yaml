@@ -772,7 +772,6 @@
   source: https://www.liveriga.com (Riga – Jūrmala river boats down the Daugava and up the Lielupe, about 35 km)
 
 - name: Aalborg → Thyborøn (Limfjord)
-  known_gap: the 2026-11-21 sea mesh lost Sallingsund; fixed by the Limfjord narrows in the next build
   from: [9.92, 57.05]
   to: [8.21, 56.70]
   expected_km: 160
@@ -904,7 +903,7 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/barcelona-palma (about 130 NM; other ferry sites give 110–112 NM, so the midpoint and a wide tolerance)
 
 - name: Bonifacio → Santa Teresa Gallura (Strait of Bonifacio)
-  known_gap: Santa Teresa joins the sea 3.7 km away; fixed by the Porto Longone narrows in the next build
+  known_gap: the sea route is 25 km against about 17; Porto Longone still joins the coarse mesh away from the strait
   from: [9.1600, 41.3892]
   to: [9.1956, 41.2378]
   expected_km: 17
