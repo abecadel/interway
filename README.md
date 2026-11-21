@@ -55,7 +55,7 @@ rivers and canals, Austria, Czechia, Slovakia, the Danube countries (Hungary, Cr
 northern Italy (the Po and the Venetian waterways), Ireland (Shannon, Erne, Grand and Royal canals), Sweden (Göta
 and Trollhätte canals, Vänern, Vättern, Mälaren), Finland (the Saimaa lakes and their canals), Lithuania (Nemunas,
 Curonian Lagoon), Spain (Guadalquivir, Ría de Bilbao), Portugal (Douro, Tejo, Guadiana), Denmark (Limfjord), Norway
-(the Telemark Canal), Estonia (Emajõgi, Lake Peipus), Latvia (Daugava, Lielupe), Ukraine (the Danube's Kilia arm) and the
+(the Telemark Canal, down to the sea at Langesund), Estonia (Emajõgi, Lake Peipus), Latvia (Daugava, Lielupe), Ukraine (the Danube's Kilia arm) and the
 whole Mediterranean coast (Greece with the Corinth Canal, Slovenia, Montenegro, Albania, Malta, Cyprus, Monaco, Turkey,
 Morocco, Algeria, Tunisia, Egypt), joined by a sea network from the Atlantic to the Black Sea: enough for
 routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal,
