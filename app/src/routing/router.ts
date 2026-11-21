@@ -36,6 +36,10 @@ const COASTAL_COST = 4;
  * whole coasts off. Routes go round shallows where a deeper way exists and report what they could not avoid. */
 const SHALLOW_COST = 4; // more would send boats up canals of unknown depth rather than across an estuary
 const AVOID_LOCKS_COST = 10;
+/** With a departure date, the route is searched again up to this many times, each time also going round the
+ *  waterways found closed on the last one: in late summer every canal from the Seine to the Saône (Champagne–
+ *  Bourgogne, Briare–Centre, Bourgogne) can be closed in turn. */
+const SEASON_ROUNDS = 6;
 
 export const defaultProfile: VesselProfile = {
   speedKmh: 10,
@@ -402,7 +406,7 @@ export class Router {
     try {
       let r = this.routeFor(from, to, profile);
       // with a departure date: go round waterways usually closed in the month the boat reaches them, where possible
-      for (let round = 0; round < 3; round++) {
+      for (let round = 0; round < SEASON_ROUNDS; round++) {
         const closed = this.closedOnArrival(r, profile);
         if (!closed.size) break;
         this.season ??= new Map();

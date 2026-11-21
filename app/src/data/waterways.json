@@ -2759,5 +2759,307 @@
    4.95,
    46.9
   ]
+ },
+ {
+  "id": "fr-yonne-laroche-montereau",
+  "name": "Yonne (Laroche-Migennes – Montereau-Fault-Yonne)",
+  "aliases": [
+   "L'Yonne",
+   "L’Yonne",
+   "Yonne",
+   "Yonne, Dérivation de Joigny",
+   "Dérivation de Joigny",
+   "Déviation de Courlon",
+   "Dérivation de Courlon",
+   "Yonne, Dérivation de Courlon"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Canal de Bourgogne junction at Laroche-Migennes (bief d'Épineau, ~PK 23) downstream to the Seine at Montereau-Fault-Yonne (PK 107.965); upstream Yonne to Auxerre not covered",
+  "navigable": "seasonal",
+  "class": "Large Freycinet / 1000 t (locks 92 × 10.50 m below Saint-Aubin)",
+  "lengthKm": 85,
+  "depth": {
+   "usualM": 2.1,
+   "maxDraftM": null,
+   "notes": "Guaranteed mouillage 2.10 m Joigny–Cannes-Écluse, 3.20 m below Cannes silo. 2026 low water: 1.60–1.80 m Villeneuve–Étigny (22.06–30.09). Joigny dérivation (Pêchoir–Saint-Aubin) 1.5 m after landslide from 03.10.2025 (listed Feb 2026). Nothing on 19.11.2026."
+  },
+  "airDraftM": 4.7,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded river. Flood regime when flow >150 m³/s at Joigny (Vigicrues); weirs are never opened to navigation. Floods: whole Yonne closed 28.06–07.07.2024; Saint-Bond–Courlon and Champfleury closed from 20.02.2026."
+  },
+  "locks": {
+   "count": 17,
+   "chamber": "Saint-Aubin–Cannes 92 × 10.50 m (gate width); Épineau and Pêchoir smaller (Yonne minimum 93 × 8.30 m per Wikipedia)",
+   "hours": "Épineau (11)–Villeneuve (17): high season (29.03–25.10.2026) daily 09:15–12:00, 13:00–18:45; low season commercial only (weekday on demand). Étigny/Rosoy: high season daily 08:00–12:30, 13:30–18:00; low season commercial on demand. Saint-Bond–Port-Renard all year: weekdays 08:00–12:30, 13:30–18:00, weekends on demand. Barbey–Cannes: weekdays 07:00–19:00, weekends 08:00–12:30, 13:30–18:30",
+   "notes": "Épineau, Pêchoir, Saint-Aubin, Villevallier, Armeau, Villeneuve, Étigny, Rosoy, Saint-Bond, Saint-Martin, Villeperrot, Champfleury, Vinneuf, Port-Renard, Barbey, La Brosse, Cannes-Écluse (+ guard gates Épizy, Courlon). Mechanised, staffed; phone numbers per lock in the DTCB avis n°1. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25–31 Dec."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Laroche–Rosoy has no pleasure navigation in low season (late Oct – late Mar). Flood stops Feb 2026, Jun–Jul 2024; draught limits 1.6–1.8 m in dry summers (2024, 2026)."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Nov–Mar 'closed' = VNF low-season regime (pleasure craft cannot pass Épineau–Rosoy); Saint-Bond–Montereau open all year. High water Jan–Feb is a judgement (Feb 2026); June 2024 flood shows floods can come in summer. Summer limits (≥1.6 m) do not affect a 1.2 m draught."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Nivernais-Yonne, rue du Halage, Auxerre, tel. 03 58 43 21 64, uti.nivernais-yonne@vnf.fr",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "RPP Seine-Yonne from Joigny (PK 29) down. Speed 15 km/h (<20 m pleasure), 6 km/h in dérivations. VHF 12 Auxerre–Pêchoir, VHF 69 Saint-Aubin–Cannes. Courlon fausse rivière: commercial only. Ports Joigny, Villeneuve, Sens. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.prefectures-regions.gouv.fr/ile-de-france/content/download/60542/398233/file/RPP_SEINE-YONNE_2019.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_06_26.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-10.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-21-aout-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-25-septembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-07-02-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-05-31.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
+   "https://fr.wikipedia.org/wiki/Yonne_(rivière)",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.9,
+   47.95,
+   3.53,
+   48.42
+  ]
+ },
+ {
+  "id": "fr-canal-de-bourgogne",
+  "name": "Canal de Bourgogne (Laroche-Migennes – Pouilly-en-Auxois – Saint-Jean-de-Losne)",
+  "aliases": [
+   "Canal de Bourgogne",
+   "Canal de Bourgogne - Bief de Partage",
+   "Canal de Bourgogne (Bief de Partage)",
+   "Canal de Bourgogne, Bief de Partage",
+   "Souterrain de Pouilly en Auxois",
+   "Souterrain de Pouilly-en-Auxois",
+   "Voûte de Pouilly-en-Auxois",
+   "Pont Canal de Montbard",
+   "Pont-Canal de Montbard",
+   "Pont-Canal de Pnt d'Ouche",
+   "Pont-Canal de Pont d'Ouche",
+   "Pont-canal de Saint-Florentin"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Laroche-Migennes lock 114-115Y (PK 0.24) up the Armançon valley via Tonnerre and Montbard, the Pouilly-en-Auxois summit tunnel (PK ~155–158), down the Ouche to Dijon and the Saône at Saint-Jean-de-Losne (lock 76S, PK ~242)",
+  "navigable": "seasonal",
+  "class": "Freycinet",
+  "lengthKm": 242,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.8,
+   "notes": "Freycinet; Pouilly port admits 1.80 m. Dry years: 2026 1.50 m Yonne side, 1.60 m Pouilly–Larrey, 1.20 m Migennes–Ancy-le-Franc; 2025 1.20 m Migennes–Pouilly (Jul–Aug). A 1.2 m draught is marginal in Jul–Sep."
+  },
+  "airDraftM": 3.1,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current; 8 km/h."
+  },
+  "locks": {
+   "count": 189,
+   "chamber": "Freycinet, 38.5 × 5 m (113 Yonne side 1Y–115Y, 76 Saône side 1S–76S)",
+   "hours": "2026 high season (29.03–25.10): 76S–1S and 56Y–114/115Y daily 09:00–12:00, 13:00–19:00; summit 1Y–55Y only 7 Apr–7 Sep, Mon–Fri (no holidays) 09:00–11:30, 14:00–16:30, booking ≥7 days ahead at navi.bourgognecentral@vnf.fr. Low season: 54S–113Y closed; 76S–55S and 114/115Y weekdays on demand 09:00–12:00, 13:30–17:00",
+   "notes": "Mostly manual locks worked by VNF éclusiers (some mechanised/semi-mechanised, 99Y automated); 40 locks in 14 km below Pouilly (Pouillenay–Marigny). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec. ST Bourgogne, Dijon, 03 45 34 13 50."
+  },
+  "season": {
+   "best": "May–June",
+   "closures": "Winter: 54S–113Y closed late Oct–late Mar. Water shortage: 2019 (sections from 26.07, all closed 15.10), 2020, 2022 (Tonnerre–Migennes from 16.07), 2023 (80Y–1Y from 17.09), 2025 (54S–75S closed, lifted by 05.09), 2026 (9S–54S from 26.05, 54S–75S from 30.06, 80Y–2Y from 19.07, more to 25.10; lifted 30.10.2026)."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    9,
+    10,
+    11,
+    12
+   ],
+   "lowWater": [
+    6,
+    7,
+    8
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Closures for water in 6 of the last 8 years (2019, 2020, 2022, 2023, 2025, 2026; full season only 2021, 2024 not found). Sep–Oct 'closed' = judgement + 2026 summit schedule (closed from 8 Sep); Aug closed in 2019, 2022, 2026 — judgement. Panthier reservoir (80% of Saône-side supply) back in service ~Apr 2027."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Bourgogne, 4 bis rue Hoche, Dijon, tel. 03 45 34 13 50, uti.bourgogne@vnf.fr",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Pouilly tunnel 3,333 m, one-way alternated: headroom 3.10 m on the axis but only 2.50 m above the boat's sides — a 3 m air draught passes only if the high point is on the centreline. Book summit locks 7 days ahead. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-9-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-16-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-30-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-05-09-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-03-01.pdf",
+   "https://www.bourgognefranchecomte.fr/sites/default/files/2026-05/Communiqu%C3%A9%20-%20Pose%20de%20la%201re%20pierre%20du%20barrage-r%C3%A9servoir%20de%20Panthier%2021%2005%202026.pdf",
+   "https://www.tourismepouillybligny.fr/uploads/2026/02/guide-daccueil-plaisancier.pdf",
+   "https://www.linfodurable.fr/circulation-restreinte-sur-les-canaux-de-bourgogne-touches-par-la-secheresse-13116",
+   "https://www.linfodurable.fr/saison-exceptionnellement-seche-le-canal-de-bourgogne-ferme-plus-tot-que-dhabitude-14226",
+   "https://www.linfodurable.fr/secheresse-les-naufrages-du-canal-de-bourgogne-33715",
+   "https://www.linfodurable.fr/les-voies-deau-affectees-par-la-secheresse-des-canaux-fermes-33458",
+   "https://fr.wikipedia.org/wiki/Canal_de_Bourgogne",
+   "https://fr.wikipedia.org/wiki/Tunnel_du_canal_de_Bourgogne",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   3.48,
+   47.08,
+   5.28,
+   47.98
+  ]
+ },
+ {
+  "id": "fr-canal-rhone-rhin-sud",
+  "name": "Canal du Rhône au Rhin, branche sud (Saint-Symphorien-sur-Saône – Doubs – Mulhouse – Niffer)",
+  "aliases": [
+   "Canal du Rhône au Rhin",
+   "Canal du Rhône au Rhin - Branche Sud",
+   "Canal du Rhône au Rhin, branche sud",
+   "Canal du Rhône au Rhin (Branche Sud)",
+   "Canal du Rhône au Rhin - La Suarcine",
+   "Le Doubs",
+   "Doubs",
+   "L'Allan",
+   "Tunnel Fluvial de la Citadelle",
+   "Canal de la Citadelle",
+   "Percée de Thoraise",
+   "Canal de Huningue"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Saône at Saint-Symphorien-sur-Saône (lock 75, PK 0) via Dole, the canalised Doubs to Besançon and Montbéliard (Allan), the Valdieu summit (Territoire de Belfort/Haut-Rhin, PK 186), then the Rhine side to Mulhouse and the large-gauge Mulhouse–Niffer section to the Grand Canal d'Alsace",
+  "navigable": "restricted",
+  "class": "Freycinet (large gauge Mulhouse–Niffer)",
+  "lengthKm": 237,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.8,
+   "notes": "Summit pound (Bourogne PK 176 – lock 38 Rhine side) limited 1.60 m to 29.11.2026; it was 1.20 m from 24.07 and 1.00 m Aug–Oct 2026. Hagenbach (23N)–Brunstatt (38): silting, closed from 19.02.2024, 1.2 m since 01.03.2025 (listed Feb 2026). Rancenay bief 1.50–1.80 m by Doubs level."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Alternates canal cuts and canalised Doubs/Allan reaches: current and floods on river sections. Flood stops: Dole–Montbéliard 23.02.2024, Montbéliard 31.05.2024, PK 0–186 from 17.02.2026 (reopened ~20.02)."
+  },
+  "locks": {
+   "count": 112,
+   "chamber": "Freycinet; max boat 38.80 × 5.10 m",
+   "hours": null,
+   "notes": "Doubs valley (Allenjoie–Saint-Symphorien): 65 automated locks worked by boaters with a VNF remote control. Valdieu: 12 locks in 3 km at the summit. Besançon: tunnel (~390 m) under the Citadelle. Hours not found in an official 2026 source — check VNF DT Rhône-Saône/Strasbourg."
+  },
+  "season": {
+   "best": "May–June",
+   "closures": "Winter chômage 2025–26: PK 0–174 (lock 75 – lock 8) 01.12.2025–30.01.2026; 2026–27 not yet published. Water shortage 2026: Fontenelles (8)–Dampierre (18) closed 24.09–31.10.2026; summit 1.00–1.20 m Jul–Nov. 2025: boats grouped on the summit 26.06–30.11.2025."
+  },
+  "months": {
+   "closed": [
+    12,
+    1
+   ],
+   "lowWater": [
+    7,
+    8,
+    9,
+    10
+   ],
+   "highWater": [
+    2
+   ],
+   "ice": [],
+   "notes": "Dec–Jan closed is a judgement from one winter chômage (2025–26). Low water Jul–Oct is a judgement from 2025–2026 (summit 1.00 m in Aug–Oct 2026 = impassable at 1.2 m draught); earlier drought years not confirmed. Doubs floods in Feb 2024 and Feb 2026, also May–Jun 2024."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Rhône-Saône (Saône–Allenjoie, PK 0–174) and VNF Direction territoriale Strasbourg (summit and Rhine side to Niffer)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-rhone-saone/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF); DTRS weekly bulletin https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+  "notes": "Ports Dole, Besançon, Montbéliard, Mulhouse. Check summit and Hagenbach–Brunstatt depths before committing with 1.2 m draught; no mooring at Allenjoie lock 9 upstream pontoon in 2026. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-30-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-16-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-9-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-25-septembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-21-aout-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-10.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_06_26.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_07_03.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-05-09-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-05-31.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-03-01.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_01_15_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.vnf.fr/vnf/dossiers-actualitess/canal-du-rhone-au-rhin-vallee-du-doubs-une-demarche-partenariale-pour-imaginer-un-futur-prometteur/",
+   "https://en.wikipedia.org/wiki/Rhône–Rhine_Canal",
+   "https://fr.wikipedia.org/wiki/Canal_du_Rhône_au_Rhin",
+   "https://boatcible.com/2026/04/11/plus-belles-escales-canal-rhone-au-rhin-2026/",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   5.3,
+   47.04,
+   7.56,
+   47.8
+  ]
  }
 ]
