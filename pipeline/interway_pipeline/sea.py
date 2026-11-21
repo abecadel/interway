@@ -36,6 +36,15 @@ NARROWS = {
     "Dardanelles": (26.15, 39.98, 26.75, 40.48),
     # Porsgrunn to the Skagerrak, the Telemark Canal's way to the sea: Brevikstrømmen is about 300 m wide
     "Frierfjord": (9.55, 58.97, 9.80, 59.14),
+    # the Limfjord's sounds (1-2 km wide): with the coarse mesh the way through depends on the triangulation,
+    # and Aalborg → Thyborøn went round Skagen when Sallingsund lost its edges
+    "Aggersund": (9.25, 56.96, 9.36, 57.03),
+    "Vilsund": (8.60, 56.84, 8.70, 56.92),
+    "Sallingsund": (8.72, 56.63, 8.95, 56.80),
+    "Hvalpsund": (9.15, 56.66, 9.24, 56.73),
+    "Oddesund": (8.50, 56.55, 8.62, 56.61),
+    # Santa Teresa Gallura's harbour inlet (Porto Longone), about 300 m wide
+    "Porto Longone": (9.18, 41.23, 9.22, 41.26),
 }
 
 
