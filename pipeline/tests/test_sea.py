@@ -61,6 +61,13 @@ def test_areas_mesh_together_and_far_areas_form_their_own_part():
     assert sum(1 for s in near for x, _ in s.coords if x > 3.0) < sum(1 for s in both for x, _ in s.coords if x > 3.0)
 
 
+def test_a_refine_area_may_set_its_own_grid():
+    c = coast(box(0.30, 0.10, 0.36, 0.90))
+    usual = sea_mesh(c, areas=[{"bbox": BBOX}, {"bbox": (0.2, 0.2, 0.5, 0.8), "refine": True}], grid_m=25000)
+    dense = sea_mesh(c, areas=[{"bbox": BBOX}, {"bbox": (0.2, 0.2, 0.5, 0.8), "refine": True, "grid_m": 2000.0}], grid_m=25000)
+    assert len(dense) > len(usual)
+
+
 def test_refine_areas_straighten_passages_between_islands():
     # a 1° sea with a long island splitting it into two sounds, and an islet in the eastern sound
     land = [box(0.30, 0.10, 0.36, 0.90), box(0.62, 0.45, 0.66, 0.55)]

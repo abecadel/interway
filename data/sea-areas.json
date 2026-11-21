@@ -77,6 +77,17 @@
   "refine": true
  },
  {
+  "name": "refine: the strait itself between Bonifacio and Santa Teresa (11 km wide: a 3 km grid)",
+  "bbox": [
+   9.0,
+   41.2,
+   9.4,
+   41.42
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
   "name": "refine: Aeolian Islands, Strait of Messina",
   "bbox": [
    14.2,

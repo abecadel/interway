@@ -200,9 +200,11 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
     `areas` ({"bbox": (w, s, e, n)} with an optional "max_offshore_m" each) replaces `bbox`: the areas are
     meshed together on one offshore grid anchored at the first area's corner, so areas that touch or overlap
     join up, and an area far from others (another continent) forms its own part. Areas marked "refine" lie
-    inside the others and make the mesh finer there (see REFINE_COAST)."""
+    inside the others and make the mesh finer there (see REFINE_COAST); a refine area's own "grid_m" sets its
+    offshore spacing (for a strait narrower than the usual fine grid)."""
     areas = areas or [{"bbox": bbox}]
-    refine = [a["bbox"] for a in areas if a.get("refine")]
+    fine_areas = [a for a in areas if a.get("refine")]
+    refine = [a["bbox"] for a in fine_areas]
     areas = [a for a in areas if not a.get("refine")]
     coast_pts = np.vstack([_coast_points(coast, a["bbox"], coast_step_m, coast_offset_m) for a in areas])
     for area in (NARROWS if narrows is None else narrows).values():
@@ -227,9 +229,10 @@ def sea_mesh(coast: Coast, bbox: tuple[float, float, float, float] = DEFAULT_BBO
             grid = grid[np.unique(idx[0])]
         grids.append(grid)
     fine_m = grid_m * REFINE_GRID
-    for area in refine:
+    for spec in fine_areas:
+        area, step = spec["bbox"], spec.get("grid_m", fine_m)
         (ax0, ay0), (ax1, ay1) = to_merc(np.array([area[:2], area[2:]]))
-        gx, gy = np.meshgrid(np.arange(ax0, ax1, fine_m), np.arange(ay0, ay1, fine_m))
+        gx, gy = np.meshgrid(np.arange(ax0, ax1, step), np.arange(ay0, ay1, step))
         fine = np.column_stack([gx.ravel(), gy.ravel()])
         fine = fine[coast.near_land(fine, REFINE_BAND_M) & ~coast.near_land(fine, grid_clear_m * REFINE_CLEAR)]
         grids.append(fine)
