@@ -11,13 +11,18 @@ describe('service worker entry', () => {
       clients: { claim: vi.fn(async () => {}) },
       caches: { keys: async () => ['interway-app-v0'], delete: vi.fn(async () => true), open: vi.fn() },
       location: { origin: 'https://interway.example' },
+      registration: { scope: 'https://interway.example/' },
     };
     vi.stubGlobal('self', scope);
     vi.stubGlobal('fetch', vi.fn(async () => new Response('net')));
     await import('./sw');
 
-    listeners.install({});
+    let installed: Promise<unknown> | undefined;
+    const cache = { match: async () => undefined, put: vi.fn(async () => {}), keys: async () => [], delete: async () => true };
+    scope.caches.open.mockResolvedValue(cache);
+    listeners.install({ waitUntil: (p: Promise<unknown>) => { installed = p; } });
     expect(scope.skipWaiting).toHaveBeenCalled();
+    expect(await installed).toBe(2); // the page and an unreadable manifest
 
     let activated: Promise<unknown> | undefined;
     listeners.activate({ waitUntil: (p: Promise<unknown>) => { activated = p; } });
@@ -29,8 +34,6 @@ describe('service worker entry', () => {
     listeners.fetch(bypass);
     expect(bypass.respondWith).not.toHaveBeenCalled();
 
-    const cache = { match: async () => undefined, put: vi.fn(async () => {}), keys: async () => [], delete: async () => true };
-    scope.caches.open.mockResolvedValue(cache);
     let response: Promise<Response> | undefined;
     const waits: Promise<unknown>[] = [];
     listeners.fetch({

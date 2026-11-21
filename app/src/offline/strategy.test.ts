@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CACHES, cleanup, handleFetch, shouldHandle, strategyFor, trim, type CacheLike, type CacheStorageLike } from './strategy';
+import { CACHES, cleanup, handleFetch, precache, shouldHandle, strategyFor, trim, type CacheLike, type CacheStorageLike } from './strategy';
 
 const ORIGIN = 'https://interway.example';
 
@@ -28,7 +28,7 @@ function setup(fetchImpl: (r: Request) => Promise<Response>) {
   const storage = new MemStorage();
   const waits: Promise<unknown>[] = [];
   const fetchFn = vi.fn(fetchImpl);
-  const run = (r: Request) => handleFetch(r, ORIGIN, storage, fetchFn, (p) => waits.push(p));
+  const run = (r: Request, shell?: string) => handleFetch(r, ORIGIN, storage, fetchFn, (p) => waits.push(p), shell);
   return { storage, waits, fetchFn, run };
 }
 
@@ -122,5 +122,50 @@ describe('trim and cleanup', () => {
     for (const name of ['interway-app-v0', CACHES.app, 'someone-else']) await s.open(name);
     expect(await cleanup(s)).toEqual(['interway-app-v0']);
     expect(await s.keys()).toEqual([CACHES.app, 'someone-else']);
+  });
+});
+
+describe('offline page loads', () => {
+  it('serves the cached app page for any page URL, but not for other files', async () => {
+    let online = true;
+    const { run } = setup(async () => { if (!online) throw new Error('offline'); return ok('<html>'); });
+    const shell = ORIGIN + '/app/';
+    await run(req('/app/'), shell);
+    online = false;
+    const page = new Request(ORIGIN + '/app/?from=1,2&to=3,4', { headers: { accept: 'text/html' } });
+    expect(await (await run(page, shell)).text()).toBe('<html>');
+    await expect(run(page)).rejects.toThrow('offline');
+    await expect(run(req('/app/?x=1'), shell)).rejects.toThrow('offline');
+  });
+});
+
+describe('precache', () => {
+  const scope = ORIGIN + '/app/';
+  const files: Record<string, string> = {
+    [scope]: '<script src="/app/assets/main.js"></script><link href="assets/main.css"><link href="https://cdn.example/x.css"><link href="icon.png">',
+    [scope + 'assets/main.js']: 'new Worker(new URL(`/app/assets/worker.js`, import.meta.url)); const W = "/app/assets/map-worker.mjs"; "/app/assets/worker.js"',
+    [scope + 'assets/worker.js']: 'self.onmessage = () => {}',
+    [scope + 'assets/main.css']: 'a{background:url(font.woff2)} b{background:url("https://cdn.example/f.woff2")} c{background:url(\'gone.woff2\')}',
+    [scope + 'assets/font.woff2']: 'font',
+    [scope + 'data/manifest.json']: JSON.stringify({ files: { graph: 'graph.bin', geom: 'geom.bin' } }),
+    [scope + 'data/graph.bin']: 'g',
+  };
+  const fetchFn = async (r: Request) => {
+    if (r.url.endsWith('geom.bin')) throw new Error('offline');
+    return r.url in files ? ok(files[r.url]) : new Response('', { status: 404 });
+  };
+
+  it('caches the page, its assets and fonts, and the data files', async () => {
+    const storage = new MemStorage();
+    expect(await precache(scope, storage, fetchFn)).toBe(7);
+    expect([...(await storage.open(CACHES.app)).store.keys()].sort()).toEqual(
+      [scope, scope + 'assets/font.woff2', scope + 'assets/main.css', scope + 'assets/main.js', scope + 'assets/worker.js'].sort(),
+    );
+    expect([...(await storage.open(CACHES.data)).store.keys()].sort()).toEqual([scope + 'data/graph.bin', scope + 'data/manifest.json']);
+  });
+
+  it('caches nothing when the server is out of reach', async () => {
+    const storage = new MemStorage();
+    expect(await precache(scope, storage, async () => { throw new Error('offline'); })).toBe(0);
   });
 });
