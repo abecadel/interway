@@ -274,6 +274,9 @@ export default function App({ client }: { client: RoutingApi }) {
     history.replaceState(null, '', s ? `?${s}` : location.pathname);
   }, [start, end, viaPositions, profile, nav.active]);
   const underWay = nav.motion?.sog != null && nav.motion.sog > 0.5;
+  // the map draws a new route a moment after it arrives: the re-routing note stays up until it shows
+  const [drawn, setDrawn] = useState<Route | null>(null);
+  const drawing = nav.active && drawn !== null && nav.route !== drawn;
 
   const setFromMyPosition = (set: (p: Point) => void) => {
     startWatching()
@@ -513,6 +516,7 @@ export default function App({ client }: { client: RoutingApi }) {
         end={end?.position ?? null}
         via={viaPositions}
         route={directions ? nav.route : null}
+        onRouteDrawn={setDrawn}
         position={position}
         network={showNetwork ? network : null}
         showSeamarks={showSeamarks}
@@ -534,7 +538,7 @@ export default function App({ client }: { client: RoutingApi }) {
         onAlternative={(i) => choose(altLines[i].index)}
       />
       {nav.active ? (
-        <NavPanel nav={nav} />
+        <NavPanel nav={drawing ? { ...nav, rerouting: true } : nav} />
       ) : (
         <>
           {phone && <div ref={topbarRef} className="topbar">{top}</div>}
