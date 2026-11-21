@@ -153,6 +153,9 @@ describe('route brief', () => {
     expect(md).toContain('| Marina Przystań | VHF: channel 9; Phone: +48 1 |');
     expect(md).toContain('- Shallowest charted sea: about 1.4 m draft');
     expect(briefMarkdown({ ...b, checklist: [] })).not.toContain('## Before you go');
+    // the data version, and a link to each waterway sheet
+    expect(md).not.toContain('Computed on data version');
+    expect(briefMarkdown({ ...b, data: 'abc123' })).toContain('Computed on data version abc123.');
     // all at sea: only the sea rules; inland only: only the inland ones; a country without researched rules keeps its code
     const towns = { counts: {}, stops: [stop(1_000, { type: 'place', name: 'Hel', cc: 'PL' }), stop(2_000, { type: 'place', name: 'X', cc: 'XX' })] };
     const atSea = buildBrief({ route: { ...route, sea: route.distance }, itinerary: towns, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
@@ -165,6 +168,7 @@ describe('route brief', () => {
     // a waterway's own permit
     const onKanal = buildBrief({ route: { ...route, legs: [{ name: 'Kanal', distance: 200_000 }] }, itinerary: { counts: {}, stops: [] }, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
     expect(onKanal.checklist).toContain('Kanal (A – B): canal vignette.');
+    expect(briefMarkdown(onKanal)).toContain('- Sheet: l?waterway=kanal');
     // the sheet's lowest bridge and usual draft count where they are tighter than anything mapped
     expect(onKanal.limits).toEqual([
       { kind: 'airDraft', limitM: 4, name: 'Kanal (A – B) (waterway sheet)', km: 0, fits: true },

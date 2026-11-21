@@ -44,7 +44,7 @@ describe('PlaceCard', () => {
     Object.defineProperty(navigator, 'share', { value: share, configurable: true });
     const { unmount } = render(<PlaceCard place={place} saved={false} {...handlers()} />);
     fireEvent.click(screen.getByText('Share'));
-    expect(share).toHaveBeenCalledWith({ title: 'Śluza', url: expect.stringContaining('?to=21.00000,52.00000') });
+    expect(share).toHaveBeenCalledWith({ title: 'Śluza', url: expect.stringContaining('?place=21.00000,52.00000') });
     unmount();
     Object.defineProperty(navigator, 'share', { value: () => Promise.reject(new Error('cancelled')), configurable: true });
     const r = render(<PlaceCard place={place} saved={false} {...handlers()} />);

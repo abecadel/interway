@@ -8,6 +8,12 @@ export interface UrlState {
   to: LngLat | null;
   via: LngLat[];
   vessel: Partial<VesselProfile>;
+  /** a place to open (harbour, lock, town or any point): ?place=lon,lat */
+  place?: LngLat;
+  /** a waterway sheet to open: ?waterway=id */
+  waterway?: string;
+  /** a permalink's data version and what the route was then: ?data=id&was=km,locks */
+  planned?: { data: string | null; km: number | null; locks: number | null };
 }
 
 /** URL parameter -> vessel profile field */
@@ -43,10 +49,30 @@ export function parseUrlState(search: string): UrlState {
   }
   const date = q.get('date');
   if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) vessel.departure = date;
-  return { from: parsePoint(q.get('from')), to: parsePoint(q.get('to')), via, vessel };
+  const out: UrlState = { from: parsePoint(q.get('from')), to: parsePoint(q.get('to')), via, vessel };
+  const place = parsePoint(q.get('place'));
+  if (place) out.place = place;
+  const waterway = q.get('waterway')?.trim();
+  if (waterway) out.waterway = waterway;
+  const [km, locks] = (q.get('was') ?? '').split(',').map((x) => (x.trim() === '' ? NaN : Number(x)));
+  if (q.has('data') || q.has('was')) {
+    out.planned = { data: q.get('data') || null, km: Number.isFinite(km) ? km : null, locks: Number.isFinite(locks) ? locks : null };
+  }
+  return out;
 }
 
 const fmt = ([lon, lat]: LngLat) => `${lon.toFixed(5)},${lat.toFixed(5)}`;
+
+/** A permalink: the route with every vessel setting spelled out, the data version it was planned on, and its
+ *  distance and locks then, so that opening it later on newer data can say what changed. */
+export function permalink(base: string, s: Omit<UrlState, 'vessel'>, profile: VesselProfile, data: string | null,
+  was: { km: number; locks: number }): string {
+  const q = writeUrlState('', s, profile, new Set(Object.values(VESSEL_PARAMS)));
+  const extra = new URLSearchParams();
+  if (data) extra.set('data', data);
+  extra.set('was', `${was.km},${was.locks}`);
+  return `${base}?${q}&${extra.toString().replace(/%2C/g, ',')}`;
+}
 
 /** Query string (without "?") for the route; vessel values are written where they differ from defaults or were
  *  given (an agent's air=3 stays in the link, so the brief does not call it a default). */
@@ -63,5 +89,8 @@ export function writeUrlState(search: string, s: Omit<UrlState, 'vessel'>, profi
   set('avoidSea', profile.avoidSea ? '1' : null);
   set('coastal', profile.coastal ? '1' : null);
   set('date', profile.departure || null);
+  // a permalink's record of the data it was planned on belongs to that link, not to the route being edited
+  q.delete('data');
+  q.delete('was');
   return q.toString().replace(/%2C/g, ',').replace(/%3B/g, ';');
 }

@@ -778,4 +778,93 @@ describe('App', () => {
     expect(createObjectURL).toHaveBeenCalledTimes(1); // downloaded instead
     vi.useRealTimers();
   });
+  it('copies permalinks, saves and reopens snapshots, and says what changed since a permalink', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    history.replaceState(null, '', '/?from=1,2&to=3,4');
+    const writeText = vi.fn(async (text: string) => { void text; });
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    const blobs: Blob[] = [];
+    Object.assign(URL, { createObjectURL: vi.fn((b: Blob) => { blobs.push(b); return 'blob:y'; }), revokeObjectURL: vi.fn() });
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    const versioned = () => fakeClient({
+      load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '', sha256: { graph: 'abcdef0123456789' } },
+        nodes: 1, edges: 1, pois: [{ type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 }] })),
+    });
+    const first = render(<App client={versioned()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Copy permalink'));
+    await flush();
+    expect(writeText.mock.calls[0][0]).toMatch(/\?from=1\.00000,2\.00000&to=3\.00000,4\.00000&draft=1&air=3&.*&data=abcdef012345&was=123\.5,2$/);
+    expect(screen.getByText('Copied ✓')).toBeTruthy();
+    await act(async () => { vi.advanceTimersByTime(2100); });
+    const prompt = vi.spyOn(window, 'prompt').mockImplementation(() => null);
+    writeText.mockRejectedValueOnce(new Error('denied'));
+    fireEvent.click(screen.getByText('Copy permalink'));
+    await flush();
+    expect(prompt).toHaveBeenCalledWith('Permalink', expect.stringContaining('was=123.5,2'));
+    fireEvent.click(screen.getByText('Save snapshot'));
+    const saved = JSON.parse(await blobs.at(-1)!.text());
+    expect(saved).toMatchObject({ interway: 'route-snapshot', data: 'abcdef012345', from: [1, 2], to: [3, 4], route: { distance: 123_456 } });
+    first.unmount();
+
+    // reopened from the file: shown as saved, not recomputed, until asked
+    history.replaceState(null, '', '/');
+    const client = versioned();
+    render(<App client={client} />);
+    await flush();
+    const input = () => screen.getAllByLabelText('Open snapshot')[0] as HTMLInputElement;
+    fireEvent.change(input(), { target: { files: [new File(['{'], 'bad.json')] } });
+    await flush();
+    expect(screen.getByText(/not JSON/)).toBeTruthy();
+    fireEvent.change(input(), { target: { files: [new File([JSON.stringify(saved)], 'route.json')] } });
+    await flush();
+    expect(screen.getByText(/shown as it was planned, not recomputed/)).toBeTruthy();
+    expect(client.route).not.toHaveBeenCalled();
+    fireEvent.change(input(), { target: { files: [] } }); // nothing chosen
+    fireEvent.change(input(), { target: { files: [new File(['{"interway":"x"}'], 'other.json')] } });
+    await flush();
+    expect(screen.getByText('Not a route snapshot from Interway')).toBeTruthy(); // said under the route too
+    fireEvent.click(screen.getByText("Recompute on today's data"));
+    await flush();
+    expect(client.route).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText(/not recomputed/)).toBeNull();
+    vi.useRealTimers();
+  });
+
+  it('opening a permalink on newer data says what changed', async () => {
+    history.replaceState(null, '', '/?from=1,2&to=3,4&data=old&was=999,9');
+    render(<App client={fakeClient({
+      load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '', built: '2027-01-01T00:00:00Z' },
+        nodes: 1, edges: 1, pois: [] })),
+    })} />);
+    await flush();
+    expect(screen.getByText(/planned on earlier data: the waterway data has been updated since; distance 999 km then, 123\.5 km now; 9 locks then, 2 now/)).toBeTruthy();
+  });
+
+  it('a permalink on the same data, with the same route, says nothing', async () => {
+    history.replaceState(null, '', '/?from=1,2&to=3,4&was=123.5,2');
+    render(<App client={fakeClient()} />);
+    await flush();
+    expect(screen.queryByText(/planned on earlier data/)).toBeNull();
+  });
+
+  it('opens links to a place and to a waterway sheet', async () => {
+    history.replaceState(null, '', '/?place=21.0005,52.0005');
+    const one = render(<App client={fakeClient()} />);
+    await flush();
+    expect(screen.getAllByText('Śluza').length).toBeGreaterThan(0); // the lock there
+    one.unmount();
+    history.replaceState(null, '', '/?place=10,10');
+    const pin = render(<App client={fakeClient()} />);
+    await flush();
+    expect(screen.getByText('Dropped pin')).toBeTruthy();
+    pin.unmount();
+    const { WATERWAYS } = await import('./routing/waterways');
+    history.replaceState(null, '', `/?waterway=${WATERWAYS[0].id}`);
+    render(<App client={fakeClient()} />);
+    await flush();
+    expect(screen.getAllByText(WATERWAYS[0].name).length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByLabelText('Close'));
+    expect(screen.queryByText('link to this sheet')).toBeNull();
+  });
 });

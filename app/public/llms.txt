@@ -30,6 +30,18 @@ Parameters (decimal degrees, longitude first):
 - `coastal=1`: for a small boat, keep near the coast (within about 10 km of land), harbour to harbour, instead
   of crossing open sea (e.g. round the Gulf of Lion rather than straight across)
 
+Other links:
+
+- `?place=LON,LAT`: opens the card of the harbour, lock or town there (within 200 m), with its facts (VHF,
+  phone, services), or a pin: link a stop for the user.
+- `?waterway=ID`: opens a researched waterway sheet (IDs are in the brief's `waterways[].id`; the Markdown brief
+  lists each sheet's link).
+- Permalinks ("Copy permalink" under a route) spell out every setting and add `data=VERSION&was=KM,LOCKS`: the
+  data version the route was planned on and its distance and locks then. Opened later on newer data, the page
+  says what changed. The brief's JSON has the data version in `data`.
+- Snapshots ("Save snapshot") are a JSON file with the exact route and brief; "Open snapshot" shows them as saved,
+  not recomputed, until the user asks to recompute on today's data.
+
 The link is the whole route: settings saved in the user's browser do not change a route opened from a link with
 `from` and `to`, and the values you give stay in the link (the brief marks only dimensions you left out as
 "default, not entered"). The route shown is the fastest one (time underway, with open sea counted 1.5x); the

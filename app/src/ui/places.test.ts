@@ -37,8 +37,8 @@ describe('recent and saved places', () => {
     expect(addRecent([], a)).toEqual([a]);
   });
 
-  it('links to a place as a destination', () => {
-    expect(shareLink([13.5, 52.25], { origin: 'https://x', pathname: '/interway/' } as Location)).toBe('https://x/interway/?to=13.50000,52.25000');
-    expect(shareLink([1, 2])).toContain('?to=1.00000,2.00000');
+  it('links to a place, opening its card', () => {
+    expect(shareLink([13.5, 52.25], { origin: 'https://x', pathname: '/interway/' } as Location)).toBe('https://x/interway/?place=13.50000,52.25000');
+    expect(shareLink([1, 2])).toContain('?place=1.00000,2.00000');
   });
 });
