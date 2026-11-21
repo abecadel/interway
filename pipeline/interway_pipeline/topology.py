@@ -37,6 +37,9 @@ def _limits(tags: dict[str, str]) -> Limits:
 
 
 def split_ways(ex: Extract) -> list[Segment]:
+    # a dam or weir mapped on a lock way is the dam the lock passes (the Oswego Canal's "Lock Number 5" dam node
+    # on the Minetto lock): boats go through, so it does not cut the waterway
+    ex.barrier_nodes -= {n for w in ex.ways if w.tags.get("lock") == "yes" for n in w.nodes}
     usage: Counter[int] = Counter()
     for w in ex.ways:
         usage.update(set(w.nodes))
