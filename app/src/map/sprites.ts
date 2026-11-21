@@ -64,6 +64,9 @@ export function badgeSvg(kind: Kind): string {
 
 export const imageId = (kind: string) => `poi-${kind}`;
 
+/** the badge as an image URL, for the same symbol in the sheet as on the map */
+export const badgeUrl = (kind: Kind) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(badgeSvg(kind))}`;
+
 type Img = HTMLImageElement;
 const loaded = new Map<string, Img>();
 const waiting = new Set<() => void>();
@@ -81,7 +84,7 @@ export function loadBadges(onReady: () => void, make: () => Img = () => new Imag
         loaded.set(imageId(kind), img);
         for (const f of waiting) f();
       };
-      img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(badgeSvg(kind))}`;
+      img.src = badgeUrl(kind);
     }
   }
   return () => waiting.delete(onReady);

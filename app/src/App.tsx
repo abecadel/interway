@@ -36,6 +36,7 @@ import { LayersCard } from './ui/LayersCard';
 import { PlaceCard, type PlaceInfo } from './ui/PlaceCard';
 import { addRecent, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, toggleSaved } from './ui/places';
 import { RouteSummary } from './ui/RouteSummary';
+import { timeDiff } from './ui/routeOptions';
 import { SearchBar } from './ui/SearchBar';
 import { Sheet } from './ui/Sheet';
 import { type Snap, snapHeights } from './ui/sheetSnap';
@@ -228,7 +229,7 @@ export default function App({ client }: { client: RoutingApi }) {
   const choose = (index: number) => setChoice({ key: routeKey, index });
   const altLines = useMemo(
     () => options.map((r, i) => ({ i, r })).filter(({ i }) => i !== chosen)
-      .map(({ i, r }) => ({ index: i, coordinates: r.coordinates, label: fmtDuration(r.duration) })),
+      .map(({ i, r }) => ({ index: i, coordinates: r.coordinates, label: timeDiff(r.duration - options[chosen].duration) })),
     [options, chosen],
   );
   const routeError = current?.error ?? null;
