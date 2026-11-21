@@ -26,7 +26,8 @@ test('plans a route from a link, with distance and locks', async ({ page }) => {
 
 test('search finds a lock and opens its place sheet', async ({ page }) => {
   await page.goto('');
-  await page.waitForFunction(() => /edges/.test(document.body.innerText), null, { timeout: 90_000 });
+  // the data is in once its loading line has gone
+  await page.waitForFunction(() => document.body.innerText.length > 0 && !/Loading waterway data/.test(document.body.innerText), null, { timeout: 90_000 });
   await page.getByPlaceholder('Search marinas, locks, towns').fill('Schleuse Liepe');
   await page.getByText(/Schleuse Liepe/).first().click();
   await expect(page.getByLabel('Place').first()).toContainText('Lock');
