@@ -30,10 +30,11 @@ export function FishingRulesView({ rules, country, day }: { rules: FishingRules;
         {rules.buy && <><a href={rules.buy} target="_blank" rel="noreferrer">Buy a licence online</a> · </>}
         {rules.authority.url ? <a href={rules.authority.url} target="_blank" rel="noreferrer">{rules.authority.name}</a> : <span>{rules.authority.name}</span>}
       </div>
-      <div className="small muted">
-        Checked {rules.checked}. Rules change and vary by region and water: check before you fish. Sources:{' '}
+      <div className="small muted">Checked {rules.checked}. Rules change and vary by region and water: check before you fish.</div>
+      <details className="small muted waterway-sources">
+        <summary>Sources ({rules.sources.length})</summary>
         {rules.sources.map((s, i) => <span key={s}>{i > 0 && ', '}<a href={s} target="_blank" rel="noreferrer">{host(s)}</a></span>)}
-      </div>
+      </details>
     </div>
   );
 }
