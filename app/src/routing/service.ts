@@ -27,6 +27,17 @@ export interface Poi {
   maxwidth?: number;
   /** towns: ISO 3166 country code (GeoNames) */
   cc?: string;
+  /** harbours, marinas and fuel berths: what OSM records about them */
+  website?: string;
+  phone?: string;
+  email?: string;
+  vhf?: string;
+  berths?: string;
+  boatlength?: string;
+  depth?: string;
+  hours?: string;
+  operator?: string;
+  services?: string;
 }
 
 export interface LoadResult {

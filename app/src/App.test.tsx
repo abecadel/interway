@@ -493,6 +493,17 @@ describe('App', () => {
     expect(screen.getByLabelText('Air draft (m)')).toBeTruthy();
   });
 
+  it('shows what OSM knows about a tapped marina', async () => {
+    const base = fakeClient();
+    const marina = { type: 'marina' as const, name: 'Port Hercule', lat: 43.735, lon: 7.425, vhf: '12', website: 'https://www.ports-monaco.com' };
+    render(<App client={fakeClient({ load: vi.fn(async () => ({ ...(await base.load('')), pois: [marina] })) })} />);
+    await flush();
+    const props = () => mapProps.current as Record<string, (...a: unknown[]) => void>;
+    act(() => props().onFeatureClick({ type: 'marina', name: 'Port Hercule', detail: '', position: [7.425, 43.735] }));
+    expect(screen.getByText('channel 12')).toBeTruthy();
+    expect((screen.getByText('ports-monaco.com') as HTMLAnchorElement).href).toBe('https://www.ports-monaco.com/');
+  });
+
   it('places a tapped lock on the route', async () => {
     history.replaceState(null, '', '/?from=21,52&to=21.5,52.5');
     render(<App client={fakeClient()} />);

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { LngLat } from '../graph/geo';
 import { fmtKm, fmtPos } from './format';
 import { Icon } from './icons';
+import type { Fact } from './portFacts';
 import { shareLink } from './places';
 
 /** A place shown in the sheet: a search result, a tapped lock or marina, or a dropped pin. */
@@ -16,6 +17,8 @@ export interface PlaceInfo {
   at?: number;
   /** metres off the route line */
   offset?: number;
+  /** what is known about a harbour or marina (OSM) */
+  facts?: Fact[];
 }
 
 export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, onClose }: {
@@ -58,6 +61,17 @@ export function PlaceCard({ place, saved, onDirections, onFrom, onToggleSave, on
         {place.offset !== undefined && place.offset > 60 && <li>{fmtKm(place.offset)} off the route</li>}
         <li className="muted">{fmtPos(place.position)}</li>
       </ul>
+      {place.facts && place.facts.length > 0 && (
+        <dl className="facts small port-facts">
+          {place.facts.map((f) => (
+            <div key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>{f.href ? <a href={f.href} target={f.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{f.value}</a> : f.value}</dd>
+            </div>
+          ))}
+          <div className="muted"><dt>Source</dt><dd>OpenStreetMap: check with the harbour before you go</dd></div>
+        </dl>
+      )}
     </section>
   );
 }

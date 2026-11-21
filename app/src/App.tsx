@@ -35,6 +35,7 @@ import { useInstallPrompt } from './ui/useInstallPrompt';
 import { useTheme } from './ui/useTheme';
 import './App.css';
 import { loadView } from './map/view';
+import { portFacts } from './ui/portFacts';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
@@ -313,13 +314,17 @@ export default function App({ client }: { client: RoutingApi }) {
   };
   const openPoi = (poi: Poi) => {
     const pos: LngLat = [poi.lon, poi.lat];
-    openPlace({ label: poi.name || POI_LABEL[poi.type], position: pos, kind: POI_LABEL[poi.type], detail: poiDetail(poi), ...onRoute(pos) });
+    openPlace({ label: poi.name || POI_LABEL[poi.type], position: pos, kind: POI_LABEL[poi.type], detail: poiDetail(poi), ...onRoute(pos),
+      facts: portFacts(poi) });
     setFocus(pos);
   };
   const onFeature = (f: MapFeature) => {
     const kind = POI_LABEL[f.type as PoiType];
     const route = onRoute(f.position);
-    openPlace({ label: f.name || kind, position: f.position, kind, detail: f.detail, ...route, ...(f.at !== undefined ? { at: f.at } : {}) });
+    // the map knows a symbol's name and type only: the full record has the harbour's facts
+    const poi = pois.find((p) => p.type === f.type && Math.abs(p.lon - f.position[0]) < 1e-6 && Math.abs(p.lat - f.position[1]) < 1e-6);
+    openPlace({ label: f.name || kind, position: f.position, kind, detail: f.detail, ...route, ...(f.at !== undefined ? { at: f.at } : {}),
+      ...(poi ? { facts: portFacts(poi) } : {}) });
   };
   const onSearch = (p: Place) => {
     setRecent(addRecent(recent, p));

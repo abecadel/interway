@@ -195,3 +195,7 @@ footer { margin-top: 8px; color: var(--muted); display: flex; flex-direction: co
 .badge { font-size: 0.75rem; padding: 0.1em 0.5em; border-radius: 1em; border: 1px solid var(--line); white-space: nowrap; }
 .badge.seasonal, .badge.restricted { color: var(--warn); border-color: var(--warn); }
 .badge.closed { color: var(--error); border-color: var(--error); }
+.port-facts { margin: 0.5em 0 0; }
+.port-facts div { display: grid; grid-template-columns: 7em 1fr; gap: 0.5em; }
+.port-facts dt { color: var(--muted); }
+.port-facts dd { margin: 0; overflow-wrap: anywhere; }
