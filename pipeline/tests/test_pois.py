@@ -56,7 +56,7 @@ def test_port_info_takes_the_first_tag_found_and_keeps_it_short():
     from interway_pipeline.pois import port_info
     info = dict(port_info({"contact:website": "https://a.example", "url": "https://b.example", "depth": "2.5",
                            "operator": "x" * 200, "drinking_water": "yes", "toilets": "no", "shower": "designated"}))
-    assert info == {"website": "https://a.example", "maxdraft": "2.5", "operator": "x" * 120, "services": "water, showers"}
+    assert info == {"website": "https://a.example", "depth": "2.5", "operator": "x" * 120, "services": "water, showers"}
     assert port_info({}) == ()
 
 

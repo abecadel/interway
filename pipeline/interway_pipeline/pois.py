@@ -36,8 +36,8 @@ PORT_FIELDS: list[tuple[str, tuple[str, ...]]] = [
     ("email", ("email", "contact:email")),
     ("vhf", ("vhf", "seamark:radio_station:channel", "communication:vhf")),
     ("berths", ("capacity", "seamark:small_craft_facility:capacity")),
-    ("maxlength", ("maxlength",)),
-    ("maxdraft", ("maxdraft", "depth")),
+    ("boatlength", ("maxlength",)),
+    ("depth", ("maxdraft", "depth")),
     ("hours", ("opening_hours",)),
     ("operator", ("operator",)),
 ]
