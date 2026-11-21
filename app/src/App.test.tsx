@@ -262,9 +262,15 @@ describe('App', () => {
     expect(mapProps.current!.follow).toBe(false);
     fireEvent.click(screen.getByText('Recenter'));
     expect(mapProps.current!.follow).toBe(true);
+    const drawn = () => act(() => (mapProps.current!.onRouteDrawn as (r: unknown) => void)(mapProps.current!.route));
+    drawn();
     // three fixes well off the line: plan again from the boat; the link keeps the planned route
     for (let i = 1; i <= 3; i++) await act(async () => watchers[0].ok(at(21.4, 52.1, 1000 + i * 1000)));
     await flush();
+    // the new route has arrived, but the map has not drawn it yet: the note stays up until it has
+    expect(screen.getByText('Off the route: re-routing from here…')).toBeTruthy();
+    drawn();
+    expect(screen.queryByText('Off the route: re-routing from here…')).toBeNull();
     expect(client.route).toHaveBeenLastCalledWith([21.4, 52.1], [21.5, 52.5], defaultProfile, []);
     expect(location.search).toBe(planned);
     expect(mapProps.current!.start).toEqual([21.4, 52.1]);

@@ -45,6 +45,8 @@ export interface MapViewProps {
   onLongPress?: (p: LngLat) => void;
   /** the map stopped moving: its centre */
   onViewChange?: (center: LngLat) => void;
+  /** the route is on screen (the map draws a new one a moment after it is set) */
+  onRouteDrawn?: (route: Route | null) => void;
   /** the place shown in the place sheet: a pin */
   place?: LngLat | null;
   /** other routes on offer: grey lines with their time, tapped to choose */
@@ -85,10 +87,13 @@ function setData(map: MLMap, id: string, data: GeoJSON.GeoJSON) {
   (map.getSource(id) as GeoJSONSource).setData(data);
 }
 
+/** the longest a new route is reported as not yet drawn */
+export const DRAWN_MAX_MS = 1500;
+
 export function MapView({
   start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick,
   follow = false, course = null, onUserMove, fitRoute = true, limits = NO_VIA, picking = false,
-  night = false, onFeatureClick, onLongPress, onViewChange, place = null, alternatives = NO_ALTS, onAlternative,
+  night = false, onFeatureClick, onLongPress, onViewChange, place = null, alternatives = NO_ALTS, onAlternative, onRouteDrawn,
 }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
@@ -103,6 +108,7 @@ export function MapView({
   const longRef = useRef(onLongPress);
   const viewRef = useRef(onViewChange);
   const altRef = useRef(onAlternative);
+  const drawnRef = useRef(onRouteDrawn);
   const viaMarkers = useRef<maplibregl.Marker[]>([]);
   const latest = useRef({ route, network, showSeamarks, pois, limits, picking, night, alternatives });
   const styleRef = useRef(styleOf(night));
@@ -114,6 +120,7 @@ export function MapView({
     longRef.current = onLongPress;
     viewRef.current = onViewChange;
     altRef.current = onAlternative;
+    drawnRef.current = onRouteDrawn;
     latest.current = { route, network, showSeamarks, pois, limits, picking, night, alternatives };
   });
 
@@ -252,7 +259,18 @@ export function MapView({
   useEffect(() => {
     // The map is created by the first effect, so it exists here; sources exist only after 'load'.
     const map = mapRef.current!;
-    if (ready.current) applyRoute(map, route);
+    if (ready.current) {
+      applyRoute(map, route);
+      // drawn once the map settles; a map that keeps moving (following the boat) still reports it soon
+      let done = false;
+      const drawn = () => {
+        if (done) return;
+        done = true;
+        drawnRef.current?.(route);
+      };
+      map.once('idle', drawn);
+      setTimeout(drawn, DRAWN_MAX_MS);
+    } else drawnRef.current?.(route); // no basemap yet (or offline without one): nothing to wait for
     if (route && fitRef.current) {
       const b = new maplibregl.LngLatBounds();
       route.coordinates.forEach((c) => b.extend(c));

@@ -53,6 +53,7 @@ vi.mock('maplibre-gl', () => {
     }
     addControl(c: unknown) { this.controls.push(c); }
     on(ev: string, fn: Handler) { this.handlers[ev] = fn; }
+    once(ev: string, fn: Handler) { this.handlers[ev] = fn; }
     addSource(id: string, spec: unknown) { this.sources[id] = { spec, setData: vi.fn() }; }
     addLayer(l: { id: string }) { this.layers.push(l.id); this.layerSpecs[l.id] = l; }
     getSource(id: string) { return this.sources[id]; }
@@ -90,7 +91,7 @@ vi.mock('maplibre-gl', () => {
   return { Map, Marker, Popup, LngLatBounds, NavigationControl, ScaleControl, setWorkerUrl: (u: string) => { h.state.workerUrl = u; } };
 });
 
-const { MapView } = await import('./MapView');
+const { DRAWN_MAX_MS, MapView } = await import('./MapView');
 
 it('points maplibre at the bundled worker file', () => {
   expect(h.state.workerUrl).toContain('maplibre-gl-worker');
@@ -361,5 +362,26 @@ describe('MapView', () => {
     const { unmount } = render(<MapView {...base} />);
     unmount();
     expect(h.state.maps[0].remove).toHaveBeenCalled();
+  });
+
+  it('reports a route as drawn once the map settles, or after a while if it keeps moving', () => {
+    vi.useFakeTimers();
+    const onRouteDrawn = vi.fn();
+    const second = { ...route, coordinates: [[21, 52], [21.2, 52.2]] } as Route;
+    const third = { ...route, coordinates: [[21, 52], [21.3, 52.3]] } as Route;
+    const { rerender } = render(<MapView {...base} route={route} onRouteDrawn={onRouteDrawn} />);
+    expect(onRouteDrawn).toHaveBeenLastCalledWith(route); // no basemap yet: nothing to wait for
+    const map = h.state.maps.at(-1)!;
+    act(() => map.handlers.load());
+    rerender(<MapView {...base} route={second} onRouteDrawn={onRouteDrawn} />);
+    expect(onRouteDrawn).toHaveBeenCalledTimes(1);
+    act(() => map.handlers.idle());
+    expect(onRouteDrawn).toHaveBeenLastCalledWith(second);
+    act(() => { vi.advanceTimersByTime(DRAWN_MAX_MS); });
+    expect(onRouteDrawn).toHaveBeenCalledTimes(2); // reported once
+    rerender(<MapView {...base} route={third} onRouteDrawn={onRouteDrawn} />);
+    act(() => { vi.advanceTimersByTime(DRAWN_MAX_MS); });
+    expect(onRouteDrawn).toHaveBeenLastCalledWith(third);
+    vi.useRealTimers();
   });
 });
