@@ -54,7 +54,13 @@ export interface MapViewProps {
   /** other routes on offer: grey lines with their time, tapped to choose */
   alternatives?: AltLine[];
   onAlternative?: (i: number) => void;
+  /** what covers the map's edges (the sheet, the search box), in px: fitting and flying keep clear of them */
+  insets?: Insets;
 }
+
+export interface Insets { top: number; bottom: number; left: number }
+const NO_INSETS: Insets = { top: 0, bottom: 0, left: 0 };
+const FIT_PAD = 40;
 
 export interface AltLine {
   coordinates: LngLat[];
@@ -96,7 +102,7 @@ export const DRAWN_MAX_MS = 1500;
 export function MapView({
   start, end, via = NO_VIA, route, position, network, showSeamarks, pois, focus = null, onMapClick,
   follow = false, course = null, onUserMove, fitRoute = true, limits = NO_VIA, picking = false,
-  night = false, onFeatureClick, onLongPress, onViewChange, place = null, alternatives = NO_ALTS, onAlternative, onRouteDrawn,
+  night = false, onFeatureClick, onLongPress, onViewChange, place = null, alternatives = NO_ALTS, onAlternative, onRouteDrawn, insets = NO_INSETS,
 }: MapViewProps) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MLMap | null>(null);
@@ -108,6 +114,7 @@ export function MapView({
   const fitRef = useRef(fitRoute);
   const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker; place?: maplibregl.Marker }>({});
   const featureRef = useRef(onFeatureClick);
+  const insetsRef = useRef(insets);
   const longRef = useRef(onLongPress);
   const viewRef = useRef(onViewChange);
   const altRef = useRef(onAlternative);
@@ -120,6 +127,7 @@ export function MapView({
     moveRef.current = onUserMove;
     fitRef.current = fitRoute;
     featureRef.current = onFeatureClick;
+    insetsRef.current = insets;
     longRef.current = onLongPress;
     viewRef.current = onViewChange;
     altRef.current = onAlternative;
@@ -306,7 +314,8 @@ export function MapView({
     if (route && fitRef.current) {
       const b = new maplibregl.LngLatBounds();
       route.coordinates.forEach((c) => b.extend(c));
-      map.fitBounds(b, { padding: 60, maxZoom: 14 });
+      const i = insetsRef.current;
+      map.fitBounds(b, { padding: { top: FIT_PAD + i.top, bottom: FIT_PAD + i.bottom, left: FIT_PAD + i.left, right: FIT_PAD }, maxZoom: 14 });
     }
   }, [route]);
 
@@ -335,7 +344,9 @@ export function MapView({
   }, [alternatives]);
 
   useEffect(() => {
-    if (focus) mapRef.current!.flyTo({ center: focus, zoom: 14 });
+    // the place lands in the middle of what the sheet and search box leave uncovered
+    const i = insetsRef.current;
+    if (focus) mapRef.current!.flyTo({ center: focus, zoom: 14, offset: [i.left / 2, (i.top - i.bottom) / 2] });
   }, [focus]);
 
   useEffect(() => {
