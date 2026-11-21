@@ -36,6 +36,13 @@ const COASTAL_COST = 4;
  * whole coasts off. Routes go round shallows where a deeper way exists and report what they could not avoid. */
 const SHALLOW_COST = 4; // more would send boats up canals of unknown depth rather than across an estuary
 const AVOID_LOCKS_COST = 10;
+/** With a departure date, the route is searched again up to this many times, each time also going round the
+ *  waterways found closed on the last one: in late summer every canal from the Seine to the Saône (Champagne–
+ *  Bourgogne, Briare–Centre, Bourgogne) can be closed in turn. */
+const SEASON_ROUNDS = 6;
+/** A waterway whose sheet gives a usual maximum draft or lowest bridge the boat exceeds (where OSM records none)
+ *  costs this much more: routes go round it where another way exists, and use it, warned, where none does. */
+const SHEET_LIMIT_COST = 30;
 
 export const defaultProfile: VesselProfile = {
   speedKmh: 10,
@@ -76,6 +83,8 @@ export interface SheetForRouting {
   bbox?: [number, number, number, number];
   current: { typicalMs: number | null };
   months?: { closed: number[] };
+  depth?: { maxDraftM: number | null };
+  airDraftM?: number | null;
 }
 
 export interface Snap {
@@ -185,6 +194,8 @@ export class Router {
   /** the waterway sheet of each geometry (-1: none), and the sheets' closed months as bit masks (bit 1 = January) */
   private geomSheet: Int32Array | null = null;
   private sheetClosed: number[] = [];
+  private sheetDraft: number[] = [];
+  private sheetAir: number[] = [];
   /** waterways avoided for the departure date: extra cost per geometry */
   private season: Map<number, number> | null = null;
   readonly names: string[];
@@ -336,10 +347,14 @@ export class Router {
       this.geomCurrent[g] = sheets[i].current.typicalMs ?? NaN;
     }
     this.sheetClosed = sheets.map((w) => (w.months?.closed ?? []).reduce((m, k) => m | (1 << k), 0));
+    this.sheetDraft = sheets.map((w) => w.depth?.maxDraftM ?? Infinity);
+    this.sheetAir = sheets.map((w) => w.airDraftM ?? Infinity);
   }
 
-  private factor(g: number): number {
-    return (this.penalty?.get(g) ?? 1) * (this.season?.get(g) ?? 1);
+  private factor(g: number, p: VesselProfile): number {
+    const s = this.geomSheet?.[g] ?? -1;
+    const over = s >= 0 && (Math.fround(p.draft) > this.sheetDraft[s] || Math.fround(p.airDraft) > this.sheetAir[s]);
+    return (this.penalty?.get(g) ?? 1) * (this.season?.get(g) ?? 1) * (over ? SHEET_LIMIT_COST : 1);
   }
 
   edgeCost(e: number, p: VesselProfile): number {
@@ -368,7 +383,7 @@ export class Router {
     if (flags & Flag.SEA) cost *= (p.avoidSea ? AVOID_SEA_COST : SEA_COST) * (shallow ? SHALLOW_COST : 1);
     if (p.coastal && flags & Flag.OFFSHORE) cost *= COASTAL_COST;
     if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? AVOID_LOCKS_COST : 1);
-    return this.penalty || this.season ? cost * this.factor(g.edgeGeom[e]) : cost;
+    return this.penalty || this.season || this.geomSheet ? cost * this.factor(g.edgeGeom[e], p) : cost;
   }
 
   /**
@@ -402,7 +417,7 @@ export class Router {
     try {
       let r = this.routeFor(from, to, profile);
       // with a departure date: go round waterways usually closed in the month the boat reaches them, where possible
-      for (let round = 0; round < 3; round++) {
+      for (let round = 0; round < SEASON_ROUNDS; round++) {
         const closed = this.closedOnArrival(r, profile);
         if (!closed.size) break;
         this.season ??= new Map();
@@ -561,7 +576,7 @@ export class Router {
   private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number, profile: VesselProfile): Route {
     const vesselDraft = profile.draft;
     // searching for alternatives, the cost carries their penalties: the time is summed from the stretches instead
-    const penalty = this.penalty || this.season;
+    const penalty = this.penalty || this.season || this.geomSheet;
     let unpenalized = 0;
     const N = this.graph.nodeCount;
     const SRC = N, DST = N + 1;
@@ -637,7 +652,7 @@ export class Router {
       if (penalty && distance > before) {
         // the search moves along a geometry only where an edge runs that way, so `travelled` is set
         const e = travelled;
-        unpenalized += (this.edgeCost(e, profile) / this.factor(g)) * ((distance - before) / this.graph.edgeLength[e]);
+        unpenalized += (this.edgeCost(e, profile) / this.factor(g, profile)) * ((distance - before) / this.graph.edgeLength[e]);
       }
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;

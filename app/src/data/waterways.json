@@ -2269,5 +2269,1446 @@
    "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
   ],
   "checked": "2026-11-21"
+ },
+ {
+  "id": "fr-oise-janville-conflans",
+  "name": "Oise canalisée (Janville/Compiègne – Conflans-Sainte-Honorine)",
+  "aliases": [
+   "L'Oise",
+   "L’Oise",
+   "Oise"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Oise canalisée from Janville (PK 103.61, end of the Canal latéral à l'Oise near Compiègne) downstream to the Seine at Conflans-Sainte-Honorine (PK 0)",
+  "navigable": "yes",
+  "class": "Va (large gauge, 185 × 12 m locks)",
+  "lengthKm": 104,
+  "depth": {
+   "usualM": 3.0,
+   "maxDraftM": 3.0,
+   "notes": "Mouillage 4.00 m below Creil (PK 60.1), 3.00 m Creil–Janville; draught limited to 3.00 m below Creil. Small 125 m locks only 2.50 m Pontoise–Venette. No restriction listed in the VNF weekly of 19.11.2026."
+  },
+  "airDraftM": 5.75,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded river. Flood period when flow ≥180 m³/s (25.32 m at Creil downstream gauge): currents from weir operations; pleasure craft may not pass weirs opened to navigation; locks close at set levels; all navigation banned above 23.53 m at Pontoise."
+  },
+  "locks": {
+   "count": 7,
+   "chamber": "Large locks 185 × 12 m; small locks 125 × 12 m (Venette small lock headroom 4.50 m)",
+   "hours": "VNF ABN 2020 table for Oise/CLO/Canal du Nord: Mon–Sat 06:30–20:30, Sun and navigated holidays 09:00–18:00; closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec (check current ABN)",
+   "notes": "Venette, Verberie, Sarron, Creil, Boran-sur-Oise, L'Isle-Adam, Pontoise. Venette–Creil remote-controlled from PCC Compiègne since 3 June 2024: call on VHF (Venette 18, Verberie 22, Sarron 18, Creil 22) or loudspeaker/phone at the lock."
+  },
+  "season": {
+   "best": null,
+   "closures": "No recurring closures found. Flood restrictions by avis à la batellerie under RPP Oise art. 11."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "High water: judgement from winter floods on the Seine/Oise system (Feb 2026 flood notices at Andrésy); no low-water restrictions found on the Oise."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Bassin de la Seine – UTI Seine-Nord (Compiègne); UTI Boucles de la Seine below Andrésy",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-bassin-de-la-seine/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Speed 15 km/h for pleasure craft <20 m (12 km/h near locks/out of channel). Lifejackets compulsory on unprotected decks when locking, at night, in fog/ice/flood. One-way around Île Jean Lenoble at Janville. Andrésy halte limited to 48 h. VNF vignette (péage plaisance) needed; French permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_3_-_Oise-Canal_du_Nord_20190404144309.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2024/10/Mise-en-service-de-la-teleconduite-sur-lOise.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.0,
+   48.95,
+   2.95,
+   49.5
+  ]
+ },
+ {
+  "id": "fr-seine-conflans-saint-mammes",
+  "name": "Seine (Conflans-Sainte-Honorine – Paris – Saint-Mammès)",
+  "aliases": [
+   "La Seine",
+   "Seine"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Basse-Seine upstream from the Oise confluence at Conflans (PK ~70) through Paris (périphérique bridges PK 177.95–165.2, Haute-Seine numbering) and the Haute-Seine to the Loing mouth at Saint-Mammès (upstream of Champagne lock, PK 83.48)",
+  "navigable": "yes",
+  "class": "Vb (large gauge)",
+  "lengthKm": null,
+  "depth": {
+   "usualM": 3.2,
+   "maxDraftM": null,
+   "notes": "Guaranteed mouillage: Basse-Seine 4.00 m; Paris 3.90 m (Bir-Hakeim–périph. aval) and 3.20 m (upstream); Haute-Seine 3.20 m; Paris side arms: Grenelle 3.20, Monnaie/Marie 2.60 m. Nothing listed for this reach in the VNF weekly of 19.11.2026."
+  },
+  "airDraftM": 5.5,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded river; current rises in floods. In Paris flood regime from 1.60 m at Austerlitz (Vigicrues). Pleasure craft may not pass weirs opened to navigation in floods (Haute-Seine: Ablon, Port-à-l'Anglais, La Cave, Champagne, Evry)."
+  },
+  "locks": {
+   "count": 9,
+   "chamber": "Bougival 220 × 12 m (or Chatou 185 × 18 m), Suresnes 160.5–185 m, Port-à-l'Anglais/Ablon/Evry/Le Coudray 172–180 × 12–18 m, Vives-Eaux/La Cave/Champagne 172 × 12 m and 185 × 18 m",
+   "hours": "VNF ABN 2020: Suresnes and Chatou 24 h (Bougival Mon–Sat 06:00–20:00, Sun 09:00–18:00, being remote-controlled from Chatou); Port-à-l'Anglais–Evry Mon–Sat 06:00–20:00, Sun 08:00–18:00; Le Coudray–Champagne Mon–Sat 06:00–20:00, Sun 08:00–18:00 (12:30–13:30 break). Closed 1 Jan, Easter Sun, 1 May, 14 Jul, 11 Nov, 25 Dec",
+   "notes": "Chatou/Bougival, Suresnes, Port-à-l'Anglais, Ablon, Evry, Le Coudray, Vives-Eaux, La Cave, Champagne. Lock VHF channels 18/22. Ablon sas 9.2 unavailable after damage 10.07.2026 (check status). Small craft locked in groups (max 20 min wait)."
+  },
+  "season": {
+   "best": null,
+   "closures": "Floods: Feb 2026 flood notices on Basse-Seine, Haute-Seine locks (weirs opened at Port-à-l'Anglais, Ablon) and in Paris (Austerlitz >3.30 m from 16.02.2026). Navigation stopped Grenelle–Arsenal from 4.30 m (PHEN) at Austerlitz."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "High water Jan–Feb is a judgement (Feb 2026 flood; winter floods typical); pleasure craft banned in Paris above 2.50 m at Austerlitz. No low-water restrictions found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Bassin de la Seine (UTI Boucles de la Seine, UTI Seine-Amont); police: Préfecture de Paris / DRIEAT",
+   "url": "https://www.vnf.fr/vnf/services/regles-de-navigation-pour-la-traversee-de-paris/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF); Paris levels: Vigicrues Austerlitz",
+  "notes": "Paris (RPP Seine-Yonne, since 14.10.2025): VHF watch ch 10 compulsory for all boats incl. pleasure craft >4.5 kW; max 60 × 7.25 m; pleasure craft allowed Arsenal–Grenelle only up to 2.50 m at Austerlitz; Bras Marie forbidden. Traffic lights (alternat) Sully–Pont au Change. No passage permit found. Moor at Port de l'Arsenal (VHF 9). VNF vignette (péage plaisance) needed; French permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.drieat.ile-de-france.developpement-durable.gouv.fr/IMG/pdf/flyer_rpp_01_03.pdf",
+   "https://www.drieat.ile-de-france.developpement-durable.gouv.fr/IMG/pdf/flyer_rpp_01_02.pdf",
+   "https://www.prefectures-regions.gouv.fr/ile-de-france/content/download/60542/398233/file/RPP_SEINE-YONNE_2019.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/services/regles-de-navigation-pour-la-traversee-de-paris/",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-10.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.0,
+   48.35,
+   2.95,
+   49.02
+  ]
+ },
+ {
+  "id": "fr-canal-du-loing",
+  "name": "Canal du Loing (Saint-Mammès/Moret – Buges)",
+  "aliases": [
+   "Canal du Loing",
+   "Le Loing"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Seine at Saint-Mammès / Moret-sur-Loing (lock 19, PK 47.7) to the junction with the Canal de Briare and Canal d'Orléans at Buges (Châlette-sur-Loing)",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Freycinet canal; no draught restriction listed in VNF weeklies Jul–Nov 2026. Bief de Bourgogne (PK 44.13–46.9, Moret) closed for breach risk/fontis 15.12.2025 to late June 2026."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current; speed limit 8 km/h."
+  },
+  "locks": {
+   "count": 19,
+   "chamber": "Freycinet, about 39 × 5.20 m",
+   "hours": "07:00–19:00 daily, all year (2026 guide); closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec",
+   "notes": "Automated with remote control (télécommande): collect/return at lock 19 Moret-sur-Loing (or lock 19 Dammarie-sur-Loing on the Briare canal); PCC Montargis 02 38 95 09 29. Lock 13 Fromonville (guard lock) manual."
+  },
+  "season": {
+   "best": null,
+   "closures": "One-off: closed between Écuelles (17) and Bourgogne (18) locks from 15.12.2025 (avis FR/2025/09266, FR/2026/00494); reopening announced in the VNF weekly of 26.06.2026."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring seasonal closures found; the canal is fed from the Briare system, so watch summer water notices. Winter chômages not found for 2026–27."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Val-de-Loire-Seine (Briare), tel. 02 38 31 26 20",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Remote-control slots 07:00–09:00 by booking the day before 16:00; lunch break 12:00–13:00. Do not moor within 100 m of locks or on aqueducts. VNF vignette (péage plaisance) needed; French permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.vnf.fr/vnf/articles/canal-du-loing-et-canal-de-briare-ce-quil-faut-savoir-pour-naviguer-sur-les-secteurs-automatises/",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-19.06.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_06_26.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://fr.wikipedia.org/wiki/Canal_du_Loing",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.6,
+   47.95,
+   2.9,
+   48.42
+  ]
+ },
+ {
+  "id": "fr-canal-de-briare",
+  "name": "Canal de Briare (Buges – Briare, incl. summit pound)",
+  "aliases": [
+   "Canal de Briare",
+   "Canal de Briare - Bief de Partage",
+   "Pont-canal de Briare",
+   "Pont-Canal de Briare"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Buges junction (lock 36, PK 56.8) via Montargis, Rogny summit area to Venon lock 5 (PK 4.7) and the Pont-canal de Briare over the Loire (Canal latéral à la Loire PK 196.8)",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": 54,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": 1.8,
+   "notes": "Mouillage 2.20 m, draught 1.80 m. 2026: limited to 1.85 m from June; closed Baraban–Sainte-Barbe (locks 1–18) 17.08–15.11.2026 and Dammarie (19)–La Marolle (33) 08.09–15.11.2026. Nothing listed on 19.11.2026."
+  },
+  "airDraftM": 3.42,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current; 8 km/h."
+  },
+  "locks": {
+   "count": 32,
+   "chamber": "Freycinet, 39 × 5.20 m (5.10 m beam admitted)",
+   "hours": "High season (29.03–25.10.2026) daily 09:00–19:00 with 12:00–13:00 break; low season 09:00–12:00 and 13:30–17:00 (08:00–09:00 commercial on request). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec",
+   "notes": "Through route locks 36 Buges – 5 Venon (41 incl. Briare old-canal branch). Remote control from lock 19 Dammarie; call PCC 02 38 95 09 29 / 06 42 38 44 79 for Dammarie (19), 27–30 Montambert–Souffre-Douleur and 34 La Reinette."
+  },
+  "season": {
+   "best": null,
+   "closures": "Water shortage: closed from mid-Aug 2019, from 21.08.2022, from 17.08.2026 (to 15.11.2026). Floods: closures 16–22.02.2026 (Buges, Dammarie–Montambert, Petit-Chaloy–Venon)."
+  },
+  "months": {
+   "closed": [
+    8,
+    9,
+    10
+   ],
+   "lowWater": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Summer closures for water shortage in 2019, 2022 and 2026 (Aug–Oct/Nov), draught limits from June. Calling Aug–Oct 'closed' is a judgement (3 of the last 8 years). Winter chômages 2026–27 not found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Val-de-Loire-Seine, 17 rue du Pont Canal, Briare, tel. 02 38 31 26 20",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Lowest bridge: Montargis town-hall bridge 3.59 m in axis, 3.42 m at the quay wall. No mooring on the pont-canal. Boats in Briare port were trapped by the 2026 closure: check reserves before committing in July–Aug. VNF vignette (péage plaisance) needed; French permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.vnf.fr/vnf/articles/canal-du-loing-et-canal-de-briare-ce-quil-faut-savoir-pour-naviguer-sur-les-secteurs-automatises/",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-21-aout-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-25-septembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.ici.fr/centre-val-de-loire/loiret-45/briare/on-est-coinces-les-plaisanciers-du-port-de-briare-impuissants-face-a-l-interdiction-de-navigation-sur-le-canal-4292055",
+   "https://www.ici.fr/infos/societe/loiret-a-briare-en-raison-du-faible-niveau-de-la-loire-la-navigation-est-interdite-des-ce-soir-1661001550",
+   "https://fr.wikipedia.org/wiki/Canal_de_Briare",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.6,
+   47.55,
+   2.85,
+   48.05
+  ]
+ },
+ {
+  "id": "fr-canal-lateral-loire",
+  "name": "Canal latéral à la Loire (Briare – Digoin)",
+  "aliases": [
+   "Canal Latéral à la Loire",
+   "Canal latéral à la Loire",
+   "Canal latéral à la Loire (Bief de Partage)",
+   "Écluse de l'Aubois",
+   "Ecluse de l'Aubois",
+   "Pont-canal du Guétin",
+   "Pont-Canal du Guétin",
+   "Pont-canal de Digoin",
+   "Pont-Canal de Digoin",
+   "La Loire"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Pont-canal de Briare (PK 196.8) to Digoin (lock 1, PK 4.97; pont-canal de Digoin PK 4.65) and the Canal du Centre junction; crosses the Allier on the Pont-canal du Guétin and the Loire on the Briare and Digoin aqueducts (no river navigation)",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": 196,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": null,
+   "notes": "Mouillage 2.2 m. 2026 drought: 0.70 m Aubois–Thauvenay and Bannay–Maimbray, 0.80 m Guétin–Laubray, 1.10–1.30 m south; closed Guétin–Maimbray 29.06–15.11.2026, Maimbray–Venon from 23.09; leak limit 1.5 m Vanneaux–La Mothe (03.2026)."
+  },
+  "airDraftM": 3.45,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current; 8 km/h."
+  },
+  "locks": {
+   "count": 37,
+   "chamber": "Freycinet, 39 × 5.20 m; double lock 21–22 at Le Guétin",
+   "hours": "High season daily 09:00–19:00 (12:00–13:00 break; Digoin lock 1, pont-canal and Guétin to 22:00); low season 09:00–12:00 and 13:30–17:00. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec",
+   "notes": "Main-line locks 1 Digoin – 38 Maimbray (no. 23 Lorrains out of use); 26 de l'Aubois PK 125.58 (mechanised). Mostly manual or mechanised, automation in progress. ST Saône-Loire (Digoin–Putay) 03 58 09 01 38; ST Val-de-Loire-Seine 02 38 31 26 20."
+  },
+  "season": {
+   "best": null,
+   "closures": "2026: whole central section closed for water shortage from 29.06 to 15.11.2026; Digoin–Putay closed 09.08–31.10.2026. Floods: pont-canal bief closed 16–22.02.2026."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    7,
+    8,
+    9,
+    10
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Severe summer low water/closure in 2026 (Jul–mid-Nov); earlier years not confirmed, so 'closed' is left empty — a judgement call. Winter chômages 2026–27 not found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Val-de-Loire-Seine (Briare) and ST Saône-Loire (Montceau-les-Mines)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Lowest bridge: Pont de Garnat (PK 40.9) 3.45 m. 'La Loire' alias only for the aqueduct crossings inside this bbox — the river itself is not navigable here. Branches to Nevers, Decize, Saint-Thibault, Givry. VNF vignette (péage plaisance) needed; French permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-9-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-16-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-30-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-25-septembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_07_03.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-19.06.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://fr.wikipedia.org/wiki/Canal_latéral_à_la_Loire",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.6,
+   46.4,
+   4.1,
+   47.7
+  ]
+ },
+ {
+  "id": "fr-canal-du-centre",
+  "name": "Canal du Centre (Digoin – Chalon-sur-Saône)",
+  "aliases": [
+   "Canal du Centre",
+   "Canal du Centre - Bief de Partage",
+   "Canal du Centre (Bief de Partage)"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Digoin junction with the Canal latéral à la Loire (PK 114.2) over the Montchanin/Écuisses summit to Crissey lock 34bis (PK 3.64) and the Saône at Chalon-sur-Saône",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": 112,
+  "depth": {
+   "usualM": 2.0,
+   "maxDraftM": null,
+   "notes": "Normal mouillage 2.0 m (Freycinet 2.20 m, draught 1.80 m historically). 2026: 1.60 m from 06.07, 1.50 m late July, 1.40 m 12–16.10; closed whole length 16.08–31.10.2026. Nothing listed on 19.11.2026."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current; 8 km/h."
+  },
+  "locks": {
+   "count": 61,
+   "chamber": "Freycinet, 38.5 × 5.20 m",
+   "hours": "High season daily 09:00–19:00 (12:00–13:00 break); low season 09:00–12:00 and 13:30–17:00 (08:00–09:00 commercial on request)",
+   "notes": "26 locks on the Loire side (26 O Bessons – 1 O) and 34 + 34bis on the Saône side (1 M – 34bis M Crissey, mechanised); automated, often chained so the next lock prepares itself. ST Saône-Loire, Montceau-les-Mines."
+  },
+  "season": {
+   "best": null,
+   "closures": "Water shortage: closed Crissey–Digoin from early Aug 2019; 2026 groupage from 18.06, entry at Crissey stopped 10.08, whole canal closed 16.08–31.10.2026 (reserves 35% mid-July vs 56% average). Works/breaches: Chagny bief closed Apr 2025 – 3.04.2026; biefs 10–12 closed 10.06 – ~mid-July 2026 (bank rupture)."
+  },
+  "months": {
+   "closed": [
+    8,
+    9,
+    10
+   ],
+   "lowWater": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Summit reservoirs run dry in dry summers: closures 2019 and 2026 (Aug–Oct). Aug–Oct 'closed' is a judgement; draught limits from late June most dry years. Winter chômages 2026–27 not found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Saône-Loire, 1 bd de Lattre de Tassigny, Montceau-les-Mines, tel. 03 58 09 01 38",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Watch VNF reservoir levels (Etat des réserves en eau) before entering in July–Aug; the canal can close with little notice. Old embankments (Chagny) prone to leaks. VNF vignette (péage plaisance) needed; French permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-30-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-16-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-9-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-21-aout-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-10.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_07_03.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-19.06.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.actunautique.com/2026/04/avec-le-reouverture-du-bief-de-chagny-le-canal-du-centre-totalement-reouvert-a-la-navigation.html",
+   "https://www.info-beaune.com/articles/2026/08/04/16249/secheresse-le-canal-du-centre-ferme-en-pleine-saison-d-ici-quelque-jours/",
+   "https://www.ici.fr/bourgogne-franche-comte/saone-et-loire-71/secheresse-la-navigation-interdite-sur-le-canal-du-centre-8504117",
+   "https://www.franceinfo.fr/environnement/evenements-meteorologiques-extremes/secheresse/la-secheresse-entraine-la-fermeture-de-canal-du-centre-et-la-baisse-de-frequentation-du-port-de-metz_3566879.html",
+   "https://fr.wikipedia.org/wiki/Canal_du_Centre_(France)",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   3.9,
+   46.4,
+   4.95,
+   46.9
+  ]
+ },
+ {
+  "id": "fr-yonne-laroche-montereau",
+  "name": "Yonne (Laroche-Migennes – Montereau-Fault-Yonne)",
+  "aliases": [
+   "L'Yonne",
+   "L’Yonne",
+   "Yonne",
+   "Yonne, Dérivation de Joigny",
+   "Dérivation de Joigny",
+   "Déviation de Courlon",
+   "Dérivation de Courlon",
+   "Yonne, Dérivation de Courlon"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Canal de Bourgogne junction at Laroche-Migennes (bief d'Épineau, ~PK 23) downstream to the Seine at Montereau-Fault-Yonne (PK 107.965); upstream Yonne to Auxerre not covered",
+  "navigable": "seasonal",
+  "class": "Large Freycinet / 1000 t (locks 92 × 10.50 m below Saint-Aubin)",
+  "lengthKm": 85,
+  "depth": {
+   "usualM": 2.1,
+   "maxDraftM": null,
+   "notes": "Guaranteed mouillage 2.10 m Joigny–Cannes-Écluse, 3.20 m below Cannes silo. 2026 low water: 1.60–1.80 m Villeneuve–Étigny (22.06–30.09). Joigny dérivation (Pêchoir–Saint-Aubin) 1.5 m after landslide from 03.10.2025 (listed Feb 2026). Nothing on 19.11.2026."
+  },
+  "airDraftM": 4.7,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded river. Flood regime when flow >150 m³/s at Joigny (Vigicrues); weirs are never opened to navigation. Floods: whole Yonne closed 28.06–07.07.2024; Saint-Bond–Courlon and Champfleury closed from 20.02.2026."
+  },
+  "locks": {
+   "count": 17,
+   "chamber": "Saint-Aubin–Cannes 92 × 10.50 m (gate width); Épineau and Pêchoir smaller (Yonne minimum 93 × 8.30 m per Wikipedia)",
+   "hours": "Épineau (11)–Villeneuve (17): high season (29.03–25.10.2026) daily 09:15–12:00, 13:00–18:45; low season commercial only (weekday on demand). Étigny/Rosoy: high season daily 08:00–12:30, 13:30–18:00; low season commercial on demand. Saint-Bond–Port-Renard all year: weekdays 08:00–12:30, 13:30–18:00, weekends on demand. Barbey–Cannes: weekdays 07:00–19:00, weekends 08:00–12:30, 13:30–18:30",
+   "notes": "Épineau, Pêchoir, Saint-Aubin, Villevallier, Armeau, Villeneuve, Étigny, Rosoy, Saint-Bond, Saint-Martin, Villeperrot, Champfleury, Vinneuf, Port-Renard, Barbey, La Brosse, Cannes-Écluse (+ guard gates Épizy, Courlon). Mechanised, staffed; phone numbers per lock in the DTCB avis n°1. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25–31 Dec."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Laroche–Rosoy has no pleasure navigation in low season (late Oct – late Mar). Flood stops Feb 2026, Jun–Jul 2024; draught limits 1.6–1.8 m in dry summers (2024, 2026)."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Nov–Mar 'closed' = VNF low-season regime (pleasure craft cannot pass Épineau–Rosoy); Saint-Bond–Montereau open all year. High water Jan–Feb is a judgement (Feb 2026); June 2024 flood shows floods can come in summer. Summer limits (≥1.6 m) do not affect a 1.2 m draught."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Nivernais-Yonne, rue du Halage, Auxerre, tel. 03 58 43 21 64, uti.nivernais-yonne@vnf.fr",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "RPP Seine-Yonne from Joigny (PK 29) down. Speed 15 km/h (<20 m pleasure), 6 km/h in dérivations. VHF 12 Auxerre–Pêchoir, VHF 69 Saint-Aubin–Cannes. Courlon fausse rivière: commercial only. Ports Joigny, Villeneuve, Sens. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.prefectures-regions.gouv.fr/ile-de-france/content/download/60542/398233/file/RPP_SEINE-YONNE_2019.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_06_26.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-10.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-21-aout-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-25-septembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-07-02-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-05-31.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
+   "https://fr.wikipedia.org/wiki/Yonne_(rivière)",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.9,
+   47.95,
+   3.53,
+   48.42
+  ]
+ },
+ {
+  "id": "fr-canal-de-bourgogne",
+  "name": "Canal de Bourgogne (Laroche-Migennes – Pouilly-en-Auxois – Saint-Jean-de-Losne)",
+  "aliases": [
+   "Canal de Bourgogne",
+   "Canal de Bourgogne - Bief de Partage",
+   "Canal de Bourgogne (Bief de Partage)",
+   "Canal de Bourgogne, Bief de Partage",
+   "Souterrain de Pouilly en Auxois",
+   "Souterrain de Pouilly-en-Auxois",
+   "Voûte de Pouilly-en-Auxois",
+   "Pont Canal de Montbard",
+   "Pont-Canal de Montbard",
+   "Pont-Canal de Pnt d'Ouche",
+   "Pont-Canal de Pont d'Ouche",
+   "Pont-canal de Saint-Florentin"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Laroche-Migennes lock 114-115Y (PK 0.24) up the Armançon valley via Tonnerre and Montbard, the Pouilly-en-Auxois summit tunnel (PK ~155–158), down the Ouche to Dijon and the Saône at Saint-Jean-de-Losne (lock 76S, PK ~242)",
+  "navigable": "seasonal",
+  "class": "Freycinet",
+  "lengthKm": 242,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.8,
+   "notes": "Freycinet; Pouilly port admits 1.80 m. Dry years: 2026 1.50 m Yonne side, 1.60 m Pouilly–Larrey, 1.20 m Migennes–Ancy-le-Franc; 2025 1.20 m Migennes–Pouilly (Jul–Aug). A 1.2 m draught is marginal in Jul–Sep."
+  },
+  "airDraftM": 3.1,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current; 8 km/h."
+  },
+  "locks": {
+   "count": 189,
+   "chamber": "Freycinet, 38.5 × 5 m (113 Yonne side 1Y–115Y, 76 Saône side 1S–76S)",
+   "hours": "2026 high season (29.03–25.10): 76S–1S and 56Y–114/115Y daily 09:00–12:00, 13:00–19:00; summit 1Y–55Y only 7 Apr–7 Sep, Mon–Fri (no holidays) 09:00–11:30, 14:00–16:30, booking ≥7 days ahead at navi.bourgognecentral@vnf.fr. Low season: 54S–113Y closed; 76S–55S and 114/115Y weekdays on demand 09:00–12:00, 13:30–17:00",
+   "notes": "Mostly manual locks worked by VNF éclusiers (some mechanised/semi-mechanised, 99Y automated); 40 locks in 14 km below Pouilly (Pouillenay–Marigny). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec. ST Bourgogne, Dijon, 03 45 34 13 50."
+  },
+  "season": {
+   "best": "May–June",
+   "closures": "Winter: 54S–113Y closed late Oct–late Mar. Water shortage: 2019 (sections from 26.07, all closed 15.10), 2020, 2022 (Tonnerre–Migennes from 16.07), 2023 (80Y–1Y from 17.09), 2025 (54S–75S closed, lifted by 05.09), 2026 (9S–54S from 26.05, 54S–75S from 30.06, 80Y–2Y from 19.07, more to 25.10; lifted 30.10.2026)."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    9,
+    10,
+    11,
+    12
+   ],
+   "lowWater": [
+    6,
+    7,
+    8
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Closures for water in 6 of the last 8 years (2019, 2020, 2022, 2023, 2025, 2026; full season only 2021, 2024 not found). Sep–Oct 'closed' = judgement + 2026 summit schedule (closed from 8 Sep); Aug closed in 2019, 2022, 2026 — judgement. Panthier reservoir (80% of Saône-side supply) back in service ~Apr 2027."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Centre-Bourgogne – ST Bourgogne, 4 bis rue Hoche, Dijon, tel. 03 45 34 13 50, uti.bourgogne@vnf.fr",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-centre-bourgogne/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Pouilly tunnel 3,333 m, one-way alternated: headroom 3.10 m on the axis but only 2.50 m above the boat's sides — a 3 m air draught passes only if the high point is on the centreline. Book summit locks 7 days ahead. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2023/06/2026_Avis-Bat-01_V01-2.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-9-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-16-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-30-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-05-09-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-03-01.pdf",
+   "https://www.bourgognefranchecomte.fr/sites/default/files/2026-05/Communiqu%C3%A9%20-%20Pose%20de%20la%201re%20pierre%20du%20barrage-r%C3%A9servoir%20de%20Panthier%2021%2005%202026.pdf",
+   "https://www.tourismepouillybligny.fr/uploads/2026/02/guide-daccueil-plaisancier.pdf",
+   "https://www.linfodurable.fr/circulation-restreinte-sur-les-canaux-de-bourgogne-touches-par-la-secheresse-13116",
+   "https://www.linfodurable.fr/saison-exceptionnellement-seche-le-canal-de-bourgogne-ferme-plus-tot-que-dhabitude-14226",
+   "https://www.linfodurable.fr/secheresse-les-naufrages-du-canal-de-bourgogne-33715",
+   "https://www.linfodurable.fr/les-voies-deau-affectees-par-la-secheresse-des-canaux-fermes-33458",
+   "https://fr.wikipedia.org/wiki/Canal_de_Bourgogne",
+   "https://fr.wikipedia.org/wiki/Tunnel_du_canal_de_Bourgogne",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   3.48,
+   47.08,
+   5.28,
+   47.98
+  ]
+ },
+ {
+  "id": "fr-canal-rhone-rhin-sud",
+  "name": "Canal du Rhône au Rhin, branche sud (Saint-Symphorien-sur-Saône – Doubs – Mulhouse – Niffer)",
+  "aliases": [
+   "Canal du Rhône au Rhin",
+   "Canal du Rhône au Rhin - Branche Sud",
+   "Canal du Rhône au Rhin, branche sud",
+   "Canal du Rhône au Rhin (Branche Sud)",
+   "Canal du Rhône au Rhin - La Suarcine",
+   "Le Doubs",
+   "Doubs",
+   "L'Allan",
+   "Tunnel Fluvial de la Citadelle",
+   "Canal de la Citadelle",
+   "Percée de Thoraise",
+   "Canal de Huningue"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Saône at Saint-Symphorien-sur-Saône (lock 75, PK 0) via Dole, the canalised Doubs to Besançon and Montbéliard (Allan), the Valdieu summit (Territoire de Belfort/Haut-Rhin, PK 186), then the Rhine side to Mulhouse and the large-gauge Mulhouse–Niffer section to the Grand Canal d'Alsace",
+  "navigable": "restricted",
+  "class": "Freycinet (large gauge Mulhouse–Niffer)",
+  "lengthKm": 237,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.8,
+   "notes": "Summit pound (Bourogne PK 176 – lock 38 Rhine side) limited 1.60 m to 29.11.2026; it was 1.20 m from 24.07 and 1.00 m Aug–Oct 2026. Hagenbach (23N)–Brunstatt (38): silting, closed from 19.02.2024, 1.2 m since 01.03.2025 (listed Feb 2026). Rancenay bief 1.50–1.80 m by Doubs level."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Alternates canal cuts and canalised Doubs/Allan reaches: current and floods on river sections. Flood stops: Dole–Montbéliard 23.02.2024, Montbéliard 31.05.2024, PK 0–186 from 17.02.2026 (reopened ~20.02)."
+  },
+  "locks": {
+   "count": 112,
+   "chamber": "Freycinet; max boat 38.80 × 5.10 m",
+   "hours": null,
+   "notes": "Doubs valley (Allenjoie–Saint-Symphorien): 65 automated locks worked by boaters with a VNF remote control. Valdieu: 12 locks in 3 km at the summit. Besançon: tunnel (~390 m) under the Citadelle. Hours not found in an official 2026 source — check VNF DT Rhône-Saône/Strasbourg."
+  },
+  "season": {
+   "best": "May–June",
+   "closures": "Winter chômage 2025–26: PK 0–174 (lock 75 – lock 8) 01.12.2025–30.01.2026; 2026–27 not yet published. Water shortage 2026: Fontenelles (8)–Dampierre (18) closed 24.09–31.10.2026; summit 1.00–1.20 m Jul–Nov. 2025: boats grouped on the summit 26.06–30.11.2025."
+  },
+  "months": {
+   "closed": [
+    12,
+    1
+   ],
+   "lowWater": [
+    7,
+    8,
+    9,
+    10
+   ],
+   "highWater": [
+    2
+   ],
+   "ice": [],
+   "notes": "Dec–Jan closed is a judgement from one winter chômage (2025–26). Low water Jul–Oct is a judgement from 2025–2026 (summit 1.00 m in Aug–Oct 2026 = impassable at 1.2 m draught); earlier drought years not confirmed. Doubs floods in Feb 2024 and Feb 2026, also May–Jun 2024."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland river/canal, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Rhône-Saône (Saône–Allenjoie, PK 0–174) and VNF Direction territoriale Strasbourg (summit and Rhine side to Niffer)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-rhone-saone/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF); DTRS weekly bulletin https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+  "notes": "Ports Dole, Besançon, Montbéliard, Mulhouse. Check summit and Hagenbach–Brunstatt depths before committing with 1.2 m draught; no mooring at Allenjoie lock 9 upstream pontoon in 2026. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-30-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-16-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-9-octobre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-25-septembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-21-aout-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-10.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_06_26.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_07_03.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-05-09-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-05-31.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-03-01.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_01_15_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.vnf.fr/vnf/dossiers-actualitess/canal-du-rhone-au-rhin-vallee-du-doubs-une-demarche-partenariale-pour-imaginer-un-futur-prometteur/",
+   "https://en.wikipedia.org/wiki/Rhône–Rhine_Canal",
+   "https://fr.wikipedia.org/wiki/Canal_du_Rhône_au_Rhin",
+   "https://boatcible.com/2026/04/11/plus-belles-escales-canal-rhone-au-rhin-2026/",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   5.3,
+   47.04,
+   7.56,
+   47.8
+  ]
+ },
+ {
+  "id": "fr-rance-maritime",
+  "name": "La Rance (Saint-Malo – Barrage de la Rance – Écluse du Châtelier – Dinan)",
+  "aliases": [
+   "La Rance",
+   "Écluse du Barrage de la Rance",
+   "Écluse du Châtelier"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Saint-Malo/Dinard through the EDF tidal-barrage lock, the Rance basin (Saint-Suliac, Plouër, Mordreuc) to the Écluse du Châtelier (lock 48, Lyvet) and the canalised Rance to Dinan port (Vieux Pont)",
+  "navigable": "seasonal",
+  "class": null,
+  "lengthKm": 22,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.4,
+   "notes": "Région/CRT carnet: whole Saint-Malo–Dinan route usable by boats up to 1.40 m draught; Mordreuc–Châtelier shallow at low basin levels, banks dry outside the buoyed channel. Since 07.08.2026 draught limited to 1.50 m Dinan Vieux Pont – Châtelier."
+  },
+  "airDraftM": 4.0,
+  "current": {
+   "typicalMs": null,
+   "notes": "Basin currents set by EDF turbining/sluicing, can exceed 5 kn in places; HW stand often >3 h. Strong stream at Port Saint-Hubert/Port Saint-Jean narrows. Strong tidal streams below the barrage."
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "Barrage lock 65 × 13 m (lift bridge for air draught >4 m); Châtelier: canal lock",
+   "hours": "Barrage: every round hour when sea level ≥ +4 m CM; 20:30–04:30 only on request with 30 min notice (VHF 13, 02 99 16 37 37). Châtelier: weekly timetable set from Rance levels (Friday to Friday), works only when basin ≥ 9 m (aim for >10 m); VHF 14, 02 96 39 55 66",
+   "notes": "Give the barrage lock-keeper 30 min notice with draught/air draught; going to sea gates close 20 min before the hour, from sea be there 5 min before. Châtelier swing bridge may be closed to masted boats in heat waves (May 2026 notice). Châtelier was closed Dec–Jan, booking 48 h ahead Feb/Mar/Nov in 2024–25."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Barrage lock all year (tide permitting). Châtelier/canal: Région chômage 26.10.2026–01.04.2027; Châtelier closed by fallen trees from 23.10.2026, a reopening notice has followed (undated)."
+  },
+  "months": {
+   "closed": [
+    12,
+    1
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Dec–Jan 'closed' = Châtelier winter closure reported for 2024–25 (judgement for 2026–27; the barrage lock still works). Basin levels follow EDF operation, not just tides: check the weekly EDF Saint-Suliac forecast."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 13.5,
+   "notes": "Saint-Malo: mean range 8 m, up to 13.5 m at big springs. Basin above the barrage is held by EDF between about 4 and 12 m CM (Saint-Suliac gauge, weekly EDF forecast ±30 cm). Reach the barrage at the end of the flood; go Plouër/Mordreuc→Châtelier near HW (basin >10 m). Above Lyvet no tides."
+  },
+  "authority": {
+   "name": "EDF Hydro (Rance barrage and lock); Région Bretagne – Canaux de Bretagne (Écluse du Châtelier, Lyvet–Dinan)",
+   "url": "https://canaux.bretagne.bzh/"
+  },
+  "notices": "https://www.edf.fr/usine-maremotrice-rance/marees-en-rance (EDF levels/lock times) and https://canaux.bretagne.bzh/actualites/avis-a-la-batellerie/ (Région avis à la batellerie, Châtelier timetable)",
+  "notes": "Charts SHOM 7130 and 4233. Prohibited zones marked by buoys above and below the barrage. Ports: Saint-Malo (Vauban via Naye lock, VHF 9), Dinard, La Richardais, Saint-Suliac, Plouër (pontoon), Lyvet (pontoon), Dinan. Air draught 3 m passes the barrage bridge without a lift; Dinan old bridge starts the 2.50 m canal arches.",
+  "sources": [
+   "https://www.tourismebretagne.com/app/uploads/crt-bretagne/2021/10/cabotage-canaux-saint-malo-dinan-1.pdf",
+   "https://www.tourismebretagne.com/app/uploads/crt-bretagne/2021/10/cabotage-canaux-dinan-rennes-1.pdf",
+   "https://www.edf.fr/usine-maremotrice-rance/marees-en-rance",
+   "https://saintmalo.guide/niveaux-rance/",
+   "https://www.le-minihic-sur-rance.fr/accueil/tourisme/barrage-de-la-rance-histoire-et-horaires-declusage/",
+   "https://canaux.bretagne.bzh/actualites/consulter-les-horaires-de-lecluse-du-chatelier/",
+   "https://canaux.bretagne.bzh/actualites/secheresse-restriction-de-mouillage-draught-restriction/",
+   "https://canaux.bretagne.bzh/actualites/fermeture-partielle-navigation-navigation-forbidden-3/",
+   "https://canaux.bretagne.bzh/actualites/fermeture-du-service-aux-ecluses-chomage-2026-2027-2/",
+   "https://unidivers.fr/bretagne-canaux-chomage-travaux-vilaine-ille-rance/",
+   "https://fr.wikipedia.org/wiki/Usine_marémotrice_de_la_Rance",
+   "https://en.wikipedia.org/wiki/Rance_Tidal_Power_Station",
+   "https://voileaviron.org/wp/wp-content/uploads/2016/12/TOPOFVA8-MancheOcean3IlleEtRance.pdf"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   -2.08,
+   48.44,
+   -1.94,
+   48.66
+  ]
+ },
+ {
+  "id": "fr-canal-ille-et-rance",
+  "name": "Canal d'Ille-et-Rance (Dinan – Hédé – Rennes)",
+  "aliases": [
+   "Canal d'Ille-et-Rance",
+   "L'Ille",
+   "Ecluse de Léhon",
+   "Écluse de la Butte Jaquette",
+   "Écluse de la Dialais (n°31)",
+   "Écluse de la Petite Madeleine (n°29)",
+   "Écluse de la Parfraire (n°25)",
+   "Écluse n°20 de Villemorin",
+   "Écluse n°17 de Lengager",
+   "Écluse n°16 de Haute-Roche",
+   "Écluse n°15 d'Ille",
+   "Écluse n°13 de Saint-Médard-sur l'Ille",
+   "Écluse n°12 de Bouessay",
+   "Écluse n°11 de Saint-Germain",
+   "Écluse n°10 de Fresnay",
+   "Écluse n° 9 des Cours",
+   "Écluse n°7 des Brosses",
+   "Écluse n°6 du Haut-Chalet",
+   "Écluse n°5 du Gacet",
+   "Écluse n°4 de Charbonnière",
+   "Écluse n°3 de Saint-Grégoire",
+   "Écluse n°2 de Saint-Martin",
+   "Écluse n°1 du Mail"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Dinan port (Vieux Pont) up the Rance valley via Léhon, Évran, Tinténiac and the 11 Hédé locks to the Guipel summit pound (~65 m, 7 km), then down the Ille to the Vilaine in Rennes (Écluse du Mail, n°1)",
+  "navigable": "seasonal",
+  "class": "Petit gabarit (Breton), locks 26.3 × 4.7 m",
+  "lengthKm": 80,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.2,
+   "notes": "Official draught 1.20 m (Région), with a 30 cm 'pied de pilote' advised. 2026: 1.20 m from 03.04 (1.05 m Haut-Chalet–Brosses), 1.10 m Rennes–Dinan from 07.08.2026 (drought). 2022: −20 cm Rennes–Évran. A 1.2 m boat is at or over the limit."
+  },
+  "airDraftM": 2.5,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal with river sections, no significant current; speed 6 or 10 km/h as signed."
+  },
+  "locks": {
+   "count": 47,
+   "chamber": "26.3 × 4.7 m",
+   "hours": "2026 season 03.04–25.10: 09:00–12:30, 13:30–18:00 (03.04–12.06 and 14.09–25.10), to 19:00 13.06–13.09; arrive ≥15 min before close",
+   "notes": "Manned locks (phone numbers per lock in the Région carnet); 27 locks up from Dinan to the summit, 20 down to Rennes; 11 Hédé locks in 2 km; falls up to 2.80 m (Calaudry). Châtelier (n°48) is on the Rance sheet. Moorings max 72 h, free except Dinan."
+  },
+  "season": {
+   "best": "May–June",
+   "closures": "No lock service 26.10.2026–01.04.2027 (chômage; bief lowerings 30–80 cm; Tinténiac gates 30.11–11.12, Mottay, Saint-Martin, Saint-Grégoire). Flood bans in winter (2025, 2026 Évran–Dinan). Weather closure Mail–Châtelier 23–24.10.2026."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "lowWater": [
+    8,
+    9,
+    10
+   ],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Nov–Mar = no lock service (Région chômage, 2026–27 dates official). Low water Aug–Oct is a judgement from 2022 and 2026 draught limits; no full summit-pound drought closure found 2019–2026. Flood months a judgement (Jan 2025, 2026 notices)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "Région Bretagne – Canaux de Bretagne, subdivision Vilaine – canal d'Ille-et-Rance",
+   "url": "https://canaux.bretagne.bzh/"
+  },
+  "notices": "https://canaux.bretagne.bzh/actualites/avis-a-la-batellerie/",
+  "notes": "Blocking for a 3 m air draught: bridge/lock arches give only 2.50 m at the springing, and 1.2 m draught exceeds the 2026 limits. Liaison Manche–Océan (via Vilaine) was cut early 2024 – 03.04.2026 (Boël lock rebuilt). Pontoons Dinan, Léhon, Évran, Tinténiac, Hédé, Betton, Rennes.",
+  "sources": [
+   "https://www.tourismebretagne.com/app/uploads/crt-bretagne/2021/10/cabotage-canaux-dinan-rennes-1.pdf",
+   "https://voileaviron.org/wp/wp-content/uploads/2016/12/TOPOFVA8-MancheOcean3IlleEtRance.pdf",
+   "https://canaux.bretagne.bzh/actualites/secheresse-restriction-de-mouillage-draught-restriction/",
+   "https://canaux.bretagne.bzh/actualites/debut-du-service-aux-ecluses-pour-la-saison-de-navigation-2026/",
+   "https://canaux.bretagne.bzh/actualites/fermeture-du-service-aux-ecluses-chomage-2026-2027-2/",
+   "https://canaux.bretagne.bzh/actualites/fermeture-partielle-navigation-navigation-forbidden-3/",
+   "https://canaux.bretagne.bzh/actualites/fermeture-partielle-navigation-navigation-forbidden-2/",
+   "https://canaux.bretagne.bzh/actualites/2026-vir-b-n-32_cir_interdiction-navigation-periode-de-crue-evran-dinan/",
+   "https://unidivers.fr/bretagne-canaux-chomage-travaux-vilaine-ille-rance/",
+   "https://plaisance-fluviale-bretonne.org/avis-a-la-batellerie/",
+   "https://www.ouest-france.fr/bretagne/bretagne-la-secheresse-menace-la-navigation-fluviale-7c6a0760-16de-11ed-9e7d-f63aa2d492e8",
+   "https://canaux.bretagne.bzh/actualites/liaison-manche-ocean-retour-festif-de-la-navigation-sur-la-vilaine-apres-deux-ans-dattente/",
+   "https://fr.wikipedia.org/wiki/Canal_d'Ille-et-Rance",
+   "https://canaux.bretagne.bzh/"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   -2.07,
+   48.1,
+   -1.64,
+   48.47
+  ]
+ },
+ {
+  "id": "fr-vilaine-rennes-arzal",
+  "name": "La Vilaine (Rennes – Redon – Barrage d'Arzal)",
+  "aliases": [
+   "La Vilaine",
+   "Écluse Dupont des Loges",
+   "Écluse du Comte",
+   "Le Boël",
+   "Pont-Réan",
+   "La Molière",
+   "Écluse de Cicé",
+   "Canal de Cicé",
+   "Écluse de Mons",
+   "Le Canal de Mons",
+   "Écluse de Guipry",
+   "Ecluse de Mâlon",
+   "Jonction de la Vilaine au Canal de Nantes à Brest",
+   "Écluse du barrage d'Arzal"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Rennes (Écluse Dupont-des-Loges, n°1) down the canalised Vilaine via Pont-Réan, Messac/Guipry to Mâlon (n°13) and Redon, then the lock-free impounded Vilaine maritime (Rieux, Pont de Cran, Foleux, La Roche-Bernard) to the Arzal-Camoël dam lock",
+  "navigable": "seasonal",
+  "class": null,
+  "lengthKm": 122,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.2,
+   "notes": "Rennes–Redon draught 1.20–1.60 m (FVA topo); 2026 drought: 1.20 m Rennes–Redon and 1.10 m in the Mons pound from 07.08.2026. Redon–Arzal deep (4.10 m). La Roche-Bernard old port <1.50 m."
+  },
+  "airDraftM": 3.2,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalised river Rennes–Redon; impounded reservoir below Redon. Winter floods: strong current near Arzal when the dam gates evacuate at low tide; navigation banned in big floods (Oct 2024, Jan 2025)."
+  },
+  "locks": {
+   "count": 14,
+   "chamber": "Arzal lock 85 m long; Rennes–Redon locks small (not found)",
+   "hours": "Rennes–Redon locks 2026 season 03.04–25.10: 09:00–12:30, 13:30–18:00 (19:00 13.06–13.09). Arzal: round-hour lockings (weekends and 01.04–30.09), up to 11 a day in summer; booking/notice via passeportecluse-arzal-camoel.com",
+   "notes": "13 locks Dupont-des-Loges (1) – Mâlon (13) plus Arzal dam lock (Eaux & Vilaine). Pont de Cran swing bridge (23 m span) 5.80 m closed: ask VHF 10 or 02 99 91 80 87. Boël lock rebuilt, link reopened 03.04.2026."
+  },
+  "season": {
+   "best": "May–July",
+   "closures": "Locks unattended 26.10.2026–01.04.2027 (Région chômage). Arzal: drought restrictions 26.08–04.11.2026 (closed 31.08–04.09, then only reserved low-water 'safety' lockings, e.g. 2 per week late Sep); winter closure from 04.11.2026 (anti-salinity lock works), reopening late March 2027 not officially confirmed."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "lowWater": [
+    8,
+    9,
+    10
+   ],
+   "highWater": [
+    12,
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Closed Nov–Mar = Région chômage + Arzal winter closure (official for 2026–27). Aug–Oct is a judgement from 2026, when Arzal was almost closed in September – a real risk for a September transit in a dry year. Flood bans Oct 2024, Jan 2025."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Non-tidal above the Arzal dam since 1970. Seaward of Arzal the estuary is tidal: come up on the flood; banks at the mouth move with dam releases. Fresh/salt water current at the lock gates."
+  },
+  "authority": {
+   "name": "Région Bretagne – Canaux de Bretagne (Rennes–Redon); Eaux & Vilaine EPTB (Arzal dam and lock, Pont de Cran)",
+   "url": "https://www.eaux-et-vilaine.bzh/actualites/ecluse-darzal-avis-aux-navigateurs/"
+  },
+  "notices": "https://canaux.bretagne.bzh/actualites/avis-a-la-batellerie/ and https://www.eaux-et-vilaine.bzh/actualites/ecluse-darzal-avis-aux-navigateurs/ (Arzal avis aux navigateurs)",
+  "notes": "Air draught 3.20 m Rennes–Redon: a 3 m boat has only 0.20 m margin. Arzal-Camoël marina (VHF 9) has 60 visitor berths, fuel; La Roche-Bernard, Foleux, Rieux, Redon (VHF 9) ports. Redon is the junction with the Canal de Nantes à Brest.",
+  "sources": [
+   "https://www.tourismebretagne.com/app/uploads/crt-bretagne/2021/10/cabotage-canaux-redon-belle-ile-en-mer-1.pdf",
+   "https://voileaviron.org/wp/wp-content/uploads/2016/12/TOPOFVA6-MancheOcean1VilaineAval.pdf",
+   "https://voileaviron.org/wp/wp-content/uploads/2016/12/TOPOFVA7-MancheOcean2VilaineRennesRedon.pdf",
+   "https://www.eaux-et-vilaine.bzh/actualites/ecluse-darzal-avis-aux-navigateurs/",
+   "https://www.eaux-et-vilaine.bzh/wp-content/uploads/2026/08/2026_08_26_restrictions_eclusages_arzal_n6_aout_fermeture-partielle-ecluse-Arzal.pdf",
+   "https://www.eaux-et-vilaine.bzh/wp-content/uploads/2026/08/2026_09_23_restrictions_eclusages_arzal_n11_octobre_eclusages_securite.pdf",
+   "https://www.eaux-et-vilaine.bzh/wp-content/uploads/2026/08/2026_10_26_restrictions_eclusages_arzal_n15_oct_nov_eclusages_securite.pdf",
+   "https://www.eaux-et-vilaine.bzh/nos-actions/barrages/arzal/",
+   "https://www.eaux-et-vilaine.bzh/tout-savoir-sur-le-fonctionnement-du-barrage-darzal-camoel-en-periode-de-secheresse/",
+   "https://unidivers.fr/bretagne-canaux-chomage-travaux-vilaine-ille-rance/",
+   "https://canaux.bretagne.bzh/actualites/debut-du-service-aux-ecluses-pour-la-saison-de-navigation-2026/",
+   "https://canaux.bretagne.bzh/actualites/fermeture-du-service-aux-ecluses-chomage-2026-2027-2/",
+   "https://canaux.bretagne.bzh/actualites/liaison-manche-ocean-retour-festif-de-la-navigation-sur-la-vilaine-apres-deux-ans-dattente/",
+   "https://plaisance-fluviale-bretonne.org/avis-a-la-batellerie/",
+   "https://bretagne.bzh/app/uploads/sites/6/2024/10/2024-VIR-B-n°109_VIL_Interdiction-Navigation-periode-de-crue-signe-1.pdf",
+   "https://bretagne.bzh/app/uploads/sites/6/2025/01/2025-VIR-B-n°-01_VIL_Interdiction-navigation-periode-de-crue-Rennes-Redon.pdf",
+   "https://fr.wikipedia.org/wiki/Vilaine",
+   "https://canaux.bretagne.bzh/"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   -2.42,
+   47.48,
+   -1.62,
+   48.13
+  ]
+ },
+ {
+  "id": "fr-gironde-garonne-maritime",
+  "name": "La Gironde and Garonne maritime (Royan/Pauillac – Bordeaux – Castets-en-Dorthe)",
+  "aliases": [
+   "La Gironde",
+   "La Garonne",
+   "Jonction Gironde Garonne"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Gironde estuary from Royan/Pointe de Grave via Pauillac and Bec d'Ambès, the tidal Garonne through Bordeaux (Pont Chaban-Delmas, Pont de Pierre, Pont François-Mitterrand), Cadillac and Langon to the canal entrance at Castets-en-Dorthe (lock 53)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 150,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Deep ship channel to Bordeaux; above Bordeaux depth varies with tide – no official figure found. Exit into the canal at Castets is tide- and river-level dependent."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Very strong tidal streams, even at neaps; flood can give >10 kn over the ground near the mouth. Whirlpools and floating trees at Bordeaux bridges while the stream runs. Flood marks on bridge piers Bordeaux–Langon."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks; Castets lock 53 (manned, tide-dependent) is on the Canal latéral sheet. Pont Chaban-Delmas is a lift bridge (lifts scheduled; low motor boats pass under the lowered deck)."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Free navigation all year, watch floods (vigicrues). Castets lock 53 closed with the canal chômage (9.11–20.12.2026)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "High water Jan–Feb is a judgement (winter/spring Garonne floods, Feb 2026 storm stop on the canal). Mascaret is strongest on big spring tides with low river flow – late summer/September."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 5.0,
+   "notes": "Macrotidal, range ~2–5 m (SHOM/EPOC), amplified to Bordeaux (wet season) or Cadillac (dry); tide dies out between Langon and La Réole. Ride the flood: Pauillac arrive ±5 min of HW; leave Bordeaux at LW slack, ~6 h to Castets with no safe stop. Mascaret (tidal bore) at springs between Langoiran and Podensac – keep off the banks."
+  },
+  "authority": {
+   "name": "Grand Port Maritime de Bordeaux / DDTM Gironde (estuary to Bordeaux, VHF 12); VNF DT Sud-Ouest – Service Territorial Garonne (Pont François-Mitterrand to Castets and upstream)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-sud-ouest/"
+  },
+  "notices": "https://www.premar-atlantique.gouv.fr/avis-urgents-aux-navigateurs.html (AVURNAV) and https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie, DT Sud-Ouest) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF)",
+  "notes": "Masted boats unstep at Pauillac (book crane). Call Bordeaux port VHF 12. Upstream of the Pont de Pierre waters are inland (permis eaux intérieures). Ponton d'Honneur Bordeaux (strong current); Cadillac 'Eiffel' pontoon for pleasure craft. Hire boats may not leave the canal at Castets.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2026/03/AvisBat_1_Sud-ouest_2026.pdf",
+   "https://imray.com/news/through-france-to-the-mediterranean/",
+   "https://refmar.shom.fr/sites/default/files/2024-07/J3-11h10-11h30_Julie_CHEYNEL.pdf",
+   "https://www.gironde.gouv.fr/index.php/contenu/telechargement/72103/538704/file/Fiche 3 - Règles de navigation dans l'estuaire, lacs et rivières.pdf",
+   "https://www.premar-atlantique.gouv.fr/avis-urgents-aux-navigateurs.html",
+   "https://fr.wikipedia.org/wiki/Mascaret",
+   "https://fr.wikipedia.org/wiki/Estuaire_de_la_Gironde",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   -1.27,
+   44.52,
+   -0.1,
+   45.66
+  ]
+ },
+ {
+  "id": "fr-canal-lateral-garonne",
+  "name": "Canal latéral à la Garonne (Castets-en-Dorthe – Agen – Moissac – Toulouse)",
+  "aliases": [
+   "Canal Latéral à la Garonne",
+   "Écluse de Castets",
+   "Écluse Les Gares",
+   "Écluse de Mazerac",
+   "Écluse de Fontet",
+   "Écluse de l'Auriole",
+   "Écluse de Gravières",
+   "Écluse des Bernès",
+   "Écluse de l'Avance",
+   "Pont-Canal de l'Avance",
+   "Écluse du Mas d'Agenais",
+   "Écluse de la Gaulette",
+   "Écluse de la Gaule",
+   "Écluse de Larderet",
+   "Écluse de Baïse",
+   "Écluse de l'Auvignon",
+   "Écluse de Rosette",
+   "Écluse d'Agen",
+   "Pont-Canal d'Agen",
+   "Écluse de Saint-Christophe",
+   "Écluse du Noble",
+   "Écluse de Lamagistère",
+   "Écluse de Valence",
+   "Écluse de Pommevic",
+   "Écluse de Braguel",
+   "Écluse de Petit Bézy",
+   "Écluse d'Espagnette",
+   "Écluse de Descente en Tarn à Moissac",
+   "Écluse de Moissac",
+   "Écluse de Grégonne",
+   "Écluse du Cacor",
+   "Pont-Canal du Cacor",
+   "Écluse d'Artel",
+   "Écluse de Saint-Jean-des-Vignes",
+   "Écluse de Castelsarrasin",
+   "Écluse d'Escatalens",
+   "Écluse de Pommiès",
+   "Écluse d'Escudiès",
+   "Écluse de Pellaborie",
+   "Pente d'Eau de Montech",
+   "Écluse de Montech",
+   "Écluse de Lavache",
+   "Écluse de Castelnau",
+   "Écluse de Saint-Jory",
+   "Écluse de Bordeneuve",
+   "Écluse de Lespinasse",
+   "Écluse de Fenouillet",
+   "Écluse de Lalande"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Garonne at Castets-et-Castillon (lock 53, PK 193.3) via Le Mas-d'Agenais, the Agen aqueduct, Moissac (Cacor aqueduct over the Tarn, Tarn descent lock) and Montech to Port de l'Embouchure, Toulouse (PK 0)",
+  "navigable": "closed",
+  "class": "Petit gabarit (locks 40.5 × 6 m)",
+  "lengthKm": 193,
+  "depth": {
+   "usualM": 1.6,
+   "maxDraftM": null,
+   "notes": "VNF mouillage 1.60 m throughout; Wikipedia cites a practical 1.30 m max draught especially at Castets (2017). A 1.2 m draught is fine in normal conditions."
+  },
+  "airDraftM": 3.6,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, 8 km/h. Strong cross-currents at the Toulouse-side locks 1–9 (VNF warning)."
+  },
+  "locks": {
+   "count": 53,
+   "chamber": "40.50 × 6.00 m (Castets–16 and 10–Toulouse 40.30), 31.00 × 6.00 m (15–11; Montech 30.50); Tarn descent at Moissac 30.70 × 6.00 m (double)",
+   "hours": "High season 25.03–01.11.2026 daily 09:00–12:00, 13:00–19:00 (26.10–01.11: 08:00–11:00, 12:00–18:00; no midday stop Embouchure–Mazérac 51); low season on demand weekdays 08:30–12:00, 13:00–16:30. Locks 52–53 on call 06 62 99 63 91 08:30–19:30 all year. Closed 1 Jan, 1 May, 11 Nov, 25 Dec",
+   "notes": "Automated, boater-operated (poles). Pass in one go: Montech 11–12, 13–15; Moissac 19–22, 23–25; Agen 34–37 (45 min) and 39–40; last entry 15–45 min before closing. Moissac swing bridge open permanently 2026. Lock 53 depends on tide and Garonne level, no waiting in pound 53. Montech water slope out of use."
+  },
+  "season": {
+   "best": "May–June, September",
+   "closures": "Annual chômage, whole canal: 12.11–22.12.2024; 09.11–20.12.2026 (navigation stopped, drained pounds). Storm stop 12.02.2026. 2026 water management: boats grouped 18.07–31.10."
+  },
+  "months": {
+   "closed": [
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Nov–Dec closed = VNF chômage (official 2024 and 2026 dates; 2027 to be published by VNF). Summer 2026 only grouping at locks, no draught cut found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Canal non-tidal; only Castets lock 53 works to the Garonne tide (see Gironde/Garonne sheet)."
+  },
+  "authority": {
+   "name": "VNF DT Sud-Ouest – Service Territorial Garonne (Agen, 05 53 47 31 15) and ST Toulouse Haute-Garonne (locks 1–9)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-sud-ouest/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie, DT Sud-Ouest) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF); yearly rules in https://www.vnf.fr/vnf/app/uploads/2026/03/AvisBat_1_Sud-ouest_2026.pdf",
+  "notes": "Crew of 2 needed at automated locks. Air draught: 3.60 m on the axis but 3.00 m over a 5.50 m width (Castets–16), 3.35 m Lavache–Toulouse – fine for 3 m if the high point is central. Hire boats may not pass 52–53. VNF no. 0 800 863 000. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2026/03/AvisBat_1_Sud-ouest_2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2026/01/AvisBat_1_2026_Sud-ouest_Annexes.pdf",
+   "https://www.vnf.fr/vnf/services/avis-a-la-batellerie-n1-des-voies-du-sud-ouest/",
+   "https://ville-castelsarrasin.fr/fileadmin/collectivites/Castelsarrasin/Fichiers/08-Actualites/VNF/FRA_FR_2024_07934-signe__.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-31.07.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-03-01.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
+   "https://en.wikipedia.org/wiki/Canal_de_Garonne",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   -0.16,
+   43.58,
+   1.46,
+   44.58
+  ]
+ },
+ {
+  "id": "fr-canal-du-midi",
+  "name": "Canal du Midi (Toulouse – Seuil de Naurouze – Carcassonne – Béziers – Étang de Thau)",
+  "aliases": [
+   "Canal du Midi",
+   "Canal des Deux Mers",
+   "Écluse des Béarnais",
+   "Écluse des Minimes",
+   "Écluse de Bayard",
+   "Écluse Bayard",
+   "Pont Canal de Bayard",
+   "Écluse de Castanet",
+   "Écluse de Montgiscard",
+   "Pont-Canal d'Ayguesvives",
+   "Écluse Double du Sanglier",
+   "Écluse de Négra",
+   "Pont-Canal de Négra",
+   "Écluse Double de Laval",
+   "Écluse de Gardouch",
+   "Pont-Canal de Gardouch",
+   "Écluse de Renneville",
+   "Écluse Double d'Encassan",
+   "Écluse de l'Océan",
+   "Écluse de la Méditerranée",
+   "Écluse Double du Roc",
+   "Écluse Triple de Laurens",
+   "Écluse de la Domergue",
+   "Écluse de la Planque",
+   "Échelle quadruple d'Écluse Saint-Roch",
+   "Écluse Double de Gay",
+   "Écluse Triple du Vivier",
+   "Écluse de Saint-Sernin",
+   "Écluse de Guerre",
+   "Écluse de la Peyruque",
+   "Écluse de la Criminelle",
+   "Écluse du Tréboul",
+   "Pont-Canal du Tréboul",
+   "Pont-Canal du Lhers",
+   "Pont-Canal de l'Espitalet",
+   "Pont-Canal de Rébenty",
+   "Écluse de Villepinte",
+   "Écluse de Sauzens",
+   "Écluse de Bram",
+   "Écluse de Béteille",
+   "Écluse Double de Lalande",
+   "Écluse de Herminis",
+   "Écluse de Carcassonne",
+   "Écluse Double du Fresquel",
+   "Écluse du Fresquel",
+   "Écluse de l'Évêque",
+   "Écluse de Villedubert",
+   "Écluse Triple de Trèbes",
+   "Écluse de Marseillette",
+   "Écluse Triple de Fonfile",
+   "Écluse Double de Saint-Martin",
+   "Écluse Double de l'Aiguille",
+   "Pont-Canal de l'Aiguille",
+   "Écluse Double de Puichéric",
+   "Écluse de Jouarres",
+   "Écluse d'Homps",
+   "Écluse Double d'Ognon",
+   "Pont-Canal d'Ognon",
+   "Écluse Double de Pechlaurier",
+   "Écluse d'Argens",
+   "Pont-Canal de Cesse",
+   "Pont-Canal de la Quarante",
+   "Écluses de Fonserannes",
+   "Échelle octuple d'Écluses de Fonserannes",
+   "Échelle septuple d'Écluses de Fonserannes",
+   "Écluse Inférieure de Fonserannes",
+   "Pont-Canal de l'Orb",
+   "Écluse Double de l'Orb",
+   "Écluse de Béziers",
+   "Ouvrages du Libron",
+   "Écluse ronde d'Agde",
+   "Écluse du Bagnas"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Port de l'Embouchure, Toulouse (PK 0) up to the Naurouze summit (Écluse de l'Océan, PK 51.6), down via Castelnaudary, Carcassonne, Fonserannes (Béziers), the Agde round lock and the Hérault crossing to the Étang de Thau at Les Onglous/Marseillan (PK 240.1)",
+  "navigable": "closed",
+  "class": "Petit gabarit (locks ~30–44 × 5.5–6 m)",
+  "lengthKm": 240,
+  "depth": {
+   "usualM": 1.4,
+   "maxDraftM": null,
+   "notes": "VNF mouillage 1.40 m on all sections; water-shortage closures are triggered when levels can no longer hold 1.40 m. A 1.2 m draught is OK in normal water; keep to the centre (silted banks)."
+  },
+  "airDraftM": 3.3,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, 8 km/h. Short river crossing of the Hérault between Bassin Rond (Agde) and Prades locks – check level."
+  },
+  "locks": {
+   "count": 63,
+   "chamber": "Béarnais–Ayguesvives 40.25–43.92 × 5.70–6.00 m; Sanglier–Fonserannes 29.70–34.35 × 5.50–6.08 m; Orb–Bagnas 40.60–42.50 × 5.85–6.08 m",
+   "hours": "High season 25.03–01.11.2026 daily 09:00–12:00, 13:00–19:00 (26.10–01.11: 08:00–11:00, 12:00–18:00); low season pleasure craft on demand weekdays 08:30–12:00, 13:00–16:30. Fonserannes by up/down phases (May–Sep 08:10–18:40). Agde to the sea at fixed times. Closed 1 Jan, 1 May, 11 Nov, 25 Dec",
+   "notes": "15 locks Toulouse–Océan (automated, boater-operated), 48 Méditerranée–Bagnas (mostly manned, oval multiple chambers: Saint-Roch ×4, Fonserannes ×7). Malpas tunnel: long horn blast and lights before entering, extinguisher on board. Last entry 15–25 min before closing at Castelnaudary, Carcassonne, Trèbes, Fonserannes."
+  },
+  "season": {
+   "best": "May–June, September",
+   "closures": "Winter chômage 05.01–01.03.2026 (2027 dates not yet published). Water-shortage stop on the whole canal from 06.11.2023 (to 01.03.2024), 03.11.2025 (to Mar 2026) and now 09.11.2026–03.01.2027 (FR/2026/08762; reserves 7.3% on 10.11.2026)."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Jan–Feb = standard chômage (official 2026). Nov–Dec closed in 3 of the last 4 winters for lack of water (2023, 2025, 2026) – a judgement, the rule is low-season on-demand service. Early March reopening has slipped to mid-March (2023). Summer stays open; boats grouped from 27.06.2025."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF DT Sud-Ouest – ST Toulouse Haute-Garonne (PK 0–50.6, 05 62 15 11 95) and ST Midi, Béziers (PK 50.6–240.1, 04 67 11 81 30)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-sud-ouest/"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/ (avis à la batellerie, DT Sud-Ouest) and https://www.vnf.fr/vnf/services/situation-du-reseau/ (weekly situation du réseau PDF); water reserves: https://www.vnf.fr/vnf/services/situation-de-la-gestion-hydraulique-du-canal-du-midi/",
+  "notes": "Bridges are arches: axis 3.30 m (Sanglier road bridge, the tightest) but only 2.00 m over a 5.50 m width Sanglier–Fonserannes; Carcassonne Marengo rail bridge 3.30 m axis, 2.36–3.00 m at sides. A 3 m air draught passes only with a narrow, central high point. No mooring to plane trees (canker). VNF no. 0 800 863 000. VNF vignette (péage plaisance) needed; permis plaisance eaux intérieures or recognised licence/ICC for engines >4.5 kW.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2026/03/AvisBat_1_Sud-ouest_2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2026/01/AvisBat_1_2026_Sud-ouest_Annexes.pdf",
+   "https://www.vnf.fr/vnf/services/avis-a-la-batellerie-n1-des-voies-du-sud-ouest/",
+   "https://www.vnf.fr/vnf/services/situation-de-la-gestion-hydraulique-du-canal-du-midi/",
+   "https://www.vnf.fr/vnf/app/uploads/2026/11/20261110_Indicateurs_GH_VNF-CdM_12.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2026/09/20260922_Indicateurs_GH_VNF-CdM_9.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-05-09-2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-03-01.pdf",
+   "https://www.mediaterranee.com/1832026-canal-du-midi-navigation-suspendue-depuis-le-9-novembre-faute-deau.html",
+   "https://www.connexionfrance.com/news/canal-du-midi-closed-to-boats-until-march-due-to-low-water-levels/754815",
+   "https://www.linfodurable.fr/environnement/navigation-restreinte-sur-le-canal-du-midi-en-raison-de-la-secheresse-53385",
+   "https://imray.com/news/through-france-to-the-mediterranean/",
+   "https://www.vnf.fr/vnf/services/avisbat/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   1.38,
+   43.18,
+   3.58,
+   43.66
+  ]
  }
 ]

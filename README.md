@@ -41,6 +41,19 @@ navigable route over rivers, canals and lakes, with distance, ETA, locks and ves
 
 The full plan and roadmap are in [docs/PLAN.md](docs/PLAN.md).
 
+## Using it with ChatGPT or Claude
+
+Assistants read [llms.txt](app/public/llms.txt): it explains the link parameters (places, waypoints, boat
+dimensions, `date=` for the departure, `coastal=1`) and the site tools that browsers with WebMCP expose. Ask,
+for example: *"Plan a trip from Wrocław to Monaco with https://abecadel.github.io/interway/ (read its llms.txt
+first): 9 m motor cruiser, draft 1.2 m, air draft 3 m, leaving 1 May 2027. Give me the route link, daily stages,
+locks, and the waterways closed or risky in the months I reach them."* Without a browser the assistant writes the
+link and you paste back the brief from "Copy brief for AI".
+
+Researched waterway sheets (navigability, depth, bridges, locks and hours, typical conditions by month, tides,
+closures and the authority, with sources and the date checked) are in
+[app/src/data/waterways.json](app/src/data/waterways.json) and shown for the waterways on a route.
+
 ## Running
 
 ```bash
