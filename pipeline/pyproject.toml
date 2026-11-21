@@ -13,6 +13,7 @@ interway-build = "interway_pipeline.cli:main"
 interway-filter = "interway_pipeline.prefilter:main"
 interway-candidates = "interway_pipeline.candidates:main"
 interway-merge = "interway_pipeline.merge:main"
+interway-fishing-pois = "interway_pipeline.fishing:main"
 
 [tool.setuptools]
 packages = ["interway_pipeline"]

@@ -5,7 +5,14 @@
 //   GET  /api/waterway?id=     a researched waterway sheet
 //   POST /mcp                  MCP (streamable HTTP, JSON responses): tools plan_route, edit_route, find_place, get_waterway
 import { WATERWAYS } from '../routing/waterways';
-import { applyEdit, type Edit, type Engine, parseRequest, plan, requestFromLink, RequestError, type RouteRequest } from './engine';
+import { applyEdit, type Edit, type Engine, Lru, parseRequest, plan, requestFromLink, RequestError, type RouteRequest } from './engine';
+
+/** Limits on what one request may ask: longer queries and bodies are refused before any work. */
+export const MAX_QUERY_CHARS = 2000;
+export const MAX_BODY_BYTES = 32 * 1024;
+/** Answers to GET requests may be cached this long (s): the data changes at most daily, and a permalink records
+ *  the data version anyway. */
+export const CACHE_SECONDS = 3600;
 
 export interface Options {
   /** the website the permalinks open, e.g. https://abecadel.github.io/interway/ */
@@ -15,8 +22,14 @@ export interface Options {
 }
 
 const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'content-type, mcp-session-id, mcp-protocol-version' };
-const json = (v: unknown, status = 200) => new Response(JSON.stringify(v, null, 1), { status, headers: { ...CORS, 'content-type': 'application/json; charset=utf-8' } });
-const markdown = (s: string, status = 200) => new Response(s, { status, headers: { ...CORS, 'content-type': 'text/markdown; charset=utf-8' } });
+// successful GET answers are cacheable (by the Worker's cache and by clients); errors and MCP answers are not
+const cache = (status: number) => (status === 200 ? { 'cache-control': `public, max-age=${CACHE_SECONDS}` } : { 'cache-control': 'no-store' });
+const json = (v: unknown, status = 200, cacheable = true) => new Response(JSON.stringify(v, null, 1),
+  { status, headers: { ...CORS, ...(cacheable ? cache(status) : { 'cache-control': 'no-store' }), 'content-type': 'application/json; charset=utf-8' } });
+const markdown = (s: string, status = 200) => new Response(s, { status, headers: { ...CORS, ...cache(status), 'content-type': 'text/markdown; charset=utf-8' } });
+
+// the same route asked again (an assistant retrying, the same trip from several chats) is answered from memory
+const routeCache = new WeakMap<Engine, Lru<Promise<string>>>();
 
 export function help(o: Options): string {
   return `# Interway route service
@@ -49,8 +62,15 @@ Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0), bathym
 }
 
 async function routeText(engine: Engine, r: RouteRequest, o: Options): Promise<string> {
-  const p = await plan(engine, r, o);
-  return `${p.markdown}\nPermalink (open on the website): ${p.permalink}\n\nService link (change it to edit the route): ${p.serviceLink}\n`;
+  const key = `${o.service} ${JSON.stringify(r)}`;
+  let lru = routeCache.get(engine);
+  if (!lru) routeCache.set(engine, (lru = new Lru(500)));
+  const hit = lru.get(key);
+  if (hit) return hit;
+  const text = plan(engine, r, o).then((p) => `${p.markdown}\nPermalink (open on the website): ${p.permalink}\n\nService link (change it to edit the route): ${p.serviceLink}\n`);
+  lru.set(key, text);
+  text.catch(() => lru.delete(key)); // a failure is not remembered: the next ask tries again
+  return text;
 }
 
 const vesselSchema = {
@@ -170,10 +190,18 @@ async function rpc(engine: Engine, o: Options, m: RpcRequest): Promise<unknown> 
 
 async function mcp(engine: Engine, o: Options, req: Request): Promise<Response> {
   let body: RpcRequest | RpcRequest[];
+  const raw = await req.text();
+  if (new TextEncoder().encode(raw).length > MAX_BODY_BYTES) {
+    return json({ jsonrpc: '2.0', id: null, error: { code: -32600, message: `Request larger than ${MAX_BODY_BYTES} bytes` } }, 413, false);
+  }
   try {
-    body = (await req.json()) as RpcRequest | RpcRequest[];
+    body = JSON.parse(raw) as RpcRequest | RpcRequest[];
   } catch {
-    return json({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } }, 400);
+    return json({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Parse error' } }, 400, false);
+  }
+  // MCP 2025-06-18 has no JSON-RPC batches: one POST, one message (and one route at most)
+  if (Array.isArray(body) || !body || typeof body !== 'object') {
+    return json({ jsonrpc: '2.0', id: null, error: { code: -32600, message: 'Send one JSON-RPC message per request (no batches)' } }, 400, false);
   }
   const one = async (m: RpcRequest) => {
     try {
@@ -182,15 +210,14 @@ async function mcp(engine: Engine, o: Options, req: Request): Promise<Response> 
       return { jsonrpc: '2.0', id: m.id, error: { code: (e as { code?: number }).code ?? -32603, message: (e as Error).message } };
     }
   };
-  const list = Array.isArray(body) ? body : [body];
-  // notifications (no id) get no answer
-  const answers = await Promise.all(list.filter((m) => m.id !== undefined).map(one));
-  if (!answers.length) return new Response(null, { status: 202, headers: CORS });
-  return json(Array.isArray(body) ? answers : answers[0]);
+  // a notification (no id) gets no answer
+  if (body.id === undefined) return new Response(null, { status: 202, headers: CORS });
+  return json(await one(body), 200, false);
 }
 
 export async function handle(engine: Engine, req: Request, options: Options): Promise<Response> {
   const url = new URL(req.url);
+  if (url.search.length > MAX_QUERY_CHARS) return markdown(`Query longer than ${MAX_QUERY_CHARS} characters`, 414);
   // without a configured address, links point back to wherever the request came in
   const o = options.service ? options : { ...options, service: url.origin };
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...CORS, 'access-control-allow-methods': 'GET, POST, OPTIONS' } });

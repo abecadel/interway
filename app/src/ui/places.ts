@@ -41,3 +41,6 @@ export function toggleSaved(list: Place[], p: Place): Place[] {
 /** A link that opens this place's card (the harbour, lock or town there), from which directions start. */
 export const shareLink = (p: LngLat, loc: Location = location) =>
   `${loc.origin}${loc.pathname}?place=${p[0].toFixed(5)},${p[1].toFixed(5)}`;
+
+/** A spot shared "approximately": rounded to 0.01° (about 1 km), so a good fishing place is not given away exactly. */
+export const approximate = ([lon, lat]: LngLat): LngLat => [Math.round(lon * 100) / 100, Math.round(lat * 100) / 100];

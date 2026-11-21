@@ -848,6 +848,39 @@ describe('App', () => {
     expect(screen.queryByText(/planned on earlier data/)).toBeNull();
   });
 
+  it('shows the fishing rules of the country a place is in', async () => {
+    history.replaceState(null, '', '/?place=15.98,45.81');
+    render(<App client={fakeClient({
+      load: vi.fn(async () => ({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '' }, nodes: 1, edges: 1,
+        pois: [{ type: 'place' as const, name: 'Zagreb', lat: 45.81, lon: 15.98, cc: 'HR' }] })),
+    })} />);
+    await flush();
+    fireEvent.click(screen.getByText('Fishing here'));
+    expect(screen.getByText('Fishing rules: Croatia')).toBeTruthy();
+  });
+
+  it('logs catches from a place, lists them, opens one and deletes it', async () => {
+    localStorage.removeItem('interway.catches');
+    history.replaceState(null, '', '/?place=21.0005,52.0005');
+    render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Fishing here'));
+    fireEvent.click(screen.getByText('Log a catch here'));
+    fireEvent.change(screen.getByLabelText('Species'), { target: { value: 'Pike' } });
+    fireEvent.click(screen.getByText('Save to my catches'));
+    expect(JSON.parse(localStorage.getItem('interway.catches')!)[0]).toMatchObject({ species: 'Pike', place: 'Śluza', position: [21, 52] });
+    fireEvent.click(screen.getByLabelText('Close place'));
+    fireEvent.click(screen.getByText('My catches (1)'));
+    fireEvent.click(screen.getByText('Pike'));
+    expect(screen.getByText('My catch', { exact: false })).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Close place'));
+    fireEvent.click(screen.getByText('My catches (1)'));
+    fireEvent.click(screen.getByLabelText('Delete Pike'));
+    expect(screen.getByText(/No catches yet/)).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Close catches'));
+    expect(screen.getByText('My catches (0)')).toBeTruthy();
+  });
+
   it('opens links to a place and to a waterway sheet', async () => {
     history.replaceState(null, '', '/?place=21.0005,52.0005');
     const one = render(<App client={fakeClient()} />);

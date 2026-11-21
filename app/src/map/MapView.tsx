@@ -188,7 +188,8 @@ export function MapView({
           'circle-radius': 5,
           'circle-color': ['match', ['get', 'type'],
             'lock', '#fc0', 'bridge', '#8a5a00', 'marina', '#1a73e8', 'port', '#0b3d91', 'fuel', '#d0336b',
-            'slipway', '#2a7', 'water', '#29b6f6', 'sanitary', '#7e57c2', '#888'],
+            'slipway', '#2a7', 'water', '#29b6f6', 'sanitary', '#7e57c2',
+            'fishing', '#00897b', 'tackle', '#6d4c41', 'wreck', '#37474f', 'obstruction', '#e65100', 'fishfarm', '#9e9d24', '#888'],
           'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5,
         },
       });

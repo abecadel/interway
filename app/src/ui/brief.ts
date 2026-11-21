@@ -7,6 +7,7 @@ import { fmtDuration, POI_LABEL, poiDetail } from './format';
 import { portFacts } from './portFacts';
 import { noticesFor } from './notices';
 import { type CountryRules, routeCountries, ruleFacts, rulesFor } from '../routing/rules';
+import { closedOn, FISHING, type FishingRules, type FishingWaters, rangeText, type Season, tripDays } from '../routing/fishing';
 import { legPoints, monthsText, rulesText, seasonWarnings, tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
 
 export interface BriefStop {
@@ -77,6 +78,8 @@ export interface RouteBrief {
   rules: CountryRules[];
   /** the data version the route was computed on (a permalink records it) */
   data: string | null;
+  /** fishing rules of the countries on the route, and the seasons closed during the trip (or today) */
+  fishing: { cc: string; name: string; rules: FishingRules; closed: { species: string; waters: string; ranges: string } []; days: [string, string] }[];
   /** what to arrange before going: licences, permits and tolls, taxes, entry, data to complete */
   checklist: string[];
   /** the tightest mapped limit of each kind along the route and whether the boat fits */
@@ -84,10 +87,12 @@ export interface RouteBrief {
   /** the countries in route order, from where the route first passes one of their towns */
   countries: { cc: string; name: string; fromKm: number }[];
   /** fuel, water and overnight harbours along the route: how many and the longest stretch without one */
-  services: { fuel: ServiceGap; water: ServiceGap; harbour: ServiceGap };
+  services: { fuel: ServiceGap; water: ServiceGap; harbour: ServiceGap; tackle: ServiceGap };
 }
 
 const km = (m: number) => Math.round(m / 100) / 10;
+/** fish farms and obstructions this close to the route line are hazards */
+const HAZARD_NEAR_M = 300;
 const nm = (m: number) => Math.round(m / 185.2) / 10;
 const LAYOVER: PoiType[] = ['marina', 'port'];
 
@@ -182,12 +187,14 @@ function nameEnds(title: string, route: Route, stops: Stop[]): string {
   return ends.map((e, i) => (/°[NS] /.test(e) && town(i ? route.distance : 0)) || e).join(' → ');
 }
 
-export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered, data = null }: {
+export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered, data = null, today = new Date().toISOString().slice(0, 10) }: {
   route: Route; itinerary: Itinerary; profile: VesselProfile; title: string; link: string; hoursPerDay?: number;
   /** vessel fields the user (or agent) gave, even where equal to the default */
   entered?: ReadonlySet<string>;
   /** the data version the route was computed on */
   data?: string | null;
+  /** YYYY-MM-DD: closed fishing seasons are checked for today when no departure date is set */
+  today?: string;
 }): RouteBrief {
   let at = 0;
   const legs = route.legs.map((l) => {
@@ -241,6 +248,10 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
       + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
   }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
+  // fish farms and charted obstructions close to the line: keep clear (nets, moorings, wrecks near the surface)
+  for (const s of itinerary.stops.filter((x) => (x.poi.type === 'fishfarm' || x.poi.type === 'obstruction') && x.offset <= HAZARD_NEAR_M)) {
+    hazards.push(`km ${km(s.at)}: ${POI_LABEL[s.poi.type].toLowerCase()}${s.poi.name ? ` ${s.poi.name}` : ''} ${Math.round(s.offset)} m from the route line: keep clear.`);
+  }
   const countries = routeCountries(itinerary.stops);
   const notices = noticesFor(countries);
   hazards.push(notices.length
@@ -293,10 +304,20 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     waterways,
     rules: countryRules,
     data,
+    fishing: countries.flatMap((cc) => {
+      const f = FISHING[cc];
+      if (!f) return []; // every fishing country has boating rules too, for its name (a test checks)
+      const first = profile.departure || today, last = profile.departure ? (dateAfter(profile.departure, Math.max(days - 1, 0) * hoursPerDay * 3600) ?? first) : first; // the last stage's day
+      const waters = [...(inland ? ['inland' as const] : []), ...(atSea ? ['sea' as const] : [])];
+      const closed = new Map<Season, true>();
+      for (const d of tripDays(first, last)) for (const s of closedOn(f, d, waters)) closed.set(s, true);
+      return [{ cc, name: countryRules.find((r) => r.cc === cc)!.name, rules: f, days: [first, last] as [string, string],
+        closed: [...closed.keys()].map((s) => ({ species: s.species, waters: s.waters, ranges: s.closed.map(rangeText).join(', ') })) }];
+    }),
     checklist,
     limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
-    services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER) },
+    services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER), tackle: gap(['tackle']) },
   };
 }
 
@@ -321,6 +342,24 @@ function tightest(route: Route, profile: VesselProfile): RouteBrief['limits'] {
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');
+
+function fishingMarkdown(fs: RouteBrief['fishing'], where: { inland: boolean; sea: boolean }): string[] {
+  if (!fs.length) return [];
+  const w = (label: string, x: FishingWaters | null) => (x ? [
+    ...(x.licence ? [`- ${label} licence: ${x.licence}`] : []), ...(x.permit ? [`- ${label} permit: ${x.permit}`] : []),
+    ...(x.visitors ? [`- ${label}, visitors: ${x.visitors}`] : []), ...(x.reporting ? [`- ${label}, catch reporting: ${x.reporting}`] : []),
+  ] : []);
+  return ['## Fishing rules by country', 'If you fish on the way: licences, permits and the seasons closed on the trip\'s days.', ...fs.flatMap((f) => [
+    '',
+    `### ${f.name}`,
+    ...(where.inland ? w('Inland', f.rules.inland) : []),
+    ...(where.sea ? w('At sea', f.rules.sea) : []),
+    f.closed.length ? `- Closed ${f.days[0] === f.days[1] ? `on ${f.days[0]}` : `during ${f.days[0]} – ${f.days[1]}`}: ${f.closed.map((c) => `${c.species} (${c.ranges})`).join('; ')}`
+      : `- No closed season of the listed species ${f.days[0] === f.days[1] ? `on ${f.days[0]}` : `during ${f.days[0]} – ${f.days[1]}`}`,
+    ...(f.rules.buy ? [`- Buy online: ${f.rules.buy}`] : []),
+    `- Sources (checked ${f.rules.checked}): ${f.rules.sources.join(', ')}`,
+  ]), ''];
+}
 
 function rulesMarkdown(rs: CountryRules[], where: { inland: boolean; sea: boolean }): string[] {
   if (!rs.length) return [];
@@ -364,7 +403,8 @@ const LIMIT_TEXT = { draft: 'Draft', airDraft: 'Air draft (headroom)', beam: 'Be
 
 function serviceLines(sv: RouteBrief['services']): string[] {
   const line = (what: string, g: ServiceGap) => `- ${what}: ${g.count} on the route; longest stretch without: ${g.longestKm} km (km ${g.fromKm}–${g.toKm})`;
-  return [line('Fuel', sv.fuel), line('Water', sv.water), line('Marinas and ports', sv.harbour)];
+  return [line('Fuel', sv.fuel), line('Water', sv.water), line('Marinas and ports', sv.harbour),
+    ...(sv.tackle.count ? [line('Tackle shops', sv.tackle)] : [])];
 }
 
 export function briefMarkdown(b: RouteBrief): string {
@@ -402,6 +442,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '',
     ...waterwaysMarkdown(b.waterways, b.link.split('?')[0]),
     ...rulesMarkdown(b.rules, { inland: b.totals.km - b.totals.seaNm * 1.852 > 1, sea: b.totals.seaNm > 0 }),
+    ...fishingMarkdown(b.fishing, { inland: b.totals.km - b.totals.seaNm * 1.852 > 1, sea: b.totals.seaNm > 0 }),
     '## Legs',
     '| km | waterway | length |',
     '|---|---|---|',

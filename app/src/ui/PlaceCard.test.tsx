@@ -45,6 +45,9 @@ describe('PlaceCard', () => {
     const { unmount } = render(<PlaceCard place={place} saved={false} {...handlers()} />);
     fireEvent.click(screen.getByText('Share'));
     expect(share).toHaveBeenCalledWith({ title: 'Śluza', url: expect.stringContaining('?place=21.00000,52.00000') });
+    // approximately: rounded to about 1 km, without the name
+    fireEvent.click(screen.getByText('Share approx.'));
+    expect(share).toHaveBeenLastCalledWith({ title: 'A place (approximate)', url: expect.stringContaining('?place=21.00000,52.00000') });
     unmount();
     Object.defineProperty(navigator, 'share', { value: () => Promise.reject(new Error('cancelled')), configurable: true });
     const r = render(<PlaceCard place={place} saved={false} {...handlers()} />);
@@ -56,9 +59,15 @@ describe('PlaceCard', () => {
     render(<PlaceCard place={place} saved={false} {...handlers()} />);
     await act(async () => { fireEvent.click(screen.getByText('Share')); });
     expect(screen.getByText('Link copied')).toBeTruthy();
+    expect(screen.getByText('Share approx.')).toBeTruthy(); // only the one used says copied
     act(() => { vi.advanceTimersByTime(2100); });
     expect(screen.getByText('Share')).toBeTruthy();
     await act(async () => { fireEvent.click(screen.getByText('Share')); });
     expect(screen.getByText('Share')).toBeTruthy();
+    writeText.mockResolvedValueOnce(undefined);
+    await act(async () => { fireEvent.click(screen.getByText('Share approx.')); });
+    expect(writeText).toHaveBeenLastCalledWith(expect.stringContaining('?place=21.00000,52.00000'));
+    expect(screen.getAllByText('Link copied')).toHaveLength(1);
+    act(() => { vi.advanceTimersByTime(2100); });
   });
 });

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { addRecent, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, shareLink, toggleSaved } from './places';
+import { addRecent, approximate, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, shareLink, toggleSaved } from './places';
 
 const a = { label: 'A', position: [1, 2] as [number, number] };
 const b = { label: 'B', position: [3, 4] as [number, number] };
@@ -40,5 +40,11 @@ describe('recent and saved places', () => {
   it('links to a place, opening its card', () => {
     expect(shareLink([13.5, 52.25], { origin: 'https://x', pathname: '/interway/' } as Location)).toBe('https://x/interway/?place=13.50000,52.25000');
     expect(shareLink([1, 2])).toContain('?place=1.00000,2.00000');
+  });
+});
+
+describe('approximate places', () => {
+  it('round to 0.01°, about 1 km', () => {
+    expect(approximate([21.76441, 54.03811])).toEqual([21.76, 54.04]);
   });
 });

@@ -60,6 +60,30 @@ describe('route service over HTTP', () => {
     expect(md).toContain('Service link (change it to edit the route): https://iw.example.dev/api/route?from=Startowo&to=Metowo');
   });
 
+  it('refuses oversized requests, caches answers and marks what may be cached', async () => {
+    const { MAX_QUERY_CHARS, MAX_BODY_BYTES, CACHE_SECONDS } = await import('./handler');
+    expect((await get(`/api/route?from=${'a'.repeat(MAX_QUERY_CHARS)}&to=b`)).status).toBe(414);
+    const big = await rpc({ jsonrpc: '2.0', id: 1, method: 'ping', params: { pad: 'x'.repeat(MAX_BODY_BYTES) } });
+    expect([big.status, big.body.error.code]).toEqual([413, -32600]);
+    const batch = await rpc([{ jsonrpc: '2.0', id: 1, method: 'ping' }]);
+    expect([batch.status, batch.body.error.message]).toEqual([400, 'Send one JSON-RPC message per request (no batches)']);
+    expect((await rpc('null')).status).toBe(400);
+    const ok = await get('/api/route?from=Startowo&to=Metowo');
+    expect(ok.headers.get('cache-control')).toBe(`public, max-age=${CACHE_SECONDS}`);
+    expect((await get('/api/route?from=Startowo')).headers.get('cache-control')).toBe('no-store');
+    const m = await handle(e, new Request('https://svc/mcp', { method: 'POST', body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'ping' }) }), o);
+    expect(m.headers.get('cache-control')).toBe('no-store');
+    // the same route again comes from memory; a failed one is tried again
+    const spy = vi.spyOn(e.router, 'routeVia');
+    await get('/api/route?from=Startowo&to=Metowo&speed=7');
+    await get('/api/route?from=Startowo&to=Metowo&speed=7');
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockImplementationOnce(() => { throw new Error('No navigable route found'); });
+    expect((await get('/api/route?from=Startowo&to=Metowo&speed=6')).status).toBe(400);
+    expect((await get('/api/route?from=Startowo&to=Metowo&speed=6')).status).toBe(200);
+    spy.mockRestore();
+  });
+
   it('answers CORS preflight', async () => {
     const r = await handle(e, new Request('https://svc/api/route', { method: 'OPTIONS' }), o);
     expect(r.status).toBe(204);
@@ -75,8 +99,6 @@ describe('route service over MCP', () => {
     expect((await rpc({ jsonrpc: '2.0', method: 'notifications/initialized' })).status).toBe(202);
     expect((await rpc({ jsonrpc: '2.0', id: 3, method: 'tools/list' })).body.result.tools.map((t: { name: string }) => t.name)).toEqual(TOOLS.map((t) => t.name));
     expect((await rpc({ jsonrpc: '2.0', id: 4, method: 'ping' })).body.result).toEqual({});
-    const batch = (await rpc([{ jsonrpc: '2.0', id: 5, method: 'ping' }, { jsonrpc: '2.0', method: 'notifications/x' }])).body;
-    expect(batch).toEqual([{ jsonrpc: '2.0', id: 5, result: {} }]);
   });
 
   it('refuses what it cannot do', async () => {

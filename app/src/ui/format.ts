@@ -50,6 +50,11 @@ export const POI_LABEL: Record<PoiType, string> = {
   water: 'Water',
   sanitary: 'Pump-out',
   place: 'Town',
+  fishing: 'Fishing spot',
+  tackle: 'Tackle shop',
+  wreck: 'Wreck',
+  obstruction: 'Obstruction',
+  fishfarm: 'Fish farm',
 };
 
 export const POI_PLURAL: Record<PoiType, string> = {
@@ -62,6 +67,11 @@ export const POI_PLURAL: Record<PoiType, string> = {
   water: 'water points',
   sanitary: 'pump-outs',
   place: 'towns',
+  fishing: 'fishing spots',
+  tackle: 'tackle shops',
+  wreck: 'wrecks',
+  obstruction: 'obstructions',
+  fishfarm: 'fish farms',
 };
 
 /** "1 lock", "3 locks" */

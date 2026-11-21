@@ -2,7 +2,7 @@
 import { readFile } from 'node:fs/promises';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { join } from 'node:path';
-import { type Engine, loadEngine, type ReadFile } from './engine';
+import { cachedGeocoder, type Engine, loadEngine, type ReadFile } from './engine';
 import { handle, type Options } from './handler';
 import { searchPlaces } from '../ui/search';
 
@@ -44,8 +44,10 @@ export function serve(engine: Engine, o: Options): Server {
         res.writeHead(r.status, Object.fromEntries(r.headers));
         res.end(Buffer.from(await r.arrayBuffer()));
       } catch (e) {
+        // the reason goes to the log, not to the caller
+        console.error('request failed:', (e as Error).message);
         res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' });
-        res.end(`Internal error: ${(e as Error).message}`);
+        res.end('Internal error: try again later');
       }
     })();
   });
@@ -59,7 +61,7 @@ export function settings(env: Record<string, string | undefined>): { port: numbe
 }
 
 export async function main(env: Record<string, string | undefined> = process.env): Promise<Server> {
-  const engine = await loadEngine(dataReader(env), env.GEOCODE === '0' ? undefined : searchPlaces);
+  const engine = await loadEngine(dataReader(env), env.GEOCODE === '0' ? undefined : cachedGeocoder(searchPlaces));
   const { port, options: o } = settings(env);
   const server = serve(engine, o);
   await new Promise<void>((resolve) => server.listen(port, resolve));

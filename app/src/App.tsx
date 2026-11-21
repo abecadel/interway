@@ -11,6 +11,12 @@ import { parseUrlState, permalink, writeUrlState } from './ui/urlState';
 import { makeSnapshot, readSnapshot, snapshotName } from './ui/snapshot';
 import { WATERWAYS, type WaterwayInfo } from './routing/waterways';
 import { WaterwaysView } from './ui/WaterwaysView';
+import { FishingPanel } from './ui/FishingPanel';
+import { CatchList } from './ui/CatchList';
+import { addCatch, loadCatches, removeCatch } from './ui/catches';
+import { FishingRulesView } from './ui/FishingRulesView';
+import { countryAt, FISHING } from './routing/fishing';
+import { COUNTRY_RULES } from './routing/rules';
 import { briefMarkdown, buildBrief } from './ui/brief';
 import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
 import { type Place, searchPlaces } from './ui/search';
@@ -138,6 +144,9 @@ export default function App({ client }: { client: RoutingApi }) {
   const [center, setCenter] = useState<LngLat>(() => loadView().center);
   const [recent, setRecent] = useState(() => loadPlaces(RECENT_KEY));
   const [saved, setSaved] = useState(() => loadPlaces(SAVED_KEY));
+  // the private catch log (this browser only) and whether its list is open
+  const [catches, setCatches] = useState(() => loadCatches());
+  const [catchesOpen, setCatchesOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   // phones: the sheet stops below the search box or directions card, whatever their height
   const appRef = useRef<HTMLDivElement>(null);
@@ -526,7 +535,18 @@ export default function App({ client }: { client: RoutingApi }) {
     </div>
   );
 
-  const body = waterwaySheet ? (
+  // the fishing rules of the country a place is in (from the nearest town), for today
+  const fishingHere = (pos: LngLat) => {
+    const cc = countryAt(pos, pois);
+    const rules = cc ? FISHING[cc] : undefined;
+    return rules && <FishingRulesView rules={rules} country={COUNTRY_RULES.find((r) => r.cc === cc)!.name} day={new Date().toISOString().slice(0, 10)} />;
+  };
+  const body = catchesOpen ? (
+    <CatchList
+      catches={catches} onRemove={(id) => setCatches(removeCatch(catches, id))} onClose={() => setCatchesOpen(false)} download={download}
+      onOpen={(c) => { setCatchesOpen(false); openPlace({ label: c.species, position: c.position, kind: 'My catch', detail: new Date(c.time).toLocaleString() }); setFocus(c.position); }}
+    />
+  ) : waterwaySheet ? (
     <section className="place-card" aria-label={waterwaySheet.name}>
       <div className="waterway-head">
         <strong>{waterwaySheet.name}</strong>
@@ -539,7 +559,12 @@ export default function App({ client }: { client: RoutingApi }) {
       place={place} saved={isSaved(saved, place)} onClose={() => setPlace(null)}
       onDirections={() => directionsTo(place)} onFrom={() => startHere(place)}
       onToggleSave={() => setSaved(toggleSaved(saved, { label: place.label, position: place.position }))}
-    />
+    >
+      <details className="more">
+        <summary>Fishing here</summary>
+        <FishingPanel position={place.position} label={place.label} onLog={(c) => setCatches(addCatch(catches, c))} rules={fishingHere(place.position)} />
+      </details>
+    </PlaceCard>
   ) : category ? (
     <CategoryList pois={pois} type={category} center={near ?? center} onSelect={openPoi} onClose={() => setCategory(null)} />
   ) : directions ? (
@@ -625,6 +650,7 @@ export default function App({ client }: { client: RoutingApi }) {
       <p className="tagline">Inland waterway &amp; coastal route planner</p>
       <p className="small muted">Search a place, pick a category, or long-press the map (right-click on a computer) to drop a pin.</p>
       <p className="small">{snapshotInput}</p>
+      <p className="small"><button type="button" onClick={() => setCatchesOpen(true)}>My catches ({catches.length})</button></p>
       {snapshotError && <div className="error small">{snapshotError}</div>}
       {track}
     </section>
