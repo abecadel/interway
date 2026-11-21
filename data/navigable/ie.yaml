@@ -26,6 +26,14 @@ waterways:
   - Lower Bann
   - Corrib
   - Eglinton Canal
+  # Rivers navigable in part (reach boxes), checked against the candidate report (interway-candidates):
+  # Suir: Waterford Harbour to Carrick-on-Suir (https://www.portofwaterford.com/local-amenities/marinas/)
+  - {name: Suir, bbox: [-7.42, 52.23, -6.95, 52.36]}
+  # Munster Blackwater: Youghal to Cappoquin (https://www.discoverireland.ie/cork/blackwater-cruises)
+  - {name: Blackwater, bbox: [-7.875, 51.94, -7.80, 52.15]}
+  # Camlin: Lough Forbes – Richmond Harbour (Royal Canal) – Clondra lock – Shannon
+  # (https://www.waterwaysireland.org/our-waterways/shannon-navigation/boater-info)
+  - {name: Camlin, bbox: [-7.93, 53.72, -7.872, 53.765]}
 lakes:
   - Lough Ree
   - Lough Derg

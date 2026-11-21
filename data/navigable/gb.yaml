@@ -110,6 +110,26 @@ waterways:
   - Forth and Clyde Canal
   - Forth and Clyde Canal (Glasgow Spur)
   - Union Canal
+  # Rivers navigable in part (reach boxes), checked against the candidate report (interway-candidates):
+  # River Avon (Bristol): Netham – Hanham – Bath, the river link to the Kennet & Avon; stops below Pulteney Weir
+  # (https://canalrivertrust.org.uk/refresh/media/boatersguides/18_Kennet_Avon_Canal.pdf)
+  - {name: River Avon, bbox: [-2.73, 51.37, -2.37, 51.52]}
+  - {name: River Avon, bbox: [-2.37, 51.37, -2.35, 51.381]}
+  # River Derwent (Yorkshire): Barmby Barrage to Sutton lock, with the Pocklington Canal junction
+  # (https://waterways.org.uk/waterways/discover-the-waterways/river-derwent-yorkshire)
+  - {name: River Derwent, bbox: [-0.99, 53.74, -0.90, 53.92]}
+  # River Welland: Peakirk – Spalding – Fosdyke (https://www.gov.uk/guidance/rivers-welland-and-glen-locks-and-facilities)
+  - {name: River Welland, bbox: [-0.26, 52.64, 0.12, 52.95]}
+  # River Tees: Tees Barrage up to Low Worsall (https://canalrivertrust.org.uk/canals-and-rivers/river-tees)
+  - {name: River Tees, bbox: [-1.40, 54.48, -1.15, 54.65]}
+  # River Rother (East Sussex): Rye – Scots Float lock – Bodiam Bridge (https://www.gov.uk/government/publications/rye-harbour-and-river-rother-map)
+  - {name: River Rother, bbox: [0.541, 50.92, 0.79, 51.03]}
+  # River Frome (Dorset): Poole Harbour to Wareham Quay (https://en.wikipedia.org/wiki/River_Frome,_Dorset)
+  - {name: River Frome, bbox: [-2.1096, 50.67, -2.03, 50.70]}
+  # Kentish Stour: Pegwell Bay – Sandwich – Fordwich; "Great Stour" above Plucks Gutter
+  # (https://waterways.org.uk/waterways/discover-the-waterways/kentish-stour)
+  - {name: River Stour, bbox: [1.24, 51.26, 1.40, 51.34]}
+  - {name: Great Stour, bbox: [1.125, 51.28, 1.26, 51.34]}
 lakes:
   - Loch Ness
   - Loch Oich
@@ -123,3 +143,7 @@ lakes:
   - Oulton Broad
   - Breydon Water
 exclude: []
+# River Don reaches of the Sheffield & South Yorkshire Navigation, Rotherham to Doncaster (boat=yes only; listing
+# "River Don" would also take the weir loops beside them)
+# (https://canalrivertrust.org.uk/canals-and-rivers/sheffield-and-south-yorkshire-navigations)
+ways: [115481612, 115490801, 115490800, 115490796, 115490798]

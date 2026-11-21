@@ -188,3 +188,10 @@ def test_bounded_names_count_only_inside_their_boxes(tmp_path):
     assert not is_navigable_way(river, al, lambda: [(0.5, 48.5), (0.6, 48.6)])  # upstream of the reach
     assert is_navigable_way({"waterway": "river", "name": "Seine"}, al, [(9, 9)])  # plain names anywhere
     assert not is_navigable_way({"waterway": "river", "name": "Loir"}, al, [(0.0, 47.5)])
+
+
+def test_a_name_does_not_outweigh_a_ban_on_motorboats(allow):
+    assert not is_navigable_way({"waterway": "river", "name": "Narew", "motorboat": "no"}, allow)
+    assert not is_navigable_way({"waterway": "river", "name": "Narew", "boat": "yes", "motorboat": "no"}, allow)
+    # real evidence still counts
+    assert is_navigable_way({"waterway": "canal", "name": "Narew", "motorboat": "no", "CEMT": "II"}, allow)

@@ -65,9 +65,24 @@ waterways:
   - Canal Maritime
   - Canal de la Peyrade
   - Canal d'Alsace
+  # Rivers navigable in part (reach boxes), checked against the candidate report (interway-candidates):
+  # Sarthe: navigable from Le Mans (lock 1) to Angers; locks run by the Sarthe and Maine-et-Loire departments
+  # (https://www.sarthe.fr/sites/default/files/2021-07/avis_batellerie_2021_rivieredelouest.pdf)
+  - {name: La Sarthe, bbox: [-0.70, 47.45, 0.21, 48.02]}
+  # Dordogne: navigable in the Gironde department, Bec d'Ambès to above Libourne
+  # (https://www.gironde.fr/sites/default/files/2017-05/schema_dep_fluvial_juin16.pdf)
+  - {name: La Dordogne, bbox: [-0.62, 44.85, -0.22, 45.07]}
+  # Baïse: Buzet-sur-Baïse (double lock to the Canal de Garonne) to Valence-sur-Baïse (Lot-et-Garonne waterways map,
+  # https://www.lotetgaronne.fr/fileadmin/cru-1769607006/mediatheque/Lot-et-Garonne/01-Documents/Nos_services/Tourisme/Circulations_douces/Carte-Voies-Navigable-en47.pdf)
+  - {name: La Baïse, bbox: [0.25, 43.87, 0.45, 44.32]}
+  # Tarn at Moissac: the canal's "descente en Tarn" lock down to the Garonne, a 5 km pool; the Tarn above is boat=no
+  # (https://tourisme-tarnetgaronne.fr/en/offers/le-bassin-du-tarn-moissac-en-3227826)
+  - {name: Le Tarn, bbox: [1.03, 44.08, 1.09, 44.11]}
 lakes:
   - Étang de Thau
   - Lac de Der-Chantecoq
   - Lac du Bourget
   - Lac Léman
 exclude: []
+# the unnamed boat=yes ways either side of the descente-en-Tarn lock at Moissac
+ways: [48003840, 48007666]

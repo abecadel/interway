@@ -108,6 +108,8 @@ def is_navigable_way(tags, allow: Allowlist, coords=None) -> bool:
         return True
     if tags.get("wikidata") in allow.wikidata:
         return True
+    if motor in NO:  # a name alone does not outweigh a ban on motorboats (side arms of the Loire above Bouchemaine)
+        return False
     if allow.has_name(tags):
         return True
     boxes = allow.boxes(tags) if coords is not None else []
