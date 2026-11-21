@@ -143,7 +143,8 @@ export async function precache(scope: string, caches: CacheStorageLike, fetchFn:
     const res = await get(url, app);
     const pattern = nested[new URL(url).pathname.replace(/^.*(\.[^.]+)$/, '$1').replace('.mjs', '.js')];
     if (!res || !pattern) continue;
-    for (const next of links(await res.text(), pattern, url).filter((u) => !seen.has(u))) {
+    for (const next of links(await res.text(), pattern, url)) {
+      if (seen.has(next)) continue;
       seen.add(next);
       queue.push(next);
     }
