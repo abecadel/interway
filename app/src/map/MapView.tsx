@@ -7,6 +7,7 @@ import type { LngLat } from '../graph/geo';
 import type { Route } from '../routing/router';
 import type { Poi } from '../routing/service';
 import { poiDetail } from '../ui/format';
+import { addBadges, loadBadges, SORT, SORT_DEFAULT } from './sprites';
 import { loadView, saveView } from './view';
 
 // maplibre-gl v6 looks for its worker next to its own module, which the production bundle does not keep;
@@ -143,6 +144,14 @@ export function MapView({
         altRef.current!(Number(alt.properties.i));
         return;
       }
+      // a group of places: zoom in until it splits
+      const group = ready.current && !latest.current.picking ? map.queryRenderedFeatures(e.point, { layers: ['poi-clusters'] })[0] : undefined;
+      if (group) {
+        const center = (group.geometry as GeoJSON.Point).coordinates as LngLat;
+        (map.getSource('pois') as GeoJSONSource).getClusterExpansionZoom(Number(group.properties.cluster_id))
+          .then((zoom) => map.easeTo({ center, zoom }), () => {});
+        return;
+      }
       const hit = ready.current && !latest.current.picking ? map.queryRenderedFeatures(e.point, { layers: CLICKABLE })[0] : undefined;
       if (hit && featureRef.current) featureRef.current(featureOf(hit));
       else clickRef.current([e.lngLat.lng, e.lngLat.lat]);
@@ -165,7 +174,7 @@ export function MapView({
       viewRef.current?.([c.lng, c.lat]);
     });
     map.on('mousemove', (e: MapMouseEvent) => {
-      const over = ready.current && map.queryRenderedFeatures(e.point, { layers: CLICKABLE }).length > 0;
+      const over = ready.current && map.queryRenderedFeatures(e.point, { layers: [...CLICKABLE, 'poi-clusters'] }).length > 0;
       map.getCanvas().style.cursor = over ? 'pointer' : '';
     });
     // only gestures carry the browser event; easeTo calls from follow mode do not
@@ -184,22 +193,38 @@ export function MapView({
       });
       map.addSource('network', { type: 'geojson', data: empty });
       map.addLayer({ id: 'network', type: 'line', source: 'network', paint: { 'line-color': '#0a8', 'line-width': 1.5, 'line-opacity': 0.7 } });
-      map.addSource('pois', { type: 'geojson', data: empty });
+      map.addSource('pois', { type: 'geojson', data: empty, cluster: true, clusterMaxZoom: 11, clusterRadius: 40 });
+      addBadges(map);
+      const night = latest.current.night;
       map.addLayer({
-        id: 'pois', type: 'circle', source: 'pois', minzoom: 8,
+        id: 'poi-clusters', type: 'circle', source: 'pois', minzoom: 8, filter: ['has', 'point_count'],
         paint: {
-          'circle-radius': 5,
-          'circle-color': ['match', ['get', 'type'],
-            'lock', '#fc0', 'bridge', '#8a5a00', 'marina', '#1a73e8', 'port', '#0b3d91', 'fuel', '#d0336b',
-            'slipway', '#2a7', 'water', '#29b6f6', 'sanitary', '#7e57c2',
-            'fishing', '#00897b', 'tackle', '#6d4c41', 'wreck', '#37474f', 'obstruction', '#e65100', 'fishfarm', '#9e9d24', '#888'],
-          'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5,
+          'circle-color': night ? '#1f4e7a' : '#1d6fd8', 'circle-opacity': 0.85,
+          'circle-radius': ['step', ['get', 'point_count'], 12, 10, 16, 50, 20],
+          'circle-stroke-color': '#fff', 'circle-stroke-width': 2,
         },
       });
       map.addLayer({
-        id: 'poi-labels', type: 'symbol', source: 'pois', minzoom: 11,
-        layout: { 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.1], 'text-anchor': 'top' },
-        paint: { 'text-color': '#234', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
+        id: 'poi-cluster-count', type: 'symbol', source: 'pois', minzoom: 8, filter: ['has', 'point_count'],
+        layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-size': 12, 'text-allow-overlap': true },
+        paint: { 'text-color': '#fff' },
+      });
+      map.addLayer({
+        id: 'pois', type: 'symbol', source: 'pois', minzoom: 8, filter: ['!', ['has', 'point_count']],
+        layout: {
+          'icon-image': ['concat', 'poi-', ['get', 'type']],
+          // small marks while grouping ends, full badges from z12
+          'icon-size': ['interpolate', ['linear'], ['zoom'], 8, 0.6, 12, 1],
+          'icon-allow-overlap': true,
+          'symbol-sort-key': ['get', 'rank'],
+        },
+      });
+      map.addLayer({
+        id: 'poi-labels', type: 'symbol', source: 'pois', minzoom: 13, filter: ['!', ['has', 'point_count']],
+        layout: { 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.4], 'text-anchor': 'top', 'symbol-sort-key': ['get', 'rank'] },
+        paint: night
+          ? { 'text-color': '#cfe0ee', 'text-halo-color': '#0f151b', 'text-halo-width': 1.2 }
+          : { 'text-color': '#234', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
       });
       map.addSource('alts', { type: 'geojson', data: empty });
       map.addLayer({
@@ -231,8 +256,8 @@ export function MapView({
       });
       map.addSource('locks', { type: 'geojson', data: empty });
       map.addLayer({
-        id: 'locks', type: 'circle', source: 'locks',
-        paint: { 'circle-radius': 6, 'circle-color': '#fc0', 'circle-stroke-color': '#333', 'circle-stroke-width': 1.5 },
+        id: 'locks', type: 'symbol', source: 'locks',
+        layout: { 'icon-image': 'poi-lock', 'icon-size': 0.85, 'icon-allow-overlap': true },
       });
       const l = latest.current;
       applyRoute(map, l.route);
@@ -253,7 +278,9 @@ export function MapView({
       addOverlays();
       ready.current = true;
     });
+    const stopBadges = loadBadges(() => { if (ready.current) addBadges(map); });
     return () => {
+      stopBadges();
       map.remove();
       mapRef.current = null;
       ready.current = false;
@@ -376,7 +403,7 @@ function poiCollection(pois: Poi[]): GeoJSON.FeatureCollection {
     type: 'FeatureCollection',
     // towns are named on the basemap already
     features: pois.filter((p) => p.type !== 'place').map((p) => ({
-      type: 'Feature', properties: { type: p.type, name: p.name, detail: poiDetail(p) }, geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
+      type: 'Feature', properties: { type: p.type, name: p.name, detail: poiDetail(p), rank: SORT[p.type] ?? SORT_DEFAULT }, geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
     })),
   };
 }

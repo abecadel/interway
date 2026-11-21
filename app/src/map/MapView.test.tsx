@@ -31,7 +31,7 @@ vi.mock('maplibre-gl', () => {
   class Map {
     opts: Record<string, unknown>;
     handlers: Record<string, Handler> = {};
-    sources: Record<string, { setData: ReturnType<typeof vi.fn>; spec: unknown }> = {};
+    sources: Record<string, { setData: ReturnType<typeof vi.fn>; spec: unknown; getClusterExpansionZoom: ReturnType<typeof vi.fn> }> = {};
     layers: string[] = [];
     layerSpecs: Record<string, unknown> = {};
     layout: Record<string, string> = {};
@@ -40,8 +40,13 @@ vi.mock('maplibre-gl', () => {
     fitBounds = vi.fn();
     flyTo = vi.fn();
     easeTo = vi.fn();
-    hits: unknown[] = [];
-    queryRenderedFeatures = vi.fn(() => this.hits);
+    hits: { properties?: { cluster_id?: number } }[] = [];
+    // groups come only from the cluster layer, single places from the others
+    queryRenderedFeatures = vi.fn((_p: unknown, o: { layers: string[] }) => this.hits.filter((f) => (f.properties?.cluster_id === undefined
+      ? o.layers.some((l) => l !== 'poi-clusters') : o.layers.includes('poi-clusters'))));
+    images: Record<string, unknown> = {};
+    hasImage(id: string) { return id in this.images; }
+    addImage(id: string, img: unknown, o: unknown) { this.images[id] = [img, o]; }
     canvas = { style: { cursor: '' } };
     getCanvas() { return this.canvas; }
     getZoom = () => 10;
@@ -55,7 +60,7 @@ vi.mock('maplibre-gl', () => {
     addControl(c: unknown) { this.controls.push(c); }
     on(ev: string, fn: Handler) { this.handlers[ev] = fn; }
     once(ev: string, fn: Handler) { this.handlers[ev] = fn; }
-    addSource(id: string, spec: unknown) { this.sources[id] = { spec, setData: vi.fn() }; }
+    addSource(id: string, spec: unknown) { this.sources[id] = { spec, setData: vi.fn(), getClusterExpansionZoom: vi.fn(async () => 13) }; }
     addLayer(l: { id: string }) { this.layers.push(l.id); this.layerSpecs[l.id] = l; }
     paints: Record<string, unknown> = {};
     getLayer(id: string) { return this.layers.includes(id) || id === 'water' ? { id } : undefined; }
@@ -96,6 +101,7 @@ vi.mock('maplibre-gl', () => {
 });
 
 const { DRAWN_MAX_MS, MapView } = await import('./MapView');
+const { resetBadges } = await import('./sprites');
 
 it('points maplibre at the bundled worker file', () => {
   expect(h.state.workerUrl).toContain('maplibre-gl-worker');
@@ -112,7 +118,7 @@ const base = { start: null, end: null, route: null, position: null, network: nul
 const lock = { type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 };
 const poiFc = (names: string[]) => ({
   type: 'FeatureCollection',
-  features: names.map((name) => ({ type: 'Feature', properties: { type: 'lock', name, detail: '' }, geometry: { type: 'Point', coordinates: [21, 52] } })),
+  features: names.map((name) => ({ type: 'Feature', properties: { type: 'lock', name, detail: '', rank: 0 }, geometry: { type: 'Point', coordinates: [21, 52] } })),
 });
 
 beforeEach(() => {
@@ -130,7 +136,7 @@ describe('MapView', () => {
     expect(map.opts.style).toContain('openfreemap');
     expect(map.fitBounds).toHaveBeenCalledTimes(1);
     act(() => map.handlers.load());
-    expect(map.layers).toEqual(['seamarks', 'network', 'pois', 'poi-labels', 'alts', 'alt-labels', 'route-casing', 'route', 'limits', 'locks']);
+    expect(map.layers).toEqual(['seamarks', 'network', 'poi-clusters', 'poi-cluster-count', 'pois', 'poi-labels', 'alts', 'alt-labels', 'route-casing', 'route', 'limits', 'locks']);
     expect(map.sources.pois.setData).toHaveBeenCalledWith(poiFc(['Śluza']));
     expect(map.sources.limits.setData).toHaveBeenCalledWith({ type: 'FeatureCollection', features: [] });
     expect(map.layout.seamarks).toBe('none');
@@ -291,6 +297,46 @@ describe('MapView', () => {
     rerender(<MapView {...base} onMapClick={onMapClick} />);
     map.handlers.click(click);
     expect(onMapClick).toHaveBeenCalledTimes(3);
+  });
+
+  it('zooms into a tapped group of places, and draws the badges once they are decoded', async () => {
+    const imgs: { onload: () => void }[] = [];
+    const Real = globalThis.Image;
+    resetBadges();
+    globalThis.Image = class { onload = () => {}; src = ''; constructor() { imgs.push(this); } } as never;
+    const onMapClick = vi.fn();
+    const tap = { type: 'water' as const, name: 'Kran', lat: 50, lon: 20 };
+    const { rerender } = render(<MapView {...base} onMapClick={onMapClick} night pois={[tap]} />);
+    globalThis.Image = Real;
+    const map = h.state.maps[0] as unknown as {
+      hits: unknown[]; handlers: Record<string, Handler>; images: Record<string, unknown>; easeTo: ReturnType<typeof vi.fn>;
+      layerSpecs: Record<string, { paint?: Record<string, unknown> }>; sources: Record<string, { getClusterExpansionZoom: ReturnType<typeof vi.fn> }>;
+    };
+    imgs[0].onload(); // before the map is ready: kept for later
+    expect(map.images).toEqual({});
+    act(() => map.handlers.load());
+    expect(Object.keys(map.images)).toEqual(['poi-marina']);
+    imgs[1].onload();
+    expect(Object.keys(map.images)).toEqual(['poi-marina', 'poi-port']);
+    expect(map.layerSpecs['poi-labels'].paint!['text-color']).toBe('#cfe0ee');
+    // places without a set importance come after the rest
+    expect((map.sources.pois as unknown as { setData: ReturnType<typeof vi.fn> }).setData.mock.calls[0][0].features[0].properties.rank).toBe(5);
+    const click = { point: { x: 1, y: 2 }, lngLat: { lng: 21, lat: 52 } };
+    map.hits = [{ properties: { cluster_id: 7, point_count: 12 }, geometry: { type: 'Point', coordinates: [20, 50] } }];
+    map.handlers.click(click);
+    expect(map.sources.pois.getClusterExpansionZoom).toHaveBeenCalledWith(7);
+    await vi.waitFor(() => expect(map.easeTo).toHaveBeenCalledWith({ center: [20, 50], zoom: 13 }));
+    expect(onMapClick).not.toHaveBeenCalled();
+    // a failed lookup does nothing
+    map.sources.pois.getClusterExpansionZoom.mockRejectedValueOnce(new Error('gone'));
+    map.handlers.click(click);
+    await Promise.resolve();
+    expect(map.easeTo).toHaveBeenCalledTimes(1);
+    // while placing a point a tap on a group places the point
+    rerender(<MapView {...base} onMapClick={onMapClick} night pois={[tap]} picking />);
+    map.handlers.click(click);
+    expect(onMapClick).toHaveBeenCalledWith([21, 52]);
+    resetBadges();
   });
 
   it('drops a pin on right click or a long press, and reports where the map stopped', () => {
