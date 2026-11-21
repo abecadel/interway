@@ -26,3 +26,7 @@ in any file: the files are merged into one list.
 
 Sources for entries: national lists of inland waterways (PL: Rozporządzenie RM w sprawie śródlądowych dróg
 wodnych; DE: Bundeswasserstraßen list; NL: Rijkswaterstaat vaarwegen), plus popular recreational routes.
+
+Regions are built separately (see `interway-merge`): the files directly in this directory are Europe's,
+those in `north-america/` are read by the North American build (`--allowlist data/navigable/north-america`).
+Keeping them apart means an edit in one region does not re-read the other region's extracts.
