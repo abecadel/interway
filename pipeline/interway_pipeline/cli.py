@@ -185,7 +185,10 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
             nearest = lines[tree.nearest(Point(p))]
             q = nearest.interpolate(nearest.project(Point(p)))
             if haversine(p, (q.x, q.y)) <= (place_m if kind == "place" else max_m):
-                pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1], **({"cc": country[0]} if country and country[0] else {})})
+                poi = {"type": kind, "name": name, "lon": p[0], "lat": p[1]}
+                if country and country[0]:
+                    poi["cc"] = country[0]
+                pois.append(poi)
     return pois
 
 
