@@ -18,14 +18,22 @@ Parameters (decimal degrees, longitude first):
 - `via`: waypoints in order, `lon,lat;lon,lat` (use these to force a particular way, e.g. through a canal)
 - `draft`, `air` (air draft), `beam`, `len`: vessel dimensions in metres; routes avoid waterways too small
   (defaults: draft 1 m, air draft 3 m, beam 0.5 m, length 9 m: pass the real boat's values)
-- `speed`: cruising speed, km/h; `current`: assumed river current, m/s; `lockmin`: minutes per lock
+- `speed`: cruising speed, km/h (default 10); `current`: river current assumed where no researched value exists,
+  m/s (default 0.5); `lockmin`: minutes per lock (default 20)
 - `avoidLocks=1`: prefer routes with fewer locks
 - `avoidSea=1`: keep to inland waterways wherever an inland way exists (open sea already counts 1.5x by default)
 - `date=YYYY-MM-DD`: departure date. Daily stages get dates, each waterway is checked for the month the boat
   reaches it (usually closed, low water, high water, ice), and waterways usually closed then are avoided where
-  another way exists. Water levels change by month: a route possible in May may not be in August.
+  another way exists, but never by adding more than about 100 km of open sea: then the inland way is kept and
+  warned about. Water levels change by month: a route possible in May may not be in August; the brief says in
+  which months all the route's waterways are usually open.
 - `coastal=1`: for a small boat, keep near the coast (within about 10 km of land), harbour to harbour, instead
   of crossing open sea (e.g. round the Gulf of Lion rather than straight across)
+
+The link is the whole route: settings saved in the user's browser do not change a route opened from a link with
+`from` and `to`, and the values you give stay in the link (the brief marks only dimensions you left out as
+"default, not entered"). The route shown is the fastest one (time underway, with open sea counted 1.5x); the
+page also offers alternatives. Daily stages are up to 8 h underway; a non-stop sea passage is one stage.
 
 Examples:
 
@@ -58,8 +66,18 @@ downloads the same brief as structured data.
 ## Site tools (WebMCP)
 
 In browsers with WebMCP (`document.modelContext`, e.g. the ChatGPT desktop app's built-in browser) the page
-registers tools an agent can call directly: `plan_route`, `get_route_brief`, `set_vessel`, `add_waypoint`,
-`remove_waypoint`, `find_place` and `list_stops`.
+registers tools an agent can call directly:
+
+- `plan_route({from, to, via?, vessel?})`: `from`/`to`/`via` are place names ("Port Hercule, Monaco") or
+  `{lon, lat}`; `vessel` takes `draft`, `airDraft`, `beam`, `length`, `speedKmh`, `currentMs`, `lockPenaltyMin`,
+  `avoidLocks`, `avoidSea`, `coastal`, `departure` (YYYY-MM-DD). Returns the brief (as JSON).
+- `get_route_brief()`, `list_stops({types?})`: the route on the page; after `set_vessel` or a waypoint change
+  they wait while the route is recomputed (up to a minute).
+- `set_vessel({...})` (same fields as `vessel`), `add_waypoint({point, index?})`, `remove_waypoint({index})`,
+  `find_place({query})`.
+
+Place names go to an online geocoder first and fall back to the waterway places in the data (locks, marinas,
+towns); give coordinates when a name is ambiguous.
 
 ## Coverage and limits
 
@@ -77,5 +95,8 @@ registers tools an agent can call directly: `plan_route`, `get_route_brief`, `se
   tides, closures, the authority and its notices, with sources and the date checked) cover the waterways of the
   Wrocław → Monaco routes so far; the brief's "Waterways" section lists those on a route. Elsewhere, and for
   today's water levels and notices, check with the waterway authority.
+- Bridges and lock chambers are listed with their limits only where OpenStreetMap records them; many do not.
+  The waterway sheets give each waterway's usual draft and lowest bridge, and routes go round waterways whose
+  sheet limits the boat exceeds (or warn where there is no other way).
 
 Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0), bathymetry © EMODnet (CC BY 4.0). Source: https://github.com/abecadel/interway

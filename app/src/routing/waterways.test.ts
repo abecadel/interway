@@ -30,7 +30,11 @@ describe('waterway sheets', () => {
     expect(pts.map((p) => p.name)).toEqual(['A', 'B']);
     expect(pts[0].at).toEqual([0, 0]); // halfway along A (556 m) is still before the first vertex step
     expect(pts[1].at).toEqual([0.02, 0]);
-    expect(legPoints({ coordinates: [[1, 1]], legs: [{ name: 'X', distance: 10 }] } as never)).toEqual([{ name: 'X', at: [1, 1] }]);
+    expect(legPoints({ coordinates: [[1, 1]], legs: [{ name: 'X', distance: 10 }] } as never)).toEqual([{ name: 'X', at: [1, 1], distance: 10 }]);
+    // a short leg (a junction carrying another canal's name) does not bring in that canal's sheet
+    const idx = aliasIndex([kanal]);
+    expect(waterwaysOn([{ name: 'Kanal', distance: 300 }], idx)).toEqual([]);
+    expect(waterwaysOn([{ name: 'Kanal', distance: 3000 }], idx)).toEqual([kanal]);
   });
 
   it('sum up the months as runs', () => {
@@ -49,7 +53,11 @@ describe('waterway sheets', () => {
     expect(seasonWarnings(route, defaultProfile, idx)).toEqual([]); // no date
     expect(seasonWarnings(route, { ...defaultProfile, departure: 'next summer' }, idx)).toEqual([]); // not a date
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, idx))
-      .toEqual(['Kanal (A – B), reached around 2027-07-31: usually closed in July (summit pound short of water).']);
+      .toEqual(['Kanal (A – B), reached around 2027-07-31: usually closed in July (summit pound short of water).',
+        'All the waterways of this route are usually open in Jan, Feb, Mar, Apr, May, Jun, Nov, Dec: a trip then avoids these closures.']);
+    const always = aliasIndex([{ ...kanal, months: { ...kanal.months!, closed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] } }]);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, always).at(-1))
+      .toBe('Some waterway of this route is usually closed in every month: compare the alternatives.');
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-01-15' }, idx))
       .toEqual(['Kanal (A – B), reached around 2027-01-15: ice likely in January (summit pound short of water).']);
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-04-15' }, idx)).toEqual([]); // nothing in April
@@ -57,7 +65,7 @@ describe('waterway sheets', () => {
       .toEqual(['Kanal (A – B), reached around 2027-02-15: high water likely in February (summit pound short of water).']);
     expect(seasonWarnings({ ...(route as object), distance: 0 } as never, { ...defaultProfile, departure: '2027-07-01' }, idx)).toEqual([]);
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-06-01' }, aliasIndex([{ ...kanal, months: { ...kanal.months!, notes: null } }])))
-      .toEqual(['Kanal (A – B), reached around 2027-06-01: usually low water in June.']);
+      .toEqual(['Kanal (A – B), reached around 2027-06-01: low water likely in June.']);
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-01' })).toEqual([]); // bundled data: empty here
   });
 
@@ -81,5 +89,7 @@ describe('waterway sheets', () => {
       'Low canal: navigation restricted as of 2026-11-21, see About the waterways.',
     ]);
     expect(waterwayWarnings([kanal], 1, 3)).toEqual([]);
+    expect(waterwayWarnings([kanal], 1, 3.7)).toEqual(
+      ['Kanal (A – B): lowest bridge 4 m leaves 0.3 m above your air draft 3.7 m; arched bridges are lower towards the sides: see About the waterways.']);
   });
 });

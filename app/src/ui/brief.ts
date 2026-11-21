@@ -36,7 +36,10 @@ export interface BriefStage {
 export interface RouteBrief {
   title: string;
   link: string;
-  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'lockPenaltyMin' | 'avoidLocks' | 'avoidSea' | 'coastal' | 'departure'>;
+  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'lockPenaltyMin' | 'avoidLocks' | 'avoidSea' | 'coastal' | 'departure'> & {
+    /** dimensions left at the planner's default: not entered for this boat */
+    defaults: ('draft' | 'airDraft' | 'beam' | 'length')[];
+  };
   totals: {
     km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
     /** hours split: moving at cruising speed in still water, waiting and working locks, and what the current adds (negative: saves) */
@@ -154,8 +157,10 @@ function nameEnds(title: string, route: Route, stops: Stop[]): string {
   return ends.map((e, i) => (/°[NS] /.test(e) && town(i ? route.distance : 0)) || e).join(' → ');
 }
 
-export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8 }: {
+export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered }: {
   route: Route; itinerary: Itinerary; profile: VesselProfile; title: string; link: string; hoursPerDay?: number;
+  /** vessel fields the user (or agent) gave, even where equal to the default */
+  entered?: ReadonlySet<string>;
 }): RouteBrief {
   let at = 0;
   const legs = route.legs.map((l) => {
@@ -193,8 +198,11 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   }
   const waterways = waterwaysOn(legPoints(route));
   hazards.push(...waterwayWarnings(waterways, profile.draft, profile.airDraft), ...seasonWarnings(route, profile));
-  const legStages = stages(route, itinerary.stops, hoursPerDay).map((st, i) => {
-    const date = profile.departure ? dateAfter(profile.departure, i * hoursPerDay * 3600) : null;
+  // each stage is a day, but a non-stop sea passage takes as many calendar days as it lasts
+  let days = 0;
+  const legStages = stages(route, itinerary.stops, hoursPerDay).map((st) => {
+    const date = profile.departure ? dateAfter(profile.departure, days * hoursPerDay * 3600) : null;
+    days += st.atSea && st.hours > 24 ? Math.ceil(st.hours / 24) : 1;
     return date ? { ...st, date } : st;
   });
   for (const st of legStages.filter((x) => x.atSea && x.hours > hoursPerDay)) {
@@ -204,15 +212,16 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
   const notices = noticesFor(itinerary.stops.flatMap((s) => (s.poi.type === 'place' && s.poi.cc ? [s.poi.cc] : [])));
   hazards.push(notices.length
-    ? `Depths, lock hours and closures are not included: check the notices to skippers for this route: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
-    : 'Depths, lock hours and closures are not included: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.');
+    ? `Today's closures, water levels and lock hours are not live here: check the notices to skippers for this route before going: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
+    : "Today's closures, water levels and lock hours are not live here: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.");
   const hours = route.duration / 3600;
   const movingH = route.distance / (profile.speedKmh / 3.6) / 3600;
   const lockH = (route.locks * profile.lockPenaltyMin) / 60;
   return {
     title: nameEnds(title, route, itinerary.stops),
     link,
-    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, lockPenaltyMin: profile.lockPenaltyMin, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea, coastal: profile.coastal, departure: profile.departure },
+    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, lockPenaltyMin: profile.lockPenaltyMin, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea, coastal: profile.coastal, departure: profile.departure,
+      defaults: DIMENSIONS.filter((k) => profile[k] === defaultProfile[k] && !entered?.has(k)) },
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       movingHours: Math.round(movingH * 10) / 10, lockHours: Math.round(lockH * 10) / 10, currentHours: Math.round((hours - movingH - lockH) * 10) / 10,
@@ -255,11 +264,12 @@ function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
     `- Sources (checked ${w.checked}): ${w.sources.join(', ')}`,
   ]), ''];
 }
-/** a dimension left at the planner's default says so: it was not entered for this boat */
-const dim = (v: number, d: number) => `${v} m${v === d ? ' (default, not entered)' : ''}`;
+const DIMENSIONS = ['draft', 'airDraft', 'beam', 'length'] as const;
 
 export function briefMarkdown(b: RouteBrief): string {
   const t = b.totals, v = b.vessel;
+  // a dimension left at the planner's default says so: it was not entered for this boat
+  const dim = (k: (typeof DIMENSIONS)[number]) => `${v[k]} m${v.defaults.includes(k) ? ' (default, not entered)' : ''}`;
   const lines = [
     `# Route: ${b.title}`,
     '',
@@ -275,8 +285,8 @@ export function briefMarkdown(b: RouteBrief): string {
     ...(b.places.length ? [`- Towns on the way: ${b.places.join(', ')}`] : []),
     '',
     '## Vessel',
-    `Draft ${dim(v.draft, defaultProfile.draft)}, air draft ${dim(v.airDraft, defaultProfile.airDraft)}, beam ${dim(v.beam, defaultProfile.beam)},`
-      + ` length ${dim(v.length, defaultProfile.length)}${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}${v.coastal ? ', keeping near the coast' : ''}.`,
+    `Draft ${dim('draft')}, air draft ${dim('airDraft')}, beam ${dim('beam')},`
+      + ` length ${dim('length')}${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}${v.coastal ? ', keeping near the coast' : ''}.`,
     '',
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),

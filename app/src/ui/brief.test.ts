@@ -41,7 +41,7 @@ describe('route brief', () => {
     expect(b.places).toEqual(['Toruń', 'Grudziądz']);
     expect(b.stops[0]).toEqual({ km: 10, type: 'place', name: 'Toruń', offKm: 1.5, lat: 1, lon: 2 });
     expect(b.stops[1].problem).toBe('vessel length 9 m exceeds chamber 8 m');
-    expect(b.hazards.at(-1)).toBe('Depths, lock hours and closures are not included: check the notices to skippers for this route:'
+    expect(b.hazards.at(-1)).toBe("Today's closures, water levels and lock hours are not live here: check the notices to skippers for this route before going:"
       + ' PL Wody Polskie, komunikaty nawigacyjne (https://www.gov.pl/web/wody-polskie).');
     expect(b.stops[2].problem).toBe('air draft 3 m vs clearance 2.5 m');
     expect(b.stops[3].problem).toBeUndefined();

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { LngLat } from '../graph/geo';
 import type { RouteBrief } from '../ui/brief';
-import { getModelContext, registerSiteTools, siteTools, type ModelContext, type PlannerBridge, type SiteTool } from './siteTools';
+import { getModelContext, registerSiteTools, ROUTE_WAIT_MS, siteTools, type ModelContext, type PlannerBridge, type SiteTool } from './siteTools';
 
 const brief = {
   title: 'A → B',
@@ -13,6 +13,8 @@ function bridge(over: Partial<PlannerBridge> = {}) {
   const b: PlannerBridge = {
     planRoute: vi.fn(async () => brief),
     brief: vi.fn(() => brief),
+    routing: () => false,
+    error: () => null,
     setVessel: vi.fn(),
     waypoints: () => via,
     setWaypoints: vi.fn((v: LngLat[]) => { via = v; }),
@@ -49,6 +51,23 @@ describe('site tools', () => {
     expect(tools.get_route_brief.annotations?.readOnlyHint).toBe(true);
     const none = bridge({ brief: () => null }).tools;
     await expect(none.get_route_brief.execute({})).rejects.toThrow('call plan_route first');
+    // a route that failed says why
+    const failed = bridge({ brief: () => null, error: () => 'too deep' }).tools;
+    await expect(failed.list_stops.execute({})).rejects.toThrow('No route: too deep');
+    // being recomputed: waits for it, and after the wait says to ask again
+    vi.useFakeTimers();
+    let ready = false;
+    const later = bridge({ brief: () => (ready ? brief : null), routing: () => !ready }).tools;
+    const waiting = later.get_route_brief.execute({});
+    await vi.advanceTimersByTimeAsync(1000);
+    ready = true;
+    await vi.advanceTimersByTimeAsync(200);
+    expect(await waiting).toBe(brief);
+    const slow = bridge({ brief: () => null, routing: () => true }).tools;
+    const gaveUp = expect(slow.get_route_brief.execute({})).rejects.toThrow('still being computed');
+    await vi.advanceTimersByTimeAsync(ROUTE_WAIT_MS + 500);
+    await gaveUp;
+    vi.useRealTimers();
   });
 
   it('edits the vessel and the waypoints', async () => {

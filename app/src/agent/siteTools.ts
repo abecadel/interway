@@ -25,6 +25,10 @@ export interface PlannerBridge {
   planRoute: (r: { from: LngLat; to: LngLat; via: LngLat[]; vessel: Partial<VesselProfile> }) => Promise<RouteBrief>;
   /** the brief of the route on the page, or null */
   brief: () => RouteBrief | null;
+  /** a route is being computed for the page's current points and vessel */
+  routing: () => boolean;
+  /** why the page's route failed, or null */
+  error: () => string | null;
   setVessel: (v: Partial<VesselProfile>) => void;
   waypoints: () => LngLat[];
   setWaypoints: (via: LngLat[]) => void;
@@ -44,14 +48,16 @@ const vessel = {
   properties: {
     draft: { type: 'number', description: 'm' }, airDraft: { type: 'number', description: 'height above water, m' },
     beam: { type: 'number', description: 'm' }, length: { type: 'number', description: 'm' },
-    speedKmh: { type: 'number' }, currentMs: { type: 'number', description: 'river current, m/s' }, avoidLocks: { type: 'boolean' },
+    speedKmh: { type: 'number', description: 'cruising speed through the water, km/h' },
+    currentMs: { type: 'number', description: 'river current assumed where no researched value exists, m/s' },
+    lockPenaltyMin: { type: 'number', description: 'minutes per lock' }, avoidLocks: { type: 'boolean' },
     avoidSea: { type: 'boolean', description: 'keep to inland waterways where possible' },
     coastal: { type: 'boolean', description: 'small boat: keep near the coast, harbour to harbour, instead of crossing open sea' },
     departure: { type: 'string', description: 'departure date YYYY-MM-DD: waterways usually closed in the month they are reached are avoided, stages get dates' },
   },
   additionalProperties: false,
 };
-const VESSEL_KEYS = ['draft', 'airDraft', 'beam', 'length', 'speedKmh', 'currentMs', 'avoidLocks', 'avoidSea', 'coastal', 'departure'] as const;
+const VESSEL_KEYS = ['draft', 'airDraft', 'beam', 'length', 'speedKmh', 'currentMs', 'lockPenaltyMin', 'avoidLocks', 'avoidSea', 'coastal', 'departure'] as const;
 
 export function getModelContext(doc: Document = document, nav: Navigator = navigator): ModelContext | null {
   const ctx = (doc as { modelContext?: ModelContext }).modelContext ?? (nav as { modelContext?: ModelContext }).modelContext;
@@ -59,6 +65,8 @@ export function getModelContext(doc: Document = document, nav: Navigator = navig
 }
 
 const FLAGS = new Set<string>(['avoidLocks', 'avoidSea', 'coastal']);
+/** how long get_route_brief and list_stops wait for a route being recomputed (after set_vessel, a waypoint) */
+export const ROUTE_WAIT_MS = 60_000;
 
 function cleanVessel(v: unknown): Partial<VesselProfile> {
   const out: Record<string, unknown> = {};
@@ -86,10 +94,15 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
     }
     return [lon, lat];
   };
-  const current = () => {
+  // after set_vessel or a waypoint change the page computes the route again: wait for it rather than fail
+  const current = async () => {
+    const until = Date.now() + ROUTE_WAIT_MS;
+    while (!bridge.brief() && bridge.routing() && Date.now() < until) await new Promise((r) => setTimeout(r, 200));
     const b = bridge.brief();
-    if (!b) throw new Error('No route on the page yet: call plan_route first');
-    return b;
+    if (b) return b;
+    if (bridge.routing()) throw new Error('The route is still being computed: call get_route_brief again in a moment');
+    const e = bridge.error();
+    throw new Error(e ? `No route: ${e}` : 'No route on the page yet: call plan_route first');
   };
   return [
     {
@@ -113,7 +126,7 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
     },
     {
       name: 'get_route_brief',
-      description: 'The brief of the route currently shown on the page (see plan_route).',
+      description: 'The brief of the route currently shown on the page (see plan_route); waits while it is being recomputed.',
       inputSchema: { type: 'object', properties: {} },
       annotations: { readOnlyHint: true },
       execute: async () => current(),
@@ -133,12 +146,13 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
       annotations: { readOnlyHint: true },
       execute: async (input) => {
         const types = input.types as PoiType[] | undefined;
-        return current().stops.filter((s: BriefStop) => !types?.length || types.includes(s.type));
+        return (await current()).stops.filter((s: BriefStop) => !types?.length || types.includes(s.type));
       },
     },
     {
       name: 'set_vessel',
-      description: 'Change the vessel (draft, air draft, beam, length, speed, avoid locks); the route is recomputed.',
+      description: 'Change the vessel or trip (any of the fields below: dimensions, speed, departure date, avoid locks or sea, '
+        + 'keep near the coast); the route is recomputed: get_route_brief then waits for it.',
       inputSchema: vessel,
       execute: async (input) => {
         const v = cleanVessel(input);
