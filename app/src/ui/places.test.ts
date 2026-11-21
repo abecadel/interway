@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { addRecent, approximate, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, shareLink, toggleSaved } from './places';
+import { addRecent, approximate, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, shareLink, toggleSaved, townLabel } from './places';
 
 const a = { label: 'A', position: [1, 2] as [number, number] };
 const b = { label: 'B', position: [3, 4] as [number, number] };
@@ -46,5 +46,17 @@ describe('recent and saved places', () => {
 describe('approximate places', () => {
   it('round to 0.01°, about 1 km', () => {
     expect(approximate([21.76441, 54.03811])).toEqual([21.76, 54.04]);
+  });
+});
+
+describe('town names for bare points', () => {
+  const towns = [{ name: 'Giżycko', lat: 54.04, lon: 21.76 }, { name: 'Wilkasy', lat: 54.01, lon: 21.73 }, { name: 'Far', lat: 60, lon: 21.76 }];
+  it('names a point after the nearest town within 3 km', () => {
+    expect(townLabel(towns, [21.762, 54.039])).toBe('Giżycko');
+    expect(townLabel(towns, [21.76, 54.058])).toBe('near Giżycko'); // 2 km north
+    expect(townLabel(towns, [21.731, 54.012])).toBe('Wilkasy');
+    expect(townLabel(towns, [21.76, 54.1])).toBeNull(); // 6.7 km
+    expect(townLabel([], [21.76, 54.04])).toBeNull();
+    expect(townLabel(towns, [21.752, 54.033])).toBe('Giżycko'); // Wilkasy is within 3 km too, but further
   });
 });

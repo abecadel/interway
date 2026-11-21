@@ -241,3 +241,11 @@ details > summary { min-height: 44px; padding-block: 10px; }
 .bone.short { width: 45%; }
 .bone.chip { height: 26px; width: 92px; border-radius: 999px; }
 @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* the start screen */
+.plan-trip { align-self: flex-start; min-height: 48px; padding: 0 20px; font-size: 1rem; }
+.hint-card { display: flex; gap: 8px; align-items: center; padding: 10px 6px 10px 12px; border-radius: 12px; background: var(--chip-on); font-size: .875rem; }
+.hint-card span { flex: 1; }
+.list-head { margin: 6px 0 0; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.explore .place-list button { display: flex; align-items: center; gap: 10px; }
+.explore .place-list .name { flex: 1; text-align: left; }

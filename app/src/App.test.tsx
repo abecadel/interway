@@ -631,7 +631,7 @@ describe('App', () => {
 
       // storage blocked: the sheet starts half open and still moves
       const realGet = Storage.prototype.getItem, realSet = Storage.prototype.setItem;
-      const blocked = (k: string) => { if (k === 'interway.sheet') throw new Error('blocked'); };
+      const blocked = (k: string) => { if (k === 'interway.sheet' || k === 'interway.hint') throw new Error('blocked'); };
       const get = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(function (this: Storage, k) { blocked(k); return realGet.call(this, k); });
       const set = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, k, v) { blocked(k); realSet.call(this, k, v); });
       try {
@@ -642,6 +642,9 @@ describe('App', () => {
         expect(explore.getAttribute('aria-expanded')).toBe('true');
         fireEvent.click(explore);
         expect(explore.getAttribute('aria-expanded')).toBe('false');
+        // the hint shows, and goes for this visit
+        fireEvent.click(screen.getByLabelText('Dismiss hint'));
+        expect(screen.queryByRole('note')).toBeNull();
       } finally {
         get.mockRestore();
         set.mockRestore();
@@ -875,6 +878,37 @@ describe('App', () => {
     expect(screen.getByText('Fishing rules: Croatia')).toBeTruthy();
   });
 
+  it('starts with Plan a trip, a hint that goes away for good, recent places, and town names for bare points', async () => {
+    history.replaceState(null, '', '/');
+    localStorage.removeItem('interway.hint');
+    localStorage.setItem('interway.recent', JSON.stringify([{ label: 'Śluza · lock', position: [21, 52] }]));
+    const base = fakeClient();
+    const client = fakeClient({ load: vi.fn(async () => ({ ...(await base.load('')), pois: [{ type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 }, { type: 'place' as const, name: 'Giżycko', lat: 54.04, lon: 21.76 }] })) });
+    const r = render(<App client={client} />);
+    await flush();
+    fireEvent.click(screen.getByLabelText('Dismiss hint'));
+    expect(screen.queryByRole('note')).toBeNull();
+    expect(localStorage.getItem('interway.hint')).toBe('1');
+    fireEvent.click(screen.getByText('Śluza · lock'));
+    expect(screen.getByRole('heading', { name: 'Śluza' })).toBeTruthy();
+    r.unmount();
+    // the hint stays dismissed; Plan a trip opens directions; a linked point near a town carries its name
+    history.replaceState(null, '', '/?from=21.765,54.035&to=21.5,52.5');
+    render(<App client={client} />);
+    await flush();
+    expect(screen.queryByRole('note')).toBeNull();
+    expect(screen.getByPlaceholderText('Giżycko')).toBeTruthy();
+    expect(screen.getByPlaceholderText(/52\.5000°N/)).toBeTruthy(); // no town near: coordinates
+  });
+
+  it('opens directions from Plan a trip', async () => {
+    history.replaceState(null, '', '/');
+    render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByText('Plan a trip'));
+    expect(screen.getByLabelText('Close directions')).toBeTruthy();
+  });
+
   it('logs catches from a place, lists them, opens one and deletes it', async () => {
     localStorage.removeItem('interway.catches');
     history.replaceState(null, '', '/?place=21.0005,52.0005');
@@ -886,15 +920,15 @@ describe('App', () => {
     fireEvent.click(screen.getByText('Save to my catches'));
     expect(JSON.parse(localStorage.getItem('interway.catches')!)[0]).toMatchObject({ species: 'Pike', place: 'Śluza', position: [21, 52] });
     fireEvent.click(screen.getByLabelText('Close place'));
-    fireEvent.click(screen.getByText('My catches (1)'));
+    fireEvent.click(screen.getByText('My catches'));
     fireEvent.click(screen.getByText('Pike'));
     expect(screen.getByText('My catch', { exact: false })).toBeTruthy();
     fireEvent.click(screen.getByLabelText('Close place'));
-    fireEvent.click(screen.getByText('My catches (1)'));
+    fireEvent.click(screen.getByText('My catches'));
     fireEvent.click(screen.getByLabelText('Delete Pike'));
     expect(screen.getByText(/No catches yet/)).toBeTruthy();
     fireEvent.click(screen.getByLabelText('Close catches'));
-    expect(screen.getByText('My catches (0)')).toBeTruthy();
+    expect(screen.getByText('My catches').nextSibling!.textContent).toBe('0');
   });
 
   it('opens links to a place and to a waterway sheet', async () => {
