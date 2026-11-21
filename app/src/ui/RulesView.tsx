@@ -6,7 +6,7 @@ export function RulesView({ rules, inland, sea }: { rules: CountryRules[]; inlan
   return (
     <ul className="waterways">
       {rules.map((r) => (
-        <li key={r.cc}>
+        <li key={r.cc} className="waterway-card">
           <div className="waterway-head"><strong>{r.name}</strong></div>
           <div className="small muted">checked {r.checked}</div>
           <dl className="small">
@@ -15,10 +15,10 @@ export function RulesView({ rules, inland, sea }: { rules: CountryRules[]; inlan
           <div className="small">
             {r.authority.url ? <a href={r.authority.url} target="_blank" rel="noreferrer">{r.authority.name}</a> : r.authority.name}
           </div>
-          <div className="small muted">
-            Sources:{' '}
+          <details className="small muted waterway-sources">
+            <summary>Sources ({r.sources.length})</summary>
             {r.sources.map((s, i) => <span key={s}>{i > 0 && ', '}<a href={s} target="_blank" rel="noreferrer">{host(s)}</a></span>)}
-          </div>
+          </details>
         </li>
       ))}
     </ul>

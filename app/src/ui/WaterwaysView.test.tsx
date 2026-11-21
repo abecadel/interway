@@ -22,5 +22,15 @@ describe('WaterwaysView', () => {
     expect(screen.getByText('Nobody').tagName).not.toBe('A');
     expect(screen.getByText('not a url')).toBeTruthy();
     expect(container.querySelectorAll('li')[1].querySelectorAll('dt')).toHaveLength(0);
+    // a card each: the key facts in one line, details folded when there are several, sources folded
+    expect(screen.getByText('class Vb · draft ≤ 1.5 m · bridges ≥ 4 m · 3 locks')).toBeTruthy();
+    expect(container.querySelector('details.waterway-more')!.hasAttribute('open')).toBe(false);
+    expect(screen.getAllByText('Sources (2)')).toHaveLength(1);
+  });
+
+  it('opens the details of a single waterway, and counts one lock', () => {
+    const { container } = render(<WaterwaysView waterways={[{ ...kanal, class: null, locks: { ...kanal.locks, count: 1 } }]} />);
+    expect(screen.getByText('draft ≤ 1.5 m · bridges ≥ 4 m · 1 lock')).toBeTruthy();
+    expect(container.querySelector('details.waterway-more')!.hasAttribute('open')).toBe(true);
   });
 });
