@@ -10,7 +10,7 @@ const nav = (over: Partial<Navigation> = {}): Navigation => ({
 });
 const progress = (over: Partial<Progress> = {}): Progress => ({
   time: new Date(2026, 5, 1, 10, 0).getTime(), along: 1000, crossTrack: 42, side: 'left', remaining: 12_500, eta: 3600, offCount: 0, offRoute: false, arrived: false,
-  next: { kind: 'lock', name: 'Schleuse Lehnitz', at: 4200, distance: 3200 },
+  next: { kind: 'lock', name: 'Schleuse Lehnitz', detail: '190 × 12 m', at: 4200, distance: 3200 },
   upcoming: [
     { kind: 'lock', name: 'Schleuse Lehnitz', at: 4200, distance: 3200 },
     { kind: 'bridge', name: '', at: 6000, distance: 5000 },
@@ -23,18 +23,21 @@ describe('NavPanel', () => {
   it('waits for GPS', () => {
     render(<NavPanel nav={nav()} />);
     expect(screen.getByText('Waiting for GPS…')).toBeTruthy();
-    expect(screen.getAllByText('–')).toHaveLength(4);
+    expect(screen.getAllByText('no GPS fix')).toHaveLength(3);
+    expect(screen.getByText('–')).toBeTruthy(); // no arrival time yet
   });
 
   it('shows the next events, speed, course, cross-track error and arrival time', () => {
     render(<NavPanel nav={nav({ progress: progress(), motion: { sog: 2, cog: 7 } })} />);
-    expect(screen.getByText('Schleuse Lehnitz', { exact: false }).textContent).toContain('Lock Schleuse Lehnitz in 3.2 km');
+    expect(screen.getByText('Lock in')).toBeTruthy();
+    expect(screen.getByText('3.2 km')).toBeTruthy();
+    expect(screen.getByText('Schleuse Lehnitz · 190 × 12 m')).toBeTruthy();
     expect(screen.getByText('then Bridge in 5.0 km')).toBeTruthy();
     expect(screen.getByText('then Destination in 13 km')).toBeTruthy();
-    expect(screen.getByText('3.9 kn')).toBeTruthy();
+    expect(screen.getByText('3.9')).toBeTruthy();
     expect(screen.getByText('7.2 km/h')).toBeTruthy();
     expect(screen.getByText('007°')).toBeTruthy();
-    expect(screen.getByText('42 m')).toBeTruthy();
+    expect(screen.getByText('42')).toBeTruthy();
     expect(screen.getByText('left of route')).toBeTruthy();
     expect(screen.getByText('1 h 0 min')).toBeTruthy();
     expect(screen.getByText(/13 km · 11:00/)).toBeTruthy();
@@ -47,12 +50,12 @@ describe('NavPanel', () => {
     URL.createObjectURL = vi.fn(() => 'blob:x');
     URL.revokeObjectURL = vi.fn();
     const { rerender } = render(<NavPanel nav={n} />);
-    fireEvent.click(screen.getByText('Voice off'));
+    fireEvent.click(screen.getByLabelText('Voice off'));
     expect(n.setVoice).toHaveBeenCalledWith(true);
     fireEvent.click(screen.getByText('Track GPX'));
     expect(click).toHaveBeenCalled();
     rerender(<NavPanel nav={{ ...n, voice: true, track: [] }} />);
-    fireEvent.click(screen.getByText('Voice on'));
+    fireEvent.click(screen.getByLabelText('Voice on'));
     expect(n.setVoice).toHaveBeenLastCalledWith(false);
     expect(screen.queryByText('Track GPX')).toBeNull();
     click.mockRestore();
@@ -64,17 +67,29 @@ describe('NavPanel', () => {
       progress: progress({ side: null, next: { kind: 'end', name: '', at: 1, distance: 800 }, upcoming: [{ kind: 'end', name: '', at: 1, distance: 800 }] }),
     });
     const { rerender } = render(<NavPanel nav={n} />);
-    expect(screen.getByText('Destination', { exact: false }).textContent).toBe('Destination in 0.8 km');
+    expect(screen.getByText('Destination in')).toBeTruthy();
+    expect(screen.getByText('0.8 km')).toBeTruthy();
+    expect(screen.getByText('on the line')).toBeTruthy();
     expect(screen.getByText('Off the route: re-routing from here…')).toBeTruthy();
     fireEvent.click(screen.getByText('Recenter'));
     expect(n.setFollow).toHaveBeenCalledWith(true);
-    fireEvent.click(screen.getByLabelText('Stop'));
+    fireEvent.click(screen.getByText('End'));
     expect(n.stop).toHaveBeenCalled();
     rerender(<NavPanel nav={{ ...n, progress: progress({ next: { kind: 'lock', name: '', at: 1, distance: 500 } }) }} />);
-    expect(screen.getByText('Lock', { exact: false }).textContent).toBe('Lock in 0.5 km');
+    expect(screen.getByText('0.5 km')).toBeTruthy();
+    expect(document.querySelector('.nav-name')).toBeNull(); // no name, no size
     rerender(<NavPanel nav={{ ...n, progress: progress({ arrived: true }) }} />);
     expect(screen.getByText('Arrived')).toBeTruthy();
     rerender(<NavPanel nav={{ ...n, progress: progress({ next: null, upcoming: [] }) }} />);
-    expect(screen.queryByText(/ in /)).toBeNull();
+    expect(screen.queryByText(/ in$/)).toBeNull();
+  });
+
+  it('offers the red helm light after sunset', () => {
+    const onHelm = vi.fn();
+    const { rerender } = render(<NavPanel nav={nav()} />);
+    expect(screen.queryByText('Red light')).toBeNull();
+    rerender(<NavPanel nav={nav()} onHelm={onHelm} />);
+    fireEvent.click(screen.getByText('Red light'));
+    expect(onHelm).toHaveBeenCalled();
   });
 });

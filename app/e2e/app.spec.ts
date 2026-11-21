@@ -61,7 +61,7 @@ test('navigates: warns of a lock, and re-routes from the boat when off the route
   await page.goto(NAV_ROUTE);
   await page.getByText('Start', { exact: true }).click({ timeout: 90_000 });
   for (const p of ALONG) await move(context, page, p);
-  await expect(page.locator('.nav-next')).toContainText(/Lock in \d/);
+  await expect(page.locator('.nav-next')).toContainText(/Lock in\s*\d/);
   // 400 m north of the canal, moving east: off the route
   const [lon, lat] = ALONG[3];
   for (let k = 0; k < 5; k++) await move(context, page, [lon + k * 0.0003, lat + 0.0036]);
@@ -69,5 +69,5 @@ test('navigates: warns of a lock, and re-routes from the boat when off the route
   await expect(page.locator('.nav-reroute')).toHaveCount(0, { timeout: 30_000 });
   // the banner clears once the new route from the boat has arrived; navigation goes on along it
   await expect(page.locator('.nav-panel')).toBeVisible();
-  await expect(page.locator('.nav-next')).toContainText(/Lock in \d/);
+  await expect(page.locator('.nav-next')).toContainText(/Lock in\s*\d/);
 });

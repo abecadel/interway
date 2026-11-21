@@ -23,6 +23,7 @@ import { type Place, searchPlaces } from './ui/search';
 import { buildLocalIndex } from './ui/localSearch';
 import { useNavigation } from './nav/useNavigation';
 import { NavPanel } from './ui/NavPanel';
+import { sunAltitude } from './ui/astro';
 import { OfflineMap } from './ui/OfflineMap';
 import { download } from './ui/download';
 import { trackGpx } from './nav/track';
@@ -512,6 +513,8 @@ export default function App({ client }: { client: RoutingApi }) {
       />
     </label>
   );
+  // after sunset at the boat, navigation offers the red helm light
+  const darkOutside = !!position && sunAltitude(position.timestamp, position.coords.latitude, position.coords.longitude) < 0;
   const near = position ? ([position.coords.longitude, position.coords.latitude] as LngLat) : undefined;
 
   // what covers the map: on phones the search box and the sheet (at most half the screen is kept clear for it),
@@ -726,7 +729,7 @@ export default function App({ client }: { client: RoutingApi }) {
         onAlternative={(i) => choose(altLines[i].index)}
       />
       {nav.active ? (
-        <NavPanel nav={drawing ? { ...nav, rerouting: true } : nav} />
+        <NavPanel nav={drawing ? { ...nav, rerouting: true } : nav} onHelm={darkOutside && theme !== 'helm' ? () => setTheme('helm') : undefined} />
       ) : (
         <>
           {phone && <div ref={topbarRef} className="topbar">{top}</div>}
