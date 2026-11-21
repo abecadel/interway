@@ -78,8 +78,14 @@ describe('App', () => {
     const client = fakeClient();
     render(<App client={client} />);
     expect(screen.getByText('Loading waterway data…')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Layers'));
+    expect(screen.queryByText(/^Data:/)).toBeNull(); // nothing to say before the data is in
+    fireEvent.click(screen.getByLabelText('Close layers'));
     await flush();
-    expect(screen.getByText('Test: 1,234 nodes, 5,678 edges')).toBeTruthy();
+    expect(screen.queryByText('Test: 1,234 nodes, 5,678 edges')).toBeNull(); // not under every card
+    fireEvent.click(screen.getByLabelText('Layers'));
+    expect(screen.getByText('Data: Test: 1,234 nodes, 5,678 edges')).toBeTruthy();
+    fireEvent.click(screen.getByLabelText('Close layers'));
     expect(client.route).toHaveBeenCalledWith([21.03, 52.47], [21.765, 54.035], defaultProfile, []);
     expect(screen.getByText('5 h 0 min')).toBeTruthy();
     expect(screen.getByText('123 km (66.7 NM) · 2 locks · at 10 km/h')).toBeTruthy();

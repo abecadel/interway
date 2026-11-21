@@ -24,6 +24,14 @@
   :root:not([data-theme='day']) { --bg: #131a21; --fg: #e6edf3; --muted: #9aa7b4; --line: #2c3743; --accent: #5cb3ee; --error: #ff8a80; --warn: #ffcc66; --active-bg: #4a3b12; --hover: rgba(255,255,255,.08); --chip-on: #1f3347; --on-accent: #0b1a26; --field: #1b242d; --route-time: #81c995; --nav-bg: #0f5132; --shadow: 0 1px 3px rgba(0,0,0,.6), 0 4px 8px 3px rgba(0,0,0,.3); --shadow-sm: 0 1px 3px rgba(0,0,0,.6); }
 }
 :root[data-theme='night'] { --bg: #131a21; --fg: #e6edf3; --muted: #9aa7b4; --line: #2c3743; --accent: #5cb3ee; --error: #ff8a80; --warn: #ffcc66; --active-bg: #4a3b12; --hover: rgba(255,255,255,.08); --chip-on: #1f3347; --on-accent: #0b1a26; --field: #1b242d; --route-time: #81c995; --nav-bg: #0f5132; --shadow: 0 1px 3px rgba(0,0,0,.6), 0 4px 8px 3px rgba(0,0,0,.3); --shadow-sm: 0 1px 3px rgba(0,0,0,.6); }
+/* helm: red on black for the helm at night (keeps night vision: no white or blue light); the map is tinted red */
+:root[data-theme='helm'] { --bg: #0a0000; --fg: #ff6b5e; --muted: #d2463b; --line: #3a0d0a; --accent: #ff6b5e; --error: #ff8a80; --warn: #ff9e80; --active-bg: #2a0806; --hover: rgba(255,107,94,.12); --chip-on: #2a0806; --on-accent: #0a0000; --field: #140302; --route-time: #ff6b5e; --nav-bg: #2a0806; --shadow: 0 1px 3px rgba(0,0,0,.8); --shadow-sm: 0 1px 3px rgba(0,0,0,.8); }
+:root[data-theme='helm'] .maplibregl-canvas, :root[data-theme='helm'] img { filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(5) brightness(.55); }
+/* keyboard focus is always visible */
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+/* fewer moves for those who ask for less motion */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 * { box-sizing: border-box; }
 html, body, #root { margin: 0; height: 100%; }
 button, input, select { font: inherit; color: inherit; }

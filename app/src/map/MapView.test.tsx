@@ -9,6 +9,7 @@ const h = vi.hoisted(() => {
   interface FakeMapT {
     opts: Record<string, unknown>;
     layerSpecs: Record<string, { paint?: Record<string, unknown> }>;
+    paints: Record<string, unknown>;
     setStyle: ReturnType<typeof vi.fn>;
     handlers: Record<string, Handler>;
     sources: Record<string, { setData: ReturnType<typeof vi.fn>; spec: unknown }>;
@@ -56,6 +57,9 @@ vi.mock('maplibre-gl', () => {
     once(ev: string, fn: Handler) { this.handlers[ev] = fn; }
     addSource(id: string, spec: unknown) { this.sources[id] = { spec, setData: vi.fn() }; }
     addLayer(l: { id: string }) { this.layers.push(l.id); this.layerSpecs[l.id] = l; }
+    paints: Record<string, unknown> = {};
+    getLayer(id: string) { return this.layers.includes(id) || id === 'water' ? { id } : undefined; }
+    setPaintProperty(id: string, k: string, v: unknown) { this.paints[`${id}.${k}`] = v; }
     getSource(id: string) { return this.sources[id]; }
     setLayoutProperty(id: string, _k: string, v: string) { this.layout[id] = v; }
   }
@@ -156,6 +160,8 @@ describe('MapView', () => {
     act(() => map.handlers['style.load']());
     expect(map.layers).toContain('route');
     expect(map.layerSpecs.seamarks.paint).toEqual({ 'raster-opacity': 0.7 });
+    // the dark style's water is tinted navy (where the style has the layer)
+    expect(map.paints).toEqual({ 'water.fill-color': '#0f2c42' });
     expect(map.sources.route.setData).toHaveBeenLastCalledWith(expect.objectContaining({ geometry: expect.objectContaining({ type: 'LineString' }) }));
   });
 

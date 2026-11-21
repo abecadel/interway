@@ -76,6 +76,7 @@ const LONG_PRESS_MS = 550;
 
 const BASEMAP = 'https://tiles.openfreemap.org/styles/liberty';
 const BASEMAP_NIGHT = 'https://tiles.openfreemap.org/styles/dark';
+const NIGHT_WATER = '#0f2c42';
 const styleOf = (night: boolean) => (night ? BASEMAP_NIGHT : BASEMAP);
 const SEAMARKS = 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png';
 const empty: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
@@ -174,6 +175,8 @@ export function MapView({
     // Our sources and layers sit on top of the basemap style; a style change (day/night) drops them, so they
     // are added on the first load and again whenever a new style has loaded.
     const addOverlays = () => {
+      // the dark basemap's water is near black: make it read as water (navy)
+      if (latest.current.night) for (const id of ['water', 'water_shadow']) if (map.getLayer(id)) map.setPaintProperty(id, 'fill-color', NIGHT_WATER);
       map.addSource('seamarks', { type: 'raster', tiles: [SEAMARKS], tileSize: 256, maxzoom: 18 });
       map.addLayer({
         id: 'seamarks', type: 'raster', source: 'seamarks', minzoom: 9,
