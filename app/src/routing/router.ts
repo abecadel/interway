@@ -190,6 +190,8 @@ const NOT_CONNECTED = 'No navigable route found: these points are on waterways t
   + 'or only one way round';
 
 const BLOCKED = Infinity;
+/** At most this many geometries are measured when snapping a point (see snapCandidates). */
+const MAX_SNAP_CANDIDATES = 4096;
 /** Alternatives: stretches used by routes found so far cost this much more in the next search... */
 const ALT_PENALTY = 1.8;
 /** ...and a new route counts when it shares at most this share of its length with them and takes at most this
@@ -304,9 +306,10 @@ export class Router {
    */
   snapCandidates([lon, lat]: LngLat, profile: VesselProfile = defaultProfile, maxCandidates = 32): Snap[] {
     if (this.geom.geomCount === 0) return [];
-    const candidates = this.index.neighbors(lon, lat, maxCandidates, Infinity, (g) => this.usable(g, profile));
+    const usable = (g: number) => this.usable(g, profile);
+    const first = this.index.neighbors(lon, lat, maxCandidates, Infinity, usable);
     const bestPer = new Map<number, Snap>();
-    for (const g of candidates) {
+    const measure = (g: number) => {
       const c = this.component[this.geom.geomFrom[g]];
       let best = bestPer.get(c);
       const start = this.geom.geomOffsets[g], end = this.geom.geomOffsets[g + 1];
@@ -325,6 +328,15 @@ export class Router {
         along += segLen;
       }
       bestPer.set(c, best!);
+    };
+    first.forEach(measure);
+    // the index orders by bounding box: long open-sea edges whose boxes cover the point can fill the first
+    // candidates while a short edge is really nearer, so look again at every box within the best distance found
+    const nearest = Math.min(...[...bestPer.values()].map((s) => s.offset));
+    if (first.length === maxCandidates && Number.isFinite(nearest)) {
+      const deg = (nearest + ALT_SNAP_M) / (111_320 * Math.max(Math.cos((lat * Math.PI) / 180), 0.05));
+      const seen = new Set(first);
+      for (const g of this.index.neighbors(lon, lat, MAX_SNAP_CANDIDATES, deg, usable)) if (!seen.has(g)) measure(g);
     }
     const sorted = [...bestPer.values()].sort((x, y) => x.offset - y.offset);
     // other parts only count when about as close as the nearest one, never a waterway far from the point
