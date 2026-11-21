@@ -32,7 +32,7 @@ export function CategoryList({ pois, type, center, onSelect, onClose }: {
         <h2>{label} nearby</h2>
         <button type="button" className="icon-btn" aria-label="Close list" onClick={onClose}>✕</button>
       </header>
-      {near.length === 0 && <p className="info small">None in the data near here.</p>}
+      {near.length === 0 && <p className="empty-state small">None in the data near here: move the map to look elsewhere, or search for a place.</p>}
       <ul className="place-list">
         {near.map(({ poi, d }, i) => (
           <li key={i}>

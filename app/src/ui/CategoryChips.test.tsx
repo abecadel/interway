@@ -26,6 +26,6 @@ describe('categories', () => {
     fireEvent.click(screen.getByLabelText('Close list'));
     expect(onClose).toHaveBeenCalled();
     rerender(<CategoryList pois={pois} type="water" center={[20, 52]} onSelect={onSelect} onClose={onClose} />);
-    expect(screen.getByText('None in the data near here.')).toBeTruthy();
+    expect(screen.getByText(/^None in the data near here/)).toBeTruthy();
   });
 });
