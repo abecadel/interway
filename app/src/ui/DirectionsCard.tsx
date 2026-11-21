@@ -57,7 +57,7 @@ export function DirectionsCard(props: {
               {via.map((p, i) => (
                 <li key={i}>
                   <span>{p.label}</span>
-                  <button type="button" title="Remove waypoint" onClick={() => props.setVia(via.filter((_, j) => j !== i))}>✕</button>
+                  <button type="button" title="Remove waypoint" aria-label="Remove waypoint" onClick={() => props.setVia(via.filter((_, j) => j !== i))}><Icon name="close" size={18} /></button>
                 </li>
               ))}
             </ol>

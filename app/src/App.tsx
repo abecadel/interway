@@ -585,7 +585,7 @@ export default function App({ client }: { client: RoutingApi }) {
     <section className="place-card" aria-label={waterwaySheet.name}>
       <div className="waterway-head">
         <strong>{waterwaySheet.name}</strong>
-        <button className="round" aria-label="Close" onClick={() => setWaterwaySheet(null)}>✕</button>
+        <button className="round" aria-label="Close" onClick={() => setWaterwaySheet(null)}><Icon name="close" /></button>
       </div>
       <WaterwaysView waterways={[waterwaySheet]} />
     </section>
