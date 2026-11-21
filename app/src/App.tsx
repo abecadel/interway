@@ -38,7 +38,7 @@ import { addRecent, isSaved, loadPlaces, RECENT_KEY, SAVED_KEY, toggleSaved } fr
 import { RouteSummary } from './ui/RouteSummary';
 import { SearchBar } from './ui/SearchBar';
 import { Sheet } from './ui/Sheet';
-import type { Snap } from './ui/sheetSnap';
+import { type Snap, snapHeights } from './ui/sheetSnap';
 import { PHONE, useMediaQuery } from './ui/useMediaQuery';
 import { useInstallPrompt } from './ui/useInstallPrompt';
 import { useTheme } from './ui/useTheme';
@@ -49,6 +49,8 @@ import { portFacts } from './ui/portFacts';
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
 const SHEET_KEY = 'interway.sheet';
+/** the desktop side panel's width with its margin */
+const SIDE_PANEL_PX = 424;
 
 const toPoint = (p: LngLat): Point => ({ position: p, label: fmtPos(p) });
 const NO_STOPS: Stop[] = [];
@@ -152,10 +154,14 @@ export default function App({ client }: { client: RoutingApi }) {
   // phones: the sheet stops below the search box or directions card, whatever their height
   const appRef = useRef<HTMLDivElement>(null);
   const topbarRef = useRef<HTMLDivElement>(null);
+  const [topbarH, setTopbarH] = useState(0);
   useEffect(() => {
     const bar = topbarRef.current;
     if (!bar || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => appRef.current!.style.setProperty('--topbar-h', `${bar.offsetHeight}px`));
+    const ro = new ResizeObserver(() => {
+      appRef.current!.style.setProperty('--topbar-h', `${bar.offsetHeight}px`);
+      setTopbarH(bar.offsetHeight);
+    });
     ro.observe(bar);
     return () => ro.disconnect();
   });
@@ -507,6 +513,14 @@ export default function App({ client }: { client: RoutingApi }) {
   );
   const near = position ? ([position.coords.longitude, position.coords.latitude] as LngLat) : undefined;
 
+  // what covers the map: on phones the search box and the sheet (at most half the screen is kept clear for it),
+  // on desktop the side panel when open
+  const insets = useMemo(() => {
+    if (!phone) return { top: 0, bottom: 0, left: snap === 'peek' ? 0 : SIDE_PANEL_PX };
+    const h = snapHeights(window.innerHeight);
+    return { top: topbarH, bottom: Math.min(h[snap], h.half), left: 0 };
+  }, [phone, snap, topbarH]);
+
   const sheetTitle = route && directions
     ? `${fmtDuration(route.duration)} · ${fmtKm(route.distance)}`
     : place ? place.label : category ? CATEGORIES.find(([t]) => t === category)![1] : directions ? 'Directions' : 'Explore';
@@ -684,6 +698,7 @@ export default function App({ client }: { client: RoutingApi }) {
         via={viaPositions}
         route={directions ? nav.route : null}
         onRouteDrawn={setDrawn}
+        insets={insets}
         position={position}
         network={showNetwork ? network : null}
         showSeamarks={showSeamarks}
