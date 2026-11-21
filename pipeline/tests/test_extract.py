@@ -46,7 +46,8 @@ NODE_TAGS = {
     34: {"waterway": "dam"},
     35: {"waterway": "waterfall"},
     36: {"waterway": "weir", "lock": "yes"},  # weir with a lock is passable
-    37: {"leisure": "marina", "name": "Port Node"},
+    37: {"leisure": "marina", "name": "Port Node", "website": "https://port.example", "vhf": "9", "capacity": "120",
+         "fuel:diesel": "yes", "power_supply": "yes"},
     38: {"leisure": "marina", "name": "No location"},
     # storm-surge barriers stand open: not locks, even when tagged as lock gates
     39: {"waterway": "lock_gate", "man_made": "storm_surge_barrier", "name": "Thames Barrier"},
@@ -223,8 +224,12 @@ def test_area_polygon_drops_rings_that_vanish():
 
 
 def test_services(ex):
-    got = {(k, n) for k, n, _ in ex.services}
+    got = {(k, n) for k, n, _, _ in ex.services}
     assert got == {("marina", "Port Node"), ("marina", "Port Area"), ("fuel", "Paliwo"), ("port", "Port Handlowy")}
+    facts = {n: dict(f) for _, n, _, f in ex.services}
+    assert facts["Port Node"] == {"website": "https://port.example", "vhf": "9", "berths": "120",
+                                  "services": "diesel, electricity"}
+    assert facts["Paliwo"] == {}
     assert ("Port Handlowy", "port") not in dict(ex.marinas).items()  # only marinas feed lake entries
 
 

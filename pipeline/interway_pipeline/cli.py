@@ -159,7 +159,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 12  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 13  # bump when read_osm output changes, invalidates --cache
 
 
 def itinerary_pois(segments: list[Segment], services: list, bridge_points: list, max_m: float = 1000.0,
@@ -181,14 +181,11 @@ def itinerary_pois(segments: list[Segment], services: list, bridge_points: list,
     if services and segments:
         lines = [LineString(s.coords) for s in segments]
         tree = STRtree(lines)
-        for kind, name, p, *country in services:
+        for kind, name, p, facts in services:
             nearest = lines[tree.nearest(Point(p))]
             q = nearest.interpolate(nearest.project(Point(p)))
             if haversine(p, (q.x, q.y)) <= (place_m if kind == "place" else max_m):
-                poi = {"type": kind, "name": name, "lon": p[0], "lat": p[1]}
-                if country and country[0]:
-                    poi["cc"] = country[0]
-                pois.append(poi)
+                pois.append({"type": kind, "name": name, "lon": p[0], "lat": p[1], **dict(facts)})
     return pois
 
 
@@ -252,7 +249,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     close_gaps(segments, dead_end_gap_m=dead_end_gap_m)
     snap_dead_ends_to_lines(segments)
     # marinas and harbours (passenger quays: the Telemark Canal boats at Dalen) are places to steer to on a lake
-    harbours = ex.marinas + [(name, p) for kind, name, p in ex.services if kind == "port"]
+    harbours = ex.marinas + [(name, p) for kind, name, p, _ in ex.services if kind == "port"]
     lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes

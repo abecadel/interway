@@ -29,17 +29,47 @@ def poi_type(tags) -> str | None:
     return None
 
 
+# What OSM records about a harbour, marina or fuel berth, by the field the app shows (first tag found wins)
+PORT_FIELDS: list[tuple[str, tuple[str, ...]]] = [
+    ("website", ("website", "contact:website", "url")),
+    ("phone", ("phone", "contact:phone")),
+    ("email", ("email", "contact:email")),
+    ("vhf", ("vhf", "seamark:radio_station:channel", "communication:vhf")),
+    ("berths", ("capacity", "seamark:small_craft_facility:capacity")),
+    ("maxlength", ("maxlength",)),
+    ("maxdraft", ("maxdraft", "depth")),
+    ("hours", ("opening_hours",)),
+    ("operator", ("operator",)),
+]
+PORT_SERVICES = [("diesel", "fuel:diesel"), ("petrol", "fuel:octane_95"), ("electricity", "power_supply"),
+                 ("water", "drinking_water"), ("toilets", "toilets"), ("showers", "shower")]
+
+
+def port_info(tags) -> tuple[tuple[str, str], ...]:
+    """Facts about a port from its OSM tags, as sorted (field, value) pairs (hashable, for de-duplication)."""
+    out = {}
+    for field, keys in PORT_FIELDS:
+        v = next((tags.get(k) for k in keys if tags.get(k)), None)
+        if v:
+            out[field] = v[:120]
+    services = [label for label, key in PORT_SERVICES if tags.get(key) in ("yes", "designated")]
+    if services:
+        out["services"] = ", ".join(services)
+    return tuple(sorted(out.items()))
+
+
 # GeoNames feature codes that are not towns of their own: districts (Lyon 01, Sector 1, the arrondissements
 # of Marseille) and historical or abandoned places
 NOT_TOWNS = {"PPLX", "PPLA5", "PPLH", "PPLQ", "PPLW"}
 
 
 def load_places(path: Path) -> list[tuple[str, str, tuple[float, float]]]:
-    """Towns from a GeoNames table (cities5000.txt, CC BY 4.0): ("place", name, (lon, lat), country code) per row;
+    """Towns from a GeoNames table (cities5000.txt, CC BY 4.0): ("place", name, (lon, lat), (("cc", code),)) per row;
     the code (ISO 3166, column 9) tells the app whose notices to skippers apply along a route."""
     out = []
     for line in path.read_text(encoding="utf-8").splitlines():
         cols = line.split("\t")
         if len(cols) > 5 and cols[1] and (len(cols) < 8 or cols[7] not in NOT_TOWNS):
-            out.append(("place", cols[1], (float(cols[5]), float(cols[4])), cols[8] if len(cols) > 8 else ""))
+            country = (("cc", cols[8]),) if len(cols) > 8 and cols[8] else ()
+            out.append(("place", cols[1], (float(cols[5]), float(cols[4])), country))
     return out
