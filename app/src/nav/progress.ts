@@ -2,6 +2,7 @@
 import { bearing, haversine, projectOnSegment, type LngLat } from '../graph/geo';
 import type { Stop } from '../routing/itinerary';
 import type { Route } from '../routing/router';
+import { poiDetail } from '../ui/format';
 
 export interface Fix {
   lon: number;
@@ -24,6 +25,8 @@ export const fixOf = (p: GeolocationPosition): Fix => ({
 export interface Upcoming {
   kind: 'lock' | 'bridge' | 'end';
   name: string;
+  /** chamber size or clearance, when known */
+  detail?: string;
   /** m from the start of the route */
   at: number;
   /** m from the boat */
@@ -86,7 +89,7 @@ export function buildTrack(route: Route, stops: Stop[]): Track {
   const total = along[along.length - 1];
   const events: Track['events'] = stops
     .filter((s) => s.poi.type === 'lock' || s.poi.type === 'bridge')
-    .map((s) => ({ kind: s.poi.type as 'lock' | 'bridge', name: s.poi.name, at: s.at }));
+    .map((s) => ({ kind: s.poi.type as 'lock' | 'bridge', name: s.poi.name, at: s.at, ...(poiDetail(s.poi) ? { detail: poiDetail(s.poi) } : {}) }));
   // locks of the graph that no lock POI names
   for (const e of route.events) {
     if (!events.some((x) => x.kind === 'lock' && Math.abs(x.at - e.at) < SAME_M)) events.push({ kind: 'lock', name: e.name, at: e.at });

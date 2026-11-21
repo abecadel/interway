@@ -278,6 +278,10 @@ describe('App', () => {
     expect(mapProps.current!.follow).toBe(false);
     fireEvent.click(screen.getByText('Recenter'));
     expect(mapProps.current!.follow).toBe(true);
+    // a fix at night (1 January 1970, 00:00 UTC in Poland): the red helm light is offered, and once on, not again
+    fireEvent.click(screen.getByText('Red light'));
+    expect(screen.queryByText('Red light')).toBeNull();
+    localStorage.removeItem('interway.theme');
     const drawn = () => act(() => (mapProps.current!.onRouteDrawn as (r: unknown) => void)(mapProps.current!.route));
     drawn();
     // three fixes well off the line: plan again from the boat; the link keeps the planned route
@@ -291,7 +295,7 @@ describe('App', () => {
     expect(location.search).toBe(planned);
     expect(mapProps.current!.start).toEqual([21.4, 52.1]);
     expect(mapProps.current!.course).toBeNull();
-    fireEvent.click(screen.getByLabelText('Stop'));
+    fireEvent.click(screen.getByText('End'));
     expect(screen.queryByLabelText('Navigation')).toBeNull();
     expect(location.search).toContain('from=21.40000,52.10000');
   });
