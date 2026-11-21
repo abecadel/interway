@@ -1,0 +1,769 @@
+[
+ {
+  "cc": "DK",
+  "name": "Denmark",
+  "inland": {
+   "regulation": "Søsikkerhedsloven (lov om sikkerhed til søs) and DMA orders; inland lakes and rivers are regulated by the municipalities (e.g. Gudenå system rules)",
+   "licence": "'Speedbådsbevis' (power boat certificate) needed for planing craft: under 4 m with 19 kW (25 hp) or more; 4–15 m depending on engine power for the length (DMA calculator). Minimum age 16. Also needed for jet skis ('vandscooterbevis'). 'Duelighedsbevis i sejlads' covers boats 15–24 m",
+   "licenceThresholdKw": 19,
+   "foreignLicence": "Denmark does not take part in the ICC scheme. On a foreign-flagged boat you may sail with your foreign certificate if the flag state recognises it. A foreign certificate is not valid for Danish-registered boats or for hiring a boat that needs a certificate",
+   "permit": "Gudenå system: every motorboat (including electric and auxiliary engines) must be registered with the Gudenå committee and the fee paid before use",
+   "permitCost": null,
+   "registration": "no general register for small pleasure craft; speedboats under 15 m, jet skis and similar craft must have third-party liability insurance (since 15 May 2018), foreign boats included",
+   "vhf": "SRC needed to operate a VHF; foreign certificates under ERC Recommendation 31-04 are recognised",
+   "speedLimits": "no general limit; local rules. Gudenå system: max 10 kn everywhere, Tangeværket–Randers Bro max 5 kn, Ravnsø 5 kn and Thorsø 3 kn (sail and electric only)",
+   "alcohol": "0.5 ‰ fixed limit for craft that need a certificate (speedboats, 15–24 m boats) and for jet skis; for other pleasure craft no fixed limit, but you must not be unfit to steer",
+   "equipment": "lifejackets recommended; lights and sound signals per COLREGs; insurance certificate on board for speedboats and jet skis",
+   "motorboatBans": "most Danish lakes are closed to motorboats or limited by municipal rules. Gudenå: Ravnsø and Thorsø allow only sail and electric motors; waterskiing only in areas the municipality has designated",
+   "other": [
+    "Gudenå: no motor insurance means you may not use the boat"
+   ]
+  },
+  "sea": {
+   "regulation": "COLREGs; Søsikkerhedsloven; regional police sailing rules ('reglement for sejlads') for the coast",
+   "licence": "as inland: speedbådsbevis for planing boats (<4 m at 19 kW and over; 4–15 m by power/length); duelighedsbevis for 15–24 m",
+   "coastalSpeed": "most police districts: max 5 kn within 300 m of the shore for motorboats in summer; Copenhagen bathing zones and Amager/Kastrup Strandpark: 3 kn; many harbours 3 kn. Jet skis: generally banned within 300 m, may only cross it at right angles at under 5 kn",
+   "anchoring": "jet skis banned in nature reserves, conservation areas and wildlife reserves; wildlife reserves (vildtreservater) can have seasonal no-landing and no-sailing zones (check Miljøstyrelsen; not confirmed per area)",
+   "entry": "Schengen and EU; no border formalities from other Schengen states. Non-EU boats: temporary admission under EU customs rules",
+   "taxes": "none for visiting pleasure craft",
+   "other": [
+    "Rented boats that need a certificate cannot be skippered on a foreign licence"
+   ]
+  },
+  "authority": {
+   "name": "Søfartsstyrelsen (Danish Maritime Authority)",
+   "url": "https://www.dma.dk/recreational-sailing"
+  },
+  "sources": [
+   "https://www.dma.dk/recreational-sailing/training-programmes-and-personal-certificates/power-boat-certificate",
+   "https://www.dma.dk/recreational-sailing/training-programmes-and-personal-certificates/use-of-foreign-recreational-certificates-in-denmark",
+   "https://www.dma.dk/recreational-sailing/recreational-vessels/personal-watercraft",
+   "https://admin.dma.dk/Media/639059740987621262/Order no. 1441.pdf",
+   "https://politi.dk/-/media/mediefiler/kbh/dokumenter/reglement-for-sejlads.pdf",
+   "https://politi.dk/-/media/mediefiler/fyn/dokumenter/sejllads/sejlads-ved-middelfart-inkl-vandscooter-naturpark-lillebaelt-2025.pdf",
+   "https://danskelove.dk/s%C3%B8sikkerhedsloven/29a",
+   "https://Horsens.dk/media/w4uprmwp/pressemeddelselse_sejladskontrol-paa-gudenaaen-2019.pdf",
+   "https://www.gudenaakomiteen.dk/media/99509/ba-dregistrering2017uk.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "NO",
+  "name": "Norway",
+  "inland": {
+   "regulation": "Lov om fritids- og småbåter (småbåtloven); motorferdselloven (motor traffic in outfields and watercourses); local municipal regulations",
+   "licence": "'Båtførerbevis' needed for anyone born on or after 1 Jan 1980 to skipper a pleasure boat 8 m or longer or with more than 25 hp (about 18.4 kW). It covers boats up to 15 m and under 50 kn; faster boats need 'høyhastighetsbevis'",
+   "licenceThresholdKw": 18.4,
+   "foreignLicence": "foreign qualification certificates are accepted on the same terms; the ICC is widely accepted (Sjøfartsdirektoratet keeps a list of ICC countries)",
+   "permit": "Telemark canal (Skien–Dalen/Notodden): lock fee paid by card at the first lock; 2026 season for pleasure boats 26 June–20 August, locks staffed 09:00–18:00; locking outside hours at cost",
+   "permitCost": null,
+   "registration": "no register for small pleasure boats (not confirmed for larger craft)",
+   "vhf": "SRC needed to operate a VHF",
+   "speedLimits": "set locally by the municipality (vary from place to place); no national inland limit",
+   "alcohol": "0.8 ‰ for boats under 15 m; 0.2 ‰ for boats 15 m and over",
+   "equipment": "suitable buoyancy aid for everyone on board; must be WORN by everyone outdoors on boats under 8 m while under way",
+   "motorboatBans": "motorferdselloven: motorboats are allowed on lakes of 2 km² or more and on rivers unless the municipality restricts them; on lakes under 2 km² motor traffic (including jet skis and electric motors) is banned unless the municipality allows it (electric up to 800 W possible). Many municipalities add bans on jet skis or engine limits (e.g. Sør-Fron/Atnsjøen: up to 10 hp)",
+   "other": [
+    "Rules are national, but the local municipal regulation (forskrift) often changes the picture; check before launching on a lake"
+   ]
+  },
+  "sea": {
+   "regulation": "Sjøveisreglene (COLREGs); småbåtloven; local speed regulations",
+   "licence": "as inland: båtførerbevis for 8 m+ or over 25 hp if born 1980 or later",
+   "coastalSpeed": "set locally by the municipality; commonly 5 kn near land, in harbours and narrow sounds — check signs",
+   "anchoring": "seabird reserves and national parks have seasonal landing and access bans set per area by Statsforvalteren; dates vary — check the local regulation (not confirmed)",
+   "entry": "Schengen, but NOT EU: customs border. A visiting tourist may bring a foreign pleasure boat in tax-free for personal use without reporting to customs on arrival, if not used by Norwegian residents; strict duty-free quotas for alcohol and tobacco apply (declare above quota). A foreign boat may be left for up to 6 weeks in 12 months without permission; longer storage needs a Toll application; total stay limit 2 years",
+   "taxes": "none for visitors; importing a boat costs 25 % VAT",
+   "other": [
+    "Lifejacket must be worn on boats under 8 m"
+   ]
+  },
+  "authority": {
+   "name": "Sjøfartsdirektoratet (Norwegian Maritime Authority)",
+   "url": "https://www.sdir.no"
+  },
+  "sources": [
+   "https://www.sdir.no/contentassets/1879e7a8dc794654af7cfae1abbd4ac5/trygg_i_bat_januar_2025_til_nettsiden.pdf",
+   "https://www.sdir.no/contentassets/49d9c17241f94c7cac3eb5b49c75646f/plakat.pdf",
+   "https://www.sdir.no:443/globalassets/brosjyrer/fritidsfartoy/ta-batforerproven-brosjyren.pdf",
+   "https://www.regjeringen.no/no/aktuelt/skal-du-pa-battur-i-sommer-her-er-reglene/id2865476/",
+   "https://www.miljodirektoratet.no/ansvarsomrader/friluftsliv/motorferdsel-i-utmark/regler-for-motorferdsel-i-utmark/motorbat-luftfartoy-og-el-sykkel/",
+   "https://www.miljodirektoratet.no/ansvarsomrader/friluftsliv/motorferdsel-i-utmark/myndigheter/motorfartoy/er-formalet-soknadspliktig-eller-ikke/",
+   "https://www.telemarkskanalen.no/fritidsbat/apningstider-og-priser",
+   "https://toll.no/en/goods/boat/storing-a-foreign-recreational-boat",
+   "https://www.toll.no/en/goods/boat/import-of-recreational-boats"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "SE",
+  "name": "Sweden",
+  "inland": {
+   "regulation": "Sjölagen, sjötrafikförordningen; local speed and traffic rules (lokala sjötrafikföreskrifter) by Transportstyrelsen or the county boards (länsstyrelsen)",
+   "licence": "no licence needed for pleasure boats under 12 m long and under 4 m wide; larger boats need 'förarintyg' or 'kustskepparintyg'. Jet skis: 'förarbevis för vattenskoter' required since 1 May 2022, minimum age 15",
+   "licenceThresholdKw": null,
+   "foreignLicence": "EEA citizens may drive a jet ski on their home licence if it covers jet skis (carry licence and ID); otherwise no licence needed below 12 m × 4 m",
+   "permit": "Göta kanal (Mem–Sjötorp): ticket price depends on boat size, route and season; 2026 season 5 May–27 Sept (high season 16 June–12 Aug), 'Miniresan' SEK 1,025 incl. 3 marina nights; 2027 tickets on sale end of Nov 2026. Trollhätte kanal: SEK 1,200 one way for all locks (2026); Sjöfartsverket proposes +14.4 % for 2027; season passes also sold. Säffle and Södertälje kanal have their own Sjöfartsverket fees",
+   "permitCost": "Trollhätte kanal SEK 1,200 one way (2026)",
+   "registration": "no register for pleasure boats, except jet skis, which must be registered with Transportstyrelsen",
+   "vhf": "SRC needed to operate a VHF",
+   "speedLimits": "no general limit; local limits by sign (e.g. 5 kn within 100 m of land in Nämdöskärgården national park; 3 kn in some straits). Carelessness at sea is an offence wherever you are",
+   "alcohol": "0.2 ‰ for boats that can do 15 kn or more or have a hull of 10 m or more (for the skipper and anyone with duties for safe navigation); 1.0 ‰ is gross 'sjöfylleri' (up to 2 years prison). Random breath tests by Kustbevakningen and police",
+   "equipment": "lifejackets recommended; lights and sound signals per COLREGs",
+   "motorboatBans": "set per area by county board rules: e.g. Nämdöskärgården national park bans motorboats and anchoring in listed zones and all traffic in others (01FS 2026:22). Check the county board's sjötrafikföreskrifter for each lake",
+   "other": [
+    "Old Stockholm archipelago boat-traffic rules (SJÖFS 2008:97) were repealed on 1 July 2026; local rules now come from Transportstyrelsen and the county boards"
+   ]
+  },
+  "sea": {
+   "regulation": "COLREGs; sjötrafikförordningen; local sjötrafikföreskrifter",
+   "licence": "as inland: none under 12 m × 4 m; jet ski licence required",
+   "coastalSpeed": "no general coastal limit; local limits by sign in archipelagos, harbours and narrow sounds, e.g. 5 kn within 100 m of land in Nämdöskärgården national park",
+   "anchoring": "seal sanctuaries (sälskyddsområden) and bird sanctuaries (fågelskyddsområden) have seasonal access bans that often include the water up to 100 m from the islands; dates vary by area (e.g. 1 Apr–31 Jul, 1 Feb–15 Aug, 1 May–30 Jun; many Halland bird areas 1 Mar–31 Oct). Marked on charts and by yellow signs",
+   "entry": "Schengen and EU. Non-EU boats: temporary admission for up to 18 months, no notification needed if the owner lives outside the EU. Goods over SEK 3,500 from outside the EU are dutiable. From Åland (outside the EU tax area) only 1 l spirits or 2 l fortified wine per person are tax-free",
+   "taxes": "none for visiting pleasure craft",
+   "other": [
+    "Leaving EU waters: get a Status Registration Document stamped to prove Union status on return"
+   ]
+  },
+  "authority": {
+   "name": "Transportstyrelsen (Swedish Transport Agency)",
+   "url": "https://www.transportstyrelsen.se/sv/sjofart/fritidsbatar/"
+  },
+  "sources": [
+   "https://www.transportstyrelsen.se/sv/sjofart/fritidsbatar/sjosakerhet/pa-sjon/var-nykter-pa-sjon/",
+   "https://www.kustbevakningen.se/for-dig-pa-sjon/nykterhet-till-sjoss/fragor-och-svar-om-nykterhetskontroller/",
+   "https://www.transportstyrelsen.se/sv/sjofart/Fritidsbatar/Kunskap-och-kompetens",
+   "https://www.transportstyrelsen.se/sv/sjofart/fritidsbatar/vattenskoter/",
+   "https://www.transportstyrelsen.se/sv/sjofart/fartyg/fartygsregistret/bat/fritidsbat/registrera/registrera-vattenskoter/",
+   "https://www.transportstyrelsen.se/sv/sjofart/sjotrafik-och-hamnar/regler-gallande-sjofart/lokala-sjotrafikregler/",
+   "https://www.transportstyrelsen.se/sv/om-oss/dina-rattigheter-lagar-och-regler/lagar-och-regler/information-om-nya-eller-andrade-regler/upphavande-av-foreskrifter-ur-sjofartsverkets-forfattningssamling-sjofs/",
+   "https://www.lansstyrelsen.se/stockholm/om-oss/om-lansstyrelsen-stockholm/lanets-forfattningssamling/forfattningar-2026/forfattningar-2026/2026-07-13-01fs-202622.html",
+   "https://www.lansstyrelsen.se/halland/natur-och-landsbygd/skyddad-natur/tilltradesforbud-i-halland.html",
+   "https://www.sjofartsverket.se/en/services/bridges-and-canals/trollhatte-kanal/",
+   "https://www.vastsverige.com/visittrollhattanvanersborg/trollhatte-kanalpark/med-fritidsbat-i-trollhatte-kanal/?site=563",
+   "https://www.sjofartsverket.se/globalassets/om-oss/lagrum/aktuella-remisser/remiss-fritidsfartyg-infor-2027/remissmissiv-taxa-for-fritidsfartyg-pa-trollhatte-kanal-saffle-kanal-och-sodertalje-kanal.pdf",
+   "https://www.gotakanal.se/en/boatingholiday/prices-and-booking",
+   "https://www.tullverket.se/sailingpleasureboatsacrossswedensborder.4.311bf4f016e69d6ea0da08.html",
+   "https://www.tullverket.se/en/startpage/private/travelling/buyingalcoholwhentravelling.4.311bf4f016e69d6ea0d5e0.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "FI",
+  "name": "Finland",
+  "inland": {
+   "regulation": "Vesiliikennelaki (Water Traffic Act 782/2019); Traficom regulations; local speed and no-wake signs",
+   "licence": "no licence for private pleasure boats. Minimum age 15 to drive a registrable motor craft (engine 15 kW / over 20 hp or more, or jet ski). Traficom can set an 18-year minimum for some craft types",
+   "licenceThresholdKw": null,
+   "foreignLicence": "no licence needed; ICC issued by Traficom for Finns going abroad",
+   "permit": "Saimaa canal: pleasure craft cannot cross the Finnish–Russian border. Traffic for pleasure craft suspended since 15 April 2024; the Nuijamaa, Santio and Haapasaari crossing points are closed; in 2026 the canal opened only for cargo and passenger ships. Movement in the eastern border zone ('rajavyöhyke', including border lakes) needs a Border Guard permit",
+   "permitCost": null,
+   "registration": "motorboats and sailboats with a hull of 5.5 m or more, or an engine of 15 kW (over 20 hp) or more, and all jet skis must be in Traficom's watercraft register (Traficom pages differ on 'and'/'or'); visiting foreign-registered boats are exempt",
+   "vhf": "SRC needed to operate a VHF",
+   "speedLimits": "no general limit; speed limits and no-wake ('aallokon aiheuttamisen kielto') zones by sign on many channels and lakes",
+   "alcohol": "1.0 ‰ for recreational craft (0.5 ‰ professional); rowing boats are exempt. In 2025 Traficom proposed lowering it to 0.5 ‰ for all craft — not law as checked",
+   "equipment": "lifejackets for everyone on board (recommended to wear); extinguisher, anchor, bailer per boat size",
+   "motorboatBans": "no national list; restrictions by local sign and in protected areas. Eastern border zone waters need a permit",
+   "other": [
+    "Finnish Customs and Border Guard check boats at sea and can breath-test"
+   ]
+  },
+  "sea": {
+   "regulation": "COLREGs; Vesiliikennelaki",
+   "licence": "none for private pleasure craft",
+   "coastalSpeed": "no general limit; local limits and no-wake zones by sign in the archipelago and at marinas",
+   "anchoring": "seal sanctuaries and bird reserves (Metsähallitus) have access bans, some all year, some only in the nesting season; marked on charts (dates not confirmed)",
+   "entry": "Schengen and EU. Åland is inside the EU customs area but outside the EU tax area: boats crossing the Åland tax border have free passage, but alcohol and tobacco brought from Åland to mainland Finland fall under non-EU traveller limits",
+   "taxes": "none for visiting pleasure craft",
+   "other": [
+    "Åland: own pleasure-boat law (landskapslag om fritidsbåtar), boats 2.5–24 m; registrable boats from age 15; registration with Ålands Fordonsmyndigheten; otherwise Finnish practice for customs and tax"
+   ]
+  },
+  "authority": {
+   "name": "Traficom (Finnish Transport and Communications Agency)",
+   "url": "https://traficom.fi/en/boating"
+  },
+  "sources": [
+   "https://traficom.fi/en/transport/boaters/watercraft-register",
+   "https://traficom.fi/en/boating/boat-registration/first-registration-watercraft",
+   "https://traficom.fi/en/boating",
+   "https://www.traficom.fi/sites/default/files/media/publication/Veneilyn_promilleraja_ja_pelastusliivit.pdf",
+   "https://valtioneuvosto.fi/-/1410829/vesilla-asenne-ratkaisee",
+   "https://www.minilex.fi/q/vesikulkuneuvon-kuljettaja",
+   "https://valtioneuvosto.fi/en/-/1410829/saimaa-canal-sailing-season-ends-on-14-november",
+   "https://tulli.fi/en/restrictions/cars/leisure-boats",
+   "https://tulli.fi/restrictions/alcohol/traveller-imports",
+   "https://www.regeringen.ax/node/27810",
+   "https://www.norden.org/en/info-norden/customs-regulations-aland"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "EE",
+  "name": "Estonia",
+  "inland": {
+   "regulation": "Meresõiduohutuse seadus; 'Laevatatavatel sisevetel liiklemise kord' on navigable inland waters; Veeseadus and local rules on other waters",
+   "licence": "'Väikelaevajuhi tunnistus' needed above 25 kW engine power or 25 m² sail area. Up to 25 kW no licence is needed in daylight and good visibility within 5 NM of shore at sea or 9 km on inland waters. Jet skis need 'jetijuhi tunnistus'",
+   "licenceThresholdKw": 25,
+   "foreignLicence": null,
+   "permit": "border waters (Narva river, Lake Peipus/Peipsi, Lämmijärv) are under the border regime — read the 'piirirežiimi eeskiri' before going there",
+   "permitCost": null,
+   "registration": "small craft (2.5–24 m) must be in the traffic register (liiklusregister) after an inspection; registration number on both sides, 80–200 mm high",
+   "vhf": "SRC or GOC needed; the boat needs a radio licence from TTJA",
+   "speedLimits": "no general limit; navigable inland waters: keep right in the fairway, no anchoring or drifting in fairways",
+   "alcohol": "driving a boat while intoxicated is banned (fine up to 300 fine units); numeric limit not confirmed",
+   "equipment": "under 9 km inland / 5 NM at sea: buoyancy aid (50 N) or lifejacket (100 N) per person, bilge pump or bailer, lights, anchor with at least 15 m line, horn, compass, two red hand flares, waste container, oars under 7 m, 2 kg extinguisher with inboard or outboard over 25 kW",
+   "motorboatBans": "navigable inland waters are Narva jõgi, Peipsi, Lämmijärv, Pihkva järv, Emajõgi, Võrtsjärv, Väike Emajõgi and the lower reaches of Pärnu, Sauga, Reiu, Nasva, Kasari, Tuudi, Pirita and Purtse rivers; other lakes follow local rules and nature reserve rules",
+   "other": [
+    "Border lakes Peipsi/Lämmijärv/Pihkva: Russian border runs through the water"
+   ]
+  },
+  "sea": {
+   "regulation": "COLREGs; Meresõiduohutuse seadus",
+   "licence": "as inland: over 25 kW / 25 m², or beyond 5 NM / at night",
+   "coastalSpeed": null,
+   "anchoring": "check nature reserve rules at the destination; no anchoring in fairways",
+   "entry": "Schengen and EU: no notice needed within Schengen, but Border Guard and police may check documents. Entering or leaving Schengen: document check at a border crossing point. Gulf of Finland VTS: reporting voluntary for small craft (VHF 13, Tallinn VTS)",
+   "taxes": "none for visiting pleasure craft",
+   "other": []
+  },
+  "authority": {
+   "name": "Transpordiamet (Estonian Transport Administration)",
+   "url": "https://transpordiamet.ee"
+  },
+  "sources": [
+   "https://transpordiamet.ee/sites/default/files/documents/2026-03/Abiks_paadimehele_2026_EST_veeb.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "LV",
+  "name": "Latvia",
+  "inland": {
+   "regulation": "Cabinet Regulation No. 92 (2016) on vessel traffic on inland waters and in ports",
+   "licence": "operator document needed where Latvian law requires it: CSDD 'small-size vessel operator certificate', recreational craft certificate, or ICC. Engine threshold not confirmed; motorboats are defined as 2.5–12 m with over 3.7 kW",
+   "licenceThresholdKw": null,
+   "foreignLicence": "ICC under UNECE Resolution 40 recognised; foreign nationals may use their home country's qualification document",
+   "permit": "border waters: traffic only in daylight and after notifying the State Border Guard",
+   "permitCost": null,
+   "registration": "motorboats up to 12 m in CSDD's small recreational craft register; sailing yachts in the Maritime Administration's Ship Register; engines under 3.7 kW need not be listed",
+   "vhf": null,
+   "speedLimits": "Annex 2: 18 km/h on parts of Lielupe–Buļļupe and Vecmīlgrāvis canal; 14 km/h on parts of the Daugava and Ķīšezers–Lielais Baltezers; 9 km/h Lielais–Mazais Baltezers; minimum speed near public bathing areas",
+   "alcohol": "0.5 ‰",
+   "equipment": "lifejacket for everyone (worn by under-12s), lifebuoy by length, extinguisher on boats 7 m and over, first aid kit, torch, knife, oars, bilge pump and anchor on motorboats",
+   "motorboatBans": "signs for no motorised craft, no wake and no anchoring; no anchoring or mooring in the fairway",
+   "other": [
+    "Minimum age 14 to drive a rowing boat alone"
+   ]
+  },
+  "sea": {
+   "regulation": "COLREGs; Maritime Administration and Marine Safety Law",
+   "licence": "CSDD certificate valid at sea up to 10 km from the Latvian coast; beyond needs higher qualification",
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Schengen and EU; entering from outside Schengen through a border crossing point",
+   "taxes": "none for visiting pleasure craft",
+   "other": []
+  },
+  "authority": {
+   "name": "Latvijas Jūras administrācija (Maritime Administration of Latvia) / CSDD",
+   "url": "https://www.lja.lv"
+  },
+  "sources": [
+   "https://likumi.lv/ta/en/en/id/280190",
+   "https://csdd.lv/en/registration-of-a-ship-s-outboard-engine-in-latvia/general-information",
+   "https://csdd.lv/en/general-provisions-for-the-registration-of-pleasure-crafts/vessels-and-their-engines-registered-with-the-csdd",
+   "https://www.lja.lv/?p=3704"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "LT",
+  "name": "Lithuania",
+  "inland": {
+   "regulation": "Inland Water Transport Code; Ministry of Transport orders on recreational craft; environmental rules for protected areas",
+   "licence": "a competence document is needed to skipper a motor recreational boat; the 'shipmaster's certificate' allows any engine power on inland waters and the territorial sea. Exact power thresholds not confirmed",
+   "licenceThresholdKw": null,
+   "foreignLicence": "ICC accepted",
+   "permit": null,
+   "permitCost": null,
+   "registration": "inland vessel register; boats under 6 m with outboard engines up to 19 kW (25 hp) are exempt",
+   "vhf": "radio operator certificate needed",
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": "engine power limits on lakes by environmental rules: in state parks boats up to 8 kW (10 hp) only from 21 June to the end of the season; 221–500 kW banned except on Elektrėnai Lagoon and Drūkšiai lake; Curonian Spit National Park rules apply on the Curonian Lagoon",
+   "other": [
+    "Curonian Lagoon is an inland waterway; anchoring outside the fairway allowed; the southern part is Russian (Kaliningrad) — do not cross the border"
+   ]
+  },
+  "sea": {
+   "regulation": "COLREGs",
+   "licence": "as inland",
+   "coastalSpeed": null,
+   "anchoring": "Curonian Spit National Park and Seaside Regional Park have their own visiting rules",
+   "entry": "Schengen and EU; Klaipėda is the port of entry from outside Schengen",
+   "taxes": "none for visiting pleasure craft",
+   "other": []
+  },
+  "authority": {
+   "name": "Lietuvos transporto saugos administracija (LTSA)",
+   "url": "https://ltsa.lrv.lt"
+  },
+  "sources": [
+   "https://aad.lrv.lt/en/memos-on-environmental-requirements/water/watercraft-with-an-internal-combustion-engine/",
+   "https://ltsa.lrv.lt/public/canonical/1745565786/1396/Literat%C5%ABra%20(2).docx",
+   "https://e-seimas.lrs.lt/rs/legalact/TAD/TAIS.155080/",
+   "https://vilniustech.lt/en/lithuanian-maritime-academy/for-seafarers/for-boatmasters-and-captains-of-leisure-powerboats/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "IS",
+  "name": "Iceland",
+  "inland": {
+   "regulation": "Lög um áhafnir skipa nr. 82/2022; regulation 944/2020; protected-area laws (e.g. Þingvellir National Park Act 47/2004)",
+   "licence": "'Skemmtibátaskírteini' needed to skipper a pleasure boat of 6 m registered length or more; written exam by Samgöngustofa plus a practical exam",
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": "Þingvallavatn is in Þingvellir National Park, where the Þingvellir Commission sets traffic rules and anything that could pollute the lake is banned; specific motorboat rules not confirmed",
+   "other": []
+  },
+  "sea": {
+   "regulation": "COLREGs",
+   "licence": "skemmtibátaskírteini for 6 m and over",
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Schengen, not EU. Notify Customs 24 h before arrival; enter at an approved customs port; form T01 before departure. A foreign private yacht can usually stay up to 1 year without import",
+   "taxes": "none for visiting yachts within the temporary stay",
+   "other": []
+  },
+  "authority": {
+   "name": "Samgöngustofa (Icelandic Transport Authority)",
+   "url": "https://island.is/skemmtibataskirteini"
+  },
+  "sources": [
+   "https://island.is/skemmtibataskirteini",
+   "https://island.is/reglugerdir/nr/0944-2020",
+   "https://island.is/en/o/skatturinn/list-of-customs-ports-and-approved-airports",
+   "https://www.althingi.is/lagas/157c/2004047.html",
+   "https://www.noonsite.com/place/iceland/formalities"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "FO",
+  "name": "Faroe Islands",
+  "inland": null,
+  "sea": {
+   "regulation": "Faroese maritime law (Sjóvinnustýrið); COLREGs",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "outside the EU; Danish entry rules apply. Call Faroese Customs (TAKS, +298 35 27 00, 24/7) at least 24 h before crossing the 12 NM limit, or within 1 h of leaving the last foreign port; email forms T26 (dutiable goods), T27 (crew list) and T28 (vessel declaration) before arrival; declare cash of EUR 10,000 or more",
+   "taxes": "no entry fees",
+   "other": []
+  },
+  "authority": {
+   "name": "TAKS (Faroese Tax and Customs); Sjóvinnustýrið (Faroese Maritime Authority)",
+   "url": "https://www.taks.fo/en/individuals/customs/customs-regulations-for-pleasure-craft-arriving-in-the-faroe-islands"
+  },
+  "sources": [
+   "https://www.taks.fo/en/individuals/customs/customs-regulations-for-pleasure-craft-arriving-in-the-faroe-islands",
+   "https://www.taks.fo/en/individuals/landing/travel-wisely-customs-and-import-restrictions-for-travelers-to-the-faroe-islands/arriving-in-the-faroe-islands-on-your-own-boat",
+   "https://www.visitfaroeislands.com/plan-your-stay/before-you-arrive-in-the-faroe-islands/customs/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "DE",
+  "name": "Germany",
+  "inland": {
+   "regulation": "Binnenschifffahrtsstraßen-Ordnung (BinSchStrO), based on CEVNI; Rhine: Rheinschifffahrtspolizeiverordnung (RheinSchPV); Moselle: MoselSchPV; Bodensee: Bodensee-Schifffahrts-Ordnung (BSO); state waters (e.g. Bavarian lakes): state law such as the Bayerische Schifffahrtsordnung (SchO)",
+   "licence": "\"Sportbootführerschein Binnen\" (SBF Binnen) needed for combustion engines over 11.03 kW (15 PS) and electric motors over 7.5 kW; since 1 April 2023 the same 11.03 kW limit also applies on the Rhine (was 3.68 kW), with SBF Binnen valid on the Rhine up to 20 m. Charter boats up to 15 m may be run without a licence on listed waterways (e.g. Berlin/Brandenburg, Mecklenburg lakes) with a \"Charterbescheinigung\" after a briefing. Bodensee: own \"Bodensee-Schifferpatent\" over 4.4 kW",
+   "licenceThresholdKw": 11.03,
+   "foreignLicence": "Visitors resident abroad may use their home licence or an ICC on federal waterways. Bodensee: a licence from a Bodensee shore state or an ICC counts as Bodensee patent for 30 days per calendar year, with a certificate from the authority stating the days",
+   "permit": "none on federal waterways; Bavarian state lakes: every combustion-engine motorboat needs a permit (Genehmigung) under § 3 SchO, capped on some lakes (see motorboatBans); Bodensee: boats with engine need a Bodensee registration (Zulassung) with exhaust standard BSO Stufe 2",
+   "permitCost": null,
+   "registration": "small craft on federal inland waterways must carry a mark under the Binnenschifffahrt-Kennzeichnungsverordnung (official mark or e.g. the international boat certificate); at sea only personal watercraft must be marked",
+   "vhf": "VHF optional for pleasure craft; if fitted on inland waterways: ATIS mandatory (RAINWAT), UBI certificate and listening watch on the sector/ship-to-ship channel",
+   "speedLimits": "set per waterway by signs and local rules; no single national inland limit. Bodensee: 40 km/h on the lake, 10 km/h in the 300 m shore zone and on the Seerhein/Alter Rhein",
+   "alcohol": "0.5 ‰ for pleasure-boat skippers (Bavaria aligned with road law at 0.5 ‰); Bodensee (BSO): 0.8 ‰ / 0.40 mg/l breath, 0.1 ‰ on passenger and cargo vessels",
+   "equipment": "per BinSchStrO lights and sound signals; Bodensee minimum kit: anchor, mooring lines, boat hook, paddle, horn, compass, a lifesaving device per person plus a throwing buoy, distress flag and light, tools, first-aid kit, bilge pump, fire extinguisher",
+   "motorboatBans": "Bavarian lakes: all combustion motorboats need a permit; Starnberger See capped at 280 and Ammersee at 150 permits (max 5 years, no renewal, waiting lists of years); no guest permits for combustion motorboats; electric motors up to 4 kW need only registration. Königssee: only battery-electric passenger boats operate. Bodensee: Bodensee-Schifferpatent over 4.4 kW and Bodensee Zulassung with exhaust test for engines; water-skiing banned in the 300 m shore zone",
+   "other": [
+    "Bodensee: invasive quagga mussel; Swiss cantons and Bodensee states are moving to compulsory boat cleaning before changing waters – check before trailering",
+    "Sundays and holidays: reduced lock hours on many federal waterways"
+   ]
+  },
+  "sea": {
+   "regulation": "Seeschifffahrtsstraßen-Ordnung (SeeSchStrO); COLREGs; Nordsee-Befahrensverordnung (NordSBefV, 2023) in the Wadden Sea national parks",
+   "licence": "\"Sportbootführerschein See\" for motorboats over 11.03 kW on sea waterways; sailing without engine needs no licence",
+   "coastalSpeed": "Wadden Sea national parks: max 12 kn over ground for motor craft unless otherwise set (Schleswig-Holstein outer zones 16 kn); local beach zones e.g. Lübeck Bay: 8 km/h (4.3 kn) within 500 m of the shore; outside fairways in Mecklenburg-Vorpommern protected areas 8 kn",
+   "anchoring": "Wadden Sea: drying out and anchoring only where the NordSBefV annexes allow; general protected areas (Zone 1) off-limits outside set routes/times; new strict Baltic protection areas (Aktionsplan Ostseeschutz) restrict access",
+   "entry": "Schengen and EU customs; boats from outside the EU (e.g. UK) clear customs and passport control at a port of entry",
+   "taxes": "no cruising tax for visiting pleasure craft; EU-VAT status of the boat may be checked",
+   "other": []
+  },
+  "authority": {
+   "name": "Generaldirektion Wasserstraßen und Schifffahrt (GDWS) / ELWIS",
+   "url": "https://www.elwis.de"
+  },
+  "sources": [
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.gesetze-im-internet.de/spfv/__3.html",
+   "https://www.gesetze-im-internet.de/rheinschpersv_2023/__11_01.html",
+   "https://skipper.adac.de/wp-content/uploads/bti_22_einstieg_in_den_wassersport_2023.pdf",
+   "https://bodenseekreis.de/fileadmin/02_verkehr_wirtschaft/schifffahrt/downloads/bootszulassung/info-schifffahrtsrecht-bodensee.pdf",
+   "https://www.lk-starnberg.de/media/custom/613_3036_1.PDF",
+   "https://www.polizei.bayern.de/mam/wir-uber-uns/starnberger_see.pdf",
+   "https://www.polizei.bayern.de/mam/wir-uber-uns/ammersee.pdf",
+   "https://www.gesetze-bayern.de/Content/Document/BayVV_98494/true",
+   "https://www.buzer.de/NordSBefV.htm",
+   "https://www.nationalpark-wattenmeer.de/wp-content/uploads/2025/12/Wassersport-Folder-2025.pdf",
+   "https://www.luebeck-tourismus.de/fileadmin/medien_alle/Luebeck/Dokumente/flyer-hinweise-fuer-boote-wsp.pdf",
+   "https://www.gesetze-im-internet.de/npbefvmvk/__3.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "NL",
+  "name": "Netherlands",
+  "inland": {
+   "regulation": "Binnenvaartpolitiereglement (BPR); Rhine: Rijnvaartpolitiereglement (RPR); Scheepvaartreglement Westerschelde/Eemsmonding; local ordinances",
+   "licence": "\"Klein Vaarbewijs\" (KVB) needed for boats under 20 m that can go faster than 20 km/h and for all pleasure craft 15–25 m; KVB I for most inland waters, KVB II on Oosterschelde, Westerschelde, IJsselmeer, Markermeer, Waddenzee, Eems and Dollard. Licence depends on the boat's possible top speed and length, not engine power. Fast motorboat skipper min. age 18",
+   "licenceThresholdKw": null,
+   "foreignLicence": "not stated on official pages checked; ICC or home licence is in practice accepted for foreign-flagged boats – confirm with CBR/Rijkswaterstaat",
+   "permit": "no national vignette or toll; some municipalities charge: Amsterdam requires a \"binnenhavengeld\" vignette (BHG) in the city canals and since 1 April 2025 its centre is an emission-free zone (electric, hydrogen or muscle power only; transition for existing vignettes to 2030)",
+   "permitCost": null,
+   "registration": "fast motorboats (faster than 20 km/h, under 20 m) incl. jet skis must be registered with the RDW (registration certificate and number visible on both sides); not required on Eems/Dollard and Westerschelde",
+   "vhf": "if fitted: ATIS mandatory and listening watch on the block/sector channel on inland waters (RAINWAT)",
+   "speedLimits": "fast motorboats: national max 20 km/h unless signs allow more; faster only in designated snelvaargebieden (Regeling snelle motorboten Rijkswateren 1995 and provincial maps), not within 20 m of the bank, 50 m of swimming/mooring areas, in harbours or within 100 m of harbour entrances, or at night (except Oude Maas, Nieuwe Maas, Nieuwe Waterweg, Noord)",
+   "alcohol": "0.5 ‰ (police check; licence can be withdrawn)",
+   "equipment": "fast motorboats: kill cord, lifejacket within reach for everyone, lifejacket worn when steering standing; water-skiing needs a second person aged 15+ watching",
+   "motorboatBans": "Amsterdam centre canals: combustion engines banned since 1 April 2025 (emission-free zone); fast sailing banned outside snelvaargebieden",
+   "other": []
+  },
+  "sea": {
+   "regulation": "COLREGs at sea; Waddenzee, IJsselmeer and Zeeland waters fall under BPR/Scheepvaartreglementen",
+   "licence": "KVB II for fast boats on Waddenzee, Eems, Dollard and the Zeeland estuaries; no licence on the open North Sea",
+   "coastalSpeed": "Waddenzee: 20 km/h general rule for fast motorboats unless a fast-sailing area is signed",
+   "anchoring": "Waddenzee: anchoring and drying out only in a zone along the channels (Aanwijzing Staatsnatuurmonument Waddenzee II, 1993); seal and bird areas closed seasonally",
+   "entry": "Schengen and EU customs; from outside the EU (e.g. UK) report to customs and border police on arrival",
+   "taxes": "no cruising tax; municipal harbour and tourist taxes in marinas",
+   "other": []
+  },
+  "authority": {
+   "name": "Rijkswaterstaat / Rijksoverheid (Ministerie van Infrastructuur en Waterstaat)",
+   "url": "https://www.rijkswaterstaat.nl"
+  },
+  "sources": [
+   "https://www.government.nl/topics/sailing-and-boating/obtaining-a-small-licence-klein-vaarbewijs-kvb",
+   "https://www.rijksoverheid.nl/vraag-en-antwoord/scheepvaart-en-havens/moet-ik-mijn-snelle-motorboot-registreren",
+   "https://www.rijksoverheid.nl/vraag-en-antwoord/scheepvaart-en-havens/aan-welke-eisen-moet-mijn-pleziervaartuig-voldoen",
+   "https://www.rijkswaterstaat.nl/water/scheepvaart/pleziervaart/snelvaren",
+   "https://www.rdw.nl/vaartuig/kopen-en-verkopen/vaartuig-registreren",
+   "https://zoek.officielebekendmakingen.nl/gmb-2025-61778.pdf",
+   "https://www.noonsite.com/news/netherlands-amsterdam-emission-free-zone-from-april-1-2025/",
+   "https://waddenzee.nl/publish/library/36/bijlage_1_de_afsprakennotitie_verantwoord_droogvallen_in_de_waddenzee.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "BE",
+  "name": "Belgium",
+  "inland": {
+   "regulation": "federal rules (FOD Mobiliteit en Vervoer) for boats and licences; regional navigation rules: Flanders (De Vlaamse Waterweg), Wallonia (Arrêté du Gouvernement wallon du 15 mai 2014 portant règlement de la navigation); CEVNI-based",
+   "licence": "\"Beperkt stuurbrevet\" (inland, restricted) or \"Algemeen stuurbrevet\" / \"brevet de conduite\" needed when the boat can go faster than 20 km/h or the hull is 15 m or longer",
+   "licenceThresholdKw": null,
+   "foreignLicence": "FOD Mobiliteit publishes a list of recognised foreign certificates; the ICC counts as \"algemeen stuurbrevet\"",
+   "permit": "Flanders: digital \"waterwegenvergunning\" (since 2021, via VisuRIS) for every motorised pleasure craft sailing or moored on Flemish waterways; exempt: Gent-Terneuzen canal (Meulestede–Zelzate), Brugge–Zeebrugge canal, Gemeenschappelijke Maas, Beneden-Zeeschelde, Schelde-Rijnverbinding, Zuid-Willemsvaart, Antwerp city port, coastal marinas and tidal rivers. Wallonia: no fee for using the waterways",
+   "permitCost": "Flanders 2026, per metre hull length per day online: day 1 €1.8667, days 2–7 €0.6222, 8–30 €0.2075, 31–90 €0.0692, 91–365 €0.0138 (counter dearer); one year about €18.32/m; boats able to exceed 20 km/h pay as if 6 m longer",
+   "registration": "foreign boats use their home registration/number; Belgian boats need federal registration",
+   "vhf": "if fitted: ATIS mandatory on inland waterways (RAINWAT)",
+   "speedLimits": "set per waterway (Flemish and Walloon special regulations); no single national inland limit",
+   "alcohol": null,
+   "equipment": "per federal rules; boats must be \"en règle\" with documents and equipment",
+   "motorboatBans": "Wallonia: no stopping in the fairway or within 50 m of weirs",
+   "other": []
+  },
+  "sea": {
+   "regulation": "federal rules for the Belgian territorial sea; COLREGs",
+   "licence": "at sea \"yachtman\" certificate (or higher) for pleasure craft under 24 m; stuurbrevet/ICC rule (15 m or over 20 km/h) cited in Flemish brochure",
+   "coastalSpeed": "no approach to the beach closer than 200 m from the low-water line (insteekzone for beach-launched craft); jet skis banned in swimming zones",
+   "anchoring": null,
+   "entry": "Schengen and EU customs; from outside the EU (e.g. UK) clear customs and immigration on arrival",
+   "taxes": "no cruising tax",
+   "other": []
+  },
+  "authority": {
+   "name": "FOD Mobiliteit en Vervoer / De Vlaamse Waterweg / SPW Mobilité et Infrastructures",
+   "url": "https://mobilit.belgium.be/nl/scheepvaart/pleziervaart"
+  },
+  "sources": [
+   "https://www.visuris.be/waterwegenvergunning",
+   "https://www.vlaanderen.be/pleziervaart-en-waterrecreatie",
+   "https://mobilit.belgium.be/nl/scheepvaart/pleziervaart/bestuurder/overzicht-brevetten/beperkt-en-algemeen-stuurbrevet",
+   "https://mobiliteit.d8.pr.belgium.be/sites/default/files/documents/publications/2022/pleziervaart_buitenlandse_certificaten_nl.pdf",
+   "https://wallonie.be/fr/demarches/naviguer-sur-un-bateau-de-plaisance",
+   "https://wallex.wallonie.be/eli/arrete/2014/05/15/2014027226/",
+   "https://infrastructures.wallonie.be/home/nos-thematiques/voies-deau/naviguer-en-wallonie.html",
+   "https://mobilit.belgium.be/nl/scheepvaart/pleziervaart/brandingsporten",
+   "https://www.vlaamsewaterweg.be/sites/default/files/vaarregels.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "LU",
+  "name": "Luxembourg",
+  "inland": {
+   "regulation": "Moselle: Règlement de police pour la navigation de la Moselle (shared with DE/FR); Loi du 23 septembre 1997 portant réglementation de la navigation de plaisance; Lac de la Haute-Sûre: règlement grand-ducal du 16 avril 2021",
+   "licence": "\"permis de navigation\" needed for boats with a hull of 7 m or more, engines over 7.35 kW, boats under 7 m with a cabin, and jet skis",
+   "licenceThresholdKw": 7.35,
+   "foreignLicence": "foreign-flag boats follow the rules of their home country; a foreign licence must be endorsed only to sail under the Luxembourg flag",
+   "permit": "Moselle: no toll for pleasure craft known; Lac de la Haute-Sûre: navigation authorisation from the Environment ministry for anyone putting a boat on the lake",
+   "permitCost": null,
+   "registration": "foreign-flag boats must also carry the identification marks of the Moselle police regulations; third-party liability insurance compulsory for every boat",
+   "vhf": "radio operator certificate and station licence must be on board when a VHF is fitted; ATIS on the Moselle (RAINWAT)",
+   "speedLimits": "Moselle: per Moselle police regulations and signs",
+   "alcohol": null,
+   "equipment": "documents to carry: registration certificate, licence, insurance certificate, radio certificate and licence",
+   "motorboatBans": "Lac de la Haute-Sûre: motor craft banned except by exception (authorisation)",
+   "other": []
+  },
+  "sea": null,
+  "authority": {
+   "name": "Service de la navigation (Grevenmacher) / Commissariat aux affaires maritimes",
+   "url": "https://transports.public.lu"
+  },
+  "sources": [
+   "https://transports.public.lu/dam-assets/transports-fluviaux/procedures-administratives-pratique-navigation-plaisance-moselle-fr.pdf",
+   "https://guichet.public.lu/en/citoyens/loisirs/permis-licences/navigation/permis-navigation.html",
+   "https://guichet.public.lu/en/citoyens/loisirs/permis-licences/navigation/permis-navigation-lac.html",
+   "https://maritime.public.lu/en/pleasure-craft/reconnaissance-permis-navigation.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "FR",
+  "name": "France",
+  "inland": {
+   "regulation": "Code des transports and Règlement général de police de la navigation intérieure (RGP); local règlements particuliers de police (RPP) per waterway and lake",
+   "licence": "\"Permis plaisance option eaux intérieures\" for engines over 4.5 kW (6 CV), boats under 20 m; extension \"grande plaisance eaux intérieures\" for 20 m and over (age 18). Hire boats (\"bateaux sans permis\") run with a \"carte de plaisance\" after a briefing",
+   "licenceThresholdKw": 4.5,
+   "foreignLicence": "foreign-flag boats follow flag-state rules; ICC widely accepted – no official French text on recognition found",
+   "permit": "VNF toll (\"vignette\" / péage plaisance) for any boat longer than 5 m or with an engine of 9.9 CV (7.29 kW) or more on the VNF network; passes for a day, several days, a holiday/leisure period or the year, sold online by VNF",
+   "permitCost": "2026 grid not found; 2024 annual pass for a 10 m boat was €322.20",
+   "registration": "foreign boats keep their home registration",
+   "vhf": "if fitted: ATIS mandatory on inland waterways (RAINWAT)",
+   "speedLimits": "set by RPP per waterway (often 6–8 km/h on canals, higher on rivers) and on signs. Lac d'Annecy: 50 km/h by day, 25 km/h at night",
+   "alcohol": "inland: 0.5 g/l blood (0.25 mg/l breath) checked; 0.8 g/l or more is a criminal offence",
+   "equipment": "safety kit per boat category; carry licence, navigation papers and the general and local regulations (RGP, RPP)",
+   "motorboatBans": "lakes have own RPP: Lac d'Annecy – no boat over 6 CV without licence, water-ski/wakeboard bans along the shore and in the north, wakesurf banned within 200 m of the inshore zone; Lac du Bourget, Lac Léman (French side) have own rules",
+   "other": []
+  },
+  "sea": {
+   "regulation": "Division 240 (sea safety); préfets maritimes' arrêtés; COLREGs",
+   "licence": "\"Permis plaisance option côtière\" for engines over 4.5 kW (6 CV) up to 6 nm from shelter; \"extension hauturière\" beyond",
+   "coastalSpeed": "5 kn in the 300 m coastal strip (bande des 300 mètres) and in marked channels",
+   "anchoring": "Mediterranean: anchoring on Posidonia meadows banned for vessels of 20 m or 24 m and over depending on zone (Alpes-Maritimes 20 m, Bouches de Bonifacio 24 m; south Corsica free anchoring banned for 45 m+); local bans in national parks and marine reserves",
+   "entry": "Schengen and EU customs; from outside the EU (e.g. UK) report to customs/PAF on arrival",
+   "taxes": "DAFN (annual tax) only for French-flag boats; no tax for foreign visitors",
+   "other": [
+    "Since 5 June 2026 a decree makes skippering a motor pleasure boat at sea while visibly drunk (ivresse manifeste) a 4th-class offence (up to €750)"
+   ]
+  },
+  "authority": {
+   "name": "Voies navigables de France (VNF) / Ministère de la mer",
+   "url": "https://www.vnf.fr"
+  },
+  "sources": [
+   "https://www.mer.gouv.fr/pratique-de-la-navigation-de-plaisance-et-des-activites-nautiques-en-eau-douce-lacs-rivieres-et",
+   "https://www.mer.gouv.fr/sites/default/files/2021-07/13058-9_GUIDE_Loisirs-nautiques-eau-douce%20-%20edition2021_web.pdf",
+   "https://vignettes-plaisance.vnf.fr",
+   "https://www.bateaux.com/article/44805/vignette-vnf-2024-les-bateaux-verts-a-l-honneur-pour-ce-peage-annuel",
+   "https://www.drieat.ile-de-france.developpement-durable.gouv.fr/IMG/pdf/navigation_et_securite-final-2.pdf",
+   "https://www.haute-savoie.gouv.fr/contenu/telechargement/36788/215839/file/plaquette-navigation-lac-annecy-anglais-2021.pdf",
+   "https://figaronautisme.meteoconsult.fr/actus-nautisme-bateaux/2022-06-28/63770-mouillages-en-mediterranee-une-reglementation-pour-les-navires-de-20-et-24-metres-et-plus",
+   "https://figaronautisme.meteoconsult.fr/actus-nautisme-bateaux/2026-06-23/89173-alcool-vitesse-maitrise-du-bateau-les-plaisanciers-desormais-plus-lourdement-sanctionnes-en-mer"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "CH",
+  "name": "Switzerland",
+  "inland": {
+   "regulation": "Binnenschifffahrtsverordnung (BSV, SR 747.201.1), enforced by cantonal navigation offices; Bodensee: BSO; Rhine (Basel): RheinSchPV",
+   "licence": "\"Schiffsführerausweis\" category A for motorboats over 6 kW (8 PS); category D for sail over 15 m²; Bodensee: Bodensee-Schifferpatent over 4.4 kW",
+   "licenceThresholdKw": 6,
+   "foreignLicence": "foreign national or international licences (ICC) recognised for visitors for 30 days per calendar year (BSV Art. 91), the authority certifies the days; residents over 12 months need a Swiss licence",
+   "permit": "foreign boats need a cantonal permit from the canton where they are first launched; e.g. Vierwaldstättersee: temporary admission until end of following month at most, not renewable in the same year",
+   "permitCost": null,
+   "registration": "Swiss boats carry cantonal plates; Sihlsee bans boats without a Schwyz (SZ) plate",
+   "vhf": null,
+   "speedLimits": "10 km/h in the shore zone up to 300 m from shore on lakes; inner 150 m: shortest way only, no lengthwise motoring; outside shore zones free (Schwyz recommends max 50 km/h by day, 30 km/h at night); Bodensee 40 km/h",
+   "alcohol": "0.5 ‰ (BSV, exceptions for small unpowered craft); Bodensee 0.8 ‰",
+   "equipment": "lifesaving device per person on board; small boats under 2.5 m only within 150 m of shore and unpowered",
+   "motorboatBans": "Lauerzersee, Wägitalersee, Sihlsee: no motors over 6 kW; Sihlsee: only SZ-plated boats; Greifensee, Pfäffikersee, Türlersee (ZH): launching ban/special rules after quagga mussel finds; kitesurfing banned on Greifensee and Pfäffikersee",
+   "other": [
+    "Quagga mussel: compulsory boat reporting and cleaning before changing waters (Schiffsmelde- und Reinigungspflicht) in Zurich (from April 2025), Central Switzerland cantons and others; fines up to CHF 10,000; get launch approval before trailering a boat in",
+    "Yellow buoys mark protected zones closed to all boats"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Bundesamt für Verkehr (BAV) and cantonal navigation offices",
+   "url": "https://www.bav.admin.ch"
+  },
+  "sources": [
+   "https://www.sg.ch/verkehr/schifffahrt/schiffsfuehrer/auslaendische-schiffsfuehrerausweis.html",
+   "https://www.bav.admin.ch/dam/bav/de/dokumente/rundschreiben_andiekantonalenschifffahrtsaemter/schiff/rundschreiben_nr45.pdf.download.pdf/rundschreiben_nr45.pdf",
+   "https://www.sz.ch/baudepartement/verkehrsamt/schifffahrt/schiffe/einschraenkungen.html/8756-8758-8802-9276-9293-12546-12555-12585",
+   "https://www.sz.ch/verwaltung/baudepartement/verkehrsamt/schifffahrt/schiffsfuehrer.html/8756-8758-8802-9276-9293-12546-12556",
+   "https://www.police.be.ch/content/dam/police/dokumente/police-be-ch/d/seepolizei/vorschriften_seepolizei_de.pdf",
+   "https://www.zh.ch/de/news-uebersicht/medienmitteilungen/2025/03/schiffsmelde-und-reinigungspflicht-gilt-ab-april.html",
+   "https://www.zh.ch/de/news-uebersicht/medienmitteilungen/2024/09/quaggamuschel-im-zuerichsee-gefunden-einwasserungsverbot-fuer-greifen-pfaeffiker-und-tuerlersee.html",
+   "https://www.zh.ch/de/sicherheit-justiz/sicher-unterwegs/sicherheit-auf-gewaessern.html",
+   "https://www.srf.ch/news/schweiz/rund-um-vierwaldstaettersee-putzpflicht-fuer-boote-gegen-quaggamuschel-in-der-zentralschweiz",
+   "https://law.ch/lawnews/2019/05/freizeitschifffahrt-alkohol-promillegrenzwert-von-05/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "AT",
+  "name": "Austria",
+  "inland": {
+   "regulation": "Schifffahrtsgesetz (SchFG, BGBl. I 62/1997) and Wasserstraßen-Verkehrsordnung on the Danube; Länder laws for lakes (e.g. Kärntner K-RSS, Upper Austrian lake rules); Bodensee: BSO",
+   "licence": "\"Schiffsführerpatent\" (10 m or 20 m patent) needed for motorboats from 4.4 kW; minimum age 18",
+   "licenceThresholdKw": 4.4,
+   "foreignLicence": "foreign skippers of pleasure craft with an equivalent foreign licence or a UNECE ICC are exempt (§ 119 SchFG); document must be shown",
+   "permit": "no toll on the Danube; lakes need Länder permits for combustion motorboats (see motorboatBans); Kärnten levies a \"Motorbootabgabe\"",
+   "permitCost": null,
+   "registration": "Austrian boats over 4.4 kW need a \"Zulassung\"; on Wörthersee, combustion boats need one of the limited Carinthian registrations",
+   "vhf": "if fitted: ATIS mandatory on the Danube (RAINWAT)",
+   "speedLimits": "Danube: per signs and local rules; lakes per Länder rules",
+   "alcohol": "0.5 g/l blood or 0.25 mg/l breath; 0.1 g/l for commercial shipping",
+   "equipment": null,
+   "motorboatBans": "Upper Austria: combustion-engine craft banned all year on all lakes except Attersee and Traunsee (e.g. Mondsee fully banned); Attersee, Traunsee (and Wolfgangsee) have a summer ban 1 July–31 August and a night ban 21:00–07:00; electric boats up to 4.4 kW allowed on Traunsee without registration; houseboats banned on Attersee, Mondsee, Traunsee. Kärnten: Wörthersee capped at 335 private combustion motorboats and 500 electric boats (K-RSS § 3)",
+   "other": [
+    "Exemption permits (Ausnahmebewilligung) from the Bezirkshauptmannschaft are possible but rare and politically disputed (Attersee 2026)"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Bundesministerium (Oberste Schifffahrtsbehörde) / via donau / Länder",
+   "url": "https://www.viadonau.org"
+  },
+  "sources": [
+   "https://www.land-oberoesterreich.gv.at/21497.htm",
+   "https://www.land-oberoesterreich.gv.at/21366.htm",
+   "https://www.land-oberoesterreich.gv.at/28932.htm",
+   "https://www.land-oberoesterreich.gv.at/23887.htm",
+   "https://www.land-oberoesterreich.gv.at/Mediendateien/Formulare/Dokumente_BH_GM/Merkblatt%20Traunsee%202024.pdf",
+   "https://www.jusline.at/gesetz/k-rss/paragraf/3",
+   "https://www.krumpendorf.gv.at/wp-content/uploads/2020/10/Verhaltensregeln-am-Woerthersee.pdf",
+   "https://noe.gv.at/noe/Schifffahrt/schifffahrt_patent.html",
+   "https://bmk.gv.at/dam/jcr:6e89fefa-1914-478e-9f32-8f7978c08f28/Infoblatt_Internat_Zertifikate241206.pdf",
+   "https://www.ris.bka.gv.at/Dokumente/Bundesnormen/NOR40064575/NOR40064575.pdf",
+   "https://www.tips.at/nachrichten/voecklabruck/land-leute/727668-motorboote-am-attersee-sorgen-wieder-fuer-wirbel"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "GB",
+  "name": "United Kingdom (Great Britain)",
+  "inland": {
+   "regulation": "navigation authority byelaws: Canal & River Trust (British Waterways Acts), Environment Agency (Thames Conservancy Act 1966, Anglian Waterways, Medway), Broads Authority (Norfolk and Suffolk Broads Act 1988, Speed Limit Byelaws 1992), Lake District National Park (Windermere byelaws)",
+   "licence": "no skipper's licence required for pleasure craft",
+   "licenceThresholdKw": null,
+   "foreignLicence": "not needed; ICC useful for hire and abroad",
+   "permit": "every boat needs the navigation authority's licence/registration: Canal & River Trust licence (short-term visitor: 1 week, 1 month, 30-day explorer); Environment Agency registration on the Thames, Anglian Waterways and Medway (1-day/7-day short-period, buy at Thames locks); Broads Authority toll (short visit up to 28 days per tolls year); Windermere registration for all powered boats",
+   "permitCost": null,
+   "registration": "Boat Safety Scheme (BSS) certificate and third-party insurance needed for CRT and EA licences; Broads short visit toll needs no BSS but boats can get a hazardous boat check",
+   "vhf": "no ATIS; VHF operator certificate and ship licence of the flag state if fitted",
+   "speedLimits": "canals typically 4 mph; Broads 3, 4, 5 or 6 mph signed on banks (statute mph over ground); Windermere 10 nautical mph for powered craft, 6 in zones; Coniston, Derwentwater, Ullswater 10 mph",
+   "alcohol": null,
+   "equipment": "BSS requirements (fuel, gas, electrics, fire extinguishers) on licensed waterways",
+   "motorboatBans": "Lake District: no powered craft on Buttermere, Crummock Water, Brotherswater, Ennerdale Water, Grasmere, Haweswater, Loweswater, Rydal Water, Thirlmere, Wastwater; Bassenthwaite generally not (electric only with 12-month permit); powered craft allowed on Windermere (registration), Coniston, Derwentwater, Ullswater",
+   "other": []
+  },
+  "sea": {
+   "regulation": "COLREGs; harbour authority byelaws; Merchant Shipping regulations",
+   "licence": "none required",
+   "coastalSpeed": "no national limit; harbour byelaws set limits (commonly 6–10 kn)",
+   "anchoring": "local bans in harbours and Marine Conservation Zones with seagrass (check MMO and harbour notices)",
+   "entry": "not Schengen; submit a pleasure craft report (sPCR) online 2–24 h before arrival/departure; fly Q flag from the 12 nm limit until cleared; non-British/Irish crew need Border Force permission to land (EU visitors also need a UK ETA)",
+   "taxes": "temporary admission without VAT/duty for non-UK-resident craft (HMRC rules); VAT/duty due if imported (form C384)",
+   "other": []
+  },
+  "authority": {
+   "name": "Canal & River Trust / Environment Agency / Broads Authority",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "sources": [
+   "https://canalrivertrust.org.uk/boating/licence-your-boat/short-term-visitor-licences",
+   "https://canalrivertrust.org.uk/boating/licence-your-boat",
+   "https://www.gov.uk/government/publications/river-thames-boat-registration-charges/river-thames-boat-registration-and-other-charges-1-january-2026-to-31-december-2026",
+   "https://assets.publishing.service.gov.uk/media/62286b438fa8f526d45ab584/Application_for_short_period_registration_of_a_powered_boat.pdf",
+   "https://broads-authority.gov.uk/boating/owning-a-boat/tolls/short-visit-toll",
+   "https://www.broads-authority.gov.uk/boating/owning-a-boat/tolls/insurance-boat-safety-and-adjacent-waters",
+   "https://www.broads-authority.gov.uk/boating/navigating-the-broads/byelaws-and-speed-limits",
+   "https://www.lakedistrict.gov.uk/visiting/things-to-do/water/access-to-the-lakes",
+   "https://www.lakedistrict.gov.uk/visiting/things-to-do/water/windermerereg",
+   "https://lakedistrict.gov.uk/wp-content/uploads/2026/01/A3-Map-and-Guide-to-Windermere.pdf",
+   "https://gov.uk/guidance/sailing-a-pleasure-craft-that-is-arriving-in-the-uk",
+   "https://www.gov.uk/guidance/submit-a-pleasure-craft-report"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "IE",
+  "name": "Ireland",
+  "inland": {
+   "regulation": "Waterways Ireland bye-laws (Shannon Navigation and Canal bye-laws, over 30 years old, revision proposed); Pleasure Craft (Personal Flotation Devices and Operation) (Safety) Regulations 2005 (S.I. 921/2005, amended 2012 and 2018)",
+   "licence": "no skipper's licence required for pleasure craft; age limits apply to operating powered craft and jet skis (S.I. 921/2005)",
+   "licenceThresholdKw": null,
+   "foreignLicence": "not needed",
+   "permit": "Grand Canal, Royal Canal, Barrow Navigation: \"Combined Mooring and Passage Permit\" (5 days) and, beyond 5 days, an \"Extended Mooring Permit\"; permission from Waterways Ireland needed before bringing a boat onto the inland waterways",
+   "permitCost": "Combined Mooring and Passage Permit €126; Extended Mooring Permit €278 (2026 notice)",
+   "registration": "Shannon Navigation (incl. Shannon–Erne Waterway) and Erne system: all vessels must be registered with Waterways Ireland (free, online), except open undecked boats under 15 BHP (Shannon) or 10 BHP (Erne)",
+   "vhf": "no ATIS",
+   "speedLimits": "vary by waterway; 5 km/h within 200 m of bridges, quays, jetties, in harbours and canals, and within 100 m of moored boats (2012 notice)",
+   "alcohol": "no numeric limit; consuming alcohol or drugs on board in a way that could affect safety is banned (S.I. 921/2005)",
+   "equipment": "lifejacket for everyone; must be worn on open boats and on deck of craft under 7 m (rules from 2004 regulations, kept in 2005 regs); always worn on jet skis",
+   "motorboatBans": null,
+   "other": []
+  },
+  "sea": {
+   "regulation": "Maritime Safety Act 2005; S.I. 921/2005; COLREGs; harbour bye-laws",
+   "licence": "none required",
+   "coastalSpeed": "no national limit; local bye-laws",
+   "anchoring": null,
+   "entry": "EU but not Schengen; boats from outside the EU (incl. UK after Brexit) report to Revenue customs on arrival",
+   "taxes": "no cruising tax; EU VAT status of the boat matters for non-EU boats",
+   "other": []
+  },
+  "authority": {
+   "name": "Waterways Ireland / Department of Transport (Marine)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "sources": [
+   "https://www.waterwaysireland.org/news/special-marine-notice-no1-2026",
+   "https://www.waterwaysireland.org/boat-owners/boat-owner-information",
+   "https://www.iwai.ie/boat-on-the-water/",
+   "https://www.irishstatutebook.ie/2005/en/si/0921.html",
+   "https://www.irishstatutebook.ie/2004/en/si/0259.html",
+   "https://www.gov.ie/en/publication/c1a570-lifejackets-and-personal-flotation-devices",
+   "https://revisedacts.lawreform.ie/eli/2005/act/11/revised/en/html"
+  ],
+  "checked": "2026-11-21"
+ }
+]

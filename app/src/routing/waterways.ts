@@ -24,6 +24,8 @@ export interface WaterwayInfo {
   season: { best: string | null; closures: string | null };
   /** typical conditions by month (1 = January): usually closed, low water, high water, ice */
   months?: { closed: number[]; lowWater: number[]; highWater: number[]; ice: number[]; notes: string | null };
+  /** who may use it and how: motorboats allowed, restricted (conditions in notes) or banned; speed limit; permit */
+  rules?: { motorboats: 'allowed' | 'restricted' | 'banned'; speedLimitKmh: number | null; permit: string | null; notes: string | null };
   /** tidal reach: spring range and practical notes (tidal limit, timing, streams); absent in older sheets */
   tides?: { tidal: boolean; rangeM: number | null; notes: string | null };
   authority: { name: string; url: string | null };
@@ -78,6 +80,14 @@ export function tideText(w: WaterwayInfo): string | null {
 }
 
 export const WATERWAYS = sheets as WaterwayInfo[];
+
+/** "motorboats restricted; up to 12 km/h; VNF vignette; notes", or null for sheets without rules. */
+export function rulesText(w: WaterwayInfo): string | null {
+  const r = w.rules;
+  if (!r) return null;
+  return [`motorboats ${r.motorboats}`, r.speedLimitKmh !== null && `up to ${r.speedLimitKmh} km/h`, r.permit && `permit: ${r.permit}`, r.notes]
+    .filter(Boolean).join('; ');
+}
 
 const key = (name: string) => name.trim().toLocaleLowerCase();
 
@@ -178,6 +188,7 @@ export function waterwayWarnings(infos: WaterwayInfo[], draft: number, airDraft:
   for (const w of infos) {
     // the reasons and dates are in the sheet: the warning says what and as of when
     if (w.navigable === 'closed') out.push(`${w.name}: closed as of ${w.checked}, see About the waterways.`);
+    if (w.rules?.motorboats === 'banned') out.push(`${w.name}: motorboats are not allowed (as of ${w.checked}), see About the waterways.`);
     else if (w.navigable === 'restricted') out.push(`${w.name}: navigation restricted as of ${w.checked}, see About the waterways.`);
     if (w.depth.maxDraftM !== null && draft > w.depth.maxDraftM) out.push(`${w.name}: draft ${draft} m exceeds the usual ${w.depth.maxDraftM} m.`);
     if (w.airDraftM !== null && airDraft >= w.airDraftM) out.push(`${w.name}: air draft ${airDraft} m vs lowest bridge ${w.airDraftM} m.`);

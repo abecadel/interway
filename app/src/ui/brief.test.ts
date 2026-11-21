@@ -7,6 +7,7 @@ import { briefMarkdown, buildBrief, EDIT_PARAMETERS } from './brief';
 import { VESSEL_PARAMS } from './urlState';
 
 vi.mock('../data/waterways.json', async () => ({ default: [(await import('../test/waterwayFixture')).kanal] }));
+vi.mock('../data/rules.json', async () => ({ default: [{ ...(await import('../test/rulesFixture')).land, cc: 'PL' }] }));
 
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
@@ -110,6 +111,14 @@ describe('route brief', () => {
     expect(md).toContain('| 20 | Lock | Śluza Włocławek | 8 × 2.5 m; ⚠ vessel length 9 m exceeds chamber 8 m |');
     expect(md).toContain('| 155 | Port | A / B |  |');
     expect(md).toContain('- `via`: waypoints in order');
+    // the rules of the countries on the route (Toruń is in PL), inland and at sea as the route goes
+    expect(b.rules.map((r) => r.cc)).toEqual(['PL']);
+    expect(md).toContain('## Rules by country');
+    expect(md).toContain('- Licence: licence over 10 kW');
+    expect(md).toContain('- Coastal speed: 5 kn within 300 m');
+    expect(md).toContain('- Authority: Waterways Authority (https://example.org)');
+    expect(briefMarkdown({ ...b, rules: [{ ...b.rules[0], authority: { name: 'Nobody', url: null } }] })).toContain('- Authority: Nobody\n');
+    expect(briefMarkdown({ ...b, rules: [] })).not.toContain('## Rules by country');
     const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0, downstreamKm: 0 }, vessel: { ...b.vessel, avoidLocks: true, avoidSea: true } });
     expect(quiet).not.toContain('Open sea:');
     expect(quiet).not.toContain('River current');

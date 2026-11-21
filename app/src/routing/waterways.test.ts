@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { empty, kanal, restricted } from '../test/waterwayFixture';
 
 vi.mock('../data/waterways.json', () => ({ default: [] }));
-const { aliasIndex, currentsByName, legPoints, monthsText, seasonWarnings, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
+const { aliasIndex, currentsByName, legPoints, monthsText, rulesText, seasonWarnings, tideText, waterwaysOn, waterwayWarnings, WATERWAYS } = await import('./waterways');
 const { defaultProfile } = await import('./router');
 
 describe('waterway sheets', () => {
@@ -79,6 +79,15 @@ describe('waterway sheets', () => {
   it('give currents by name, the lower where sheets share a name', () => {
     expect(Object.fromEntries(currentsByName([kanal, empty, restricted]))).toEqual({ kanal: 0.4, 'der kanal': 1.2, low: 0.4 });
     expect(currentsByName().size).toBe(0);
+  });
+
+  it('sum up who may use a waterway', () => {
+    expect(rulesText(kanal)).toBeNull();
+    const ruled = { ...kanal, rules: { motorboats: 'restricted' as const, speedLimitKmh: 12, permit: 'vignette', notes: 'no jet skis' } };
+    expect(rulesText(ruled)).toBe('motorboats restricted; up to 12 km/h; permit: vignette; no jet skis');
+    const banned = { ...kanal, rules: { motorboats: 'banned' as const, speedLimitKmh: null, permit: null, notes: null } };
+    expect(rulesText(banned)).toBe('motorboats banned');
+    expect(waterwayWarnings([banned], 1, 3)).toEqual(['Kanal (A – B): motorboats are not allowed (as of 2026-11-21), see About the waterways.']);
   });
 
   it('warn about closures, restrictions, draft and air draft', () => {

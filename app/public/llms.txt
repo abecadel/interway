@@ -96,8 +96,12 @@ towns); give coordinates when a name is ambiguous.
   Wrocław → Monaco routes so far; the brief's "Waterways" section lists those on a route. Elsewhere, and for
   today's water levels and notices, check with the waterway authority.
 - Waters where OpenStreetMap says motorboats are not allowed are avoided where another way exists (the brief says
-  how far a route still crosses them), and posted speed limits slow the boat in the time estimate. National rules
-  (licences, permits, vignettes, speed zones) are not checked yet: see the notices links in the brief.
+  how far a route still crosses them), and posted speed limits slow the boat in the time estimate.
+- Rules by country: the brief's "Rules by country" section gives, for each country the route passes, what a
+  visiting pleasure boat needs: licence and its thresholds, whether foreign licences or the ICC count, permits,
+  vignettes and tolls, registration, radio, speed limits, alcohol limit, equipment, waters closed to motorboats,
+  and at sea the coastal speed zones, anchoring bans, entry and customs and taxes, with sources and the date
+  checked. Waterway sheets add each waterway's own rules (motorboats allowed or not, speed limit, permit).
 - Bridges and lock chambers are listed with their limits only where OpenStreetMap records them; many do not.
   The waterway sheets give each waterway's usual draft and lowest bridge, and routes go round waterways whose
   sheet limits the boat exceeds (or warn where there is no other way).
