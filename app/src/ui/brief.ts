@@ -4,6 +4,7 @@ import type { Itinerary, Stop } from '../routing/itinerary';
 import { defaultProfile, type Route, type VesselProfile } from '../routing/router';
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
+import { noticesFor } from './notices';
 
 export interface BriefStop {
   km: number;
@@ -190,7 +191,10 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
       + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
   }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
-  hazards.push('Depths, lock hours and closures are not included: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.');
+  const notices = noticesFor(itinerary.stops.flatMap((s) => (s.poi.type === 'place' && s.poi.cc ? [s.poi.cc] : [])));
+  hazards.push(notices.length
+    ? `Depths, lock hours and closures are not included: check the notices to skippers for this route: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
+    : 'Depths, lock hours and closures are not included: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.');
   const hours = route.duration / 3600;
   const movingH = route.distance / (profile.speedKmh / 3.6) / 3600;
   const lockH = (route.locks * profile.lockPenaltyMin) / 60;

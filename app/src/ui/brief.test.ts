@@ -16,7 +16,7 @@ const stop = (at: number, poi: Partial<Poi>, offset = 0) => ({ at, offset, poi: 
 const itinerary: Itinerary = {
   counts: {},
   stops: [
-    stop(10_000, { type: 'place', name: 'Toruń' }, 1500),
+    stop(10_000, { type: 'place', name: 'Toruń', cc: 'PL' }, 1500),
     stop(20_000, { type: 'lock', name: 'Śluza Włocławek', maxlength: 8, maxwidth: 2.5 }),
     stop(30_000, { type: 'bridge', clearance: 2.5 }),
     stop(40_000, { type: 'bridge', clearance: 9 }),
@@ -38,6 +38,8 @@ describe('route brief', () => {
     expect(b.places).toEqual(['Toruń', 'Grudziądz']);
     expect(b.stops[0]).toEqual({ km: 10, type: 'place', name: 'Toruń', offKm: 1.5, lat: 1, lon: 2 });
     expect(b.stops[1].problem).toBe('vessel length 9 m exceeds chamber 8 m');
+    expect(b.hazards.at(-1)).toBe('Depths, lock hours and closures are not included: check the notices to skippers for this route:'
+      + ' PL Wody Polskie, komunikaty nawigacyjne (https://www.gov.pl/web/wody-polskie).');
     expect(b.stops[2].problem).toBe('air draft 3 m vs clearance 2.5 m');
     expect(b.stops[3].problem).toBeUndefined();
     expect(b.hazards.join('\n')).toMatch(/10 NM on open sea[\s\S]*km 180: charted depth allows about 1.4 m draft \(yours is 1 m\)[\s\S]*5 NM of open sea with depth unknown[\s\S]*0.5 km on unverified[\s\S]*0 km \/ 0.7 km away[\s\S]*km 20 Lock Śluza Włocławek[\s\S]*km 30 Bridge: air draft[\s\S]*notices to skippers/);

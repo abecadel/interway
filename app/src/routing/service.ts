@@ -24,6 +24,8 @@ export interface Poi {
   /** locks: chamber size, m */
   maxlength?: number;
   maxwidth?: number;
+  /** towns: ISO 3166 country code (GeoNames) */
+  cc?: string;
 }
 
 export interface LoadResult {
