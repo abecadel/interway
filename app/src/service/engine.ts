@@ -45,9 +45,54 @@ export interface Resolved {
 
 export class RequestError extends Error {}
 
+/** Limits that keep one request cheap: a route visits at most MAX_STOPS stops, a place name is at most
+ *  MAX_PLACE_CHARS long. */
+export const MAX_STOPS = 25;
+export const MAX_PLACE_CHARS = 120;
+
+/** A small least-recently-used cache. */
+export class Lru<V> {
+  private map = new Map<string, V>();
+  private size: number;
+  constructor(size: number) {
+    this.size = size;
+  }
+  get(k: string): V | undefined {
+    const v = this.map.get(k);
+    if (v !== undefined) {
+      this.map.delete(k);
+      this.map.set(k, v);
+    }
+    return v;
+  }
+  delete(k: string): void {
+    this.map.delete(k);
+  }
+  set(k: string, v: V): void {
+    this.map.delete(k);
+    this.map.set(k, v);
+    if (this.map.size > this.size) this.map.delete(this.map.keys().next().value!);
+  }
+}
+
+/** The online search, each name asked once (the public geocoder is shared: be gentle with it). */
+export function cachedGeocoder(geocode: (q: string) => Promise<Place[]>, size = 2000): (q: string) => Promise<Place[]> {
+  const cache = new Lru<Promise<Place[]>>(size);
+  return (q) => {
+    const k = fold(q.trim());
+    let hit = cache.get(k);
+    if (!hit) {
+      hit = geocode(q).catch(() => []);
+      cache.set(k, hit);
+    }
+    return hit;
+  };
+}
+
 /** Coordinates as given; else a place in the data whose name starts with the text (marinas, locks, towns);
  *  else the online search; else any place in the data containing the text. */
 export async function resolvePlace(engine: Engine, value: string, what: string): Promise<Resolved> {
+  if (value.length > MAX_PLACE_CHARS) throw new RequestError(`${what} is too long (at most ${MAX_PLACE_CHARS} characters)`);
   const p = parsePoint(value);
   if (p) return { position: p, label: value };
   const local = engine.index.search(value, undefined, 1)[0];
@@ -74,6 +119,7 @@ export function parseRequest(q: URLSearchParams): RouteRequest {
   const from = q.get('from')?.trim(), to = q.get('to')?.trim();
   if (!from || !to) throw new RequestError('Give from and to (place names, or lon,lat)');
   const via = (q.get('via') ?? '').split(/[;|]/).map((v) => v.trim()).filter(Boolean);
+  if (via.length > MAX_STOPS) throw new RequestError(`At most ${MAX_STOPS} stops (via)`);
   const vessel: Partial<VesselProfile> = {};
   for (const [param, field] of Object.entries(VESSEL_PARAMS)) {
     const raw = q.get(param);
@@ -157,6 +203,7 @@ export function applyEdit(r: RouteRequest, e: Edit): RouteRequest {
     const i = e.add_stop.index ?? via.length;
     if (!(i >= 0 && i <= via.length)) throw new RequestError(`A stop can go at 0 to ${via.length}`);
     via.splice(i, 0, e.add_stop.place);
+    if (via.length > MAX_STOPS) throw new RequestError(`At most ${MAX_STOPS} stops`);
   }
   return { from: e.from ?? r.from, to: e.to ?? r.to, via, vessel: { ...r.vessel, ...e.vessel } };
 }

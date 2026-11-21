@@ -82,3 +82,37 @@ describe('route service engine', () => {
     await expect(plan(far, parseRequest(new URLSearchParams('from=Startowo&to=Metowo')), o)).rejects.toThrow(RequestError);
   });
 });
+
+describe('limits and caches', () => {
+  it('keeps the most recently used entries', async () => {
+    const { Lru } = await import('./engine');
+    const c = new Lru<number>(2);
+    c.set('a', 1);
+    c.set('b', 2);
+    expect(c.get('a')).toBe(1); // a is now the newest
+    c.set('c', 3); // b goes
+    expect([c.get('a'), c.get('b'), c.get('c')]).toEqual([1, undefined, 3]);
+    c.delete('a');
+    expect(c.get('a')).toBeUndefined();
+  });
+
+  it('asks the online search once per name, and not again after a failure', async () => {
+    const { cachedGeocoder } = await import('./engine');
+    const inner = vi.fn(async (q: string) => [{ label: q, position: [1, 2] as [number, number] }]);
+    const g = cachedGeocoder(inner);
+    await g('Mikołajki');
+    await g(' mikolajki ');
+    expect(inner).toHaveBeenCalledTimes(1);
+    const failing = cachedGeocoder(vi.fn(async () => { throw new Error('down'); }));
+    expect(await failing('x')).toEqual([]);
+  });
+
+  it('refuses requests too big to be cheap', async () => {
+    const { MAX_PLACE_CHARS, MAX_STOPS } = await import('./engine');
+    const e = await loadEngine(fixtureReader());
+    await expect(resolvePlace(e, 'x'.repeat(MAX_PLACE_CHARS + 1), 'from')).rejects.toThrow('from is too long');
+    expect(() => parseRequest(new URLSearchParams(`from=a&to=b&via=${Array(MAX_STOPS + 1).fill('c').join(';')}`))).toThrow(`At most ${MAX_STOPS} stops`);
+    const full = { from: 'a', to: 'b', via: Array(MAX_STOPS).fill('c'), vessel: {} };
+    expect(() => applyEdit(full, { add_stop: { place: 'd' } })).toThrow(`At most ${MAX_STOPS} stops`);
+  });
+});

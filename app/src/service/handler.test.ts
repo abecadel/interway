@@ -60,6 +60,29 @@ describe('route service over HTTP', () => {
     expect(md).toContain('Service link (change it to edit the route): https://iw.example.dev/api/route?from=Startowo&to=Metowo');
   });
 
+  it('refuses oversized requests, caches answers and marks what may be cached', async () => {
+    const { MAX_QUERY_CHARS, MAX_BODY_BYTES, MAX_BATCH, CACHE_SECONDS } = await import('./handler');
+    expect((await get(`/api/route?from=${'a'.repeat(MAX_QUERY_CHARS)}&to=b`)).status).toBe(414);
+    const big = await rpc({ jsonrpc: '2.0', id: 1, method: 'ping', params: { pad: 'x'.repeat(MAX_BODY_BYTES) } });
+    expect([big.status, big.body.error.code]).toEqual([413, -32600]);
+    const many = await rpc(Array.from({ length: MAX_BATCH + 1 }, (_, i) => ({ jsonrpc: '2.0', id: i, method: 'ping' })));
+    expect(many.body.error.message).toBe(`At most ${MAX_BATCH} requests in a batch`);
+    const ok = await get('/api/route?from=Startowo&to=Metowo');
+    expect(ok.headers.get('cache-control')).toBe(`public, max-age=${CACHE_SECONDS}`);
+    expect((await get('/api/route?from=Startowo')).headers.get('cache-control')).toBe('no-store');
+    const m = await handle(e, new Request('https://svc/mcp', { method: 'POST', body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'ping' }) }), o);
+    expect(m.headers.get('cache-control')).toBe('no-store');
+    // the same route again comes from memory; a failed one is tried again
+    const spy = vi.spyOn(e.router, 'routeVia');
+    await get('/api/route?from=Startowo&to=Metowo&speed=7');
+    await get('/api/route?from=Startowo&to=Metowo&speed=7');
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockImplementationOnce(() => { throw new Error('No navigable route found'); });
+    expect((await get('/api/route?from=Startowo&to=Metowo&speed=6')).status).toBe(400);
+    expect((await get('/api/route?from=Startowo&to=Metowo&speed=6')).status).toBe(200);
+    spy.mockRestore();
+  });
+
   it('answers CORS preflight', async () => {
     const r = await handle(e, new Request('https://svc/api/route', { method: 'OPTIONS' }), o);
     expect(r.status).toBe(204);
