@@ -1,16 +1,10 @@
+import { host } from './host';
 import { monthsText, rulesText, tideText, type WaterwayInfo } from '../routing/waterways';
 
 const STATUS: Record<WaterwayInfo['navigable'], string> = {
   yes: 'navigable', seasonal: 'seasonal', restricted: 'restricted', closed: 'closed',
 };
 
-export const host = (url: string) => {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch {
-    return url;
-  }
-};
 
 /** Researched facts about each waterway on the route, with their sources. */
 export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
