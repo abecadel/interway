@@ -4,6 +4,7 @@ import type { Itinerary, Stop } from '../routing/itinerary';
 import { dateAfter, defaultProfile, type Route, type VesselProfile } from '../routing/router';
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
+import { portFacts } from './portFacts';
 import { noticesFor } from './notices';
 import { type CountryRules, routeCountries, ruleFacts, rulesFor } from '../routing/rules';
 import { legPoints, monthsText, rulesText, seasonWarnings, tideText, type WaterwayInfo, waterwaysOn, waterwayWarnings } from '../routing/waterways';
@@ -32,6 +33,16 @@ export interface BriefStage {
   atSea?: boolean;
   /** the day's date, when a departure date is set */
   date?: string;
+  /** what is known about the harbour the stage ends at (VHF, phone, services, ...) */
+  harbour?: string;
+}
+
+/** The longest stretch without a stop of some kind (fuel, water, ...), counting from the start and to the end. */
+export interface ServiceGap {
+  count: number;
+  longestKm: number;
+  fromKm: number;
+  toKm: number;
 }
 
 export interface RouteBrief {
@@ -64,6 +75,14 @@ export interface RouteBrief {
   waterways: WaterwayInfo[];
   /** the boating rules of the countries on the route (licence, permits, speed limits, ...), with sources */
   rules: CountryRules[];
+  /** what to arrange before going: licences, permits and tolls, taxes, entry, data to complete */
+  checklist: string[];
+  /** the tightest mapped limit of each kind along the route and whether the boat fits */
+  limits: { kind: 'draft' | 'airDraft' | 'beam' | 'length'; limitM: number; name: string; km: number; fits: boolean }[];
+  /** the countries in route order, from where the route first passes one of their towns */
+  countries: { cc: string; name: string; fromKm: number }[];
+  /** fuel, water and overnight harbours along the route: how many and the longest stretch without one */
+  services: { fuel: ServiceGap; water: ServiceGap; harbour: ServiceGap };
 }
 
 const km = (m: number) => Math.round(m / 100) / 10;
@@ -117,17 +136,16 @@ function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] 
     let to = dayM > 0 ? Math.min(from + dayM, route.distance) : route.distance;
     let endsAt = to === route.distance ? 'destination' : `km ${km(to)}`;
     let atSea = false;
+    let end: Stop | undefined;
     // a day cannot end out at sea: stop at the last harbour before the passage, or make the passage one stage
     const passage = sea.find(([a, b]) => to > a && to < b);
     if (passage) {
       const before = stops.filter((s) => harbour(s) && s.at > from && s.at <= passage[0]).at(-1);
       const after = stops.find((s) => harbour(s) && s.at > to && s.at < passage[1]);
-      if (before) {
-        to = before.at;
-        endsAt = `${POI_LABEL[before.poi.type]}${before.poi.name ? ` ${before.poi.name}` : ''}`;
-      } else if (after) {
-        to = after.at;
-        endsAt = `${POI_LABEL[after.poi.type]}${after.poi.name ? ` ${after.poi.name}` : ''}`;
+      if (before ?? after) {
+        end = (before ?? after)!;
+        to = end.at;
+        endsAt = `${POI_LABEL[end.poi.type]}${end.poi.name ? ` ${end.poi.name}` : ''}`;
       } else {
         to = passage[1];
         atSea = true;
@@ -137,6 +155,7 @@ function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] 
       // end the day at the last marina or port in its final fifth, if there is one
       const stop = stops.filter((s) => LAYOVER.includes(s.poi.type) && s.at > from + 0.8 * dayM && s.at <= to).at(-1);
       if (stop) {
+        end = stop;
         to = stop.at;
         endsAt = `${POI_LABEL[stop.poi.type]}${stop.poi.name ? ` ${stop.poi.name}` : ''}`;
       } else {
@@ -144,8 +163,9 @@ function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] 
         if (town) endsAt += ` (near ${town.poi.name})`;
       }
     }
+    const facts = end ? portFacts(end.poi).map((f) => `${f.label}: ${f.value}`).join('; ') : '';
     out.push({ day: out.length + 1, fromKm: km(from), toKm: km(to), km: km(to - from), hours: Math.round((to - from) / speed / 360) / 10, endsAt,
-      ...(atSea && { atSea }) });
+      ...(atSea && { atSea }), ...(facts && { harbour: facts }) });
     from = to;
   }
   return out;
@@ -222,6 +242,28 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   hazards.push(notices.length
     ? `Today's closures, water levels and lock hours are not live here: check the notices to skippers for this route before going: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
     : "Today's closures, water levels and lock hours are not live here: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.");
+  const gap = (types: PoiType[]): ServiceGap => {
+    const ats = itinerary.stops.filter((s) => types.includes(s.poi.type)).map((s) => s.at);
+    const points = [0, ...ats, route.distance];
+    let best = 0;
+    for (let i = 1; i < points.length; i++) if (points[i] - points[i - 1] > points[best + 1] - points[best]) best = i - 1;
+    return { count: ats.length, longestKm: km(points[best + 1] - points[best]), fromKm: km(points[best]), toKm: km(points[best + 1]) };
+  };
+  const countryRules = rulesFor(countries);
+  const inland = route.distance - route.sea > 1000, atSea = route.sea > 0;
+  const checklist = [
+    ...DIMENSIONS.filter((k) => profile[k] === defaultProfile[k] && !entered?.has(k)).map((k) => `Give the boat's real ${DIM_TEXT[k]}: ${profile[k]} m is the planner's default.`),
+    ...(profile.departure ? [] : ['Give a departure date (date=YYYY-MM-DD): waterways are then checked for the month the boat reaches them.']),
+    ...countryRules.flatMap((r) => {
+      const i = inland ? r.inland : null, s = atSea ? r.sea : null;
+      const parts = [i?.licence && `licence: ${i.licence}`, i?.permit && `permits: ${i.permit}`, s?.taxes && `taxes: ${s.taxes}`, s?.entry && `entry: ${s.entry}`].filter(Boolean);
+      return parts.length ? [`${r.name}: ${parts.join('; ')}.`] : [];
+    }),
+    ...waterways.filter((w) => w.rules?.permit).map((w) => `${w.name}: ${w.rules!.permit}.`),
+    ...notices.map((n) => `Read the notices to skippers before going: ${n.cc} ${n.name} (${n.url}).`),
+  ];
+  const fromKm = new Map<string, number>();
+  for (const s of itinerary.stops) if (s.poi.type === 'place' && s.poi.cc && !fromKm.has(s.poi.cc)) fromKm.set(s.poi.cc, km(s.at));
   const hours = route.duration / 3600;
   const movingH = route.distance / (profile.speedKmh / 3.6) / 3600;
   const lockH = (route.locks * profile.lockPenaltyMin) / 60;
@@ -245,7 +287,11 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     hazards,
     edit: { link, parameters: EDIT_PARAMETERS },
     waterways,
-    rules: rulesFor(countries),
+    rules: countryRules,
+    checklist,
+    limits: route.limits.map((l) => ({ kind: l.kind, limitM: l.limit, name: l.name, km: km(l.at), fits: Math.fround(profile[l.kind]) <= Math.fround(l.limit) })),
+    countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
+    services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER) },
   };
 }
 
@@ -286,6 +332,14 @@ function waterwaysMarkdown(ws: WaterwayInfo[]): string[] {
   ]), ''];
 }
 const DIMENSIONS = ['draft', 'airDraft', 'beam', 'length'] as const;
+const DIM_TEXT: Record<(typeof DIMENSIONS)[number], string> = { draft: 'draft', airDraft: 'air draft', beam: 'beam', length: 'length' };
+
+const LIMIT_TEXT = { draft: 'Draft', airDraft: 'Air draft (headroom)', beam: 'Beam', length: 'Length' } as const;
+
+function serviceLines(sv: RouteBrief['services']): string[] {
+  const line = (what: string, g: ServiceGap) => `- ${what}: ${g.count} on the route; longest stretch without: ${g.longestKm} km (km ${g.fromKm}–${g.toKm})`;
+  return [line('Fuel', sv.fuel), line('Water', sv.water), line('Marinas and ports', sv.harbour)];
+}
 
 export function briefMarkdown(b: RouteBrief): string {
   const t = b.totals, v = b.vessel;
@@ -304,10 +358,18 @@ export function briefMarkdown(b: RouteBrief): string {
     ...(t.downstreamKm + t.upstreamKm > 0 ? [`- River current: ${v.currentMs} m/s, ${t.downstreamKm} km with it, ${t.upstreamKm} km against it`] : []),
     ...(t.seaNm > 0 ? [`- Open sea: ${t.seaNm} NM`] : []),
     ...(b.places.length ? [`- Towns on the way: ${b.places.join(', ')}`] : []),
+    ...(b.countries.length ? [`- Countries: ${b.countries.map((c) => `${c.name} (from km ${c.fromKm})`).join(', ')}`] : []),
+    ...serviceLines(b.services),
     '',
+    ...(b.checklist.length ? ['## Before you go', ...b.checklist.map((c) => `- [ ] ${c}`), ''] : []),
     '## Vessel',
     `Draft ${dim('draft')}, air draft ${dim('airDraft')}, beam ${dim('beam')},`
       + ` length ${dim('length')}${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}${v.coastal ? ', keeping near the coast' : ''}.`,
+    ...(b.limits.length ? [
+      '', 'Tightest mapped limits on the route (where OpenStreetMap records them; many structures have none):',
+      ...b.limits.map((l) => `- ${LIMIT_TEXT[l.kind]} ${l.limitM} m at km ${l.km} (${l.name}): ${l.fits ? 'fits' : `⚠ yours is ${v[l.kind]} m`}`),
+    ] : []),
+    ...(t.maxSeaDraftM !== null ? [`- Shallowest charted sea: about ${t.maxSeaDraftM} m draft`] : []),
     '',
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),
@@ -320,9 +382,9 @@ export function briefMarkdown(b: RouteBrief): string {
     ...b.legs.map((l) => `| ${l.fromKm}–${l.toKm} | ${cell(l.name)} | ${l.km} km |`),
     '',
     '## Daily stages',
-    '| day | km | distance | hours | end of day |',
-    '|---|---|---|---|---|',
-    ...b.stages.map((s) => `| ${s.date ? `${s.day} (${s.date})` : s.day} | ${s.fromKm}–${s.toKm} | ${s.km} km | ${s.hours} h | ${cell(s.endsAt)} |`),
+    '| day | km | distance | hours | end of day | harbour |',
+    '|---|---|---|---|---|---|',
+    ...b.stages.map((s) => `| ${s.date ? `${s.day} (${s.date})` : s.day} | ${s.fromKm}–${s.toKm} | ${s.km} km | ${s.hours} h | ${cell(s.endsAt)} | ${cell(s.harbour ?? '')} |`),
     '',
     '## Along the route',
     '| km | type | name | details |',

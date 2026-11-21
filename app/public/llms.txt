@@ -59,9 +59,13 @@ their sources: closures change, so tell the user to confirm them with the author
 ## Route brief
 
 After a route is computed the user can press "Copy brief for AI" and paste a Markdown brief into the chat:
-distance and time, locks, open-sea distance, towns, legs, daily stages, every stop with its kilometre, vessel
-checks against lock chambers and bridge clearances, hazards, and the route link with these parameters. "JSON"
-downloads the same brief as structured data.
+distance and time, locks, open-sea distance, towns, the countries crossed (from which km), fuel, water and
+harbours with the longest stretch without each, a "Before you go" checklist (licences, permits, vignettes, taxes,
+entry formalities, notices to read, data still to give), the tightest mapped draft, headroom, beam and length
+limits on the route and whether the boat fits, legs, daily stages (with dates, and the VHF channel, phone and
+services of the harbour each day ends at), every stop with its kilometre, hazards, researched waterway sheets,
+boating rules by country, and the route link with these parameters. "JSON" downloads the same brief as
+structured data (fields `checklist`, `limits`, `countries`, `services`, `stages`, `waterways`, `rules`, ...).
 
 ## Site tools (WebMCP)
 
