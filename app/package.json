@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run --coverage",
     "test:routes": "vitest run src/routing/canonical.test.ts --reporter=verbose --silent=false",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "build:service": "vite build -c vite.service.config.ts",
+    "service": "npm run build:service && DATA_DIR=public/data node dist-service/server.mjs"
   },
   "dependencies": {
     "flatbush": "^4.7.0",

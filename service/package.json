@@ -1,0 +1,14 @@
+{
+  "name": "interway-service-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "./deploy.sh",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "@cloudflare/containers": "0.3.7",
+    "@cloudflare/workers-types": "5.20261121.1",
+    "wrangler": "4.166.0"
+  }
+}
