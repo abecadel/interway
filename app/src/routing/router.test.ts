@@ -300,6 +300,16 @@ describe('router edge cases', () => {
     // a name whose sheets all lie elsewhere gets no sheet; an unreadable date is no date
     r.setWaterways([{ ...sheets[2] }]);
     expect(name(r.routeVia([[17.001, 51.0], [17.15, 51.1], [17.199, 51.0]], { ...defaultProfile, departure: 'soon' })).length).toBeGreaterThan(0);
+    // a sheet's usual draft or lowest bridge the boat exceeds: round by the river where it can, through where not
+    r.setWaterways([{ ...sheets[0], months: undefined, depth: { maxDraftM: 1 }, airDraftM: null }, sheets[1]]);
+    expect(name(r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, draft: 1.2 }))).toEqual(['Fluss']);
+    expect(name(r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, draft: 0.8 }))).toEqual(['Kanal']);
+    r.setWaterways([{ ...sheets[0], months: undefined, airDraftM: 2.5 }, sheets[1]]);
+    const tall = r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, airDraft: 3 });
+    expect(name(tall)).toEqual(['Fluss']);
+    expect(tall.duration).toBeCloseTo(tall.distance / (defaultProfile.speedKmh / 3.6), -1);
+    only.setWaterways([{ ...sheets[0], months: undefined, airDraftM: 2.5 }]);
+    expect(name(only.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, airDraft: 3 }))).toEqual(['Kanal']);
     expect(dateAfter('2027-01-31', 8 * 3600)).toBe('2027-02-01');
     expect(dateAfter('nonsense', 0)).toBeNull();
     expect(dateAfter('2027-02-30', 0)).toBe('2027-03-02'); // rolled over like Date does
