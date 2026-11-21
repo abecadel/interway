@@ -33,6 +33,8 @@ export interface RouteBrief {
   vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'avoidLocks' | 'avoidSea'>;
   totals: {
     km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
+    /** open sea with no charted depth (outside EMODnet's coverage), NM */
+    seaNoDepthNm: number;
     /** km with the river current (downstream) and against it (upstream) */
     downstreamKm: number; upstreamKm: number;
     /** open sea charted shallower than the vessel's draft that the route crosses anyway, km */
@@ -135,6 +137,9 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     hazards.push(`Shallowest open-sea stretch at km ${km(at)}: charted depth allows about ${draft} m draft`
       + `${profile.draft > draft - 0.5 ? ` (yours is ${profile.draft} m)` : ''}. EMODnet bathymetry, ~0.5 km grid: not for navigation.`);
   }
+  if (route.seaNoDepth > 0) {
+    hazards.push(`${nm(route.seaNoDepth)} NM of open sea with depth unknown: the planner has no charted depth there (EMODnet covers European seas only). Use official charts.`);
+  }
   if (route.tooShallow > 0) {
     hazards.push(`${km(route.tooShallow)} km of open sea is charted shallower than your ${profile.draft} m draft and has no deeper way`
       + ' in the planner\'s coarse sea network: there may be a dredged channel, or the passage may need a different route. Check official charts.');
@@ -152,7 +157,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
-      days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), unverifiedKm: km(route.unverified),
+      days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), seaNoDepthNm: nm(route.seaNoDepth), unverifiedKm: km(route.unverified),
       tooShallowKm: km(route.tooShallow),
       downstreamKm: km(route.downstream), upstreamKm: km(route.upstream),
       maxSeaDraftM: route.shallowest?.draft ?? null,

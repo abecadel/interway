@@ -60,6 +60,7 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
         <div className="warn small">
           {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
           {route.shallowest && ` Shallowest stretch allows about ${route.shallowest.draft} m draft (km ${(route.shallowest.at / 1000).toFixed(0)}).`}
+          {route.seaNoDepth > 0 && ` Depth unknown for ${fmtNm(route.seaNoDepth)}: no charted depth in the planner there.`}
           {route.tooShallow > 0 && ` ${(route.tooShallow / 1000).toFixed(0)} km charted shallower than your draft: check charts for a channel.`}
         </div>
       )}

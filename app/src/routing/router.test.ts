@@ -174,15 +174,19 @@ describe('router edge cases', () => {
       { points: [A, B], kind: 'river', limits: [1.5, 0, 0, 0] },
       { points: [B, C], kind: 'sea', limits: [6, 0, 0, 0] },
       { points: [C, D], kind: 'sea', limits: [2.5, 0, 0, 0] },
-      { points: [D, [17.3, 51.2]], kind: 'sea' },
+      { points: [D, [17.3, 51.2]], kind: 'sea', noDepth: true },
     ]);
     const route = r.route([17.01, 51.0], [17.25, 51.15]);
+    // the last stretch has no charted depth: counted apart from deep water
+    expect(route.seaNoDepth).toBeGreaterThan(5_000);
+    expect(route.seaNoDepth).toBeLessThan(route.sea);
     expect(route.shallowest!.draft).toBeCloseTo(2.5, 5); // the river's 1.5 m is not sea
     expect(route.shallowest!.at).toBeCloseTo(13_300, -2);
     expect(r.route([17.01, 51.0], [17.09, 51.0]).shallowest).toBeNull();
     const via = r.routeVia([[17.01, 51.0], [17.15, 51.0], [17.25, 51.15]]);
     expect(via.shallowest!.draft).toBeCloseTo(2.5, 5);
     expect(via.shallowest!.at).toBeGreaterThan(12_000);
+    expect(via.seaNoDepth).toBeCloseTo(route.seaNoDepth, -2);
     expect(r.routeVia([[17.25, 51.15], [17.17, 51.07], [17.01, 51.0]]).shallowest!.draft).toBeCloseTo(2.5, 5);
   });
 

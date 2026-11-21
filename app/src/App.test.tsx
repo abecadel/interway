@@ -29,6 +29,7 @@ const route = (over: Partial<Route> = {}): Route => ({
   locks: 2,
   unverified: 0,
   sea: 0,
+  seaNoDepth: 0,
   downstream: 0,
   upstream: 0,
   tooShallow: 0,
@@ -107,12 +108,12 @@ describe('App', () => {
     expect(screen.getByText('No navigable route')).toBeTruthy();
     r.unmount();
 
-    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
+    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, seaNoDepth: 9260, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
     render(<App client={far} />);
     await flush();
     expect(screen.getByText(/snapped to the nearest navigable water \(1\.5 km/)).toBeTruthy();
     expect(screen.getByText(/Includes 2\.5 km on unverified connections/)).toBeTruthy();
-    expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). 4 km charted shallower than your draft');
+    expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). Depth unknown for 5.0 NM');
   });
 
   it('shows the river current and the time of the way back', async () => {

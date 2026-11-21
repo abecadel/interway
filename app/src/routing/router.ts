@@ -78,6 +78,8 @@ export interface Route {
   unverified: number;
   /** metres on open-sea legs */
   sea: number;
+  /** metres of open sea with no charted depth (outside the bathymetry's coverage) */
+  seaNoDepth: number;
   /** metres travelled with the river current (downstream) and against it (upstream) */
   downstream: number;
   upstream: number;
@@ -451,7 +453,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0, unverified = 0, sea = 0, tooShallow = 0, downstream = 0, upstream = 0;
+    let distance = 0, locks = 0, unverified = 0, sea = 0, seaNoDepth = 0, tooShallow = 0, downstream = 0, upstream = 0;
     let shallowest: Route['shallowest'] = null;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
@@ -519,6 +521,7 @@ export class Router {
       }
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
+      if (this.geomFlags(g) & Flag.NO_DEPTH) seaNoDepth += distance - before;
       if (current > 0) downstream += distance - before;
       else if (current < 0) upstream += distance - before;
       const draft = distance > before ? this.seaDraft(g) : 0; // a snap at the very end of a stretch does not cross it
@@ -526,7 +529,7 @@ export class Router {
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
     if (penalty) duration = unpenalized;
-    return { coordinates: coords, distance, duration, locks, unverified, sea, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -588,6 +591,7 @@ export function joinRoutes(a: Route, b: Route): Route {
     locks: a.locks + b.locks,
     unverified: a.unverified + b.unverified,
     sea: a.sea + b.sea,
+    seaNoDepth: a.seaNoDepth + b.seaNoDepth,
     downstream: a.downstream + b.downstream,
     upstream: a.upstream + b.upstream,
     tooShallow: a.tooShallow + b.tooShallow,

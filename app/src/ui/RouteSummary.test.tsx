@@ -5,7 +5,7 @@ import { defaultProfile } from '../routing/router';
 import { RouteSummary } from './RouteSummary';
 
 const route = {
-  coordinates: [[0, 0], [1, 0]], distance: 1300, duration: 1680, locks: 1, unverified: 0, sea: 0, downstream: 0, upstream: 0,
+  coordinates: [[0, 0], [1, 0]], distance: 1300, duration: 1680, locks: 1, unverified: 0, sea: 0, seaNoDepth: 0, downstream: 0, upstream: 0,
   tooShallow: 0, shallowest: null, events: [], legs: [{ name: 'Kanal', distance: 1300 }],
   start: { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 }, end: { geom: 0, seg: 0, lat: 0, lon: 1, offset: 0, frac: 0 },
 } as Route;

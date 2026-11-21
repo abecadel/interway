@@ -104,3 +104,14 @@ def test_attribute_table_overflow(tmp_path, monkeypatch, caplog):
     attr_by_geom = {int(g["geom"][e]): int(g["attr"][e]) for e in range(g["m"])}
     assert attr_by_geom == {0: 1, 1: 2, 2: 0, 3: 0}  # rows that do not fit fall back to "no restrictions"
     assert "attribute table full" in caplog.text
+
+
+def test_sea_without_charted_depth_is_flagged(tmp_path):
+    from interway_pipeline.model import NO_DEPTH
+    segs = [Segment(a=1, b=2, coords=[(0, 0), (0.1, 0)], kind="sea", depth_unknown=True),
+            Segment(a=2, b=3, coords=[(0.1, 0), (0.2, 0)], kind="sea")]
+    export(segs, tmp_path, region="t")
+    g = read_graph(tmp_path / "graph.bin")
+    flags = {(u, v): f for u, v, f in edges(g)}
+    assert flags[(0, 1)] & NO_DEPTH and flags[(1, 0)] & NO_DEPTH
+    assert not flags[(1, 2)] & NO_DEPTH and all(f & SEA for f in flags.values())

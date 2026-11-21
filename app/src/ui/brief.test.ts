@@ -8,7 +8,7 @@ import { VESSEL_PARAMS } from './urlState';
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
 const route: Route = {
-  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
+  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, seaNoDepth: 9_260, downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
   events: [], legs: [{ name: 'Wisła', distance: 150_000 }, { name: '', distance: 50_000 }],
   start: snap, end: { ...snap, offset: 700 },
 };
@@ -30,7 +30,7 @@ describe('route brief', () => {
   const b = buildBrief({ route, itinerary, profile: { ...defaultProfile, length: 9, beam: 3, airDraft: 3 }, title: 'Warsaw → Gdańsk', link: 'https://x/?from=1,2' });
 
   it('sums up the route and checks the vessel against locks and bridges', () => {
-    expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, days: 3, locks: 1, seaNm: 10, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
+    expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, days: 3, locks: 1, seaNm: 10, seaNoDepthNm: 5, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
     expect(b.legs).toEqual([
       { name: 'Wisła', fromKm: 0, toKm: 150, km: 150 },
       { name: 'unnamed waterway', fromKm: 150, toKm: 200, km: 50 },
@@ -40,7 +40,7 @@ describe('route brief', () => {
     expect(b.stops[1].problem).toBe('vessel length 9 m exceeds chamber 8 m');
     expect(b.stops[2].problem).toBe('air draft 3 m vs clearance 2.5 m');
     expect(b.stops[3].problem).toBeUndefined();
-    expect(b.hazards.join('\n')).toMatch(/10 NM on open sea[\s\S]*km 180: charted depth allows about 1.4 m draft \(yours is 1 m\)[\s\S]*0.5 km on unverified[\s\S]*0 km \/ 0.7 km away[\s\S]*km 20 Lock Śluza Włocławek[\s\S]*km 30 Bridge: air draft[\s\S]*notices to skippers/);
+    expect(b.hazards.join('\n')).toMatch(/10 NM on open sea[\s\S]*km 180: charted depth allows about 1.4 m draft \(yours is 1 m\)[\s\S]*5 NM of open sea with depth unknown[\s\S]*0.5 km on unverified[\s\S]*0 km \/ 0.7 km away[\s\S]*km 20 Lock Śluza Włocławek[\s\S]*km 30 Bridge: air draft[\s\S]*notices to skippers/);
     const narrow = buildBrief({ route, itinerary, profile: { ...defaultProfile, length: 5, beam: 3 }, title: '', link: '' });
     expect(narrow.stops[1].problem).toBe('beam 3 m exceeds chamber width 2.5 m');
   });
@@ -51,7 +51,7 @@ describe('route brief', () => {
       { day: 2, fromKm: 70, toKm: 150, km: 80, hours: 8, endsAt: 'km 150 (near Grudziądz)' },
       { day: 3, fromKm: 150, toKm: 200, km: 50, hours: 5, endsAt: 'destination' },
     ]);
-    const plain = buildBrief({ route: { ...route, sea: 0, unverified: 0, end: snap, shallowest: null }, itinerary: { counts: {}, stops: [] }, profile: defaultProfile, title: 't', link: 'l' });
+    const plain = buildBrief({ route: { ...route, sea: 0, seaNoDepth: 0, unverified: 0, end: snap, shallowest: null }, itinerary: { counts: {}, stops: [] }, profile: defaultProfile, title: 't', link: 'l' });
     expect(plain.stages.map((s) => s.endsAt)).toEqual(['km 80', 'km 160', 'destination']);
     expect(plain.hazards).toHaveLength(1);
     expect(plain.totals.maxSeaDraftM).toBeNull();

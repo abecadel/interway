@@ -41,8 +41,13 @@ def test_min_along_and_limits():
         Segment(a=3, b=4, coords=[(15.85, 50.01), (15.95, 50.02)], kind="sea"),   # 1 m: 0.05 floor
         Segment(a=4, b=5, coords=[(14.9, 50.9), (14.95, 50.9)], kind="river"),    # not sea
     ]
+    off_the_map = Segment(a=6, b=7, coords=[(-70.1, 40.0), (-70.0, 40.0)], kind="sea")  # no tile: not charted
+    land_only = Segment(a=8, b=9, coords=[(14.1, 51.9), (14.2, 51.9)], kind="sea")  # charted, just dry pixels
+    sea += [off_the_map, land_only]
     assert apply_sea_depth(sea, g, safety_m=1.0) == 2
-    assert [s.limits.max_draft for s in sea] == [1.0, 0.0, 0.05, 0.0]
+    assert [s.limits.max_draft for s in sea] == [1.0, 0.0, 0.05, 0.0, 0.0, 0.0]
+    # deep water (40 m) is not "unknown"; only the segment outside the bathymetry is
+    assert [s.depth_unknown for s in sea] == [False, False, False, False, True, False]
 
 
 def test_samples_next_to_land_are_left_out():

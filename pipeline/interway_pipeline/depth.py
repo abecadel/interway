@@ -72,11 +72,18 @@ class DepthGrid:
         self._load = load
         self._tiles: dict[tuple[int, int], np.ndarray | None] = {}
 
-    def depth(self, lon: float, lat: float) -> float | None:
+    def _tile(self, lon: float, lat: float):
         i, j = math.floor(lon / TILE_DEG), math.floor(lat / TILE_DEG)
         if (i, j) not in self._tiles:
             self._tiles[(i, j)] = self._load(i, j)
-        a = self._tiles[(i, j)]
+        return i, j, self._tiles[(i, j)]
+
+    def charted(self, lon: float, lat: float) -> bool:
+        """Whether the bathymetry covers this point at all (a land pixel counts: it is charted, just dry)."""
+        return self._tile(lon, lat)[2] is not None
+
+    def depth(self, lon: float, lat: float) -> float | None:
+        i, j, a = self._tile(lon, lat)
         if a is None:
             return None
         h, w = a.shape
@@ -110,13 +117,16 @@ def apply_sea_depth(segments: list[Segment], grid: DepthGrid, *, near_land: Call
     pts = [samples(s.coords, step_m) for s in sea]
     flat = np.array([p for ps in pts for p in ps], dtype=float).reshape(-1, 2)
     skip = near_land(flat) if near_land is not None else np.zeros(len(flat), dtype=bool)
-    limited, k = 0, 0
+    limited, unknown, k = 0, 0, 0
     for s, ps in zip(sea, pts, strict=True):
         ds = [d for i, p in enumerate(ps) if not skip[k + i] and (d := grid.depth(*p)) is not None]
         k += len(ps)
+        if not any(grid.charted(*p) for p in ps):  # outside the bathymetry: depth unknown, not deep
+            s.depth_unknown = True
+            unknown += 1
         d = min(ds, default=None)
         if d is not None and d < max_m:
             s.limits.max_draft = round(max(d - safety_m, 0.05), 2)  # 0 would mean "no limit"
             limited += 1
-    log.info("charted depth limits on %d of %d sea segments", limited, len(sea))
+    log.info("charted depth limits on %d of %d sea segments, no charted depth on %d", limited, len(sea), unknown)
     return limited
