@@ -34,6 +34,7 @@ import { PHONE, useMediaQuery } from './ui/useMediaQuery';
 import { useInstallPrompt } from './ui/useInstallPrompt';
 import { useTheme } from './ui/useTheme';
 import './App.css';
+import { loadView } from './map/view';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
@@ -112,7 +113,7 @@ export default function App({ client }: { client: RoutingApi }) {
   const [customOpen, setCustomOpen] = useState(false);
   // the directions card folds to one line once its route is shown, until the user taps it to edit
   const [editKey, setEditKey] = useState<string | null>(null);
-  const [center, setCenter] = useState<LngLat>([19, 52]);
+  const [center, setCenter] = useState<LngLat>(() => loadView().center);
   const [recent, setRecent] = useState(() => loadPlaces(RECENT_KEY));
   const [saved, setSaved] = useState(() => loadPlaces(SAVED_KEY));
   const searchRef = useRef<HTMLInputElement>(null);
