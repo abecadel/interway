@@ -19,7 +19,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['src/test/setup.ts'],
     // Canonical routes need a built data directory: run them with `npm run test:routes`.
-    exclude: [...configDefaults.exclude, ...(process.env.INTERWAY_DATA ? [] : ['src/routing/canonical.test.ts'])],
+    exclude: [...configDefaults.exclude, 'e2e/**', ...(process.env.INTERWAY_DATA ? [] : ['src/routing/canonical.test.ts'])],
     coverage: {
       provider: 'v8',
       include: ['src/**'],

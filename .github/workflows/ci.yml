@@ -17,6 +17,9 @@ jobs:
       - run: npm run build
       # a classic service worker cannot `import`: sw.js must not share a chunk with the page
       - run: "! grep -q 'import' dist/sw.js"
+      # end-to-end: the built app in a phone-sized Chromium (routes, search, offline, navigation)
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
   pipeline:
     runs-on: ubuntu-latest
     defaults: { run: { working-directory: pipeline } }
