@@ -255,6 +255,14 @@ describe('router edge cases', () => {
     // a 12 km/h boat on a 6 km/h stretch takes twice as long
     const slow = makeRouter([{ points: [A, B], maxSpeed: 6 }]).route([17.01, 51.0], [17.09, 51.0], { ...defaultProfile, speedKmh: 12 });
     expect(slow.duration).toBeCloseTo(slow.distance / (6 / 3.6), -1);
+    // a waterway sheet's usual limit counts too, the lower of the two
+    const sheeted = makeRouter([{ points: [A, B], maxSpeed: 9, name: 'Kanal' }]);
+    sheeted.setWaterways([{ aliases: ['Kanal'], current: { typicalMs: null }, rules: { speedLimitKmh: 6 } }]);
+    const both = sheeted.route([17.01, 51.0], [17.09, 51.0], { ...defaultProfile, speedKmh: 12 });
+    expect(both.duration).toBeCloseTo(both.distance / (6 / 3.6), -1);
+    sheeted.setWaterways([{ aliases: ['Kanal'], current: { typicalMs: null }, rules: { speedLimitKmh: null } }]);
+    const osm = sheeted.route([17.01, 51.0], [17.09, 51.0], { ...defaultProfile, speedKmh: 12 });
+    expect(osm.duration).toBeCloseTo(osm.distance / (9 / 3.6), -1);
     // the short way crosses a lake closed to motorboats, the long way goes round it
     const r = makeRouter([
       { points: [A, C], noMotor: true, kind: 'lake' },

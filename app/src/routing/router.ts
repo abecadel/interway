@@ -91,6 +91,7 @@ export interface SheetForRouting {
   months?: { closed: number[] };
   depth?: { maxDraftM: number | null };
   airDraftM?: number | null;
+  rules?: { speedLimitKmh: number | null };
 }
 
 export interface Snap {
@@ -215,6 +216,7 @@ export class Router {
   private geomSheet: Int32Array | null = null;
   private sheetClosed: number[] = [];
   private sheetDraft: number[] = [];
+  private sheetSpeed: number[] = [];
   private sheetAir: number[] = [];
   /** waterways avoided for the departure date: extra cost per geometry */
   private season: Map<number, number> | null = null;
@@ -369,6 +371,7 @@ export class Router {
     this.sheetClosed = sheets.map((w) => (w.months?.closed ?? []).reduce((m, k) => m | (1 << k), 0));
     this.sheetDraft = sheets.map((w) => w.depth?.maxDraftM ?? Infinity);
     this.sheetAir = sheets.map((w) => w.airDraftM ?? Infinity);
+    this.sheetSpeed = sheets.map((w) => w.rules?.speedLimitKmh ?? 0);
   }
 
   private factor(g: number, p: VesselProfile): number {
@@ -395,9 +398,13 @@ export class Router {
       if (t[a + 2] > 0 && f(p.beam) > t[a + 2]) return BLOCKED;
       if (t[a + 3] > 0 && f(p.length) > t[a + 3]) return BLOCKED;
     }
-    // a posted speed limit caps the speed through the water
-    const limit = speedLimitOf(flags);
-    let speed = (limit > 0 ? Math.min(p.speedKmh, limit) : p.speedKmh) / 3.6;
+    // a posted speed limit (OSM) or the waterway sheet's usual one caps the speed through the water
+    const sheet = this.geomSheet?.[g.edgeGeom[e]] ?? -1;
+    const posted = speedLimitOf(flags), usual = sheet >= 0 ? this.sheetSpeed[sheet] : 0;
+    let speed = p.speedKmh;
+    if (posted > 0 && posted < speed) speed = posted;
+    if (usual > 0 && usual < speed) speed = usual;
+    speed /= 3.6;
     const known = this.geomCurrent?.[g.edgeGeom[e]];
     const current = known !== undefined && !Number.isNaN(known) ? known : p.currentMs;
     if (flags & Flag.DOWNSTREAM) speed += current;

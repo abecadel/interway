@@ -31,6 +31,12 @@
    "hours": "Rędzin, Brzeg Dolny and Malczyce: 06:00–22:00 daily, including weekends and holidays (RZGW bulletin 20.11.2026)",
    "notes": "Locks: Rędzin km 260.7, Brzeg Dolny km 281.6, Malczyce km 300. Stay in constant contact with the Malczyce lock (tel. 71 380 21 44 / 603 364 346 / 504 074 585) and Brzeg Dolny lock (71 31 95 529). Ship–shore VHF ch 74, ship–ship ch 10 (UŻŚ Wrocław). The Wrocław city locks are partly closed: Mieszczańska since 27.05.2026, and the Janowice–Bartoszowice/Opatowice reach since 28.10.2026 until further notice."
   },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": null,
+   "permit": "No permit or vignette. Lock fee for sport/recreational craft (2026): 10.90 zł per lockage 07:00–19:00, 22.00 zł 19:00–07:00",
+   "notes": "Zarządzenie 1/2021 UŻŚ Wrocław: 15 km/h on the Odra km 181.3–542.4 incl. the Wrocław node, but small craft (mały statek) are exempt; follow signs. Night navigation only on stretches marked and opened for it; the border Odra km 542.4–704.1 is closed at night. Keep 150 m from weirs and power stations. Transit Brzeg Dolny–km 310 must be booked with the lock operators (low water). Border reach: Zarządzenie 1/2022 UŻŚ Szczecin; German side: jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips."
+  },
   "season": {
    "best": null,
    "closures": "Ice: RZGW Wrocław closed the free-flowing Odra km 370–542.4 on 9 Jan 2026 (notice 5/2026), and RZGW Szczecin closed lower reaches in January 2026. Low water: very low transit depths in summer and autumn 2026 (notice 38/2026); in July 2026 the WSA Oder-Havel could no longer mark the fairway on the border reach (use at own risk). In force now: works at km 309–310 (notice 59/2026, from 08.10.2026)."
@@ -79,7 +85,14 @@
    "https://szczecin.wody.gov.pl/images/RPC_Komunikaty/Archive_nautical_information/2023/Nautical_information-2023-10-02.pdf",
    "https://www.tagesspiegel.de/potsdam/brandenburg/oder-fuhrt-extremes-niedrigwasser-7832161.html",
    "https://www.verkehrsrundschau.de/nachrichten/transport-logistik/niedrigwasser-weiterhin-keine-gueterschifffahrt-auf-oder-moeglich-2978947",
-   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://edzienniki.duw.pl/WDU_D/2021/2550/akt.pdf",
+   "https://bip.wroc.uzs.gov.pl/uzs/przepisy-prawne/prawo-miejscowe/11127,Prawo-miejscowe-we-Wroclawiu.html",
+   "https://www.gov.pl/web/wody-polskie-wroclaw/szlaki-zeglowne",
+   "https://www.gov.pl/web/wody-polskie-wroclaw/oplaty",
+   "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WMP20250000718",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -119,6 +132,12 @@
    "hours": "All four locks: 1 Apr–31 Oct Mon–Fri 06:00–20:00, Sat/Sun/holidays 08:30–18:00; 1 Nov–31 Mar daily 08:00–17:30; closed 24–26 Dec, 31 Dec and 1 Jan (WaStrSchlBetrZV). Wernsdorf ran 08:30–18:00 daily from 1 Apr to 30 Sep 2026.",
    "notes": "VHF: Wernsdorf ch 62, Fürstenwalde ch 22, Kersdorf ch 82, Eisenhüttenstadt ch 20. Sport-boat waiting places at Kersdorf and Eisenhüttenstadt. At Eisenhüttenstadt each lockage uses a lot of water, so sport boats may have to wait. Staff shortages cause short-notice changes to hours."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 10,
+   "permit": null,
+   "notes": "BinSchStrO § 21.04: 10 km/h on the whole Spree-Oder-Wasserstraße (km 0.15–130.17); no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips. VHF not compulsory for pleasure craft (ATIS and listening watch if fitted)."
+  },
   "season": {
    "best": null,
    "closures": "Shipping is normally suspended in sustained frost; the WSA Spree-Havel icebreakers (Erkner, Fürstenwalde) are ready for winter 2026/27. No current lock closure found on the WSA site. ELWIS NfB could not be reached on 2026-11-21, so check it before departure."
@@ -156,7 +175,12 @@
    "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:1561/2026",
    "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Ost.pdf?__blob=publicationFile",
    "https://de.wikipedia.org/wiki/Oder-Spree-Kanal",
-   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__21_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/2104-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21"
  },
@@ -194,6 +218,12 @@
    "hours": "1 Apr–31 Oct: Mon–Sat 06:00–22:00, Sun 07:00–22:00. 1 Nov–31 Mar: Mon–Sat 06:00–20:00, Sun 07:00–20:00. 24 and 31 Dec 07:00–13:00; closed 1 Jan and 25–26 Dec. Staff shortages repeatedly shorten these hours; check ELWIS.",
    "notes": "VHF ch 18, tel. +49 33203 57728. Sport-boat waiting places at km 8.17–8.19 and 8.66–8.69. Craft are locked together in Sammelschleusungen, so expect waits."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 10,
+   "permit": null,
+   "notes": "BinSchStrO § 21.04: Teltowkanal and other canals 10 km/h; Dahme 10 km/h (25 km/h for sport boats outside the 100 m shore strip Rauchfangswerder–Dolgenbrodt); Griebnitzsee and Glienicker See 10 km/h. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips. In Berlin a licence is also needed under sail above 6 m²."
+  },
   "season": {
    "best": null,
    "closures": "Events and short closures are listed by the WSA Spree-Havel. In 2026 these included rowing events on the Teltowkanal km 27.67–28.9 (19.06) and around the Wannsee (03.10). Ice: shipping is normally suspended in sustained frost. The sport-boat berth at Teltowkanal km 15.35–15.42 is closed until further notice."
@@ -230,7 +260,12 @@
    "https://www.tagesspiegel.de/potsdam/potsdam-mittelmark/notstand-an-der-schleuse-7825855.html",
    "https://de.wikipedia.org/wiki/Teltowkanal",
    "https://de.wikipedia.org/wiki/Schleuse_Kleinmachnow",
-   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__21_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/2104-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21"
  },
@@ -269,6 +304,12 @@
    "hours": "Schleuse Brandenburg: Mon–Sat 06:00–22:00, Sun/holidays 07:00–19:00, all year. Jan–Apr and Oct–Dec, some weekend slots are on request only, booked by 14:00 with FBZ Rathenow (+49 3385 539830).",
    "notes": "VHF ch 20, tel. +49 3381 266-457. Alternative for sport boats: the Stadtschleuse Brandenburg (UHW km 57.94, sport-boat-only lock, tel. +49 3381 226963)."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 12,
+   "permit": null,
+   "notes": "12 km/h on the Untere Havel-Wasserstraße; 8 km/h Brandenburger Niederhavel, 9 km/h Ketziner Havel; on lakes wider than 250 m sport boats may do 25 km/h outside the 100 m shore strip. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips."
+  },
   "season": {
    "best": null,
    "closures": "Shipping is normally suspended in sustained frost (icebreakers at Brandenburg). No current closure found; ELWIS NfB could not be reached on 2026-11-21."
@@ -304,7 +345,12 @@
    "https://de.wikipedia.org/wiki/Sacrow-Paretzer_Kanal",
    "https://de.wikipedia.org/wiki/Silokanal",
    "https://de.wikipedia.org/wiki/Vorstadtschleuse_Brandenburg",
-   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__21_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/2104-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -342,6 +388,12 @@
    "chamber": "Wusterwitz (km 376.79) 218.59 × 12.00 m; Zerben (km 345.45) 217.86 × 12.00 m; Hohenwarthe double saving lock (MLK km 325.1) 2 × 190 × 12.5 m, lift about 18.5–19 m",
    "hours": "Zerben and Wusterwitz: Mon–Sat 06:00–22:00, Sun/holidays 07:00–19:00, all year. Hohenwarthe: same hours, but 24 and 31 Dec 07:00–13:00 and closed 1 Jan and 25–26 Dec.",
    "notes": "VHF: Wusterwitz ch 18, Zerben ch 20, Hohenwarthe ch 01 (+49 39222 9517-200). Kanalbrücke Magdeburg (km 321.25–322.4): no meeting or overtaking. Motorised small craft may cross only together with and behind a commercial vessel; if none is in sight, call Hohenwarthe from the intercom at the waiting point marked 'Sport'. Rothensee lock (ch 79) is the alternative link to the Elbe and Magdeburg."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 12,
+   "permit": null,
+   "notes": "BinSchStrO § 15.04: small craft 12 km/h (15 km/h on upgraded sections, km 325.7–380.9; 25 km/h for sport boats outside the 100 m shore strip on Wendsee/Wusterwitzer See). no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips."
   },
   "season": {
    "best": null,
@@ -381,7 +433,12 @@
    "https://de.wikipedia.org/wiki/Elbe-Havel-Kanal",
    "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/04_Service/06_Eisaufbruch/eisaufbruch_node.html",
    "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
-   "https://www.volksstimme.de/lokal/genthin/gefahr-kinder-spielen-auf-eisflaechen-des-kanals"
+   "https://www.volksstimme.de/lokal/genthin/gefahr-kinder-spielen-auf-eisflaechen-des-kanals",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__15_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/1504-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21"
  },
@@ -413,6 +470,12 @@
    "chamber": "Sülfeld (km 236.9, lift 9 m): Süd 225 × 12.5 m (5.25 m clearance), Nord 224 × 12.0 m (4.00 m clearance). Anderten (km 174.24, lift 14.7 m): two chambers 214 × 12.0 m",
    "hours": "Per the 1991 ordinance: Anderten weekdays 05:00–21:00, Sun/holidays 07:00–12:30, closed 1 Jan, Easter Sunday, Whit Sunday, 1 May and 25–26 Dec. Sülfeld weekdays 05:00–21:00, Sun/holidays 08:00–17:30, 24/31 Dec 05:00–12:00, closed 1 Jan and 25–26 Dec. The WSA may deviate; check ELWIS.",
    "notes": "VHF: Anderten ch 18 (+49 511 95085-2230), Sülfeld ch 20 (+49 5362 96112-150). Commercial and passenger vessels have priority at locks. Hohenwarthe and the Kanalbrücke are covered in the Elbe-Havel-Kanal entry."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 15,
+   "permit": null,
+   "notes": "BinSchStrO § 15.04: small craft 15 km/h on upgraded (ausgebaute) sections, 12 km/h on the others. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips. Heavy commercial traffic: VHF optional, but if fitted ATIS and listening watch."
   },
   "season": {
    "best": null,
@@ -448,7 +511,12 @@
    "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:0669/2025",
    "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:1319/2025",
    "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
-   "https://logistik-heute.de/news/binnenschifffahrt-eis-blockiert-wasserstrassen-niedersachsen-248077.html"
+   "https://logistik-heute.de/news/binnenschifffahrt-eis-blockiert-wasserstrassen-niedersachsen-248077.html",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__15_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/1504-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21"
  },
@@ -481,6 +549,12 @@
    "chamber": "Münster (km 71.495): 2 chambers of 190 × 12.56 m (2008, 2014) plus chamber 3 of 223 × 12.00 m; lift 6.20 m; about 50–57 min per lockage",
    "hours": "Münster: exact hours not verified (ELWIS lock database unreachable). A boating club says DEK locks are normally open daily 06:00–22:00 all year. Check ELWIS Schleuseninformationen.",
    "notes": "VHF channel 22 at Münster, tel. +49 251 23938-275. On federal waterways leisure craft are locked after commercial vessels, usually together with them. With VHF and timely registration they may be locked individually. Henrichenburg/Waltrop lock and lift (km 14.75) lead to Dortmund only and are not on this route."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 12,
+   "permit": null,
+   "notes": "BinSchStrO § 15.04: small craft 12 km/h on the Dortmund-Ems-Kanal. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips."
   },
   "season": {
    "best": "April–October",
@@ -515,7 +589,12 @@
    "https://www.wsa-westdeutsche-kanaele.wsv.de/SharedDocs/Pressemitteilungen/DE/_2026/20260914_Schleuse_Gleesen_PM.html",
    "https://www.eyc-lingen.de/wasserstrasseninformationen/",
    "https://de.wikipedia.org/wiki/Dortmund-Ems-Kanal",
-   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__15_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/1504-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21"
  },
@@ -549,6 +628,12 @@
    "chamber": "Herne-Ost 2 × 190 × 12 m (VHF 22); Wanne-Eickel south chamber 190 × 11.98 m, north chamber out of service (VHF 78); Gelsenkirchen 2 × 190 × 12 m (VHF 79); Oberhausen 2 × 190 × 12 m (VHF 81); Duisburg-Meiderich 1 × 190 × 11.89 m (VHF 82). Alternative: Ruhrschleuse Duisburg 310 × 12.8 m (VHF 78).",
    "hours": "Duisburg-Meiderich (ELWIS): Mon 06:00–24:00, Tue–Fri 24 h, Sat until 22:00, Sun 06:00–22:00. Other RHK locks are reported to run 24 h as a rule (secondary source). Check ELWIS.",
    "notes": "Leisure craft have no lock priority and are locked after or together with commercial vessels. Wait for the lock keeper's or signals' instruction. With VHF and prior registration, individual lockage is possible."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 12,
+   "permit": null,
+   "notes": "BinSchStrO § 15.04: small craft 12 km/h on the Rhein-Herne-Kanal. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips."
   },
   "season": {
    "best": "April–October",
@@ -590,7 +675,12 @@
    "https://binnenschifffahrt-online.de/2026/08/featured/39948/wsa-westdeutsche-kanaele-verschiebt-schleusensperrung-wanne-eickel/",
    "https://www.ruhrnachrichten.de/regionales/rhein-herne-kanal-sperrung-oel-unfall-feuerwehr-einsatz-schleuse-ursache-schiffverkehr-w1251343-2002237862",
    "https://de.wikipedia.org/wiki/Rhein-Herne-Kanal",
-   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__15_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/1504-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -629,6 +719,12 @@
    "chamber": null,
    "hours": null,
    "notes": "No locks between Duisburg and Koblenz."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "RheinSchPV applies. No general speed limit for small craft found (keep speed down to avoid harmful wash; local limits by signs, e.g. harbours). VHF not compulsory for small craft; if fitted: ATIS, operator certificate, listen on ch 10. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips. Sportbootführerschein Binnen above 11.03 kW."
   },
   "season": {
    "best": "May–June and September–October (avoids winter/spring flood peaks and late-summer low water)",
@@ -681,7 +777,11 @@
    "https://dgj-daten.bafg.de/Rhein/K%c3%b6ln/2730010_WQ.pdf",
    "https://dgj-daten.bafg.de/Rhein/Koblenz/25900700_W.pdf",
    "https://dgj-daten.bafg.de/Rhein/Duisburg%20Ruhrort/2770010_W.pdf",
-   "https://www.boerse-online.de/dpa-afx/behoerde-weitere-einschraenkungen-der-rhein-schifffahrt-moeglich-221955.html"
+   "https://www.boerse-online.de/dpa-afx/behoerde-weitere-einschraenkungen-der-rhein-schifffahrt-moeglich-221955.html",
+   "https://gewaesser.rudern.de/_media/merkblatt-mosel.pdf",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -722,6 +822,12 @@
    "chamber": "170 × 12 m at Koblenz, Lehmen, Müden, Fankel, St. Aldegund, Enkirch, Zeltingen, Wintrich, Detzem, Trier, Grevenmacher, Palzem/Stadtbredimus. Second chambers at Trier, Fankel and Zeltingen (210 × 12.5 m). Koblenz small chamber (122.5 × 12 m) out of service since 15 Sep 2022 until further notice. Self-operated boat locks (Bootsschleusen) and boat slides at every dam.",
    "hours": "Ship locks: Lehmen 00:00–24:00 all year (ELWIS); Grevenmacher and Stadtbredimus staffed day and night. Boat locks: 1 Apr–31 Oct, daylight only. VHF: Koblenz 20, Lehmen 78, Müden 79, Fankel 81, St. Aldegund 82, Enkirch 18, Zeltingen 20, Wintrich 22, Detzem 78, Trier 79, Grevenmacher 18, Palzem 20.",
    "notes": "1 Apr–31 Oct, craft under 18 m long, 3.30 m beam and 1.50 m draught must use the boat locks (except Koblenz); wider boats use the ship lock. From 1 Nov to 31 Mar small craft use the ship locks after commercial traffic. Boat locks at Zeltingen, Wintrich, Detzem and Trier have been out of service until further notice since 30 Apr 2026 (Leitzentrale Trier +49 651 3609-200)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 30,
+   "permit": null,
+   "notes": "Moselle police regulation (MoselSchPV): 30 km/h generally; small craft may go up to 60 km/h on free sections while the water ahead is clear, and water-ski only on E.17 stretches. Jet skis: straight course only, 07:00–20:00, not in visibility under 1,000 m (LU guide); in DE also the E.22 rule. No tolls (Mosel dues abolished 20 Nov 2025)."
   },
   "season": {
    "best": "May–September (boat locks open 1 Apr–31 Oct; avoid the closure week)",
@@ -771,7 +877,10 @@
    "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/COCHEM.json?includeTimeseries=true&includeCharacteristicValues=true",
    "https://de.wikipedia.org/wiki/Mosel",
    "https://dgj-daten.bafg.de/Rhein/Trier/26500100_WQ.pdf",
-   "https://dgj-daten.bafg.de/Rhein/Cochem/26900400_WQ.pdf"
+   "https://dgj-daten.bafg.de/Rhein/Cochem/26900400_WQ.pdf",
+   "https://transports.public.lu/dam-assets/transports-fluviaux/guide-pratique-navigation-plaisance-sports-nautiques-moselle-fr.pdf",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -822,6 +931,12 @@
    "hours": "VNF Nord-Est 2024 schedule lists some Moselle locks 24 h and others 7:00–19:00 for pleasure craft; check current VNF schedule",
    "notes": "Until 30/11/26 (est.) Neuves-Maisons–Pompey: boats grouped, longer lockings, compulsory announcement before any movement to Centre Régional d'Annonce 0 800 519 665; Pompey–Pagny also grouping. Small locks Toul (53) and Clévant (1p) unavailable to 31/12/26."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 30,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPPi 4 Moselle: 30 km/h (incl. natural river parts), 15 km/h in dérivations, 6 km/h on Freycinet sections and from the Frouard-Clévant lock (incl. Frouard port), lower at some lock approaches; downstream max 20 km/h at high water."
+  },
   "season": {
    "best": null,
    "closures": "Winter chômages on individual locks are announced by avis à la batellerie; water-shortage restrictions in dry summers/autumns (2026: from 29/06)."
@@ -859,7 +974,9 @@
    "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
    "https://dgj-daten.bafg.de/Rhein/Perl/26100100_WQ.pdf",
    "https://www.moselkommission.org/index.php?id=754",
-   "https://www.moselkommission.org/fileadmin/user_upload/Sperrzeiten%20und%20Verkehr/Schleusensperrzeiten_Plan_2021-2035.pdf"
+   "https://www.moselkommission.org/fileadmin/user_upload/Sperrzeiten%20und%20Verkehr/Schleusensperrzeiten_Plan_2021-2035.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPi_04_La_Moselle_version_compl%C3%A8te_20170907092032.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -900,6 +1017,12 @@
    "chamber": "39 × 5.20 m (Freycinet)",
    "hours": null,
    "notes": "47 locks Moselle side (flight of 14 at the montée de Golbey, nos 1–14) and 46 Saône side; automatic locks worked by boaters with a remote control (télécommande) issued on entry. Summit level fed by Bouzey reservoir (3.85 Mm³; 29 % full on 12/11/26)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 6,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPPi 12 Meuse–Saône: 6 km/h on the canal (4 km/h at movable bridges and narrow or winding sections); 6 km/h at night everywhere."
   },
   "season": {
    "best": null,
@@ -946,7 +1069,9 @@
    "https://www.connexionfrance.com/news/parts-of-french-canals-closed-to-boats-due-to-low-water-level/183313",
    "https://uzemain.fr/wp-content/uploads/2020/07/fichier483265168352156.pdf",
    "https://www.vosges.gouv.fr/contenu/telechargement/26658/211227/file/RAA.pdf",
-   "https://bourgenbresse.site.attac.org/IMG/pdf/avis_rafiot_liaison_seine-saone_15_juillet_2025.pdf"
+   "https://bourgenbresse.site.attac.org/IMG/pdf/avis_rafiot_liaison_seine-saone_15_juillet_2025.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPi_12_Liaison_Meuse_Saone_20170907091512.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21"
  },
@@ -986,6 +1111,12 @@
    "hours": "Winter (04/11/26–21/03/27): announce 48 h ahead on 03 84 65 70 09 to pass locks",
    "notes": "Locks automatic, worked by boaters. Two tunnels: Saint-Albin (683 m, lit, traffic lights) and Savoyeux. Quay collapse Broye-les-Pesmes (PK 260.5) to 31/03/27."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 15,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPPi 12 and 7: 15 km/h on river sections, 6 km/h in dérivations, 4 km/h at guard gates; 6 km/h at night above Maxilly. Below Saint-Symphorien (PK 219) RPPi Rhône-Saône applies (30 km/h)."
+  },
   "season": {
    "best": null,
    "closures": "Winter reduced service with 48 h notice; drought restrictions in dry summers."
@@ -1017,7 +1148,11 @@
    "https://www.cirkwi.com/fr/point-interet/224949-savoyeux-ecluse-et-tunnel",
    "https://www.cirkwi.com/fr/circuit/24528-petite-saone-de-la-bourgogne-a-la-mediterranee",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://fr.wikipedia.org/wiki/Saône"
+   "https://fr.wikipedia.org/wiki/Saône",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPi_12_Liaison_Meuse_Saone_20170907091512.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPi_07_Liaison_Saone_Marne_20170907092119.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPI_Rhone_Saone_definitif_20190128143008.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -1058,6 +1193,12 @@
    "hours": null,
    "notes": "Seurre, Ecuelles, Ormes, Dracé, Rochetaillée (Couzon). Pleasure-boat grouping at these locks ended 15/11/26. Temporary leisure waiting pontoon at Rochetaillée."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 30,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPPi Rhône et Saône à grand gabarit: 30 km/h on river sections below Saint-Symphorien; 12 km/h in dérivations, through Chalon (PK 139.2–142.5), Mâcon (PK 77–83), the lower Doubs and some loop sections; Lyon PK 0–12 12 km/h, raised temporarily to 15 km/h by a 2025 order. Water-ski/wake only in buoyed zones."
+  },
   "season": {
    "best": null,
    "closures": "Floods mainly in winter/spring; check VNF notices."
@@ -1090,7 +1231,11 @@
    "https://www.lyoncapitale.fr/?p=77845",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
    "https://fr.wikipedia.org/wiki/Saône",
-   "https://www.lyonmag.com/article/147798/crue-de-la-saone-a-lyon-les-navettes-fluviales-navigone-a-l-arret"
+   "https://www.lyonmag.com/article/147798/crue-de-la-saone-a-lyon-les-navettes-fluviales-navigone-a-l-arret",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPI_Rhone_Saone_definitif_20190128143008.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20250605_ap69_15kmh_saone_lyon_signe_entete.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20250225_ap_69202502200001_perenisation_20kmh_entete.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -1137,6 +1282,12 @@
    "hours": "5:00–21:00 all year for pleasure craft (night navigation prohibited); closed 1 Jan, 11 Nov, 25 Dec. Port-Saint-Louis leisure openings Rhône side ~6:00, 8:15, 11:50, 16:15, 18:45",
    "notes": "Free for leisure boats; remote-controlled from CNR centre (CGN). Call the lock by VHF or phone giving lock, boat name, direction; wait on pontoons in arrival order. Group lockings with commercial/passenger craft favoured; after 45 min wait you are locked alone. Bollène/Châteauneuf width limited to 11.80 m (works)."
   },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 30,
+   "permit": "VNF vignette (péage plaisance) on VNF waterways; for the CNR-run Rhône not confirmed – check with VNF DT Rhône-Saône",
+   "notes": "RPPi Rhône et Saône à grand gabarit: 30 km/h outside restricted zones (20 km/h through Lyon on the Haut-Rhône). Night navigation is banned for pleasure craft; they lock only during lock opening hours. Lifejackets worn in locks. Condrieu bridge works: VHF ch 10 compulsory, alternating traffic."
+  },
   "season": {
    "best": null,
    "closures": "Annual stoppage of all large locks ~7–10 days in March (2026: 8–19 March). Pleasure navigation banned during flood restrictions (RNPC)."
@@ -1170,7 +1321,12 @@
    "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
    "https://www.echodumardi.com/politiqueetterritoire/rhone-quinze-jours-a-sec-pour-les-grandes-ecluses/",
    "https://www.cnr.tm.fr/actualites/arret-annuel-de-navigation-sur-le-rhone-entre-lyon-et-la-mediterranee-aura-lieu-du-5-au-16-mars-2023/",
-   "https://fr.wikipedia.org/wiki/Rhône"
+   "https://fr.wikipedia.org/wiki/Rhône",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPI_Rhone_Saone_definitif_20190128143008.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20250605_ap69_15kmh_saone_lyon_signe_entete.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20250225_ap_69202502200001_perenisation_20kmh_entete.pdf",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -1210,16 +1366,22 @@
    "hours": null,
    "notes": "Distances (NM, published): Marseille–Cassis 15, Cassis–La Ciotat ~7, Marseille–La Ciotat 20, Marseille–Toulon 46, Marseille–Porquerolles 50, Porquerolles–Saint-Tropez 24.5, Marseille–Monaco 93. Straight-line minima computed from harbour positions (route longer): PSL–Marseille 24.5, Toulon–Porquerolles 14, St-Tropez–St-Raphaël 10.5, St-Raphaël–Cannes 13, Cannes–Antibes 5.5, Antibes–Nice 9.5, Nice–Monaco 6.5."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Sea rules: 5 kn (9 km/h) in the 300 m coastal strip and in marked channels, no limit beyond; jet skis inside the 300 m strip only in marked access channels. Monaco: 3 kn in ports and access channels, 5 kn within 300 m; Larvotto marine reserve closed to navigation and anchoring. Posidonia anchoring bans for boats of 20 m and over (Alpes-Maritimes). No cruising tax for visitors; port dues only."
+  },
   "season": {
    "best": null,
-   "closures": "Mistral (NW) and other gales: check Météo-France BMS; Monaco: exclusion zone off Larvotto reserve 28/09/26–31/03/27."
+   "closures": "Mistral (NW) and other gales: check Météo-France BMS. Monaco: the Larvotto marine reserve is closed to navigation and anchoring (permanent; 2025–2026 orders also banned swimming and diving there for set periods); other no-go areas as charted, including around the Mareterra extension."
   },
   "months": {
    "closed": [],
    "lowWater": [],
    "highWater": [],
    "ice": [],
-   "notes": "Sea route, no closures. Mistral (NW, gusts >32 kn per Météo-France) most frequent in winter and early spring, shorter in summer; ~81 mistral days/yr at Toulon. Larvotto exclusion zone 28/09/26–31/03/27."
+   "notes": "Sea route, no closures. Mistral (NW, gusts >32 kn per Météo-France) most frequent in winter and early spring, shorter in summer; ~81 mistral days/yr at Toulon. Monaco: the Larvotto reserve is closed to navigation and anchoring all year."
   },
   "tides": {
    "tidal": true,
@@ -1248,7 +1410,11 @@
    "https://refmar.shom.fr/sites/default/files/2024-07/Trmal%26Pons_Journees-REFMAR-2013.pdf",
    "https://figaronautisme.meteoconsult.fr/actus-nautisme-lifestyle/2026-02-13/85805-maree-en-mediterranee-un-phenomene-discret-mais-bien-reel",
    "https://www.cnr.tm.fr/app/uploads/2019/04/infos_naviguer_sur_le_rhone.pdf",
-   "https://fr.wikipedia.org/wiki/Mistral_(vent)"
+   "https://fr.wikipedia.org/wiki/Mistral_(vent)",
+   "https://www.mer.gouv.fr/les-vehicules-nautiques-moteur-vnm-scooters-nautiques",
+   "https://transition-energetique.gouv.mc/en/content/download/525069/6016258/file/FLYER - GP 2024.pdf",
+   "https://www.ports-monaco.com/wp-content/uploads/2025/09/FLYER-MYS-2025.pdf",
+   "https://legimonaco.mc/tnc/arrete-ministeriel/2025/09-24-2025-515/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -1287,6 +1453,12 @@
    "hours": "Locks also work at night; exact hours (incl. Sundays) in the ELWIS lock search, not confirmed here",
    "notes": "Friedrichsfeld km 1.9, Hünxe 13.3, Dorsten 30.5, Flaesheim 49.4, Ahsen 55.9, Datteln 59.3; total fall up to 44 m depending on Rhine level. Small locks renovated (Datteln, Ahsen, Dorsten done)."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 12,
+   "permit": null,
+   "notes": "BinSchStrO § 15.04: small craft 12 km/h on the Wesel-Datteln-Kanal. no permit or toll for pleasure craft on federal waterways; jet skis only in areas signed E.22 (Wassermotorräder-Verordnung), except point-to-point trips."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -1315,7 +1487,12 @@
    "https://kleineanfragen.de/nordrhein-westfalen/17/11759-schleusensanierung-wesel-datteln-kanal.pdf",
    "https://www.gdws.wsv.bund.de/SharedDocs/FAQs/DE/Schleusenbetriebszeiten.html",
    "https://www.elwis.de/DE/Sportschifffahrt/Sportbootfuehrerscheine/Sportbootfuehrerscheine-node",
-   "https://www.elwis.de/DE/Sportschifffahrt/Sportschifffahrt-node.html"
+   "https://www.elwis.de/DE/Sportschifffahrt/Sportschifffahrt-node.html",
+   "https://www.gesetze-im-internet.de/binschstro_2012/__15_04.html",
+   "https://www.juraforum.de/gesetze/binschstro/1504-fahrgeschwindigkeit",
+   "https://www.bmv.de/SharedDocs/DE/Artikel/WS/wassersport.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Verzeichnis-Rechtsverordnungen/WasMotRV.pdf",
+   "https://umwelt-online.de/recht/gefahr.gut/sport/wassermrv.htm"
   ],
   "checked": "2026-11-21"
  },
@@ -1351,6 +1528,12 @@
    "chamber": null,
    "hours": null,
    "notes": "No locks"
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 20,
+   "permit": null,
+   "notes": "German Rhine to Lobith: RheinSchPV, no general limit. Waal/Boven-Rijn: Rijnvaartpolitiereglement; fast motorboats (incl. jet skis) max 20 km/h unless signs allow more (Regeling snelle motorboten Rijkswateren 1995); faster only with Klein Vaarbewijs, registration (Y-number), kill cord, not at night. VHF not compulsory under 20 m, but if carried you must listen on the VTS sector channel. No permit or toll."
   },
   "months": {
    "closed": [],
@@ -1392,7 +1575,10 @@
    "https://www.rijkswaterstaat.nl/nieuws/archief/2026/07/droogte-effecten-op-scheepvaart-nemen-verder-toe",
    "https://www.rijkswaterstaat.nl/water/waterbeheer/droogte-en-watertekort/maatregelen-voor-de-scheepvaart",
    "https://commissiemer.nl/projectdocumenten/00005706.pdf",
-   "https://de.wikipedia.org/wiki/Niederrhein_(Fluss)"
+   "https://de.wikipedia.org/wiki/Niederrhein_(Fluss)",
+   "https://www.rijkswaterstaat.nl/water/wetten-regels-en-vergunningen/verkeer-op-het-water/recreatievaart/veilig-snelvaren",
+   "https://www.rijksoverheid.nl/vraag-en-antwoord/scheepvaart-en-havens/waar-mag-ik-varen-met-een-snelle-motorboot",
+   "https://gewaesser.rudern.de/_media/merkblatt-mosel.pdf"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -1435,6 +1621,12 @@
    "hours": "Volkeraksluizen complex operates day and night",
    "notes": "Lock tel. 088-7974990. Commercial chambers 280–350 × 24 m use VHF block channels 7 (north) and 25 (south)."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 20,
+   "permit": null,
+   "notes": "BPR: fast motorboats max 20 km/h unless signs allow more (designated fast-sailing areas, Regeling snelle motorboten Rijkswateren 1995); keep 20 m from banks, 50 m from swimming/mooring areas, 100 m from harbour entrances; no fast sailing at night. VHF optional, listening watch on the VTS channel if fitted. No permit or toll."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -1463,7 +1655,9 @@
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Lock",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
-   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart"
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart",
+   "https://www.rijkswaterstaat.nl/water/wetten-regels-en-vergunningen/verkeer-op-het-water/recreatievaart/veilig-snelvaren",
+   "https://www.rijksoverheid.nl/vraag-en-antwoord/scheepvaart-en-havens/waar-mag-ik-varen-met-een-snelle-motorboot"
   ],
   "checked": "2026-11-21"
  },
@@ -1500,6 +1694,12 @@
    "hours": "Krammer: see planning (renovation). Hansweert: hours not confirmed (one-night closures for staff shortage reported earlier)",
    "notes": "KRAMMER: north jachtensluis chamber closed 14 Sep 2026–9 May 2027; south chamber also closed 30 Nov–11 Dec 2026 07–17 h and 18 Jan–26 Feb 2027, 15–19 Mar 2027 (both closed then). During jachtensluis works pleasure craft may use the north duwvaartsluis chamber, itself closed 12 Oct–(postponed, ≥26 Nov 2026). Hansweert VHF 22, tel 088-7974811."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 20,
+   "permit": null,
+   "notes": "Kanaal door Zuid-Beveland: 20 km/h for craft with wet cross-section under 20 m² (15 km/h above). Open Zeeland waters: fast motorboats 20 km/h unless signed. VHF listening watch if fitted. No permit or toll."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -1534,7 +1734,10 @@
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Lock",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
-   "https://www.rijkswaterstaat.nl/water/projectenoverzicht/schelde-rijnkanaal-onderhoud-kreekraksluizen/planning-en-aanpak"
+   "https://www.rijkswaterstaat.nl/water/projectenoverzicht/schelde-rijnkanaal-onderhoud-kreekraksluizen/planning-en-aanpak",
+   "https://www.rijkswaterstaat.nl/water/wetten-regels-en-vergunningen/verkeer-op-het-water/recreatievaart/veilig-snelvaren",
+   "https://www.rijksoverheid.nl/vraag-en-antwoord/scheepvaart-en-havens/waar-mag-ik-varen-met-een-snelle-motorboot",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart"
   ],
   "checked": "2026-11-21"
  },
@@ -1567,6 +1770,12 @@
    "hours": null,
    "notes": "Locks at each end: see Kanaal door Zuid-Beveland and Terneuzen sheets"
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Scheepvaartreglement Westerschelde. No fixed speed limit found for recreational craft; keep a safe speed and avoid wash. Fast sailing needs Klein Vaarbewijs II. VHF not compulsory for small craft, but if on board (also handheld) you must listen on the VTS block channel. Stay out of the main channel, use recreation routes."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -1596,7 +1805,10 @@
    "https://www.vliz.be/imisdocs/publications/ocrd/281862.pdf",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
    "https://www.cbr.nl/nl/recreatievaart-ppl-rzam/nl-1/vaarbewijsplicht",
-   "https://rycb.be/wp-content/uploads/VHF-Schelde-kust.pdf"
+   "https://rycb.be/wp-content/uploads/VHF-Schelde-kust.pdf",
+   "https://www.rijkswaterstaat.nl/water/wetten-regels-en-vergunningen/verkeer-op-het-water/recreatievaart/veilig-snelvaren",
+   "https://www.rijksoverheid.nl/vraag-en-antwoord/scheepvaart-en-havens/waar-mag-ik-varen-met-een-snelle-motorboot",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart"
   ],
   "checked": "2026-11-21"
  },
@@ -1631,6 +1843,12 @@
    "chamber": "Oostsluis Terneuzen 280 × 24 m (inland craft and yachts); Evergem lock (Ringvaart, Vb-size)",
    "hours": "Evergem lock 24/7 since 1 Feb 2026 (VHF 80, +32 9 253 06 34). Terneuzen hours not confirmed",
    "notes": "Oostsluis tel 088-7970123; lock-head bridges 1–2 m closed (opened for passage). 2026 maintenance finished 28 Sep 2026. During closures yachts use Westsluis."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Flemish waterwegenvergunning for the Ringvaart (via VisuRIS); not needed on the Kanaal Gent-Terneuzen (Zelzate–Meulestede); none on the Dutch part",
+   "notes": "Kanaal Gent-Terneuzen: Scheepvaartreglement Kanaal van Gent naar Terneuzen, speed limit for pleasure craft not confirmed; report on VHF ch 11 when joining. Canoes and kayaks banned on the canal. Ringvaart (Flanders): 20 km/h, 10 km/h when passing; high-speed zone between Blaarmeers rail bridge and the R4 bridge at Vinderhoute. VHF compulsory in Flanders for motorboats of 7 m and over."
   },
   "months": {
    "closed": [],
@@ -1673,7 +1891,8 @@
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Chamber",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Lock",
    "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
-   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector"
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart"
   ],
   "checked": "2026-11-21"
  },
@@ -1709,6 +1928,12 @@
    "chamber": "Leie locks Sint-Baafs-Vijve (new Vb lock 2021), Harelbeke (2-part lock, yachts use one part), Menen",
    "hours": "Sint-Baafs-Vijve, Harelbeke, Menen and Buda bridge Kortrijk 24/7 since 1 Feb 2026 (regime A)",
    "notes": "VHF/tel: Sint-Baafs-Vijve ch 22 +32 56 60 85 99; Harelbeke ch 20 +32 56 71 12 74; Menen ch 20 +32 56 51 14 21. Buda bridge 4.50 m closed. No lock between Gent-Brugge canal and Deinze."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 20,
+   "permit": "Flemish waterwegenvergunning (digital, via VisuRIS); 2026 online price per metre: €1.87 day 1, €0.62/day days 2–7, €0.21/day days 8–30",
+   "notes": "Flanders: 20 km/h unless a lower limit is set, 10 km/h when passing moving or moored vessels. High-speed zones (up to 60 km/h, daytime only, visibility over 500 m) on parts of the canals and the Leie, incl. a jet-ski zone below the Ooigem pumping station. VHF compulsory for motorboats of 7 m and over (ch 10). Stuurbrevet if over 15 m or faster than 20 km/h."
   },
   "months": {
    "closed": [],
@@ -1795,6 +2020,12 @@
    "hours": "Liaison Dunkerque-Escaut and its Bauvin–border branch (Deûle/Lys mitoyenne): Mon–Sat 06:15–22:00, Sun 09:00–18:00. Lys locks Fort Gassion–Armentières: high season (15 May–15 Sep) 09:00–19:00, low season 08:30–17:30, on request (call before 15:00 the day before). Closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec; 24 & 31 Dec stop at 18:00.",
    "notes": "Deûle has 3 locks between Bauvin and Deûlémont (Don, Grand-Carré in Lille, Quesnoy-sur-Deûle); Douai lock on the Scarpe diversion; heavy commercial traffic, use VHF and keep clear of pushers."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 12,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Nord-Pas-de-Calais: pleasure craft 12 km/h on the large-gauge Lys mitoyenne, Deûle and Dunkerque–Escaut link; 10 km/h (under 20 m) on smaller multi-use waterways such as the Lys canalisée. Water-ski and jet skis only in designated zones. Belgian Lys (from Menen): Flemish rules and permit."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -1836,7 +2067,8 @@
    "https://avisbat.vnf.fr/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
    "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/10/arrete_interprefectoral_rpp_nord_pas-de-calais.pdf"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -1877,6 +2109,12 @@
    "chamber": "91.90 × 6.00 m (Péronne and Épénancourt 5.90 m wide)",
    "hours": "Mon–Sat 06:30–20:30; Sun and navigated holidays 09:00–18:00. Closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec; 24 & 31 Dec stop 18:00.",
    "notes": "Manned/teleoperated locks, call on VHF 18/22 (southern locks). Mooring lines mandatory during locking; remove fenders when leaving. In low water a boat may be held up to 15 min to share the lock."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 10,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP 3 Oise–Canal du Nord: 10 km/h; 6 km/h between locks 12 (Cléry-sur-Somme) and 15 (Languevoisin); 5 km/h in tunnels. Ruyaulcourt and Panneterie tunnels: one-way/alternating by lights, no overtaking or turning, navigation lights on, closed outside hours."
   },
   "months": {
    "closed": [],
@@ -1950,6 +2188,12 @@
    "hours": "Mon–Sat 07:00–19:00, Sun 09:00–18:00. Closed 1 Jan, Easter Sunday, 1 May, 1 Nov, 11 Nov, 25 Dec (Abbécourt).",
    "notes": "Automated, worked with a télécommande handed out/returned at Sempigny lock 2, Saint-Hubert lock 1, Berry-au-Bac (CLA lock 3), Carandeau (Aisne lock 7) or Riqueval. Narrow passages at Morlincourt bridge (PK 14.246) and Varesnes aqueduct (PK 13.570)."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "Canal latéral à l'Oise Chauny–Pont-l'Évêque (PK 0–18.59) is under RPP 8: pleasure craft under 20 m 8 km/h, 6 km/h in dérivations. Canal du Nord/Somme stretch: RPP 3, 10 km/h (6 km/h locks 12–15)."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -2016,6 +2260,12 @@
    "chamber": "40.50 × 6.00 m (pont-canal d'Abbécourt only 5.50 m wide)",
    "hours": "Mon–Sat 07:00–19:00, Sun 09:00–18:00. Closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec (locks 2–9); locks 10–13: 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec.",
    "notes": "All 13 locks automated, télécommande (from Berry-au-Bac, Carandeau, Saint-Hubert or Riqueval) plus pull-rod in the chamber. Breakdowns: locks 1–4 06 03 99 40 63, 5–9 06 03 99 40 54, PCC Braye 03 23 24 43 61."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP 8: pleasure craft under 20 m 8 km/h; 5 km/h in tunnels (min 3 km/h). Braye tunnel: one-way alternating by lights, closed outside hours, no stopping or overtaking."
   },
   "months": {
    "closed": [],
@@ -2085,6 +2335,12 @@
    "hours": "CLA and CAM locks 1–12: Mon–Sat 07:00–19:00, Sun 09:00–18:00. CAM locks 13–24 (Sillery–Condé): about 07:00/09:00–18:00. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec, Easter Sunday (+14 Jul on locks 13–24).",
    "notes": "Automated: CLA by télécommande + pull-rod (agent at Berry-au-Bac hands out/collects télécommandes, PCC Berry 03 23 79 95 14); CAM 13–24 by hanging pole (perche) + pull-rod, PCC Mont-de-Billy 03 26 03 94 37. 2 CLA + 24 CAM locks."
   },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP 8: pleasure craft under 20 m 8 km/h; 5 km/h in tunnels. Mont-de-Billy tunnel: alternating by lights, only one pleasure boat inside at a time, closed outside hours."
+  },
   "months": {
    "closed": [],
    "lowWater": [],
@@ -2149,6 +2405,12 @@
    "chamber": "38.60 × 5.20 m (boats up to 39.20 m tolerated)",
    "hours": "Mon–Sat 07:00–19:00, Sun 09:00–18:00. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec.",
    "notes": "Locks 1 Vitry … 11 Vraux automated: twist the hanging pole (perche) on approach, pull-rod in chamber to start. PCS Châlons-en-Champagne 03 26 68 08 59."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP 8: pleasure craft under 20 m 8 km/h; 6 km/h in dérivations; craft over 12 km/h must keep 15 m from banks and other boats."
   },
   "months": {
    "closed": [],
@@ -2220,6 +2482,12 @@
    "chamber": "38.60 × 5.10 m (71 Marne side, 43 Saône side)",
    "hours": "All year: pleasure craft Mon–Sun 09:00–18:00 (commercial 07:00–19:00 Mon–Sat). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec.",
    "notes": "Pleasure boats must announce entry/departure on the DTNE small-gauge network to the regional centre 0 800 519 665 before 15:00 the day before. PC Heuilley-Cotton 03 25 88 42 02. Standard headroom 3.70 m, reduced to 3.45–3.65 m at a dozen bridges (lowest 3.45 m)."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP 7 Saône–Marne: small craft 8 km/h (other boats 6 km/h); 4 km/h at movable bridges and aqueducts. Balesmes tunnel: alternating by lights, 800 m spacing, navigation lights on."
   },
   "months": {
    "closed": [
@@ -2301,6 +2569,12 @@
    "hours": "VNF ABN 2020 table for Oise/CLO/Canal du Nord: Mon–Sat 06:30–20:30, Sun and navigated holidays 09:00–18:00; closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec (check current ABN)",
    "notes": "Venette, Verberie, Sarron, Creil, Boran-sur-Oise, L'Isle-Adam, Pontoise. Venette–Creil remote-controlled from PCC Compiègne since 3 June 2024: call on VHF (Venette 18, Verberie 22, Sarron 18, Creil 22) or loudspeaker/phone at the lock."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 15,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP 3: pleasure craft under 20 m 15 km/h; 12 km/h outside the channel, near locks and where overtaking is banned; 50 km/h for water-ski/jet ski only in fast zones (60 km/h at Boran, PK 43.4–44.9). Over 12 km/h keep 15 m from banks, swimmers and boats."
+  },
   "season": {
    "best": null,
    "closures": "No recurring closures found. Flood restrictions by avis à la batellerie under RPP Oise art. 11."
@@ -2334,7 +2608,8 @@
    "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2374,6 +2649,12 @@
    "hours": "VNF ABN 2020: Suresnes and Chatou 24 h (Bougival Mon–Sat 06:00–20:00, Sun 09:00–18:00, being remote-controlled from Chatou); Port-à-l'Anglais–Evry Mon–Sat 06:00–20:00, Sun 08:00–18:00; Le Coudray–Champagne Mon–Sat 06:00–20:00, Sun 08:00–18:00 (12:30–13:30 break). Closed 1 Jan, Easter Sun, 1 May, 14 Jul, 11 Nov, 25 Dec",
    "notes": "Chatou/Bougival, Suresnes, Port-à-l'Anglais, Ablon, Evry, Le Coudray, Vives-Eaux, La Cave, Champagne. Lock VHF channels 18/22. Ablon sas 9.2 unavailable after damage 10.07.2026 (check status). Small craft locked in groups (max 20 min wait)."
   },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 20,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Seine-Yonne: pleasure craft under 20 m 20 km/h on the Haute-Seine and Basse-Seine, 18 km/h in Paris (between the périphérique bridges), 6 km/h in secondary arms. Paris: VHF compulsory with permanent watch on ch 10 (announce before leaving the Monnaie and Marie arms); alternating traffic Sully–Pont au Change; U-turns banned at the island tips; Bras Marie closed to pleasure craft; 0.50 m clearance under bridges."
+  },
   "season": {
    "best": null,
    "closures": "Floods: Feb 2026 flood notices on Basse-Seine, Haute-Seine locks (weirs opened at Port-à-l'Anglais, Ablon) and in Paris (Austerlitz >3.30 m from 16.02.2026). Navigation stopped Grenelle–Arsenal from 4.30 m (PHEN) at Austerlitz."
@@ -2410,7 +2691,8 @@
    "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2450,6 +2732,12 @@
    "hours": "07:00–19:00 daily, all year (2026 guide); closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec",
    "notes": "Automated with remote control (télécommande): collect/return at lock 19 Moret-sur-Loing (or lock 19 Dammarie-sur-Loing on the Briare canal); PCC Montargis 02 38 95 09 29. Lock 13 Fromonville (guard lock) manual."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Saône–Seine: 8 km/h on the whole canal; downstream boats in flood may exceed by up to 4 km/h on river sections."
+  },
   "season": {
    "best": null,
    "closures": "One-off: closed between Écuelles (17) and Bourgogne (18) locks from 15.12.2025 (avis FR/2025/09266, FR/2026/00494); reopening announced in the VNF weekly of 26.06.2026."
@@ -2482,7 +2770,9 @@
    "https://fr.wikipedia.org/wiki/Canal_du_Loing",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20170626_Arr%C3%AAt%C3%A9_r%C3%A9vision_RPP_Saone_Seine_sign%C3%A9.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2523,6 +2813,12 @@
    "chamber": "Freycinet, 39 × 5.20 m (5.10 m beam admitted)",
    "hours": "High season (29.03–25.10.2026) daily 09:00–19:00 with 12:00–13:00 break; low season 09:00–12:00 and 13:30–17:00 (08:00–09:00 commercial on request). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec",
    "notes": "Through route locks 36 Buges – 5 Venon (41 incl. Briare old-canal branch). Remote control from lock 19 Dammarie; call PCC 02 38 95 09 29 / 06 42 38 44 79 for Dammarie (19), 27–30 Montambert–Souffre-Douleur and 34 La Reinette."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Saône–Seine: 8 km/h. No mooring on the Briare pont-canal."
   },
   "season": {
    "best": null,
@@ -2570,7 +2866,9 @@
    "https://fr.wikipedia.org/wiki/Canal_de_Briare",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20170626_Arr%C3%AAt%C3%A9_r%C3%A9vision_RPP_Saone_Seine_sign%C3%A9.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2618,6 +2916,12 @@
    "hours": "High season daily 09:00–19:00 (12:00–13:00 break; Digoin lock 1, pont-canal and Guétin to 22:00); low season 09:00–12:00 and 13:30–17:00. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec",
    "notes": "Main-line locks 1 Digoin – 38 Maimbray (no. 23 Lorrains out of use); 26 de l'Aubois PK 125.58 (mechanised). Mostly manual or mechanised, automation in progress. ST Saône-Loire (Digoin–Putay) 03 58 09 01 38; ST Val-de-Loire-Seine 02 38 31 26 20."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Saône–Seine: 8 km/h on the canal and its branches."
+  },
   "season": {
    "best": null,
    "closures": "2026: whole central section closed for water shortage from 29.06 to 15.11.2026; Digoin–Putay closed 09.08–31.10.2026. Floods: pont-canal bief closed 16–22.02.2026."
@@ -2659,7 +2963,9 @@
    "https://fr.wikipedia.org/wiki/Canal_latéral_à_la_Loire",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20170626_Arr%C3%AAt%C3%A9_r%C3%A9vision_RPP_Saone_Seine_sign%C3%A9.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2699,6 +3005,12 @@
    "chamber": "Freycinet, 38.5 × 5.20 m",
    "hours": "High season daily 09:00–19:00 (12:00–13:00 break); low season 09:00–12:00 and 13:30–17:00 (08:00–09:00 commercial on request)",
    "notes": "26 locks on the Loire side (26 O Bessons – 1 O) and 34 + 34bis on the Saône side (1 M – 34bis M Crissey, mechanised); automated, often chained so the next lock prepares itself. ST Saône-Loire, Montceau-les-Mines."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Saône–Seine: 8 km/h; superstructure height max 10 m on the Canal du Centre."
   },
   "season": {
    "best": null,
@@ -2750,7 +3062,9 @@
    "https://fr.wikipedia.org/wiki/Canal_du_Centre_(France)",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/20170626_Arr%C3%AAt%C3%A9_r%C3%A9vision_RPP_Saone_Seine_sign%C3%A9.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2795,6 +3109,12 @@
    "chamber": "Saint-Aubin–Cannes 92 × 10.50 m (gate width); Épineau and Pêchoir smaller (Yonne minimum 93 × 8.30 m per Wikipedia)",
    "hours": "Épineau (11)–Villeneuve (17): high season (29.03–25.10.2026) daily 09:15–12:00, 13:00–18:45; low season commercial only (weekday on demand). Étigny/Rosoy: high season daily 08:00–12:30, 13:30–18:00; low season commercial on demand. Saint-Bond–Port-Renard all year: weekdays 08:00–12:30, 13:30–18:00, weekends on demand. Barbey–Cannes: weekdays 07:00–19:00, weekends 08:00–12:30, 13:30–18:30",
    "notes": "Épineau, Pêchoir, Saint-Aubin, Villevallier, Armeau, Villeneuve, Étigny, Rosoy, Saint-Bond, Saint-Martin, Villeperrot, Champfleury, Vinneuf, Port-Renard, Barbey, La Brosse, Cannes-Écluse (+ guard gates Épizy, Courlon). Mechanised, staffed; phone numbers per lock in the DTCB avis n°1. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25–31 Dec."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 15,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Seine-Yonne (from Joigny down): pleasure craft under 20 m 15 km/h, 6 km/h in dérivations and secondary arms."
   },
   "season": {
    "best": "May–September",
@@ -2843,7 +3163,8 @@
    "https://fr.wikipedia.org/wiki/Yonne_(rivière)",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2892,6 +3213,12 @@
    "chamber": "Freycinet, 38.5 × 5 m (113 Yonne side 1Y–115Y, 76 Saône side 1S–76S)",
    "hours": "2026 high season (29.03–25.10): 76S–1S and 56Y–114/115Y daily 09:00–12:00, 13:00–19:00; summit 1Y–55Y only 7 Apr–7 Sep, Mon–Fri (no holidays) 09:00–11:30, 14:00–16:30, booking ≥7 days ahead at navi.bourgognecentral@vnf.fr. Low season: 54S–113Y closed; 76S–55S and 114/115Y weekdays on demand 09:00–12:00, 13:30–17:00",
    "notes": "Mostly manual locks worked by VNF éclusiers (some mechanised/semi-mechanised, 99Y automated); 40 locks in 14 km below Pouilly (Pouillenay–Marigny). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec. ST Bourgogne, Dijon, 03 45 34 13 50."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP Voies touristiques de Centre-Bourgogne: 8 km/h. Pouilly tunnel one-way alternated; summit locks to be booked 7 days ahead."
   },
   "season": {
    "best": "May–June",
@@ -2945,7 +3272,9 @@
    "https://fr.wikipedia.org/wiki/Tunnel_du_canal_de_Bourgogne",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/AP-599-RPP_Voies-touristiques.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -2994,6 +3323,12 @@
    "chamber": "Freycinet; max boat 38.80 × 5.10 m",
    "hours": null,
    "notes": "Doubs valley (Allenjoie–Saint-Symphorien): 65 automated locks worked by boaters with a VNF remote control. Valdieu: 12 locks in 3 km at the summit. Besançon: tunnel (~390 m) under the Citadelle. Hours not found in an official 2026 source — check VNF DT Rhône-Saône/Strasbourg."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 6,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPPi 13: 10 km/h on river (Doubs) sections, 6 km/h by day and 4 km/h at night in canal and dérivation sections, under 6 km/h in tunnels; Mulhouse–Niffer (RPPi 20) 12 km/h, 6 km/h in the secondary canal."
   },
   "season": {
    "best": "May–June",
@@ -3052,7 +3387,10 @@
    "https://boatcible.com/2026/04/11/plus-belles-escales-canal-rhone-au-rhin-2026/",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPi_13_CRR_br_sud_20170818121147.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/2018-03-23_RPPi-sur-l%E2%80%99itin%C3%A9raire-Canal-du-Rh%C3%B4ne-au-Rhin-branche-sud-%E2%80%93-bief-de-Niffer.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -3093,6 +3431,12 @@
    "hours": "Barrage: every round hour when sea level ≥ +4 m CM; 20:30–04:30 only on request with 30 min notice (VHF 13, 02 99 16 37 37). Châtelier: weekly timetable set from Rance levels (Friday to Friday), works only when basin ≥ 9 m (aim for >10 m); VHF 14, 02 96 39 55 66",
    "notes": "Give the barrage lock-keeper 30 min notice with draught/air draught; going to sea gates close 20 min before the hour, from sea be there 5 min before. Châtelier swing bridge may be closed to masted boats in heat waves (May 2026 notice). Châtelier was closed Dec–Jan, booking 48 h ahead Feb/Mar/Nov in 2024–25."
   },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": null,
+   "permit": "No VNF vignette (not VNF waters: EDF barrage, Région Bretagne canal); port fees only",
+   "notes": "Barrage lock runs only at set times from the EDF timetable (usually on the hour going up, H+30 going down; on request at night); masted boats need the road bridge lifted. Yellow-buoyed zones above and below the barrage are closed to navigation. Below the Châtelier lock the Rance is maritime water (coastal rules: 5 kn in the 300 m strip); canal part to Dinan as Ille-et-Rance."
+  },
   "season": {
    "best": "May–September",
    "closures": "Barrage lock all year (tide permitting). Châtelier/canal: Région chômage 26.10.2026–01.04.2027; Châtelier closed by fallen trees from 23.10.2026, a reopening notice has followed (undated)."
@@ -3131,7 +3475,8 @@
    "https://unidivers.fr/bretagne-canaux-chomage-travaux-vilaine-ille-rance/",
    "https://fr.wikipedia.org/wiki/Usine_marémotrice_de_la_Rance",
    "https://en.wikipedia.org/wiki/Rance_Tidal_Power_Station",
-   "https://voileaviron.org/wp/wp-content/uploads/2016/12/TOPOFVA8-MancheOcean3IlleEtRance.pdf"
+   "https://voileaviron.org/wp/wp-content/uploads/2016/12/TOPOFVA8-MancheOcean3IlleEtRance.pdf",
+   "https://www.mer.gouv.fr/les-vehicules-nautiques-moteur-vnm-scooters-nautiques"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -3191,6 +3536,12 @@
    "chamber": "26.3 × 4.7 m",
    "hours": "2026 season 03.04–25.10: 09:00–12:30, 13:30–18:00 (03.04–12.06 and 14.09–25.10), to 19:00 13.06–13.09; arrive ≥15 min before close",
    "notes": "Manned locks (phone numbers per lock in the Région carnet); 27 locks up from Dinan to the summit, 20 down to Rennes; 11 Hédé locks in 2 km; falls up to 2.80 m (Calaudry). Châtelier (n°48) is on the Rance sheet. Moorings max 72 h, free except Dinan."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "No VNF vignette (Région Bretagne waterway); moorings free except Dinan, most limited to 72 h",
+   "notes": "Speed 6 or 10 km/h depending on the section: follow the signs (Région Bretagne). Navigation banned in floods by notices to boaters."
   },
   "season": {
    "best": "May–June",
@@ -3293,6 +3644,12 @@
    "hours": "Rennes–Redon locks 2026 season 03.04–25.10: 09:00–12:30, 13:30–18:00 (19:00 13.06–13.09). Arzal: round-hour lockings (weekends and 01.04–30.09), up to 11 a day in summer; booking/notice via passeportecluse-arzal-camoel.com",
    "notes": "13 locks Dupont-des-Loges (1) – Mâlon (13) plus Arzal dam lock (Eaux & Vilaine). Pont de Cran swing bridge (23 m span) 5.80 m closed: ask VHF 10 or 02 99 91 80 87. Boël lock rebuilt, link reopened 03.04.2026."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 10,
+   "permit": "No VNF vignette (Région Bretagne and EPTB Eaux & Vilaine waters)",
+   "notes": "Redon–Arzal: 5.5 kn (about 10 km/h) on the open river, 3 kn near ports (2018 guide; check the Région's 2025 RPP Vilaine). Arzal lock: restricted lockages in drought. Navigation banned in floods Rennes–Redon by notice."
+  },
   "season": {
    "best": "May–July",
    "closures": "Locks unattended 26.10.2026–01.04.2027 (Région chômage). Arzal: drought restrictions 26.08–04.11.2026 (closed 31.08–04.09, then only reserved low-water 'safety' lockings, e.g. 2 per week late Sep); winter closure from 04.11.2026 (anti-salinity lock works), reopening late March 2027 not officially confirmed."
@@ -3347,7 +3704,8 @@
    "https://bretagne.bzh/app/uploads/sites/6/2024/10/2024-VIR-B-n°109_VIL_Interdiction-Navigation-periode-de-crue-signe-1.pdf",
    "https://bretagne.bzh/app/uploads/sites/6/2025/01/2025-VIR-B-n°-01_VIL_Interdiction-navigation-periode-de-crue-Rennes-Redon.pdf",
    "https://fr.wikipedia.org/wiki/Vilaine",
-   "https://canaux.bretagne.bzh/"
+   "https://canaux.bretagne.bzh/",
+   "https://www.hisse-et-oh.com/store/medias/sailing/5dd/1d1/5c3/original/5dd1d15c39819f3668dc1472.pdf"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -3388,6 +3746,12 @@
    "hours": null,
    "notes": "No locks; Castets lock 53 (manned, tide-dependent) is on the Canal latéral sheet. Pont Chaban-Delmas is a lift bridge (lifts scheduled; low motor boats pass under the lowered deck)."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "None in the estuary (maritime); VNF vignette on the VNF-managed Garonne upstream of Bordeaux",
+   "notes": "Estuary up to the Bordeaux stone bridge: maritime RPP (7 Dec 2015), sea rules (5 kn in the 300 m strip), call Bordeaux port VHF 12. Garonne upstream of the Pont de Pierre (RPP rivières girondines, VNF RPPi 19): 25 km/h for small craft, 20 km/h for others, 10 km/h when meeting a boat or passing moored craft; a 2017 inter-prefectoral RPP now applies, check it."
+  },
   "season": {
    "best": "May–September",
    "closures": "Free navigation all year, watch floods (vigicrues). Castets lock 53 closed with the canal chômage (9.11–20.12.2026)."
@@ -3423,7 +3787,11 @@
    "https://fr.wikipedia.org/wiki/Estuaire_de_la_Gironde",
    "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
    "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomaire_du_reseau_2024-06-28.pdf",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/AP-2014276-0004_RRP-rivieres-girondines_20141013113855.pdf",
+   "https://www.mer.gouv.fr/les-vehicules-nautiques-moteur-vnm-scooters-nautiques",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -3509,6 +3877,12 @@
    "hours": "High season 25.03–01.11.2026 daily 09:00–12:00, 13:00–19:00 (26.10–01.11: 08:00–11:00, 12:00–18:00; no midday stop Embouchure–Mazérac 51); low season on demand weekdays 08:30–12:00, 13:00–16:30. Locks 52–53 on call 06 62 99 63 91 08:30–19:30 all year. Closed 1 Jan, 1 May, 11 Nov, 25 Dec",
    "notes": "Automated, boater-operated (poles). Pass in one go: Montech 11–12, 13–15; Moissac 19–22, 23–25; Agen 34–37 (45 min) and 39–40; last entry 15–45 min before closing. Moissac swing bridge open permanently 2026. Lock 53 depends on tide and Garonne level, no waiting in pound 53. Montech water slope out of use."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP canal des Deux Mers: 8 km/h on the whole canal. Two crew needed at automated locks."
+  },
   "season": {
    "best": "May–June, September",
    "closures": "Annual chômage, whole canal: 12.11–22.12.2024; 09.11–20.12.2026 (navigation stopped, drained pounds). Storm stop 12.02.2026. 2026 water management: boats grouped 18.07–31.10."
@@ -3546,7 +3920,9 @@
    "https://en.wikipedia.org/wiki/Canal_de_Garonne",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP-C2M-22092017_20171108123609.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [
@@ -3656,6 +4032,12 @@
    "hours": "High season 25.03–01.11.2026 daily 09:00–12:00, 13:00–19:00 (26.10–01.11: 08:00–11:00, 12:00–18:00); low season pleasure craft on demand weekdays 08:30–12:00, 13:00–16:30. Fonserannes by up/down phases (May–Sep 08:10–18:40). Agde to the sea at fixed times. Closed 1 Jan, 1 May, 11 Nov, 25 Dec",
    "notes": "15 locks Toulouse–Océan (automated, boater-operated), 48 Méditerranée–Bagnas (mostly manned, oval multiple chambers: Saint-Roch ×4, Fonserannes ×7). Malpas tunnel: long horn blast and lights before entering, extinguisher on board. Last entry 15–25 min before closing at Castelnaudary, Carcassonne, Trèbes, Fonserannes."
   },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "VNF vignette (péage plaisance) for boats over 5 m or with an engine of 9.9 CV (7.29 kW) or more",
+   "notes": "RPP canal des Deux Mers: 8 km/h on the whole canal. No mooring to the plane trees."
+  },
   "season": {
    "best": "May–June, September",
    "closures": "Winter chômage 05.01–01.03.2026 (2027 dates not yet published). Water-shortage stop on the whole canal from 06.11.2023 (to 01.03.2024), 03.11.2025 (to Mar 2026) and now 09.11.2026–03.01.2027 (FR/2026/08762; reserves 7.3% on 10.11.2026)."
@@ -3701,7 +4083,9 @@
    "https://imray.com/news/through-france-to-the-mediterranean/",
    "https://www.vnf.fr/vnf/services/avisbat/",
    "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
-   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP-C2M-22092017_20171108123609.pdf",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/"
   ],
   "checked": "2026-11-21",
   "bbox": [

@@ -1,5 +1,5 @@
 import { ruleFacts, type CountryRules } from '../routing/rules';
-import { host } from './WaterwaysView';
+import { host } from './host';
 
 /** The boating rules of each country on the route, with their sources and the date they were checked. */
 export function RulesView({ rules, inland, sea }: { rules: CountryRules[]; inland: boolean; sea: boolean }) {

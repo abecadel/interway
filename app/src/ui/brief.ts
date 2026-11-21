@@ -289,10 +289,30 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     waterways,
     rules: countryRules,
     checklist,
-    limits: route.limits.map((l) => ({ kind: l.kind, limitM: l.limit, name: l.name, km: km(l.at), fits: Math.fround(profile[l.kind]) <= Math.fround(l.limit) })),
+    limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
     services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER) },
   };
+}
+
+/** The tightest limit of each kind on the route: mapped structures (OSM) and the waterway sheets' lowest bridge and
+ *  usual draft, whichever is lower, in route order. */
+function tightest(route: Route, profile: VesselProfile): RouteBrief['limits'] {
+  const best = new Map<RouteBrief['limits'][number]['kind'], { limit: number; name: string; at: number }>();
+  const offer = (kind: RouteBrief['limits'][number]['kind'], limit: number, name: string, at: number) => {
+    if ((best.get(kind)?.limit ?? Infinity) > limit) best.set(kind, { limit, name, at });
+  };
+  for (const l of route.limits) offer(l.kind, l.limit, l.name, l.at);
+  let at = 0;
+  for (const leg of legPoints(route)) {
+    for (const w of waterwaysOn([leg])) {
+      if (w.airDraftM !== null) offer('airDraft', w.airDraftM, `${w.name} (waterway sheet)`, at);
+      if (w.depth.maxDraftM !== null) offer('draft', w.depth.maxDraftM, `${w.name} (waterway sheet)`, at);
+    }
+    at += leg.distance!; // legPoints gives every leg its length
+  }
+  return [...best.entries()].sort((x, y) => x[1].at - y[1].at)
+    .map(([kind, l]) => ({ kind, limitM: l.limit, name: l.name, km: km(l.at), fits: Math.fround(profile[kind]) <= Math.fround(l.limit) }));
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');

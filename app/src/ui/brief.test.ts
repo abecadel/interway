@@ -7,7 +7,8 @@ import { briefMarkdown, buildBrief, EDIT_PARAMETERS } from './brief';
 import { VESSEL_PARAMS } from './urlState';
 
 vi.mock('../data/waterways.json', async () => ({
-  default: [{ ...(await import('../test/waterwayFixture')).kanal, rules: { motorboats: 'allowed', speedLimitKmh: null, permit: 'canal vignette', notes: null } }],
+  default: [{ ...(await import('../test/waterwayFixture')).kanal, rules: { motorboats: 'allowed', speedLimitKmh: null, permit: 'canal vignette', notes: null } },
+    (await import('../test/waterwayFixture')).empty],
 }));
 vi.mock('../data/rules.json', async () => ({ default: [{ ...(await import('../test/rulesFixture')).land, cc: 'PL' }] }));
 
@@ -71,7 +72,7 @@ describe('route brief', () => {
     // the tightest mapped limits along the route, and whether the boat fits
     const limited = buildBrief({ route: { ...route, limits: [{ kind: 'airDraft', limit: 2.8, name: 'Most', at: 30_000 }, { kind: 'beam', limit: 5, name: 'a lock', at: 20_000 }] },
       itinerary: { counts: {}, stops: [] }, profile: { ...defaultProfile, airDraft: 3, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
-    expect(limited.limits).toEqual([{ kind: 'airDraft', limitM: 2.8, name: 'Most', km: 30, fits: false }, { kind: 'beam', limitM: 5, name: 'a lock', km: 20, fits: true }]);
+    expect(limited.limits).toEqual([{ kind: 'beam', limitM: 5, name: 'a lock', km: 20, fits: true }, { kind: 'airDraft', limitM: 2.8, name: 'Most', km: 30, fits: false }]);
     expect(limited.checklist).toEqual([]);
     expect(limited.countries).toEqual([]);
     const lmd = briefMarkdown(limited);
@@ -164,6 +165,15 @@ describe('route brief', () => {
     // a waterway's own permit
     const onKanal = buildBrief({ route: { ...route, legs: [{ name: 'Kanal', distance: 200_000 }] }, itinerary: { counts: {}, stops: [] }, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
     expect(onKanal.checklist).toContain('Kanal (A – B): canal vignette.');
+    // the sheet's lowest bridge and usual draft count where they are tighter than anything mapped
+    expect(onKanal.limits).toEqual([
+      { kind: 'airDraft', limitM: 4, name: 'Kanal (A – B) (waterway sheet)', km: 0, fits: true },
+      { kind: 'draft', limitM: 1.5, name: 'Kanal (A – B) (waterway sheet)', km: 0, fits: true },
+    ]);
+    // a mapped limit tighter than the sheet's wins; a sheet without limits adds none
+    const mapped = buildBrief({ route: { ...route, limits: [{ kind: 'airDraft', limit: 2, name: 'Most', at: 1_000 }], legs: [{ name: 'Bare', distance: 100_000 }, { name: 'Kanal', distance: 100_000 }] },
+      itinerary: { counts: {}, stops: [] }, profile: defaultProfile, title: 't', link: 'l' });
+    expect(mapped.limits.map((l) => [l.kind, l.limitM, l.km])).toEqual([['airDraft', 2, 1], ['draft', 1.5, 100]]);
     const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0, downstreamKm: 0 }, vessel: { ...b.vessel, avoidLocks: true, avoidSea: true } });
     expect(quiet).not.toContain('Open sea:');
     expect(quiet).not.toContain('River current');
