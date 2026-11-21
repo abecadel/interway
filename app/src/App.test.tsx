@@ -32,6 +32,7 @@ const route = (over: Partial<Route> = {}): Route => ({
   seaNoDepth: 0,
   offshore: 0,
   noMotor: 0,
+  limits: [],
   downstream: 0,
   upstream: 0,
   tooShallow: 0,

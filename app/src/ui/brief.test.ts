@@ -6,13 +6,15 @@ import { restricted } from '../test/waterwayFixture';
 import { briefMarkdown, buildBrief, EDIT_PARAMETERS } from './brief';
 import { VESSEL_PARAMS } from './urlState';
 
-vi.mock('../data/waterways.json', async () => ({ default: [(await import('../test/waterwayFixture')).kanal] }));
+vi.mock('../data/waterways.json', async () => ({
+  default: [{ ...(await import('../test/waterwayFixture')).kanal, rules: { motorboats: 'allowed', speedLimitKmh: null, permit: 'canal vignette', notes: null } }],
+}));
 vi.mock('../data/rules.json', async () => ({ default: [{ ...(await import('../test/rulesFixture')).land, cc: 'PL' }] }));
 
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
 const route: Route = {
-  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, seaNoDepth: 9_260, offshore: 0, noMotor: 0, downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
+  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, seaNoDepth: 9_260, offshore: 0, noMotor: 0, limits: [], downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
   events: [], legs: [{ name: 'Wisła', distance: 150_000 }, { name: '', distance: 50_000 }],
   start: snap, end: { ...snap, offset: 700 },
 };
@@ -24,7 +26,8 @@ const itinerary: Itinerary = {
     stop(20_000, { type: 'lock', name: 'Śluza Włocławek', maxlength: 8, maxwidth: 2.5 }),
     stop(30_000, { type: 'bridge', clearance: 2.5 }),
     stop(40_000, { type: 'bridge', clearance: 9 }),
-    stop(70_000, { type: 'marina', name: 'Przystań' }),   // 70 km: inside the last fifth of day 1 (64–80 km)
+    stop(60_000, { type: 'fuel', name: 'Stacja' }),
+    stop(70_000, { type: 'marina', name: 'Przystań', vhf: '9', phone: '+48 1' }),   // 70 km: inside the last fifth of day 1 (64–80 km)
     stop(150_000, { type: 'place', name: 'Grudziądz' }),  // day 2 ends at km 150 without a marina: near the town
     stop(155_000, { type: 'port', name: 'A | B' }),       // after day 2's end
   ],
@@ -53,7 +56,7 @@ describe('route brief', () => {
 
   it('splits the trip into days ending at marinas or near towns', () => {
     expect(b.stages).toEqual([
-      { day: 1, fromKm: 0, toKm: 70, km: 70, hours: 7, endsAt: 'Marina Przystań' },
+      { day: 1, fromKm: 0, toKm: 70, km: 70, hours: 7, endsAt: 'Marina Przystań', harbour: 'VHF: channel 9; Phone: +48 1' },
       { day: 2, fromKm: 70, toKm: 150, km: 80, hours: 8, endsAt: 'km 150 (near Grudziądz)' },
       { day: 3, fromKm: 150, toKm: 200, km: 50, hours: 5, endsAt: 'destination' },
     ]);
@@ -65,6 +68,16 @@ describe('route brief', () => {
     expect(deep.hazards.find((h) => h.includes('Shallowest'))).not.toContain('yours');
     const aground = buildBrief({ route: { ...route, tooShallow: 3_000 }, itinerary, profile: { ...defaultProfile, draft: 2 }, title: 't', link: 'l' });
     expect(aground.totals.tooShallowKm).toBe(3);
+    // the tightest mapped limits along the route, and whether the boat fits
+    const limited = buildBrief({ route: { ...route, limits: [{ kind: 'airDraft', limit: 2.8, name: 'Most', at: 30_000 }, { kind: 'beam', limit: 5, name: 'a lock', at: 20_000 }] },
+      itinerary: { counts: {}, stops: [] }, profile: { ...defaultProfile, airDraft: 3, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
+    expect(limited.limits).toEqual([{ kind: 'airDraft', limitM: 2.8, name: 'Most', km: 30, fits: false }, { kind: 'beam', limitM: 5, name: 'a lock', km: 20, fits: true }]);
+    expect(limited.checklist).toEqual([]);
+    expect(limited.countries).toEqual([]);
+    const lmd = briefMarkdown(limited);
+    expect(lmd).toContain('- Air draft (headroom) 2.8 m at km 30 (Most): ⚠ yours is 3 m');
+    expect(lmd).toContain('- Beam 5 m at km 20 (a lock): fits');
+    expect(briefMarkdown({ ...limited, totals: { ...limited.totals, maxSeaDraftM: null } })).not.toContain('Shallowest charted sea');
     const banned = buildBrief({ route: { ...route, noMotor: 2_000 }, itinerary, profile: defaultProfile, title: 't', link: 'l' });
     expect(banned.hazards.some((h) => h.startsWith('2 km on waters where OpenStreetMap says motorboats are not allowed'))).toBe(true);
     expect(aground.hazards.find((h) => h.startsWith('3 km of open sea'))).toContain('shallower than your 2 m draft');
@@ -119,6 +132,38 @@ describe('route brief', () => {
     expect(md).toContain('- Authority: Waterways Authority (https://example.org)');
     expect(briefMarkdown({ ...b, rules: [{ ...b.rules[0], authority: { name: 'Nobody', url: null } }] })).toContain('- Authority: Nobody\n');
     expect(briefMarkdown({ ...b, rules: [] })).not.toContain('## Rules by country');
+    // what to arrange before going, the countries, services and the harbour of each night
+    expect(b.checklist).toEqual([
+      "Give the boat's real draft: 1 m is the planner's default.",
+      "Give the boat's real air draft: 3 m is the planner's default.",
+      "Give the boat's real length: 9 m is the planner's default.",
+      'Give a departure date (date=YYYY-MM-DD): waterways are then checked for the month the boat reaches them.',
+      'Landland: licence: licence over 10 kW; permits: vignette; taxes: cruising tax; entry: Schengen.',
+      'Read the notices to skippers before going: PL Wody Polskie, komunikaty nawigacyjne (https://www.gov.pl/web/wody-polskie).',
+    ]);
+    expect(b.countries).toEqual([{ cc: 'PL', name: 'Landland', fromKm: 10 }]);
+    expect(b.services.fuel).toEqual({ count: 1, longestKm: 140, fromKm: 60, toKm: 200 });
+    expect(b.services.water).toEqual({ count: 0, longestKm: 200, fromKm: 0, toKm: 200 });
+    expect(b.services.harbour).toEqual({ count: 2, longestKm: 85, fromKm: 70, toKm: 155 });
+    expect(b.stages[0].harbour).toBe('VHF: channel 9; Phone: +48 1');
+    expect(md).toContain('- [ ] Landland: licence');
+    expect(md).toContain('- Countries: Landland (from km 10)');
+    expect(md).toContain('- Fuel: 1 on the route; longest stretch without: 140 km (km 60–200)');
+    expect(md).toContain('| Marina Przystań | VHF: channel 9; Phone: +48 1 |');
+    expect(md).toContain('- Shallowest charted sea: about 1.4 m draft');
+    expect(briefMarkdown({ ...b, checklist: [] })).not.toContain('## Before you go');
+    // all at sea: only the sea rules; inland only: only the inland ones; a country without researched rules keeps its code
+    const towns = { counts: {}, stops: [stop(1_000, { type: 'place', name: 'Hel', cc: 'PL' }), stop(2_000, { type: 'place', name: 'X', cc: 'XX' })] };
+    const atSea = buildBrief({ route: { ...route, sea: route.distance }, itinerary: towns, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
+    expect(atSea.checklist[0]).toBe('Landland: taxes: cruising tax; entry: Schengen.');
+    expect(atSea.countries).toEqual([{ cc: 'PL', name: 'Landland', fromKm: 1 }, { cc: 'XX', name: 'XX', fromKm: 2 }]);
+    const inland = buildBrief({ route: { ...route, sea: 0 }, itinerary: towns, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
+    expect(inland.checklist[0]).toBe('Landland: licence: licence over 10 kW; permits: vignette.');
+    const tiny = buildBrief({ route: { ...route, distance: 500, sea: 0 }, itinerary: towns, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
+    expect(tiny.checklist.some((c) => c.startsWith('Landland'))).toBe(false);
+    // a waterway's own permit
+    const onKanal = buildBrief({ route: { ...route, legs: [{ name: 'Kanal', distance: 200_000 }] }, itinerary: { counts: {}, stops: [] }, profile: { ...defaultProfile, departure: '2027-05-01' }, title: 't', link: 'l', entered: new Set(['draft', 'airDraft', 'beam', 'length']) });
+    expect(onKanal.checklist).toContain('Kanal (A – B): canal vignette.');
     const quiet = briefMarkdown({ ...b, places: [], totals: { ...b.totals, seaNm: 0, downstreamKm: 0 }, vessel: { ...b.vessel, avoidLocks: true, avoidSea: true } });
     expect(quiet).not.toContain('Open sea:');
     expect(quiet).not.toContain('River current');

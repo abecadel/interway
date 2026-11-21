@@ -5,7 +5,7 @@ import type { Route } from '../routing/router';
 import { alongOf, buildTrack, fixOf, isNewAnchor, motionOf, OFF_COUNT, trackProgress, type Fix } from './progress';
 
 const route = (coordinates: [number, number][], over: Partial<Route> = {}): Route => ({
-  coordinates, distance: 0, duration: 3600, locks: 0, unverified: 0, sea: 0, seaNoDepth: 0, offshore: 0, noMotor: 0, downstream: 0, upstream: 0, tooShallow: 0, shallowest: null,
+  coordinates, distance: 0, duration: 3600, locks: 0, unverified: 0, sea: 0, seaNoDepth: 0, offshore: 0, noMotor: 0, limits: [], downstream: 0, upstream: 0, tooShallow: 0, shallowest: null,
   events: [], legs: [], start: { offset: 0 } as never, end: { offset: 0 } as never, ...over,
 });
 const fix = (lon: number, lat: number, over: Partial<Fix> = {}): Fix => ({ lon, lat, accuracy: 10, speed: null, heading: null, time: 0, ...over });

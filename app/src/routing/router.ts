@@ -114,6 +114,16 @@ export interface RouteEvent {
   at: number;
 }
 
+export interface RouteLimit {
+  kind: LimitKind;
+  /** m */
+  limit: number;
+  /** the structure or waterway */
+  name: string;
+  /** metres from the start */
+  at: number;
+}
+
 export interface RouteLeg {
   name: string;
   distance: number;
@@ -135,6 +145,8 @@ export interface Route {
   offshore: number;
   /** metres on waters where OSM says motorboats are not allowed */
   noMotor: number;
+  /** the tightest mapped limit of each kind along the route (inland: locks, bridges, channels), in route order */
+  limits: RouteLimit[];
   /** metres travelled with the river current (downstream) and against it (upstream) */
   downstream: number;
   upstream: number;
@@ -680,7 +692,19 @@ export class Router {
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
     duration = unpenalized;
-    return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, offshore, noMotor, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    const tightest = new Map<LimitKind, RouteLimit>();
+    for (const { edge, at } of this.lastPath) {
+      if (this.graph.edgeFlags[edge] & Flag.SEA) continue; // charted sea depth is `shallowest`
+      const a = this.graph.edgeAttr[edge] * 4;
+      LIMIT_KINDS.forEach((kind, i) => {
+        const limit = this.graph.attrTable[a + i];
+        if (limit <= 0 || (tightest.get(kind)?.limit ?? Infinity) <= limit) return;
+        const g = this.graph.edgeGeom[edge];
+        tightest.set(kind, { kind, limit: Math.round(limit * 100) / 100, name: this.nameOf(g) || (this.graph.edgeFlags[edge] & Flag.LOCK ? 'a lock' : 'an unnamed stretch'), at });
+      });
+    }
+    const limits = [...tightest.values()].sort((x, y) => x.at - y.at);
+    return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, offshore, noMotor, limits, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -745,6 +769,8 @@ export function joinRoutes(a: Route, b: Route): Route {
     seaNoDepth: a.seaNoDepth + b.seaNoDepth,
     offshore: a.offshore + b.offshore,
     noMotor: a.noMotor + b.noMotor,
+    limits: LIMIT_KINDS.flatMap((k) => [...a.limits, ...b.limits.map((l) => ({ ...l, at: l.at + a.distance }))]
+      .filter((l) => l.kind === k).sort((x, y) => x.limit - y.limit).slice(0, 1)).sort((x, y) => x.at - y.at),
     downstream: a.downstream + b.downstream,
     upstream: a.upstream + b.upstream,
     tooShallow: a.tooShallow + b.tooShallow,
