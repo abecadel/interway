@@ -466,6 +466,10 @@ describe('App', () => {
     expect(props().focus).toEqual([21, 52]);
     fireEvent.click(screen.getByText('Save'));
     expect(JSON.parse(localStorage.getItem('interway.saved')!)).toEqual([{ label: 'Śluza', position: [21, 52] }]);
+    // the Nearby tab lists the other lock 0.1 km away and opens it
+    fireEvent.click(screen.getByRole('tab', { name: 'Nearby · 1' }));
+    fireEvent.click(screen.getByText('0.1 km'));
+    expect(props().place).toEqual([21, 52.001]);
     expect(JSON.parse(localStorage.getItem('interway.recent')!)).toHaveLength(1);
     fireEvent.keyDown(screen.getByLabelText('Search'), { key: '/' }); // typing: ignored
     fireEvent.keyDown(window, { key: 'Escape' });
@@ -886,7 +890,7 @@ describe('App', () => {
         pois: [{ type: 'place' as const, name: 'Zagreb', lat: 45.81, lon: 15.98, cc: 'HR' }] })),
     })} />);
     await flush();
-    fireEvent.click(screen.getByText('Fishing here'));
+    fireEvent.click(screen.getByRole('tab', { name: 'Fishing' }));
     expect(screen.getByText('Fishing rules: Croatia')).toBeTruthy();
   });
 
@@ -926,7 +930,7 @@ describe('App', () => {
     history.replaceState(null, '', '/?place=21.0005,52.0005');
     render(<App client={fakeClient()} />);
     await flush();
-    fireEvent.click(screen.getByText('Fishing here'));
+    fireEvent.click(screen.getByRole('tab', { name: 'Fishing' }));
     fireEvent.click(screen.getByText('Log a catch here'));
     fireEvent.change(screen.getByLabelText('Species'), { target: { value: 'Pike' } });
     fireEvent.click(screen.getByText('Save to my catches'));

@@ -253,3 +253,19 @@ details > summary { min-height: 44px; padding-block: 10px; }
 .error-card p { margin: 4px 0 8px; }
 .error-title { font-weight: 700; color: var(--error); }
 .empty-state { padding: 16px 4px; color: var(--muted); text-align: center; }
+
+/* place card: share menu, tabs; the angler's day bar */
+.share-menu { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.share-menu button { border: 0; border-radius: 0; justify-content: flex-start; padding: 12px; min-height: 44px; }
+.share-menu button + button { border-top: 1px solid var(--line); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tabs button { border: 0; border-radius: 0; background: none; padding: 10px 12px; min-height: 44px; color: var(--muted); font-weight: 600; border-bottom: 3px solid transparent; }
+.tabs button[aria-selected='true'] { color: var(--accent); border-bottom-color: var(--accent); }
+.day-bar svg { width: 100%; height: 30px; display: block; }
+.day-bar .night { fill: color-mix(in srgb, var(--fg) 18%, var(--bg)); }
+.day-bar .day { fill: #f6d77a; }
+.day-bar .major { fill: #00897b; }
+.day-bar .minor { fill: #00897b; opacity: .5; }
+.day-bar .now { fill: #d93025; }
+.day-hours { display: flex; justify-content: space-between; }
+.header-btns { display: flex; gap: 2px; flex: none; }

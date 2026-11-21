@@ -16,3 +16,16 @@ export function nearest(pois: Poi[], type: PoiType, center: LngLat, limit = LIMI
     .sort((a, b) => a.d - b.d)
     .slice(0, limit);
 }
+
+/** how far the place card's Nearby tab looks */
+export const NEARBY_M = 5000;
+
+/** The nearest services and structures (not towns) around a place, the place itself left out. */
+export function nearbyPois(pois: Poi[], [lon, lat]: LngLat, limit = 8): { poi: Poi; d: number }[] {
+  return pois
+    .filter((p) => p.type !== 'place' && Math.abs(p.lat - lat) < 0.05)
+    .map((poi) => ({ poi, d: haversine(lat, lon, poi.lat, poi.lon) }))
+    .filter(({ d }) => d > 1 && d <= NEARBY_M)
+    .sort((a, b) => a.d - b.d)
+    .slice(0, limit);
+}

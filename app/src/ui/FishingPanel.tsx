@@ -1,6 +1,7 @@
 import { type ReactNode, useState } from 'react';
 import type { LngLat } from '../graph/geo';
-import { dayEvents, moonPhase, solunar } from './astro';
+import { dayEvents, moonPhase, solunar, sunAltitude } from './astro';
+import { DayBar } from './DayBar';
 import type { Catch } from './catches';
 import { compass, type Conditions, fetchConditions, trendText } from './conditions';
 
@@ -48,6 +49,7 @@ export function FishingPanel({ position, label, rules, onLog, now: given, fetchF
   return (
     <section className="fishing" aria-label="Fishing">
       <h3>Fishing here today</h3>
+      <DayBar midnight={midnight.getTime()} day={day} periods={periods} now={now} daylight={sunAltitude(midnight.getTime() + 43_200_000, lat, lon) > 0} />
       <dl className="facts small">
         <div><dt>Sun</dt><dd>rises {hm(day.sunrise)}, sets {hm(day.sunset)}</dd></div>
         <div><dt>Moon</dt><dd>{moon.name}, {Math.round(moon.fraction * 100)}% lit; rises {hm(day.moonrise)}, sets {hm(day.moonset)}</dd></div>
