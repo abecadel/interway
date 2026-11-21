@@ -971,7 +971,7 @@
   tolerance: 0.25
   sea: true
   countries: [GR]
-  via: [Λευκάδας]
+  via: [Δίαυλος]  # OSM names the Lefkas canal leg "Δίαυλος"
   source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route N day 2, Lefkas – Kioni 25 NM, south through the Lefkas Canal)
 
 - name: Gaios (Paxos) → Gouvia Marina (Corfu)

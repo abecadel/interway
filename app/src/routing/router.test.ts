@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildGraph, type SegmentInput } from '../graph/builder';
 import { decodeGeometry, decodeGraph, encodeGeometry, encodeGraph, Flag, type Geometry, type Graph } from '../graph/format';
+import type { LngLat } from '../graph/geo';
 import { defaultProfile, Router, RouteError, dateAfter, monthAfter } from './router';
 
 // A small network:  A ──river── B ──canal(lock)── C
@@ -47,6 +48,15 @@ describe('router', () => {
     expect(r.names[r.geom.nameIndex[s.geom]]).toBe('Odra');
     expect(s.offset).toBeGreaterThan(900);
     expect(s.offset).toBeLessThan(1200);
+  });
+
+  it('snaps to the really nearest edge, not to long edges whose boxes cover the point', () => {
+    // 40 long diagonal sea edges whose bounding boxes all contain the point, far from it on the line
+    const long = Array.from({ length: 40 }, (_, i) => ({ points: [[16 + i * 0.001, 50], [18 + i * 0.001, 52]] as LngLat[], kind: 'sea' as const }));
+    const r = makeRouter([...long, { points: [[17.3, 51.0005], [17.31, 51.0005]], name: 'Near' }]);
+    const s = r.snap([17.305, 51.0])!;
+    expect(r.names[r.geom.nameIndex[s.geom]]).toBe('Near');
+    expect(s.offset).toBeLessThan(100);
   });
 
   it('takes the short canal with a lock', () => {
