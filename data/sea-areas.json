@@ -1,6 +1,129 @@
 [
-  {"name": "Europe: Baltic, North Sea, Channel, Biscay, Iberia, Mediterranean, Black Sea, Faroes", "bbox": [-11.0, 30.0, 42.0, 66.0]},
-  {"name": "North Atlantic: Iceland, joined to the Faroes across open water", "bbox": [-25.0, 60.0, -5.0, 67.5], "max_offshore_m": 1200000},
-  {"name": "North America east: Atlantic coast, Gulf of Mexico, Gulf of St. Lawrence, Newfoundland", "bbox": [-98.0, 24.0, -52.0, 52.0]},
-  {"name": "North America west: California to Alaska, the Inside Passage", "bbox": [-170.0, 32.0, -117.0, 61.0]}
+ {
+  "name": "Europe: Baltic, North Sea, Channel, Biscay, Iberia, Mediterranean, Black Sea, Faroes",
+  "bbox": [
+   -11.0,
+   30.0,
+   42.0,
+   66.0
+  ]
+ },
+ {
+  "name": "North Atlantic: Iceland, joined to the Faroes across open water",
+  "bbox": [
+   -25.0,
+   60.0,
+   -5.0,
+   67.5
+  ],
+  "max_offshore_m": 1200000
+ },
+ {
+  "name": "North America east: Atlantic coast, Gulf of Mexico, Gulf of St. Lawrence, Newfoundland",
+  "bbox": [
+   -98.0,
+   24.0,
+   -52.0,
+   52.0
+  ]
+ },
+ {
+  "name": "North America west: California to Alaska, the Inside Passage",
+  "bbox": [
+   -170.0,
+   32.0,
+   -117.0,
+   61.0
+  ]
+ },
+ {
+  "name": "refine: Dalmatian coast and islands, Bay of Kotor",
+  "bbox": [
+   13.4,
+   42.0,
+   19.4,
+   45.6
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Ionian Islands, Gulf of Patras and Corinth",
+  "bbox": [
+   19.3,
+   37.4,
+   23.1,
+   40.0
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Saronic Gulf, Cyclades, Dodecanese, the Turkish Aegean coast",
+  "bbox": [
+   22.8,
+   35.8,
+   29.4,
+   40.6
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Strait of Bonifacio, Maddalena",
+  "bbox": [
+   8.6,
+   40.9,
+   9.8,
+   41.7
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Aeolian Islands, Strait of Messina",
+  "bbox": [
+   14.2,
+   37.9,
+   15.8,
+   38.9
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Danish straits, South Funen, Kiel and Mecklenburg bays",
+  "bbox": [
+   9.6,
+   53.9,
+   13.2,
+   56.3
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Kalmar Sound",
+  "bbox": [
+   15.9,
+   56.1,
+   17.2,
+   57.5
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Stockholm archipelago, Åland, Archipelago Sea, the Finnish south coast",
+  "bbox": [
+   17.8,
+   58.7,
+   27.0,
+   60.9
+  ],
+  "refine": true
+ },
+ {
+  "name": "refine: Estonian islands and Moonsund",
+  "bbox": [
+   21.5,
+   57.8,
+   24.2,
+   59.2
+  ],
+  "refine": true
+ }
 ]

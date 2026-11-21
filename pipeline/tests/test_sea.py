@@ -61,6 +61,53 @@ def test_areas_mesh_together_and_far_areas_form_their_own_part():
     assert sum(1 for s in near for x, _ in s.coords if x > 3.0) < sum(1 for s in both for x, _ in s.coords if x > 3.0)
 
 
+def test_refine_areas_straighten_passages_between_islands():
+    # a 1° sea with a long island splitting it into two sounds, and an islet in the eastern sound
+    land = [box(0.30, 0.10, 0.36, 0.90), box(0.62, 0.45, 0.66, 0.55)]
+    c = coast(*land)
+    base = sea_mesh(c, BBOX, grid_m=25000)
+    fine = sea_mesh(c, areas=[{"bbox": BBOX}, {"bbox": (0.05, 0.05, 0.95, 0.95), "refine": True}], grid_m=25000)
+    assert len(fine) > len(base)
+    lines = np.array([LineString(to_merc(np.array(s.coords))) for s in fine])
+    assert not c.crossing(lines).any()
+    # edges that skip a node: some are longer than any plain edge between neighbours inside the box
+    assert len(set(components(fine).values())) == 1
+
+    def km(segs, a, b):
+        import heapq
+
+        from interway_pipeline.model import haversine
+        g: dict = {}
+        for s in segs:
+            p, q = tuple(s.coords[0]), tuple(s.coords[1])
+            g.setdefault(p, []).append((q, haversine(p, q)))
+            g.setdefault(q, []).append((p, haversine(p, q)))
+        start = min(g, key=lambda n: haversine(n, a))
+        goal = min(g, key=lambda n: haversine(n, b))
+        dist, heap = {start: 0.0}, [(0.0, start)]
+        while heap:
+            d, n = heapq.heappop(heap)
+            if n == goal:
+                return d / 1000
+            for m, w in g[n]:
+                if d + w < dist.get(m, float("inf")):
+                    dist[m] = d + w
+                    heapq.heappush(heap, (d + w, m))
+        return float("inf")
+
+    a, b = (0.45, 0.15), (0.50, 0.85)  # up the eastern sound, past the islet
+    straight = 0.70 * 111.32
+    assert km(fine, a, b) < straight * 1.1
+
+
+def test_two_hop_handles_empty_input():
+    from interway_pipeline.sea import _two_hop
+    c = coast()
+    assert _two_hop(c, np.zeros(0, dtype=object), np.zeros((0, 2))).size == 0
+    line = np.array([LineString([(0, 0), (1, 0)])])
+    assert _two_hop(c, line, np.array([[0.0, 0.0], [1.0, 0.0]])).size == 0  # a single edge: nothing two apart
+
+
 def test_masks_handle_empty_input():
     c = coast()
     assert c.near_land(np.zeros((0, 2)), 10).size == 0
