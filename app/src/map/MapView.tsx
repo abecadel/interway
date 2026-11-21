@@ -7,6 +7,7 @@ import type { LngLat } from '../graph/geo';
 import type { Route } from '../routing/router';
 import type { Poi } from '../routing/service';
 import { poiDetail } from '../ui/format';
+import { drawnTo, tween } from './motion';
 import { addBadges, loadBadges, SORT, SORT_DEFAULT } from './sprites';
 import { loadView, saveView } from './view';
 
@@ -61,6 +62,10 @@ export interface MapViewProps {
 export interface Insets { top: number; bottom: number; left: number }
 const NO_INSETS: Insets = { top: 0, bottom: 0, left: 0 };
 const FIT_PAD = 40;
+const ROUTE_COLOR = '#4c8df6';
+const ROUTE_CASING = '#0b57d0';
+/** a new route draws itself in over this long */
+const DRAW_MS = 600;
 
 export interface AltLine {
   coordinates: LngLat[];
@@ -115,6 +120,7 @@ export function MapView({
   const markers = useRef<{ a?: maplibregl.Marker; b?: maplibregl.Marker; me?: maplibregl.Marker; place?: maplibregl.Marker }>({});
   const featureRef = useRef(onFeatureClick);
   const insetsRef = useRef(insets);
+  const drawRef = useRef<() => void>(() => {});
   const longRef = useRef(onLongPress);
   const viewRef = useRef(onViewChange);
   const altRef = useRef(onAlternative);
@@ -246,16 +252,16 @@ export function MapView({
         layout: { 'text-field': ['get', 'label'], 'text-size': 13, 'text-allow-overlap': true },
         paint: { 'text-color': '#3c4043', 'text-halo-color': '#fff', 'text-halo-width': 2.5 },
       });
-      map.addSource('route', { type: 'geojson', data: empty });
+      map.addSource('route', { type: 'geojson', data: empty, lineMetrics: true });
       map.addLayer({
         id: 'route-casing', type: 'line', source: 'route',
         layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-color': '#0b57d0', 'line-width': 9 },
+        paint: { 'line-color': ROUTE_CASING, 'line-width': 9, 'line-gradient': drawnTo(ROUTE_CASING, 1) },
       });
       map.addLayer({
         id: 'route', type: 'line', source: 'route',
         layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-color': '#4c8df6', 'line-width': 6 },
+        paint: { 'line-color': ROUTE_COLOR, 'line-width': 6, 'line-gradient': drawnTo(ROUTE_COLOR, 1) },
       });
       map.addSource('limits', { type: 'geojson', data: empty });
       map.addLayer({
@@ -315,7 +321,14 @@ export function MapView({
       const b = new maplibregl.LngLatBounds();
       route.coordinates.forEach((c) => b.extend(c));
       const i = insetsRef.current;
-      map.fitBounds(b, { padding: { top: FIT_PAD + i.top, bottom: FIT_PAD + i.bottom, left: FIT_PAD + i.left, right: FIT_PAD }, maxZoom: 14 });
+      map.fitBounds(b, { padding: { top: FIT_PAD + i.top, bottom: FIT_PAD + i.bottom, left: FIT_PAD + i.left, right: FIT_PAD }, maxZoom: 14, duration: 800 });
+      // the new route draws itself in from the start
+      drawRef.current();
+      drawRef.current = tween(DRAW_MS, (t) => {
+        if (!ready.current) return;
+        map.setPaintProperty('route', 'line-gradient', drawnTo(ROUTE_COLOR, t));
+        map.setPaintProperty('route-casing', 'line-gradient', drawnTo(ROUTE_CASING, t));
+      });
     }
   }, [route]);
 
@@ -346,7 +359,7 @@ export function MapView({
   useEffect(() => {
     // the place lands in the middle of what the sheet and search box leave uncovered
     const i = insetsRef.current;
-    if (focus) mapRef.current!.flyTo({ center: focus, zoom: 14, offset: [i.left / 2, (i.top - i.bottom) / 2] });
+    if (focus) mapRef.current!.flyTo({ center: focus, zoom: 14, offset: [i.left / 2, (i.top - i.bottom) / 2], curve: 1.4, speed: 1.2 });
   }, [focus]);
 
   useEffect(() => {

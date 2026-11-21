@@ -240,13 +240,13 @@ describe('MapView', () => {
     const map = h.state.maps[0] as unknown as { flyTo: ReturnType<typeof vi.fn>; fitBounds: ReturnType<typeof vi.fn>; handlers: Record<string, Handler> };
     expect(map.flyTo).not.toHaveBeenCalled();
     rerender(<MapView {...base} focus={[18.1, 53.1]} />);
-    expect(map.flyTo).toHaveBeenCalledWith({ center: [18.1, 53.1], zoom: 14, offset: [0, 0] });
+    expect(map.flyTo).toHaveBeenCalledWith({ center: [18.1, 53.1], zoom: 14, offset: [0, 0], curve: 1.4, speed: 1.2 });
     // the sheet and search box cover the map: the place lands in what is left, a route fits inside it
     rerender(<MapView {...base} focus={[18.2, 53.1]} insets={{ top: 100, bottom: 300, left: 0 }} />);
-    expect(map.flyTo).toHaveBeenLastCalledWith({ center: [18.2, 53.1], zoom: 14, offset: [0, -100] });
+    expect(map.flyTo).toHaveBeenLastCalledWith({ center: [18.2, 53.1], zoom: 14, offset: [0, -100], curve: 1.4, speed: 1.2 });
     act(() => map.handlers.load());
     rerender(<MapView {...base} insets={{ top: 100, bottom: 300, left: 0 }} route={route} />);
-    expect(map.fitBounds).toHaveBeenLastCalledWith(expect.anything(), { padding: { top: 140, bottom: 340, left: 40, right: 40 }, maxZoom: 14 });
+    expect(map.fitBounds).toHaveBeenLastCalledWith(expect.anything(), { padding: { top: 140, bottom: 340, left: 40, right: 40 }, maxZoom: 14, duration: 800 });
   });
 
   it('follows the boat heading up while navigating, until the user moves the map', () => {

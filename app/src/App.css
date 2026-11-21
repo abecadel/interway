@@ -223,3 +223,16 @@ details > summary { min-height: 44px; padding-block: 10px; }
 /* chips stay compact to the eye, with a 44 px tall hit area */
 .chip { position: relative; }
 .chip::after { content: ''; position: absolute; inset: -6px 0; }
+
+/* motion: chips answer a press, sheet contents rise in when the sheet's subject changes, a skeleton while routing */
+.chip, .pill { transition: background-color .12s, color .12s, border-color .12s, transform .12s; }
+.chip:active, .pill:active { transform: scale(.97); }
+.summary, .place-card, .category-list, .explore, .skeleton { animation: rise .18s ease-out; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.skeleton { display: flex; flex-direction: column; gap: 8px; padding: 4px 0; }
+.bones { display: flex; gap: 6px; }
+.bone { height: 13px; width: 70%; border-radius: 6px; background: linear-gradient(90deg, var(--hover) 25%, var(--line) 50%, var(--hover) 75%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
+.bone.big { height: 28px; width: 40%; }
+.bone.short { width: 45%; }
+.bone.chip { height: 26px; width: 92px; border-radius: 999px; }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }

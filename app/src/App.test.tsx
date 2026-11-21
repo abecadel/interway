@@ -215,7 +215,7 @@ describe('App', () => {
     history.replaceState(null, '', '/?from=1,2&to=3,4');
     render(<App client={client} />);
     await flush();
-    expect(screen.getByText('Calculating route…')).toBeTruthy();
+    expect(screen.getByLabelText('Calculating route…')).toBeTruthy();
     fireEvent.click(screen.getByTitle('Swap')); // new request, the first one is now stale
     await flush();
     await act(async () => {

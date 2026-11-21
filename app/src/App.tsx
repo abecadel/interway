@@ -585,7 +585,12 @@ export default function App({ client }: { client: RoutingApi }) {
     <CategoryList pois={pois} type={category} center={near ?? center} onSelect={openPoi} onClose={() => setCategory(null)} />
   ) : directions ? (
     <>
-      {busy && <div className="info">Calculating route…</div>}
+      {busy && (
+        <div className="skeleton" role="status" aria-label="Calculating route…">
+          <div className="bone big" /><div className="bone" /><div className="bone short" />
+          <div className="bones"><div className="bone chip" /><div className="bone chip" /><div className="bone chip" /></div>
+        </div>
+      )}
       {isFrozen && (
         <div className="info small">
           Snapshot saved {frozen.savedAt.slice(0, 10)}: shown as it was planned, not recomputed.{' '}
