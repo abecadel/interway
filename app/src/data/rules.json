@@ -765,5 +765,1049 @@
    "https://revisedacts.lawreform.ie/eli/2005/act/11/revised/en/html"
   ],
   "checked": "2026-11-21"
+ },
+ {
+  "cc": "PL",
+  "name": "Poland",
+  "inland": {
+   "regulation": "Ustawa o żegludze śródlądowej (Dz.U. 2025 poz. 18), based on CEVNI-type rules; local 'przepisy porządkowe' of Wody Polskie and the Urzędy Żeglugi Śródlądowej (8 offices incl. Giżycko for Masuria)",
+   "licence": "Patent (sternik motorowodny etc.) issued by the Polish sports federations (PZŻ, PZMWiNW) needed for motor yachts over 10 kW and sail yachts over 7.5 m (art. 37a(3)). No licence for motor yachts up to 75 kW and 13 m whose top speed is limited by design to 15 km/h (houseboats); hire boats of that kind need a short safety briefing (art. 37a(4))",
+   "licenceThresholdKw": 10,
+   "foreignLicence": "A qualification obtained in another state is valid in Poland within its scope (art. 37a(6)); ICC accepted",
+   "permit": "none for navigation in general; lock and bridge fees on some routes",
+   "permitCost": null,
+   "registration": "Polish registration needed for yachts over 7.5 m or over 15 kW; foreign boats keep their home registration",
+   "vhf": "VHF not mandatory for pleasure craft; if fitted, ATIS (RAINWAT) and an operator certificate are needed",
+   "speedLimits": "no general inland limit; set by Wody Polskie local rules and signs (canals of the Great Masurian Lakes have speed and no-wash limits)",
+   "alcohol": "0.2 ‰: 0.2–0.5 ‰ is an offence (art. 87 Kodeks wykroczeń), over 0.5 ‰ a crime (art. 178a Kodeks karny, covers 'ruch wodny')",
+   "equipment": "lifejackets for everyone aboard; lifebuoy and extinguisher depending on size and engine",
+   "motorboatBans": "Combustion engines banned on all waters of the Mazurski Park Krajobrazowy except Śniardwy (without Kaczerajno and Zatoka Łuknajńska) and Bełdany (without Zatoka Iznocka and Wygryńska); banned in the reserves Łuknajno, Krutynia, Krutyńskie, Pierwos, Gardyńskie, Lisunie, Malinówka; Jezioro Nidzkie: reserve 'Jezioro Nidzkie' closed to engines beyond the first 3 km from Guzianka; Powiat Mrągowo bans engines on c. 25 more lakes (e.g. Zyndackie, Warpuńskie, Juksty, Lampackie, Inulec, Jorzec, Nawiady)",
+   "other": [
+    "Great Masurian Lakes routes are opened for the season by Wody Polskie Białystok each spring",
+    "Guzianka lock is the only lock on the main Masurian route"
+   ]
+  },
+  "sea": {
+   "regulation": "Ustawa o bezpieczeństwie morskim; COLREGs; port rules (przepisy portowe) of the Maritime Offices in Gdynia and Szczecin",
+   "licence": "same thresholds as inland (over 10 kW / sail over 7.5 m); 'jachtowy sternik morski' or higher for open sea",
+   "coastalSpeed": "set in each port's przepisy portowe; no general coastal limit confirmed",
+   "anchoring": null,
+   "entry": "Schengen; from non-Schengen ports (e.g. via the Vistula Lagoon from Russia, not open) report to Border Guard at a border-crossing port",
+   "taxes": "none for visiting pleasure craft",
+   "other": [
+    "SAR: MRCK Gdynia / MPCK Świnoujście, VHF 16, ops channel 11"
+   ]
+  },
+  "authority": {
+   "name": "Wody Polskie / Urzędy Żeglugi Śródlądowej; Urząd Morski w Gdyni and w Szczecinie",
+   "url": "https://www.gov.pl/web/wody-polskie"
+  },
+  "sources": [
+   "https://eli.gov.pl/api/acts/DU/2025/18/text/I/D20250018.pdf",
+   "https://ums.gov.pl/Zeglarze/Przewodnik%20dla%20%C5%BCeglarzy.pdf",
+   "https://samorzad.gov.pl/web/powiat-mragowo/akweny-objete-zakazem-uzywania-silnikow-spalinowych",
+   "https://www.gov.pl/web/wody-polskie-bialystok/otwarcie-szlakow-zeglugowych-na-wielkich-jeziorach-mazurskich--sezon-2026",
+   "https://www.icomia.org/rrg-country/poland",
+   "https://www.rainwat.bipt.be"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "CZ",
+  "name": "Czechia",
+  "inland": {
+   "regulation": "Zákon č. 114/1995 Sb. o vnitrozemské plavbě; Řád plavební bezpečnosti; Vyhláška 46/2015 Sb. (combustion engine bans); CEVNI-based on the Elbe/Vltava waterway",
+   "licence": "Průkaz způsobilosti vůdce malého plavidla needed for motor craft over 4 kW, or over 1000 kg total weight, or sail over 12 m²; up to 4 kW no licence from age 15",
+   "licenceThresholdKw": 4,
+   "foreignLicence": "EU/EEA qualifications recognised; ICC widely accepted, but no explicit rule for foreign small-craft licences was found",
+   "permit": "none for navigation; lock passage free on the Elbe–Vltava waterway",
+   "permitCost": null,
+   "registration": "small craft over 4 kW or over 12 m² sail registered with the Státní plavební správa; foreign boats use home papers",
+   "vhf": "VHF optional; ATIS (RAINWAT) on the Elbe/Vltava waterway if fitted",
+   "speedLimits": "within 25 m of the shore, dams, weirs and marked bathing areas combustion boats may only go in displacement mode; other limits by sign (e.g. 10 km/h within 50 m of the Slapy bathing zones)",
+   "alcohol": "0.0 ‰ for skippers of motor boats; the 0.5 ‰ tolerance applies only to skippers of small non-motor craft (canoes) on minor waterways",
+   "equipment": "lifejackets, bailer, anchor or line, horn per Řád plavební bezpečnosti",
+   "motorboatBans": "Vyhláška 46/2015 Annex 1 bans combustion engines on 61 reservoirs incl. Lipno II, Kadaň, Nechranice, Seč, Pastviny, Slezská Harta, Mohelno, Nové Mlýny II, Plumlov, Luhačovice, Jevišovice, and on 61 river reaches incl. the upper Vltava above Lipno I, Lužnice in CHKO Třeboňsko, Otava above Písek, Svratka below Brno dam, Dyje on the Austrian border, Malše above Římov. Annex 2 waters allow only combustion engines up to 10 kW in displacement mode: Vranov, Nové Mlýny I and III, Máchovo jezero, Brněnská přehrada, Lipno I, Hracholusky, rybník Svět and short Vltava/Malše reaches in České Budějovice. Drinking-water reservoirs (e.g. Švihov/Želivka, Římov) are closed to boating altogether",
+   "other": [
+    "Waters in national parks and nature reserves on minor waterways: no combustion craft on designated areas",
+    "Outside marked berths, registered boats may moor or anchor only from sunrise to sunset on minor waterways"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Státní plavební správa (SPS)",
+   "url": "https://plavebniurad.cz"
+  },
+  "sources": [
+   "https://ceska-justice.cz/app/uploads/2015/04/vyhlaska-46-2015sb.pdf",
+   "https://www.epravo.cz/top/zakony/sbirka-zakonu/sb/1995/114",
+   "https://www.epravo.cz/top/zakony/sbirka-zakonu/sb/2023/48",
+   "https://www.seznamzpravy.cz/clanek/snemovna-schvalila-toleranci-piti-alkoholu-pri-splouvani-rek-67562",
+   "https://www.icomia.org/rrg-country/czech-republic"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "SK",
+  "name": "Slovakia",
+  "inland": {
+   "regulation": "Zákon č. 338/2000 Z. z. o vnútrozemskej plavbe; Danube Commission rules / CEVNI on the Danube; Vyhláška 423/2021 Z. z. (small craft skippers)",
+   "licence": "Preukaz odbornej spôsobilosti vodcu malého plavidla needed for engines of 4 kW and more, total weight over 1000 kg or sail over 12 m² (§ 31); category A 4–20 kW, B over 20 kW",
+   "licenceThresholdKw": 4,
+   "foreignLicence": null,
+   "permit": "none for navigation",
+   "permitCost": null,
+   "registration": "small craft registered with the Dopravný úrad; foreign boats use home papers",
+   "vhf": "VHF optional; ATIS (RAINWAT) on the Danube if fitted",
+   "speedLimits": "by sign and plavebné opatrenia of the Dopravný úrad; no general limit found",
+   "alcohol": "skippers may be tested and must not be under the influence; no tolerance stated (treat as 0.0 ‰)",
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Danube borders with Austria and Hungary are internal Schengen borders: no checks",
+    "Gabčíkovo locks on the Danube"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Dopravný úrad",
+   "url": "https://www.nsat.sk"
+  },
+  "sources": [
+   "https://static.slov-lex.sk/static/SK/ZZ/2000/338/20261115.html",
+   "https://static.slov-lex.sk/static/SK/ZZ/2021/423/20220117.html",
+   "https://www.rainwat.bipt.be"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "HU",
+  "name": "Hungary",
+  "inland": {
+   "regulation": "2000. évi XLII. törvény a víziközlekedésről (Vkt.); Hajózási Szabályzat (annex to 57/2011. (XI. 22.) NFM rendelet); 30/2003. (III. 18.) Korm. rendelet on restricted waters",
+   "licence": "Craft under 7 m with up to 14.7 kW (20 hp) count as 'csónak' since 17.01.2022 and need no registration or survey; larger motor craft (kishajó) need a kishajó-vezetői képesítés. Whether a csónak with an engine needs a licence was not confirmed from an official text",
+   "licenceThresholdKw": 14.7,
+   "foreignLicence": null,
+   "permit": "none on the Danube and Tisza; operating permit (üzemeltetési engedély) required for any combustion craft on the restricted lakes",
+   "permitCost": "üzemeltetési engedély fee 55,000 HUF (48,000 HUF for sports clubs) – only granted to listed users",
+   "registration": "kishajók (7 m and over, or over 14.7 kW, or over 10 m² sail) are registered with the hajózási hatóság; csónak exempt",
+   "vhf": "VHF optional; ATIS (RAINWAT) on the Danube if fitted",
+   "speedLimits": "by sign and local rules (e.g. Ráckevei Duna-ág speed limits and a 21:00–06:00 engine ban)",
+   "alcohol": "zero tolerance for all boat users, including rowing boats, canoes and SUP (police checks)",
+   "equipment": "per Hajózási Szabályzat, depending on craft and zone",
+   "motorboatBans": "Vkt. 58. §: combustion-engine small craft and boats banned on the whole of Lake Balaton, Lake Velence and Lake Fertő, and on parts of the Ráckevei (Soroksári) Duna-ág and Tisza-tó; only permit holders (authorities, rescue, port and club safety boats) are exempt. Electric motors are allowed. Sailing yachts on Balaton may use an auxiliary engine without permit only within 300 m of a harbour, in emergency, after a storm warning, or in winds under Beaufort 1 to reach the nearest harbour. Tisza-tó: over 4 kW banned in the Hortobágy National Park parts, all engines banned in Óhalászi-holtág, Porong, Ispán, Hód, Gaznyilas, Partos fenék. Jet skis only on designated courses, never on these lakes or border waters",
+   "other": [
+    "Danube borders with Slovakia and Austria are internal Schengen",
+    "Mohács (Danube km 1449) is the Schengen exit/entry point towards Serbia: border police, customs and water police; small craft use floating dock U-10723-30; open 24 h; a border-police permit is needed to berth there"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Budapest Főváros Kormányhivatala – hajózási hatóság",
+   "url": "https://kormanyhivatalok.hu"
+  },
+  "sources": [
+   "https://net.jogtar.hu/jogszabaly?docid=a0000042.tv",
+   "https://njt.jog.gov.hu/jogszabaly/2003-30-20-22",
+   "https://njt.jog.gov.hu/jogszabaly/2011-57-20-2W",
+   "https://kormanyhivatalok.hu/sites/default/files/2026-06/uzemeltetesi-engedely-tajekoztato_2026.pdf",
+   "https://kormanyhivatalok.hu/sites/default/files/2023-08/tajekoztato-csonakokrol_2023.pdf",
+   "https://www.police.hu/sites/default/files/Kivonat_Moh%C3%A1cs%20VH%C3%81H%20Rend_EN_2024.pdf",
+   "https://www.penzcentrum.hu/utazas/20260317/indul-a-balatoni-szezon-ezekre-a-szabalyokra-sokan-nem-figyelnek-pedig-sulyos-birsag-jarhat-erte-1195441/amp",
+   "https://www.rainwat.bipt.be"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "SI",
+  "name": "Slovenia",
+  "inland": {
+   "regulation": "Zakon o plovbi po celinskih vodah; motor navigation only where a government decree (uredba) allows it",
+   "licence": "'Upravljavec čolna' test certificate for motor boats up to 7.35 kW and 7 m and for jet skis; 'voditelj čolna' certificate above that (up to 24 m); no certificate for rowing boats and sailing boats up to 7 m",
+   "licenceThresholdKw": 0,
+   "foreignLicence": "procedures for recognising EU qualifications exist; no detail for visitors found",
+   "permit": "inland motor navigation only on the stretches listed below",
+   "permitCost": null,
+   "registration": "boats registered with the Uprava RS za pomorstvo (Izola, Piran branches)",
+   "vhf": "if a VHF/GMDSS set is fitted, an operator certificate is needed",
+   "speedLimits": "set in each decree",
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": "Motorised navigation is banned on all inland waters except where a decree permits it: Ljubljanica through Ljubljana, Zbiljsko jezero, Sava reservoirs at Vrhovo, Boštanj, Arto-Blanca, Krško and Brežice, Krka through Novo mesto, part of the Drava and Ptujsko jezero. Lake Bled: only wooden rowing boats and pletnas; motor and electric craft banned (2024 decree, €600 fine). Lake Bohinj (Triglav NP): no motor craft; boating March–November only, no boating in the Ukanc and Fužine bathing areas",
+   "other": []
+  },
+  "sea": {
+   "regulation": "Pomorski zakonik; COLREGs; Koper VTS",
+   "licence": "same certificates as above (voditelj čolna for over 7.35 kW or over 7 m)",
+   "coastalSpeed": "no general figure confirmed; press reports a 200 m no-approach strip off the shore (vs 300 m in Croatia); 6 kn in the Koper port anchorage",
+   "anchoring": null,
+   "entry": "Schengen; from Croatia (Schengen since 2023) no checks; from non-Schengen ports clear in at a port of entry (Koper, Izola – seasonal, Piran)",
+   "taxes": "no vignette or cruising tax for visiting pleasure craft found",
+   "other": [
+    "Koper VTS: larger vessels call 1 h before entering the VTS area"
+   ]
+  },
+  "authority": {
+   "name": "Uprava RS za pomorstvo (Slovenian Maritime Administration)",
+   "url": "https://www.gov.si/drzavni-organi/organi-v-sestavi/uprava-za-pomorstvo/"
+  },
+  "sources": [
+   "https://www.gov.si/teme/plovba-na-motorni-pogon/",
+   "https://spot.gov.si/sl/dejavnosti-in-poklici/poklici-in-strokovni-kadri/voditelj-in-upravljavec-colna",
+   "https://www.uradni-list.si/glasilo-uradni-list-rs/vsebina/2009-01-1646/odlok-o-dolocitvi-plovbnega-rezima-po-blejskem-jezeru",
+   "https://n1info.si/novice/slovenija/po-lanskoletnem-kaosu-na-blejskem-jezeru-obcina-uvaja-nove-prepovedi/",
+   "https://www.rtvslo.si/enostavno/slovenija/na-bohinjskem-jezeru-je-prepovedana-uporaba-nekaterih-plovil/752903",
+   "https://siol.net/avtomoto/zgodbe/pozor-vsi-slovenci-po-nova-dovoljenja-za-upravljanje-colna-421863",
+   "https://www.gov.si/assets/organi-v-sestavi/URSP/Javne-objave/Decision-of-maximum-allowed-safe-speed.pdf",
+   "https://www.gov.si/en/registries/services/koper-vts/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "HR",
+  "name": "Croatia",
+  "inland": {
+   "regulation": "Zakon o plovidbi i lukama unutarnjih voda; Pravilnik o plovidbi na unutarnjim vodama (NN 94/2026); Danube Commission rules on the Danube; Sava Commission rules on the Sava",
+   "licence": "Croatian boat-operator certificate or recognised foreign document; on foreign-flag boats the flag state's qualification",
+   "licenceThresholdKw": null,
+   "foreignLicence": "skipper must hold the qualification required by the flag state; recognised foreign documents listed by the Ministry",
+   "permit": null,
+   "permitCost": null,
+   "registration": "Croatian inland boats over 2.5 m or over 5 kW registered with the harbour master",
+   "vhf": "ATIS (RAINWAT) on the Danube if VHF fitted",
+   "speedLimits": null,
+   "alcohol": "inland: over 0.5 g/kg counts as intoxicated (Pravilnik o plovidbi na unutarnjim vodama)",
+   "equipment": null,
+   "motorboatBans": "Plitvice lakes and the Krka NP upper lakes: no private motor boats (park rules); not checked lake by lake",
+   "other": [
+    "Danube (left bank Serbia) and Sava (border with Bosnia) are external Schengen borders: arriving from Serbia or Bosnia, clear in at a river border crossing (Vukovar on the Danube)"
+   ]
+  },
+  "sea": {
+   "regulation": "Pomorski zakonik; Pravilnik o sigurnosti pomorske plovidbe (NN 52/2025, in force 29.03.2025); harbour-master notices",
+   "licence": "flag-state qualification; Croatian 'voditelj brodice' A/B/C or a Ministry-recognised foreign document; ICC accepted",
+   "coastalSpeed": "max 8 kn within 300 m of the coast, in narrow channels and port approaches; boats under 15 m must stay at least 50 m off the coast while underway (15–30 m: 150 m; over 30 m: 300 m); keep 50 m off marked beaches, 150 m off natural beaches; jet skis only sunrise–sunset, max 300 m off shore, never in bathing zones",
+   "anchoring": "banned within 150 m of natural beaches, in areas marked on Croatian Hydrographic Institute charts and where harbour masters ban it; no anchoring before getting the vignette; concession anchorages charge fees; national parks (Brijuni, Kornati, Krka, Mljet) have entry tickets and own rules",
+   "entry": "from Schengen ports no border check and any port can be used; from a non-Schengen port (e.g. Montenegro, Albania) enter at a port with an open border crossing; register arrival in e-Nautika and buy the vignette before cruising; have the crew list certified by the harbour master",
+   "taxes": "Safety-of-navigation and pollution fee ('vignette') per calendar year for foreign boats from about 2.5 m or 5 kW, by length and power (e-Nautika); tourist tax for boats over 7 m with berths, paid online at nautika.evisitor.hr before cruising (lump sum by length and period)",
+   "other": [
+    "Emergency: VHF 16, 195 (MRCC Rijeka), 112",
+    "Mandatory third-party insurance on board"
+   ]
+  },
+  "authority": {
+   "name": "Ministarstvo mora, prometa i infrastrukture (MMPI)",
+   "url": "https://mmpi.gov.hr"
+  },
+  "sources": [
+   "https://nautickabrosura.htz.hr/nautical-croatia-en/information-for-boaters.html",
+   "https://gov.hr/en/nautics/1558",
+   "https://mmpi.gov.hr/sea/nautics/8462",
+   "https://narodne-novine.nn.hr/clanci/sluzbeni/2025_03_52_685.html",
+   "https://narodne-novine.nn.hr/clanci/sluzbeni/2026_08_94_1150.html",
+   "https://narodne-novine.nn.hr/clanci/sluzbeni/2015_06_72_1387.html",
+   "https://www.noonsite.com/news/croatia-new-maritime-regulations-from-april-2025/",
+   "https://www.sea-help.eu/en/guide/croatia-permit-tourist-tax-lighthouse-fee/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "RS",
+  "name": "Serbia",
+  "inland": {
+   "regulation": "Zakon o plovidbi i lukama na unutrašnjim vodama; Uredba o uslovima za plovidbu i pravilima plovidbe na unutrašnjim vodama; Danube Commission rules on the Danube",
+   "licence": "Every boat operator must be qualified (art. 165): 'dozvola za upravljača čamcem' cat. A (from 16, boats up to 7 m and 15 kW) or B (from 18). No engine threshold in the law",
+   "licenceThresholdKw": 0,
+   "foreignLicence": "foreigners can only exchange a foreign licence if resident over 6 months; for visitors on foreign boats ICC/home licence is commonly accepted (not confirmed in law)",
+   "permit": "none beyond border clearance",
+   "permitCost": null,
+   "registration": "Serbian boats registered and surveyed; foreign boats use home papers",
+   "vhf": "VHF optional for boats; ATIS (RAINWAT) if fitted",
+   "speedLimits": "'safe speed' rule; limits by sign",
+   "alcohol": "zero tolerance: any measured alcohol counts as 'stanje opijenosti'",
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Non-EU, non-Schengen: a boat arriving from abroad must not contact other boats or the shore before border control and clearance by the port authority (art. 46)",
+    "Report arrival and departure at a river border crossing with crew and passenger lists; Bezdan (border with Croatia/Hungary) reopened for checks in December 2023; other port authorities with border functions include Apatin, Novi Sad, Belgrade, Veliko Gradište, Kladovo and Prahovo",
+    "Iron Gates I and II locks (Romania/Serbia)"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Ministarstvo građevinarstva, saobraćaja i infrastrukture – lučke kapetanije",
+   "url": "https://mgsi.gov.rs"
+  },
+  "sources": [
+   "https://mail.plovput.gov.rs/file/propisi/zakon-o-plovidbi-i-lukama-na-unutrasnjim-vodama.pdf",
+   "https://www.mgsi.gov.rs/sites/default/files/PRAVILNIK%20o%20uslovima%20koje%20moraju%20da%20ispunjavaju%20lica%20za%20upra.pdf",
+   "https://mgsi.gov.rs/en/node/21323",
+   "https://www.mgsi.gov.rs/sites/default/files/ARRIVAL%20AND%20DEPARTURE%20REPORT.doc",
+   "https://www.novosti.rs/srbija/vesti/1309574/izmenjena-uredba-ponovo-kontrola-brodova-bezdanu",
+   "https://navigation.danube-region.eu/content/uploads/sites/10/2023/04/20230330_4th-edition_Manual-on-Border-Controls.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "BA",
+  "name": "Bosnia and Herzegovina",
+  "inland": {
+   "regulation": "Laws of the entities and Brčko District (e.g. Zakon o unutrašnjoj plovidbi Brčko Distrikta BiH); Sava: Sava Commission navigation rules",
+   "licence": "boat operator must be qualified (entity rules); details not confirmed",
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": "boats must be registered and surveyed to navigate (Republika Srpska rules)",
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "The Sava is the border with Croatia (external Schengen border): crossing requires border control at designated crossings"
+   ]
+  },
+  "sea": {
+   "regulation": null,
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "only coast is the c. 20 km at Neum, reached through Croatian waters; no rules found",
+   "taxes": null,
+   "other": []
+  },
+  "authority": {
+   "name": "Ministarstvo komunikacija i prometa BiH",
+   "url": "https://www.mkt.gov.ba"
+  },
+  "sources": [
+   "https://www.savacommission.org/UserDocsImages/05_documents_publications/basic_documents/bos/protocol_on_navigation_regime_bos.pdf",
+   "https://skupstinabd.ba/3-zakon/ba/Zakon%20o%20unutras--njoj%20plovidbi%20Brc--ko%20Distrikta%20BiH/000%2028-08%20Zakon%20o%20unutras--njoj%20plovidbi%20Brc--ko%20Distrikta%20BiH.pdf",
+   "https://www.paragraf.ba/propisi/republika-srpska/pravilnik-o-nacinu-i-uslovima-za-plovidbu-plovnih-i-premjestanje-plutajucih-objekata.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "ME",
+  "name": "Montenegro",
+  "inland": {
+   "regulation": null,
+   "licence": null,
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": "the vignette also covers rivers and lakes (law definition)",
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Lake Skadar is a national park shared with Albania; park rules not checked"
+   ]
+  },
+  "sea": {
+   "regulation": "Zakon o jahtama (vignette system since 1 July 2015); COLREGs",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "non-EU, non-Schengen: clear in at a port of entry (Bar, Zelenika, Kotor, Tivat/Porto Montenegro; lists differ by source); call the harbour master on VHF 16 before landing",
+   "taxes": "vignette for foreign yachts and boats, bought at the harbour master on clearance, valid 1 week, 1 month, 3, 6 or 12 months; price by length (no official 2026 tariff found); per-person tourist tax; tax-free fuel for yachts (72-hour minimum stay reportedly dropped in 2025)",
+   "other": []
+  },
+  "authority": {
+   "name": "Uprava pomorske sigurnosti i upravljanja lukama",
+   "url": null
+  },
+  "sources": [
+   "https://www.paragraf.me/dnevne-vijesti/22062015/22062015-vijest4.html",
+   "https://www.paragraf.me/dnevne-vijesti/27012016/27012016-vijest4.html",
+   "https://www.boatinternational.com/charter/montenegro",
+   "https://www.yacht.de/en/travel-and-charter/croatia/adriatic-tax-free-diesel-in-montenegro-again-without-a-minimum-stay/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "RO",
+  "name": "Romania",
+  "inland": {
+   "regulation": "OG 42/1997 (naval transport); Regulament ANR for pleasure-craft operator certificates (2022); Danube Commission rules; HG 538/2015 for the Danube Delta canals and lakes",
+   "licence": "certificat (internațional) de conducător de ambarcațiune de agrement needed above 3.68 kW (5 hp); class D for inland waters only",
+   "licenceThresholdKw": 3.68,
+   "foreignLicence": null,
+   "permit": "Danube Delta Biosphere Reserve (ARBDD) access permit per boat for the inner canals and lakes (not the main Danube arms), valid up to one calendar year",
+   "permitCost": null,
+   "registration": "Romanian craft registered with ANR; foreign boats use home papers",
+   "vhf": "ATIS (RAINWAT) on the Danube if VHF fitted",
+   "speedLimits": "Danube Delta reserve has speed limits on canals (figures not confirmed)",
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Schengen since 1 Jan 2025: the Romania–Bulgaria Danube border (km 845–375) has no checks",
+    "External Schengen borders on the Danube: Serbia (Iron Gates, km 1075–845), Moldova (Giurgiulești, km c.133) and Ukraine (Chilia arm and km 0–c.116): clear border police and customs at the first Romanian port with a control point",
+    "Russian-flagged yachts barred from Romanian ports since 2022"
+   ]
+  },
+  "sea": {
+   "regulation": "OG 42/1997; port regulations",
+   "licence": "same certificate; maritime classes",
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Schengen since 2025; from non-Schengen ports clear in with border police, customs and health; crew list in duplicate",
+   "taxes": null,
+   "other": []
+  },
+  "authority": {
+   "name": "Autoritatea Navală Română (ANR)",
+   "url": "https://portal.rna.ro"
+  },
+  "sources": [
+   "https://maritime.public.lu/dam-assets/plaisance/Ordin-527-2016.pdf",
+   "https://portal.rna.ro/SiteAssets/Pagini/CAA%20Conducator%20ambarcatiune%20agrement/Regulament%202022.pdf",
+   "https://legeaz.net/monitorul-oficial-520-2015/hg-538-2015-aprobarea",
+   "https://www.noonsite.com/place/romania/formalities",
+   "https://portal.rna.ro/SiteAssets/presa/comunicate/Comunicat%20de%20presa%204.08.2025%20-%20Controale%20agrement.pdf",
+   "https://navigation.danube-region.eu/content/uploads/sites/10/2023/04/20230330_4th-edition_Manual-on-Border-Controls.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "BG",
+  "name": "Bulgaria",
+  "inland": {
+   "regulation": "Наредба за плаването и граничния режим ... на български и чуждестранни яхти, лодки (ПМС 293/2009, amendments in consultation 2026); Правила за плаване по река Дунав (ПМС 154/2020)",
+   "licence": null,
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": "ATIS (RAINWAT) on the Danube if VHF fitted",
+   "speedLimits": "leaving and returning to shore in Danube water-sport zones max 9 km/h",
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Schengen since 1 Jan 2025: no checks on the Danube border with Romania",
+    "Border with Serbia at the Timok mouth (km 845) is an external Schengen border: clear in at the first Bulgarian port of entry (Vidin)"
+   ]
+  },
+  "sea": {
+   "regulation": "same ordinance (ПМС 293/2009); COLREGs",
+   "licence": null,
+   "coastalSpeed": "jets and motor craft in water-sport corridors max 5 kn (9 km/h); jets operate at least 300 m off unguarded coasts and 200 m seaward of bathing-zone buoys",
+   "anchoring": null,
+   "entry": "Schengen (sea since March 2024): from a Schengen port no border check; otherwise health, border police, customs and Maritime Administration at a port of entry",
+   "taxes": null,
+   "other": []
+  },
+  "authority": {
+   "name": "Изпълнителна агенция „Морска администрация“ (Bulgarian Maritime Administration)",
+   "url": "https://marad.bg"
+  },
+  "sources": [
+   "https://www.mtc.government.bg/sites/default/files/documents/2026-07/Proekt%20na%20PMS-gran-rejim-072026.docx",
+   "https://www.novinite.com/articles/225211/Bulgaria+Joins+Schengen+by+Sea%3A+New+Rules+for+Ships+and+Yachts",
+   "https://www.noonsite.com/place/bulgaria/view/clearance",
+   "https://navigation.danube-region.eu/content/uploads/sites/10/2023/04/20230330_4th-edition_Manual-on-Border-Controls.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "MD",
+  "name": "Moldova",
+  "inland": {
+   "regulation": null,
+   "licence": null,
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Only c. 1 km of Danube bank, at Giurgiulești (Prut mouth, km c.133), with the Giurgiulești International Free Port; border crossing to Romania (external Schengen border) and Ukraine",
+    "No pleasure-craft rules or facilities for visiting yachts found"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Agenția Navală a Republicii Moldova",
+   "url": null
+  },
+  "sources": [
+   "https://www.danubecommission.org/uploads/doc/2019/Operational_REPORT_DC_Giurgiulesti_PORT.pdf",
+   "https://navigation.danube-region.eu/content/uploads/sites/10/2023/04/20230330_4th-edition_Manual-on-Border-Controls.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "UA",
+  "name": "Ukraine (Danube)",
+  "inland": {
+   "regulation": "Danube Commission rules; Ukrainian port-captain orders (Izmail, Reni, Ust-Dunaisk); martial law since 2022",
+   "licence": null,
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "War zone: Danube ports (Izmail, Reni, Kiliia) are attacked by drones and mines are reported in the delta; the Bystre mouth was restricted after a boat explosion. Pleasure cruising is not realistic",
+    "Kilia arm and lower Danube form the external Schengen border with Romania"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Ukrainian Sea Ports Authority / Ministry",
+   "url": "https://www.uspa.gov.ua"
+  },
+  "sources": [
+   "https://kyivindependent.com/passage-through-danubes-bystre-mouth-restricted-after-boat-explosion",
+   "https://marad.gov.ua/en/news/danube-commission-will-record-russian-crimes-against-safety-navigation",
+   "https://odessa-journal.com/izmail-port-captain-sets-new-draft-limits-for-ships-in-bystre-estuary-cchannel"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "MK",
+  "name": "North Macedonia",
+  "inland": {
+   "regulation": null,
+   "licence": "local boat licence; exams held seasonally (secondary source)",
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": "Lake Ohrid: night navigation banned, boats off the lake by 21:00 (border with Albania; secondary sources). Prespa and Dojran: no rules found",
+   "other": [
+    "Lakes Ohrid, Prespa and Dojran are border lakes (Albania, Greece)",
+    "Foreign boats enter by road under temporary admission (customs)"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Ministry of Transport (lakes: harbour offices Ohrid)",
+   "url": null
+  },
+  "sources": [
+   "https://www.boote-magazin.de/en/travel-and-charter/territories/journey-north-macedonia-lake-ohrid/",
+   "https://customs.gov.mk/en-GB/privremen-uvoz-na-vozila.nspx"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "XK",
+  "name": "Kosovo",
+  "inland": {
+   "regulation": null,
+   "licence": null,
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": "Batllava/Batlava lake is a drinking-water source; boats there are treated as illegal (press). Gazivoda/Ujman and Radoniq: no rules found",
+   "other": [
+    "No navigable waterways; only reservoirs"
+   ]
+  },
+  "sea": null,
+  "authority": {
+   "name": "Ministry of Environment, Spatial Planning and Infrastructure",
+   "url": null
+  },
+  "sources": [
+   "https://telegrafi.com/not-e-varka-ilegale-ne-burimin-e-ujit-te-pijshem-ne-liqenin-e-batllaves/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "AL",
+  "name": "Albania",
+  "inland": {
+   "regulation": null,
+   "licence": null,
+   "licenceThresholdKw": null,
+   "foreignLicence": null,
+   "permit": null,
+   "permitCost": null,
+   "registration": null,
+   "vhf": null,
+   "speedLimits": null,
+   "alcohol": null,
+   "equipment": null,
+   "motorboatBans": null,
+   "other": [
+    "Lakes Shkodër, Ohrid and Prespa are border lakes; no rules found"
+   ]
+  },
+  "sea": {
+   "regulation": null,
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "non-EU: clear in at a port of entry (Shëngjin, Durrës, Vlorë, Sarandë; Himarë in summer); fly Q flag; an agent is in practice essential (about €50); passports, registration, insurance, radio operator certificate and crew list",
+   "taxes": "cruising permit issued on arrival; navigation tax by tonnage and a lighthouse levy may be charged (amounts vary by port)",
+   "other": [
+    "No fuel stations in most ports: fuel by tanker, pre-order"
+   ]
+  },
+  "authority": {
+   "name": "Albanian Maritime Administration / harbour masters",
+   "url": null
+  },
+  "sources": [
+   "https://www.rya.org.uk/boating-abroad/country-specific-advice/albania/",
+   "https://www.noonsite.com/place/albania/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "ES",
+  "name": "Spain",
+  "inland": {
+   "regulation": "Few inland routes for visiting boats. The Guadalquivir estuary (ría) up to the Alcalá del Río dam counts as maritime waters under the Capitanía Marítima de Sevilla; the Seville dock (dársena) has its own «Normas de navegación por la dársena del Guadalquivir» (BOP Sevilla 283, 2003)",
+   "licence": "Same titles as at sea (RD 875/2014)",
+   "licenceThresholdKw": 11.03,
+   "foreignLicence": "As at sea",
+   "permit": "Reservoirs and rivers under the Confederaciones Hidrográficas need a declaration or authorisation from the basin authority (not verified for this file)",
+   "permitCost": null,
+   "registration": "As at sea",
+   "vhf": "Boats with VHF on the Guadalquivir must keep a continuous watch on channel 16 (Capitanía de Sevilla 2026)",
+   "speedLimits": "Guadalquivir: in ports and their channels the lower of 4 kn or no dangerous wash; leaving or reaching beaches 3 kn; merchant ships in the Eurovía channel have right of way (COLREG rules 6 and 9)",
+   "alcohol": null,
+   "equipment": "As at sea",
+   "motorboatBans": "Guadalquivir: jet skis and self-propelled leisure craft are banned in the navigation channel and in the Seville dock. No anchoring at the «El Pozo» anchorage without Capitanía permission. Air draught to Seville dock max 42 m (power lines)",
+   "other": [
+    "Entry to the Seville dock is through the «Puerta del Mar» lock"
+   ]
+  },
+  "sea": {
+   "regulation": "Texto Refundido de la Ley de Puertos y de la Marina Mercante (RDL 2/2011); titles RD 875/2014 (amended by RD 1188/2025); safety equipment RD 339/2021; local rules in each Capitanía Marítima's yearly «normas de seguridad» (e.g. Málaga 2026, Sevilla 2026); COLREGs (RIPA)",
+   "licence": "No title needed (from 1 Oct 2026) for private motorboats up to 5 m and 15 CV (11.03 kW) without a power limiter, sail up to 6 m and beach craft, in daylight and within 2 NM of the port/beach; 18+. Before 1 Oct 2026 the limit was 11.26 kW. Above that: «Patrón para navegación básica» (up to 8 m, 5 NM from shelter), «Patrón de embarcaciones de recreo» (PER, up to 15 m, 12 NM, inter-island Balearics/Canaries), «Patrón de yate» (24 m, 150 NM), «Capitán de yate» (unlimited). A «licencia de navegación» (schools/federations) covers boats up to 6 m and jet skis, daylight, 2 NM. Jet skis always need a title or licence",
+   "coastalSpeed": "Bathing zones (buoyed; or where not buoyed, 200 m off beaches and 50 m off other coast, RD 876/2014 art. 73) are closed to boats. Crossing them only to reach land, perpendicular to the shore, max 3 kn. Max 3 kn in buoyed launch channels and port entrances (Capitanía norms; values vary slightly by Capitanía, e.g. Sevilla 4 kn inside ports)",
+   "anchoring": "Since RD 191/2026 (in force 20 days after BOE publication, March 2026) anchoring on Posidonia oceanica and Cymodocea nodosa seagrass is banned in all Spanish Mediterranean waters, including sand nearby if the chain or swing reaches the meadow; only authorised buoys/buoy fields allowed. Balearics also: Decreto 25/2018 (Posidonia), with buoy fields and Govern balear enforcement. No anchoring in bathing zones or launch channels. Marine reserves and Cabrera National Park have their own rules",
+   "entry": "Schengen and EU customs. Non-EU-flag boats owned by non-EU residents: temporary admission (up to 18 months under EU rules). Crews arriving from outside Schengen (e.g. Morocco, Gibraltar) must clear immigration at a port with border control",
+   "taxes": "No cruising tax for visiting private boats. Spanish residents using a foreign-flag boat may owe registration tax (impuesto de matriculación) and must follow Spanish equipment rules (RD 339/2021 art. 2)",
+   "other": [
+    "Foreign-flag boats: the skipper needs the title required by his nationality's law if it matches the flag; otherwise that of his country of residence (RD 875/2014, Disposición adicional quinta). In practice: home-country licence or ICC",
+    "RD 339/2021 (equipment) applies to Spanish-registered boats and to foreign-flag boats owned or used by Spanish residents; other visitors follow their flag state",
+    "Keep 50 m from swimmers, divers' flags and anchored boats (Capitanía norms)",
+    "Alcohol: no recreational limit confirmed in the texts checked; road limit 0.5 g/l blood (0.25 mg/l breath) is often cited but not verified for boats"
+   ]
+  },
+  "authority": {
+   "name": "Dirección General de la Marina Mercante (DGMM) and the Capitanías Marítimas",
+   "url": "https://www.transportes.gob.es/marina-mercante"
+  },
+  "sources": [
+   "https://www.boe.es/buscar/act.php?id=BOE-A-2014-10344",
+   "https://www.boe.es/boe/dias/2025/12/30/pdfs/BOE-A-2025-27010.pdf",
+   "https://www.boe.es/eli/es/rd/2026/03/11/191",
+   "https://www.caib.es/sites/cuidamposidonia/en/decree_posidonia/",
+   "https://www.boe.es/boe/dias/2021/05/19/pdfs/BOE-A-2021-8268.pdf",
+   "https://transparencia.nerja.es/wp-content/uploads/2026/03/normas-2026-capitania-maritima.pdf",
+   "https://bopsevilla.dipusevilla.es/export/sites/bop/.galleries/Documentos-Anuncios-en-PDF/firmado-1779922938266-final-2305f687.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "PT",
+  "name": "Portugal",
+  "inland": {
+   "regulation": "Douro: «Regulamento de Utilização e Exploração da Via Navegável do Douro» (Regulamento APDL n.º 647/2019); other rivers (Tejo, Guadiana, Sado): Capitania editais and port authority rules; general regime DL 93/2018",
+   "licence": "Carta de navegador de recreio as at sea (no power exemption)",
+   "licenceThresholdKw": 0,
+   "foreignLicence": "As at sea",
+   "permit": "Douro: leisure boats are exempt from the CUV use certificate but must follow APDL lock scheduling plans (Planos de Escala), booked through APDL",
+   "permitCost": null,
+   "registration": "As at sea",
+   "vhf": null,
+   "speedLimits": "Douro: max 10 kn in the channel from the bar to Marina do Freixo; leisure boats max 5 kn within 50 m of banks, bathing areas or anchored boats and within 100 m of ports, quays and landings; ~0.4 kn (0.2 m/s) inside locks and lock approaches; APDL can post other limits by notice",
+   "alcohol": null,
+   "equipment": "Douro: length, beam, air draught, draught and speed must suit the waterway and locks",
+   "motorboatBans": "Douro: no navigation in reduced visibility; night navigation by leisure boats only by exceptional permission (requested via JUP). Tejo/Lisbon: rules not verified",
+   "other": [
+    "Douro: commercial vessels have priority; keep well clear of quays and pontoons"
+   ]
+  },
+  "sea": {
+   "regulation": "Regime Jurídico da Náutica de Recreio (Decreto-Lei n.º 93/2018); local «editais» of each Capitania do Porto (Autoridade Marítima Nacional); COLREGs (RIEAM)",
+   "licence": "Every recreational boat must be commanded by a holder of a «carta de navegador de recreio» (art. 30): «Marinheiro Júnior» (8+, up to 6 m and 4.5 kW, daylight, 1 NM from low-water line, 3 NM from shelter), «Carta de marinheiro» (16+, daylight, 3 NM from coast / 10 NM from shelter; 16–18: up to 6 m and 22.5 kW), «Patrão local» (6 NM / 25 NM from shelter), «Patrão de costa» (40 NM), «Patrão de alto-mar» (unlimited)",
+   "coastalSpeed": "Set locally by Capitania editais. Example Cascais (Edital 5/2021): under 3 kn in anchorages and the access channel; 5 kn on final approach to the marina, 3 kn inside. Bathing beaches are off-limits to motor craft",
+   "anchoring": "Anchor only where official charts and Capitania editais allow; navigation near beaches and in marine protected areas can be restricted by portaria (DL 93/2018 art. 44)",
+   "entry": "Schengen and EU customs. Foreign boats pay the lighthouse and buoyage fee («taxa de farolagem e balizagem», DL 12/97) once, at the first Portuguese port, noted in the transit papers; after 6 months they pay the national rate",
+   "taxes": "Taxa de farolagem e balizagem (small fee, current amount not confirmed); no cruising tax",
+   "other": [
+    "Foreign licences: licences from EU states are recognised automatically (DL 93/2018 art. 39); third-country licences can be recognised by DGRM if issued under similar conditions",
+    "Third-party liability insurance is compulsory for Portuguese-registered motorboats (art. 33); visitors should carry insurance",
+    "Jet skis and motorised boards may not navigate between sunset and sunrise",
+    "Alcohol: no boating-specific limit found; not confirmed"
+   ]
+  },
+  "authority": {
+   "name": "Direção-Geral de Recursos Naturais, Segurança e Serviços Marítimos (DGRM); Autoridade Marítima Nacional / Capitanias",
+   "url": "https://www.dgrm.pt"
+  },
+  "sources": [
+   "https://www.amt-autoridade.pt/media/1813/decreto-lei_n93_2018_de_13_de_novembro.pdf",
+   "https://www.dgrm.pt/documents/20143/58652/Manual+de+Credencia%C3%A7%C3%A3o+EFNR_Ed2.pdf/12a35bf4-5685-2109-e914-8e85fe83b551",
+   "https://amt-autoridade.pt/media/2117/regulamento_n_647_2019_de_16_de_agosto.pdf",
+   "https://ambiente.cascais.pt/sites/default/files/anexos/edital_5_2021.pdf",
+   "https://diariodarepublica.pt/dr/detalhe/decreto-lei/12-1997-533047",
+   "https://eportugal.gov.pt/en/servicos/pedir-dados-para-pagamento-e-emissao-da-taxa-de-farolagem-e-balizagem"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "IT",
+  "name": "Italy",
+  "inland": {
+   "regulation": "Codice della nautica da diporto (D.Lgs. 171/2005) plus regional lake laws: Garda (Lombardia L.R. 20/1994, Veneto L.R. 52/1989, Provincia di Trento L.P. 9/2001), Maggiore (Piemonte reg. 5/R 2009 and Lombardia), Como (Lombardia)",
+   "licence": "Patente nautica on inland waters for engines over 30 kW / 40.8 CV or above the displacement limits (art. 39.1.b)",
+   "licenceThresholdKw": 30,
+   "foreignLicence": "Home licence or ICC (not specifically verified for lakes)",
+   "permit": "Garda (Trentino waters): motorboats need an authorisation from the Provincia di Trento",
+   "permitCost": null,
+   "registration": "Natanti (up to 10 m) need no registration",
+   "vhf": null,
+   "speedLimits": "Garda (Lombardia): 300 m shore band for sail, oars and pedals only (150 m in parts of Salò and the Riviera); motorboats cross it only to land or leave, perpendicular, max 3 kn; elsewhere max 20 kn by day, 5 kn at night. Maggiore (Piemonte): 150 m band, motor only to land/leave at about 5 kn. Como: no motor navigation within 50 m except to land/leave (max 5 kn), 10 kn between 50 and 150 m, 27 kn beyond (press report)",
+   "alcohol": "Same as sea: 0.5 g/l",
+   "equipment": null,
+   "motorboatBans": "Garda: motor navigation banned in the northern Trentino waters (L.P. 9/2001) except with authorisation. From 1 Jan 2027 a new interregional law requires hull and engine sanitisation for all boats coming from other waters before launching on Lake Garda (anti invasive species)",
+   "other": [
+    "Lake rules differ by shore (region); check the local ordinance before launching"
+   ]
+  },
+  "sea": {
+   "regulation": "Codice della nautica da diporto (D.Lgs. 171/2005) and its regulation (DM 146/2008); local «ordinanze di sicurezza balneare» of each Capitaneria/Guardia Costiera; marine protected areas (AMP) and national parks have their own rules",
+   "licence": "Patente nautica required beyond 6 NM from the coast, for jet skis, and within 6 NM when the engine exceeds 30 kW / 40.8 CV or the displacement limits (750 cc 2-stroke carburettor, 900 cc 2-stroke injection, 1000 cc 4-stroke outboard, 1300 cc 4-stroke inboard, 2000 cc diesel, 1300 cc turbo diesel). Below that: 18+ for imbarcazioni, 16+ for natanti. New category D (D1/D2) for daylight use within 6 NM",
+   "coastalSpeed": "Set by each Capitaneria's bathing ordinance: zone reserved to swimmers typically 200 m from beaches and 100 m from cliffs (some areas 150 m; Lignano 400 m), plus a 50 m buffer; cross only in launch corridors at max 3 kn. Many ordinances add 10 kn and displacement speed up to 500–1000 m from the beach (e.g. Lignano 2026: 10 kn between 400 m and 1000 m)",
+   "anchoring": "No anchoring in bathing zones or launch corridors. Marine protected areas: zone A usually closed to navigation and anchoring; zones B/C restricted. La Maddalena National Park reg. 33/2026 (trial from 2 Jun 2026): 7 kn within 500 m, 10 kn 500–1000 m in zone Mb; emergency corridors with anchoring bans; Posidonia given priority protection",
+   "entry": "Schengen and EU customs; no clearance needed between Schengen ports; arrivals from non-Schengen countries must report to border police",
+   "taxes": "No cruising tax for visiting private boats",
+   "other": [
+    "Alcohol: over 0.5 g/l counts as drunk (art. 53-bis); fines €2,755–11,017 (0.5–0.8), €3,500–12,500 (0.8–1.5), €5,000–15,000 (over 1.5); one third higher for under-21s",
+    "VHF and equipment rules depend on distance from the coast (DM 146/2008 annex), for Italian-flag boats; foreign-flag boats follow their flag state (not verified)",
+    "Swimming from a boat often limited to close to the boat (e.g. 5 m in La Maddalena)"
+   ]
+  },
+  "authority": {
+   "name": "Guardia Costiera (Capitanerie di porto); Ministero delle Infrastrutture e dei Trasporti",
+   "url": "https://www.guardiacostiera.gov.it"
+  },
+  "sources": [
+   "https://miolegale.it/codici/codice-nautica-diporto/art-39/",
+   "https://miolegale.it/codici/codice-nautica-diporto/art-53-bis/",
+   "https://lignanosabbiadoro.it/documents/3534/Ordinanza_21_2026_del_23_04_2026.pdf",
+   "https://www.comune.catanzaro.it/files/Ordinanze/2026/giugno/44807_ALLEGATO%20-%20Ordinanza_09.2026_ordinanza_balneare.pdf",
+   "https://faolex.fao.org/docs/pdf/ita33101.pdf",
+   "https://edizionieuropee.it/LAW/HTML/125/lo4_05_089.html",
+   "https://www.regione.veneto.it/article-detail?articleId=14351298",
+   "https://www.provincia.tn.it/es/Servicios/Solicitud-de-autorizacion-de-circulacion-en-el-Lago-de-Garda",
+   "https://www.regione.piemonte.it/governo/bollettino/abbonati/2009/25/attach/reg5.pdf",
+   "https://www.ilgiorno.it/lecco/cronaca/laghi-la-regione-investe-di-piu-in-sicurezza-4364ec6e",
+   "https://www.yacht.de/it/viaggi-e-noleggi/italia/sardegna-la-maddalena-nuove-regole-senza-divieto-di-ancoraggio/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "MT",
+  "name": "Malta",
+  "inland": null,
+  "sea": {
+   "regulation": "Small Ships Regulations (L.N. 183 of 2008, now in S.L. 499 series) and Transport Malta local notices to mariners; Yachting Centres Regulations (S.L. 499.10)",
+   "licence": "«Nautical Licence» from Transport Malta needed to drive a small ship with total engine power of 30 HP (about 22 kW) or more, or to tow a water skier; 18+; third-party insurance compulsory",
+   "coastalSpeed": "Max 10 kn inside harbours, within 300 m of sandy beaches and within 200 m of other shore; seasonal buoys (June–October) mark 10 kn and 5 kn zones at 200/300 m; 5 kn zones in busy bays (Blue Lagoon, Mgarr ix-Xini, Mellieħa, St Paul's Islands, Xemxija, 2026 notice); 3 kn in approaches to marinas and mooring areas",
+   "anchoring": "No water skiing within 300 m of sandy beaches or 200 m of other shore. Bathing areas buoyed in summer are closed to boats",
+   "entry": "Schengen and EU. Arrivals from outside Schengen must clear immigration and customs at a port of entry (Valletta/Grand Harbour area marinas or Mgarr, Gozo — not verified)",
+   "taxes": "No cruising tax",
+   "other": [
+    "Foreign-registered boats may be used without Maltese registration if registered or documented under another country's law (reg. 3)",
+    "Whether a foreign licence/ICC replaces the Maltese nautical licence for visitors is not stated in the texts found; carry ICC or home licence",
+    "Malta introduced voluntary safety guidelines for pleasure yachts under 24 m from 1 June 2026 (not mandatory)"
+   ]
+  },
+  "authority": {
+   "name": "Transport Malta – Ports and Yachting Directorate",
+   "url": "https://www.transport.gov.mt"
+  },
+  "sources": [
+   "https://faolex.fao.org/docs/pdf/mlt89852.pdf",
+   "https://www.gov.mt/en/Life%20Events/Pages/Owning%20a%20Vehicle/Maritime.aspx",
+   "https://www.transport.gov.mt/maritime/notices-to-mariners/local-notice-to-mariners/065-of-2022-special-mark-buoys-delineating-the-200-and-300-metre-speed-restriction-zones-5620",
+   "https://www.transport.gov.mt/maritime/coastal-notices-to-mariners/local-notice-to-mariners/099-of-2026-special-mark-buoys-alerting-mariners-of-speed-restriction-areas-around-malta-7854",
+   "https://www.transport.gov.mt/maritime/notices-to-mariners/local-notice-to-mariners/006-of-2023-speed-restricted-in-close-proximity-to-small-craft-mooring-areas-and-marinas-6080",
+   "https://www.transport.gov.mt/maritime/ship-and-yacht-registry/superyacht-registration/yachting-notices/yn-notice-16-non-mandatory-pleasure-yachts-safety-guidelines-for-yachts-<-24m-7847"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "GR",
+  "name": "Greece",
+  "inland": null,
+  "sea": {
+   "regulation": "Code of Public Maritime Law (N.D. 187/1973); General Port Regulations (ΓΚΛ) no. 20 (speedboats and leisure craft, amended 2026, ΦΕΚ Β 4559/24.07.2026) and no. 50 (speedboat licences); local port regulations of the Hellenic Coast Guard; Law 4504/2017 (TEPAI)",
+   "licence": "Speedboat operator licence («Άδεια χειριστή ταχυπλόου σκάφους») from the Port Authority after exams. Visiting skippers: an ICC or equivalent is generally accepted. The common rule that boats under 30 hp need no licence comes from charter guides; the official threshold was not confirmed",
+   "coastalSpeed": "Max 5 kn within 200 m of the shoreline; no motor navigation within 100 m outside the buoys of bathing areas, or within 200 m of where swimmers usually reach where there are no buoys (ΓΚΛ 20 rules as repeated in Ministry decisions)",
+   "anchoring": "No anchoring in bathing zones; local port regulations and marine parks (e.g. Alonissos, Zakynthos) restrict anchoring and speed",
+   "entry": "Schengen and EU customs. Arriving from Turkey or other non-Schengen countries: clear at a port of entry. Non-EU-flag private boats need a Transit Log (now digital via myAADE for boats over 7 m); EU-flag boats get a DEKPA from the Port Police",
+   "taxes": "TEPAI («Τέλος Πλόων Αναψυχής») for all private and professional recreational boats over 7 m, any flag, paid online via eTEPAI before or on entering Greek waters, at least for the month of entry. Rates per Law 4504/2017 as reported: 7–8 m €16/month, 8–10 m €25, 10–12 m €33, over 12 m €8 per metre per month; 10% off for annual payment (Jan–Dec). Boats out of use (papers lodged) pay nothing",
+   "other": [
+    "The TEPAI receipt (e-Paravolo) must be kept with the DEKPA or Transit Log; re-entry within a paid period needs no new payment",
+    "Alcohol limit for leisure skippers not confirmed in official texts found",
+    "Check TEPAI amounts on aade.gr before paying; rates here are from 2019 reports of the law's table"
+   ]
+  },
+  "authority": {
+   "name": "Hellenic Coast Guard (Λιμενικό Σώμα) / Ministry of Maritime Affairs and Insular Policy; AADE for TEPAI and Transit Log",
+   "url": "https://www.hcg.gr"
+  },
+  "sources": [
+   "https://www.aade.gr/en/etepai",
+   "https://aade.gr/dl_assets/etepai/etepai_e-brochure_en.pdf",
+   "https://aade.gr/en/greeks-abroad-non-residents/private-pleasure-boats/special-procedure-temporary-importation-private-pleasure-boats-greece",
+   "https://www.amna.gr/en/article/840253/Digital-transit-log-for-foreign-private-recreational-vessels-now-available-on-myAADE",
+   "https://www.noonsite.com/news/greece-cruising-tax-update/",
+   "https://www.taxheaven.gr/circulars/54611/2131-4-52320-2026",
+   "https://www.taxheaven.gr/circulars/54773/2133-3-54578-31-07-2026",
+   "https://mitos.gov.gr/index.php/%CE%94%CE%94:%CE%86%CE%B4%CE%B5%CE%B9%CE%B1_%CF%87%CE%B5%CE%B9%CF%81%CE%B9%CF%83%CF%84%CE%AE_%CF%84%CE%B1%CF%87%CF%85%CF%80%CE%BB%CF%8C%CE%BF%CF%85_%CF%83%CE%BA%CE%AC%CF%86%CE%BF%CF%85%CF%82",
+   "https://www.rya.org.uk/boating-abroad/country-specific-advice/greece/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "CY",
+  "name": "Cyprus",
+  "inland": null,
+  "sea": {
+   "regulation": "Republic of Cyprus law; a new Recreational Navigation Law (Law 4(I)/2026) was passed in 2026 but was not yet in force in August 2026; Shipping Deputy Ministry and Cyprus Ports Authority",
+   "licence": "Operator licence from the Shipping Deputy Ministry for motorboats; rental craft under 30 hp may be used without licence under conditions. Visitors: carry ICC or home licence (acceptance not confirmed)",
+   "coastalSpeed": "Swimming zones marked by yellow buoys (about 100 m from shore) are closed to motorboats under power; 3–5 kn in marinas (secondary source)",
+   "anchoring": null,
+   "entry": "EU but not Schengen: all yachts, EU or not, clear customs and immigration. Legal entry ports: Larnaca, Limassol (incl. Limassol Marina/St Raphael), Paphos, Latsi. Entering via ports in the north (Kyrenia, Famagusta) is illegal under Republic of Cyprus law and can lead to penalties on later entry",
+   "taxes": "No cruising tax known",
+   "other": [
+    "The fine for operating without a licence is due to rise from €85 to €1,500 once the new law takes effect",
+    "Russian-flag yachts were barred from Cypriot ports (2022 notice; check status)"
+   ]
+  },
+  "authority": {
+   "name": "Shipping Deputy Ministry (Υφυπουργείο Ναυτιλίας)",
+   "url": "https://www.dms.gov.cy"
+  },
+  "sources": [
+   "https://cyprus-mail.com/2026/08/17/jet-ski-misuse-fine-set-to-rise-to-e1500",
+   "https://leap.unep.org/en/countries/cy/national-legislation/recreational-navigation-republic-and-other-related-matters-law-no",
+   "https://www.mof.gov.cy/mof/customs/customs.nsf/All/57CEE4E88B6C8AC74225779D00415EF2",
+   "https://noonsite.com/place/cyprus/view/customs",
+   "https://dom.com.cy/en/live/blogs/polucheniye-prav-na-upravleniye-katerom-na-kipre/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "TR",
+  "name": "Türkiye",
+  "inland": null,
+  "sea": {
+   "regulation": "Customs and yacht tourism rules of the Ministry of Culture and Tourism; harbour master (Liman Başkanlığı) rules of the Ministry of Transport (Denizcilik Genel Müdürlüğü)",
+   "licence": "Evidence of competence required; Türkiye has not adopted UNECE Resolution 40, but an ICC valid for the boat is generally accepted",
+   "coastalSpeed": null,
+   "anchoring": "Special Environmental Protection Areas (e.g. Göcek-Dalaman, Fethiye, Gökova) have anchoring and waste rules; details not verified",
+   "entry": "Not Schengen and not EU customs: enter and leave only at designated frontier ports (about 40, e.g. Istanbul, Çeşme, Bodrum, Marmaris, Fethiye, Antalya, Mersin) flying the Q flag. A Transit Log («Yat Kayıt Belgesi») records customs, passport, health and crew data; usually done through an agent, kept until leaving and surrendered on departure; changes of skipper/crew must be recorded. An electronic transit log is being introduced (expected fully in 2026). The yacht is noted in the owner's/captain's passport. Boats may stay up to 5 years under customs rules; people follow visa rules",
+   "taxes": "No cruising tax for private yachts; annual light dues and the transit log fee apply (amounts not verified); tourism contribution applies to charter",
+   "other": [
+    "Blue Card waste tracking has been folded into the digital Maritime Waste Application (DAU); discharging grey or black water is prohibited and fined",
+    "Returning to the EU from Türkiye means non-Schengen entry and customs clearance again",
+    "Alcohol limit for leisure skippers not confirmed"
+   ]
+  },
+  "authority": {
+   "name": "Ministry of Culture and Tourism (yacht entry); Ministry of Transport – Directorate General of Maritime Affairs (harbour masters)",
+   "url": "https://www.ktb.gov.tr/EN-99340/some-regulations-on-using-foreign-flagged-yachts-in-turkish-waters.html"
+  },
+  "sources": [
+   "https://www.ktb.gov.tr/EN-99341/entry-and-exit-of-foreign-flagged-yachts.html",
+   "https://www.ktb.gov.tr/EN-99343/yacht-registration-form-transit-log.html",
+   "https://www.ktb.gov.tr/EN-99340/some-regulations-on-using-foreign-flagged-yachts-in-turkish-waters.html",
+   "https://www.rya.org.uk/boating-abroad/country-specific-advice/turkey/",
+   "https://chambers.com/articles/registration-fees-for-foreign-flagged-boats",
+   "https://www.noonsite.com/place/turkey"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "MC",
+  "name": "Monaco",
+  "inland": null,
+  "sea": {
+   "regulation": "Code de la mer (Monaco); ministerial orders (arrêtés ministériels) published in the Journal de Monaco; Direction des Affaires Maritimes (DAM) rules",
+   "licence": "Monaco issues its own boating licence through the DAM; recognition of foreign licences and the power threshold were not confirmed (France uses 6 hp / 4.5 kW)",
+   "coastalSpeed": "3 kn inside ports and access channels; 5 kn within 300 m of the coast (DAM notice to captains)",
+   "anchoring": "Larvotto marine reserve: navigation and anchoring completely forbidden. Other no-anchoring/no-navigation areas as shown on charts (including around the Mareterra/Portier extension). Temporary Larvotto zones in 2025–2026 (AM 2025-515: west zone 1 Oct 2025–30 Apr 2026; AM 2026-100: both coves 7–24 Apr 2026) banned swimming and diving only, not boats; no order valid until 31 Mar 2027 was found",
+   "entry": "Monaco has open borders with France and applies Schengen controls in practice; no separate clearance needed when coming from France; arrivals from outside Schengen: check with the port authority",
+   "taxes": "No cruising tax; port dues",
+   "other": [
+    "Port Hercule can close at night during events (e.g. Monaco Yacht Show: midnight–07:00, badge holders only)",
+    "No waste discharge at anchor; use pump-out services",
+    "Helicopter flights to and from yachts in the bay only 07:00–21:30 with radio contact"
+   ]
+  },
+  "authority": {
+   "name": "Direction des Affaires Maritimes, Monaco",
+   "url": "https://en.gouv.mc/Government-Institutions/The-Government/Ministry-of-Public-Works-the-Environment-and-Urban-Development/Department-of-Maritime-Affairs"
+  },
+  "sources": [
+   "https://www.ports-monaco.com/wp-content/uploads/2025/09/FLYER-MYS-2025.pdf",
+   "https://legimonaco.mc/tnc/arrete-ministeriel/2025/09-24-2025-515/",
+   "https://legimonaco.mc/tnc/arrete-ministeriel/2026/03-05-2026-100/",
+   "https://legimonaco.mc/tnc/arrete-ministeriel/2026/03-05-2026-101/",
+   "https://legimonaco.mc/news/2026-03-17_1/",
+   "https://en.gouv.mc/Policy-Practice/Security/News/Securing-the-maritime-area-around-the-offshore-urban-extension-project",
+   "https://monservicepublic.gouv.mc/en/themes/transport-and-mobility/boats-and-aircrafts/boat-licences/how-to-apply-for-a-licence-for-leisure-boats"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "MA",
+  "name": "Morocco",
+  "inland": null,
+  "sea": {
+   "regulation": "Moroccan customs code and ADII circulars; port and Royal Navy controls",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Not Schengen: full immigration and customs clearance at a port of entry. Pleasure boats of owners resident abroad: temporary admission up to 18 months when staying in a Moroccan marina, 6 months for boats not berthed in a marina; afterwards re-export or import with duties plus a fine (ADII circular 2025)",
+   "taxes": null,
+   "other": [
+    "Formalities at the first customs office of entry (declaration D716 for the transfer to the marina, per a sailing guide)"
+   ]
+  },
+  "authority": {
+   "name": "Administration des Douanes et Impôts Indirects (ADII)",
+   "url": "https://www.douane.gov.ma"
+  },
+  "sources": [
+   "https://www.finances.gov.ma/Publication/adii/2025/circulaire_96034.pdf",
+   "https://cognac.hisse-et-oh.com/store/medias/sailing/5dd/1e2/e53/original/5dd1e2e539819f3668dd2fa5.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "TN",
+  "name": "Tunisia",
+  "inland": null,
+  "sea": {
+   "regulation": "Tunisian customs and port rules (not researched in detail)",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Not Schengen: clear customs, police and port at a port of entry (marinas such as Monastir, Port El Kantaoui, Bizerte, Tabarka – not verified). Tunisian customs runs an online service for pleasure boaters' entries and exits (2023)",
+   "taxes": null,
+   "other": [
+    "Duration of temporary admission for foreign yachts not confirmed"
+   ]
+  },
+  "authority": {
+   "name": "Direction Générale des Douanes Tunisiennes",
+   "url": "https://www.douane.gov.tn"
+  },
+  "sources": [
+   "https://www.webdo.tn/fr/actualite/national/navigateurs-de-plaisance-cet-avis-vous-concerne/207017/"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "DZ",
+  "name": "Algeria",
+  "inland": null,
+  "sea": {
+   "regulation": "Not researched in detail",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Not Schengen; visa needed for most crews before arrival; clear at an official port. UK FCDO advises against all travel within 30 km of the land borders with Libya, Tunisia and others",
+   "taxes": null,
+   "other": []
+  },
+  "authority": {
+   "name": null,
+   "url": null
+  },
+  "sources": [
+   "https://www.gov.uk/foreign-travel-advice/algeria"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "EG",
+  "name": "Egypt",
+  "inland": null,
+  "sea": {
+   "regulation": "Not researched in detail",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "Not Schengen; clear at an official port (Port Said, Alexandria, Red Sea ports). Suez Canal transit by yachts goes through an agent (not verified)",
+   "taxes": null,
+   "other": [
+    "Nile navigation by foreign private yachts not researched",
+    "UK FCDO (27 Oct 2026) advises against all travel within 20 km of the Libyan border (except El Salloum) and to North Sinai"
+   ]
+  },
+  "authority": {
+   "name": "Suez Canal Authority (canal transits)",
+   "url": "https://www.suezcanal.gov.eg"
+  },
+  "sources": [
+   "https://www.gov.uk/foreign-travel-advice/egypt"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "cc": "LY",
+  "name": "Libya",
+  "inland": null,
+  "sea": {
+   "regulation": "Not researched",
+   "licence": null,
+   "coastalSpeed": null,
+   "anchoring": null,
+   "entry": "UK FCDO (21 Jul 2026) advises against all travel to Libya except Tripoli, Benghazi/Al-Bayda/Derna/Jebel Akhdar and Misrata, where it advises against all but essential travel. Visa required. Yachts should not call",
+   "taxes": null,
+   "other": [
+    "It is illegal to take Libyan dinars out of the country"
+   ]
+  },
+  "authority": {
+   "name": null,
+   "url": null
+  },
+  "sources": [
+   "https://www.gov.uk/foreign-travel-advice/libya"
+  ],
+  "checked": "2026-11-21"
  }
 ]
