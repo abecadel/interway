@@ -30,7 +30,7 @@ describe('route brief', () => {
   const b = buildBrief({ route, itinerary, profile: { ...defaultProfile, length: 9, beam: 3, airDraft: 3 }, title: 'Warsaw → Gdańsk', link: 'https://x/?from=1,2' });
 
   it('sums up the route and checks the vessel against locks and bridges', () => {
-    expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, days: 3, locks: 1, seaNm: 10, seaNoDepthNm: 5, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
+    expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, movingHours: 20, lockHours: 0.3, currentHours: -0.3, days: 3, locks: 1, seaNm: 10, seaNoDepthNm: 5, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
     expect(b.legs).toEqual([
       { name: 'Wisła', fromKm: 0, toKm: 150, km: 150 },
       { name: 'unnamed waterway', fromKm: 150, toKm: 200, km: 50 },
@@ -66,12 +66,37 @@ describe('route brief', () => {
     expect(still.stages).toHaveLength(1);
   });
 
+  it('never ends a day out at sea', () => {
+    // 100 km river, then a 300 km sea passage, 10 km/h: days of 80 km
+    const seaRoute: Route = { ...route, distance: 400_000, duration: 144_000, legs: [{ name: 'Rhône', distance: 100_000 }, { name: 'Open sea', distance: 300_000 }] };
+    const open = buildBrief({ route: seaRoute, itinerary: { counts: {}, stops: [stop(95_000, { type: 'port', name: 'Port-Saint-Louis' })] }, profile: defaultProfile, title: 't', link: 'l' });
+    // day 2 would end 60 km out: it ends at the last harbour before the passage instead
+    expect(open.stages.map((s) => [s.toKm, s.endsAt])).toEqual([[80, 'km 80'], [95, 'Port Port-Saint-Louis'], [400, 'destination']]);
+    expect(open.stages[2]).toMatchObject({ km: 305, atSea: true });
+    expect(open.totals.days).toBe(3);
+    expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no harbour on the planned line, about 31 h non-stop');
+    // a harbour out on the passage (an island) breaks it up; a passage ending before the destination is named so
+    const island = buildBrief({ route: { ...seaRoute, legs: [...seaRoute.legs.slice(0, 1), { name: 'Open sea', distance: 200_000 }, { name: 'Port', distance: 100_000 }] },
+      itinerary: { counts: {}, stops: [stop(180_000, { type: 'marina', name: 'Île' })] }, profile: defaultProfile, title: 't', link: 'l' });
+    expect(island.stages.map((s) => s.endsAt)).toEqual(['km 80', 'Marina Île', 'km 300, end of the sea passage', 'km 380', 'destination']);
+  });
+
+  it('names unnamed harbours by type and shows time lost to the current', () => {
+    const seaRoute: Route = { ...route, distance: 400_000, duration: 180_000, legs: [{ name: 'Rhône', distance: 100_000 }, { name: 'Open sea', distance: 300_000 }] };
+    const at = (stops: Itinerary['stops']) => buildBrief({ route: seaRoute, itinerary: { counts: {}, stops }, profile: defaultProfile, title: 't', link: 'l' });
+    expect(at([stop(95_000, { type: 'port' })]).stages[1].endsAt).toBe('Port');
+    expect(at([stop(250_000, { type: 'marina' })]).stages.map((x) => x.endsAt)).toContain('Marina');
+    expect(briefMarkdown(at([]))).toContain('current +9.7 h');
+  });
+
   it('renders Markdown with edit instructions for AI assistants', () => {
     const md = briefMarkdown(b);
     expect(md).toContain('# Route: Warsaw → Gdańsk');
     expect(md).toContain('Open or edit: https://x/?from=1,2');
     expect(md).toContain('- Open sea: 10 NM');
     expect(md).toContain('- River current: 0.5 m/s, 150 km with it, 0 km against it');
+    expect(md).toContain('in 3 day(s) of up to 8 h: moving 20 h, locks 0.3 h (20 min each), current -0.3 h');
+    expect(md).toContain('Draft 1 m (default, not entered), air draft 3 m (default, not entered), beam 3 m, length 9 m (default, not entered)');
     expect(md).toContain('- Towns on the way: Toruń, Grudziądz');
     expect(md).toContain('| 0–150 | Wisła | 150 km |');
     expect(md).toContain('| 1 | 0–70 | 70 km | 7 h | Marina Przystań |');

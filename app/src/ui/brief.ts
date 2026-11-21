@@ -1,7 +1,7 @@
 // A route brief: everything about a planned route in one document, as JSON for programs and AI agents and as
 // Markdown for people (and for pasting into a chat).
 import type { Itinerary, Stop } from '../routing/itinerary';
-import type { Route, VesselProfile } from '../routing/router';
+import { defaultProfile, type Route, type VesselProfile } from '../routing/router';
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
 
@@ -25,14 +25,18 @@ export interface BriefStage {
   km: number;
   hours: number;
   endsAt: string;
+  /** the stage is an open-sea passage with no harbour on the planned line: it cannot be split into days */
+  atSea?: boolean;
 }
 
 export interface RouteBrief {
   title: string;
   link: string;
-  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'avoidLocks' | 'avoidSea'>;
+  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'lockPenaltyMin' | 'avoidLocks' | 'avoidSea'>;
   totals: {
     km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
+    /** hours split: moving at cruising speed in still water, waiting and working locks, and what the current adds (negative: saves) */
+    movingHours: number; lockHours: number; currentHours: number;
     /** open sea with no charted depth (outside EMODnet's coverage), NM */
     seaNoDepthNm: number;
     /** km with the river current (downstream) and against it (upstream) */
@@ -77,15 +81,45 @@ function problem(s: Stop, v: VesselProfile): string | undefined {
   return undefined;
 }
 
+/** [from, to] metres of the open-sea legs (named "Open sea" by the router) */
+function seaStretches(route: Route): [number, number][] {
+  const out: [number, number][] = [];
+  let at = 0;
+  for (const l of route.legs) {
+    if (l.name === 'Open sea') out.push([at, at + l.distance]);
+    at += l.distance;
+  }
+  return out;
+}
+
 function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] {
   const speed = route.duration > 0 ? route.distance / route.duration : 0; // m/s, locks included
   const dayM = speed * hoursPerDay * 3600;
   const out: BriefStage[] = [];
+  const sea = seaStretches(route);
+  const harbour = (s: Stop) => LAYOVER.includes(s.poi.type);
   let from = 0;
   while (from < route.distance) {
     let to = dayM > 0 ? Math.min(from + dayM, route.distance) : route.distance;
     let endsAt = to === route.distance ? 'destination' : `km ${km(to)}`;
-    if (to < route.distance) {
+    let atSea = false;
+    // a day cannot end out at sea: stop at the last harbour before the passage, or make the passage one stage
+    const passage = sea.find(([a, b]) => to > a && to < b);
+    if (passage) {
+      const before = stops.filter((s) => harbour(s) && s.at > from && s.at <= passage[0]).at(-1);
+      const after = stops.find((s) => harbour(s) && s.at > to && s.at < passage[1]);
+      if (before) {
+        to = before.at;
+        endsAt = `${POI_LABEL[before.poi.type]}${before.poi.name ? ` ${before.poi.name}` : ''}`;
+      } else if (after) {
+        to = after.at;
+        endsAt = `${POI_LABEL[after.poi.type]}${after.poi.name ? ` ${after.poi.name}` : ''}`;
+      } else {
+        to = passage[1];
+        atSea = true;
+        endsAt = to === route.distance ? 'destination' : `km ${km(to)}, end of the sea passage`;
+      }
+    } else if (to < route.distance) {
       // end the day at the last marina or port in its final fifth, if there is one
       const stop = stops.filter((s) => LAYOVER.includes(s.poi.type) && s.at > from + 0.8 * dayM && s.at <= to).at(-1);
       if (stop) {
@@ -96,7 +130,8 @@ function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] 
         if (town) endsAt += ` (near ${town.poi.name})`;
       }
     }
-    out.push({ day: out.length + 1, fromKm: km(from), toKm: km(to), km: km(to - from), hours: Math.round((to - from) / speed / 360) / 10, endsAt });
+    out.push({ day: out.length + 1, fromKm: km(from), toKm: km(to), km: km(to - from), hours: Math.round((to - from) / speed / 360) / 10, endsAt,
+      ...(atSea && { atSea }) });
     from = to;
   }
   return out;
@@ -148,16 +183,24 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   if (route.start.offset > 200 || route.end.offset > 200) {
     hazards.push(`Start/end were moved to the nearest navigable water (${km(route.start.offset)} km / ${km(route.end.offset)} km away).`);
   }
+  const legStages = stages(route, itinerary.stops, hoursPerDay);
+  for (const st of legStages.filter((x) => x.atSea && x.hours > hoursPerDay)) {
+    hazards.push(`km ${st.fromKm}–${st.toKm}: ${nm(1000 * st.km)} NM of open sea with no harbour on the planned line, about ${Math.round(st.hours)} h`
+      + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
+  }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
   hazards.push('Depths, lock hours and closures are not included: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.');
   const hours = route.duration / 3600;
+  const movingH = route.distance / (profile.speedKmh / 3.6) / 3600;
+  const lockH = (route.locks * profile.lockPenaltyMin) / 60;
   return {
     title: nameEnds(title, route, itinerary.stops),
     link,
-    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
+    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, lockPenaltyMin: profile.lockPenaltyMin, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
-      days: Math.ceil(hours / hoursPerDay), locks: route.locks, seaNm: nm(route.sea), seaNoDepthNm: nm(route.seaNoDepth), unverifiedKm: km(route.unverified),
+      movingHours: Math.round(movingH * 10) / 10, lockHours: Math.round(lockH * 10) / 10, currentHours: Math.round((hours - movingH - lockH) * 10) / 10,
+      days: legStages.length, locks: route.locks, seaNm: nm(route.sea), seaNoDepthNm: nm(route.seaNoDepth), unverifiedKm: km(route.unverified),
       tooShallowKm: km(route.tooShallow),
       downstreamKm: km(route.downstream), upstreamKm: km(route.upstream),
       maxSeaDraftM: route.shallowest?.draft ?? null,
@@ -165,13 +208,15 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     legs,
     places: stops.filter((s) => s.type === 'place').map((s) => s.name),
     stops,
-    stages: stages(route, itinerary.stops, hoursPerDay),
+    stages: legStages,
     hazards,
     edit: { link, parameters: EDIT_PARAMETERS },
   };
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');
+/** a dimension left at the planner's default says so: it was not entered for this boat */
+const dim = (v: number, d: number) => `${v} m${v === d ? ' (default, not entered)' : ''}`;
 
 export function briefMarkdown(b: RouteBrief): string {
   const t = b.totals, v = b.vessel;
@@ -182,14 +227,16 @@ export function briefMarkdown(b: RouteBrief): string {
     '',
     '## Summary',
     `- Distance: ${t.km} km (${t.nm} NM)`,
-    `- Time underway: ${fmtDuration(t.hours * 3600)} at ${v.speedKmh} km/h, about ${t.days} day(s) of 8 h`,
+    `- Time underway: ${fmtDuration(t.hours * 3600)} at ${v.speedKmh} km/h in ${t.days} day(s) of up to 8 h: moving ${t.movingHours} h,`
+      + ` locks ${t.lockHours} h (${v.lockPenaltyMin} min each), current ${t.currentHours >= 0 ? '+' : ''}${t.currentHours} h`,
     `- Locks: ${t.locks}`,
     ...(t.downstreamKm + t.upstreamKm > 0 ? [`- River current: ${v.currentMs} m/s, ${t.downstreamKm} km with it, ${t.upstreamKm} km against it`] : []),
     ...(t.seaNm > 0 ? [`- Open sea: ${t.seaNm} NM`] : []),
     ...(b.places.length ? [`- Towns on the way: ${b.places.join(', ')}`] : []),
     '',
     '## Vessel',
-    `Draft ${v.draft} m, air draft ${v.airDraft} m, beam ${v.beam} m, length ${v.length} m${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}.`,
+    `Draft ${dim(v.draft, defaultProfile.draft)}, air draft ${dim(v.airDraft, defaultProfile.airDraft)}, beam ${dim(v.beam, defaultProfile.beam)},`
+      + ` length ${dim(v.length, defaultProfile.length)}${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}.`,
     '',
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),
