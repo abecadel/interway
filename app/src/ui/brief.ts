@@ -32,7 +32,7 @@ export interface BriefStage {
 export interface RouteBrief {
   title: string;
   link: string;
-  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'lockPenaltyMin' | 'avoidLocks' | 'avoidSea'>;
+  vessel: Pick<VesselProfile, 'draft' | 'airDraft' | 'beam' | 'length' | 'speedKmh' | 'currentMs' | 'lockPenaltyMin' | 'avoidLocks' | 'avoidSea' | 'coastal'>;
   totals: {
     km: number; nm: number; hours: number; days: number; locks: number; seaNm: number; unverifiedKm: number;
     /** hours split: moving at cruising speed in still water, waiting and working locks, and what the current adds (negative: saves) */
@@ -71,6 +71,7 @@ export const EDIT_PARAMETERS: Record<string, string> = {
   lockmin: 'minutes per lock',
   avoidLocks: '1 to prefer routes with fewer locks',
   avoidSea: '1 to keep to inland waterways wherever an inland way exists',
+  coastal: '1 for a small boat: keep near the coast, harbour to harbour, instead of crossing open sea',
 };
 
 function problem(s: Stop, v: VesselProfile): string | undefined {
@@ -196,7 +197,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   return {
     title: nameEnds(title, route, itinerary.stops),
     link,
-    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, lockPenaltyMin: profile.lockPenaltyMin, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea },
+    vessel: { draft: profile.draft, airDraft: profile.airDraft, beam: profile.beam, length: profile.length, speedKmh: profile.speedKmh, currentMs: profile.currentMs, lockPenaltyMin: profile.lockPenaltyMin, avoidLocks: profile.avoidLocks, avoidSea: profile.avoidSea, coastal: profile.coastal },
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       movingHours: Math.round(movingH * 10) / 10, lockHours: Math.round(lockH * 10) / 10, currentHours: Math.round((hours - movingH - lockH) * 10) / 10,
@@ -236,7 +237,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '',
     '## Vessel',
     `Draft ${dim(v.draft, defaultProfile.draft)}, air draft ${dim(v.airDraft, defaultProfile.airDraft)}, beam ${dim(v.beam, defaultProfile.beam)},`
-      + ` length ${dim(v.length, defaultProfile.length)}${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}.`,
+      + ` length ${dim(v.length, defaultProfile.length)}${v.avoidLocks ? ', avoiding locks where possible' : ''}${v.avoidSea ? ', avoiding open sea' : ''}${v.coastal ? ', keeping near the coast' : ''}.`,
     '',
     '## Hazards and checks',
     ...b.hazards.map((h) => `- ${h}`),

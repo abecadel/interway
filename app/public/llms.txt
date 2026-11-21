@@ -21,6 +21,8 @@ Parameters (decimal degrees, longitude first):
 - `speed`: cruising speed, km/h; `current`: assumed river current, m/s; `lockmin`: minutes per lock
 - `avoidLocks=1`: prefer routes with fewer locks
 - `avoidSea=1`: keep to inland waterways wherever an inland way exists (open sea already counts 1.5x by default)
+- `coastal=1`: for a small boat, keep near the coast (within about 10 km of land), harbour to harbour, instead
+  of crossing open sea (e.g. round the Gulf of Lion rather than straight across)
 
 Examples:
 

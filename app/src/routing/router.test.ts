@@ -232,6 +232,25 @@ describe('router edge cases', () => {
     expect(locked.route([17.05, 51.0], [17.25, 51.0], { ...defaultProfile, avoidLocks: true }).duration).toBeCloseTo(normal.duration, 0);
   });
 
+  it('keeps near the coast when asked, at the real time underway', () => {
+    // straight across a gulf (offshore, 0.2°) or round it along the coast (two legs via [17.1, 51.1], ~0.3°)
+    const r = makeRouter([
+      { points: [A, C], kind: 'sea', offshore: true },
+      { points: [A, [17.1, 51.1]], kind: 'sea' },
+      { points: [[17.1, 51.1], C], kind: 'sea' },
+    ]);
+    const across = r.route([17.001, 51.0], [17.199, 51.0]);
+    expect(across.offshore).toBeCloseTo(across.distance, -2);
+    const coastal = r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, coastal: true });
+    expect(coastal.offshore).toBeLessThan(500); // only from the start point, which snaps onto the offshore edge
+    expect(coastal.distance).toBeGreaterThan(across.distance * 1.3);
+    expect(coastal.duration).toBeCloseTo(coastal.distance / (defaultProfile.speedKmh / 3.6), -1);
+    // when the coast is the only way round anyway, the penalty is not counted in the time
+    const only = makeRouter([{ points: [A, C], kind: 'sea', offshore: true }]).route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, coastal: true });
+    expect(only.duration).toBeCloseTo(only.distance / (defaultProfile.speedKmh / 3.6), -1);
+    expect(r.routeVia([[17.001, 51.0], [17.1, 51.0], [17.199, 51.0]]).offshore).toBeCloseTo(across.offshore, -2);
+  });
+
   it('never goes slower than the upstream floor speed', () => {
     const r = makeRouter([{ points: [A, B], kind: 'river' }]);
     const p = { ...defaultProfile, speedKmh: 1, currentMs: 5 };

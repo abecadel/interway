@@ -8,7 +8,7 @@ import { VESSEL_PARAMS } from './urlState';
 const snap = { geom: 0, seg: 0, lat: 0, lon: 0, offset: 0, frac: 0 };
 // 200 km in 20 h (10 km/h): three days of 8 h
 const route: Route = {
-  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, seaNoDepth: 9_260, downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
+  coordinates: [[0, 0], [1, 0]], distance: 200_000, duration: 72_000, locks: 1, unverified: 500, sea: 18_520, seaNoDepth: 9_260, offshore: 0, downstream: 150_000, upstream: 0, tooShallow: 0, shallowest: { draft: 1.4, at: 180_000 },
   events: [], legs: [{ name: 'Wisła', distance: 150_000 }, { name: '', distance: 50_000 }],
   start: snap, end: { ...snap, offset: 700 },
 };
@@ -108,6 +108,7 @@ describe('route brief', () => {
     expect(quiet).not.toContain('River current');
     expect(quiet).not.toContain('Towns on the way');
     expect(quiet).toContain('avoiding locks where possible, avoiding open sea.');
+    expect(briefMarkdown({ ...b, vessel: { ...b.vessel, coastal: true } })).toContain(', keeping near the coast.');
   });
 
   it('names coordinate endpoints after the nearest town', () => {
@@ -121,6 +122,6 @@ describe('route brief', () => {
   });
 
   it('documents every URL parameter', () => {
-    for (const k of [...Object.keys(VESSEL_PARAMS), 'from', 'to', 'via', 'avoidLocks', 'avoidSea']) expect(EDIT_PARAMETERS[k]).toBeTruthy();
+    for (const k of [...Object.keys(VESSEL_PARAMS), 'from', 'to', 'via', 'avoidLocks', 'avoidSea', 'coastal']) expect(EDIT_PARAMETERS[k]).toBeTruthy();
   });
 });

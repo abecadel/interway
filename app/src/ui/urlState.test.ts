@@ -10,6 +10,8 @@ describe('URL state', () => {
     expect(s.via).toEqual([[19.1, 52.6], [18.6, 53.0]]);
     expect(s.vessel).toEqual({ draft: 1.5, airDraft: 4, length: 12, avoidLocks: true });
     expect(parseUrlState('?avoidLocks=0&avoidSea=true').vessel).toEqual({ avoidLocks: false, avoidSea: true });
+    expect(parseUrlState('?coastal=1').vessel).toEqual({ coastal: true });
+    expect(writeUrlState('', { from: null, to: null, via: [] }, { ...defaultProfile, coastal: true })).toBe('coastal=1');
     expect(parseUrlState('')).toEqual({ from: null, to: null, via: [], vessel: {} });
   });
 

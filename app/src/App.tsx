@@ -482,6 +482,10 @@ export default function App({ client }: { client: RoutingApi }) {
               <input type="checkbox" checked={profile.avoidSea} onChange={(e) => setProfile({ ...profile, avoidSea: e.target.checked })} />
               Avoid open sea
             </label>
+            <label className="check">
+              <input type="checkbox" checked={profile.coastal} onChange={(e) => setProfile({ ...profile, coastal: e.target.checked })} />
+              Stay near the coast (harbour to harbour)
+            </label>
           </div>
         </section>
       )}

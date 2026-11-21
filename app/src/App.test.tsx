@@ -30,6 +30,7 @@ const route = (over: Partial<Route> = {}): Route => ({
   unverified: 0,
   sea: 0,
   seaNoDepth: 0,
+  offshore: 0,
   downstream: 0,
   upstream: 0,
   tooShallow: 0,
@@ -379,11 +380,12 @@ describe('App', () => {
     fireEvent.change(screen.getByLabelText('Air draft (m)'), { target: { value: '4.5' } });
     fireEvent.click(screen.getByLabelText('Avoid locks'));
     fireEvent.click(screen.getByLabelText('Avoid open sea'));
+    fireEvent.click(screen.getByLabelText('Stay near the coast (harbour to harbour)'));
     await flush();
-    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true };
+    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true };
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
     // only what differs from the defaults is saved
-    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true });
+    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true });
   });
 
   it('toggles layers and loads the debug network once', async () => {
