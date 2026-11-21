@@ -19,9 +19,10 @@ from .classify import (
     lake_allowlisted,
 )
 from .model import MIN_LAKE_KM2, LonLat, area_km2, parse_metres
-from .pois import poi_type
+from .pois import poi_type, port_info
 
 log = logging.getLogger(__name__)
+INFO_KINDS = {"marina", "port", "fuel"}  # services whose OSM facts (contacts, berths, VHF ...) are kept
 
 TAG_KEYS = (
     "name", "waterway", "lock", "lock_name", "oneway", "maxdraft", "draft", "maxheight", "maxwidth",
@@ -60,7 +61,8 @@ class Extract:
     bridges: list[tuple[LineString, float]] = field(default_factory=list)
     marinas: list[tuple[str, LonLat]] = field(default_factory=list)
     # (category, name, position) for the itinerary: fuel, marina, port, slipway, water, sanitary
-    services: list[tuple[str, str, LonLat]] = field(default_factory=list)
+    # (category, name, position, facts): facts are port_info pairs for harbours, marinas and fuel berths
+    services: list[tuple[str, str, LonLat, tuple]] = field(default_factory=list)
     # river/canal ways without navigability evidence; short ones may link lakes (see topology.add_connectors)
     connectors: list[NavWay] = field(default_factory=list)
     # weirs and dams (points and lines): river/canal areas are not crossed over them, see lakes.connect_lakes
@@ -127,12 +129,12 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     ex.weirs.append(Point(o.lon, o.lat))
             kind = poi_type(tags)
             if kind and o.location.valid():
-                ex.services.append((kind, tags.get("name", ""), (o.lon, o.lat)))
+                ex.services.append((kind, tags.get("name", ""), (o.lon, o.lat), port_info(tags) if kind in INFO_KINDS else ()))
                 if kind == "marina":
                     ex.marinas.append((tags.get("name", ""), (o.lon, o.lat)))
         elif o.is_way():
             n_ways += 1
-            if is_navigable_way(tags, allow):
+            if is_navigable_way(tags, allow, lambda o=o: _way_coords(o) or []):
                 coords = _way_coords(o)
                 if coords is not None and len(coords) >= 2:
                     kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}
@@ -161,7 +163,7 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                 poly = _area_polygon(o)
                 if poly is not None:
                     c = poly.representative_point()
-                    ex.services.append((kind, tags.get("name", ""), (c.x, c.y)))
+                    ex.services.append((kind, tags.get("name", ""), (c.x, c.y), port_info(tags) if kind in INFO_KINDS else ()))
                     if kind == "marina":
                         ex.marinas.append((tags.get("name", ""), (c.x, c.y)))
                 continue

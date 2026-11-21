@@ -17,6 +17,10 @@ export interface VesselProfile {
   avoidLocks: boolean;
   /** keep to inland waterways where any inland way exists (open sea costs 10x instead of SEA_COST) */
   avoidSea: boolean;
+  /** keep near the coast, harbour to harbour: open sea more than 10 km from land costs COASTAL_COST more */
+  coastal: boolean;
+  /** departure date (YYYY-MM-DD), or '': with it, waterways usually closed in the month they are reached are avoided */
+  departure: string;
 }
 
 /** Open sea counts this much more than inland water of the same length: weather, swell and tides make it the
@@ -24,6 +28,9 @@ export interface VesselProfile {
  * Wadden coast). Reported durations are real time without these penalties. */
 export const SEA_COST = 1.5;
 const AVOID_SEA_COST = 10;
+/** With `coastal`, open sea far from land counts this much more: a small boat goes round a gulf along the coast
+ * (Port-Saint-Louis – Sète – Barcelona, not straight across the Gulf of Lion) unless the detour is very long. */
+const COASTAL_COST = 4;
 /** Open sea charted shallower than the draft costs this much more instead of being closed: the coarse sea network
  * crosses banks where real boats follow dredged channels (Thames estuary, Wadden sea), so a hard limit would cut
  * whole coasts off. Routes go round shallows where a deeper way exists and report what they could not avoid. */
@@ -40,7 +47,36 @@ export const defaultProfile: VesselProfile = {
   lockPenaltyMin: 20,
   avoidLocks: false,
   avoidSea: false,
+  coastal: false,
+  departure: '',
 };
+
+/** Hours underway per day, for dates along a route (as the brief's daily stages). */
+export const HOURS_PER_DAY = 8;
+/** A waterway usually closed in the month the boat would reach it costs this much more (another way, if any). */
+const CLOSED_SEASON_COST = 30;
+
+/** The date (YYYY-MM-DD) after `seconds` underway from `departure`, at HOURS_PER_DAY a day; null without a valid date. */
+export function dateAfter(departure: string, seconds: number): string | null {
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(departure) ? new Date(`${departure}T12:00:00Z`) : null;
+  if (!d || Number.isNaN(d.getTime())) return null;
+  d.setUTCDate(d.getUTCDate() + Math.floor(seconds / 3600 / HOURS_PER_DAY));
+  return d.toISOString().slice(0, 10);
+}
+
+/** The calendar month (1-12) after `seconds` underway from `departure`; null without a date. */
+export function monthAfter(departure: string, seconds: number): number | null {
+  const d = dateAfter(departure, seconds);
+  return d === null ? null : Number(d.slice(5, 7));
+}
+
+/** What the router needs from a waterway sheet: where it applies, its current and the months it is usually closed. */
+export interface SheetForRouting {
+  aliases: string[];
+  bbox?: [number, number, number, number];
+  current: { typicalMs: number | null };
+  months?: { closed: number[] };
+}
 
 export interface Snap {
   geom: number;
@@ -78,6 +114,10 @@ export interface Route {
   unverified: number;
   /** metres on open-sea legs */
   sea: number;
+  /** metres of open sea with no charted depth (outside the bathymetry's coverage) */
+  seaNoDepth: number;
+  /** metres of open sea more than 10 km from land */
+  offshore: number;
   /** metres travelled with the river current (downstream) and against it (upstream) */
   downstream: number;
   upstream: number;
@@ -140,6 +180,13 @@ export class Router {
   private geomRev: Int32Array;
   private geomLength: Float64Array;
   private component: Int32Array;
+  /** typical current per geometry from the waterway sheets (NaN: the profile's assumed current) */
+  private geomCurrent: Float32Array | null = null;
+  /** the waterway sheet of each geometry (-1: none), and the sheets' closed months as bit masks (bit 1 = January) */
+  private geomSheet: Int32Array | null = null;
+  private sheetClosed: number[] = [];
+  /** waterways avoided for the departure date: extra cost per geometry */
+  private season: Map<number, number> | null = null;
   readonly names: string[];
   readonly graph: Graph;
   readonly geom: Geometry;
@@ -257,6 +304,44 @@ export class Router {
   }
 
   /** Travel time for a directed edge in seconds, or Infinity if the vessel cannot use it. */
+  /** Use researched typical currents (m/s, by waterway name) instead of the profile's single assumed current. */
+  setCurrents(byName: Map<string, number>): void {
+    const byIndex = this.names.map((n) => byName.get(n.trim().toLocaleLowerCase()) ?? NaN);
+    this.geomCurrent = Float32Array.from(this.geom.nameIndex, (i) => byIndex[i]); // a missing name becomes NaN
+  }
+
+  /** Match each geometry to its waterway sheet (by name, and by the sheet's box where it has one) for currents and
+   *  the months the waterway is usually closed. */
+  setWaterways(sheets: SheetForRouting[]): void {
+    const byName = new Map<string, number[]>();
+    sheets.forEach((w, i) => w.aliases.forEach((a) => {
+      const k = a.trim().toLocaleLowerCase();
+      byName.set(k, [...(byName.get(k) ?? []), i]);
+    }));
+    const candidates = this.names.map((n) => byName.get(n.trim().toLocaleLowerCase()) ?? []);
+    const G = this.geom.geomCount;
+    this.geomSheet = new Int32Array(G).fill(-1);
+    this.geomCurrent = new Float32Array(G).fill(NaN);
+    for (let g = 0; g < G; g++) {
+      const cands = candidates[this.geom.nameIndex[g]];
+      if (!cands?.length) continue;
+      const p = this.geom.geomOffsets[g];
+      const lon = this.geom.lon[p] / COORD_SCALE, lat = this.geom.lat[p] / COORD_SCALE;
+      const i = cands.find((k) => {
+        const b = sheets[k].bbox;
+        return !b || (lon >= b[0] && lon <= b[2] && lat >= b[1] && lat <= b[3]);
+      });
+      if (i === undefined) continue;
+      this.geomSheet[g] = i;
+      this.geomCurrent[g] = sheets[i].current.typicalMs ?? NaN;
+    }
+    this.sheetClosed = sheets.map((w) => (w.months?.closed ?? []).reduce((m, k) => m | (1 << k), 0));
+  }
+
+  private factor(g: number): number {
+    return (this.penalty?.get(g) ?? 1) * (this.season?.get(g) ?? 1);
+  }
+
   edgeCost(e: number, p: VesselProfile): number {
     const g = this.graph;
     const a = g.edgeAttr[e] * 4;
@@ -275,12 +360,15 @@ export class Router {
       if (t[a + 3] > 0 && f(p.length) > t[a + 3]) return BLOCKED;
     }
     let speed = p.speedKmh / 3.6;
-    if (flags & Flag.DOWNSTREAM) speed += p.currentMs;
-    else if (flags & Flag.UPSTREAM) speed = Math.max(speed - p.currentMs, 0.3);
+    const known = this.geomCurrent?.[g.edgeGeom[e]];
+    const current = known !== undefined && !Number.isNaN(known) ? known : p.currentMs;
+    if (flags & Flag.DOWNSTREAM) speed += current;
+    else if (flags & Flag.UPSTREAM) speed = Math.max(speed - current, 0.3);
     let cost = g.edgeLength[e] / speed;
     if (flags & Flag.SEA) cost *= (p.avoidSea ? AVOID_SEA_COST : SEA_COST) * (shallow ? SHALLOW_COST : 1);
+    if (p.coastal && flags & Flag.OFFSHORE) cost *= COASTAL_COST;
     if (flags & Flag.LOCK) cost += p.lockPenaltyMin * 60 * (p.avoidLocks ? AVOID_LOCKS_COST : 1);
-    return this.penalty ? cost * (this.penalty.get(g.edgeGeom[e]) ?? 1) : cost;
+    return this.penalty || this.season ? cost * this.factor(g.edgeGeom[e]) : cost;
   }
 
   /**
@@ -310,11 +398,36 @@ export class Router {
   }
 
   route(from: LngLat, to: LngLat, profile: VesselProfile = defaultProfile): Route {
+    this.season = null;
     try {
-      return this.routeFor(from, to, profile);
+      let r = this.routeFor(from, to, profile);
+      // with a departure date: go round waterways usually closed in the month the boat reaches them, where possible
+      for (let round = 0; round < 3; round++) {
+        const closed = this.closedOnArrival(r, profile);
+        if (!closed.size) break;
+        this.season ??= new Map();
+        for (let g = 0; g < this.geom.geomCount; g++) if (closed.has(this.geomSheet![g])) this.season.set(g, CLOSED_SEASON_COST);
+        r = this.routeFor(from, to, profile);
+      }
+      return r;
     } catch (e) {
       throw this.explain(from, to, profile, e as RouteError);
     }
+  }
+
+  /** The sheets of waterways on the last route that are usually closed in the month the boat would reach them. */
+  private closedOnArrival(r: Route, profile: VesselProfile): Set<number> {
+    const out = new Set<number>();
+    if (!this.geomSheet || !profile.departure || r.distance <= 0) return out;
+    const speed = r.distance / Math.max(r.duration, 1);
+    let at = 0;
+    for (const [g, metres] of this.lastGeoms) {
+      const sheet = this.geomSheet[g];
+      const month = monthAfter(profile.departure, at / speed);
+      if (sheet >= 0 && month !== null && this.sheetClosed[sheet] & (1 << month) && !this.season?.has(g)) out.add(sheet);
+      at += metres;
+    }
+    return out;
   }
 
   /** Why there is no route: the limits the vessel breaks on the way it would take without them, or no way at all. */
@@ -365,7 +478,15 @@ export class Router {
   /** A route through waypoints in order: from, ...via, to. */
   routeVia(points: LngLat[], profile: VesselProfile = defaultProfile): Route {
     if (points.length < 2) throw new RouteError('A route needs a start and an end');
-    const parts = points.slice(1).map((p, i) => this.route(points[i], p, profile));
+    // each leg sets off when the one before ends, so its waterways are checked for the right month
+    const parts: Route[] = [];
+    let elapsed = 0;
+    for (const [i, p] of points.slice(1).entries()) {
+      const departure = profile.departure ? dateAfter(profile.departure, elapsed) ?? '' : '';
+      const r = this.route(points[i], p, { ...profile, departure });
+      parts.push(r);
+      elapsed += r.duration;
+    }
     return parts.reduce(joinRoutes);
   }
 
@@ -431,7 +552,8 @@ export class Router {
     const route = this.buildRoute(s, t, prevEdge, prevNode, cost[DST], profile);
     // the search cost includes routing penalties; report the time actually underway
     const seaFactor = profile.avoidSea ? AVOID_SEA_COST : SEA_COST;
-    route.duration -= ((seaFactor - 1) * route.sea + seaFactor * (SHALLOW_COST - 1) * route.tooShallow) / (profile.speedKmh / 3.6)
+    route.duration -= ((seaFactor - 1) * route.sea + seaFactor * (SHALLOW_COST - 1) * route.tooShallow
+      + (profile.coastal ? seaFactor * (COASTAL_COST - 1) * route.offshore : 0)) / (profile.speedKmh / 3.6)
       + (profile.avoidLocks ? (AVOID_LOCKS_COST - 1) * profile.lockPenaltyMin * 60 * route.locks : 0);
     return route;
   }
@@ -439,7 +561,7 @@ export class Router {
   private buildRoute(s: Snap, t: Snap, prevEdge: Int32Array, prevNode: Int32Array, duration: number, profile: VesselProfile): Route {
     const vesselDraft = profile.draft;
     // searching for alternatives, the cost carries their penalties: the time is summed from the stretches instead
-    const penalty = this.penalty;
+    const penalty = this.penalty || this.season;
     let unpenalized = 0;
     const N = this.graph.nodeCount;
     const SRC = N, DST = N + 1;
@@ -451,7 +573,7 @@ export class Router {
     const coords: LngLat[] = [[s.lon, s.lat]];
     const events: RouteEvent[] = [];
     const legs: RouteLeg[] = [];
-    let distance = 0, locks = 0, unverified = 0, sea = 0, tooShallow = 0, downstream = 0, upstream = 0;
+    let distance = 0, locks = 0, unverified = 0, sea = 0, seaNoDepth = 0, offshore = 0, tooShallow = 0, downstream = 0, upstream = 0;
     let shallowest: Route['shallowest'] = null;
     const push = (lat: number, lon: number) => {
       const last = coords[coords.length - 1];
@@ -515,10 +637,12 @@ export class Router {
       if (penalty && distance > before) {
         // the search moves along a geometry only where an edge runs that way, so `travelled` is set
         const e = travelled;
-        unpenalized += (this.edgeCost(e, profile) / (penalty.get(g) ?? 1)) * ((distance - before) / this.graph.edgeLength[e]);
+        unpenalized += (this.edgeCost(e, profile) / this.factor(g)) * ((distance - before) / this.graph.edgeLength[e]);
       }
       if (this.geomFlags(g) & Flag.PATCH) unverified += distance - before;
       if (this.geomFlags(g) & Flag.SEA) sea += distance - before;
+      if (this.geomFlags(g) & Flag.NO_DEPTH) seaNoDepth += distance - before;
+      if (this.geomFlags(g) & Flag.OFFSHORE) offshore += distance - before;
       if (current > 0) downstream += distance - before;
       else if (current < 0) upstream += distance - before;
       const draft = distance > before ? this.seaDraft(g) : 0; // a snap at the very end of a stretch does not cross it
@@ -526,7 +650,7 @@ export class Router {
       if (draft > 0 && vesselDraft > draft) tooShallow += distance - before;
     }
     if (penalty) duration = unpenalized;
-    return { coordinates: coords, distance, duration, locks, unverified, sea, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
+    return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, offshore, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 
   /** From inside segment `seg` of geometry g walk to its end (toEnd) or start, stopping at segment endSeg if given. */
@@ -588,6 +712,8 @@ export function joinRoutes(a: Route, b: Route): Route {
     locks: a.locks + b.locks,
     unverified: a.unverified + b.unverified,
     sea: a.sea + b.sea,
+    seaNoDepth: a.seaNoDepth + b.seaNoDepth,
+    offshore: a.offshore + b.offshore,
     downstream: a.downstream + b.downstream,
     upstream: a.upstream + b.upstream,
     tooShallow: a.tooShallow + b.tooShallow,

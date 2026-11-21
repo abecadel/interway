@@ -2,6 +2,7 @@
 import { COORD_SCALE, decodeGeometry, decodeGraph } from '../graph/format';
 import type { LngLat } from '../graph/geo';
 import { Router, type VesselProfile } from './router';
+import { WATERWAYS } from './waterways';
 
 export interface Manifest {
   version: number;
@@ -24,6 +25,19 @@ export interface Poi {
   /** locks: chamber size, m */
   maxlength?: number;
   maxwidth?: number;
+  /** towns: ISO 3166 country code (GeoNames) */
+  cc?: string;
+  /** harbours, marinas and fuel berths: what OSM records about them */
+  website?: string;
+  phone?: string;
+  email?: string;
+  vhf?: string;
+  berths?: string;
+  boatlength?: string;
+  depth?: string;
+  hours?: string;
+  operator?: string;
+  services?: string;
 }
 
 export interface LoadResult {
@@ -79,6 +93,7 @@ export class RoutingService {
         const manifest = (await res.json()) as Manifest;
         const [g, s] = await Promise.all([this.buffer(base + manifest.files.graph), this.buffer(base + manifest.files.geom)]);
         this.router = new Router(decodeGraph(g), decodeGeometry(s), manifest.names);
+        this.router.setWaterways(WATERWAYS);
         const pois = manifest.files.pois ? await this.pois(base + manifest.files.pois) : [];
         return { manifest, nodes: this.router.graph.nodeCount, edges: this.router.graph.edgeCount, pois } satisfies LoadResult;
       }

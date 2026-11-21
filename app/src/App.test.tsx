@@ -29,6 +29,8 @@ const route = (over: Partial<Route> = {}): Route => ({
   locks: 2,
   unverified: 0,
   sea: 0,
+  seaNoDepth: 0,
+  offshore: 0,
   downstream: 0,
   upstream: 0,
   tooShallow: 0,
@@ -107,12 +109,12 @@ describe('App', () => {
     expect(screen.getByText('No navigable route')).toBeTruthy();
     r.unmount();
 
-    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
+    const far = fakeClient({ route: vi.fn(async () => route({ start: { ...route().start, offset: 1500 }, unverified: 2500, sea: 18520, seaNoDepth: 9260, tooShallow: 4000, shallowest: { draft: 2.3, at: 40_000 } })) });
     render(<App client={far} />);
     await flush();
     expect(screen.getByText(/snapped to the nearest navigable water \(1\.5 km/)).toBeTruthy();
     expect(screen.getByText(/Includes 2\.5 km on unverified connections/)).toBeTruthy();
-    expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). 4 km charted shallower than your draft');
+    expect(screen.getByText(/10\.0 NM on open sea/).textContent).toContain('Shallowest stretch allows about 2.3 m draft (km 40). Depth unknown for 5.0 NM');
   });
 
   it('shows the river current and the time of the way back', async () => {
@@ -378,11 +380,13 @@ describe('App', () => {
     fireEvent.change(screen.getByLabelText('Air draft (m)'), { target: { value: '4.5' } });
     fireEvent.click(screen.getByLabelText('Avoid locks'));
     fireEvent.click(screen.getByLabelText('Avoid open sea'));
+    fireEvent.click(screen.getByLabelText('Stay near the coast (harbour to harbour)'));
+    fireEvent.change(screen.getByLabelText('Departure date'), { target: { value: '2027-05-01' } });
     await flush();
-    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true };
+    const expected = { ...defaultProfile, draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true, departure: '2027-05-01' };
     expect(client.route).toHaveBeenLastCalledWith([1, 2], [3, 4], expected, []);
     // only what differs from the defaults is saved
-    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true });
+    expect(JSON.parse(localStorage.getItem('interway.profile')!)).toEqual({ draft: 1.8, airDraft: 4.5, avoidLocks: true, avoidSea: true, coastal: true });
   });
 
   it('toggles layers and loads the debug network once', async () => {
@@ -488,6 +492,17 @@ describe('App', () => {
     // the vessel form opens from Custom
     fireEvent.click(screen.getByText('Custom…'));
     expect(screen.getByLabelText('Air draft (m)')).toBeTruthy();
+  });
+
+  it('shows what OSM knows about a tapped marina', async () => {
+    const base = fakeClient();
+    const marina = { type: 'marina' as const, name: 'Port Hercule', lat: 43.735, lon: 7.425, vhf: '12', website: 'https://www.ports-monaco.com' };
+    render(<App client={fakeClient({ load: vi.fn(async () => ({ ...(await base.load('')), pois: [marina] })) })} />);
+    await flush();
+    const props = () => mapProps.current as Record<string, (...a: unknown[]) => void>;
+    act(() => props().onFeatureClick({ type: 'marina', name: 'Port Hercule', detail: '', position: [7.425, 43.735] }));
+    expect(screen.getByText('channel 12')).toBeTruthy();
+    expect((screen.getByText('ports-monaco.com') as HTMLAnchorElement).href).toBe('https://www.ports-monaco.com/');
   });
 
   it('places a tapped lock on the route', async () => {

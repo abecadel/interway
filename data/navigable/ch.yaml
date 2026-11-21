@@ -2,6 +2,8 @@
 waterways:
   - Rhein
   - Rhin
+  # Broye canal, Lac de Neuchâtel – Murtensee (scheduled passenger ships)
+  - Broyekanal
 lakes:
   - Lac Léman
   - Genfersee
@@ -12,3 +14,5 @@ lakes:
   - Vierwaldstättersee
   - Lago Maggiore
 exclude: []
+# the Aare at Interlaken: lake ships to Interlaken West (Thunersee) and Ost (Brienzersee); by id because "Aare" is the whole river
+ways: [4539907, 81292140]

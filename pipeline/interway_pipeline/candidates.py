@@ -46,6 +46,13 @@ class Candidate:
         return round(self.km * signs, 1)
 
 
+def _coords(way) -> list[LonLat]:
+    try:
+        return [(n.lon, n.lat) for n in way.nodes]
+    except osmium.InvalidLocationError:
+        return []
+
+
 def scan(path: Path, allow: Allowlist) -> list[Candidate]:
     """Candidates in one OSM file, best first."""
     lock_nodes: set[int] = set()
@@ -60,7 +67,7 @@ def scan(path: Path, allow: Allowlist) -> list[Candidate]:
             if poi_type(tags) in HARBOUR_KINDS and o.location.valid():
                 harbours.append((o.lon, o.lat))
         elif o.is_way():
-            if is_navigable_way(tags, allow):
+            if is_navigable_way(tags, allow, lambda o=o: _coords(o)):
                 navigable_nodes.update(n.ref for n in o.nodes)
                 continue
             if poi_type(tags) in HARBOUR_KINDS:
@@ -72,9 +79,8 @@ def scan(path: Path, allow: Allowlist) -> list[Candidate]:
             name = tags.get("name")
             if not name or not is_connector_candidate(tags, allow):
                 continue
-            try:
-                coords = [(n.lon, n.lat) for n in o.nodes]
-            except osmium.InvalidLocationError:
+            coords = _coords(o)
+            if not coords:
                 continue  # cut at the extract's border
             boat = tags.get("boat") in YES or tags.get("motorboat") in YES
             ways.append((name, [n.ref for n in o.nodes], coords, boat))

@@ -9,3 +9,12 @@ lakes:
   - Lipno
   - Vodní nádrž Lipno
 exclude: []
+# Baťův kanál runs partly in the beds of the Morava and the Radějovka (Otrokovice – Sudoměřice – Hodonín; the
+# Rohatec–Sudoměřice lock in public trial operation since 2025). OSM names only the cuts "Baťův kanál", so the river
+# sections go by way id: "Morava" continues over the weirs beside the cuts. Draught is restricted (0.6 m at low water).
+# https://www.seznamzpravy.cz/clanek/regiony-zpravy-zlinsky-kraj-batuv-kanal-je-unikatni-atrakci-jeho-splavnost-se-ma-prodlouzit-o-20-km-240719
+# Also the mouths of the Otava, Lužnice, Sázava and Chrudimka listed as vodní cesty účelové (vyhláška 222/1995 Sb. § 3,
+# https://www.zakonyprolidi.cz/cs/1995-222).
+ways: [565423363, 1548825410, 1548825409, 36862669, 565423350, 25842684, 565423335, 25842147, 565423328, 25735544,
+       565423319, 1124924101, 1080010207, 1432146692, 1432146691, 1432146696, 541875560, 4405905, 1210873923,
+       801945971, 1337945582, 1338073574, 1533053913]

@@ -28,6 +28,16 @@ describe('PlaceCard', () => {
     expect(screen.queryByText(/off the route/)).toBeNull();
   });
 
+  it('lists a harbour\'s facts, linking web, phone and e-mail', () => {
+    const facts = [{ label: 'VHF', value: 'channel 9' }, { label: 'Phone', value: '+33 1', href: 'tel:+331' },
+      { label: 'Website', value: 'port.example', href: 'https://port.example' }];
+    render(<PlaceCard place={{ label: 'Port', position: [1, 2], facts }} saved={false} {...handlers()} />);
+    expect(screen.getByText('channel 9').tagName).toBe('DD');
+    expect((screen.getByText('+33 1') as HTMLAnchorElement).target).toBe('');
+    expect((screen.getByText('port.example') as HTMLAnchorElement).target).toBe('_blank');
+    expect(screen.getByText(/check with the harbour/)).toBeTruthy();
+  });
+
   it('shares with the system sheet, or copies the link', async () => {
     vi.useFakeTimers();
     const share = vi.fn(async () => {});

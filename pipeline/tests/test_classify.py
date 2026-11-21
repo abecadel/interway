@@ -7,6 +7,7 @@ from interway_pipeline.classify import (
     is_navigable_way,
     kind_of,
     lake_allowlisted,
+    name_forms,
 )
 
 
@@ -37,6 +38,9 @@ def test_has_name_checks_alternative_keys(allow):
     assert allow.has_name({"name:de": "NAREW"})
     assert allow.has_name({"name": "Narwia", "alt_name": "Narew"})
     assert allow.has_name({"name": "Narwia", "name:fr": "Narew"})  # bilingual Canada: French names
+    # French names carry the article
+    assert allow.has_name({"name": "La Narew"}) and allow.has_name({"name": "L'Narew"}) and allow.has_name({"name": "L’ Narew"})
+    assert not allow.has_name({"name": "Lanarew"}) and not allow.has_name({"name": "La "})
     assert not allow.has_name({"name": "Odra", "name:en": "Oder"})
     assert not allow.has_name({})
 
@@ -124,6 +128,7 @@ def test_candidate_lake(tags, expected):
     ({"name": "Śniardwy"}, True),  # lakes list
     ({"name:de": "narew"}, True),  # waterway names count too
     ({"name": "Jezioro", "name:fr": "Śniardwy"}, True),
+    ({"name": "Le Śniardwy"}, True),
     ({"wikidata": "Q123"}, True),
     ({"boat": "yes"}, True),
     ({"motorboat": "official"}, True),
@@ -161,3 +166,32 @@ def test_channel_areas():
     assert is_channel_area({"waterway": "riverbank"})
     assert not is_channel_area({"natural": "water", "water": "lake"})
     assert not is_channel_area({"natural": "water"})
+
+
+def test_name_forms():
+    assert name_forms("L'Yonne") == ("l'yonne", "yonne")
+    assert name_forms("Les Andelys") == ("les andelys", "andelys")
+    assert name_forms("Yonne") == ("yonne",)
+    assert name_forms("La") == ("la",)
+
+
+def test_bounded_names_count_only_inside_their_boxes(tmp_path):
+    (tmp_path / "fr.yaml").write_text(
+        "waterways:\n  - Seine\n  - {name: La Sarthe, bbox: [-0.6, 47.4, 0.2, 48.0]}\n"
+        "  - {name: Sarthe, bbox: [5, 5, 6, 6]}\n", encoding="utf-8")
+    al = Allowlist.load(tmp_path)
+    assert al.names == {"seine"} and al.bounded == {"la sarthe": [(-0.6, 47.4, 0.2, 48.0)], "sarthe": [(5.0, 5.0, 6.0, 6.0)]}
+    river = {"waterway": "river", "name": "La Sarthe"}
+    assert al.boxes(river) == [(-0.6, 47.4, 0.2, 48.0), (5.0, 5.0, 6.0, 6.0)]  # with and without the article
+    assert not is_navigable_way(river, al)  # no coordinates: not known to be in the reach
+    assert is_navigable_way(river, al, [(0.5, 48.5), (0.1, 47.9)])  # one node inside
+    assert not is_navigable_way(river, al, lambda: [(0.5, 48.5), (0.6, 48.6)])  # upstream of the reach
+    assert is_navigable_way({"waterway": "river", "name": "Seine"}, al, [(9, 9)])  # plain names anywhere
+    assert not is_navigable_way({"waterway": "river", "name": "Loir"}, al, [(0.0, 47.5)])
+
+
+def test_a_name_does_not_outweigh_a_ban_on_motorboats(allow):
+    assert not is_navigable_way({"waterway": "river", "name": "Narew", "motorboat": "no"}, allow)
+    assert not is_navigable_way({"waterway": "river", "name": "Narew", "boat": "yes", "motorboat": "no"}, allow)
+    # real evidence still counts
+    assert is_navigable_way({"waterway": "canal", "name": "Narew", "motorboat": "no", "CEMT": "II"}, allow)

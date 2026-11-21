@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildGraph, type SegmentInput } from '../graph/builder';
 import { decodeGeometry, decodeGraph, encodeGeometry, encodeGraph, Flag, type Geometry, type Graph } from '../graph/format';
-import { defaultProfile, Router, RouteError } from './router';
+import { defaultProfile, Router, RouteError, dateAfter, monthAfter } from './router';
 
 // A small network:  A ──river── B ──canal(lock)── C
 //                                 └──long river── D ── C
@@ -174,15 +174,19 @@ describe('router edge cases', () => {
       { points: [A, B], kind: 'river', limits: [1.5, 0, 0, 0] },
       { points: [B, C], kind: 'sea', limits: [6, 0, 0, 0] },
       { points: [C, D], kind: 'sea', limits: [2.5, 0, 0, 0] },
-      { points: [D, [17.3, 51.2]], kind: 'sea' },
+      { points: [D, [17.3, 51.2]], kind: 'sea', noDepth: true },
     ]);
     const route = r.route([17.01, 51.0], [17.25, 51.15]);
+    // the last stretch has no charted depth: counted apart from deep water
+    expect(route.seaNoDepth).toBeGreaterThan(5_000);
+    expect(route.seaNoDepth).toBeLessThan(route.sea);
     expect(route.shallowest!.draft).toBeCloseTo(2.5, 5); // the river's 1.5 m is not sea
     expect(route.shallowest!.at).toBeCloseTo(13_300, -2);
     expect(r.route([17.01, 51.0], [17.09, 51.0]).shallowest).toBeNull();
     const via = r.routeVia([[17.01, 51.0], [17.15, 51.0], [17.25, 51.15]]);
     expect(via.shallowest!.draft).toBeCloseTo(2.5, 5);
     expect(via.shallowest!.at).toBeGreaterThan(12_000);
+    expect(via.seaNoDepth).toBeCloseTo(route.seaNoDepth, -2);
     expect(r.routeVia([[17.25, 51.15], [17.17, 51.07], [17.01, 51.0]]).shallowest!.draft).toBeCloseTo(2.5, 5);
   });
 
@@ -228,11 +232,78 @@ describe('router edge cases', () => {
     expect(locked.route([17.05, 51.0], [17.25, 51.0], { ...defaultProfile, avoidLocks: true }).duration).toBeCloseTo(normal.duration, 0);
   });
 
+  it('keeps near the coast when asked, at the real time underway', () => {
+    // straight across a gulf (offshore, 0.2°) or round it along the coast (two legs via [17.1, 51.1], ~0.3°)
+    const r = makeRouter([
+      { points: [A, C], kind: 'sea', offshore: true },
+      { points: [A, [17.1, 51.1]], kind: 'sea' },
+      { points: [[17.1, 51.1], C], kind: 'sea' },
+    ]);
+    const across = r.route([17.001, 51.0], [17.199, 51.0]);
+    expect(across.offshore).toBeCloseTo(across.distance, -2);
+    const coastal = r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, coastal: true });
+    expect(coastal.offshore).toBeLessThan(500); // only from the start point, which snaps onto the offshore edge
+    expect(coastal.distance).toBeGreaterThan(across.distance * 1.3);
+    expect(coastal.duration).toBeCloseTo(coastal.distance / (defaultProfile.speedKmh / 3.6), -1);
+    // when the coast is the only way round anyway, the penalty is not counted in the time
+    const only = makeRouter([{ points: [A, C], kind: 'sea', offshore: true }]).route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, coastal: true });
+    expect(only.duration).toBeCloseTo(only.distance / (defaultProfile.speedKmh / 3.6), -1);
+    expect(r.routeVia([[17.001, 51.0], [17.1, 51.0], [17.199, 51.0]]).offshore).toBeCloseTo(across.offshore, -2);
+  });
+
   it('never goes slower than the upstream floor speed', () => {
     const r = makeRouter([{ points: [A, B], kind: 'river' }]);
     const p = { ...defaultProfile, speedKmh: 1, currentMs: 5 };
     const up = r.route([17.09, 51.0], [17.01, 51.0], p);
     expect(up.duration).toBeCloseTo(up.distance / 0.3, -1);
+  });
+
+  it('uses the researched current of a waterway instead of the assumed one', () => {
+    const r = makeRouter([{ points: [A, B], kind: 'river', name: 'Rhein' }, { points: [B, C], kind: 'river', name: 'Bach' }]);
+    const p = { ...defaultProfile, speedKmh: 10.8, currentMs: 0.5 }; // 3 m/s through the water
+    const before = r.route([17.09, 51.0], [17.01, 51.0], p); // upstream on the Rhein
+    r.setCurrents(new Map([['rhein', 2]]));
+    const up = r.route([17.09, 51.0], [17.01, 51.0], p);
+    expect(up.duration).toBeCloseTo(up.distance / 1, -1); // 3 - 2 m/s
+    expect(up.duration).toBeGreaterThan(before.duration * 2);
+    const bach = r.route([17.19, 51.0], [17.11, 51.0], p); // no sheet: the assumed 0.5 m/s
+    expect(bach.duration).toBeCloseTo(bach.distance / 2.5, -1);
+  });
+
+  it('goes round a waterway usually closed in the month it is reached, when a departure date is set', () => {
+    // the direct canal (closed July–October) or round by the river; in May the canal is open
+    const r = makeRouter([
+      { points: [A, C], name: 'Kanal' },
+      { points: [A, D], name: 'Fluss' }, { points: [D, C], name: 'Fluss' },
+    ]);
+    const sheets = [
+      { aliases: ['Kanal'], current: { typicalMs: null }, months: { closed: [7, 8, 9, 10] } },
+      { aliases: ['Fluss'], bbox: [10, 40, 20, 60] as [number, number, number, number], current: { typicalMs: 0 } },
+      { aliases: ['Fluss'], bbox: [0, 0, 1, 1] as [number, number, number, number], current: { typicalMs: 3 } }, // elsewhere
+    ];
+    r.setWaterways(sheets);
+    // the waterways used, leaving out the few metres from a start point that snaps onto the canal
+    const name = (x: { legs: { name: string; distance: number }[] }) => [...new Set(x.legs.filter((l) => l.distance > 500).map((l) => l.name))];
+    expect(name(r.route([17.001, 51.0], [17.199, 51.0]))).toEqual(['Kanal']); // no date: the short way
+    expect(name(r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, departure: '2027-05-10' }))).toEqual(['Kanal']);
+    const august = r.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, departure: '2027-08-10' });
+    expect(name(august)).toEqual(['Fluss']);
+    // the reported time is the real time (no penalty), and the river's sheet (current 0) is the one in its box
+    expect(august.duration).toBeCloseTo(august.distance / (defaultProfile.speedKmh / 3.6), -1);
+    // waypoints: the second leg sets off later; a canal closed only from September is open when the trip starts
+    r.setWaterways([{ ...sheets[0], months: { closed: [9] } }, sheets[1]]);
+    expect(name(r.routeVia([[17.001, 51.0], [17.15, 51.1], [17.199, 51.0]], { ...defaultProfile, departure: '2027-08-31' }))).toEqual(['Fluss']);
+    // with no other way round, the closed waterway is still used (and warned about elsewhere)
+    const only = makeRouter([{ points: [A, C], name: 'Kanal' }]);
+    only.setWaterways([sheets[0]]);
+    expect(name(only.route([17.001, 51.0], [17.199, 51.0], { ...defaultProfile, departure: '2027-08-10' }))).toEqual(['Kanal']);
+    // a name whose sheets all lie elsewhere gets no sheet; an unreadable date is no date
+    r.setWaterways([{ ...sheets[2] }]);
+    expect(name(r.routeVia([[17.001, 51.0], [17.15, 51.1], [17.199, 51.0]], { ...defaultProfile, departure: 'soon' })).length).toBeGreaterThan(0);
+    expect(dateAfter('2027-01-31', 8 * 3600)).toBe('2027-02-01');
+    expect(dateAfter('nonsense', 0)).toBeNull();
+    expect(dateAfter('2027-02-30', 0)).toBe('2027-03-02'); // rolled over like Date does
+    expect(monthAfter('', 0)).toBeNull();
   });
 
   it('returns null snaps and an error without geometry', () => {

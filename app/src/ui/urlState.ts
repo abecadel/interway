@@ -37,10 +37,12 @@ export function parseUrlState(search: string): UrlState {
     const n = raw === null || raw.trim() === '' ? NaN : Number(raw);
     if (Number.isFinite(n) && n >= 0) vessel[field] = n;
   }
-  for (const flag of ['avoidLocks', 'avoidSea'] as const) {
+  for (const flag of ['avoidLocks', 'avoidSea', 'coastal'] as const) {
     const v = q.get(flag);
     if (v !== null) vessel[flag] = v === '1' || v === 'true';
   }
+  const date = q.get('date');
+  if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) vessel.departure = date;
   return { from: parsePoint(q.get('from')), to: parsePoint(q.get('to')), via, vessel };
 }
 
@@ -58,5 +60,7 @@ export function writeUrlState(search: string, s: Omit<UrlState, 'vessel'>, profi
   }
   set('avoidLocks', profile.avoidLocks ? '1' : null);
   set('avoidSea', profile.avoidSea ? '1' : null);
+  set('coastal', profile.coastal ? '1' : null);
+  set('date', profile.departure || null);
   return q.toString().replace(/%2C/g, ',').replace(/%3B/g, ';');
 }

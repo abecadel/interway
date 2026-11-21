@@ -47,12 +47,12 @@ def test_merge_deduplicates_overlapping_extracts():
     lake = Lake(7, "Jezioro", box(0, 0, 1, 1), False)
     a = Extract(ways=[navway(1), navway(2)], connectors=[navway(10)], lakes=[lake], lock_nodes={1}, barrier_nodes={5},
                 lock_names={1: "A"}, bridges=[bridge], marinas=[("Port", (0.5, 0.5))], timestamp="2026-10-01T00:00:00Z",
-                services=[("fuel", "Stacja", (0.5, 0.5))], lock_areas=[("A", box(0, 0, 1, 1))])
+                services=[("fuel", "Stacja", (0.5, 0.5), ())], lock_areas=[("A", box(0, 0, 1, 1))])
     b = Extract(ways=[navway(2), navway(3)], connectors=[navway(10), navway(11), navway(1)],
                 lakes=[lake, Lake(8, "Inne", box(2, 2, 3, 3), True)], lock_nodes={2}, barrier_nodes={6},
                 lock_names={2: "B"}, bridges=[(LineString([(0, 0), (1, 1)]), 4.0), (LineString([(0, 0), (1, 1)]), 3.0)],
                 marinas=[("Port", (0.5, 0.5)), ("Port", (0.6, 0.5))], timestamp="2026-11-01T00:00:00Z",
-                services=[("fuel", "Stacja", (0.5, 0.5)), ("water", "", (0.7, 0.5))],
+                services=[("fuel", "Stacja", (0.5, 0.5), ()), ("water", "", (0.7, 0.5), ())],
                 lock_areas=[("A", box(0, 0, 1, 1)), ("B", box(2, 2, 3, 3))])
     ex = merge_extracts([a, b])
     assert [w.id for w in ex.ways] == [1, 2, 3]
@@ -61,7 +61,7 @@ def test_merge_deduplicates_overlapping_extracts():
     assert ex.lock_nodes == {1, 2} and ex.barrier_nodes == {5, 6} and ex.lock_names == {1: "A", 2: "B"}
     assert [h for _, h in ex.bridges] == [4.0, 3.0]
     assert ex.marinas == [("Port", (0.5, 0.5)), ("Port", (0.6, 0.5))]
-    assert ex.services == [("fuel", "Stacja", (0.5, 0.5)), ("water", "", (0.7, 0.5))]
+    assert ex.services == [("fuel", "Stacja", (0.5, 0.5), ()), ("water", "", (0.7, 0.5), ())]
     assert [n for n, _ in ex.lock_areas] == ["A", "B"]
     assert ex.timestamp == "2026-11-01T00:00:00Z"
 
@@ -261,7 +261,7 @@ def test_build_with_sea_routes(tmp_path):
     osm = write_osm(tmp_path / "coast.osm", nodes, [(1, [1, 2], {"waterway": "canal", "CEMT": "IV", "name": "Kanał"})])
     land = _land_shapefile(tmp_path / "land", [box(0.2, 0.2, 0.45, 0.8)])
     places = tmp_path / "cities.txt"
-    places.write_text("1\tKanałowo\tKanalowo\t\t0.51\t0.31\n2\tDaleko\tDaleko\t\t5.0\t5.0\n", encoding="utf-8")
+    places.write_text("1\tKanałowo\tKanalowo\t\t0.51\t0.31\tP\tPPL\tPL\n2\tDaleko\tDaleko\t\t5.0\t5.0\n", encoding="utf-8")
     cache = tmp_path / "cache"
     for _ in range(2):  # the second build uses the cached mesh
         out = tmp_path / "out"
@@ -269,6 +269,7 @@ def test_build_with_sea_routes(tmp_path):
                       land=land, sea_bbox=(0.0, 0.0, 1.0, 1.0), places=places)
         pois = json.loads((out / "pois.json").read_text(encoding="utf-8"))
         assert [p["name"] for p in pois if p["type"] == "place"] == ["Kanałowo"]  # 1.5 km away; Daleko is not
+        assert [p["cc"] for p in pois if p["type"] == "place"] == ["PL"]  # its country, for notices to skippers
         manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["sea"] is True
         g = read_graph(out / "graph.bin")

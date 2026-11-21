@@ -46,22 +46,28 @@ const vessel = {
     beam: { type: 'number', description: 'm' }, length: { type: 'number', description: 'm' },
     speedKmh: { type: 'number' }, currentMs: { type: 'number', description: 'river current, m/s' }, avoidLocks: { type: 'boolean' },
     avoidSea: { type: 'boolean', description: 'keep to inland waterways where possible' },
+    coastal: { type: 'boolean', description: 'small boat: keep near the coast, harbour to harbour, instead of crossing open sea' },
+    departure: { type: 'string', description: 'departure date YYYY-MM-DD: waterways usually closed in the month they are reached are avoided, stages get dates' },
   },
   additionalProperties: false,
 };
-const VESSEL_KEYS = ['draft', 'airDraft', 'beam', 'length', 'speedKmh', 'currentMs', 'avoidLocks', 'avoidSea'] as const;
+const VESSEL_KEYS = ['draft', 'airDraft', 'beam', 'length', 'speedKmh', 'currentMs', 'avoidLocks', 'avoidSea', 'coastal', 'departure'] as const;
 
 export function getModelContext(doc: Document = document, nav: Navigator = navigator): ModelContext | null {
   const ctx = (doc as { modelContext?: ModelContext }).modelContext ?? (nav as { modelContext?: ModelContext }).modelContext;
   return typeof ctx?.registerTool === 'function' ? ctx : null;
 }
 
+const FLAGS = new Set<string>(['avoidLocks', 'avoidSea', 'coastal']);
+
 function cleanVessel(v: unknown): Partial<VesselProfile> {
   const out: Record<string, unknown> = {};
   if (v && typeof v === 'object') {
     for (const k of VESSEL_KEYS) {
       const x = (v as Record<string, unknown>)[k];
-      if (k === 'avoidLocks' ? typeof x === 'boolean' : typeof x === 'number' && Number.isFinite(x) && x >= 0) out[k] = x;
+      const ok = k === 'departure' ? typeof x === 'string' && /^(\d{4}-\d{2}-\d{2})?$/.test(x)
+        : FLAGS.has(k) ? typeof x === 'boolean' : typeof x === 'number' && Number.isFinite(x) && x >= 0;
+      if (ok) out[k] = x;
     }
   }
   return out as Partial<VesselProfile>;

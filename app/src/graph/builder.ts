@@ -10,6 +10,10 @@ export interface SegmentInput {
   kind?: 'river' | 'canal' | 'lake' | 'sea' | 'patch';
   lock?: boolean;
   oneway?: boolean;
+  /** open sea with no charted depth (NO_DEPTH) */
+  noDepth?: boolean;
+  /** open sea far from the coast (OFFSHORE) */
+  offshore?: boolean;
   /** [maxDraft, maxHeight, maxWidth, maxLength] */
   limits?: [number, number, number, number];
 }
@@ -64,6 +68,8 @@ export function buildGraph(segments: SegmentInput[]): { graph: Graph; geometry: 
     if (s.kind === 'canal') base |= Flag.CANAL;
     if (s.kind === 'sea') base |= Flag.SEA;
     if (s.kind === 'patch') base |= Flag.PATCH;
+    if (s.noDepth) base |= Flag.NO_DEPTH;
+    if (s.offshore) base |= Flag.OFFSHORE;
     edges.push({ from: a, to: b, len, geom: g, attr, flags: base | (s.kind === 'river' ? Flag.DOWNSTREAM : 0) });
     if (!s.oneway) {
       edges.push({ from: b, to: a, len, geom: g, attr, flags: base | Flag.GEOM_REVERSED | (s.kind === 'river' ? Flag.UPSTREAM : 0) });

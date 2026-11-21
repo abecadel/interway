@@ -12,6 +12,17 @@ LINE_WATERWAYS = {"river", "canal", "fairway", "tidal_channel", "flowline"}
 YES = {"yes", "designated", "permissive", "official"}
 NO = {"no", "private"}
 # water=lock areas are left out on purpose: a lock chamber joins two water levels, meshing it would bypass the lock
+# French names carry the article ("L'Yonne", "La Sarthe"); allowlists name the river without it
+ARTICLE = re.compile(r"^(?:l['’]\s*|la\s+|le\s+|les\s+)", re.IGNORECASE)
+
+
+def name_forms(v: str) -> tuple[str, ...]:
+    """The casefolded name, and the name without a leading French article when it has one."""
+    f = v.casefold()
+    bare = ARTICLE.sub("", f, count=1)
+    return (f, bare) if bare != f and bare else (f,)
+
+
 LAKE_WATER = {"lake", "reservoir", "lagoon", "basin", "oxbow", "river", "canal", "harbour", "bay"}
 
 
@@ -24,6 +35,8 @@ class Allowlist:
     ways: set[int] = field(default_factory=set)
     exclude_names: set[str] = field(default_factory=set)
     exclude_patterns: list[re.Pattern] = field(default_factory=list)
+    # names navigable only in part: {name: [(w, s, e, n), ...]}, taken only where a way has a node inside a box
+    bounded: dict[str, list[tuple[float, float, float, float]]] = field(default_factory=dict)
 
     @classmethod
     def load(cls, directory: Path | None) -> "Allowlist":
@@ -32,7 +45,11 @@ class Allowlist:
             return al
         for f in sorted(directory.glob("*.yaml")):
             data = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
-            al.names |= {n.casefold() for n in data.get("waterways", [])}
+            for n in data.get("waterways", []):
+                if isinstance(n, dict):  # {name, bbox}: a reach of a river navigable only in part
+                    al.bounded.setdefault(n["name"].casefold(), []).append(tuple(map(float, n["bbox"])))
+                else:
+                    al.names.add(n.casefold())
             al.wikidata |= set(data.get("wikidata", []))
             al.lakes |= {n.casefold() for n in data.get("lakes", [])}
             al.ways |= {int(w) for w in data.get("ways", [])}
@@ -46,14 +63,27 @@ class Allowlist:
         return name.casefold() in self.exclude_names or any(p.search(name) for p in self.exclude_patterns)
 
     def has_name(self, tags) -> bool:
+        return any(f in self.names for f in self._forms(tags))
+
+    def boxes(self, tags) -> list[tuple[float, float, float, float]]:
+        """The boxes of a name navigable only in part (empty for other names)."""
+        return [b for f in self._forms(tags) for b in self.bounded.get(f, ())]
+
+    @staticmethod
+    def _forms(tags):
         for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "name:fr", "official_name", "alt_name"):
             v = tags.get(key)
-            if v and v.casefold() in self.names:
-                return True
-        return False
+            if v:
+                yield from name_forms(v)
 
 
-def is_navigable_way(tags, allow: Allowlist) -> bool:
+def in_boxes(coords, boxes) -> bool:
+    """Whether any of the (lon, lat) `coords` lies in one of the boxes."""
+    return any(w <= x <= e and s <= y <= n for x, y in coords for w, s, e, n in boxes)
+
+
+def is_navigable_way(tags, allow: Allowlist, coords=None) -> bool:
+    """`coords` (the way's (lon, lat) nodes, or a callable giving them) are needed only for names navigable in part."""
     ww = tags.get("waterway")
     if ww not in LINE_WATERWAYS:
         return False
@@ -78,7 +108,12 @@ def is_navigable_way(tags, allow: Allowlist) -> bool:
         return True
     if tags.get("wikidata") in allow.wikidata:
         return True
-    return allow.has_name(tags)
+    if motor in NO:  # a name alone does not outweigh a ban on motorboats (side arms of the Loire above Bouchemaine)
+        return False
+    if allow.has_name(tags):
+        return True
+    boxes = allow.boxes(tags) if coords is not None else []
+    return bool(boxes) and in_boxes(coords() if callable(coords) else coords, boxes)
 
 
 def is_connector_candidate(tags, allow: Allowlist) -> bool:
@@ -111,7 +146,7 @@ def is_channel_area(tags) -> bool:
 def lake_allowlisted(tags, allow: Allowlist) -> bool:
     for key in ("name", "name:pl", "name:de", "name:nl", "name:en", "name:fr"):
         v = tags.get(key)
-        if v and (v.casefold() in allow.lakes or v.casefold() in allow.names):
+        if v and any(f in allow.lakes or f in allow.names for f in name_forms(v)):
             return True
     return tags.get("wikidata") in allow.wikidata or tags.get("boat") in YES or tags.get("motorboat") in YES
 

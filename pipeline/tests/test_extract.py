@@ -46,7 +46,8 @@ NODE_TAGS = {
     34: {"waterway": "dam"},
     35: {"waterway": "waterfall"},
     36: {"waterway": "weir", "lock": "yes"},  # weir with a lock is passable
-    37: {"leisure": "marina", "name": "Port Node"},
+    37: {"leisure": "marina", "name": "Port Node", "website": "https://port.example", "vhf": "9", "capacity": "120",
+         "fuel:diesel": "yes", "power_supply": "yes"},
     38: {"leisure": "marina", "name": "No location"},
     # storm-surge barriers stand open: not locks, even when tagged as lock gates
     39: {"waterway": "lock_gate", "man_made": "storm_surge_barrier", "name": "Thames Barrier"},
@@ -223,8 +224,12 @@ def test_area_polygon_drops_rings_that_vanish():
 
 
 def test_services(ex):
-    got = {(k, n) for k, n, _ in ex.services}
+    got = {(k, n) for k, n, _, _ in ex.services}
     assert got == {("marina", "Port Node"), ("marina", "Port Area"), ("fuel", "Paliwo"), ("port", "Port Handlowy")}
+    facts = {n: dict(f) for _, n, _, f in ex.services}
+    assert facts["Port Node"] == {"website": "https://port.example", "vhf": "9", "berths": "120",
+                                  "services": "diesel, electricity"}
+    assert facts["Paliwo"] == {}
     assert ("Port Handlowy", "port") not in dict(ex.marinas).items()  # only marinas feed lake entries
 
 
@@ -232,3 +237,13 @@ def test_lock_areas(ex):
     # chambers are kept apart from lakes (meshing them would bypass the lock)
     assert [n for n, _ in ex.lock_areas] == ["Śluza Przegalina"]
     assert "Śluza Przegalina" not in {lk.name for lk in ex.lakes}
+
+
+def test_rivers_navigable_in_part_are_taken_only_in_their_reach(tmp_path):
+    nodes = {1: (0.0, 47.5), 2: (0.0, 47.6), 3: (0.0, 48.5), 4: (0.0, 48.6), 9: None}
+    ways = [(1, [1, 2], {"waterway": "river", "name": "La Sarthe"}),  # in the reach
+            (2, [3, 4], {"waterway": "river", "name": "La Sarthe"}),  # upstream
+            (3, [2, 9], {"waterway": "river", "name": "La Sarthe"})]  # cut at the extract's border
+    path = write_osm(tmp_path / "x.osm", nodes, ways)
+    allow = Allowlist(bounded={"sarthe": [(-0.5, 47.0, 0.5, 48.0)]})
+    assert [w.id for w in read_osm(path, allow).ways] == [1]

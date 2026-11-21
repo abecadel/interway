@@ -7,6 +7,7 @@ import type { LngLat } from '../graph/geo';
 import type { Route } from '../routing/router';
 import type { Poi } from '../routing/service';
 import { poiDetail } from '../ui/format';
+import { loadView, saveView } from './view';
 
 // maplibre-gl v6 looks for its worker next to its own module, which the production bundle does not keep;
 // point it at the worker file Vite emits instead (also under a GitHub Pages sub-path).
@@ -128,8 +129,7 @@ export function MapView({
     const map = new maplibregl.Map({
       container: container.current!,
       style: styleRef.current,
-      center: [19.0, 52.0],
-      zoom: 5.5,
+      ...loadView(),
       attributionControl: { compact: true, customAttribution: '© OpenSeaMap contributors' },
     });
     mapRef.current = map;
@@ -160,6 +160,7 @@ export function MapView({
     map.on('touchcancel', cancelPress);
     map.on('moveend', () => {
       const c = map.getCenter();
+      saveView({ center: [c.lng, c.lat], zoom: map.getZoom() });
       viewRef.current?.([c.lng, c.lat]);
     });
     map.on('mousemove', (e: MapMouseEvent) => {

@@ -4,6 +4,8 @@ import type { Route, VesselProfile } from '../routing/router';
 import { fmtDuration, fmtKm, fmtNm } from './format';
 import { Icon } from './icons';
 import { ItineraryView } from './ItineraryView';
+import { legPoints, seasonWarnings, waterwaysOn, waterwayWarnings } from '../routing/waterways';
+import { WaterwaysView } from './WaterwaysView';
 
 /** Time first, then distance and locks, warnings, and Start / Steps; the rest (exports, offline map) under More. */
 export function RouteSummary({ route, itinerary, profile, back, onStart, onStepsOpen, onFocus, more, options = [], chosen = 0, onChoose }: {
@@ -23,6 +25,8 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
   onChoose?: (i: number) => void;
 }) {
   const [steps, setSteps] = useState(false);
+  const waterways = waterwaysOn(legPoints(route));
+  const warnings = [...waterwayWarnings(waterways, profile.draft, profile.airDraft), ...seasonWarnings(route, profile)];
   return (
     <section className="summary" aria-label="Route">
       {options.length > 1 && (
@@ -60,9 +64,11 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
         <div className="warn small">
           {fmtNm(route.sea)} on open sea: check the weather, tides, traffic schemes and official charts before going.
           {route.shallowest && ` Shallowest stretch allows about ${route.shallowest.draft} m draft (km ${(route.shallowest.at / 1000).toFixed(0)}).`}
+          {route.seaNoDepth > 0 && ` Depth unknown for ${fmtNm(route.seaNoDepth)}: no charted depth in the planner there.`}
           {route.tooShallow > 0 && ` ${(route.tooShallow / 1000).toFixed(0)} km charted shallower than your draft: check charts for a channel.`}
         </div>
       )}
+      {warnings.length > 0 && <div className="warn small">{warnings.join(' ')}</div>}
       <div className="action-row">
         <button type="button" className="pill primary start-nav" onClick={onStart}><Icon name="navigation" />Start</button>
         <button type="button" className="pill" aria-expanded={steps} onClick={() => { if (!steps) onStepsOpen(); setSteps(!steps); }}>
@@ -78,6 +84,12 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
           </ol>
           <ItineraryView itinerary={itinerary} onSelect={onFocus} />
         </div>
+      )}
+      {waterways.length > 0 && (
+        <details className="more">
+          <summary>About the waterways ({waterways.length})</summary>
+          <WaterwaysView waterways={waterways} />
+        </details>
       )}
       <details className="more">
         <summary>More: offline map, brief for AI, GPX</summary>

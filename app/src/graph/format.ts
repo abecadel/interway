@@ -11,6 +11,8 @@ export const Flag = {
   GEOM_REVERSED: 1 << 5,
   CANAL: 1 << 6,
   PATCH: 1 << 7,
+  NO_DEPTH: 1 << 8,
+  OFFSHORE: 1 << 9,
 } as const;
 
 export interface Graph {

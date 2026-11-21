@@ -75,6 +75,18 @@ def test_lock_from_interior_node_and_way_tag():
     assert [(s.lock, s.name) for s in by_way(4)] == [(True, "Kanał B"), (False, "Kanał B")]  # unnamed chamber
 
 
+def test_lock_name_names_only_the_chamber():
+    # a lock cut tagged lock_name (as French dérivations are) is not named after the lock; a gate on it still is
+    ex = Extract(ways=[way(1, [1, 2, 3], lock_name="Écluse 10")], lock_nodes={2}, lock_names={})
+    segs = split_ways(ex)
+    assert [s.name for s in segs if not s.lock] == ["", ""]
+    assert [s.name for s in segs if s.lock] == ["Écluse 10"]  # the zero-length gate
+    # a 5 km way tagged lock=yes is a lock approach drawn as the lock: still a lock, but keeps the canal's name
+    long_way = way(5, [11, 12], lock="yes", lock_name="Schleuse Kleinmachnow", name="Teltowkanal")
+    long_way.coords = [(13.0, 52.4), (13.07, 52.4)]
+    assert [(s.lock, s.name) for s in split_ways(Extract(ways=[long_way]))] == [(True, "Teltowkanal")]
+
+
 def test_single_interior_gate_is_a_zero_length_lock():
     ex = Extract(ways=[way(1, [1, 2, 3], name="Kanał")], lock_nodes={2}, lock_names={2: "Śluza"})
     k = split_ways(ex)

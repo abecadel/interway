@@ -1,0 +1,2273 @@
+[
+ {
+  "id": "odra-wroclaw-eisenhuettenstadt",
+  "name": "Odra / Oder (Wrocław – Eisenhüttenstadt)",
+  "aliases": [
+   "Odra",
+   "Oder",
+   "Oder/Odra"
+  ],
+  "countries": [
+   "PL",
+   "DE"
+  ],
+  "reach": "Wrocław, Rędzin lock (km 260.7) to the Oder-Spree-Kanal mouth at Eisenhüttenstadt (approx. km 553); Polish–German border reach from the Nysa Łużycka mouth (km 542.4)",
+  "navigable": "restricted",
+  "class": "III (Rędzin – Malczyce, km 260.7–300); II (free-flowing Odra below Malczyce and the border reach)",
+  "lengthKm": 293,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "RZGW Wrocław bulletin of 20.11.2026: transit depth 2.00 m Rędzin–Brzeg Dolny, 0.75 m below Brzeg Dolny lock, then 0.35 m at km 304.8, 0 m at km 305.8–307.0, 0.15 m at km 307–310 and Ścinawa, 0.75–0.85 m Bytom Odrz.–Głogów, 1.0–1.3 m from Nowa Sól to km 542. Below Malczyce the river is impassable for a 1 m draught at present. Transit Brzeg Dolny–km 310 must be booked in advance with ZPH Brzeg Dolny and the lock operators. Border-reach depths are published by RZGW Szczecin."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded and slow between Rędzin and Malczyce. Free-flowing river below Malczyce. Levels change with the Brzeg Dolny and Malczyce weirs. Downstream-travel bans apply above the gauge limits given in the bulletins (high-water marks I/II)."
+  },
+  "locks": {
+   "count": 3,
+   "chamber": "Rędzin I 203.1 × 12.0 m and Rędzin II 226.0 × 12.0 m; Malczyce 190 × 12 m (3.5 m over the sill, first lockage 4 June 2018); Brzeg Dolny: no official dimensions found",
+   "hours": "Rędzin, Brzeg Dolny and Malczyce: 06:00–22:00 daily, including weekends and holidays (RZGW bulletin 20.11.2026)",
+   "notes": "Locks: Rędzin km 260.7, Brzeg Dolny km 281.6, Malczyce km 300. Stay in constant contact with the Malczyce lock (tel. 71 380 21 44 / 603 364 346 / 504 074 585) and Brzeg Dolny lock (71 31 95 529). Ship–shore VHF ch 74, ship–ship ch 10 (UŻŚ Wrocław). The Wrocław city locks are partly closed: Mieszczańska since 27.05.2026, and the Janowice–Bartoszowice/Opatowice reach since 28.10.2026 until further notice."
+  },
+  "season": {
+   "best": null,
+   "closures": "Ice: RZGW Wrocław closed the free-flowing Odra km 370–542.4 on 9 Jan 2026 (notice 5/2026), and RZGW Szczecin closed lower reaches in January 2026. Low water: very low transit depths in summer and autumn 2026 (notice 38/2026); in July 2026 the WSA Oder-Havel could no longer mark the fairway on the border reach (use at own risk). In force now: works at km 309–310 (notice 59/2026, from 08.10.2026)."
+  },
+  "months": {
+   "closed": [
+    8,
+    9
+   ],
+   "lowWater": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Below Malczyce depth <1 m most summers/autumns (2015, 2018, 2019, 2022, 2023, 2025, 2026); soundings stopped from June/July. Ice closures Jan–Feb (9 Jan 2026, km 370–542.4). Floods irregular (e.g. Sept 2024)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "PGW Wody Polskie RZGW Wrocław (to km 542.4); RZGW Szczecin with WSA Oder-Havel for the border reach (Odra Graniczna)",
+   "url": "https://www.gov.pl/web/wody-polskie-wroclaw/komunikaty-nawigacyjne"
+  },
+  "notices": "https://www.gov.pl/web/wody-polskie-wroclaw/informacje-zeglugowe (daily Informacja Żeglugowa) and https://www.gov.pl/web/wody-polskie-szczecin/obowiazujace-komunikaty-nawigacyjne (border reach)",
+  "notes": "With a 1 m draught the reach below Malczyce cannot be passed at present; plan for higher water (watch the daily bulletin) or transport by road. Fees: see the RZGW Wrocław 'Opłaty' tab. Blood-alcohol limit on the German border waters is 0.2‰. Short-stay public pontoons in Wrocław (Bulwar Dunikowskiego), not guarded. RZGW Wrocław operations centre: 71 32 80 587.",
+  "sources": [
+   "https://www.gov.pl/attachment/f72f3aea-c343-4afb-9aa0-294353ecc224",
+   "https://www.gov.pl/attachment/041c4480-b0c9-4ad1-b671-991b8b09cbe4",
+   "https://www.gov.pl/web/wody-polskie-wroclaw/komunikaty-nawigacyjne",
+   "https://www.gov.pl/web/wody-polskie-wroclaw/informacje-zeglugowe",
+   "https://www.gov.pl/attachment/6749eb29-2b5e-4174-863a-2fcd7135928c",
+   "https://www.gov.pl/web/wody-polskie-szczecin/obowiazujace-komunikaty-nawigacyjne",
+   "https://www.volksstimme.de/panorama/niedriger-oder-pegel-guterschifffahrt-zum-teil-eingestellt-4289414",
+   "https://pl.wikipedia.org/wiki/Stopień_wodny_Malczyce",
+   "https://pl.wikipedia.org/wiki/Stopień_Wodny_Rędzin",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Ost.pdf?__blob=publicationFile",
+   "https://szczecin.wody.gov.pl/images/RPC_Komunikaty/Archive_nautical_information/2023/Nautical_information-2023-10-02.pdf",
+   "https://www.tagesspiegel.de/potsdam/brandenburg/oder-fuhrt-extremes-niedrigwasser-7832161.html",
+   "https://www.verkehrsrundschau.de/nachrichten/transport-logistik/niedrigwasser-weiterhin-keine-gueterschifffahrt-auf-oder-moeglich-2978947",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   14.5,
+   50.95,
+   17.2,
+   52.3
+  ]
+ },
+ {
+  "id": "oder-spree-kanal",
+  "name": "Oder-Spree-Kanal with Fürstenwalder Spree (Spree-Oder-Wasserstraße)",
+  "aliases": [
+   "Oder-Spree-Kanal",
+   "Fürstenwalder Spree"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Seddinsee/Wernsdorf (SOW km ~45) to the Oder at Eisenhüttenstadt (SOW km 130.15)",
+  "navigable": "yes",
+  "class": "III (Seddinsee – Eisenhüttenstadt lock); IV with restrictions from the lock to the Oder",
+  "lengthKm": 85,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "No official depth figure found; ask the WSA Spree-Havel. The WSA warns of delays and Sammelschleusungen during low water."
+  },
+  "airDraftM": 4.1,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canal sections are still water; the Fürstenwalder Spree between the canal sections is a regulated river (weirs at Fürstenwalde and Große Tränke)."
+  },
+  "locks": {
+   "count": 4,
+   "chamber": "Wernsdorf N 115 × 9.40 m, S 65 × 8.60 m (lift 4.51 m); Fürstenwalde N 67.6 × 8.54 m, S 67.7 × 9.40 m (0.93 m); Kersdorf N 115 × 9.68 m, S 67.5 × 8.54 m (2.38 m); Eisenhüttenstadt twin shaft lock 2 × 127 × 12 m (up to 14 m)",
+   "hours": "All four locks: 1 Apr–31 Oct Mon–Fri 06:00–20:00, Sat/Sun/holidays 08:30–18:00; 1 Nov–31 Mar daily 08:00–17:30; closed 24–26 Dec, 31 Dec and 1 Jan (WaStrSchlBetrZV). Wernsdorf ran 08:30–18:00 daily from 1 Apr to 30 Sep 2026.",
+   "notes": "VHF: Wernsdorf ch 62, Fürstenwalde ch 22, Kersdorf ch 82, Eisenhüttenstadt ch 20. Sport-boat waiting places at Kersdorf and Eisenhüttenstadt. At Eisenhüttenstadt each lockage uses a lot of water, so sport boats may have to wait. Staff shortages cause short-notice changes to hours."
+  },
+  "season": {
+   "best": null,
+   "closures": "Shipping is normally suspended in sustained frost; the WSA Spree-Havel icebreakers (Erkner, Fürstenwalde) are ready for winter 2026/27. No current lock closure found on the WSA site. ELWIS NfB could not be reached on 2026-11-21, so check it before departure."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Ice closures in hard winters, mainly Jan–Feb (SOW closed from 3–10 Jan 2026); open most winters. In dry summers the WSA may group lockings (Sammelschleusungen) to save water."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Spree-Havel (Außenbezirke Erkner and Fürstenwalde)",
+   "url": "https://www.wsa-spree-havel.wsv.de/"
+  },
+  "notices": "https://www.elwis.de (Nachrichten für die Binnenschifffahrt, Spree-Oder-Wasserstraße); https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/SharedDocs/Kurzmeldungen/_Hinweise_Schifffahrt.html",
+  "notes": "Speed limit 10 km/h (SOW km 0.15–130.15). Sportbootführerschein Binnen required above 11.03 kW (15 PS). Lowest bridge: Müllrose railway bridge, 4.10 m at mean water. Phones: Eisenhüttenstadt +49 3364 4085-420, Kersdorf +49 33607 387, Fürstenwalde +49 3361 773241, Wernsdorf +49 3362 820225.",
+  "sources": [
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/SOW/Zwillingsschachtschleuse_Ehst/schleusen_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/SOW/Schleuse_Kersdorf/schleusen_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/SOW/Schleuse_Fuewa/schleusen_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/SOW/Schleuse_Wernsdorf/Schleuse_Wernsdorf_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/02_Schifffahrt/02_Sport_Freizeit_Schifffahrt/04_hinweise_schleusenbetriebsdienst/hinweise_schleusen_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/04_Service/06_Eisaufbruch/eisaufbruch_node.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/02_Schifffahrt/04_Brueckendurchfahrtshoehen/bruecken_durchfahrt_berlin.pdf?__blob=publicationFile&v=3",
+   "https://gesetze.legal/bund/wastrschlbetrzv_2013/anlage",
+   "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:1561/2026",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Ost.pdf?__blob=publicationFile",
+   "https://de.wikipedia.org/wiki/Oder-Spree-Kanal",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "teltowkanal-berlin",
+  "name": "Berlin route: Dahme – Seddinsee – Teltowkanal – Griebnitzsee/Glienicker See – Jungfernsee",
+  "aliases": [
+   "Teltowkanal",
+   "Dahme",
+   "Seddinsee",
+   "Griebnitzsee",
+   "Glienicker See",
+   "Jungfernsee"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Seddinsee and Dahme (Schmöckwitz – Grünau) to the Teltowkanal (km 37.84 to km -0.55 at the Glienicker See), then the Potsdamer Havel to the Jungfernsee",
+  "navigable": "yes",
+  "class": "IV with restrictions (Teltowkanal)",
+  "lengthKm": 38.4,
+  "depth": {
+   "usualM": 2.6,
+   "maxDraftM": 2.0,
+   "notes": "Teltowkanal: water depth 2.60 m and draught 2.00 m; 1.75 m between km 34.10 and 37.84 (Wikipedia). The length given is the Teltowkanal only."
+  },
+  "airDraftM": 4.5,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canal and lakes with negligible current."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Kleinmachnow (km 8.34): north chamber 85 × 12 m, middle chamber 65 × 10 m (south chamber out of use); lift 2.86 m",
+   "hours": "1 Apr–31 Oct: Mon–Sat 06:00–22:00, Sun 07:00–22:00. 1 Nov–31 Mar: Mon–Sat 06:00–20:00, Sun 07:00–20:00. 24 and 31 Dec 07:00–13:00; closed 1 Jan and 25–26 Dec. Staff shortages repeatedly shorten these hours; check ELWIS.",
+   "notes": "VHF ch 18, tel. +49 33203 57728. Sport-boat waiting places at km 8.17–8.19 and 8.66–8.69. Craft are locked together in Sammelschleusungen, so expect waits."
+  },
+  "season": {
+   "best": null,
+   "closures": "Events and short closures are listed by the WSA Spree-Havel. In 2026 these included rowing events on the Teltowkanal km 27.67–28.9 (19.06) and around the Wannsee (03.10). Ice: shipping is normally suspended in sustained frost. The sport-boat berth at Teltowkanal km 15.35–15.42 is closed until further notice."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Ice in hard winters, mainly Jan–Feb: Potsdamer Havel and Dahme closed from 7/10 Jan 2026. Kleinmachnow may group lockings to save water in dry summers. Short event closures in summer."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Spree-Havel (Außenbezirk Neukölln)",
+   "url": "https://www.wsa-spree-havel.wsv.de/"
+  },
+  "notices": "https://www.elwis.de (NfB); https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/02_Schifffahrt/06_Veranstaltungen_Schifffahrtssperrungen/veranstaltungen_schifffahrtssperrungen_text.html",
+  "notes": "Speed limits: Teltowkanal 10 km/h; Dahme 10–12 km/h; Glienicker Lake and Griebnitzsee 12 km/h. Licence required above 15 PS; in Berlin a licence is also required under sail above 6 m². Berlin water police: +49 30 4664751-001. Public sport-boat berths in Berlin are listed on ELWIS. Lowest bridge: Stubenrauchbrücke, 4.50 m at mean water.",
+  "sources": [
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/Tek/Schleuse_Kleinmachnow/schleusen_text.html",
+   "https://gesetze.legal/bund/wastrschlbetrzv_2013/anlage",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/SharedDocs/Kurzmeldungen/_Hinweise_Schifffahrt.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/02_Schifffahrt/06_Veranstaltungen_Schifffahrtssperrungen/veranstaltungen_schifffahrtssperrungen_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/02_Schifffahrt/04_Brueckendurchfahrtshoehen/bruecken_durchfahrt_berlin.pdf?__blob=publicationFile&v=3",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Ost.pdf?__blob=publicationFile",
+   "https://www.elwis.de/DE/Sportschifffahrt/Wasserstrassenbezogene-Hinweise/Oeffentliche-Sportbootliegestellen-Berlin/Oeffentliche-Sportbootliegestellen-Berlin-node",
+   "https://www.tagesspiegel.de/potsdam/potsdam-mittelmark/notstand-an-der-schleuse-7825855.html",
+   "https://de.wikipedia.org/wiki/Teltowkanal",
+   "https://de.wikipedia.org/wiki/Schleuse_Kleinmachnow",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "untere-havel-potsdam-brandenburg",
+  "name": "Untere Havel-Wasserstraße: Potsdam – Brandenburg (Sacrow-Paretzer Kanal, Havel, Silokanal, Plauer See)",
+  "aliases": [
+   "Sacrow-Paretzer Kanal",
+   "Havel",
+   "Dammgraben",
+   "Silokanal",
+   "Plauer See",
+   "Wendsee",
+   "Kleiner Beetzsee"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Jungfernsee/Nedlitz (UHW km 20) to Plaue and the Elbe-Havel-Kanal junction (UHW km 66.7)",
+  "navigable": "yes",
+  "class": "IV with restrictions (Silokanal Vb)",
+  "lengthKm": 46.7,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Sacrow-Paretzer Kanal about 3.40 m deep (upgrade completed 2021); Silokanal 4 m (Wikipedia). No official permitted draught found."
+  },
+  "airDraftM": 4.4,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded Havel with lakes: very slow current. Sacrow-Paretzer Kanal has no locks."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Schleuse Brandenburg (Vorstadtschleuse, UHW km 55.55): north 167.4 × 12.1 m, south 210 × 17.5 m; mean lift about 1.2 m",
+   "hours": "Schleuse Brandenburg: Mon–Sat 06:00–22:00, Sun/holidays 07:00–19:00, all year. Jan–Apr and Oct–Dec, some weekend slots are on request only, booked by 14:00 with FBZ Rathenow (+49 3385 539830).",
+   "notes": "VHF ch 20, tel. +49 3381 266-457. Alternative for sport boats: the Stadtschleuse Brandenburg (UHW km 57.94, sport-boat-only lock, tel. +49 3381 226963)."
+  },
+  "season": {
+   "best": null,
+   "closures": "Shipping is normally suspended in sustained frost (icebreakers at Brandenburg). No current closure found; ELWIS NfB could not be reached on 2026-11-21."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Ice in hard winters, mainly Jan–Feb: UHW closed from 8/12 Jan 2026; icebreakers at Brandenburg. Open in most winters."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Spree-Havel (Außenbezirke Potsdam and Brandenburg)",
+   "url": "https://www.wsa-spree-havel.wsv.de/"
+  },
+  "notices": "https://www.elwis.de (NfB, Untere Havel-Wasserstraße)",
+  "notes": "Speed limits: UHW 12 km/h; Brandenburger Niederhavel 8 km/h; Ketziner Havel 9 km/h; Wendsee 12 km/h; 25 km/h on lakes wider than 250 m outside the 100 m shore strip. Licence required above 15 PS. Lowest listed bridge is the Nedlitzer Nordbrücke (km 20.80, 4.40 m, 8.35 m wide); the other bridges on the route are 6.0 m or more at mean water.",
+  "sources": [
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/Untere_Havel_Wasserstrasse/Schleuse_Brandenburg/Schleuse_Brandenburg_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/schleusen_text.html",
+   "https://bscw.bund.de/pub/bscw.cgi/13345702",
+   "https://gesetze.legal/bund/wastrschlbetrzv_2013/anlage",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Ost.pdf?__blob=publicationFile",
+   "https://de.wikipedia.org/wiki/Untere_Havel-Wasserstraße",
+   "https://de.wikipedia.org/wiki/Sacrow-Paretzer_Kanal",
+   "https://de.wikipedia.org/wiki/Silokanal",
+   "https://de.wikipedia.org/wiki/Vorstadtschleuse_Brandenburg",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   12.4,
+   52.3,
+   13.2,
+   52.6
+  ]
+ },
+ {
+  "id": "elbe-havel-kanal",
+  "name": "Elbe-Havel-Kanal with Hohenwarthe and the Magdeburg Wasserstraßenkreuz",
+  "aliases": [
+   "Elbe-Havel-Kanal"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "EHK km 380.9 (Untere Havel, Plauer See) to km 325.7 (Mittellandkanal at Hohenwarthe), including the Hohenwarthe lock and the Kanalbrücke Magdeburg (MLK km 318.4–325.7)",
+  "navigable": "restricted",
+  "class": "IV; Vb on upgraded sections",
+  "lengthKm": 55,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "A 2022 GDWS order for the Hohenwarthe–Wusterwitz section limited draught to under 2.50 m; check whether it is still in force."
+  },
+  "airDraftM": 5.7,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canal, no significant current. Strong turbulence when the Hohenwarthe and Rothensee chambers fill, so muscle-powered craft are not locked up at Hohenwarthe."
+  },
+  "locks": {
+   "count": 3,
+   "chamber": "Wusterwitz (km 376.79) 218.59 × 12.00 m; Zerben (km 345.45) 217.86 × 12.00 m; Hohenwarthe double saving lock (MLK km 325.1) 2 × 190 × 12.5 m, lift about 18.5–19 m",
+   "hours": "Zerben and Wusterwitz: Mon–Sat 06:00–22:00, Sun/holidays 07:00–19:00, all year. Hohenwarthe: same hours, but 24 and 31 Dec 07:00–13:00 and closed 1 Jan and 25–26 Dec.",
+   "notes": "VHF: Wusterwitz ch 18, Zerben ch 20, Hohenwarthe ch 01 (+49 39222 9517-200). Kanalbrücke Magdeburg (km 321.25–322.4): no meeting or overtaking. Motorised small craft may cross only together with and behind a commercial vessel; if none is in sight, call Hohenwarthe from the intercom at the waiting point marked 'Sport'. Rothensee lock (ch 79) is the alternative link to the Elbe and Magdeburg."
+  },
+  "season": {
+   "best": null,
+   "closures": "One Hohenwarthe chamber was drained and closed for works in July 2026 (Volksstimme, 16.07.2026); its end date and current status were not found. Niegripp lock (link to the Elbe) is reported closed until 2027. Ice: shipping is normally suspended in sustained frost (WSA icebreaker at Genthin)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Ice in hard winters, mainly Jan–Feb: whole canal closed Feb 2021 (12 cm ice) and from 23 Jan 2026. Open in most winters. Hohenwarthe chamber works 2026: expect waits."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Spree-Havel (Zerben, Wusterwitz; Außenbezirk Genthin) and WSA Elbe (Hohenwarthe, Kanalbrücke Magdeburg)",
+   "url": "https://www.wsa-elbe.wsv.de/"
+  },
+  "notices": "https://www.elwis.de (NfB: Elbe-Havel-Kanal, Mittellandkanal)",
+  "notes": "Speed limit 12 km/h (15 km/h on km 325.7–380.9 per the GDWS table); 15 km/h on the MLK over the Kanalbrücke. Licence required above 15 PS. Lowest bridge: Genthin railway bridge, 5.73 m at mean water. Plan around the Hohenwarthe chamber works: expect waiting time.",
+  "sources": [
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/Elbe_Havel_Kanal_mit_Pareyer_Verbindungskanal/Schleuse-Zerben/Schleuse_Zerben_text.html",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/01_Wasserstrassen/01_BauwerkeAnlagen/02_Schleusen/Elbe_Havel_Kanal_mit_Pareyer_Verbindungskanal/Schleuse_Wusterwitz/Schleuse_Wusterwitz_text.html",
+   "https://gesetze.legal/bund/wastrschlbetrzv_2013/anlage",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Ost.pdf?__blob=publicationFile",
+   "https://bscw.bund.de/pub/bscw.cgi/13345702",
+   "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:1639/2022",
+   "https://www.volksstimme.de/lokal/burg/schleuse-hohenwarthe-nur-halb-geoffnet-becken-ist-trockengelegt-wie-es-mit-dem-verkehr-weiter-geht-4285925",
+   "https://www.volksstimme.de/lokal/burg/schleuse-niegripp-an-der-elbe-bis-2027-gesperrt-welche-arbeiten-hier-anstehen-4150076",
+   "https://de.wikipedia.org/wiki/Schleuse_Hohenwarthe",
+   "https://de.wikipedia.org/wiki/Elbe-Havel-Kanal",
+   "https://www.wsa-spree-havel.wsv.de/Webs/WSA/Spree-Havel/DE/04_Service/06_Eisaufbruch/eisaufbruch_node.html",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://www.volksstimme.de/lokal/genthin/gefahr-kinder-spielen-auf-eisflaechen-des-kanals"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "mittellandkanal",
+  "name": "Mittellandkanal (Hohenwarthe – Bergeshövede)",
+  "aliases": [
+   "Mittellandkanal"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "MLK km 325.7 (Elbe-Havel-Kanal at Hohenwarthe/Magdeburg) to km 0 (Bergeshövede, Dortmund-Ems-Kanal)",
+  "navigable": "yes",
+  "class": "Vb",
+  "lengthKm": 325.3,
+  "depth": {
+   "usualM": 4.0,
+   "maxDraftM": 2.8,
+   "notes": "Standard trapezoidal profile 4 m deep; draught 2.80 m at the Anderten, Sülfeld Süd and Hohenwarthe locks (2.20 m in Sülfeld Nord)."
+  },
+  "airDraftM": 5.25,
+  "current": {
+   "typicalMs": 0,
+   "notes": "No current. West wind can raise the level at the ends of a reach by up to 40 cm."
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "Sülfeld (km 236.9, lift 9 m): Süd 225 × 12.5 m (5.25 m clearance), Nord 224 × 12.0 m (4.00 m clearance). Anderten (km 174.24, lift 14.7 m): two chambers 214 × 12.0 m",
+   "hours": "Per the 1991 ordinance: Anderten weekdays 05:00–21:00, Sun/holidays 07:00–12:30, closed 1 Jan, Easter Sunday, Whit Sunday, 1 May and 25–26 Dec. Sülfeld weekdays 05:00–21:00, Sun/holidays 08:00–17:30, 24/31 Dec 05:00–12:00, closed 1 Jan and 25–26 Dec. The WSA may deviate; check ELWIS.",
+   "notes": "VHF: Anderten ch 18 (+49 511 95085-2230), Sülfeld ch 20 (+49 5362 96112-150). Commercial and passenger vessels have priority at locks. Hohenwarthe and the Kanalbrücke are covered in the Elbe-Havel-Kanal entry."
+  },
+  "season": {
+   "best": null,
+   "closures": "Ice closures on the MLK in winter 2025/26 (logistik-heute). Chamber shutdowns happen, e.g. Anderten east chamber and Sülfeld south chamber in 2025. ELWIS NfB could not be reached on 2026-11-21, so check it before departure."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Ice closures in hard winters, mainly Jan–Feb: east MLK (km 236.9–325.7) closed from 30/31 Jan 2026; Sülfeld–Magdeburg closed in Feb 2021. Western MLK rarely affected."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Mittellandkanal/Elbe-Seitenkanal (eastern end from Hohenwarthe: WSA Elbe)",
+   "url": "https://www.wsa-mittellandkanal-elbe-seitenkanal.wsv.de/"
+  },
+  "notices": "https://www.elwis.de (NfB, Mittellandkanal)",
+  "notes": "Speed limit 15 km/h on upgraded sections, otherwise 12 km/h. Licence required above 15 PS. Heavy commercial traffic: keep watch on VHF and give way to commercial vessels at locks. Long straight canal with few sport-boat berths, so plan fuel and overnight stops ahead.",
+  "sources": [
+   "https://de.wikipedia.org/wiki/Mittellandkanal",
+   "https://www.lexaris.de/book/version/documentflat/head/129784",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Mitte.pdf?__blob=publicationFile",
+   "https://www.nlwkn.niedersachsen.de/wassersport/schifffahrtsweg_elbe_weser/-46133.html",
+   "https://logistik-heute.de/news/eis-legt-schifffahrt-lahm-sperrungen-am-mittellandkanal-247611.html",
+   "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:0669/2025",
+   "https://www.elwis.de/DE/dynamisch/Nfb/NfbDetailview/showPdf:1319/2025",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf",
+   "https://logistik-heute.de/news/binnenschifffahrt-eis-blockiert-wasserstrassen-niedersachsen-248077.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "dek-sued-bergeshoevede-datteln",
+  "name": "Dortmund-Ems-Kanal (Bergeshövede – Datteln)",
+  "aliases": [
+   "Dortmund-Ems-Kanal",
+   "Dattelner Meer"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Mittellandkanal junction at Bergeshövede (DEK km 108.35) south to the Datteln canal junction (Dattelner Meer, km 21.5), continuing a few km to the Rhein-Herne-Kanal junction at Henrichenburg with no lock in between (summit pound Herne–Münster)",
+  "navigable": "yes",
+  "class": "IV (CEMT); Vb only Dortmund – Wesel-Datteln-Kanal junction (km 1.44–21.33)",
+  "lengthKm": 86.9,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 2.5,
+   "notes": "Max permitted draught 2.50 m Datteln–Mittellandkanal (2.80 m planned after upgrading). A 1 m draught is no problem."
+  },
+  "airDraftM": 4.45,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Artificial still-water canal in the south section, with no meaningful current. Expect wash from large commercial vessels."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Münster (km 71.495): 2 chambers of 190 × 12.56 m (2008, 2014) plus chamber 3 of 223 × 12.00 m; lift 6.20 m; about 50–57 min per lockage",
+   "hours": "Münster: exact hours not verified (ELWIS lock database unreachable). A boating club says DEK locks are normally open daily 06:00–22:00 all year. Check ELWIS Schleuseninformationen.",
+   "notes": "VHF channel 22 at Münster, tel. +49 251 23938-275. On federal waterways leisure craft are locked after commercial vessels, usually together with them. With VHF and timely registration they may be locked individually. Henrichenburg/Waltrop lock and lift (km 14.75) lead to Dortmund only and are not on this route."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Maintenance closures are announced in ELWIS NfB. Münster lock inspections have been held in August/September in past years. No closure on this reach was found for 21 Nov 2026. Ice is possible in hard winters (ELWIS Eislage-Meldungen)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring closure. Ice only in rare hard winters (no DEK ice closure in Jan–Feb 2026). Short lock inspections (e.g. Münster, Aug/Sep in past years) announced in ELWIS."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Westdeutsche Kanäle (Standort Rheine km 21.5–138.3; Standort Duisburg km 1.44–21.5)",
+   "url": "https://www.wsa-westdeutsche-kanaele.wsv.de/"
+  },
+  "notices": "https://www.elwis.de/DE/Binnenschifffahrt/Binnenschifffahrt-node",
+  "notes": "Lowest fixed bridges: about 4.45 m at normal water and 3.98 m at the upper limit level (Prozessionsweg/Gelmer area, km 70–79). A 3 m air draught clears them. A Sportbootführerschein Binnen is needed above 11.03 kW (15 PS). Expect heavy commercial traffic. The DEK-Nord lock works (Gleesen etc.) are north of this reach.",
+  "sources": [
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/DEK-Allgemein.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/SchleuseMuenster.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/Bundeswasserstrassen/Revier/revier_node.html",
+   "https://www.elwis.de/DE/Service/Daten-und-Fakten/Technische-Daten/DEK-Sued.pdf?__blob=publicationFile&v=3",
+   "https://www.elwis.de/DE/Service/Daten-und-Fakten/Technische-Daten/GDWS-Muenster.pdf?__blob=publicationFile&v=3",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/SharedDocs/FAQs/DE/Schleusenbetriebszeiten.html",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Suedwest.pdf?__blob=publicationFile&v=2",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/SharedDocs/Pressemitteilungen/DE/_2026/20260914_Schleuse_Gleesen_PM.html",
+   "https://www.eyc-lingen.de/wasserstrasseninformationen/",
+   "https://de.wikipedia.org/wiki/Dortmund-Ems-Kanal",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "rhein-herne-kanal",
+  "name": "Rhein-Herne-Kanal (Henrichenburg – Duisburg-Ruhrort)",
+  "aliases": [
+   "Rhein-Herne-Kanal",
+   "Verbindungskanal zur Ruhr",
+   "Ruhr"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Junction with the Dortmund-Ems-Kanal at Henrichenburg (RHK km 45.6) west to Duisburg-Ruhrort harbour (km 0.16) and the Rhine. The alternative exit is the Verbindungskanal zur Ruhr and the Ruhrschleuse Duisburg (Ruhr km 2.8).",
+  "navigable": "yes",
+  "class": "Vb (km 0.16–39.96), IV (km 39.97–45.60)",
+  "lengthKm": 45.4,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 2.5,
+   "notes": "Canal 4–6 m deep. The permitted draught east of Gelsenkirchen is 2.50–2.80 m depending on vessel size. Widening east of Gelsenkirchen is expected to finish 2029 at the earliest."
+  },
+  "airDraftM": 4.58,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Still-water canal; no current."
+  },
+  "locks": {
+   "count": 5,
+   "chamber": "Herne-Ost 2 × 190 × 12 m (VHF 22); Wanne-Eickel south chamber 190 × 11.98 m, north chamber out of service (VHF 78); Gelsenkirchen 2 × 190 × 12 m (VHF 79); Oberhausen 2 × 190 × 12 m (VHF 81); Duisburg-Meiderich 1 × 190 × 11.89 m (VHF 82). Alternative: Ruhrschleuse Duisburg 310 × 12.8 m (VHF 78).",
+   "hours": "Duisburg-Meiderich (ELWIS): Mon 06:00–24:00, Tue–Fri 24 h, Sat until 22:00, Sun 06:00–22:00. Other RHK locks are reported to run 24 h as a rule (secondary source). Check ELWIS.",
+   "notes": "Leisure craft have no lock priority and are locked after or together with commercial vessels. Wait for the lock keeper's or signals' instruction. With VHF and prior registration, individual lockage is possible."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "A 7-week full closure of Wanne-Eickel lock planned for Aug/Sep 2026 was postponed (low water on the Rhine). The new date was not found, so watch ELWIS NfB. A short closure followed an oil spill near Herne on 22 Sep 2026; it has reopened. Ice is possible in hard winters."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring closure. Ice only in rare hard winters (no RHK ice closure in Jan–Feb 2026). Wanne-Eickel 7-week lock closure postponed from Aug/Sep 2026, new date open: watch ELWIS."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Westdeutsche Kanäle, Standort Duisburg",
+   "url": "https://www.wsa-westdeutsche-kanaele.wsv.de/"
+  },
+  "notices": "https://www.elwis.de/DE/Binnenschifffahrt/Binnenschifffahrt-node",
+  "notes": "Lowest bridges: 4.58 m at normal water (Bladenhorster Brücke km 39.6) and about 4.20 m at the upper limit level. Some bridges at km 0.66–0.71 are 5.25 m at HSW. This is a busy commercial canal, so keep right and stay clear of lock approaches. Moorings: Heinz-Schleußer-Marina Oberhausen (60 berths, 2.5 m depth) and the WSV yacht harbour above Herne-Ost.",
+  "sources": [
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/RHK-Allgemein.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/Ruhr-Allgemein.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/SchleuseHerneOst.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/SchleuseWanneEickel.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/SchleuseGelsenkirchen.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/SchleuseOberhausen.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/SchleuseDuMeiderich.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Wasserstrassen/BauwerkeAnlagen/Schleusen/RuhrschleuseDuisburg.html",
+   "https://www.wsa-westdeutsche-kanaele.wsv.de/Webs/WSA/Westdeutsche-Kanaele/DE/Schifffahrt/SportFreizeitschifffahrt/sportfreizeitschifffahrt_node.html",
+   "https://www.elwis.de/DE/Service/Daten-und-Fakten/Technische-Daten/RHK.pdf?__blob=publicationFile&v=3",
+   "https://www.elwis.de/DE/Service/Daten-und-Fakten/Technische-Daten/GDWS-Muenster.pdf?__blob=publicationFile&v=3",
+   "https://www.elwis.de/DE/dynamisch/Schleuseninformationen/anzeigen?schleusenid=396",
+   "https://dewiki.de/Lexikon/Schleuse_Herne-Ost",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Suedwest.pdf?__blob=publicationFile&v=2",
+   "https://binnenschifffahrt-online.de/2026/08/featured/39948/wsa-westdeutsche-kanaele-verschiebt-schleusensperrung-wanne-eickel/",
+   "https://www.ruhrnachrichten.de/regionales/rhein-herne-kanal-sperrung-oel-unfall-feuerwehr-einsatz-schleuse-ursache-schiffverkehr-w1251343-2002237862",
+   "https://de.wikipedia.org/wiki/Rhein-Herne-Kanal",
+   "https://dserver.bundestag.de/btd/21/046/2104605.pdf"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   6.7,
+   51.4,
+   7.5,
+   51.65
+  ]
+ },
+ {
+  "id": "rhein-duisburg-koblenz",
+  "name": "Rhine (Duisburg-Ruhrort – Koblenz)",
+  "aliases": [
+   "Rhein",
+   "Rhine"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Duisburg-Ruhrort (Rhine km 780.1, RHK/Ruhr mouth) upstream to Koblenz, Deutsches Eck (km 592.3, Moselle mouth)",
+  "navigable": "yes",
+  "class": "VIc (CEMT) below Bad Salzig (km 564.3)",
+  "lengthKm": 188,
+  "depth": {
+   "usualM": 2.5,
+   "maxDraftM": null,
+   "notes": "Free-flowing. Target fairway depth at GlW: 2.80 m from Krefeld (km 763) downstream and 2.50 m from Krefeld up to Koblenz. A 1 m draught is fine at all normal levels, but keep to the buoyed fairway at low water. Gauges on 21 Nov 2026 11:00: Ruhrort 4.12 m, Köln 3.12 m, Koblenz 2.33 m, Kaub 1.79 m, all 'normal'."
+  },
+  "airDraftM": 8.61,
+  "current": {
+   "typicalMs": 2.0,
+   "notes": "WSA Köln gives 0.5 to over 3.0 m/s depending on water level. A boat doing 10 km/h (2.8 m/s) through the water against 1.5–2.5 m/s makes only about 1–4.6 km/h over ground and cannot make headway in high water. For upstream legs, 15–20+ km/h through the water is advisable (derived)."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks between Duisburg and Koblenz."
+  },
+  "season": {
+   "best": "May–June and September–October (avoids winter/spring flood peaks and late-summer low water)",
+   "closures": "High-water marks (RheinSchPV), gauge Marke I / Marke II: Duisburg-Ruhrort 9.30/11.30 m, Köln 6.20/8.30 m, Koblenz 4.70/6.50 m, Kaub 4.60/6.40 m. Above Marke I, keep to the middle third of the fairway; maximum 20 km/h downstream. At Marke II all navigation stops. Low water: extreme low water in Aug–Oct 2026. The Rhine is otherwise navigable year-round."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    8,
+    9,
+    10,
+    11
+   ],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "High water Dec–Mar, peaks Jan–Feb (2016–25 mean monthly highs exceed Marke I at Köln/Koblenz in Jan); Marke II stops traffic for days only. Low water late summer–autumn, lowest Sep–Oct at Kaub."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Non-tidal free-flowing river; tidal influence only far downstream in the Netherlands."
+  },
+  "authority": {
+   "name": "WSA Rhein (km 493.5–865.5; Standorte Bingen, Köln, Duisburg-Rhein)",
+   "url": "https://www.wsa-rhein.wsv.de/"
+  },
+  "notices": "https://www.elwis.de/DE/Binnenschifffahrt/Binnenschifffahrt-node",
+  "notes": "RheinSchPV applies: heavy push-tow and container traffic. Above km 769 upstream vessels assign the passing side (blue board). Small craft are exempt from carrying VHF, but any VHF on board must send ATIS; carry the Handbuch Binnenschifffahrtsfunk and hold a UBI/SRC certificate; listen on ch 10. A Sportbootführerschein Binnen is needed above 11.03 kW. Bridges are at least 8.61 m above HSW.",
+  "sources": [
+   "https://www.wsa-rhein.wsv.de/Webs/WSA/Rhein/DE/Rhein/Zahlen_und_Daten/Zahlen_und_Daten_node.html",
+   "https://www.elwis.de/DE/Service/Daten-und-Fakten/Technische-Daten/GDWS-Muenster.pdf?__blob=publicationFile&v=3",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/K%C3%96LN.json?includeTimeseries=true&includeCharacteristicValues=true",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KAUB.json?includeTimeseries=true&includeCharacteristicValues=true",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/KOBLENZ.json?includeTimeseries=true&includeCharacteristicValues=true",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/DUISBURG-RUHRORT.json?includeTimeseries=true&includeCharacteristicValues=true",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/K%C3%96LN/W/currentmeasurement.json",
+   "http://www.wsa-koeln.wsv.de/wir/index.html",
+   "https://de.wikipedia.org/wiki/Wasserstra%C3%9Fen-_und_Schifffahrtsamt_K%C3%B6ln",
+   "https://de.wikipedia.org/wiki/Rheinschifffahrt",
+   "https://de.wikipedia.org/wiki/Rhein",
+   "https://www.gesetze-im-internet.de/rheinschpv_1994/__4_05.html",
+   "https://ilr.lu/wp-content/uploads/publication/ilr-fre-pub-2017-01-01-handbuch_binnenschifffahrtsfrunk_de.pdf",
+   "https://www.elwis.de/DE/Schifffahrtsrecht/Sprechfunkzeugnisse/Sprechfunkzeugnisse-node",
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Suedwest.pdf?__blob=publicationFile&v=2",
+   "https://binnenschifffahrt-online.de/2026/08/featured/39948/wsa-westdeutsche-kanaele-verschiebt-schleusensperrung-wanne-eickel/",
+   "https://dgj-daten.bafg.de/Rhein/Kaub/25700100_WQ.pdf",
+   "https://dgj-daten.bafg.de/Rhein/K%c3%b6ln/2730010_WQ.pdf",
+   "https://dgj-daten.bafg.de/Rhein/Koblenz/25900700_W.pdf",
+   "https://dgj-daten.bafg.de/Rhein/Duisburg%20Ruhrort/2770010_W.pdf",
+   "https://www.boerse-online.de/dpa-afx/behoerde-weitere-einschraenkungen-der-rhein-schifffahrt-moeglich-221955.html"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   6.4,
+   50.3,
+   7.8,
+   51.6
+  ]
+ },
+ {
+  "id": "mosel-koblenz-apach",
+  "name": "Moselle (Koblenz – Apach/Schengen)",
+  "aliases": [
+   "Mosel",
+   "Moselle",
+   "La Moselle"
+  ],
+  "countries": [
+   "DE",
+   "LU"
+  ],
+  "reach": "Rhine confluence at Koblenz (Mosel km 0) to the German–French border at Apach/Schengen (km 242.2). Germany: Koblenz–Trier. Km 206–242: German–Luxembourg condominium with 2 joint locks.",
+  "navigable": "yes",
+  "class": "Vb (CEMT)",
+  "lengthKm": 242,
+  "depth": {
+   "usualM": 3.0,
+   "maxDraftM": null,
+   "notes": "Fairway 3.0 m from Koblenz lock to the French border; 2.50 m (at Rhine GlW) from the mouth to Koblenz lock. Boat-lock approaches are 1.50 m deep; the Koblenz boat-lock approach depends on the Rhine level."
+  },
+  "airDraftM": 5.23,
+  "current": {
+   "typicalMs": null,
+   "notes": "Fully impounded by 12 dams on this reach, so current is slight at normal levels and strong in floods. Speed limit 30 km/h relative to the bank."
+  },
+  "locks": {
+   "count": 12,
+   "chamber": "170 × 12 m at Koblenz, Lehmen, Müden, Fankel, St. Aldegund, Enkirch, Zeltingen, Wintrich, Detzem, Trier, Grevenmacher, Palzem/Stadtbredimus. Second chambers at Trier, Fankel and Zeltingen (210 × 12.5 m). Koblenz small chamber (122.5 × 12 m) out of service since 15 Sep 2022 until further notice. Self-operated boat locks (Bootsschleusen) and boat slides at every dam.",
+   "hours": "Ship locks: Lehmen 00:00–24:00 all year (ELWIS); Grevenmacher and Stadtbredimus staffed day and night. Boat locks: 1 Apr–31 Oct, daylight only. VHF: Koblenz 20, Lehmen 78, Müden 79, Fankel 81, St. Aldegund 82, Enkirch 18, Zeltingen 20, Wintrich 22, Detzem 78, Trier 79, Grevenmacher 18, Palzem 20.",
+   "notes": "1 Apr–31 Oct, craft under 18 m long, 3.30 m beam and 1.50 m draught must use the boat locks (except Koblenz); wider boats use the ship lock. From 1 Nov to 31 Mar small craft use the ship locks after commercial traffic. Boat locks at Zeltingen, Wintrich, Detzem and Trier have been out of service until further notice since 30 Apr 2026 (Leitzentrale Trier +49 651 3609-200)."
+  },
+  "season": {
+   "best": "May–September (boat locks open 1 Apr–31 Oct; avoid the closure week)",
+   "closures": "The annual joint closure of all Mosel/Saar locks lasts about 10 days: 8–17 June 2026; next 31 May–9 June 2027, then 15–24 May 2028. High water: Trier M_I 5.20 m, M_II 5.80 m, M_III/HSW 6.95 m; Cochem M_I 4.50 m, M_II 5.00 m, HSW 6.00 m. In Feb 2026 HWM III at Grevenmacher closed the Trier pound. Low water in summer/autumn 2026 caused longer lock waits. Short maintenance closures (e.g. Detzem delays 12–13 Nov 2026)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    12,
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Joint lock closure ~10 days each year: 8–17 Jun 2026, 31 May–9 Jun 2027, 15–24 May 2028. Floods Dec–Feb (mean monthly highs above HWM I at Trier/Cochem; HWM III Feb 2026). Boat locks only 1 Apr–31 Oct."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Mosel-Saar-Lahn (Koblenz/Trier); Service de la Navigation Luxembourg, Grevenmacher (condominium locks); Moselkommission (Trier)",
+   "url": "https://www.wsa-mosel-saar-lahn.wsv.de/"
+  },
+  "notices": "http://avis.moselkommission.org/",
+  "notes": "MoselSchPV applies. No tolls: international Mosel dues abolished from 20 Nov 2025, and Luxembourg has always charged leisure craft nothing. Use ch 10 ship-to-ship. No mooring or landing in the lower approach of Lehmen lock. Winter service at lock platforms is limited. A Sportbootführerschein Binnen is needed above 11.03 kW. Gauges on 21 Nov 2026: Trier 4.20 m, Cochem 3.52 m (normal).",
+  "sources": [
+   "https://www.gdws.wsv.bund.de/SharedDocs/Downloads/DE/Publikationen/_GDWS/Schifffahrt/Sportschifffahrt_Suedwest.pdf?__blob=publicationFile&v=2",
+   "https://www.elwis.de/DE/Service/Daten-und-Fakten/Technische-Daten/GDWS-Mainz.pdf?__blob=publicationFile&v=3",
+   "https://transports.public.lu/dam-assets/transports-fluviaux/guide-pratique-navigation-plaisance-sports-nautiques-moselle-de.pdf",
+   "https://www.moselkommission.org/index.php?id=754",
+   "https://www.moselkommission.org/fileadmin/user_upload/Sperrzeiten%20und%20Verkehr/Schleusensperrzeiten_Plan_2021-2035.pdf",
+   "https://www.wsa-mosel-saar-lahn.wsv.de/Webs/WSA/Mosel-Saar/DE/SharedDocs_MSL/Pressemitteilungen/20260513Schleusensperre2026.html",
+   "https://www.wsa-mosel-saar-lahn.wsv.de/SharedDocs/Kurzmeldungen/Webs/WSA/WSA_Mosel_Saar_Lahn/20260430_Bootsschleusen_au%C3%9Fer_Betrieb.html",
+   "https://www.wsa-mosel-saar-lahn.wsv.de/SharedDocs/Kurzmeldungen/Webs/WSA/WSA_Mosel_Saar_Lahn/2026_Niedrigwasserstaende_BW.html",
+   "https://www.wsa-mosel-saar-lahn.wsv.de/Webs/WSA/Mosel-Saar/DE/02_Schifffahrt/04_Schleusenbetrieb/schleusenbetrieb_node.html",
+   "http://avis.moselkommission.org/uploads/tx_mknews/FR-2025-08527_D.pdf",
+   "http://avis.moselkommission.org/uploads/tx_mknews/1853-2022_D.pdf",
+   "http://avis.moselkommission.org/uploads/tx_mknews/1451-2026_D.pdf",
+   "http://avis.moselkommission.org/uploads/tx_mknews/NIF_HWM_III_Grevenmacher-Wellen_13_02_2026_14_Uhr.pdf",
+   "http://avis.moselkommission.org/uploads/tx_mknews/3114-2026_D.pdf",
+   "http://avis.moselkommission.org/uploads/tx_mknews/78-2025_KO-Mosel__RIS_3372-2025__D.pdf",
+   "http://avis.moselkommission.org/uploads/tx_mknews/2393-2022_D.pdf",
+   "https://www.elwis.de/DE/dynamisch/Schleuseninformationen/anzeigen?schleusenid=25",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/TRIER%20UP.json?includeTimeseries=true&includeCharacteristicValues=true",
+   "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/COCHEM.json?includeTimeseries=true&includeCharacteristicValues=true",
+   "https://de.wikipedia.org/wiki/Mosel",
+   "https://dgj-daten.bafg.de/Rhein/Trier/26500100_WQ.pdf",
+   "https://dgj-daten.bafg.de/Rhein/Cochem/26900400_WQ.pdf"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   6.3,
+   49.42,
+   7.7,
+   50.4
+  ]
+ },
+ {
+  "id": "moselle-fr",
+  "name": "Moselle canalisée (Apach – Neuves-Maisons)",
+  "aliases": [
+   "La Moselle",
+   "La Moselle Canalisée",
+   "Moselle Canalisée",
+   "Moselle canalisée",
+   "Moselle",
+   "Canal de la Moselle",
+   "Dérivations de Pagny-sur-Moselle",
+   "Dérivation de Pagny-sur-Moselle",
+   "Dérivation de Custines",
+   "Dérivation de Pompey",
+   "Canal des Mines de Fer de la Moselle"
+  ],
+  "countries": [
+   "FR",
+   "LU",
+   "DE"
+  ],
+  "reach": "Franco-Luxembourg-German border at Apach/Schengen (PK ~242, km counted from Koblenz) to the Darse de Neuves-Maisons (PK 394)",
+  "navigable": "restricted",
+  "class": "Vb (CEMT, large gauge)",
+  "lengthKm": 152,
+  "depth": {
+   "usualM": 3.0,
+   "maxDraftM": 2.8,
+   "notes": "Fairway dredged to 3 m; loaded draught 2.80 m. A 1 m draught boat has no depth issue."
+  },
+  "airDraftM": 6.0,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded river (15 dams in France plus Apach-Schengen); current only noticeable in floods."
+  },
+  "locks": {
+   "count": 16,
+   "chamber": "Large locks ≥172 × 12 m (176 × 12 m downstream of Frouard, 185 × 12 m upstream); small parallel locks 38.5 × 5.10 m at Thionville, Richemont, Talange, Metz, Toul",
+   "hours": "VNF Nord-Est 2024 schedule lists some Moselle locks 24 h and others 7:00–19:00 for pleasure craft; check current VNF schedule",
+   "notes": "Until 30/11/26 (est.) Neuves-Maisons–Pompey: boats grouped, longer lockings, compulsory announcement before any movement to Centre Régional d'Annonce 0 800 519 665; Pompey–Pagny also grouping. Small locks Toul (53) and Clévant (1p) unavailable to 31/12/26."
+  },
+  "season": {
+   "best": null,
+   "closures": "Winter chômages on individual locks are announced by avis à la batellerie; water-shortage restrictions in dry summers/autumns (2026: from 29/06)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Joint Moselle lock closure ~10 days late May/June (2027: 31 May–9 Jun). Floods mainly Dec–Feb (Perl gauge mean monthly highs peak Jan–Feb). Winter lock chômages and dry-summer water restrictions (2026 from 29/06) by avis."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Nord-Est",
+   "url": "https://www.vnf.fr"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/",
+  "notes": "VNF vignette required (boats >5 m or engine ≥9.9 CV). Permis plaisance (eaux intérieures) needed for engines >4.5 kW. Nancy marina (darse Saint-Georges, Marne-Rhin canal) closed until spring 2027. Ship-to-ship VHF 10 on Lux section.",
+  "sources": [
+   "https://moselkommission.org/en/the-moselle/facts-figures",
+   "https://download.data.public.lu/resources/brochures-dinformations-du-service-de-la-navigation/20230403-092926/02-les-infrastructures-2011.pdf",
+   "https://canallocks.blogspot.com/p/locks-river-moselle.html",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/261113_BulletinHebdoDTNE-S46.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://cd08.fr/sites/default/files/services-et-horaires-de-navigation-2024-sur-le-reseau-de-vnf-dans-le-nord-est-fr.pdf",
+   "https://transports.public.lu/dam-assets/transports-fluviaux/guide-pratique-navigation-plaisance-sports-nautiques-moselle-fr.pdf",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://dgj-daten.bafg.de/Rhein/Perl/26100100_WQ.pdf",
+   "https://www.moselkommission.org/index.php?id=754",
+   "https://www.moselkommission.org/fileadmin/user_upload/Sperrzeiten%20und%20Verkehr/Schleusensperrzeiten_Plan_2021-2035.pdf"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   5.8,
+   48.55,
+   6.45,
+   49.42
+  ]
+ },
+ {
+  "id": "canal-des-vosges",
+  "name": "Canal des Vosges (Neuves-Maisons/Messein – Corre)",
+  "aliases": [
+   "Canal des Vosges",
+   "Canal des Vosges (Bief de Partage)",
+   "Canal de l'Est (branche sud)",
+   "Canal de l'Est - Branche Sud"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Lock 47 Messein (PK 25.9, Moselle side) via the Golbey summit to lock 46 Corre on the Saône (PK 147.3)",
+  "navigable": "closed",
+  "class": "I (CEMT, Freycinet)",
+  "lengthKm": 122,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": 1.8,
+   "notes": "Freycinet draught 1.80 m; in 2026 open sections limited to 1.80 m, and Saône-side works limit to 1.20 m (Harsault–La Colosse to 24/11, Fontenoy–Montmotier to 27/11) and 1.60 m (Demangevelle–Vougécourt to 11/12/26)."
+  },
+  "airDraftM": 3.45,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Still-water canal."
+  },
+  "locks": {
+   "count": 93,
+   "chamber": "39 × 5.20 m (Freycinet)",
+   "hours": null,
+   "notes": "47 locks Moselle side (flight of 14 at the montée de Golbey, nos 1–14) and 46 Saône side; automatic locks worked by boaters with a remote control (télécommande) issued on entry. Summit level fed by Bouzey reservoir (3.85 Mm³; 29 % full on 12/11/26)."
+  },
+  "season": {
+   "best": null,
+   "closures": "Winter chômage typically mid-Feb to end of March (2026: 12/02–30/03); summit closed for water management in winter 2025-26; summer/autumn closures for lack of water (2026: from 24/06–01/07)."
+  },
+  "months": {
+   "closed": [
+    2,
+    3,
+    8,
+    9,
+    10
+   ],
+   "lowWater": [
+    7
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winter chômage mid-Feb–end Mar (2026: 12/02–30/03). Summit closed for water shortage in dry summers: from 23/08 2015, mid-July 2022, late June–30/11 2026; works cut the route Jul–Oct 2023 and in 2025."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Nord-Est (PC Golbey)",
+   "url": "https://www.vnf.fr"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/",
+  "notes": "CLOSED Messein (47) – Harsault (24) incl. Épinal branch for insufficient water until 30/11/26 (estimated, may be extended); Harsault–Corre open with grouping. Through route Moselle–Saône currently impossible. Vignette + permis eaux intérieures required.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/261113_BulletinHebdoDTNE-S46.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-du-reseau-du-13-novembre-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/260116_BulletinHebdoDTNE-S03.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/260710_BulletinHebdoDTNE-S28.pdf",
+   "https://gertrude-d.bourgognefranchecomte.fr/dossier/pdf/ce39595b-4756-49fc-80fa-d204239c80b7/le-canal-de-l-est-branche-sud-actuellement-canal-des-vosges.pdf",
+   "https://patrimoine.bourgognefranchecomte.fr/dossier/pdf/IA00141308",
+   "https://webissimo.developpement-durable.gouv.fr/IMG/pdf/formulaire_cle7b13f7-91.pdf",
+   "https://www.waymarking.com/waymarks/WM1580W_pinal_Flood_Gates_Canal_des_Vosges_pinal_France",
+   "https://fr.wikipedia.org/wiki/Canal_des_Vosges",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vosges.gouv.fr/contenu/telechargement/24935/173868/file/09062022_incident CARB.pdf",
+   "https://www.connexionfrance.com/news/parts-of-french-canals-closed-to-boats-due-to-low-water-level/183313",
+   "https://uzemain.fr/wp-content/uploads/2020/07/fichier483265168352156.pdf",
+   "https://www.vosges.gouv.fr/contenu/telechargement/26658/211227/file/RAA.pdf",
+   "https://bourgenbresse.site.attac.org/IMG/pdf/avis_rafiot_liaison_seine-saone_15_juillet_2025.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "petite-saone",
+  "name": "Petite Saône (Corre – Saint-Jean-de-Losne)",
+  "aliases": [
+   "La Saône",
+   "Saône",
+   "Petite Saône",
+   "La Petite Saône",
+   "Tunnel-canal de Saint-Albin",
+   "Souterrain de Saint-Albin",
+   "Souterrain de Savoyeux",
+   "Tunnel de Savoyeux"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Corre (PK 407.3, junction with Canal des Vosges) to Saint-Jean-de-Losne (PK ~219); shares the name 'La Saône' with the Grande Saône (PK 0–219)",
+  "navigable": "restricted",
+  "class": "I (Freycinet)",
+  "lengthKm": 188,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.8,
+   "notes": "Freycinet draught 1.80 m. 2026 drought vigilance: stoppages possible until 31/12/26."
+  },
+  "airDraftM": 3.5,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalised river with cuts (dérivations); current increases in floods."
+  },
+  "locks": {
+   "count": 19,
+   "chamber": "≈40 × 5.1 m (Freycinet)",
+   "hours": "Winter (04/11/26–21/03/27): announce 48 h ahead on 03 84 65 70 09 to pass locks",
+   "notes": "Locks automatic, worked by boaters. Two tunnels: Saint-Albin (683 m, lit, traffic lights) and Savoyeux. Quay collapse Broye-les-Pesmes (PK 260.5) to 31/03/27."
+  },
+  "season": {
+   "best": null,
+   "closures": "Winter reduced service with 48 h notice; drought restrictions in dry summers."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Winter floods Dec–Mar, peak Jan–Feb. Winter service on 48 h notice (2026/27: 04/11–21/03). Drought vigilance with possible stoppages in dry years (2026: 01/06–31/12)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Rhône Saône",
+   "url": "https://www.vnf.fr"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/",
+  "notes": "'La Saône'/'Saône' aliases are shared with the Grande Saône sheet; use the reach (PK >219 = Petite Saône). Vignette + permis eaux intérieures required.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.bateaux.com/article/39520/la-petite-saone-riviere-accueillante-aux-plaisanciers-pensee-accueil-et-services",
+   "https://www.cirkwi.com/fr/point-interet/224949-savoyeux-ecluse-et-tunnel",
+   "https://www.cirkwi.com/fr/circuit/24528-petite-saone-de-la-bourgogne-a-la-mediterranee",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://fr.wikipedia.org/wiki/Saône"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   5.15,
+   47.09,
+   6.3,
+   47.95
+  ]
+ },
+ {
+  "id": "grande-saone",
+  "name": "Grande Saône (Saint-Jean-de-Losne – Lyon)",
+  "aliases": [
+   "La Saône",
+   "Saône",
+   "Grande Saône"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Saint-Jean-de-Losne (PK ~219) to the Rhône confluence at Lyon (PK 0); shares 'La Saône' with the Petite Saône (PK 219–407)",
+  "navigable": "yes",
+  "class": "Va (large gauge)",
+  "lengthKm": 219,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Shoals noted near Rochetaillée, Montmerle and Chauvort bridge (avis to 04/2027)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded river; floods (crues) can stop or restrict traffic in Lyon."
+  },
+  "locks": {
+   "count": 5,
+   "chamber": "≈190 × 12 m",
+   "hours": null,
+   "notes": "Seurre, Ecuelles, Ormes, Dracé, Rochetaillée (Couzon). Pleasure-boat grouping at these locks ended 15/11/26. Temporary leisure waiting pontoon at Rochetaillée."
+  },
+  "season": {
+   "best": null,
+   "closures": "Floods mainly in winter/spring; check VNF notices."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    1,
+    2
+   ],
+   "ice": [],
+   "notes": "Floods mainly Dec–Mar, highest mean flow in Feb (Couzon); high water stops large boats under Lyon bridges and makes upstream travel hard. Lowest flows Aug."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Rhône Saône",
+   "url": "https://www.vnf.fr"
+  },
+  "notices": "https://www.vnf.fr/vnf/services/avisbat/",
+  "notes": "Bragny bridge (PK 166.6) headroom 8.90 m during works to 15/02/27. 'La Saône' alias shared with Petite Saône sheet (use PK <219). Saint-Jean-de-Losne is a major boating hub (fuel, yards). Vignette + permis eaux intérieures.",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.bateaux.com/article/40823/saint-jean-de-losne-le-carrefour-de-la-navigation-fluviale-en-bourgogne",
+   "https://patrimoine.bourgognefranchecomte.fr/dossier/pdf/IA00141307",
+   "https://www.lyoncapitale.fr/?p=77845",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://fr.wikipedia.org/wiki/Saône",
+   "https://www.lyonmag.com/article/147798/crue-de-la-saone-a-lyon-les-navettes-fluviales-navigone-a-l-arret"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   4.75,
+   45.7,
+   5.35,
+   47.09
+  ]
+ },
+ {
+  "id": "rhone-aval",
+  "name": "Rhône (Lyon – Port-Saint-Louis-du-Rhône)",
+  "aliases": [
+   "Le Rhône",
+   "Rhône",
+   "Rhône canalisé",
+   "Canal de Dérivation du Rhône",
+   "Le Rhône - Canal de Châteauneuf-du-Rhône",
+   "Canal de Donzère-Mondragon",
+   "Le Rhône - Canal de Beaucaire",
+   "Canal de Bourg-lès-Valence",
+   "Le Canal"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Lyon (PK 0, Saône confluence) to the Port-Saint-Louis lock (PK 323.5) and the Golfe de Fos",
+  "navigable": "yes",
+  "class": "Va/Vb (large gauge)",
+  "lengthKm": 330,
+  "depth": {
+   "usualM": 3.0,
+   "maxDraftM": null,
+   "notes": "Guaranteed depth 3 m Lyon–Arles Nord, 4.25 m Arles–Port-Saint-Louis; none guaranteed from PK 323.5 to sea. Low water until 30/11/26 (est.): depth close to the guaranteed 3 m; 2.0 m limit at PK 22.2 RD."
+  },
+  "airDraftM": 6.3,
+  "current": {
+   "typicalMs": null,
+   "notes": "Current, mistral and dam openings can give local speeds of 3–4 m/s. Keep to the navigation cut, never approach power plants."
+  },
+  "locks": {
+   "count": 13,
+   "chamber": "190 × 12 m (Port-Saint-Louis 135 × 19 m)",
+   "hours": "5:00–21:00 all year for pleasure craft (night navigation prohibited); closed 1 Jan, 11 Nov, 25 Dec. Port-Saint-Louis leisure openings Rhône side ~6:00, 8:15, 11:50, 16:15, 18:45",
+   "notes": "Free for leisure boats; remote-controlled from CNR centre (CGN). Call the lock by VHF or phone giving lock, boat name, direction; wait on pontoons in arrival order. Group lockings with commercial/passenger craft favoured; after 45 min wait you are locked alone. Bollène/Châteauneuf width limited to 11.80 m (works)."
+  },
+  "season": {
+   "best": null,
+   "closures": "Annual stoppage of all large locks ~7–10 days in March (2026: 8–19 March). Pleasure navigation banned during flood restrictions (RNPC)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    11,
+    12
+   ],
+   "ice": [],
+   "notes": "CNR annual stoppage of large locks 7–10 days, usually March (2026: 8–19/03; 2023: 5–16/03). Floods mainly autumn (Mediterranean rain, Oct–Dec) and spring snowmelt; RNPC flood restrictions ban leisure craft."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Non-tidal above Port-Saint-Louis lock; the sea level at the mouth varies only a few tens of cm (see coastal sheet)."
+  },
+  "authority": {
+   "name": "CNR (concessionaire) / VNF Direction territoriale Rhône Saône",
+   "url": "https://www.cnr.tm.fr"
+  },
+  "notices": "https://www.inforhone.fr",
+  "notes": "Check inforhone.fr / 0820 10 10 20 for RNPC and conditions. Condrieu bridge (PK 39–43): alternating traffic, VHF compulsory, call on VHF 10, until 26/04/27. Lifejackets worn; speed limit 30 km/h. Mistral can raise steep waves on wide reaches.",
+  "sources": [
+   "https://www.cnr.tm.fr/app/uploads/2019/04/infos_naviguer_sur_le_rhone.pdf",
+   "https://www.cnr.tm.fr/wp-content/uploads/2016/05/navigating-the-rhone.pdf",
+   "https://inforhonemobile.cnr.tm.fr/Infos/FAQ",
+   "https://inforhone.cnr.tm.fr/",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/2026_11_12_bulletin_hebdo_avisbat_DTRS.pdf",
+   "https://www.echodumardi.com/politiqueetterritoire/rhone-quinze-jours-a-sec-pour-les-grandes-ecluses/",
+   "https://www.cnr.tm.fr/actualites/arret-annuel-de-navigation-sur-le-rhone-entre-lyon-et-la-mediterranee-aura-lieu-du-5-au-16-mars-2023/",
+   "https://fr.wikipedia.org/wiki/Rhône"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   4.2,
+   43.3,
+   5.0,
+   45.8
+  ]
+ },
+ {
+  "id": "med-coast-psl-monaco",
+  "name": "Mediterranean coast (Port-Saint-Louis-du-Rhône – Monaco)",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "FR",
+   "MC"
+  ],
+  "reach": "Port-Saint-Louis-du-Rhône / Golfe de Fos – Marseille – Cassis – La Ciotat – Toulon – Porquerolles – Saint-Tropez – Saint-Raphaël – Cannes – Antibes – Nice – Monaco (Port Hercule)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Open sea; harbour depths ample for 1 m draught (Port Hercule pool 2.5 m+)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Distances (NM, published): Marseille–Cassis 15, Cassis–La Ciotat ~7, Marseille–La Ciotat 20, Marseille–Toulon 46, Marseille–Porquerolles 50, Porquerolles–Saint-Tropez 24.5, Marseille–Monaco 93. Straight-line minima computed from harbour positions (route longer): PSL–Marseille 24.5, Toulon–Porquerolles 14, St-Tropez–St-Raphaël 10.5, St-Raphaël–Cannes 13, Cannes–Antibes 5.5, Antibes–Nice 9.5, Nice–Monaco 6.5."
+  },
+  "season": {
+   "best": null,
+   "closures": "Mistral (NW) and other gales: check Météo-France BMS; Monaco: exclusion zone off Larvotto reserve 28/09/26–31/03/27."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Sea route, no closures. Mistral (NW, gusts >32 kn per Météo-France) most frequent in winter and early spring, shorter in summer; ~81 mistral days/yr at Toulon. Larvotto exclusion zone 28/09/26–31/03/27."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 0.3,
+   "notes": "Microtidal: predicted range at Marseille ~0.2–0.3 m. Wind and low pressure cause surges (surcote) of a few tens of cm, more in the Gulf of Lion during onshore storms; predicted tides exclude these."
+  },
+  "authority": {
+   "name": "Préfecture maritime de la Méditerranée / CROSS MED La Garde; Ports de Monaco (SEPM)",
+   "url": "https://www.premar-mediterranee.gouv.fr"
+  },
+  "notices": "https://www.premar-mediterranee.gouv.fr",
+  "notes": "Sea equipment per Division 240: basic <2 NM from shelter, coastal 2–6 NM (100 N lifejackets, MOB buoy). Permis plaisance côtier needed (>4.5 kW). Inland-only boats may not be fit for sea: check CE design category/insurance. Weather VHF: Planier/Camarat ch 80, Toulon ch 63, Cannes ch 64 (announced on ch 16); Monaco Radio ch 23/25. Monaco Port Hercule: VHF 12, +377 97 77 30 00, book via espaceclient.ports-monaco.com, fuel on site.",
+  "sources": [
+   "https://meteofrance.fr/sites/meteofrance.fr/files/files/editorial/Guide_marine_octobre2022.pdf",
+   "https://www.mer.gouv.fr/le-materiel-darmement-et-de-securite-et-les-limites-dutilisation",
+   "https://www.gironde.gouv.fr/index.php/contenu/telechargement/72105/538714/file/Fiche 5 - Équipement de sécurité des navires de plaisance.pdf",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur",
+   "https://www.ports-monaco.com/en/the-ports-of-monaco/port-hercule/",
+   "https://www.ports-monaco.com/en/",
+   "https://www.ports-monaco.com/wp-content/uploads/2026/10/AM-n°2026-489-du-3-septembre-2026.pdf",
+   "https://blog.clickandboat.com/location-bateau-marseille-memo",
+   "https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques",
+   "https://figaronautisme.meteoconsult.fr/actus-nautisme-escales/2025-12-10/83884-5-escapades-entre-marseille-et-la-ciotat-meme-en-hiver",
+   "https://marine.meteoconsult.fr/meteo-marine/horaires-des-marees/marseille-58/juillet-2026",
+   "https://refmar.shom.fr/sites/default/files/2024-07/Formation-Niveau-Mer-Vincent-Donato9a0d.pdf",
+   "https://refmar.shom.fr/sites/default/files/2024-07/Trmal%26Pons_Journees-REFMAR-2013.pdf",
+   "https://figaronautisme.meteoconsult.fr/actus-nautisme-lifestyle/2026-02-13/85805-maree-en-mediterranee-un-phenomene-discret-mais-bien-reel",
+   "https://www.cnr.tm.fr/app/uploads/2019/04/infos_naviguer_sur_le_rhone.pdf",
+   "https://fr.wikipedia.org/wiki/Mistral_(vent)"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   3.8,
+   42.9,
+   7.7,
+   43.9
+  ]
+ },
+ {
+  "id": "wesel-datteln-kanal",
+  "name": "Wesel-Datteln-Kanal (Datteln – Wesel)",
+  "aliases": [
+   "Wesel-Datteln-Kanal"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Whole canal, Dortmund-Ems-Kanal/Dattelner Meer (km 60.2) down to the Rhine at Wesel (km 0.25)",
+  "navigable": "yes",
+  "class": "Vb",
+  "lengthKm": 60,
+  "depth": {
+   "usualM": 4.5,
+   "maxDraftM": null,
+   "notes": "Water depth 4.5–6 m; ample for 1 m draught"
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Still-water canal (no notable current)"
+  },
+  "locks": {
+   "count": 6,
+   "chamber": "Each step: large lock 225 × 12 m and small lock 110 × 12 m",
+   "hours": "Locks also work at night; exact hours (incl. Sundays) in the ELWIS lock search, not confirmed here",
+   "notes": "Friedrichsfeld km 1.9, Hünxe 13.3, Dorsten 30.5, Flaesheim 49.4, Ahsen 55.9, Datteln 59.3; total fall up to 44 m depending on Rhine level. Small locks renovated (Datteln, Ahsen, Dorsten done)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No regular seasonal closure found; check ELWIS NfB for lock closures"
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Occasional lock maintenance closures announced in ELWIS (NfB); none found for Nov 2026"
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Westdeutsche Kanäle (WSV)",
+   "url": "https://www.wsa-westdeutsche-kanaele.wsv.de/"
+  },
+  "notices": "https://www.elwis.de/DE/Sportschifffahrt/Sportschifffahrt-node.html",
+  "notes": "Heavy barge traffic (Vb class). German Sportbootführerschein Binnen needed for engines >11.03 kW (15 PS); <20 m. Waterway rest berths (max 72 h) at Friedrichsfeld, Hünxe, Dorsten, Haltern and Dattelner Meer; marinas at Dorsten, Flaesheim (Marina Flaesheim) etc.",
+  "sources": [
+   "https://de.wikipedia.org/wiki/Wesel-Datteln-Kanal",
+   "https://en.wikipedia.org/wiki/Wesel%E2%80%93Datteln_Canal",
+   "https://kleineanfragen.de/nordrhein-westfalen/17/11759-schleusensanierung-wesel-datteln-kanal.pdf",
+   "https://www.gdws.wsv.bund.de/SharedDocs/FAQs/DE/Schleusenbetriebszeiten.html",
+   "https://www.elwis.de/DE/Sportschifffahrt/Sportbootfuehrerscheine/Sportbootfuehrerscheine-node",
+   "https://www.elwis.de/DE/Sportschifffahrt/Sportschifffahrt-node.html"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "rhine-waal-lobith-gorinchem",
+  "name": "Rhine Wesel – Lobith, Boven-Rijn/Bijlandsch Kanaal, Waal to Gorinchem",
+  "aliases": [
+   "Rhein",
+   "Boven-Rijn",
+   "Bijlandsch Kanaal",
+   "Waal"
+  ],
+  "countries": [
+   "DE",
+   "NL"
+  ],
+  "reach": "Rhein (Niederrhein) from Wesel downstream past Emmerich to the border at Lobith; Boven-Rijn and Bijlandsch Kanaal to Pannerden; Waal (85 km) via Nijmegen and Tiel to Woudrichem/Gorinchem",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Free-flowing; fine for 1 m except near banks/groynes. Minimum gauged depths (MGD) published daily; summer 2026 low water with MGDs on the Waal"
+  },
+  "airDraftM": 7.72,
+  "current": {
+   "typicalMs": null,
+   "notes": "Free-flowing river, downstream current all the way; about 2/3 of Rhine flow goes down the Waal (avg 1,500 m³/s). Near-bank speeds 0.4–0.9 m/s measured at a groyne section; fairway faster"
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    7,
+    8,
+    9
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Low water July–Sept 2026 (MGDs, overtaking bans possible); flood bans possible at very high discharge"
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "No planned closures; navigation may be restricted at extreme high water"
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "WSA Rhein (DE) / Rijkswaterstaat Oost-Nederland (NL)",
+   "url": "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/waal"
+  },
+  "notices": "https://www.vaarweginformatie.nl",
+  "notes": "Very heavy commercial traffic: keep starboard, use the yellow-buoyed recreation channels in the Nijmegen bends. Marifoon not mandatory <20 m but if carried you must listen: VTS sectors Millingen ch 5, Nijmegen ch 4, Tiel ch 69, St. Andries ch 68, else ch 10; operator certificate needed. DE: Sportbootführerschein for >11.03 kW. NL: Klein Vaarbewijs only if ≥15 m or >20 km/h.",
+  "sources": [
+   "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/waal",
+   "https://en.wikipedia.org/wiki/Waal_(river)",
+   "https://www.rijkswaterstaat.nl/water/scheepvaart/pleziervaart/recreatiegeulen-een-veilige-vaarweg-voor-recreatieschippers",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart",
+   "https://ondernemersplein.overheid.nl/wetten-en-regels/regels-voor-marifoongebruik/",
+   "https://oud.sportvisserijnederland.nl/files/langsdammen%20RWS%20flyer%20Veilig%20varen%20op%20de%20Waal_v3.pdf",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
+   "https://www.cbr.nl/nl/recreatievaart-ppl-rzam/nl-1/vaarbewijsplicht",
+   "https://www.elwis.de/DE/Sportschifffahrt/Sportbootfuehrerscheine/Sportbootfuehrerscheine-node",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2026/07/droogte-effecten-op-scheepvaart-nemen-verder-toe",
+   "https://www.rijkswaterstaat.nl/water/waterbeheer/droogte-en-watertekort/maatregelen-voor-de-scheepvaart",
+   "https://commissiemer.nl/projectdocumenten/00005706.pdf",
+   "https://de.wikipedia.org/wiki/Niederrhein_(Fluss)"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   4.9,
+   51.6,
+   6.7,
+   51.95
+  ]
+ },
+ {
+  "id": "merwede-hollandsch-diep-volkerak",
+  "name": "Boven-Merwede, Nieuwe Merwede, Hollandsch Diep and Volkerak (Volkeraksluizen)",
+  "aliases": [
+   "Boven-Merwede",
+   "Nieuwe Merwede",
+   "Hollandsch Diep",
+   "Noord Volkerak",
+   "Volkerak"
+  ],
+  "countries": [
+   "NL"
+  ],
+  "reach": "Gorinchem down the Boven- and Nieuwe Merwede to the Hollandsch Diep, past Moerdijk to the Volkeraksluizen (Willemstad) and across the Volkerak to the Krammersluizen",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Main fairways deep; Volkerak jachtensluis sill NAP −6.25 m"
+  },
+  "airDraftM": 8.61,
+  "current": {
+   "typicalMs": null,
+   "notes": "River current on the Merwedes; Hollandsch Diep/Volkerak almost stagnant"
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Jachtensluis Volkeraksluizen 135 × 16 m (fixed bridge 17.14 m)",
+   "hours": "Volkeraksluizen complex operates day and night",
+   "notes": "Lock tel. 088-7974990. Commercial chambers 280–350 × 24 m use VHF block channels 7 (north) and 25 (south)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No seasonal closures found"
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "None found for Nov 2026"
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "No relevant tide for a leisure boat found in sources (Haringvliet sluices damp the tide)"
+  },
+  "authority": {
+   "name": "Rijkswaterstaat",
+   "url": "https://www.rijkswaterstaat.nl/water/waterbeheer/bescherming-tegen-het-water/waterkeringen/deltawerken/volkeraksluizen"
+  },
+  "notices": "https://www.vaarweginformatie.nl",
+  "notes": "Fixed bridges: Merwedebrug Gorinchem 10.74 m, Moerdijk rail bridge 8.61 m, Moerdijkbrug 9.15 m. Moerdijk VTS sector ch 10. Busy barge route to Antwerp: keep out of the fairway where possible. Marifoon listening duty if carried.",
+  "sources": [
+   "https://www.rijkswaterstaat.nl/water/waterbeheer/bescherming-tegen-het-water/waterkeringen/deltawerken/volkeraksluizen",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Chamber",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Lock",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2025/06/recreatievaart-nog-veiliger-door-nieuwe-marifoonkaart"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "zeeland-krammer-kdzb",
+  "name": "Zeeland: Krammersluizen, Keeten/Brabantsche Vaarwater and Kanaal door Zuid-Beveland (Hansweert)",
+  "aliases": [
+   "Noordergat",
+   "Zuid Vlije",
+   "Keeten",
+   "Brabantsche Vaarwater",
+   "Kanaal door Zuid-Beveland"
+  ],
+  "countries": [
+   "NL"
+  ],
+  "reach": "Krammersluizen (Philipsdam) – Krammer/Keeten – Oosterschelde – Wemeldinge – Kanaal door Zuid-Beveland (11 km) – Hansweert locks",
+  "navigable": "restricted",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Canal depth NAP −6.5 to −4.8 m; Krammer jachtensluis sill NAP −3.7 / MP −2.7 m; tidal Oosterschelde waters"
+  },
+  "airDraftM": 6.99,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal streams on Krammer/Keeten and Oosterschelde; canal still water"
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "Krammer jachtensluis: 2 chambers 80 × 9 m; Hansweert: 2 chambers 280 × 24 m",
+   "hours": "Krammer: see planning (renovation). Hansweert: hours not confirmed (one-night closures for staff shortage reported earlier)",
+   "notes": "KRAMMER: north jachtensluis chamber closed 14 Sep 2026–9 May 2027; south chamber also closed 30 Nov–11 Dec 2026 07–17 h and 18 Jan–26 Feb 2027, 15–19 Mar 2027 (both closed then). During jachtensluis works pleasure craft may use the north duwvaartsluis chamber, itself closed 12 Oct–(postponed, ≥26 Nov 2026). Hansweert VHF 22, tel 088-7974811."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "2026–2028 Krammer renovation: daytime closures of both jachtensluis chambers in Dec, Jan–Feb, Mar and Sep–Nov (see planning)"
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Krammersluizen renovation until 2028; Vlakebrug major maintenance Jan 2027–Nov 2029"
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Krammer/Oosterschelde side is tidal; Krammer locks restrict at NAP −2.35/+2.75 m"
+  },
+  "authority": {
+   "name": "Rijkswaterstaat Zee en Delta",
+   "url": "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/kanaal-door-zuid-beveland"
+  },
+  "notices": "https://www.rijkswaterstaat.nl/water/projectenoverzicht/renovatie-krammersluizencomplex/planning",
+  "notes": "Canal speed limit 20 km/h for craft with wet cross-section <20 m² (15 km/h ≥20 m²). Wemeldinge traffic post VHF 68, Centrale Hansweert VHF 65. Bridges: Vlakebrug fixed 6.99 m, Postbrug fixed 7.66 m. If Krammer is shut, alternative via Schelde-Rijnkanaal/Kreekraksluizen (check notices).",
+  "sources": [
+   "https://www.rijkswaterstaat.nl/water/projectenoverzicht/renovatie-krammersluizencomplex/planning",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2026/08/werkzaamheden-aan-krammersluizen-langdurige-stremming-noordelijke-kolk-jachtensluis",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2026/11/samen-koers-houden-bij-de-krammersluizen",
+   "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/kanaal-door-zuid-beveland",
+   "https://www.rijkswaterstaat.nl/water/projectenoverzicht/kanaal-door-zuid-beveland-groot-onderhoud-vlakebrug",
+   "https://zoek.officielebekendmakingen.nl/stcrt-2025-12663.pdf",
+   "https://nos.nl/l/2482512",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Chamber",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Lock",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
+   "https://www.rijkswaterstaat.nl/water/projectenoverzicht/schelde-rijnkanaal-onderhoud-kreekraksluizen/planning-en-aanpak"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "westerschelde-hansweert-terneuzen",
+  "name": "Westerschelde crossing Hansweert – Terneuzen",
+  "aliases": [
+   "Westerschelde"
+  ],
+  "countries": [
+   "NL"
+  ],
+  "reach": "Tidal estuary from Hansweert lock entrance downstream (west) to the Terneuzen locks (recreational route Terneuzen–Hansweert)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Deep channels but many sandbanks; keep to buoyed channels"
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong tidal streams; cross-current ('giertij') of 2.2 to >3 kn between buoys 51–55 off Hansweert around HW Hansweert"
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Locks at each end: see Kanaal door Zuid-Beveland and Terneuzen sheets"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Weather/wind-dependent; no seasonal closure"
+  },
+  "season": {
+   "best": "May–September, settled weather",
+   "closures": "None"
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 5.0,
+   "notes": "Hansweert mean range 4.47 m, springs 5.03 m (HW +2.68, LW −2.35 m NAP; 1971–80). Go west with the ebb. Giertij warnings broadcast HW−2h to HW+1h Hansweert on spring days. Tides: waterinfo.rws.nl"
+  },
+  "authority": {
+   "name": "Rijkswaterstaat / Gemeenschappelijk Nautisch Beheer (VTS Scheldt)",
+   "url": "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/westerschelde"
+  },
+  "notices": "https://www.vaarweginformatie.nl",
+  "notes": ">150,000 ship passages/yr, one of the world's busiest waters: stay out of the main channel, use yellow-buoyed recreation routes, cross at right angles. If VHF fitted listen to VTS: Centrale Hansweert ch 65, Terneuzen ch 3 (Vlissingen 14). Klein Vaarbewijs II area if a licence is required.",
+  "sources": [
+   "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/westerschelde",
+   "https://www.rijkswaterstaat.nl/water/scheepvaart/pleziervaart/recreatiegeulen-een-veilige-vaarweg-voor-recreatieschippers",
+   "https://zoek.officielebekendmakingen.nl/stcrt-2025-43537.pdf",
+   "https://www.vliz.be/imisdocs/publications/ocrd/281862.pdf",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector",
+   "https://www.cbr.nl/nl/recreatievaart-ppl-rzam/nl-1/vaarbewijsplicht",
+   "https://rycb.be/wp-content/uploads/VHF-Schelde-kust.pdf"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "terneuzen-gent-ringvaart",
+  "name": "Terneuzen locks (Oostsluis), Kanaal Gent-Terneuzen and Ringvaart om Gent (to Vinderhoute)",
+  "aliases": [
+   "Oostsluis",
+   "Kanaal Gent-Terneuzen",
+   "Ringvaart om Gent"
+  ],
+  "countries": [
+   "NL",
+   "BE"
+  ],
+  "reach": "Oostsluis Terneuzen, Kanaal Gent-Terneuzen (32 km, 16 km NL) south to Evergem, Evergem lock, Ringvaart west/south to the Kanaal Gent-Brugge at Vinderhoute",
+  "navigable": "restricted",
+  "class": "VIb (canal); Ringvaart V/Vb",
+  "lengthKm": null,
+  "depth": {
+   "usualM": 13.5,
+   "maxDraftM": null,
+   "notes": "Seagoing-ship canal (to 265 × 36.5 × 12.5 m); 2026 low canal level from reduced Flemish inflow caused lock restrictions at Terneuzen from 24 Sep 2026"
+  },
+  "airDraftM": 6.5,
+  "current": {
+   "typicalMs": null,
+   "notes": "No current"
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "Oostsluis Terneuzen 280 × 24 m (inland craft and yachts); Evergem lock (Ringvaart, Vb-size)",
+   "hours": "Evergem lock 24/7 since 1 Feb 2026 (VHF 80, +32 9 253 06 34). Terneuzen hours not confirmed",
+   "notes": "Oostsluis tel 088-7970123; lock-head bridges 1–2 m closed (opened for passage). 2026 maintenance finished 28 Sep 2026. During closures yachts use Westsluis."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    7,
+    8,
+    9
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Summer 2026: low canal level, lock restrictions at Terneuzen (July, from 24 Sep)"
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Occasional lock maintenance (Oostsluis 1–24 Jun 2026)"
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Outer harbour Terneuzen is tidal (Westerschelde); canal non-tidal"
+  },
+  "authority": {
+   "name": "Rijkswaterstaat / North Sea Port (NL); De Vlaamse Waterweg (Ringvaart)",
+   "url": "https://www.rijkswaterstaat.nl/water/waterbeheer/bescherming-tegen-het-water/waterkeringen/dammen-sluizen-en-stuwen/noordzeesluizen"
+  },
+  "notices": "https://www.visuris.be",
+  "notes": "Seagoing ships: keep starboard. VHF: canal north sector ch 11, south ch 61; on first joining report on ch 11 (Uitkijk Terneuzen). Fixed bridge spans Sluiskil/Sas van Gent 6.5 m; Zelzate bridge VHF 11. Belgian permit not needed on KGT up to Meulestede, needed on Ringvaart. VHF mandatory on board in Flanders for motorboats ≥7 m.",
+  "sources": [
+   "https://www.rijkswaterstaat.nl/water/waterbeheer/bescherming-tegen-het-water/waterkeringen/dammen-sluizen-en-stuwen/noordzeesluizen",
+   "https://www.rijkswaterstaat.nl/water/projectenoverzicht/terneuzen-onderhoud-noordzeesluizen",
+   "https://www.rijkswaterstaat.nl/water/vaarwegenoverzicht/kanaal-van-gent-naar-terneuzen",
+   "https://nl.wikipedia.org/wiki/Kanaal_Gent-Terneuzen",
+   "https://nl.wikipedia.org/wiki/Ringvaart_om_Gent",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2026/09/schutbeperkingen-kanaal-gent-terneuzen-vanwege-lage-waterstand",
+   "https://www.rijkswaterstaat.nl/nieuws/archief/2026/07/droogte-effecten-op-scheepvaart-nemen-verder-toe",
+   "https://zoek.officielebekendmakingen.nl/stcrt-2026-25814.pdf",
+   "https://www.vlaamsewaterweg.be/nl/nieuws/uitgebreide-bedieningstijden-voor-sluizen-en-bruggen",
+   "https://www.vlaamsewaterweg.be/sites/default/files/2024-11/2019-1044_brochure_pleziervaart_2020_def_en_lr%20upd.pdf",
+   "https://www.visuris.be/waterwegenvergunning",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Chamber",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Lock",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:Opening",
+   "https://www.vaarweginformatie.nl/wfswms/services?SERVICE=WFS&REQUEST=GetFeature&VERSION=1.1.0&TYPENAME=app:VtsSector"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "gent-brugge-schipdonk-leie",
+  "name": "Kanaal Gent-Brugge, Schipdonkkanaal and Leie to the French border (Menen/Halluin)",
+  "aliases": [
+   "Kanaal Gent-Brugge",
+   "Schipdonkkanaal",
+   "Leie",
+   "Leie - La Lys"
+  ],
+  "countries": [
+   "BE",
+   "FR"
+  ],
+  "reach": "Kanaal Gent-Brugge from the Ringvaart (Vinderhoute) to Merendree/Schipdonk, Afleidingskanaal (Schipdonkkanaal) south to Deinze, Leie upstream via Sint-Baafs-Vijve, Harelbeke, Kortrijk to Menen/Halluin",
+  "navigable": "yes",
+  "class": "Va (Schipdonkkanaal Deinze–Gent-Brugge); Leie upgraded towards Vb (Seine-Schelde)",
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 2.5,
+   "notes": "Schipdonkkanaal Deinze–Gent-Brugge max draught 2.5 m; Leie Kortrijk–Lille route deepened"
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalised; slight current on the Leie"
+  },
+  "locks": {
+   "count": 3,
+   "chamber": "Leie locks Sint-Baafs-Vijve (new Vb lock 2021), Harelbeke (2-part lock, yachts use one part), Menen",
+   "hours": "Sint-Baafs-Vijve, Harelbeke, Menen and Buda bridge Kortrijk 24/7 since 1 Feb 2026 (regime A)",
+   "notes": "VHF/tel: Sint-Baafs-Vijve ch 22 +32 56 60 85 99; Harelbeke ch 20 +32 56 71 12 74; Menen ch 20 +32 56 51 14 21. Buda bridge 4.50 m closed. No lock between Gent-Brugge canal and Deinze."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    8
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Aug 2025 drought: grouped locking at Sint-Baafs-Vijve, Harelbeke, Menen with waits up to 2 h"
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "New Leie bridge Lauwe–Wevelgem works from 18 Aug 2026 (~4 yrs), old bridge kept open"
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "De Vlaamse Waterweg nv",
+   "url": "https://www.vlaamsewaterweg.be"
+  },
+  "notices": "https://www.visuris.be",
+  "notes": "Flemish waterwegenvergunning required (VisuRIS online; 2026: €1.87/m day 1, €0.62/m days 2–7, €0.21/m days 8–30). Stuurbrevet only if >15 m or >20 km/h. VHF mandatory for motorboats ≥7 m (ch 10), operator certificate needed. Speed max 20 km/h, 10 km/h passing. RIS 0800 30 440.",
+  "sources": [
+   "https://nl.wikipedia.org/wiki/Afleidingskanaal_van_de_Leie",
+   "https://nl.wikipedia.org/wiki/Leie_(rivier)",
+   "https://nl.wikipedia.org/wiki/Kanaal_Gent-Brugge",
+   "https://www.vlaamsewaterweg.be/nl/nieuws/uitgebreide-bedieningstijden-voor-sluizen-en-bruggen",
+   "https://www.vlaamsewaterweg.be/sites/default/files/2024-11/2019-1044_brochure_pleziervaart_2020_def_en_lr%20upd.pdf",
+   "https://www.visuris.be/waterwegenvergunning",
+   "https://www.visuris.be/Bemanningsvoorschriften",
+   "https://www.vlaamsewaterweg.be/nl/projecten/harelbeke-vernieuwen-sluis",
+   "https://www.willemen.be/nl/printpdf/2478",
+   "https://www.vrt.be/vrtnws/nl/2025/08/22/oppompverbod-breidt-uit-en-nieuwe-maatregelen-voor-bevaarbare-wa/",
+   "https://www.vrt.be/vrtnws/nl/2026/08/18/leiebrug-lauwe-wevelgem-werken-start/"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.9,
+   50.76,
+   4.0,
+   51.4
+  ]
+ },
+ {
+  "id": "fr-lys-deule-sensee",
+  "name": "Lys – Deûle – Liaison Dunkerque-Escaut – Dérivation de la Scarpe – Canal de la Sensée (Armentières/Halluin → Arleux)",
+  "aliases": [
+   "Leie - La Lys",
+   "La Lys",
+   "Lys",
+   "La Deule",
+   "La Deûle",
+   "Canal de la Deûle",
+   "Canal de la Deule",
+   "Canal Dunkerque-Escaut",
+   "Liaison Dunkerque-Escaut",
+   "Dérivation de la Scarpe",
+   "Canal de la Sensée"
+  ],
+  "countries": [
+   "FR",
+   "BE"
+  ],
+  "reach": "Lys from Armentières (and Lys mitoyenne from Halluin/Comines) to Deûlémont; Deûle Deûlémont – Quesnoy – Lille – Don – Bauvin; Dunkerque-Escaut (canal de la Deûle Bauvin–Douai), Dérivation de la Scarpe round Douai, Canal de la Sensée to the Canal du Nord junction at Arleux",
+  "navigable": "yes",
+  "class": "Va (large gauge, 3 000 t on the Deûle); Lys above Armentières small gauge",
+  "lengthKm": null,
+  "depth": {
+   "usualM": 3.0,
+   "maxDraftM": 3.0,
+   "notes": "Large-gauge liaison: min. boat draught/depth 3.00 m (Wikipedia). Lys between Merville and Bac-Saint-Maur (upstream of Armentières, off route) silted, mouillage limited to 0.5 m in 2025–26."
+  },
+  "airDraftM": 5.25,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalised, slack water in normal conditions; floods can modify lock operation (e.g. Canal du Nord lock 1 Palluel, Feb 2026)."
+  },
+  "locks": {
+   "count": null,
+   "chamber": "144.60 × 12 m (large-gauge locks: Deûle, Dunkerque-Escaut; Quesnoy-sur-Deûle lengthened from 110 m to 144.6 m, works finished 2025–26)",
+   "hours": "Liaison Dunkerque-Escaut and its Bauvin–border branch (Deûle/Lys mitoyenne): Mon–Sat 06:15–22:00, Sun 09:00–18:00. Lys locks Fort Gassion–Armentières: high season (15 May–15 Sep) 09:00–19:00, low season 08:30–17:30, on request (call before 15:00 the day before). Closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec; 24 & 31 Dec stop at 18:00.",
+   "notes": "Deûle has 3 locks between Bauvin and Deûlémont (Don, Grand-Carré in Lille, Quesnoy-sur-Deûle); Douai lock on the Scarpe diversion; heavy commercial traffic, use VHF and keep clear of pushers."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring seasonal closure found; navigation 359 days/year. Floods occasionally (Feb 2026, Nov 2023 Hauts-de-France)."
+  },
+  "season": {
+   "best": "Year-round; NPdC high season 15 May–15 Sep (longer hours on the Lys)",
+   "closures": "6 non-navigated public holidays; occasional lock chômages announced by avis à la batellerie (e.g. Douai lock repairs)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Nord-Pas-de-Calais (Lys mitoyenne works jointly with SPW Wallonia and De Vlaamse Waterweg)",
+   "url": "https://www.vnf.fr/vnf/accueil/qui-sommes-nous-vnf/le-reseau-navigable/nos-chantiers-en-region/reseau-vnf-npc/"
+  },
+  "notices": "https://avisbat.vnf.fr/",
+  "notes": "Big-barge route: stay to starboard, call locks on VHF, wait at estacades. Lys mitoyenne (Deûlémont–Halluin) being widened/deepened until ~2027: expect works. Public VNF quays in NPdC can be booked. VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/10/PPE02V4-Horaires-dexploitation.pdf",
+   "https://www.vnf.fr/vnf/dossiers-actualitess/lallongement-de-lecluse-de-quesnoy-sur-deule/",
+   "https://www.vnf.fr/vnf/dossiers-actualitess/la-deule/",
+   "https://www.vnf.fr/vnf/dossiers-actualitess/lamenagement-de-la-lys-mitoyenne/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/destinations-fluviales/principales-destinations/la-lys-transfrontaliere/",
+   "https://www.vnf.fr/vnf/articles/un-mois-de-travaux-pour-restaurer-lecluse-de-douai/",
+   "https://www.vnf.fr/vnf/points-d-interetss/quais-publics-vnf-nord-pas-de-calais-reservez-votre-place/",
+   "https://en.wikipedia.org/wiki/Canal_Dunkerque-Escaut",
+   "https://en.wikipedia.org/wiki/Canal_de_la_Deûle",
+   "https://en.wikipedia.org/wiki/Lys_(river)",
+   "https://fr.wikipedia.org/wiki/Canal_de_la_Deûle",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-19.06.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/articles/la-navigation-reprend-en-hauts-de-france-a-compter-du-1er-decembre/",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21",
+  "bbox": [
+   2.0,
+   50.2,
+   3.3,
+   50.8
+  ]
+ },
+ {
+  "id": "fr-canal-du-nord",
+  "name": "Canal du Nord (Arleux → Pont-l'Évêque)",
+  "aliases": [
+   "Canal du Nord",
+   "Souterrain de Ruyaulcourt",
+   "Canal du Nord - Bief de Partage",
+   "Souterrain de la Panneterie"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Arleux (PK 0, junction Canal de la Sensée) to Pont-l'Évêque near Noyon (PK 95, junction Canal latéral à l'Oise); Ruyaulcourt tunnel PK 25.2–29.6, Panneterie tunnel PK 79.0–79.6",
+  "navigable": "yes",
+  "class": "Freycinet-plus (locks 91.9 × 6 m)",
+  "lengthKm": 95,
+  "depth": {
+   "usualM": 3.0,
+   "maxDraftM": null,
+   "notes": "Mouillage 3.00 m at locks (RPP Oise-Canal du Nord)."
+  },
+  "airDraftM": 4.2,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Still-water canal; summit pounds fed by pumping. Bellerive pound level unstable from lock emptying; 0.50 m clearance margin required at Noyon SNCF bridge (PK 94.744), caution above 3.70 m air draught."
+  },
+  "locks": {
+   "count": 19,
+   "chamber": "91.90 × 6.00 m (Péronne and Épénancourt 5.90 m wide)",
+   "hours": "Mon–Sat 06:30–20:30; Sun and navigated holidays 09:00–18:00. Closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec; 24 & 31 Dec stop 18:00.",
+   "notes": "Manned/teleoperated locks, call on VHF 18/22 (southern locks). Mooring lines mandatory during locking; remove fenders when leaving. In low water a boat may be held up to 15 min to share the lock."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Chômages are not annual; last major one 18 Sep–16 Oct 2023 (traffic diverted to Canal de Saint-Quentin). No 2026–27 dates found; check VNF chômage map."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Occasional autumn chômages (Sept–Oct 2023); 2026/2027 programme not found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF DT Nord-Pas-de-Calais (PK 0–30.3 incl. Ruyaulcourt tunnel) and VNF DT Bassin de la Seine, UTI Seine-Nord (PK 30–95)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-bassin-de-la-seine/"
+  },
+  "notices": "https://avisbat.vnf.fr/",
+  "notes": "Ruyaulcourt (4.35 km): single track except central passing basin (gare centrale), entry by red/green lights, keep to axis, no overtaking/turning; keep left above north portal. Panneterie: alternating. Tunnels 3–5 km/h, nav lights on, no removable fenders, closed outside hours. Canal speed 10 km/h. VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_3_-_Oise-Canal_du_Nord_20190404144309.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/10/PPE02V4-Horaires-dexploitation.pdf",
+   "https://www.vnf.fr/vnf/presses/le-chantier-du-canal-du-nord/",
+   "https://fr.wikipedia.org/wiki/Canal_du_Nord_(France)",
+   "https://en.wikipedia.org/wiki/Canal_du_Nord",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation-reseau-au-20-02-2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/services/nos-chantiers-previsionnels/",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "fr-oise-lateral-somme",
+  "name": "Canal latéral à l'Oise (Pont-l'Évêque → Abbécourt) and Somme canalisée stretch of the Canal du Nord",
+  "aliases": [
+   "Canal Latéral à l'Oise",
+   "Canal latéral à l'Oise",
+   "Canal latéral à l’Oise",
+   "La Somme Canalisée",
+   "Canal de la Somme"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Somme: ~20 km Péronne–Voyennes used by the Canal du Nord (widened ex-Canal de la Somme). Canal latéral à l'Oise Freycinet section (CLO 2) Pont-l'Évêque/Sempigny (PK 18.5) to Chauny (PK 0), leaving at Abbécourt for the Canal de l'Oise à l'Aisne",
+  "navigable": "yes",
+  "class": "Freycinet (CLO 2); Canal du Nord gauge on the Somme stretch",
+  "lengthKm": null,
+  "depth": {
+   "usualM": 2.6,
+   "maxDraftM": null,
+   "notes": "CLO 2 locks mouillage 2.60 m; Canal du Nord/Somme stretch 3.00 m."
+  },
+  "airDraftM": 3.95,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Canal, no current. Speed 6 km/h between Canal du Nord locks 15 Languevoisin and 12 Cléry (ex-Somme canal, unprotected banks); 10 km/h on the CLO."
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "39.00 × 6.00 m (Sempigny and Saint-Hubert); boats up to 39.20 m tolerated",
+   "hours": "Mon–Sat 07:00–19:00, Sun 09:00–18:00. Closed 1 Jan, Easter Sunday, 1 May, 1 Nov, 11 Nov, 25 Dec (Abbécourt).",
+   "notes": "Automated, worked with a télécommande handed out/returned at Sempigny lock 2, Saint-Hubert lock 1, Berry-au-Bac (CLA lock 3), Carandeau (Aisne lock 7) or Riqueval. Narrow passages at Morlincourt bridge (PK 14.246) and Varesnes aqueduct (PK 13.570)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring closures found."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Chômages by avis à la batellerie; none found for 2026–27."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF DT Bassin de la Seine – UTI Canaux de Picardie, Champagne, Ardenne (CLO 2); UTI Seine-Nord (Canal du Nord/Somme)",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-bassin-de-la-seine/"
+  },
+  "notices": "https://avisbat.vnf.fr/",
+  "notes": "Chauny halte (PK 0.3) limited to 48 h. No mooring between Canal du Nord junction and Sormont lock outside hours. Rest of Canal de la Somme (Saint-Simon–Voyennes) closed to navigation. VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_8_-_Liaison_Marne-Escaut_20190404144954.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_3_-_Oise-Canal_du_Nord_20190404144309.pdf",
+   "https://fr.wikipedia.org/wiki/Canal_latéral_à_l'Oise",
+   "https://fr.wikipedia.org/wiki/Canal_du_Nord_(France)",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "fr-oise-aisne",
+  "name": "Canal de l'Oise à l'Aisne (Abbécourt → Bourg-et-Comin)",
+  "aliases": [
+   "Canal de l'Oise à l'Aisne",
+   "Canal de l’Oise à l’Aisne",
+   "Souterrain de Braye-en-Laonnois"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Abbécourt (PK 0, Canal latéral à l'Oise) to Bourg-et-Comin (PK 47.8, Canal latéral à l'Aisne); summit pound 7.5 km with Braye-en-Laonnois tunnel (PK 38.335–40.700, 2 365 m)",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": 47.8,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": null,
+   "notes": "Mouillage 2.20 m."
+  },
+  "airDraftM": 3.5,
+  "current": {
+   "typicalMs": 0.8,
+   "notes": "Bief double de la Cendrière (Bourg-et-Comin end, shared with CLA): current up to 3 km/h towards Bourg-et-Comin from the hydro plant; elsewhere still water."
+  },
+  "locks": {
+   "count": 13,
+   "chamber": "40.50 × 6.00 m (pont-canal d'Abbécourt only 5.50 m wide)",
+   "hours": "Mon–Sat 07:00–19:00, Sun 09:00–18:00. Closed 1 Jan, Easter Sunday, 1 May, 14 Jul, 11 Nov, 25 Dec (locks 2–9); locks 10–13: 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec.",
+   "notes": "All 13 locks automated, télécommande (from Berry-au-Bac, Carandeau, Saint-Hubert or Riqueval) plus pull-rod in the chamber. Breakdowns: locks 1–4 06 03 99 40 63, 5–9 06 03 99 40 54, PCC Braye 03 23 24 43 61."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring closure found."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Chômages by avis à la batellerie; none found for 2026–27."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF DT Bassin de la Seine – UTI Canaux de Picardie, Champagne, Ardenne",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-bassin-de-la-seine/"
+  },
+  "notices": "https://avisbat.vnf.fr/",
+  "notes": "Braye tunnel: one-way alternating traffic controlled by lights, closed outside hours (lights off), 400 m between boats, nav lights on, 3–5 km/h, no stopping/turning. Priority at Abbécourt aqueduct to boats heading for the CLO. Haltes: Guny PK 10.7, Pinon PK 25.5. VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_8_-_Liaison_Marne-Escaut_20190404144954.pdf",
+   "https://fr.wikipedia.org/wiki/Canal_de_l'Oise_à_l'Aisne",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "fr-aisne-lateral-aisne-marne",
+  "name": "Canal latéral à l'Aisne (Bourg-et-Comin → Berry-au-Bac) and Canal de l'Aisne à la Marne (Berry-au-Bac → Reims → Condé-sur-Marne)",
+  "aliases": [
+   "Canal Latéral à l'Aisne",
+   "Canal latéral à l'Aisne",
+   "Canal latéral à l’Aisne",
+   "Canal de l'Aisne à la Marne",
+   "Canal de l’Aisne à la Marne",
+   "Souterrain du Mont-de-Billy"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "CLA: Bourg-et-Comin to Berry-au-Bac (locks 4 Cendrière and 3 Berry-au-Bac). CAM: Berry-au-Bac (PK 0) via Reims to Condé-sur-Marne (PK 58.1); Mont-de-Billy tunnel PK 46.462–48.764 (2 302 m)",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": 58.1,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": 2.0,
+   "notes": "Mouillage 2.20 m; draught limited to 2.00 m in CAM pound 1 (Berry-au-Bac – Moulin de Sapigneul)."
+  },
+  "airDraftM": 3.7,
+  "current": {
+   "typicalMs": 0.8,
+   "notes": "Up to 3 km/h in the bief double de la Cendrière (Berry-au-Bac → Bourg-et-Comin); otherwise still water."
+  },
+  "locks": {
+   "count": 26,
+   "chamber": "CLA 39.00 × 5.25 m; CAM 39.00 × 5.20 m (AB1: 38.70 m); boats up to 39.20 m tolerated",
+   "hours": "CLA and CAM locks 1–12: Mon–Sat 07:00–19:00, Sun 09:00–18:00. CAM locks 13–24 (Sillery–Condé): about 07:00/09:00–18:00. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec, Easter Sunday (+14 Jul on locks 13–24).",
+   "notes": "Automated: CLA by télécommande + pull-rod (agent at Berry-au-Bac hands out/collects télécommandes, PCC Berry 03 23 79 95 14); CAM 13–24 by hanging pole (perche) + pull-rod, PCC Mont-de-Billy 03 26 03 94 37. 2 CLA + 24 CAM locks."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No recurring seasonal closure found for this reach. CLA upstream of Berry-au-Bac (off route) closed for water shortage 14 Aug–3 Dec 2026."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Chômages via avis à la batellerie; 2026–27 dates not found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF DT Bassin de la Seine – UTI Canaux de Picardie, Champagne, Ardenne",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-bassin-de-la-seine/"
+  },
+  "notices": "https://avisbat.vnf.fr/",
+  "notes": "Mont-de-Billy tunnel: alternating by lights, only ONE pleasure/passenger boat inside at a time, closed outside hours, gauge bars at portals (ventilation fans), nav lights on. Reims: no mooring between Pont des Maréchaux and Pont de Vesle; Vieux Port rules. No mooring on Sillery aqueduct. VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_8_-_Liaison_Marne-Escaut_20190404144954.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/services/situation-du-reseau/",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "fr-marne-lateral",
+  "name": "Canal latéral à la Marne (Condé-sur-Marne → Châlons-en-Champagne → Vitry-le-François)",
+  "aliases": [
+   "Canal Latéral à la Marne",
+   "Canal latéral à la Marne",
+   "La Marne"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Condé-sur-Marne (PK 48.665, junction Canal de l'Aisne à la Marne) to Vitry-le-François (PK 0, junctions Canal de la Marne au Rhin and Canal entre Champagne et Bourgogne)",
+  "navigable": "yes",
+  "class": "Freycinet",
+  "lengthKm": 48.7,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": null,
+   "notes": "Mouillage 2.20 m; temporary draught limits for water shortage in June 2026 (PK 32–39 and 44–66)."
+  },
+  "airDraftM": 3.7,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Lateral canal, no current; manoeuvres at Couvrot weir."
+  },
+  "locks": {
+   "count": 11,
+   "chamber": "38.60 × 5.20 m (boats up to 39.20 m tolerated)",
+   "hours": "Mon–Sat 07:00–19:00, Sun 09:00–18:00. Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec.",
+   "notes": "Locks 1 Vitry … 11 Vraux automated: twist the hanging pole (perche) on approach, pull-rod in chamber to start. PCS Châlons-en-Champagne 03 26 68 08 59."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    6
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "June 2026: water-shortage draught limits. Junction canals east of Vitry (Marne au Rhin Ouest, Champagne-Bourgogne) closed most of summer–autumn 2026."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Chômages via avis à la batellerie; none found for 2026–27."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF DT Bassin de la Seine – UTI Canaux de Picardie, Champagne, Ardenne",
+   "url": "https://www.vnf.fr/vnf/regions/vnf-bassin-de-la-seine/"
+  },
+  "notices": "https://avisbat.vnf.fr/",
+  "notes": "Moorings: Châlons-en-Champagne, Vitry-le-François marina (capitainerie). VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2020/01/VNF_brochure_2020-08-BD.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPP_8_-_Liaison_Marne-Escaut_20190404144954.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-19.06.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_du_reseau_Nord-Est_20261120.pdf",
+   "https://lacduder.com/en/offers/port-de-plaisance-capitainerie-vitry-le-francois-vitry-le-francois-en-4987646",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21"
+ },
+ {
+  "id": "fr-champagne-bourgogne",
+  "name": "Canal entre Champagne et Bourgogne (ex Canal de la Marne à la Saône: Vitry-le-François → Langres/Balesmes → Maxilly-sur-Saône/Heuilley)",
+  "aliases": [
+   "Canal Entre Champagne et Bourgogne",
+   "Canal entre Champagne et Bourgogne",
+   "Canal de la Marne à la Saône",
+   "Tunnel de Balesmes",
+   "Souterrain de Balesmes",
+   "Souterrain de Condes"
+  ],
+  "countries": [
+   "FR"
+  ],
+  "reach": "Vitry-le-François (lock 71 Désert, Marne side) via Saint-Dizier, Joinville, Chaumont, Langres summit (345 m, Balesmes tunnel 4 820 m) to the Saône at Maxilly/Heuilley (lock 43 Chemin de Fer, Saône side); 224 km",
+  "navigable": "closed",
+  "class": "Freycinet",
+  "lengthKm": 224.2,
+  "depth": {
+   "usualM": 2.2,
+   "maxDraftM": 2.2,
+   "notes": "Mouillage 2.20 m; summer 2026 limited to 2.00 m and 1.80 m (locks 41–71 Marne side) before closure."
+  },
+  "airDraftM": 3.45,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Still-water summit canal fed by 4 reservoirs (Charmes, Liez, Mouche, Vingeanne): only 20 % full on 19 Nov 2026."
+  },
+  "locks": {
+   "count": 114,
+   "chamber": "38.60 × 5.10 m (71 Marne side, 43 Saône side)",
+   "hours": "All year: pleasure craft Mon–Sun 09:00–18:00 (commercial 07:00–19:00 Mon–Sat). Closed 1 Jan, 1 May, 1 Nov, 11 Nov, 25 Dec.",
+   "notes": "Pleasure boats must announce entry/departure on the DTNE small-gauge network to the regional centre 0 800 519 665 before 15:00 the day before. PC Heuilley-Cotton 03 25 88 42 02. Standard headroom 3.70 m, reduced to 3.45–3.65 m at a dozen bridges (lowest 3.45 m)."
+  },
+  "months": {
+   "closed": [
+    8,
+    9,
+    10
+   ],
+   "lowWater": [
+    6,
+    7
+   ],
+   "highWater": [],
+   "ice": [
+    1
+   ],
+   "notes": "Water-shortage closures: from early July 2025; 2026 Chaumont–Maxilly from 25 Jul, Saône side south closed in Sept, whole canal 2 Nov–1 Dec 2026 (est.). Ice on Saône side Jan 2026."
+  },
+  "season": {
+   "best": "April–June",
+   "closures": "Summer/autumn water-shortage closures in recent years; no 2027 chômage dates found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Inland canal/canalised river, non-tidal."
+  },
+  "authority": {
+   "name": "VNF Direction territoriale Nord-Est – ST canal entre Champagne et Bourgogne",
+   "url": "https://www.vnf.fr/vnf/app/uploads/2026/01/Services-et-horaires-de-navigation-2026-sur-le-reseau-de-VNF-dans-le-Nord-Est-FR.pdf"
+  },
+  "notices": "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_du_reseau_Nord-Est_20261120.pdf",
+  "notes": "CLOSED NOW: whole canal lock 71 Désert – lock 43 Chemin de Fer since 2 Nov 2026, est. to 1 Dec 2026 (FR/2026/08695-1). Balesmes: alternating by lights, video-watched, 800 m spacing, single-track summit within 3 h, nav lights if unlit, fenders on, VHF if forced stop. VNF vignette (péage plaisance) required for boats >5 m or >9.9 hp, displayed fore starboard; French licence 'permis plaisance option eaux intérieures' (or recognised foreign/ICC licence) needed for >4.5 kW (6 hp).",
+  "sources": [
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_du_reseau_Nord-Est_20261120.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situation_hebdomadaire_du_reseau_2026_11_19.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/Situtation-reseau-19.06.2026.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/06/260116_BulletinHebdoDTNE-S03.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2026/01/Services-et-horaires-de-navigation-2026-sur-le-reseau-de-VNF-dans-le-Nord-Est-FR.pdf",
+   "https://www.vnf.fr/vnf/app/uploads/2019/09/RPPi_07_Liaison_Saone_Marne_20170907092119.pdf",
+   "https://fr.wikipedia.org/wiki/Canal_entre_Champagne_et_Bourgogne",
+   "https://france3-regions.franceinfo.fr/grand-est/haute-marne/chaumont/manque-d-eau-en-pleine-saison-estivale-la-navigation-interrompue-sur-le-canal-entre-champagne-et-bourgogne-3388720.html",
+   "https://www.noonsite.com/?p=1155042",
+   "https://reporterre.net/Les-petites-peniches-un-transport-pas-cher-et-ecolo-menace",
+   "https://avisbat.vnf.fr/",
+   "https://www.vnf.fr/vnf/services/peage-plaisance-tarifs/",
+   "https://www.vnf.fr/vnf/accueil/tourisme-fluvial/naviguer-comme-plaisancier-2/plaisance-fluviale-privee-foire-aux-questions-faq/",
+   "https://mer.gouv.fr/le-permis-plaisance-permis-de-conduire-les-bateaux-de-plaisance-moteur"
+  ],
+  "checked": "2026-11-21"
+ }
+]

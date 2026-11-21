@@ -1,0 +1,31 @@
+# Canada: the St. Lawrence and its Seaway, the Richelieu, and the lower Ottawa River. Most canals already carry
+# tags the classifier takes (Trent–Severn Waterway and Trent/Otonabee rivers motorboat=designated, Welland Canal
+# ship=designated, Rideau Canal and River, Chambly and Lachine canals motorboat=yes, Murray Canal); the Great
+# Lakes, Georgian Bay, the North Channel and the lakes on these routes are meshed where navigable waterways meet them.
+# Sources: Parks Canada historic canals (https://parks.canada.ca/lhn-nhs/on/trentsevern, /on/rideau,
+# /qc/chambly, /qc/annedebellevue, /qc/carillon), St. Lawrence Seaway (https://greatlakes-seaway.com).
+waterways:
+  # the whole river, Lake Ontario to the Gulf (navigable for sea-going ships to Montréal)
+  - Fleuve Saint-Laurent
+  - Saint Lawrence River
+  - Saint Lawrence River / Fleuve Saint-Laurent
+  # Seaway canals: South Shore Canal (St-Lambert, Côte-Sainte-Catherine), Beauharnois, Wiley-Dondero, Iroquois
+  - Voie maritime du Saint-Laurent
+  - Saint Lawrence Seaway
+  # Richelieu: Lake Champlain to Sorel, with the Chambly Canal and the Saint-Ours lock
+  # (https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries)
+  - Rivière Richelieu
+  - Richelieu River
+  # Ottawa River: Lac des Deux Montagnes (Sainte-Anne-de-Bellevue lock) to Ottawa (Carillon lock); above the
+  # Chaudière Falls at Ottawa it is not one continuous navigation
+  # (https://parks.canada.ca/lhn-nhs/qc/carillon/activ/navigation)
+  - {name: Rivière des Outaouais, bbox: [-75.75, 45.35, -73.85, 45.65]}
+  - {name: Ottawa River, bbox: [-75.75, 45.35, -73.85, 45.65]}
+  - {name: Ottawa River / Rivière des Outaouais, bbox: [-75.75, 45.35, -73.85, 45.65]}
+lakes:
+  - Lake Ontario
+  - Lac des Deux Montagnes
+  - Lac Saint-Louis
+  - Lac Saint-François
+  - Lac Saint-Pierre
+exclude: []

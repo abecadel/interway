@@ -14,6 +14,8 @@ from .extract import Extract, NavWay
 from .model import Limits, LonLat, Segment, haversine, line_length, metres_to_deg, parse_metres
 
 log = logging.getLogger(__name__)
+# the longest lock chamber in Europe is about 450 m (Kieldrecht); a lock way longer than this is not just a chamber
+CHAMBER_NAME_MAX_M = 1000.0
 
 _synthetic = itertools.count(-1, -1)
 # Node ids created where a weir/dam cut a waterway; gap closing must not reconnect them.
@@ -80,7 +82,9 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
         nodes, coords = nodes[::-1], coords[::-1]
     kind = tags["kind"]
     base_lock = tags.get("lock") == "yes"
-    name = tags.get("name") or tags.get("lock_name") or ""
+    # lock_name names a lock chamber only: on a long lock cut or approach it would name kilometres of canal after
+    # the lock ("Écluse n°10 d'Ars-sur-Moselle", 11 km)
+    name = tags.get("name") or ""
     groups = [] if base_lock else _lock_groups(nodes, coords, ex)
     chambers = {(g0, g1) for g0, g1 in groups if g0 < g1}
     single_gates = {g0 for g0, g1 in groups if g0 == g1}
@@ -109,7 +113,9 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
         if not (i == len(nodes) - 1 or usage[n] > 1 or n in ex.barrier_nodes or i in cuts):
             continue
         is_chamber = base_lock or (start, i) in chambers
-        seg_name = (lock_name_of(start, i) or name) if is_chamber else name
+        # a lock=yes way far longer than a chamber is a lock approach drawn as the lock: it keeps the waterway's name
+        chamber_like = is_chamber and not (base_lock and line_length(coords[start:i + 1]) > CHAMBER_NAME_MAX_M)
+        seg_name = (lock_name_of(start, i) or name) if chamber_like else name
         if i in single_gates:
             # the way continues from a new node; the gate itself becomes a zero-length lock between them
             gate = new_node_id()

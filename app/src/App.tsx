@@ -34,6 +34,8 @@ import { PHONE, useMediaQuery } from './ui/useMediaQuery';
 import { useInstallPrompt } from './ui/useInstallPrompt';
 import { useTheme } from './ui/useTheme';
 import './App.css';
+import { loadView } from './map/view';
+import { portFacts } from './ui/portFacts';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
@@ -68,7 +70,8 @@ function loadSnap(): Snap {
 
 /** Only what the user changed is saved, so a better default reaches everyone who kept the old one. */
 function saveProfile(p: VesselProfile) {
-  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => defaultProfile[k as keyof VesselProfile] !== v));
+  // a trip's departure date is not the boat's: it is not kept for the next visit
+  const changed = Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'departure' && defaultProfile[k as keyof VesselProfile] !== v));
   localStorage.setItem(PROFILE_KEY, JSON.stringify(changed));
 }
 
@@ -112,7 +115,7 @@ export default function App({ client }: { client: RoutingApi }) {
   const [customOpen, setCustomOpen] = useState(false);
   // the directions card folds to one line once its route is shown, until the user taps it to edit
   const [editKey, setEditKey] = useState<string | null>(null);
-  const [center, setCenter] = useState<LngLat>([19, 52]);
+  const [center, setCenter] = useState<LngLat>(() => loadView().center);
   const [recent, setRecent] = useState(() => loadPlaces(RECENT_KEY));
   const [saved, setSaved] = useState(() => loadPlaces(SAVED_KEY));
   const searchRef = useRef<HTMLInputElement>(null);
@@ -312,13 +315,17 @@ export default function App({ client }: { client: RoutingApi }) {
   };
   const openPoi = (poi: Poi) => {
     const pos: LngLat = [poi.lon, poi.lat];
-    openPlace({ label: poi.name || POI_LABEL[poi.type], position: pos, kind: POI_LABEL[poi.type], detail: poiDetail(poi), ...onRoute(pos) });
+    openPlace({ label: poi.name || POI_LABEL[poi.type], position: pos, kind: POI_LABEL[poi.type], detail: poiDetail(poi), ...onRoute(pos),
+      facts: portFacts(poi) });
     setFocus(pos);
   };
   const onFeature = (f: MapFeature) => {
     const kind = POI_LABEL[f.type as PoiType];
     const route = onRoute(f.position);
-    openPlace({ label: f.name || kind, position: f.position, kind, detail: f.detail, ...route, ...(f.at !== undefined ? { at: f.at } : {}) });
+    // the map knows a symbol's name and type only: the full record has the harbour's facts
+    const poi = pois.find((p) => p.type === f.type && Math.abs(p.lon - f.position[0]) < 1e-6 && Math.abs(p.lat - f.position[1]) < 1e-6);
+    openPlace({ label: f.name || kind, position: f.position, kind, detail: f.detail, ...route, ...(f.at !== undefined ? { at: f.at } : {}),
+      ...(poi ? { facts: portFacts(poi) } : {}) });
   };
   const onSearch = (p: Place) => {
     setRecent(addRecent(recent, p));
@@ -473,6 +480,10 @@ export default function App({ client }: { client: RoutingApi }) {
             {num('beam', 'Beam (m)')}
             {num('length', 'Length (m)', 0.5)}
             {num('lockPenaltyMin', 'Minutes per lock', 5)}
+            <label>
+              Departure date
+              <input type="date" value={profile.departure} onChange={(e) => setProfile({ ...profile, departure: e.target.value })} />
+            </label>
             <label className="check">
               <input type="checkbox" checked={profile.avoidLocks} onChange={(e) => setProfile({ ...profile, avoidLocks: e.target.checked })} />
               Avoid locks
@@ -480,6 +491,10 @@ export default function App({ client }: { client: RoutingApi }) {
             <label className="check">
               <input type="checkbox" checked={profile.avoidSea} onChange={(e) => setProfile({ ...profile, avoidSea: e.target.checked })} />
               Avoid open sea
+            </label>
+            <label className="check">
+              <input type="checkbox" checked={profile.coastal} onChange={(e) => setProfile({ ...profile, coastal: e.target.checked })} />
+              Stay near the coast (harbour to harbour)
             </label>
           </div>
         </section>

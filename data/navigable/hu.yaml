@@ -9,6 +9,8 @@ waterways:
   - Dráva
   - Sió
   - Sió-csatorna
+  # the Ráckeve (Soroksár) Danube arm, Kvassay lock to Tass lock, under its OSM name
+  - Ráckevei (Soroksári)-Duna
 lakes:
   - Balaton
   - Velencei-tó

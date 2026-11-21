@@ -12,3 +12,5 @@ lakes:
   - Mondsee
   - Wörthersee
 exclude: []
+# Wasserstraßen under SchFG § 15 / Anlage: the Enns to km 2.7 and the March to km 6 (https://www.jusline.at/gesetz/schfg/paragraf/anlage2.pdf)
+ways: [1065352436, 1267077965, 966204124, 1267077978]
