@@ -173,3 +173,18 @@ def test_name_forms():
     assert name_forms("Les Andelys") == ("les andelys", "andelys")
     assert name_forms("Yonne") == ("yonne",)
     assert name_forms("La") == ("la",)
+
+
+def test_bounded_names_count_only_inside_their_boxes(tmp_path):
+    (tmp_path / "fr.yaml").write_text(
+        "waterways:\n  - Seine\n  - {name: La Sarthe, bbox: [-0.6, 47.4, 0.2, 48.0]}\n"
+        "  - {name: Sarthe, bbox: [5, 5, 6, 6]}\n", encoding="utf-8")
+    al = Allowlist.load(tmp_path)
+    assert al.names == {"seine"} and al.bounded == {"la sarthe": [(-0.6, 47.4, 0.2, 48.0)], "sarthe": [(5.0, 5.0, 6.0, 6.0)]}
+    river = {"waterway": "river", "name": "La Sarthe"}
+    assert al.boxes(river) == [(-0.6, 47.4, 0.2, 48.0), (5.0, 5.0, 6.0, 6.0)]  # with and without the article
+    assert not is_navigable_way(river, al)  # no coordinates: not known to be in the reach
+    assert is_navigable_way(river, al, [(0.5, 48.5), (0.1, 47.9)])  # one node inside
+    assert not is_navigable_way(river, al, lambda: [(0.5, 48.5), (0.6, 48.6)])  # upstream of the reach
+    assert is_navigable_way({"waterway": "river", "name": "Seine"}, al, [(9, 9)])  # plain names anywhere
+    assert not is_navigable_way({"waterway": "river", "name": "Loir"}, al, [(0.0, 47.5)])

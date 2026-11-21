@@ -132,7 +132,7 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     ex.marinas.append((tags.get("name", ""), (o.lon, o.lat)))
         elif o.is_way():
             n_ways += 1
-            if is_navigable_way(tags, allow):
+            if is_navigable_way(tags, allow, lambda o=o: _way_coords(o) or []):
                 coords = _way_coords(o)
                 if coords is not None and len(coords) >= 2:
                     kept = {k: tags.get(k) for k in TAG_KEYS if k in tags}

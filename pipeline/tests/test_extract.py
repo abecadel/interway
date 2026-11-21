@@ -232,3 +232,13 @@ def test_lock_areas(ex):
     # chambers are kept apart from lakes (meshing them would bypass the lock)
     assert [n for n, _ in ex.lock_areas] == ["Śluza Przegalina"]
     assert "Śluza Przegalina" not in {lk.name for lk in ex.lakes}
+
+
+def test_rivers_navigable_in_part_are_taken_only_in_their_reach(tmp_path):
+    nodes = {1: (0.0, 47.5), 2: (0.0, 47.6), 3: (0.0, 48.5), 4: (0.0, 48.6), 9: None}
+    ways = [(1, [1, 2], {"waterway": "river", "name": "La Sarthe"}),  # in the reach
+            (2, [3, 4], {"waterway": "river", "name": "La Sarthe"}),  # upstream
+            (3, [2, 9], {"waterway": "river", "name": "La Sarthe"})]  # cut at the extract's border
+    path = write_osm(tmp_path / "x.osm", nodes, ways)
+    allow = Allowlist(bounded={"sarthe": [(-0.5, 47.0, 0.5, 48.0)]})
+    assert [w.id for w in read_osm(path, allow).ways] == [1]
