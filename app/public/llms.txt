@@ -33,6 +33,21 @@ Examples:
 - Warsaw to Gdańsk on the Vistula, 1.2 m draft: https://abecadel.github.io/interway/?from=21.03,52.25&to=18.66,54.35&draft=1.2
 - London to Crete by sea: https://abecadel.github.io/interway/?from=-0.075,51.507&to=25.14,35.345
 
+## Using Interway from ChatGPT, Claude or another assistant
+
+A prompt a user can paste (replace the places, dates and boat):
+
+    Plan a boat trip from Wrocław to Monaco with https://abecadel.github.io/interway/ (read
+    https://abecadel.github.io/interway/llms.txt first). Boat: motor cruiser, length 9 m, beam 3 m, draft 1.2 m,
+    air draft 3 m, 10 km/h. Departure 2027-05-01. Build the route link with every parameter, open it, read the
+    route brief (or call the site tools if your browser has them), and give me: the route and why, daily stages,
+    locks, the lowest bridge and shallowest stretch against my boat, the waterways closed or risky in the months I
+    reach them, and the notices I must check before I go.
+
+Without a browser the assistant can still write the link (see above) for the user to open, and the user can
+paste back the brief ("Copy brief for AI"). Waterway facts in the brief carry the date they were checked and
+their sources: closures change, so tell the user to confirm them with the authority named there.
+
 ## Route brief
 
 After a route is computed the user can press "Copy brief for AI" and paste a Markdown brief into the chat:
@@ -58,6 +73,9 @@ registers tools an agent can call directly: `plan_route`, `get_route_brief`, `se
   does (the coarse network crosses banks that real boats pass in dredged channels, e.g. estuaries) the route
   still goes through, and the brief gives the shallowest stretch and the km charted shallower than the draft.
   The first ~1.5 km off the shore, harbour approaches and inland waterways have no depth data.
-- Lock opening hours, closures and current water levels are not included.
+- Researched waterway sheets (navigability, depth, bridges, current, locks and hours, typical conditions by month,
+  tides, closures, the authority and its notices, with sources and the date checked) cover the waterways of the
+  Wrocław → Monaco routes so far; the brief's "Waterways" section lists those on a route. Elsewhere, and for
+  today's water levels and notices, check with the waterway authority.
 
 Data © OpenStreetMap contributors (ODbL), towns © GeoNames (CC BY 4.0), bathymetry © EMODnet (CC BY 4.0). Source: https://github.com/abecadel/interway
