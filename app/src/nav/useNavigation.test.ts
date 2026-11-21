@@ -86,9 +86,10 @@ describe('useNavigation', () => {
     expect(onReroute).toHaveBeenCalledTimes(1);
     set({ via, position: pos(21.03, 52.012, 4000 + REROUTE_MS) });
     expect(onReroute).toHaveBeenCalledTimes(2);
-    // the app drops the old route while the new one is planned: still re-routing
+    // the app drops the old route while the new one is planned: it stays drawn and followed, still re-routing
     set({ via, route: null, position: pos(21.03, 52.012, 4000 + REROUTE_MS) });
     expect(result.current.rerouting).toBe(true);
+    expect(result.current.route).toBe(line);
     // the new route from the boat clears the flag and starts afresh
     set({ via, route: route([[21.03, 52.012], [21.1, 52]]), position: pos(21.03, 52.012, 4000 + REROUTE_MS) });
     expect(result.current.rerouting).toBe(false);

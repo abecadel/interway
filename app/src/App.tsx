@@ -512,7 +512,7 @@ export default function App({ client }: { client: RoutingApi }) {
         start={start?.position ?? null}
         end={end?.position ?? null}
         via={viaPositions}
-        route={directions ? route : null}
+        route={directions ? nav.route : null}
         position={position}
         network={showNetwork ? network : null}
         showSeamarks={showSeamarks}
