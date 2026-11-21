@@ -54,18 +54,17 @@ test('an agent plans and edits a route with the site tools', async ({ page }) =>
   // a waypoint at the lock found by name, then the stops of that kind
   const added = await call(page, 'add_waypoint', { point: { lon: liepe!.lon, lat: liepe!.lat } });
   expect(added.ok).toBe(true);
-  await page.waitForTimeout(1500);
+  await expect.poll(async () => ((await call(page, 'get_route_brief')).value as { link?: string } | undefined)?.link ?? '',
+    { timeout: 30_000 }).toContain('via=');
   const locks = await call(page, 'list_stops', { types: ['lock'] });
   expect(locks.ok).toBe(true);
   expect((locks.value as { type: string }[]).every((s) => s.type === 'lock')).toBe(true);
-  const withVia = (await call(page, 'get_route_brief')).value as { link: string };
-  expect(withVia.link).toContain('via=');
 
   // change the vessel: the route is recomputed with it
   expect((await call(page, 'set_vessel', { airDraft: 4.5, coastal: true })).value).toEqual({ updated: ['airDraft', 'coastal'] });
-  await page.waitForTimeout(1500);
-  const after = (await call(page, 'get_route_brief')).value as { vessel: { airDraft: number; coastal: boolean } };
-  expect(after.vessel).toMatchObject({ airDraft: 4.5, coastal: true });
+  // the route is recomputed in the worker: poll until the brief reflects the new vessel
+  await expect.poll(async () => ((await call(page, 'get_route_brief')).value as { vessel?: object } | undefined)?.vessel,
+    { timeout: 30_000 }).toMatchObject({ airDraft: 4.5, coastal: true });
 
   expect((await call(page, 'remove_waypoint', { index: 0 })).value).toEqual({ waypoints: [] });
 
