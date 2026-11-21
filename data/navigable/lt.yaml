@@ -13,3 +13,6 @@ lakes:
 wikidata:
   - Q5596
 exclude: []
+# Minija through Minija village to the Atmata (state waterway) and the Šyša to the Šilutė small-craft port (local
+# waterway) (https://www.vle.lt/straipsnis/lietuvos-vidaus-vandenu-transportas/)
+ways: [58828535, 192918811]

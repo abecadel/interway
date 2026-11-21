@@ -7,3 +7,5 @@ lakes:
   - Võrtsjärv
   - Peipsi järv / Чудское озеро
 exclude: []
+# lower Pärnu jõgi, mouth to the city: the Port of Pärnu occupies both banks (https://parnusadam.eu/en/?p=602)
+ways: [327310032, 327310009, 327310013]

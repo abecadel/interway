@@ -14,6 +14,9 @@ waterways:
   - Hjälmare kanal
   - Strömsholms kanal
   - Arbogaån
+  # Örebro – Hjälmaren: a public fairway (Sjöfartsverket), city quay to the lake through Slussen lock; the many other
+  # Swedish Svartån stay out (https://www.svt.se/nyheter/lokalt/orebro/vem-ska-muddra-farleden-ut-fran-orebro)
+  - {name: Svartån, bbox: [15.2190, 59.2725, 15.2790, 59.2790]}
 lakes:  # lakes the canals pass are routable anyway; generic names (Viken) would pull in unrelated lakes
   - Vänern
   - Vättern
@@ -24,3 +27,8 @@ lakes:  # lakes the canals pass are routable anyway; generic names (Viken) would
   - Asplången
   - Glafsfjorden
 exclude: []
+# Strömsholms kanal (Smedjebacken – Borgåsund, 26 locks): OSM names only the lock cuts; between them the route is the
+# Kolbäcksån, taken by way id because its other ways run over weirs and rapids beside the cuts
+# (https://en.wikipedia.org/wiki/Str%C3%B6msholm_Canal)
+ways: [217904496, 1230097032, 1230097035, 1230097038, 983815167, 248644601, 248644600, 1230097864, 556748655,
+       556748654, 445745838, 112291054, 1230097868, 1339024410, 1230098264, 25960217, 1230098713]

@@ -6,3 +6,5 @@ waterways:
   - Drava
 lakes: []
 exclude: []
+# Neretva, sea to the river port of Metković (part of Luka Ploče, https://luka-ploce.hr/terminali-i-usluge/terminali/pj-metkovic/?lang=en)
+ways: [1320731887]
