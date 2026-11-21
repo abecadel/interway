@@ -206,8 +206,8 @@ footer { margin-top: 8px; color: var(--muted); display: flex; flex-direction: co
 .dir-summary span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* researched waterway sheets in the route summary */
-.waterways { list-style: none; margin: 0.5em 0 0; padding: 0; }
-.waterways li { padding: 0.6em 0; border-top: 1px solid var(--line); }
+.waterways { list-style: none; margin: 0.5em 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.waterways li { padding: 10px 12px; }
 .waterway-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5em; }
 .waterways dl { margin: 0.3em 0; }
 .waterways dl div { display: grid; grid-template-columns: 7.5em 1fr; gap: 0.5em; }
@@ -270,3 +270,6 @@ details > summary { min-height: 44px; padding-block: 10px; }
 .day-hours { display: flex; justify-content: space-between; }
 .header-btns { display: flex; gap: 2px; flex: none; }
 .chip img { vertical-align: -3px; margin-right: 6px; }
+.waterway-card { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.waterway-sum { font-weight: 600; }
+.waterway-card details > summary { cursor: pointer; color: var(--accent); font-size: .85rem; font-weight: 600; padding: 4px 0; }

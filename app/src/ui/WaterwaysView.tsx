@@ -6,7 +6,8 @@ const STATUS: Record<WaterwayInfo['navigable'], string> = {
 };
 
 
-/** Researched facts about each waterway on the route, with their sources. */
+/** Researched facts about each waterway on the route: a card with its status and a one-line summary; the details
+ *  and sources fold under it (open when there is only one). */
 export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
   return (
     <ul className="waterways">
@@ -24,13 +25,18 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
           ['Best season', w.season.best],
           ['Closures', w.season.closures],
         ];
+        const summary = [w.class && `class ${w.class}`, w.depth.maxDraftM !== null && `draft ≤ ${w.depth.maxDraftM} m`,
+          w.airDraftM !== null && `bridges ≥ ${w.airDraftM} m`, w.locks.count !== null && `${w.locks.count} ${w.locks.count === 1 ? 'lock' : 'locks'}`].filter(Boolean).join(' · ');
         return (
-          <li key={w.id}>
+          <li key={w.id} className="waterway-card">
             <div className="waterway-head">
               <strong>{w.name}</strong>
               <span className={`badge ${w.navigable}`}>{STATUS[w.navigable]}</span>
             </div>
             <div className="small muted">{w.reach} · checked {w.checked}</div>
+            {summary && <div className="small waterway-sum">{summary}</div>}
+            <details className="waterway-more" open={waterways.length === 1}>
+              <summary>Details</summary>
             <dl className="small">
               {facts.filter(([, v]) => v).map(([k, v]) => (
                 <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
@@ -42,10 +48,11 @@ export function WaterwaysView({ waterways }: { waterways: WaterwayInfo[] }) {
               {w.notices && <> · <a href={w.notices} target="_blank" rel="noreferrer">notices to skippers</a></>}
               {' · '}<a href={`?waterway=${encodeURIComponent(w.id)}`}>link to this sheet</a>
             </div>
-            <div className="small muted">
-              Sources:{' '}
+            </details>
+            <details className="small muted waterway-sources">
+              <summary>Sources ({w.sources.length})</summary>
               {w.sources.map((s, i) => <span key={s}>{i > 0 && ', '}<a href={s} target="_blank" rel="noreferrer">{host(s)}</a></span>)}
-            </div>
+            </details>
           </li>
         );
       })}
