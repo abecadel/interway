@@ -28,4 +28,16 @@ lakes:
   - Lac Saint-Louis
   - Lac Saint-François
   - Lac Saint-Pierre
+  # Great Lakes waters on the Loop and the Trent–Severn and Rideau lakes (most are reached anyway, where a
+  # navigable waterway touches them; listed so a lake split into pieces in OSM is still taken whole)
+  - Bay of Quinte
+  - Georgian Bay
+  - North Channel
+  - Lake Simcoe
+  - Lake Couchiching
+  - Rice Lake
+  - Big Rideau Lake
+  - Upper Rideau Lake
+  - Lower Rideau Lake
+  - Lake Champlain
 exclude: []
