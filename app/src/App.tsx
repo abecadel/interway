@@ -18,7 +18,7 @@ import { FishingRulesView } from './ui/FishingRulesView';
 import { countryAt, FISHING } from './routing/fishing';
 import { COUNTRY_RULES } from './routing/rules';
 import { briefMarkdown, buildBrief } from './ui/brief';
-import { registerSiteTools, type PlannerBridge } from './agent/siteTools';
+import { exposeSiteTools, registerSiteTools, type PlannerBridge } from './agent/siteTools';
 import { type Place, searchPlaces } from './ui/search';
 import { buildLocalIndex } from './ui/localSearch';
 import { useNavigation } from './nav/useNavigation';
@@ -319,6 +319,7 @@ export default function App({ client }: { client: RoutingApi }) {
       ),
     };
     void registerSiteTools(bridge);
+    exposeSiteTools(bridge);
   }, [dataReady, client]);
 
   const startWatching = () =>

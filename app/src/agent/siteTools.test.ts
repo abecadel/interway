@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { LngLat } from '../graph/geo';
 import type { RouteBrief } from '../ui/brief';
-import { getModelContext, registerSiteTools, ROUTE_WAIT_MS, siteTools, type ModelContext, type PlannerBridge, type SiteTool } from './siteTools';
+import { exposeSiteTools, getModelContext, registerSiteTools, ROUTE_WAIT_MS, siteTools, type ModelContext, type PlannerBridge, type SiteTool } from './siteTools';
 
 const brief = {
   title: 'A → B',
@@ -92,6 +92,15 @@ describe('site tools', () => {
     expect(registerTool.mock.calls.map(([t]) => t.name)).toEqual(
       ['plan_route', 'get_route_brief', 'list_stops', 'set_vessel', 'add_waypoint', 'remove_waypoint', 'find_place']);
     expect(await registerSiteTools(bridge().b, null)).toBe(false);
+
+    // the same tools as window.interway functions, for browsers without WebMCP
+    const win = {} as Window & { interway?: Record<string, unknown> };
+    const { b } = bridge();
+    exposeSiteTools(b, win);
+    const api = win.interway as Record<string, (i?: Record<string, unknown>) => Promise<unknown>> & { tools: { name: string }[] };
+    expect(api.tools.map((t) => t.name)).toContain('plan_route');
+    expect(await api.find_place({ query: 'x' })).toEqual(await siteTools(b).find((t) => t.name === 'find_place')!.execute({ query: 'x' }));
+    await api.get_route_brief();
 
     expect(getModelContext({ modelContext: ctx } as unknown as Document, {} as Navigator)).toBe(ctx);
     expect(getModelContext({} as Document, { modelContext: ctx } as unknown as Navigator)).toBe(ctx);
