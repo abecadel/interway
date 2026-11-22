@@ -45,6 +45,7 @@ def test_min_along_and_limits():
     land_only = Segment(a=8, b=9, coords=[(14.1, 51.9), (14.2, 51.9)], kind="sea")  # charted, just dry pixels
     sea += [off_the_map, land_only]
     assert apply_sea_depth(sea, g, safety_m=1.0) == 2
+    assert apply_sea_depth(sea, g, safety_m=1.0, chunk=1) == 2  # the same in chunks of one segment
     assert [s.limits.max_draft for s in sea] == [1.0, 0.0, 0.05, 0.0, 0.0, 0.0]
     # deep water (40 m) is not "unknown"; only the segment outside the bathymetry is
     assert [s.depth_unknown for s in sea] == [False, False, False, False, True, False]

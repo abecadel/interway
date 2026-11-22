@@ -107,26 +107,30 @@ def samples(coords: list[LonLat], step_m: float) -> list[LonLat]:
 
 
 def apply_sea_depth(segments: list[Segment], grid: DepthGrid, *, near_land: Callable[[np.ndarray], np.ndarray] | None = None,
-                    safety_m: float = 0.5, max_m: float = 30.0, step_m: float = 500.0) -> int:
+                    safety_m: float = 0.5, max_m: float = 30.0, step_m: float = 500.0,
+                    chunk: int = 20_000) -> int:
     """Draft limits on sea segments shallower than max_m: the shallowest charted depth minus safety_m.
 
     near_land(lonlat points) masks samples next to the shore: there the coarse grid mixes land and water cells
     and reads almost zero everywhere, which says nothing about a harbour's dredged approach.
     """
     sea = [s for s in segments if s.kind == "sea"]
-    pts = [samples(s.coords, step_m) for s in sea]
-    flat = np.array([p for ps in pts for p in ps], dtype=float).reshape(-1, 2)
-    skip = near_land(flat) if near_land is not None else np.zeros(len(flat), dtype=bool)
-    limited, unknown, k = 0, 0, 0
-    for s, ps in zip(sea, pts, strict=True):
-        ds = [d for i, p in enumerate(ps) if not skip[k + i] and (d := grid.depth(*p)) is not None]
-        k += len(ps)
-        if not any(grid.charted(*p) for p in ps):  # outside the bathymetry: depth unknown, not deep
-            s.depth_unknown = True
-            unknown += 1
-        d = min(ds, default=None)
-        if d is not None and d < max_m:
-            s.limits.max_draft = round(max(d - safety_m, 0.05), 2)  # 0 would mean "no limit"
-            limited += 1
+    limited, unknown = 0, 0
+    for c in range(0, len(sea), chunk):  # a whole continent's samples at once take gigabytes
+        part = sea[c:c + chunk]
+        pts = [samples(s.coords, step_m) for s in part]
+        flat = np.array([p for ps in pts for p in ps], dtype=float).reshape(-1, 2)
+        skip = near_land(flat) if near_land is not None else np.zeros(len(flat), dtype=bool)
+        k = 0
+        for s, ps in zip(part, pts, strict=True):
+            ds = [d for i, p in enumerate(ps) if not skip[k + i] and (d := grid.depth(*p)) is not None]
+            k += len(ps)
+            if not any(grid.charted(*p) for p in ps):  # outside the bathymetry: depth unknown, not deep
+                s.depth_unknown = True
+                unknown += 1
+            d = min(ds, default=None)
+            if d is not None and d < max_m:
+                s.limits.max_draft = round(max(d - safety_m, 0.05), 2)  # 0 would mean "no limit"
+                limited += 1
     log.info("charted depth limits on %d of %d sea segments, no charted depth on %d", limited, len(sea), unknown)
     return limited
