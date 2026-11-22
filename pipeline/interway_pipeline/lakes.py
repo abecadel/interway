@@ -329,13 +329,15 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
 BIG_LAKE_KM2 = 500.0
 OPEN_GRID_M = 8000.0  # Mercator metres (about 5.6 km at 45°)
 OPEN_CLEAR_M = 1000.0  # grid nodes stay this far (Mercator) from the shore
+OPEN_SIMPLIFY_M = 50.0  # the outline is simplified this much (Mercator m) before buffering
 
 
 def _open_water(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]],
                 weirs: STRtree | None = None, step: float = OPEN_GRID_M) -> list[Segment]:
     """A grid over a big lake's open water, joined to the entries: Delaunay edges and the sea mesh's grid moves
     (knight moves too, so straight courses in most directions), kept where they stay on water."""
-    merc = shapely.transform(body, to_merc)
+    # simplified first: buffering a Great Lakes outline (800k vertices, thousands of islands) takes over 10 GB
+    merc = shapely.simplify(shapely.transform(body, to_merc), OPEN_SIMPLIFY_M)
     x0, y0, x1, y1 = merc.bounds
     gx, gy = np.meshgrid(np.arange(x0, x1, step), np.arange(y0, y1, step))
     grid = np.column_stack([gx.ravel(), gy.ravel()])
@@ -347,7 +349,7 @@ def _open_water(body: Polygon | MultiPolygon, members: list[Lake], entries: list
     nodes = np.vstack([ents, grid])
     edges = shapely.get_parts(shapely.delaunay_triangles(shapely.multipoints(nodes), only_edges=True))
     edges = np.concatenate([edges[shapely.length(edges) <= 3 * step], _grid_moves(grid, x0, y0, step)])
-    water = merc.buffer(ENTRY_TOLERANCE_M)
+    water = merc.buffer(ENTRY_TOLERANCE_M + OPEN_SIMPLIFY_M)
     shapely.prepare(water)
     edges = edges[shapely.contains(water, edges)]
     entry_at = {tuple(map(float, q)): nid for (nid, _), q in zip(entries, ents, strict=True)}
