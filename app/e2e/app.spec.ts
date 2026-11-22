@@ -82,3 +82,16 @@ test('navigates: warns of a lock, and re-routes from the boat when off the route
   await expect(page.locator('.nav-panel')).toBeVisible();
   await expect(page.locator('.nav-next')).toContainText(/Lock in\s*\d/);
 });
+
+test('without WebMCP, an agent plans through window.interway', async ({ page }) => {
+  await page.goto('');
+  await page.waitForFunction(() => 'interway' in window, null, { timeout: 90_000 });
+  const brief = await page.evaluate(async () => {
+    const api = (window as unknown as { interway: Record<string, (i?: object) => Promise<unknown>> & { tools: { name: string }[] } }).interway;
+    const b = await api.plan_route({ from: { lon: 13.9, lat: 52.852 }, to: { lon: 14.0, lat: 52.86 }, vessel: { draft: 1.2 } });
+    return { tools: api.tools.map((t) => t.name), brief: JSON.parse(JSON.stringify(b)) };
+  });
+  expect(brief.tools).toContain('get_route_brief');
+  expect(brief.brief.totals.km).toBeGreaterThan(5);
+  expect(brief.brief.link).toContain('draft=1.2');
+});

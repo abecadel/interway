@@ -99,8 +99,10 @@ The first visit downloads the waterway network (about 40 MB compressed) and then
 fast connection, a few minutes on a slow one; later visits load from the cache. A route is ready when the
 summary shows the time and the **Start** button.
 
-Without WebMCP (an ordinary or headless browser) read the route with **Copy brief for AI**: it puts the brief
-(Markdown) on the clipboard, or downloads it as a file where the clipboard is not allowed.
+Without WebMCP (an ordinary or headless browser, Playwright, Puppeteer) the same site tools are functions on
+`window.interway`: `await window.interway.plan_route({from: {lon, lat}, to: "Port Hercule, Monaco", vessel:
+{draft: 1.2}})` returns the brief as JSON; `window.interway.tools` lists the tools with their input schemas.
+**Copy brief for AI** puts the brief (Markdown) on the clipboard, or downloads it where the clipboard is not allowed.
 
 ## Site tools (WebMCP)
 

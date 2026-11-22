@@ -197,7 +197,7 @@ const ALT_PENALTY = 1.8;
 /** ...and a new route counts when it shares at most this share of its length with them and takes at most this
  * many times the best route's time. */
 const ALT_MAX_SHARED = 0.7;
-const ALT_MAX_SLOWER = 1.4;
+const ALT_MAX_SLOWER = 1.6;
 
 export class Router {
   private index: Flatbush;

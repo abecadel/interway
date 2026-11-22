@@ -198,3 +198,13 @@ export async function registerSiteTools(bridge: PlannerBridge, ctx: ModelContext
   for (const tool of siteTools(bridge)) await ctx.registerTool(tool);
   return true;
 }
+
+/** The same tools as functions on `window.interway`, for any browser automation without WebMCP (Playwright,
+ *  Puppeteer, an agent's browser): `await window.interway.plan_route({ from, to, vessel })`; `interway.tools`
+ *  lists the names, descriptions and input schemas. */
+export function exposeSiteTools(bridge: PlannerBridge, win: Window = window): void {
+  const tools = siteTools(bridge);
+  const api: Record<string, unknown> = Object.fromEntries(tools.map((t) => [t.name, (input: Record<string, unknown> = {}) => t.execute(input)]));
+  api.tools = tools.map(({ name, description, inputSchema }) => ({ name, description, inputSchema }));
+  (win as unknown as { interway: unknown }).interway = api;
+}

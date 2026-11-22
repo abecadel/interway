@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "Iroquois Lock (St. Lawrence Seaway, Canadian side of the Iroquois Dam): OSM maps its four gates and the dam but no waterway line through the chamber, so the river line ran past the dam instead. The line runs from the river below the lock through the chamber to the river above. Sources: https://greatlakes-seaway.com/en/the-seaway/ and NOAA chart 14774",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Iroquois Lock", "lock": true, "join_line": true},
+     "geometry": {"type": "LineString", "coordinates": [[-75.30221, 44.83838], [-75.3105, 44.8336], [-75.3116, 44.8322], [-75.3135, 44.8297], [-75.3165, 44.8255], [-75.32824, 44.81002]]}}
+  ]
+}

@@ -61,6 +61,3 @@ exclude_ways:
   - 491784754
   - 770030413
   - 1258214156
-  # Iroquois Dam: drawn across the river line, while ships pass the Iroquois Lock about 800 m off on the Canadian
-  # bank (mapped as a lock area with no waterway line through it)
-  - 207136847

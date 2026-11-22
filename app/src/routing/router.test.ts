@@ -94,8 +94,8 @@ describe('router', () => {
     const E: [number, number] = [17.3, 51.0];
     const r = makeRouter([...segments, { points: [C, E], name: 'Beyond', kind: 'river' }]);
     const from: [number, number] = [17.02, 51.0], to: [number, number] = [17.28, 51.0];
-    // a 20 min lock: the long way takes much longer, too slow to offer
-    expect(r.alternatives(from, to)).toEqual([]);
+    // a quick lock: the long way takes much longer, too slow to offer
+    expect(r.alternatives(from, to, { ...defaultProfile, lockPenaltyMin: 0 })).toEqual([]);
     // an hour at the lock: the long way is close enough
     const slowLock = { ...defaultProfile, lockPenaltyMin: 60 };
     const alts = r.alternatives(from, to, slowLock);
