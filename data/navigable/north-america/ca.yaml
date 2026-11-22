@@ -44,6 +44,9 @@ lakes:
   - Lower Rideau Lake
   - Lake Champlain
 exclude: []
+# the Beauharnois Canal above the locks to Lac Saint-François is mapped without a name
+# (https://greatlakes-seaway.com/en/the-seaway/; NOAA chart 14770 shows the canal from the lake to the locks)
+ways: [547257470]
 # rivers through rapids that the canals bypass; the river lines carry the waterway's name (and ship tags), so
 # they are left out by way id (https://greatlakes-seaway.com/en/the-seaway/; Parks Canada Chambly Canal)
 exclude_ways:
