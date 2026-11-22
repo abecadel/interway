@@ -60,6 +60,8 @@ export interface MapViewProps {
 }
 
 export interface Insets { top: number; bottom: number; left: number }
+/** a font the base map's glyph server has (the MapLibre default, Open Sans + Arial Unicode MS, is a 404 there) */
+const LABEL_FONT = ['Noto Sans Regular'];
 const NO_INSETS: Insets = { top: 0, bottom: 0, left: 0 };
 const FIT_PAD = 40;
 const ROUTE_COLOR = '#4c8df6';
@@ -220,7 +222,7 @@ export function MapView({
       });
       map.addLayer({
         id: 'poi-cluster-count', type: 'symbol', source: 'pois', minzoom: 8, filter: ['has', 'point_count'],
-        layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-size': 12, 'text-allow-overlap': true },
+        layout: { 'text-font': LABEL_FONT, 'text-field': ['get', 'point_count_abbreviated'], 'text-size': 12, 'text-allow-overlap': true },
         paint: { 'text-color': '#fff' },
       });
       map.addLayer({
@@ -235,7 +237,7 @@ export function MapView({
       });
       map.addLayer({
         id: 'poi-labels', type: 'symbol', source: 'pois', minzoom: 13, filter: ['!', ['has', 'point_count']],
-        layout: { 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.4], 'text-anchor': 'top', 'symbol-sort-key': ['get', 'rank'] },
+        layout: { 'text-font': LABEL_FONT, 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.4], 'text-anchor': 'top', 'symbol-sort-key': ['get', 'rank'] },
         paint: night
           ? { 'text-color': '#cfe0ee', 'text-halo-color': '#0f151b', 'text-halo-width': 1.2 }
           : { 'text-color': '#234', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
@@ -249,7 +251,7 @@ export function MapView({
       map.addSource('alt-labels', { type: 'geojson', data: empty });
       map.addLayer({
         id: 'alt-labels', type: 'symbol', source: 'alt-labels',
-        layout: { 'text-field': ['get', 'label'], 'text-size': 13, 'text-allow-overlap': true },
+        layout: { 'text-font': LABEL_FONT, 'text-field': ['get', 'label'], 'text-size': 13, 'text-allow-overlap': true },
         paint: { 'text-color': '#3c4043', 'text-halo-color': '#fff', 'text-halo-width': 2.5 },
       });
       map.addSource('route', { type: 'geojson', data: empty, lineMetrics: true });

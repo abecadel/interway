@@ -18057,5 +18057,1443 @@
    -127.0,
    54.7
   ]
+ },
+ {
+  "id": "us-upper-mississippi",
+  "name": "Upper Mississippi River (Minneapolis – St. Louis – Cairo)",
+  "aliases": [
+   "Mississippi River",
+   "Lake Pepin",
+   "Pap Slough",
+   "Moline Pool",
+   "Sylvan Slough",
+   "Chain of Rocks Canal",
+   "Lock Canal No. 11",
+   "Lock Canal No. 12",
+   "Lock Canal No. 13",
+   "Lock Canal 15",
+   "Lock Canal 16",
+   "Lock Canal 17",
+   "Lock Canal 18",
+   "Lock Canal 19",
+   "Lock Canal 20",
+   "Lock Canal 21",
+   "Lock Canal 22",
+   "Lock Canal 24",
+   "Lock 25 Canal"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Head of navigation at Minneapolis (Lower St. Anthony Falls, mile 853) to the Ohio River mouth at Cairo (mile 954 AHP); Locks and Dams 1–27 between Minneapolis and St. Louis",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 1373,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "9-ft (2.7 m) navigation channel Minneapolis to Cairo. Hundreds of submerged wing dams outside the buoyed channel: stay in the channel and approach the shore slowly at right angles."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded pools above St. Louis; free-flowing below Lock 27. Dangerous turbulence and undertow near every dam; restricted areas 600 ft above and 150 ft below each dam."
+  },
+  "locks": {
+   "count": 29,
+   "chamber": "Standard main chamber 600 × 110 ft (183 × 33.5 m); 1,200 × 110 ft (366 × 33.5 m) at Lock 19 (Keokuk), Melvin Price (26) and Lock 27, each with a 600-ft auxiliary",
+   "hours": "No charge. Upper St. Anthony Falls closed permanently since 10 June 2015. Lower St. Anthony Falls and Lock 1 close for the season about 1 November and reopen in mid/late April (17 April in 2025); locks from Lock 2 down stay open weather permitting",
+   "notes": "Call on VHF 14 (St. Paul District; locks also monitor 16) or pull the signal cord; St. Paul District brochure lists VHF 12 for Locks 25 and 27. Traffic lights: red stand clear, amber approach, green enter. Hold lines by hand, do not tie off; engine off. 33 CFR 207.300: first come first served, but US government craft, then scheduled passenger vessels, then commercial tows go before recreational craft; small boats are locked with tows when both agree, and a separate recreational lockage is made if one cannot be fitted within three other lockages. Pull chains at each end of many locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Lock approaches are no-wake. Stay clear of towboats: they need half a mile or more to stop and have a blind area ahead of the barges; never anchor in the channel."
+  },
+  "season": {
+   "best": null,
+   "closures": "Ice: the navigation season opens when the first tow breaks through Lake Pepin, on average about 20 March (earliest 4 March, latest non-flood 4 April 2008; ice surveys from mid-February). High water closes locks to navigation in some springs."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Lake Pepin (Pool 4) ice usually blocks the reach above Lake Pepin until about 20 March; the St. Louis District pools stay open most winters. Minneapolis locks closed roughly Nov–mid April."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, St. Paul, Rock Island and St. Louis Districts",
+   "url": "https://www.mvp.usace.army.mil/Missions/Navigation/"
+  },
+  "notices": "https://www.mvp.usace.army.mil/Missions/Navigation/",
+  "notes": "Great Loop boats join at Grafton from the Illinois Waterway and leave at Cairo for the Ohio. Distances: St. Paul–La Crosse 141 mi, La Crosse–Dubuque 118 mi, Keokuk–Grafton 146 mi (NOAA Table 20).",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://files.dnr.state.mn.us/education_safety/safety/boatwater/miss_river_guide/mrg_boating_big_river.pdf",
+   "https://corpslakes.erdc.dren.mil/employees/watersafety/toolbox/posters/Locks%20River%20Brochure.pdf",
+   "https://www.mprnews.org/story/2015/06/10/upper-st-anthony-falls-lock-closes",
+   "https://www.army.mil/article/271078/minneapolis_locks_closing_nov_1_for_the_end_of_navigation_season",
+   "https://www.army.mil/article/285040/st_paul_district_welcomes_the_first_tow_of_the_2025_navigation_season",
+   "https://www.army.mil/article/100621/first_tow_breaks_through_lake_pepin_arrives_in_st_paul",
+   "https://americancanalsociety.org/wp-content/uploads/2019/08/Upper-Mississippi-River-rvsd3.pdf",
+   "https://en.wikipedia.org/wiki/Upper_Mississippi_River",
+   "https://www.ecfr.gov/current/title-33/chapter-II/part-207/section-207.300"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -94.0,
+   36.99,
+   -89.0,
+   45.2
+  ]
+ },
+ {
+  "id": "us-lower-mississippi",
+  "name": "Lower Mississippi River (Cairo – New Orleans – Head of Passes)",
+  "aliases": [
+   "Mississippi River",
+   "Mississippi River East Channel"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Ohio River mouth at Cairo (mile 954 AHP) to Head of Passes (mile 0); Baton Rouge mile 229, New Orleans Canal Street mile 95",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 1535,
+  "depth": {
+   "usualM": 4.3,
+   "maxDraftM": null,
+   "notes": "Channel of at least 14 ft (4.3 m) normally available Cairo–Baton Rouge; deep-draft ship channel (45 ft) below Baton Rouge. Stage range 45–60 ft above Baton Rouge; at Baton Rouge extreme 40 ft, mean 21 ft."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.2,
+   "notes": "Coast Pilot 5: at New Orleans 4.0 mph (3.5 kn) at high flow, 2.8 mph (2.4 kn) medium, 1.4 mph (1.2 kn) low; Baton Rouge 3.8/2.6/1.3 mph. Eddies and countercurrents near the banks and on bends; strong shifting eddies at Algiers Point (mile 94.6) at high stages. High river in April, low in October."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks on the river itself; side locks at Algiers (mile 88.4), Inner Harbor Navigation Canal (mile 93), Harvey (mile 98.2), Port Allen (Baton Rouge) and Old River lead into the GIWW and Atchafalaya."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "New Orleans VTS controls traffic at Algiers Point (traffic lights at Governor Nicholls St. and Gretna); at 10 ft or more on the Carrollton gauge underpowered vessels should not round Algiers Point; the Coast Guard can restrict movements at high water. Heavy ship and tow traffic below Baton Rouge."
+  },
+  "season": {
+   "best": null,
+   "closures": "Navigable all year except short periods in extremely cold winters (USACE)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    10
+   ],
+   "highWater": [
+    4
+   ],
+   "ice": [],
+   "notes": "Average high stage in April, low stage in October (Coast Pilot 5)."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Tidal current is weak everywhere and rarely taken into account; river flow dominates."
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Mississippi Valley Division (Memphis, Vicksburg, New Orleans Districts); USCG Sector Lower Mississippi / New Orleans",
+   "url": "https://www.mvd.usace.army.mil/"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "Hundreds of miles of open river with tows and few stops: lack of fuel, landings and safe anchorages is the main problem for pleasure craft (Quimby's); never anchor in the tow channel. Distances (NOAA Table 20): Cairo–Memphis 222 mi, Memphis–Vicksburg 297, Vicksburg–Baton Rouge 208, Baton Rouge–New Orleans 134.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C08_WEB.pdf",
+   "https://quimbyscruisingguide.com/?p=28876",
+   "https://www.rivergator.org/river-log/baton-rouge-to-venice/introBRtoV/pg/4"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -91.8,
+   28.9,
+   -88.9,
+   36.99
+  ]
+ },
+ {
+  "id": "us-illinois-waterway",
+  "name": "Illinois Waterway (Chicago / Calumet – Grafton)",
+  "aliases": [
+   "Illinois River",
+   "Des Plaines River",
+   "Chicago Sanitary and Ship Canal",
+   "Chicago River",
+   "South Branch Chicago River",
+   "Calumet River",
+   "Little Calumet River",
+   "Cal-Sag Channel",
+   "Brandon Road Lock Canal",
+   "Dresden Island Pool",
+   "Dresden Island Lock Canal",
+   "Marseilles Canal",
+   "Peoria Lock Canal",
+   "La Grange Lock Canal"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Lake Michigan at Chicago (Chicago River, or Calumet River via T.J. O'Brien Lock and the Cal-Sag Channel) to the Mississippi at Grafton; Illinois River mile 0 at Grafton, Chicago at mile 333",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 541,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "9-ft (2.7 m) channel maintained by USACE."
+  },
+  "airDraftM": 6.0,
+  "current": {
+   "typicalMs": null,
+   "notes": "Pooled river; flow from Lake Michigan into the Illinois is limited by the 1909 Boundary Waters Treaty / diversion rules."
+  },
+  "locks": {
+   "count": 8,
+   "chamber": "Main chambers 600 × 110 ft; T.J. O'Brien 1,000 × 110 ft",
+   "hours": null,
+   "notes": "T.J. O'Brien (mile 326, 1.5 ft lift), Lockport (291, 39 ft), Brandon Road (286, 34 ft), Dresden Island (271), Marseilles (245), Starved Rock (231), Peoria (157), La Grange (80); total rise 158 ft. 33 CFR 207.300: first come first served, but US government craft, then scheduled passenger vessels, then commercial tows go before recreational craft; small boats are locked with tows when both agree, and a separate recreational lockage is made if one cannot be fitted within three other lockages. Pull chains at each end of many locks."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Fish-barrier RNA (33 CFR 165.923), Chicago Sanitary and Ship Canal miles 295.5–297.2 at Romeoville: only vessels over 20 ft, no jet skis, kayaks or rowing boats; transit without stopping at no-wake speed, no loitering, mooring or fishing; crew inside or wearing PFDs; no non-potable (bilge/ballast) water carried across for release. Safety zone (33 CFR 165.930) from Brandon Road to Lake Michigan can be closed by the Captain of the Port; USCG Lake Michigan VHF 16 / 414-747-7182."
+  },
+  "season": {
+   "best": null,
+   "closures": "Ice floes around the locks and dams can stop navigation in some winters."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winter ice floes at locks in some years."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Rock Island and Chicago Districts; USCG Sector Lake Michigan",
+   "url": "https://www.mvr.usace.army.mil/Missions/Navigation/"
+  },
+  "notices": "https://www.mvr.usace.army.mil/Missions/Navigation/Navigation-Notices/",
+  "notes": "Lowest fixed bridge on the whole Great Loop: BNSF railroad bridge at Lemont (CSSC mile 300.5), 19.7 ft (6.0 m), no alternative route; masts must come down. Chicago to Grafton 333 statute miles (NOAA).",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://en.wikipedia.org/wiki/Illinois_Waterway",
+   "https://www.ecfr.gov/current/title-33/chapter-I/subchapter-P/part-165/subpart-F/section-165.923",
+   "https://www.ecfr.gov/current/title-33/chapter-I/subchapter-P/part-165/subpart-F/section-165.930",
+   "https://greatloop.org/resource/great-loop-radio-the-lowest-bridge-on-the-great-loop.html",
+   "https://www.americanwaterways.com/sites/default/files/Lemont%20Bike%20Bridge%20Comments%208.11.23.pdf",
+   "https://www.ecfr.gov/current/title-33/chapter-II/part-207/section-207.300"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -90.7,
+   38.9,
+   -87.5,
+   42.0
+  ]
+ },
+ {
+  "id": "us-ohio-river",
+  "name": "Ohio River (Pittsburgh – Cairo)",
+  "aliases": [
+   "Ohio River",
+   "Emsworth Pool",
+   "Louisville and Portland Canal"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "The Point at Pittsburgh (Corps mile 0; NOAA mile 981 above the mouth) to the Mississippi at Cairo (Corps mile 981)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 1579,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "9-ft (2.7 m) channel. Low water in late summer can limit recreational lockages."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Fully impounded by 19 high-lift dams; floods stop lockages (e.g. Markland and McAlpine)."
+  },
+  "locks": {
+   "count": 19,
+   "chamber": "Most dams have a 1,200 × 110 ft main chamber and a 600 × 110 ft auxiliary; older locks 600 × 110 ft",
+   "hours": "24 h; recreational lockages may be limited to set times during low water or repairs (e.g. noon and 16:00 at Robert C. Byrd, 2014)",
+   "notes": "Corps miles from Pittsburgh: Emsworth 6.2, Dashields 13.3, Montgomery 31.7, New Cumberland 54.3, Pike Island 84.2, Hannibal 126.4, Willow Island 161.7, Belleville 203.9, Racine 237.5, R.C. Byrd 279.2, Greenup 341.0, Meldahl 436.2, Markland 531.5, McAlpine 606.8, Cannelton 720.7, Newburgh 776.1, J.T. Myers 846.0, Smithland 918.5, Olmsted 964.4 (replaced Locks 52 and 53). Pleasure craft call the lock on VHF 13 (Huntington District locks monitor 13 and 16). 33 CFR 207.300: first come first served, but US government craft, then scheduled passenger vessels, then commercial tows go before recreational craft; small boats are locked with tows when both agree, and a separate recreational lockage is made if one cannot be fitted within three other lockages. Pull chains at each end of many locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "High water and ice occasionally stop lockages."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Low water can limit recreational lockages in summer (Huntington District, 2018)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Great Lakes and Ohio River Division (Pittsburgh, Huntington, Louisville Districts)",
+   "url": "https://www.lrd.usace.army.mil/"
+  },
+  "notices": "https://www.lrl.usace.army.mil/Missions/Civil-Works/Navigation/",
+  "notes": "Great Loop boats use the lowest stretch only (Mississippi to Paducah or Smithland/Cumberland). NOAA river miles run upstream from the mouth, Corps charts downstream from Pittsburgh. Pittsburgh–Cincinnati 472 mi, Louisville–Paducah 332 mi.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://en.wikipedia.org/wiki/List_of_locks_and_dams_of_the_Ohio_River",
+   "https://webarchive.library.unt.edu/web/20161019154032/http://www.lrh.usace.army.mil/Missions/Civil-Works/Locks-and-Dams",
+   "https://www.washingtontimes.com/news/2014/may/5/maintenance-planned-at-robert-c-byrd-locks/",
+   "https://www.wmky.org/environment/2018-07-13/low-water-levels-affect-recreation-craft-at-ohio-river-locks",
+   "https://www.ecfr.gov/current/title-33/chapter-II/part-207/section-207.300"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -89.3,
+   36.9,
+   -79.9,
+   40.8
+  ]
+ },
+ {
+  "id": "us-tennessee-river",
+  "name": "Tennessee River (Paducah – Knoxville, TVA lakes)",
+  "aliases": [
+   "Tennessee River",
+   "Kentucky Lake",
+   "Pickwick Lake",
+   "Wilson Lake",
+   "Guntersville Lake",
+   "Nickajack Lake",
+   "Watts Bar Lake",
+   "Fort Loudoun Lake",
+   "Bennett Lake",
+   "Wilson Lock Canal",
+   "Wilson Canal"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Ohio River at Paducah (mile 0) to Knoxville (mile 652); the Tenn-Tom leaves Pickwick Lake at about mile 215",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 1049,
+  "depth": {
+   "usualM": 3.4,
+   "maxDraftM": null,
+   "notes": "11-ft (3.4 m) minimum channel depth maintained by TVA, 300 ft wide."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "A chain of TVA reservoirs; current only below the dams during generation."
+  },
+  "locks": {
+   "count": 9,
+   "chamber": "Pickwick 1,000 × 110 ft (largest); Chickamauga's old chamber is undersized, a new 600 × 110 ft lock is under construction (operation expected 2027–2028)",
+   "hours": null,
+   "notes": "Kentucky 22.4 (57 ft lift), Pickwick 206.7 (55), Wilson 259.4 (94), Wheeler 274.9 (48), Guntersville 349.0 (39), Nickajack 424.7 (39), Chickamauga 471.0 (49), Watts Bar 529.9 (58), Fort Loudoun 602.3 (72). Kentucky Lock: long waits for pleasure craft are common; guard wall damaged 1 Sep 2026, assist boat for tows, recreational vessels locked between commercial lockages (Sep 2026). Alternative: Barkley Lock via the Barkley Canal. 33 CFR 207.300: first come first served, but US government craft, then scheduled passenger vessels, then commercial tows go before recreational craft; small boats are locked with tows when both agree, and a separate recreational lockage is made if one cannot be fitted within three other lockages. Pull chains at each end of many locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "Repair closures at Kentucky Lock (e.g. 13–20 Oct 2026); check Nashville District notices."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Tennessee Valley Authority (dams, channel) and U.S. Army Corps of Engineers, Nashville District (locks)",
+   "url": "https://www.lrn.usace.army.mil/"
+  },
+  "notices": "https://www.lrn.usace.army.mil/Missions/Navigation/",
+  "notes": "Kentucky and Barkley lakes are joined by the Barkley Canal at Grand Rivers, so boats can use either lock. Wilson Dam–Chattanooga 204 mi, Chattanooga–Knoxville 184 mi (NOAA Table 20).",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.tenntom.org/locks-dams/",
+   "https://www.army.mil/article/295150",
+   "https://www.greatloop.org/resource/waterway-lock-closures.html",
+   "https://webarchive.library.unt.edu/web/20121006195846/http://www.tva.gov/river/navigation/howorks.htm",
+   "https://www.army.mil/article/296814/",
+   "https://www.ecfr.gov/current/title-33/chapter-II/part-207/section-207.300"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.7,
+   34.4,
+   -83.6,
+   37.2
+  ]
+ },
+ {
+  "id": "us-cumberland-river",
+  "name": "Cumberland River and Lake Barkley (Smithland – Nashville – Celina)",
+  "aliases": [
+   "Cumberland River",
+   "Lake Barkley",
+   "Barkley Canal",
+   "Cheatham Lake",
+   "Old Hickory Lake"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Ohio River at Smithland (Ohio mile 58 above the mouth) up through Lake Barkley and Nashville (mile 191) to Celina",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded (Barkley, Cheatham, Old Hickory, Cordell Hull)."
+  },
+  "locks": {
+   "count": 4,
+   "chamber": null,
+   "hours": null,
+   "notes": "Barkley (about mile 31), Cheatham (mile 148.7, closed for repairs 10 Mar–29 May 2025), Old Hickory, Cordell Hull (mile 313.5). Barkley Lock was dewatered in Sep 2026; a Barkley closure normally means long delays at Kentucky Lock. 33 CFR 207.300: first come first served, but US government craft, then scheduled passenger vessels, then commercial tows go before recreational craft; small boats are locked with tows when both agree, and a separate recreational lockage is made if one cannot be fitted within three other lockages. Pull chains at each end of many locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Nashville District",
+   "url": "https://www.lrn.usace.army.mil/"
+  },
+  "notices": "https://www.lrn.usace.army.mil/Missions/Navigation/",
+  "notes": "Loop detour to Nashville: downtown municipal docks at mile 191.2 (Lock One Marine; check west-bank dock status). Clarksville Marina is the usual halfway stop. Wakes from tows at the Nashville docks.",
+  "sources": [
+   "https://www.waterwayguide.com/marina/nashville-municipal-dock",
+   "https://en.wikipedia.org/wiki/Cumberland_River",
+   "https://www.army.mil/article/284024/ongoing_maintenance_at_cheatham_lock_aims_to_improve_navigation_safety",
+   "https://www.dvidshub.net/news/printable/492184",
+   "https://www.army.mil/article/295373",
+   "https://quimbyscruisingguide.com/boat-bums-and-river-rats-on-the-cumberland/",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.ecfr.gov/current/title-33/chapter-II/part-207/section-207.300"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.5,
+   35.9,
+   -85.0,
+   37.2
+  ]
+ },
+ {
+  "id": "us-tenn-tom",
+  "name": "Tennessee-Tombigbee Waterway (Pickwick Lake – Demopolis)",
+  "aliases": [
+   "Tennessee-Tombigbee Waterway",
+   "Bay Springs Lake",
+   "Pool B",
+   "Pool C",
+   "Columbus Lake",
+   "Aliceville Lake",
+   "Tombigbee River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Pickwick Lake (Tennessee River) through the Divide Cut and Bay Springs Lake to Demopolis, AL (mile 450 to 213)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 377,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "9 ft (2.7 m) in river sections, 12 ft (3.7 m) in the canal and Divide Cut; 300 ft wide (280 ft in the Divide Cut)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalised; total lift 341 ft over ten locks."
+  },
+  "locks": {
+   "count": 10,
+   "chamber": "110 × 600 ft (33.5 × 183 m)",
+   "hours": null,
+   "notes": "Whitten 411.9 (84 ft lift), Montgomery 406.7, Rankin 398.4, Fulton 391.0, Wilkins 376.3, Cochran 371.1, Aberdeen 357.5, Stennis 334.7, Bevill 306.8, Heflin 266.1; Demopolis (213.2) is the next lock downstream."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Mobile District; Tenn-Tom Waterway Development Authority",
+   "url": "https://www.sam.usace.army.mil/"
+  },
+  "notices": "https://www.tenntom.org/resources#navigation",
+  "notes": "Great Loop route from the Tennessee River to Mobile. Demopolis Yacht Basin (mile 216.7) is the last full-service stop before the Demopolis–Mobile fuel gap.",
+  "sources": [
+   "https://www.tenntom.org/locks-dams/",
+   "https://en.wikipedia.org/wiki/Tennessee%E2%80%93Tombigbee_Waterway"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.6,
+   32.52,
+   -87.9,
+   34.95
+  ]
+ },
+ {
+  "id": "us-black-warrior",
+  "name": "Black Warrior River (Demopolis – Tuscaloosa – Port of Birmingham)",
+  "aliases": [
+   "Black Warrior River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Tombigbee junction at Demopolis to the Port of Birmingham (Bankhead Lake), 168 river miles",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 270,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "9 ft (2.7 m), 200 ft wide."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded by four dams."
+  },
+  "locks": {
+   "count": 4,
+   "chamber": null,
+   "hours": null,
+   "notes": "Selden mile 261.1 (22 ft lift), Oliver 337.6 at Tuscaloosa (28 ft), Holt 347.0 (64 ft), Bankhead 365.1 (68 ft); miles from Mobile on the Black Warrior–Tombigbee system."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Mobile District",
+   "url": "https://www.sam.usace.army.mil/"
+  },
+  "notices": "https://www.tenntom.org/resources#navigation",
+  "notes": "Side trip from the Loop to Tuscaloosa; coal tows. Demopolis Lock–Oliver Lock 124 miles.",
+  "sources": [
+   "https://www.tenntom.org/locks-dams/",
+   "https://en.wikipedia.org/wiki/Black_Warrior_River"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.0,
+   32.45,
+   -86.7,
+   33.8
+  ]
+ },
+ {
+  "id": "us-lower-tombigbee-mobile",
+  "name": "Lower Tombigbee and Mobile River (Demopolis – Mobile)",
+  "aliases": [
+   "Tombigbee River",
+   "Mobile River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Demopolis Lock (mile 213.2) down the Tombigbee (172 mi) and the Mobile River (45 mi) to the Port of Mobile",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 349,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "9 ft (2.7 m) and 200 ft wide on the Tombigbee and upper Mobile River; Mobile Harbor ship channel 50 ft (completed Oct 2025)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Free-flowing below Coffeeville; tidal in the lower Mobile River."
+  },
+  "locks": {
+   "count": 2,
+   "chamber": null,
+   "hours": null,
+   "notes": "Demopolis (213.2, 40 ft lift) and Coffeeville (116.6, 34 ft), the last lock before tidewater. Tows can hold up pleasure boats at Coffeeville."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Tidewater begins below Coffeeville Lock."
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Mobile District",
+   "url": "https://www.sam.usace.army.mil/"
+  },
+  "notices": "https://www.tenntom.org/resources#navigation",
+  "notes": "Fuel gap: Bobby's Fish Camp (about mile 119, near Coffeeville) has long been the only fuel between Demopolis and Mobile; plan range for about 217 miles and confirm it is open. Few good anchorages (Bashi Creek is one). In Mobile refuel at Dog River or Fairhope.",
+  "sources": [
+   "https://www.tenntom.org/locks-dams/",
+   "https://henrythesailor.substack.com/p/great-loop-day-079-nov-15-2016-bashi?open=false",
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C07_WEB.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.4,
+   30.68,
+   -87.6,
+   32.52
+  ]
+ },
+ {
+  "id": "us-mobile-bay",
+  "name": "Mobile Bay (Mobile – Dauphin Island – Fort Morgan)",
+  "aliases": [
+   "Open sea",
+   "Mobile Ship Channel"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Mobile Bay from the Port of Mobile to the entrance between Mobile Point and Pelican Point; GIWW crossing at the south end",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "7–12 ft (2–3.7 m) outside the dredged channels; shoals and breakers extend 4 miles south of both entrance points. Prolonged northers lower the water in the bay."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Ebb of 8–10 kn reported in the Bar and Bay channels after long south winds; otherwise moderate tidal currents."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "Hurricane season late May to early November, September most active (Coast Pilot 5). Northers and fronts Nov–Mar bring 17–33 kn winds 5–10 % of the time; winter/spring fog."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Fronts and northers Nov–Mar; tropical cyclones Jun–Nov."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 0.37,
+   "notes": "Diurnal; great diurnal range 1.22 ft (0.37 m) at Dauphin Island (NOAA 8735180). Wind setup often exceeds the tide."
+  },
+  "authority": {
+   "name": "USCG Sector Mobile; Alabama State Port Authority",
+   "url": "https://www.navcen.uscg.gov/msi"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "Shallow bay outside the ship channel. Fuel and marinas at Dog River (west shore) and Fairhope / Fly Creek (east shore); the GIWW leaves eastward through Bon Secour Bay.",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C07_WEB.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=8735180",
+   "https://www.tenntom.org/locks-dams/"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.3,
+   30.15,
+   -87.75,
+   30.68
+  ]
+ },
+ {
+  "id": "us-giww-florida-mississippi",
+  "name": "Gulf Intracoastal Waterway East (Carrabelle – Panama City – Pensacola – Mobile – New Orleans)",
+  "aliases": [
+   "Gulf Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Santa Rosa Sound",
+   "Choctawhatchee Bay",
+   "Big Lagoon",
+   "Pensacola Bay",
+   "Portage Creek",
+   "Bay La Launch",
+   "West Bay Creek",
+   "Wetappo Creek",
+   "South Prong Wetappo Creek",
+   "Lake Wimico",
+   "Jackson River",
+   "Apalachicola River",
+   "Marianne Channel",
+   "Grand Island Channel",
+   "Inner Harbor Navigation Canal",
+   "Industrial Canal",
+   "The Rigolets",
+   "Rigolets"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "GIWW from Carrabelle (Mile 376E) through St. Andrew Bay, Choctawhatchee Bay, Santa Rosa Sound, Pensacola Bay, Mobile Bay and Mississippi Sound to the Rigolets and New Orleans (Industrial Lock, Mile 6.5E); miles counted east of Harvey Lock",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 595,
+  "depth": {
+   "usualM": 3.7,
+   "maxDraftM": null,
+   "notes": "Federal project 12 ft (3.7 m) × 125 ft from Carrabelle to Brownsville; shoals several feet between dredgings."
+  },
+  "airDraftM": 15.2,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal and wind-driven currents in the passes and sounds."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Inner Harbor Navigation Canal Lock 626 × 74 ft usable, 31.5 ft over sills",
+   "hours": null,
+   "notes": "Harvey Lock (Mile 0) 415 × 75 ft, 12 ft over sills, VHF 14; two bascule bridges just south, 7 ft closed. Algiers Lock (A.A. Mile 0) 760 × 75 ft usable, bypasses Harvey. Inner Harbor Navigation Canal (Industrial) Lock (Mile 6.5E) 626 × 74 ft usable, VHF 14/16, tel. 504-945-2157. Bayou Boeuf Lock (93.0W) 1,148 × 75 ft, VHF 13/16. Leland Bowman Lock (163.0W) 1,140 × 110 ft, VHF 14. Calcasieu Lock (238.2W) 1,194 × 75 ft, VHF 14. Port Allen Lock (M.P. 64.2) 1,198 ft, VHF 14; Bayou Sorrel Lock (M.P. 36.4) 56 ft wide."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Make a SECURITE call on VHF 13 before crossing ship channels; tows work VHF 13. Do not try to pass a moving cable ferry."
+  },
+  "season": {
+   "best": null,
+   "closures": "Tropical cyclones June–November (peak August–September); winter fronts."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricane season Jun–Nov."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 0.37,
+   "notes": "Mostly diurnal, small: about 0.3–0.4 m (Dauphin Island GT 0.37 m). Wind setup and northers move water more than the tide."
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Mobile and New Orleans Districts; USCG Sectors Mobile and New Orleans",
+   "url": "https://www.sam.usace.army.mil/"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "Lowest fixed bridges 50 ft (15.2 m): Dupont Bridge (Mile 295.5E, East Bay), Brooks Bridge (223.0E, Fort Walton Beach) and Navarre Causeway (207.0E); most others 65–73 ft. Mobile–Pensacola 73 NM, Pensacola–Panama City 99 NM, Mobile–New Orleans 138 NM.",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C12_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C07_WEB.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=8735180"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -90.04,
+   29.5,
+   -84.3,
+   31.0
+  ]
+ },
+ {
+  "id": "us-giww-louisiana",
+  "name": "Gulf Intracoastal Waterway West – Louisiana (New Orleans – Morgan City – Lake Charles – Sabine)",
+  "aliases": [
+   "Gulf Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Harvey Canal",
+   "Harvey Canal No. 1",
+   "Hero Cutoff",
+   "Bayou Barataria",
+   "Bayou Cocodrie",
+   "Bayou Black",
+   "Lily Boom Cutoff",
+   "Bayou Chene",
+   "Bayou Boeuf",
+   "Lower Atchafalaya River",
+   "Little Wax Bayou",
+   "Devils Elbow",
+   "Port Allen Canal",
+   "Intracoastal Waterway Alternate Route",
+   "Bayou Plaquemine",
+   "Lower Grand River",
+   "Atchafalaya Basin Main Channel"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Harvey Lock (Mile 0) / Algiers Lock to the Sabine River, including the Morgan City–Port Allen and Atchafalaya alternate routes",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": 3.7,
+   "maxDraftM": null,
+   "notes": "Federal project 12 ft × 125 ft; 11 ft over the sill at Old River Lock."
+  },
+  "airDraftM": 22.3,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong currents where the waterway crosses the Atchafalaya at Morgan City (Berwick Bay VTS) and at the Mississippi locks."
+  },
+  "locks": {
+   "count": 4,
+   "chamber": "Smallest on the main route: Harvey 415 × 75 ft (Algiers 760 ft alternative)",
+   "hours": null,
+   "notes": "Harvey Lock (Mile 0) 415 × 75 ft, 12 ft over sills, VHF 14; two bascule bridges just south, 7 ft closed. Algiers Lock (A.A. Mile 0) 760 × 75 ft usable, bypasses Harvey. Inner Harbor Navigation Canal (Industrial) Lock (Mile 6.5E) 626 × 74 ft usable, VHF 14/16, tel. 504-945-2157. Bayou Boeuf Lock (93.0W) 1,148 × 75 ft, VHF 13/16. Leland Bowman Lock (163.0W) 1,140 × 110 ft, VHF 14. Calcasieu Lock (238.2W) 1,194 × 75 ft, VHF 14. Port Allen Lock (M.P. 64.2) 1,198 ft, VHF 14; Bayou Sorrel Lock (M.P. 36.4) 56 ft wide."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Berwick Bay VTS controls traffic at Morgan City; bridges and locks work VHF 13/14. Heavy tow traffic; cable ferries cross."
+  },
+  "season": {
+   "best": null,
+   "closures": "Tropical cyclones June–November."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricane season Jun–Nov."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 0.32,
+   "notes": "Small diurnal tide (Grand Isle GT 0.32 m); locks such as Calcasieu (lift to 4 ft) keep salt water out."
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, New Orleans District; USCG Sector New Orleans",
+   "url": "https://www.mvn.usace.army.mil/"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "Fixed bridges 73 ft (22.3 m) on the main route; Harvey Canal bascules 7 ft closed. Harvey has fuel and repairs. New Orleans–Morgan City 86 NM, Morgan City–Lake Charles 136 NM (NOAA Table 18).",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C12_WEB.pdf",
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C08_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=8761724"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -93.8,
+   28.9,
+   -90.04,
+   30.7
+  ]
+ },
+ {
+  "id": "us-giww-texas",
+  "name": "Gulf Intracoastal Waterway – Texas (Sabine – Galveston – Corpus Christi – Brownsville)",
+  "aliases": [
+   "Gulf Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Sabine Neches Canal",
+   "Sabine Lake",
+   "Upper Laguna Madre",
+   "Lower Laguna Madre"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Sabine River to Port Brownsville (Mile 680W), via Port Arthur, Galveston Bay, Freeport, Matagorda Bay, Corpus Christi and the Laguna Madre",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": 3.7,
+   "maxDraftM": null,
+   "notes": "Federal project 12 ft × 125 ft; Laguna Madre is very shallow outside the channel."
+  },
+  "airDraftM": 14.6,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong cross-currents at the Brazos and Colorado river crossings; heavy rain causes strong outgoing currents and eddies between the floodgates."
+  },
+  "locks": {
+   "count": 4,
+   "chamber": "Colorado River Locks 1,200 × 75 ft, 15 ft over sills",
+   "hours": "Gates are closed to control traffic when crossing currents are hazardous",
+   "notes": "Brazos River floodgates (East Gate 409-233-1251, West Gate 409-233-5161, VHF 13) and Colorado River locks (Miles 441.1W and 441.8W, 409-863-7842, VHF 13/16). Mooring piles on the canal side for waiting."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "Tropical cyclones June–November."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricane season Jun–Nov."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 0.43,
+   "notes": "Small, mixed tide (Galveston Pier 21 GT 0.43 m); wind setup dominates."
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Galveston District; USCG Sectors Houston-Galveston and Corpus Christi",
+   "url": "https://www.swg.usace.army.mil/"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "Fixed bridges 73 ft except Texas SH 361 at Redfish Bay (Mile 533.1W), 48 ft (14.6 m). Port Arthur–Galveston 58 NM, Freeport–Port O'Connor 70 NM, Corpus Christi–Port Isabel 120 NM (NOAA Table 18).",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C12_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=8771450"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -97.8,
+   25.8,
+   -93.8,
+   30.2
+  ]
+ },
+ {
+  "id": "us-missouri-river",
+  "name": "Missouri River navigation channel (St. Louis – Kansas City – Sioux City)",
+  "aliases": [
+   "Missouri River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Mouth above St. Louis (mile 0) to Sioux City (mile 735); Kansas City mile 363, Omaha 615",
+  "navigable": "seasonal",
+  "class": null,
+  "lengthKm": 1183,
+  "depth": {
+   "usualM": 2.7,
+   "maxDraftM": null,
+   "notes": "Authorized channel 9 ft (2.7 m) × 300 ft, kept by releases from Gavins Point Dam; minimum-service flows in 2026."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.5,
+   "notes": "Free-flowing, no locks or dams on the 735-mile channel. NPS gives 3–5 mph (1.3–2.2 m/s) normal, 7 mph or more in high water on the reach above Sioux City; fastest water in the channel, slack behind dikes."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "Navigation flow support 1 April – 1 December at the mouth in a full season; the 2026 season was shortened to end 15 November."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    12,
+    1,
+    2,
+    3
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winter releases from Gavins Point at the 12,000 cfs minimum in 2026–27: low water outside the flow-support season."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Northwestern Division (Kansas City and Omaha Districts)",
+   "url": "https://www.nwk.usace.army.mil/Missions/Civil-Works/Navigation/"
+  },
+  "notices": "https://www.nwd-mr.usace.army.mil/rcc/",
+  "notes": "St. Charles–Kansas City 335 mi, Kansas City–Omaha 252 mi (NOAA Table 20).",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.dvidshub.net/news/printable/569432",
+   "https://webarchive.library.unt.edu/web/20161019144913/http://www.nwo.usace.army.mil/Missions/Dam-and-Lake-Projects/Missouri-River-Navigation",
+   "https://www.nps.gov/mnrr/planyourvisit/boating-in-the-mnrr.htm",
+   "https://www.nps.gov/mnrr/planyourvisit/safety.htm"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -96.6,
+   38.5,
+   -90.1,
+   42.6
+  ]
+ },
+ {
+  "id": "us-columbia-snake",
+  "name": "Columbia and Snake Rivers (Astoria – Portland – Bonneville – Pasco – Lewiston)",
+  "aliases": [
+   "Columbia River",
+   "Snake River",
+   "Lake Bonneville",
+   "Lake Celilo",
+   "Lake Umatilla",
+   "Lake Wallula",
+   "Lake Sacajawea",
+   "Lake Herbert G West",
+   "Lake Bryan",
+   "Lower Granite Lake",
+   "Astoria Range",
+   "Tongue Point Channel",
+   "Harrington Point Range",
+   "Miller Sands Range",
+   "Pillar Rock Lower Range",
+   "Pillar Rock Upper Range",
+   "Welch Island Reach",
+   "Skamokawa Channel",
+   "Steamboat Reach",
+   "Puget Island Range and Turn",
+   "Tansy Point Turn and Range",
+   "Columbia City Channel",
+   "Warrior Rock Range"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Columbia River bar to Pasco (McNary pool) and the Snake River to Lewiston, ID: the 465-mile Columbia–Snake inland waterway with 8 locks from Bonneville to Lower Granite",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 748,
+  "depth": {
+   "usualM": 4.3,
+   "maxDraftM": null,
+   "notes": "Project depth 43 ft to Portland/Vancouver, 27 ft to The Dalles, 14 ft (4.3 m) to McNary and on the Snake; lock sills may control (McNary usually over 12 ft). Floating logs and deadheads, worst in the spring freshet."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.0,
+   "notes": "Above Astoria 1–3 kn, more on the ebb during the freshet (late May). Columbia bar: ebb 6–8 kn on the north side, breakers; one of the most dangerous bars; tidal current at the entrance over 5 kn on the ebb."
+  },
+  "locks": {
+   "count": 8,
+   "chamber": "86 ft wide; 675 ft at Bonneville, 683 ft at McNary, 650 ft at Ice Harbor and the other Snake locks; usable 84 × 650 ft",
+   "hours": "Recreational craft lock on a schedule or with commercial lockages; winter daylight-only lockage for recreational vessels",
+   "notes": "Bonneville (RM 146.1), The Dalles (191.5), John Day (215.6), McNary, Ice Harbor, Lower Monumental, Little Goose, Lower Granite. Call on VHF 14 and keep watch on 14 from the approach to exit (33 CFR 207.718). Annual maintenance closure each March (2026: Bonneville 2–14 Mar, The Dalles and John Day 1–21 Mar); 5-week closures planned 2026–27, 16-week closure of all locks planned 2030."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Bar crossings: check USCG bar restrictions; pilotage compulsory except foreign recreational vessels up to 100 ft. Tows use VHF 13."
+  },
+  "season": {
+   "best": null,
+   "closures": "Lock maintenance closures in March; spring freshet peaks late May."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    5
+   ],
+   "ice": [],
+   "notes": "All eight locks close for 2–3 weeks each March for maintenance (not the whole month); freshet peak late May."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 2.62,
+   "notes": "Tidal to Bonneville Dam; great diurnal range 8.61 ft (2.62 m) at Astoria (NOAA 9439040). River backup reverses the Willamette as far as Portland."
+  },
+  "authority": {
+   "name": "U.S. Army Corps of Engineers, Portland and Walla Walla Districts; USCG Sector Columbia River",
+   "url": "https://www.nwp.usace.army.mil/Missions/Navigation/"
+  },
+  "notices": "https://www.nwp.usace.army.mil/Missions/Navigation/",
+  "notes": "Astoria–Portland 85 NM, Portland–The Dalles 87 NM, Pasco–Lewiston 125 NM (NOAA Table 30). Plan around the March lock closures.",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp10/CPB10_C05_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.law.cornell.edu/cfr/text/33/207.718",
+   "https://webarchive.library.unt.edu/eot2008/20090109023519/https:/www.nwp.usace.army.mil/op/b/docs/brochures/Bonn_Dam_fact_sheet2.pdf",
+   "https://www.irpt.net/2026-portland-annual-navigation-lock-maintenance-outage/",
+   "https://www.pnwa.net/wp-content/uploads/2026/04/Columbia-Snake-River-Non-Routine-Maintenance-Needs-260423.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=9439040"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -124.2,
+   45.4,
+   -116.9,
+   46.9
+  ]
+ },
+ {
+  "id": "us-sacramento-san-joaquin-delta",
+  "name": "Sacramento–San Joaquin Delta (Antioch, Rio Vista, Stockton, Sacramento)",
+  "aliases": [
+   "San Joaquin River",
+   "Sacramento River",
+   "Broad Slough",
+   "Franks Tract",
+   "Threemile Slough",
+   "Old River",
+   "Middle River",
+   "Steamboat Slough"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Delta of the Sacramento and San Joaquin rivers from Suisun Bay/Antioch to Stockton and Sacramento: hundreds of miles of sloughs and channels",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Ship channels 35 ft to Stockton and Sacramento; sloughs have uneven bottoms (dredging serves the levees, not navigation)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal currents throughout the Delta, modified by river flow."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Cable ferries cross some Delta channels; their cables can be near the surface while they operate."
+  },
+  "season": {
+   "best": "Summer, when San Francisco Bay is foggy and choppy",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 1.5,
+   "notes": "Great diurnal range 4.91 ft (1.5 m) at Port Chicago, Suisun Bay (NOAA 9415144); smaller inland."
+  },
+  "authority": {
+   "name": "California Division of Boating and Waterways; USCG Sector San Francisco",
+   "url": "https://dbw.parks.ca.gov/"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "Marinas concentrated at Bethel Island, around Antioch Bridge, on the Mokelumne and near Stockton. Diesel is scarce (most boats use gasoline): Antioch, Stockton, Bethel Island, King Island. Groceries mainly in the river towns. SF–Stockton 75 NM, Antioch–Stockton 31 NM.",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp7/CPB7_C07_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=9415144"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -122.1,
+   37.6,
+   -121.2,
+   38.7
+  ]
+ },
+ {
+  "id": "us-puget-sound",
+  "name": "Puget Sound, Admiralty Inlet and the San Juan Islands",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Puget Sound from Olympia and Tacoma to Seattle, Admiralty Inlet and Port Townsend, and the US San Juan Islands (Friday Harbor, Roche Harbor)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Deep fjord-like basins; heavy tide rips off Point Wilson, Foulweather Bluff and in the San Juan passes."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal currents 2–7 kn from Point Wilson (Admiralty Inlet), over 5 kn in Tacoma Narrows; Deception Pass and Rosario Strait strong: time passages with NOAA current predictions."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Ballard (Chittenden) Locks into Lake Union/Lake Washington are outside this sea area."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Washington RCW 77.15.740: from 1 Jan 2025 stay 1,000 yards from Southern Resident killer whales and slow to 7 kn within half a mile; 200 yards from other killer whales (federal). Canadian waters: foreign boats entering must report to CBSA (1-888-226-7277) unless in direct transit."
+  },
+  "season": {
+   "best": "Late spring and summer (light winds, sea breeze 8–15 kn in the afternoon)",
+   "closures": "Southerly gales from fall to spring; sustained 40 kn with 50 kn gusts in strong storms; calms and fog common in fall and winter."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winds mainly SE–SW September–April and NW–N in late spring and summer (Coast Pilot 10)."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 3.46,
+   "notes": "Large, mixed tides; great diurnal range 11.36 ft (3.46 m) at Seattle (NOAA 9447130), more in South Sound."
+  },
+  "authority": {
+   "name": "USCG Sector Puget Sound (Seattle VTS); Washington State Parks Boating Program",
+   "url": "https://www.navcen.uscg.gov/msi"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "NOAA (Table 31): Seattle–Tacoma 25 NM, Tacoma–Olympia 34, Seattle–Port Townsend 40, Port Townsend–Friday Harbor 30, Seattle–Victoria 72.",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp10/CPB10_C08_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=9447130",
+   "https://wdfw.wa.gov/species-habitats/at-risk/species-recovery/orca/regulations",
+   "https://cbsa-asfc.gc.ca/travel-voyage/pb-pp-eng.html"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -123.3,
+   47.0,
+   -122.2,
+   48.75
+  ]
+ },
+ {
+  "id": "us-southeast-alaska-inside-passage",
+  "name": "Inside Passage – Southeast Alaska (Ketchikan, Wrangell, Petersburg, Juneau, Sitka, Glacier Bay)",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Dixon Entrance to Cape Spencer and Skagway: Clarence Strait, Wrangell Narrows, Frederick Sound, Stephens Passage, Lynn Canal, Icy Strait and Glacier Bay",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong tidal currents in narrows and inlet mouths (Taku Inlet ebb stronger than flood)."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Glacier Bay National Park: free private-vessel permit 1 June – 31 August (lotteries; 25 a day, max 5 days), plus annual in-person orientation at Bartlett Cove",
+   "notes": "Glacier Bay: call Bartlett Cove (KWM20) on VHF 12/16 entering and leaving, 1 May–30 Sep; whale-waters speed limits. Seattle–Alaska runs through British Columbia: report to CBSA if you stop."
+  },
+  "season": {
+   "best": "May–August (May has least fog; the summer high gives light winds)",
+   "closures": "From September storms come every few days; gales and big seas at the entrances from the sea; Taku winds (cold northerlies) gust through Juneau in winter."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Autumn lows 3–5 a month from September; inside passages usually 10 kn or less with seas under 5 ft in summer."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 4.97,
+   "notes": "Great diurnal range 16.31 ft (4.97 m) at Juneau and 15.45 ft (4.71 m) at Ketchikan (NOAA 9452210, 9450460)."
+  },
+  "authority": {
+   "name": "USCG District 17 / Sector Juneau; National Park Service (Glacier Bay)",
+   "url": "https://www.navcen.uscg.gov/msi"
+  },
+  "notices": "https://www.navcen.uscg.gov/msi",
+  "notes": "NOAA Table 34 (NM): Seattle–Ketchikan 659, Seattle–Juneau 879, Ketchikan–Wrangell 89, Wrangell–Petersburg 40, Petersburg–Juneau 108, Juneau–Skagway 100, Juneau–Haines 88. Advection fog in passages fed by glacier water.",
+  "sources": [
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp8/CPB8_C03_WEB.pdf",
+   "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp8/CPB8_C09_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://www.nps.gov/glba/planyourvisit/boating.htm",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=9452210",
+   "https://tidesandcurrents.noaa.gov/datums.html?id=9450460",
+   "https://cbsa-asfc.gc.ca/travel-voyage/pb-pp-eng.html"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -138.0,
+   54.6,
+   -130.0,
+   59.6
+  ]
  }
 ]

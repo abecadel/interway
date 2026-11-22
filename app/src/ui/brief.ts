@@ -3,7 +3,7 @@
 import { SEA_HARBOUR_M, seaSpans, type Itinerary, type Stop } from '../routing/itinerary';
 import { dateAfter, defaultProfile, type Route, type VesselProfile } from '../routing/router';
 import type { PoiType } from '../routing/service';
-import { fmtDuration, POI_LABEL, poiDetail } from './format';
+import { fmtDuration, POI_LABEL, POI_PLURAL, poiDetail } from './format';
 import { portFacts } from './portFacts';
 import { noticesFor } from './notices';
 import { type CountryRules, routeCountries, ruleFacts, rulesFor } from '../routing/rules';
@@ -179,6 +179,18 @@ function nameEnds(title: string, route: Route, stops: Stop[]): string {
   return ends.map((e, i) => (/°[NS] /.test(e) && town(i ? route.distance : 0)) || e).join(' → ');
 }
 
+/** The Markdown brief lists what a skipper plans around; slipways, fishing spots, wrecks... are only counted
+ *  (a long trip passes thousands: the JSON brief has them all). */
+/** obstruction and fish-farm warnings named one by one, the rest counted */
+const MAX_HAZARD_STOPS = 5;
+const LISTED: PoiType[] = ['lock', 'bridge', 'marina', 'port', 'fuel', 'water', 'sanitary', 'place'];
+const listed = (s: BriefStop) => LISTED.includes(s.type) || s.problem !== undefined;
+function unlisted(stops: BriefStop[]): string {
+  const n = new Map<PoiType, number>();
+  for (const s of stops) if (!listed(s)) n.set(s.type, (n.get(s.type) ?? 0) + 1);
+  return [...n].map(([t, k]) => `${k} ${k === 1 ? POI_LABEL[t].toLowerCase() : POI_PLURAL[t]}`).join(', ');
+}
+
 export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay = 8, entered, data = null, today = new Date().toISOString().slice(0, 10) }: {
   route: Route; itinerary: Itinerary; profile: VesselProfile; title: string; link: string; hoursPerDay?: number;
   /** vessel fields the user (or agent) gave, even where equal to the default */
@@ -241,8 +253,12 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
   // fish farms and charted obstructions close to the line: keep clear (nets, moorings, wrecks near the surface)
-  for (const s of itinerary.stops.filter((x) => (x.poi.type === 'fishfarm' || x.poi.type === 'obstruction') && x.offset <= HAZARD_NEAR_M)) {
+  const close = itinerary.stops.filter((x) => (x.poi.type === 'fishfarm' || x.poi.type === 'obstruction') && x.offset <= HAZARD_NEAR_M);
+  for (const s of close.slice(0, MAX_HAZARD_STOPS)) {
     hazards.push(`km ${km(s.at)}: ${POI_LABEL[s.poi.type].toLowerCase()}${s.poi.name ? ` ${s.poi.name}` : ''} ${Math.round(s.offset)} m from the route line: keep clear.`);
+  }
+  if (close.length > MAX_HAZARD_STOPS) {
+    hazards.push(`${close.length - MAX_HAZARD_STOPS} more fish farms or charted obstructions within ${HAZARD_NEAR_M} m of the line (listed in the JSON brief): keep clear.`);
   }
   const countries = routeCountries(itinerary.stops);
   const notices = noticesFor(countries);
@@ -448,7 +464,8 @@ export function briefMarkdown(b: RouteBrief): string {
     '## Along the route',
     '| km | type | name | details |',
     '|---|---|---|---|',
-    ...b.stops.map((s) => `| ${s.km} | ${POI_LABEL[s.type]} | ${cell(s.name)} | ${cell([s.detail, s.offKm !== undefined && `${s.offKm} km off`, s.problem && `⚠ ${s.problem}`].filter(Boolean).join('; '))} |`),
+    ...b.stops.filter(listed).map((s) => `| ${s.km} | ${POI_LABEL[s.type]} | ${cell(s.name)} | ${cell([s.detail, s.offKm !== undefined && `${s.offKm} km off`, s.problem && `⚠ ${s.problem}`].filter(Boolean).join('; '))} |`),
+    ...(unlisted(b.stops) ? ['', `Also along the route (in the JSON brief): ${unlisted(b.stops)}.`] : []),
     '',
     '## Editing this route (for AI assistants)',
     'Change the parameters of the link above and open it; the planner recomputes everything:',

@@ -42,6 +42,22 @@ const itinerary: Itinerary = {
 describe('route brief', () => {
   const b = buildBrief({ route, itinerary, profile: { ...defaultProfile, length: 9, beam: 3, airDraft: 3 }, title: 'Warsaw → Gdańsk', link: 'https://x/?from=1,2' });
 
+  it('keeps the Markdown short: counts slipways and wrecks, caps the keep-clear warnings', () => {
+    const many = { counts: {}, stops: [
+      ...Array.from({ length: 7 }, (_, i) => stop(1000 * (i + 1), { type: 'obstruction' }, 50)),
+      stop(9000, { type: 'slipway' }), stop(9500, { type: 'wreck' }), stop(9600, { type: 'wreck' }),
+      stop(9700, { type: 'lock', name: 'Śluza' }),
+    ] };
+    const busy = buildBrief({ route, itinerary: many, profile: defaultProfile, title: 't', link: 'l' });
+    expect(busy.hazards.filter((h) => h.endsWith('m from the route line: keep clear.'))).toHaveLength(5);
+    expect(busy.hazards).toContain('2 more fish farms or charted obstructions within 300 m of the line (listed in the JSON brief): keep clear.');
+    const md = briefMarkdown(busy);
+    expect(md).toContain('| 9.7 | Lock | Śluza |');
+    expect(md).not.toContain('| Slipway |');
+    expect(md).toContain('Also along the route (in the JSON brief): 7 obstructions, 1 slipway, 2 wrecks.');
+    expect(busy.stops).toHaveLength(11);
+  });
+
   it('sums up the route and checks the vessel against locks and bridges', () => {
     expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, movingHours: 20, lockHours: 0.3, currentHours: -0.3, days: 3, locks: 1, seaNm: 10, seaNoDepthNm: 5, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
     expect(b.legs).toEqual([

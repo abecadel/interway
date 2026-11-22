@@ -93,6 +93,15 @@ structured data (fields `checklist`, `limits`, `countries`, `services`, `stages`
   request (Open-Meteo), and a private catch log kept only in the browser (exported as CSV, GPX or GeoJSON).
 - "Share approx." shares a place rounded to about 1 km, without its name.
 
+## Loading
+
+The first visit downloads the waterway network (about 40 MB compressed) and then works offline: about 15 s on a
+fast connection, a few minutes on a slow one; later visits load from the cache. A route is ready when the
+summary shows the time and the **Start** button.
+
+Without WebMCP (an ordinary or headless browser) read the route with **Copy brief for AI**: it puts the brief
+(Markdown) on the clipboard, or downloads it as a file where the clipboard is not allowed.
+
 ## Site tools (WebMCP)
 
 In browsers with WebMCP (`document.modelContext`, e.g. the ChatGPT desktop app's built-in browser) the page
@@ -102,7 +111,7 @@ registers tools an agent can call directly:
   `{lon, lat}`; `vessel` takes `draft`, `airDraft`, `beam`, `length`, `speedKmh`, `currentMs`, `lockPenaltyMin`,
   `avoidLocks`, `avoidSea`, `coastal`, `departure` (YYYY-MM-DD). Returns the brief (as JSON).
 - `get_route_brief()`, `list_stops({types?})`: the route on the page; after `set_vessel` or a waypoint change
-  they wait while the route is recomputed (up to a minute).
+  they wait while the route is recomputed (up to a few minutes on the first visit).
 - `set_vessel({...})` (same fields as `vessel`), `add_waypoint({point, index?})`, `remove_waypoint({index})`,
   `find_place({query})`.
 
