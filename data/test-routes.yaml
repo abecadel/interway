@@ -1041,7 +1041,8 @@
   expected_km: 114
   tolerance: 0.15
   countries: [CA]
-  via: [Bay of Quinte]
+  # the Bay of Quinte is mapped as part of Lake Ontario: the inside route shows in the distance (the open lake
+  # round Prince Edward County is about 60 km longer)
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Kingston to Trenton, Ontario 71 statute miles)
 
 - name: Great Loop — Trent–Severn Waterway, Trenton → Port Severn (44 locks)
@@ -1060,7 +1061,7 @@
   expected_km: 250
   tolerance: 0.25
   countries: [CA]
-  via: [Georgian Bay]
+  via: [Lake Huron]  # Georgian Bay is mapped as part of Lake Huron
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Midland to Little Current 140 statute miles across open Georgian Bay, Port Severn about 8 more; the inside Small Craft Route is longer, hence the wide tolerance)
 
 - name: Great Loop — Little Current → Mackinac Island (North Channel, De Tour)
@@ -1127,7 +1128,7 @@
   expected_km: 206
   tolerance: 0.15
   countries: [US]
-  via: [Caloosahatchee, Okeechobee, St. Lucie]
+  via: [Caloosahatchee, Saint Lucie]  # across the lake on the Rim Canal and Cross Lake Channel
   min_locks: 4
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 14, Fort Myers to Stuart 128 statute miles across the lake; https://www.offshoreblue.com/cruise/okeechobee.php lists 5 locks)
 
@@ -1149,6 +1150,8 @@
   tolerance: 0.15
   sea: true
   countries: [US]
+  # the outside route along the Delmarva coast is about 150 km shorter: the Loop leg goes up the bay
+  waypoints: [[-75.81, 39.528]]  # Chesapeake City, in the C&D Canal
   via: [Chesapeake and Delaware Canal]
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Norfolk to the C&D Canal's east entrance 209 NM; Table 8, on to Cape May Harbor 52 NM)
 

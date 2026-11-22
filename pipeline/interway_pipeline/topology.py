@@ -36,7 +36,64 @@ def _limits(tags: dict[str, str]) -> Limits:
     )
 
 
+DAM_NEAR_LOCK_M = 300.0  # a dam this close to a lock gate on the same way is the dam the lock passes
+
+
+def add_crossings(ex: Extract) -> int:
+    """Lock gates and dams drawn as lines across a waterway (the Welland Canal's locks, the Moses-Saunders dam
+    across the St. Lawrence): a gate line's node on the way becomes a lock gate, a dam's a barrier. Where the line
+    crosses the way without a shared node, a node is added to the way at the crossing. A dam next to a lock gate
+    on the way is the dam the lock passes, so it does not cut the way."""
+    lines = [(*g, True) for g in ex.gate_lines] + [(*g, False) for g in ex.dam_lines]
+    if not lines:
+        return 0
+    tree = STRtree([g for g, *_ in lines])
+    added = 0
+    for w in ex.ways:
+        way_line = LineString(w.coords)
+        inserts: list[tuple[float, LonLat, bool, str]] = []
+        dams: set[int] = set()
+        for i in tree.query(way_line, predicate="intersects"):
+            g, name, nodes, gate = lines[i]
+            shared = nodes.intersection(w.nodes)
+            for n in shared:
+                if not gate:
+                    dams.add(n)
+                    continue
+                ex.lock_nodes.add(n)
+                if name:
+                    ex.lock_names.setdefault(n, name)
+            if shared:
+                continue
+            x = way_line.intersection(g)
+            inserts += [(way_line.project(q), (q.x, q.y), gate, name) for q in getattr(x, "geoms", [x]) if isinstance(q, Point)]
+        nodes, coords = list(w.nodes), list(w.coords)
+        if inserts:
+            along = [0.0]
+            for c0, c1 in itertools.pairwise(coords):
+                along.append(along[-1] + Point(c0).distance(Point(c1)))
+            for d, pt, gate, name in sorted(inserts, reverse=True):  # from the end, so earlier indices stay valid
+                k = max(1, min(len(coords) - 1, next(k for k, v in enumerate(along) if v >= d)))
+                n = new_node_id()
+                nodes.insert(k, n)
+                coords.insert(k, pt)
+                if gate:
+                    ex.lock_nodes.add(n)
+                    if name:
+                        ex.lock_names[n] = name
+                else:
+                    dams.add(n)
+                added += 1
+            w.nodes, w.coords = nodes, coords
+        pos = dict(zip(nodes, coords, strict=True))
+        gates = [c for n, c in pos.items() if n in ex.lock_nodes]
+        ex.barrier_nodes |= {n for n in dams if all(haversine(pos[n], c) > DAM_NEAR_LOCK_M for c in gates)}
+    log.info("added %d lock gate and dam crossings to waterways", added)
+    return added
+
+
 def split_ways(ex: Extract) -> list[Segment]:
+    add_crossings(ex)
     # a dam or weir mapped on a lock way is the dam the lock passes (the Oswego Canal's "Lock Number 5" dam node
     # on the Minetto lock): boats go through, so it does not cut the waterway
     ex.barrier_nodes -= {n for w in ex.ways if w.tags.get("lock") == "yes" for n in w.nodes}

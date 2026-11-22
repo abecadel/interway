@@ -41,3 +41,17 @@ lakes:
   - Lower Rideau Lake
   - Lake Champlain
 exclude: []
+# rivers through rapids that the canals bypass; the river lines carry the waterway's name (and ship tags), so
+# they are left out by way id (https://greatlakes-seaway.com/en/the-seaway/; Parks Canada Chambly Canal)
+exclude_ways:
+  # St. Lawrence through the Lachine Rapids (the South Shore Canal and the Lachine Canal bypass them)
+  - 111625848
+  - 1357654671
+  - 974447518
+  - 480225389
+  # St. Lawrence from Lac Saint-François to Lac Saint-Louis past the Soulanges rapids and dams (Beauharnois Canal)
+  - 758428438
+  # Richelieu through the Saint-Jean–Chambly rapids (the Chambly Canal bypasses them)
+  - 491784754
+  - 770030413
+  - 1258214156

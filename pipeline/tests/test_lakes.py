@@ -1,4 +1,5 @@
 import pytest
+from shapely import STRtree
 from shapely.geometry import LineString, Point, Polygon
 
 from interway_pipeline import lakes
@@ -395,3 +396,46 @@ def test_lake_access_rules_reach_the_mesh_segments():
     assert mark_lake_access(segs, [quiet, slow, free]) == 2
     assert [(s.no_motor, s.max_speed) for s in segs] == [(True, 10), (False, 6), (False, 0)]
     assert mark_lake_access(segs, [free]) == 0
+
+
+def shortest(segs, a, b):
+    """Length in metres of the shortest path from node a to node b over `segs`."""
+    import heapq
+    adj = {}
+    for s in segs:
+        adj.setdefault(s.a, []).append((s.b, s.length))
+        adj.setdefault(s.b, []).append((s.a, s.length))
+    dist, heap = {a: 0.0}, [(0.0, a)]
+    while heap:
+        d, n = heapq.heappop(heap)
+        if n == b:
+            return d
+        for m, w in adj.get(n, ()):
+            if d + w < dist.get(m, float("inf")):
+                dist[m] = d + w
+                heapq.heappush(heap, (d + w, m))
+    return None
+
+
+def test_a_big_lake_is_crossed_nearly_straight():
+    # 40 x 40 km: entries on the west and east shores, and harbours between them along the south shore that
+    # make the entry mesh zigzag from harbour to harbour
+    big = Lake(1, "Wielkie", box(0, 0, 40 * K, 40 * K), False)
+    west, east = river(1, 2, (-K, 30 * K), (0, 30 * K)), river(3, 4, (41 * K, 30 * K), (40 * K, 30 * K))
+    harbours = [(f"H{i}", (x * K, 0.0)) for i, x in enumerate(range(4, 40, 4))]
+    added = connect_lakes([west, east], [big], harbours)
+    grid = [s for s in added if s.kind == "lake" and s.length > 3000]
+    assert grid and all(big.polygon.buffer(metres_to_deg(100)).contains(LineString(s.coords)) for s in added)
+    assert shortest(added, 2, 4) == pytest.approx(haversine((0, 30 * K), (40 * K, 30 * K)), rel=0.05)
+
+
+def test_open_water_needs_room_and_skips_weirs():
+    thin = box(0, 0, 600 * K, 0.5 * K)  # big, but too narrow for grid nodes clear of the shore
+    assert lakes._open_water(thin, [Lake(1, "Wąskie", thin, False)], []) == []
+    square = box(0, 0, 40 * K, 40 * K)
+    members = [Lake(1, "Wielkie", square, True)]
+    free = lakes._open_water(square, members, [])
+    weir = STRtree([LineString([(20 * K, -K), (20 * K, 41 * K)])])
+    cut = lakes._open_water(square, members, [], weir)
+    assert free and cut and len(cut) < len(free)
+    assert not any(LineString(s.coords).intersects(weir.geometries[0]) for s in cut)

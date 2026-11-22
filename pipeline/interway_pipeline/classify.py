@@ -33,6 +33,11 @@ class Allowlist:
     lakes: set[str] = field(default_factory=set)
     # OSM way ids of river/canal ways navigable under a name too common to allowlist (Norway's many "Straumen")
     ways: set[int] = field(default_factory=set)
+    # OSM way ids left out whatever their tags (the St. Lawrence through the Lachine and Soulanges rapids, which
+    # the Seaway canals bypass)
+    exclude_ways: set[int] = field(default_factory=set)
+    # OSM node ids of dams and weirs boats pass: removed dams still mapped (the Illinois River's Copperas Creek Dam)
+    passable_nodes: set[int] = field(default_factory=set)
     exclude_names: set[str] = field(default_factory=set)
     exclude_patterns: list[re.Pattern] = field(default_factory=list)
     # names navigable only in part: {name: [(w, s, e, n), ...]}, taken only where a way has a node inside a box
@@ -53,6 +58,8 @@ class Allowlist:
             al.wikidata |= set(data.get("wikidata", []))
             al.lakes |= {n.casefold() for n in data.get("lakes", [])}
             al.ways |= {int(w) for w in data.get("ways", [])}
+            al.exclude_ways |= {int(w) for w in data.get("exclude_ways", [])}
+            al.passable_nodes |= {int(n) for n in data.get("passable_nodes", [])}
             al.exclude_names |= {n.casefold() for n in data.get("exclude", [])}
             al.exclude_patterns += [re.compile(p, re.IGNORECASE) for p in data.get("exclude_patterns", [])]
         return al

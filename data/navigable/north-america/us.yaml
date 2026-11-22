@@ -32,6 +32,8 @@ waterways:
   - St. Marys River
   - Saint Marys River
   - Saint Marys Falls Canal
+  # St. Lawrence Seaway past the Moses-Saunders dam (Snell and Eisenhower locks)
+  - Wiley-Dondero Canal
   # Illinois Waterway: Lake Michigan to the Mississippi at Grafton
   - Chicago Sanitary and Ship Canal
   - Chicago River
@@ -152,3 +154,6 @@ lakes:
   - Guntersville Lake
   - Lake Pepin
 exclude: []
+# dams boats pass: removed dams still mapped on the river line
+passable_nodes:
+  - 354101508  # Copperas Creek Dam, Illinois River: removed in 1939, replaced by the Peoria and La Grange dams

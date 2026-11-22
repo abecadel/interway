@@ -76,6 +76,9 @@ WAYS = [
     (16, [32], {"waterway": "dam"}),                               # a single node
     (17, [32, 996], {"waterway": "weir"}),                         # a missing node
     (18, [33, 34], {"waterway": "weir", "lock": "yes"}),
+    (19, [1, 10], {"waterway": "lock_gate", "name": "Gate"}),       # a gate drawn as a line
+    (20, [2, 995], {"waterway": "lock_gate"}),                     # a missing node
+    (21, [3, 11], {"waterway": "dam", "name": "Big Dam"}),
     (100, ring(100), {"natural": "water", "name": "Duże"}),
     (110, ring(110), {"natural": "water", "name": "Oczko"}),
     (120, ring(120), {"natural": "water", "name": "Mały", "boat": "yes"}),
@@ -110,8 +113,28 @@ def test_lock_and_barrier_nodes(ex):
 
 
 def test_weirs(ex):
-    assert sorted(w.geom_type for w in ex.weirs) == ["LineString", "Point", "Point", "Point"]
-    assert [list(w.coords) for w in ex.weirs if w.geom_type == "LineString"] == [[(20.1, 52.0), (20.1, 52.01)]]
+    assert sorted(w.geom_type for w in ex.weirs) == ["LineString", "LineString", "Point", "Point", "Point"]
+    assert [list(w.coords) for w in ex.weirs if w.geom_type == "LineString"][0] == [(20.1, 52.0), (20.1, 52.01)]
+
+
+def test_gate_and_dam_lines(ex):
+    assert [(list(g.coords), name, nodes) for g, name, nodes in ex.gate_lines] == [
+        ([(20.0, 52.0), (20.0, 52.1)], "Gate", frozenset({1, 10}))]
+    assert [(name, nodes) for _, name, nodes in ex.dam_lines] == [("Big Dam", frozenset({3, 11}))]
+
+
+def test_excluded_ways_are_left_out(tmp_path):
+    nodes = {1: (0.0, 47.5), 2: (0.0, 47.6)}
+    ways = [(1, [1, 2], {"waterway": "canal", "CEMT": "IV"}), (2, [1, 2], {"waterway": "canal", "CEMT": "IV"})]
+    path = write_osm(tmp_path / "x.osm", nodes, ways)
+    assert [w.id for w in read_osm(path, Allowlist(exclude_ways={2})).ways] == [1]
+
+
+def test_passable_dams_do_not_cut(tmp_path):
+    nodes = {1: (0.0, 47.5), 2: (0.0, 47.6), 3: (0.0, 47.7)}
+    path = write_osm(tmp_path / "x.osm", nodes, [(1, [1, 2, 3], {"waterway": "river", "CEMT": "IV"})],
+                     node_tags={2: {"waterway": "dam"}, 3: {"waterway": "dam"}})
+    assert read_osm(path, Allowlist(passable_nodes={2})).barrier_nodes == {3}
 
 
 def test_navigable_ways(ex):

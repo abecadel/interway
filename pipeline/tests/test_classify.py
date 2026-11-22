@@ -23,7 +23,8 @@ def test_allowlist_load_missing(tmp_path):
 
 def test_allowlist_load_merges_files(tmp_path):
     (tmp_path / "a.yaml").write_text("waterways: [Narew, BUG]\nwikidata: [Q1]\n", encoding="utf-8")
-    (tmp_path / "b.yaml").write_text("lakes: [Śniardwy]\nexclude: [Rów]\nwikidata: [Q2]\nways: [12, '34']\n", encoding="utf-8")
+    (tmp_path / "b.yaml").write_text("lakes: [Śniardwy]\nexclude: [Rów]\nwikidata: [Q2]\nways: [12, '34']\n"
+                                    "exclude_ways: [5]\npassable_nodes: ['7']\n", encoding="utf-8")
     (tmp_path / "empty.yaml").write_text("", encoding="utf-8")
     (tmp_path / "ignored.txt").write_text("waterways: [Odra]\n", encoding="utf-8")
     al = Allowlist.load(tmp_path)
@@ -32,6 +33,7 @@ def test_allowlist_load_merges_files(tmp_path):
     assert al.lakes == {"śniardwy"}
     assert al.exclude_names == {"rów"}
     assert al.ways == {12, 34}
+    assert al.exclude_ways == {5} and al.passable_nodes == {7}
 
 
 def test_has_name_checks_alternative_keys(allow):

@@ -108,7 +108,7 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
     {
       name: 'plan_route',
       description:
-        'Plan a boat route on European inland waterways and seas. Shows it on the page and returns a brief: distance, time, '
+        'Plan a boat route on the inland waterways and coastal seas of Europe and North America. Shows it on the page and returns a brief: distance, time, '
         + 'locks, open-sea distance, towns, legs, daily stages, stops (locks, bridges, marinas, fuel...), vessel checks, '
         + 'hazards and a shareable link.',
       inputSchema: {
