@@ -12,6 +12,17 @@ describe('route options', () => {
     expect(optionName(opts, 2)).toBe('Option 3');
   });
 
+  it('names two waterways when the second is long too, and keeps the names apart', () => {
+    const best = r([['Saint Lawrence Seaway', 300]]);
+    const rideau = r([['Ottawa River / Rivière des Outaouais', 100], ['Rideau River', 50], ['Rideau River', 40], ['Tiny cut', 5]]);
+    const other = r([['Ottawa River / Rivière des Outaouais', 110], ['Rideau River', 80], ['Lac des Deux-Montagnes', 26]]);
+    const same = r([['Ottawa River', 100], ['Rideau River', 60]]);
+    const opts = [best, rideau, other, same];
+    expect(optionName(opts, 1)).toBe('Via Ottawa River and Rideau River');
+    expect(optionName(opts, 2)).toBe('Via Lac des Deux-Montagnes');
+    expect(optionName(opts, 3)).toBe('Option 4');
+  });
+
   it('labels the time difference', () => {
     expect(timeDiff(1620)).toBe('+27 min');
     expect(timeDiff(-3600)).toBe('−1 h 0 min');
