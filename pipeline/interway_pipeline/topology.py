@@ -39,6 +39,7 @@ def _limits(tags: dict[str, str]) -> Limits:
 
 
 DAM_NEAR_LOCK_M = 300.0  # a dam this close to a lock (gate, lock way or area) is the dam the lock passes
+CHAMBER_GATE_M = 30.0  # a gate line this close to a lock way is that chamber's gate (Crinan Canal lock 3)
 
 
 def add_crossings(ex: Extract) -> int:
@@ -50,10 +51,21 @@ def add_crossings(ex: Extract) -> int:
     if not lines:
         return 0
     tree = STRtree([g for g, *_ in lines])
+    chambers = [LineString(w.coords) for w in ex.ways if w.tags.get("lock") == "yes"]
+    chamber_tree = STRtree(chambers)
+
+    def chamber_gate(p: LonLat) -> bool:
+        """A gate at the end of a lock way, drawn a few metres past it onto the next way: the chamber's own gate,
+        not a second lock."""
+        near = chamber_tree.query(Point(p), predicate="dwithin", distance=2 * metres_to_deg(CHAMBER_GATE_M))
+        return any(_metres_to(p, chambers[int(i)]) <= CHAMBER_GATE_M for i in near)
+
     added = 0
     dam_at: dict[int, LonLat] = {}
     for w in ex.ways:
         way_line = LineString(w.coords)
+        in_chamber = w.tags.get("lock") == "yes"
+        at = dict(zip(w.nodes, w.coords, strict=True))
         inserts: list[tuple[float, LonLat, bool, str]] = []
         dams: set[int] = set()
         for i in tree.query(way_line, predicate="intersects"):
@@ -63,13 +75,16 @@ def add_crossings(ex: Extract) -> int:
                 if not gate:
                     dams.add(n)
                     continue
+                if not in_chamber and chamber_gate(at[n]):
+                    continue
                 ex.lock_nodes.add(n)
                 if _names_lock(name):
                     ex.lock_names.setdefault(n, name)
             if shared:
                 continue
             x = way_line.intersection(g)
-            inserts += [(way_line.project(q), (q.x, q.y), gate, name) for q in getattr(x, "geoms", [x]) if isinstance(q, Point)]
+            inserts += [(way_line.project(q), (q.x, q.y), gate, name) for q in getattr(x, "geoms", [x])
+                        if isinstance(q, Point) and not (gate and not in_chamber and chamber_gate((q.x, q.y)))]
         nodes, coords = list(w.nodes), list(w.coords)
         if inserts:
             along = [0.0]

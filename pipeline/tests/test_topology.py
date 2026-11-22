@@ -121,6 +121,17 @@ def test_a_dam_running_past_a_lock_way_or_area_does_not_cut():
     assert len(ex.barrier_nodes) == 1
 
 
+def test_a_gate_drawn_just_past_a_chamber_is_that_chambers_gate():
+    # Crinan Canal lock 3: the lock way ends a few metres short of its gate lines, which cross or touch the canal
+    # ways either side
+    after = NavWay(3, [4, 41, 5, 6], [(4 * D, 0.0), (4.01 * D, 0.0), (5 * D, 0.0), (6 * D, 0.0)], {"kind": "canal"})
+    ex = Extract(ways=[way(1, [1, 2, 3]), way(2, [3, 4], lock="yes"), after],
+                 gate_lines=[cross(298), cross(401, nodes=(41,)), cross(500, nodes=(5,))])
+    segs = split_ways(ex)
+    assert sum(s.lock for s in segs) == 2  # the chamber, and the gate at node 5, 100 m on: a lock of its own
+    assert 41 not in ex.lock_nodes and 5 in ex.lock_nodes
+
+
 def test_crossings_ignore_lines_that_only_run_along_the_way():
     along = (LineString([(D, 0.0), (2 * D, 0.0)]), "", frozenset())
     ex = Extract(ways=[way(1, [1, 2, 3])], dam_lines=[along])
