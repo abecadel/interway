@@ -1,6 +1,6 @@
 // A route brief: everything about a planned route in one document, as JSON for programs and AI agents and as
 // Markdown for people (and for pasting into a chat).
-import type { Itinerary, Stop } from '../routing/itinerary';
+import { SEA_HARBOUR_M, seaSpans, type Itinerary, type Stop } from '../routing/itinerary';
 import { dateAfter, defaultProfile, type Route, type VesselProfile } from '../routing/router';
 import type { PoiType } from '../routing/service';
 import { fmtDuration, POI_LABEL, poiDetail } from './format';
@@ -30,7 +30,7 @@ export interface BriefStage {
   km: number;
   hours: number;
   endsAt: string;
-  /** the stage is an open-sea passage with no harbour on the planned line: it cannot be split into days */
+  /** the stage is an open-sea passage with no harbour within reach of the line: it cannot be split into days */
   atSea?: boolean;
   /** the day's date, when a departure date is set */
   date?: string;
@@ -121,22 +121,11 @@ function problem(s: Stop, v: VesselProfile): string | undefined {
   return undefined;
 }
 
-/** [from, to] metres of the open-sea legs (named "Open sea" by the router) */
-function seaStretches(route: Route): [number, number][] {
-  const out: [number, number][] = [];
-  let at = 0;
-  for (const l of route.legs) {
-    if (l.name === 'Open sea') out.push([at, at + l.distance]);
-    at += l.distance;
-  }
-  return out;
-}
-
 function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] {
   const speed = route.duration > 0 ? route.distance / route.duration : 0; // m/s, locks included
   const dayM = speed * hoursPerDay * 3600;
   const out: BriefStage[] = [];
-  const sea = seaStretches(route);
+  const sea = seaSpans(route);
   const harbour = (s: Stop) => LAYOVER.includes(s.poi.type);
   let from = 0;
   while (from < route.distance) {
@@ -244,7 +233,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     return date ? { ...st, date } : st;
   });
   for (const st of legStages.filter((x) => x.atSea && x.hours > hoursPerDay)) {
-    hazards.push(`km ${st.fromKm}–${st.toKm}: ${nm(1000 * st.km)} NM of open sea with no harbour on the planned line, about ${Math.round(st.hours)} h`
+    hazards.push(`km ${st.fromKm}–${st.toKm}: ${nm(1000 * st.km)} NM of open sea with no marina or port within ${SEA_HARBOUR_M / 1000} km of the line, about ${Math.round(st.hours)} h`
       + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
   }
   for (const s of stops) if (s.problem) hazards.push(`km ${s.km} ${POI_LABEL[s.type]}${s.name ? ` ${s.name}` : ''}: ${s.problem}.`);
@@ -256,7 +245,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   const notices = noticesFor(countries);
   hazards.push(notices.length
     ? `Today's closures, water levels and lock hours are not live here: check the notices to skippers for this route before going: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
-    : "Today's closures, water levels and lock hours are not live here: check notices to skippers (e.g. ELWIS, Vaarweginformatie, VNF) before going.");
+    : "Today's closures, water levels and lock hours are not live here: check the waterway authority's notices to skippers before going.");
   const gap = (types: PoiType[]): ServiceGap => {
     const ats = itinerary.stops.filter((s) => types.includes(s.poi.type)).map((s) => s.at);
     const points = [0, ...ats, route.distance];
@@ -418,7 +407,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '',
     '## Summary',
     `- Distance: ${t.km} km (${t.nm} NM)`,
-    `- Time underway: ${fmtDuration(t.hours * 3600)} at ${v.speedKmh} km/h in ${t.days} day(s) of up to 8 h: moving ${t.movingHours} h,`
+    `- Time underway: ${Math.round(t.hours)} h${t.hours >= 24 ? ` (${fmtDuration(t.hours * 3600)} non-stop)` : ''} at ${v.speedKmh} km/h, in ${t.days} cruising day(s) of up to 8 h: moving ${t.movingHours} h,`
       + ` locks ${t.lockHours} h (${v.lockPenaltyMin} min each), current ${t.currentHours >= 0 ? '+' : ''}${t.currentHours} h`,
     `- Locks: ${t.locks}`,
     ...(t.downstreamKm + t.upstreamKm > 0 ? [`- River current: ${v.currentMs} m/s, ${t.downstreamKm} km with it, ${t.upstreamKm} km against it`] : []),

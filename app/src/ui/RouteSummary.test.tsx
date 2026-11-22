@@ -28,6 +28,14 @@ describe('RouteSummary', () => {
     expect(onStepsOpen).toHaveBeenCalledTimes(1);
   });
 
+  it('says how many 8-hour days a long trip takes', () => {
+    render(
+      <RouteSummary route={{ ...route, duration: 30 * 3600 }} itinerary={{ stops: [], counts: {} }} profile={defaultProfile} back={null}
+        onStart={() => {}} onStepsOpen={() => {}} onFocus={() => {}} more={null} />,
+    );
+    expect(screen.getByText(/time underway, about 4 days of 8 h/)).toBeTruthy();
+  });
+
   it('offers the waterway sheets and warns where the boat does not fit', () => {
     render(
       <RouteSummary route={route} itinerary={{ stops: [], counts: {} }} profile={{ ...defaultProfile, airDraft: 5 }} back={null}

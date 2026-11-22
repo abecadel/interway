@@ -55,6 +55,7 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
         <div className="big">{fmtDuration(route.duration)}</div>
         <div className="muted">
           {fmtKm(route.distance)} ({fmtNm(route.distance)}) · at {profile.speedKmh} km/h
+          {route.duration > 8 * 3600 && ` · time underway, about ${Math.ceil(route.duration / (8 * 3600))} days of 8 h`}
         </div>
       </div>
       {stats.length > 0 && (

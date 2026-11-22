@@ -14,6 +14,8 @@ export const NOTICES: Record<string, { name: string; url: string }> = {
   GB: { name: 'Canal & River Trust, notices', url: 'https://canalrivertrust.org.uk/notices' },
   IE: { name: 'Waterways Ireland, marine notices', url: 'https://www.waterwaysireland.org/marine-notices' },
   SE: { name: 'Sjöfartsverket, notices to mariners', url: 'https://www.sjofartsverket.se' },
+  US: { name: 'US Coast Guard Local Notices to Mariners; USACE lock status (corpslocks.usace.army.mil)', url: 'https://navcen.uscg.gov/msi' },
+  CA: { name: 'St. Lawrence Seaway pleasure craft notices; Parks Canada canals (Rideau, Trent–Severn, Chambly...)', url: 'https://greatlakes-seaway.com/en/pleasure-craft/' },
 };
 
 /** The notices sources for the countries, in the order given, each once. */

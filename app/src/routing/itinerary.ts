@@ -28,6 +28,8 @@ export const NEAR_M = 300;
 const ON_ROUTE_M = 60;
 /** towns the route passes through or by */
 export const PLACE_M = 3000;
+/** at sea, marinas and ports this close to the line are ports of refuge along it (the sea network keeps off the shore) */
+export const SEA_HARBOUR_M = 12_000;
 
 const isOnRoute = (t: PoiType) => t === 'lock' || t === 'bridge';
 
@@ -42,10 +44,13 @@ export function buildItinerary(route: Route, pois: Poi[]): Itinerary {
       index.add(Math.min(c[i][0], c[i + 1][0]), Math.min(c[i][1], c[i + 1][1]), Math.max(c[i][0], c[i + 1][0]), Math.max(c[i][1], c[i + 1][1]));
     }
     index.finish();
+    const sea = seaSpans(route);
+    const atSea = (at: number) => sea.some(([a, b]) => at >= a && at <= b);
     for (const poi of pois) {
-      const limit = isOnRoute(poi.type) ? ON_ROUTE_M : poi.type === 'place' ? PLACE_M : NEAR_M;
+      const harbour = poi.type === 'marina' || poi.type === 'port';
+      const limit = isOnRoute(poi.type) ? ON_ROUTE_M : poi.type === 'place' ? PLACE_M : harbour && sea.length ? SEA_HARBOUR_M : NEAR_M;
       const best = nearest(c, along, index, [poi.lon, poi.lat], limit);
-      if (best) stops.push({ poi, ...best });
+      if (best && (best.offset <= NEAR_M || !harbour || atSea(best.at))) stops.push({ poi, ...best });
     }
   }
   stops.sort((x, y) => x.at - y.at);
@@ -60,6 +65,17 @@ export function buildItinerary(route: Route, pois: Poi[]): Itinerary {
     if (poi.maxlength && (!shortestLock || poi.maxlength < shortestLock.poi.maxlength!)) shortestLock = s;
   }
   return { stops: merged, counts, minClearance: lowestBridge?.poi.clearance, lowestBridge, narrowestLock, shortestLock };
+}
+
+/** [from, to] metres of the open-sea legs (named "Open sea" by the router) */
+export function seaSpans(route: Pick<Route, 'legs'>): [number, number][] {
+  const out: [number, number][] = [];
+  let at = 0;
+  for (const l of route.legs ?? []) {
+    if (l.name === 'Open sea') out.push([at, at + l.distance]);
+    at += l.distance;
+  }
+  return out;
 }
 
 /** The same thing mapped twice (a named lock patch and an automatic join, two marina nodes): keep one, named first. */

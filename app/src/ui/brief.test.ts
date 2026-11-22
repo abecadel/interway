@@ -101,7 +101,7 @@ describe('route brief', () => {
     expect(open.stages.map((s) => [s.toKm, s.endsAt])).toEqual([[80, 'km 80'], [95, 'Port Port-Saint-Louis'], [400, 'destination']]);
     expect(open.stages[2]).toMatchObject({ km: 305, atSea: true });
     expect(open.totals.days).toBe(3);
-    expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no harbour on the planned line, about 31 h non-stop');
+    expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no marina or port within 12 km of the line, about 31 h non-stop');
     // a harbour out on the passage (an island) breaks it up; a passage ending before the destination is named so
     const island = buildBrief({ route: { ...seaRoute, legs: [...seaRoute.legs.slice(0, 1), { name: 'Open sea', distance: 200_000 }, { name: 'Port', distance: 100_000 }] },
       itinerary: { counts: {}, stops: [stop(180_000, { type: 'marina', name: 'Île' })] }, profile: defaultProfile, title: 't', link: 'l' });
@@ -122,7 +122,9 @@ describe('route brief', () => {
     expect(md).toContain('Open or edit: https://x/?from=1,2');
     expect(md).toContain('- Open sea: 10 NM');
     expect(md).toContain('- River current: 0.5 m/s, 150 km with it, 0 km against it');
-    expect(md).toContain('in 3 day(s) of up to 8 h: moving 20 h, locks 0.3 h (20 min each), current -0.3 h');
+    expect(md).toContain('- Time underway: 20 h at 10 km/h, in 3 cruising day(s) of up to 8 h: moving 20 h, locks 0.3 h (20 min each), current -0.3 h');
+    // a long trip also gives the non-stop time
+    expect(briefMarkdown({ ...b, totals: { ...b.totals, hours: 355 } })).toContain('- Time underway: 355 h (14 d 19 h non-stop) at');
     expect(md).toContain('Draft 1 m (default, not entered), air draft 3 m (default, not entered), beam 3 m, length 9 m (default, not entered)');
     expect(md).toContain('- Towns on the way: Toruń, Grudziądz');
     expect(md).toContain('| 0–150 | Wisła | 150 km |');
