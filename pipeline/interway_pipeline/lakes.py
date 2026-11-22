@@ -141,12 +141,12 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"] + _straits(lakes), locks)
     channel_bodies = _channel_windows(lakes, [pos[n] for n in dead_ends], locks)
     bodies = lake_bodies + channel_bodies
+    # dwithin, not a buffered zone: buffering a Great Lakes body (800k vertices) takes over half an hour
     for body, members in bodies:
-        zone = body.buffer(tol)
         entries: list[tuple[int, LonLat]] = []
         if tree is not None:
             inside = prepared.prep(body)
-            entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")
+            entries = [(ids[i], pos[ids[i]]) for i in tree.query(body, predicate="dwithin", distance=tol)
                        if _enters(ids[i], touching[ids[i]], inside, dead_ends, body)]
         # A body made only of river/canal areas is not a lake to cross: it only bridges places where a
         # waterway line stops (dead ends), and its mesh links those to the rest instead of replacing the line.
@@ -159,7 +159,7 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
             continue
         if marina_tree is not None and bridge is None:
             # within the entry tolerance: a quay is often mapped on the shoreline (Dalen bryggje on Bandak)
-            for i in marina_tree.query(zone, predicate="intersects"):
+            for i in marina_tree.query(body, predicate="dwithin", distance=tol):
                 entries.append((new_node_id(), marinas[i][1]))
         used += 1
         added.extend(_mesh(body, members, entries, bridge, weir_tree))
