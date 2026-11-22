@@ -12,6 +12,8 @@ waterways:
   # Seaway canals: South Shore Canal (St-Lambert, Côte-Sainte-Catherine), Beauharnois, Wiley-Dondero, Iroquois
   - Voie maritime du Saint-Laurent
   - Saint Lawrence Seaway
+  - Beauharnois Canal
+  - Canal de Beauharnois
   # Richelieu: Lake Champlain to Sorel, with the Chambly Canal and the Saint-Ours lock
   # (https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries)
   - Rivière Richelieu
@@ -22,6 +24,7 @@ waterways:
   - {name: Rivière des Outaouais, bbox: [-75.75, 45.35, -73.85, 45.65]}
   - {name: Ottawa River, bbox: [-75.75, 45.35, -73.85, 45.65]}
   - {name: Ottawa River / Rivière des Outaouais, bbox: [-75.75, 45.35, -73.85, 45.65]}
+  - Canal et Écluse de Carillon
 lakes:
   - Lake Ontario
   - Lac des Deux Montagnes
@@ -55,3 +58,6 @@ exclude_ways:
   - 491784754
   - 770030413
   - 1258214156
+  # Iroquois Dam: drawn across the river line, while ships pass the Iroquois Lock about 800 m off on the Canadian
+  # bank (mapped as a lock area with no waterway line through it)
+  - 207136847

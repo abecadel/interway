@@ -96,6 +96,21 @@ def test_a_dam_next_to_a_lock_gate_is_the_dam_the_lock_passes():
     assert len(set(components(segs).values())) == 1
 
 
+def test_a_dam_running_past_a_lock_way_or_area_does_not_cut():
+    # Whitten Dam (Tenn-Tom): the dam line crosses the lock way and the canal way next to it; a lock area too
+    ex = Extract(ways=[way(1, [1, 2, 3], kind="river"), way(2, [3, 4], lock="yes"),
+                       way(3, [4, 5, 6, 7, 8, 9, 10, 11, 12], kind="river")],
+                 dam_lines=[cross(450), cross(1050), cross(1150)],
+                 lock_areas=[("Lock A", box(metres_to_deg(1000), -D, metres_to_deg(1100), D))])
+    split_ways(ex)
+    assert len(ex.barrier_nodes) == 0
+    # a dam far from every lock still cuts
+    ex = Extract(ways=[way(1, [1, 2, 3], kind="river"), way(2, [3, 4], lock="yes"),
+                       way(3, [4, 5, 6, 7, 8, 9, 10], kind="river")], dam_lines=[cross(850)])
+    split_ways(ex)
+    assert len(ex.barrier_nodes) == 1
+
+
 def test_crossings_ignore_lines_that_only_run_along_the_way():
     along = (LineString([(D, 0.0), (2 * D, 0.0)]), "", frozenset())
     ex = Extract(ways=[way(1, [1, 2, 3])], dam_lines=[along])

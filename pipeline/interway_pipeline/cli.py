@@ -102,7 +102,8 @@ def merge_extracts(parts: list[Extract]) -> Extract:
 
 def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: float = 300.0,
                   weirs: list | None = None) -> int:
-    """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node.
+    """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node (or, with the
+    property "join_line", left loose for snap_dead_ends_to_lines to join to the middle of a line).
 
     A LineString with the property "weir" is instead a weir OSM does not map, added to `weirs`: no lake or
     river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder).
@@ -130,6 +131,12 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             for c in (coords[0], coords[-1]):
                 i = tree.nearest(Point(c))
                 ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
+            # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
+            # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
+            loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
+            for k in loose:
+                ends[k] = new_node_id()
+                pos[ends[k]] = coords[-k]
             if None in ends:
                 log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
                 continue

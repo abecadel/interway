@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "St. Lawrence Seaway channel from Lake St. Lawrence to the Eisenhower Lock: OSM maps the dredged channel only as water, so the Seaway's waterway line stops at the lock. Source: https://greatlakes-seaway.com/en/the-seaway/ and NOAA chart 14770",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Saint Lawrence Seaway", "join_line": true},
+     "geometry": {"type": "LineString", "coordinates": [[-74.8534, 44.9788], [-74.875, 44.982], [-74.944, 44.9817]]}}
+  ]
+}

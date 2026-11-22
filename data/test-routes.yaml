@@ -1070,7 +1070,7 @@
   expected_km: 220
   tolerance: 0.15
   countries: [CA, US]
-  via: [North Channel]
+  via: [Lake Huron]  # the North Channel is part of the Lake Huron polygon in OSM
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Mackinac Island to Little Current 137 statute miles via the False Detour and North Channels)
 
 - name: Great Loop — Chicago (Navy Pier) → Mackinac Island (Lake Michigan)
@@ -1201,7 +1201,7 @@
   tolerance: 0.15
   countries: [CA]
   via: [Rideau]
-  min_locks: 38
+  min_locks: 20  # lock passages: a flight mapped as one lock way counts once (23 lock stations)
   source: https://en.wikipedia.org/wiki/Rideau_Canal (202 km from Ottawa to Kingston, 45 locks at 23 lock stations)
 
 - name: Ottawa River, Montreal → Ottawa (Sainte-Anne, Carillon)
