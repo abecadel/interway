@@ -12,6 +12,8 @@ waterways:
   # Seaway canals: South Shore Canal (St-Lambert, Côte-Sainte-Catherine), Beauharnois, Wiley-Dondero, Iroquois
   - Voie maritime du Saint-Laurent
   - Saint Lawrence Seaway
+  - Beauharnois Canal
+  - Canal de Beauharnois
   # Richelieu: Lake Champlain to Sorel, with the Chambly Canal and the Saint-Ours lock
   # (https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries)
   - Rivière Richelieu
@@ -22,6 +24,7 @@ waterways:
   - {name: Rivière des Outaouais, bbox: [-75.75, 45.35, -73.85, 45.65]}
   - {name: Ottawa River, bbox: [-75.75, 45.35, -73.85, 45.65]}
   - {name: Ottawa River / Rivière des Outaouais, bbox: [-75.75, 45.35, -73.85, 45.65]}
+  - Canal et Écluse de Carillon
 lakes:
   - Lake Ontario
   - Lac des Deux Montagnes
@@ -41,3 +44,23 @@ lakes:
   - Lower Rideau Lake
   - Lake Champlain
 exclude: []
+# the Beauharnois Canal above the locks to Lac Saint-François is mapped without a name
+# (https://greatlakes-seaway.com/en/the-seaway/; NOAA chart 14770 shows the canal from the lake to the locks)
+ways: [547257470]
+# rivers through rapids that the canals bypass; the river lines carry the waterway's name (and ship tags), so
+# they are left out by way id (https://greatlakes-seaway.com/en/the-seaway/; Parks Canada Chambly Canal)
+exclude_ways:
+  # St. Lawrence through the Lachine Rapids (the South Shore Canal and the Lachine Canal bypass them)
+  - 111625848
+  - 1357654671
+  - 974447518
+  - 480225389
+  # St. Lawrence from Lac Saint-François to Lac Saint-Louis past the Soulanges rapids and dams (Beauharnois Canal)
+  - 758428438
+  # Richelieu through the Saint-Jean–Chambly rapids (the Chambly Canal bypasses them)
+  - 491784754
+  - 770030413
+  - 1258214156
+  # Iroquois Dam: drawn across the river line, while ships pass the Iroquois Lock about 800 m off on the Canadian
+  # bank (mapped as a lock area with no waterway line through it)
+  - 207136847

@@ -1,8 +1,9 @@
 # Interway
 
-> Interway is a free route planner for boats on European inland waterways and coastal seas ("Google Maps for
-> boats"). It finds routes through rivers, canals, lakes and locks, joins them to a sea route network
-> (Baltic, North Sea, Channel, Atlantic coast, Mediterranean, Black Sea), and lists what a route passes: locks
+> Interway is a free route planner for boats on the inland waterways and coastal seas of Europe and North
+> America ("Google Maps for boats"). It finds routes through rivers, canals, lakes and locks, joins them to a sea
+> route network (Baltic, North Sea, Channel, Atlantic coast, Mediterranean, Black Sea; the US and Canadian Atlantic,
+> Gulf and Pacific coasts up to Alaska's Inside Passage), and lists what a route passes: locks
 > (with chamber sizes), bridges (with clearance), marinas, ports, fuel, water, pump-outs and towns.
 > Routing runs in the browser from OpenStreetMap data. Not for navigation.
 
@@ -111,15 +112,27 @@ towns); give coordinates when a name is ambiguous.
 ## Coverage and limits
 
 - Inland: Poland, Germany, the Netherlands, Belgium, Switzerland, France, the United Kingdom (Thames, Broads, the Canal & River Trust and Scottish canals), Austria, Czechia, Slovakia, the Danube to the Black Sea (Hungary, Croatia, Serbia, Romania, Bulgaria), northern Italy (the Po, its idrovie and the Litoranea Veneta; lakes Garda, Maggiore, Como), Ireland and Northern Ireland (Shannon, Shannon–Erne Waterway, Erne, Grand and Royal canals, Barrow) Sweden (Göta kanal, Trollhätte kanal, Vänern, Vättern, Mälaren and the canals off them), Finland (the Saimaa lake system and its canals), Lithuania (Nemunas from Kaunas, Neris, Curonian Lagoon), the Vistula and Szczecin lagoons, Spain (Guadalquivir to Seville, Ría de Bilbao, lower Guadiana), Portugal (Douro to Pocinho with its locks, Tejo, Sado, Guadiana), Denmark (Limfjord), Norway (Telemark Canal, Skien → Dalen, and down to the sea at Langesund through Porsgrunn), Estonia (Emajõgi, Lake Peipus), Latvia (Daugava, Lielupe), the Danube from Kelheim to all three delta arms (Kilia, Sulina, Sfântu Gheorghe), Luxembourg (the Moselle bank), Bosnia and Herzegovina (the Sava border reach), North Macedonia and Kosovo (lakes Ohrid and Prespa), and Iceland and the Faroe Islands (harbours, reached by sea). English narrow canals take boats up to 2.08 m (7 ft) beam.
+- Inland, North America: the Great Lakes and their connecting rivers; the New York State Canal System (Erie,
+  Oswego, Champlain, Cayuga–Seneca) and the Hudson; Lake Champlain, the Richelieu and the Chambly Canal; the St.
+  Lawrence and its Seaway, the Welland Canal, the Rideau Canal, the Trent–Severn Waterway (with the Big Chute
+  marine railway) and the lower Ottawa River; the Illinois Waterway, the Mississippi from Minneapolis to the Gulf, the
+  Ohio, Tennessee, Cumberland, Tennessee–Tombigbee, Missouri (St. Louis to Sioux City), Arkansas and their navigable
+  tributaries; the Atlantic and Gulf Intracoastal Waterways, the Okeechobee Waterway and the St. Johns; the
+  Columbia–Snake system, the Willamette, the Lake Washington Ship Canal and the Sacramento–San Joaquin delta. Lock
+  counts count lock stations: a flight of chambers (Ottawa's eight) is one stop.
+- Europe and North America are not joined by sea: a route stays on one continent.
 - When no route fits the vessel, the error names each structure that blocks it and its limit (e.g. "Staircase Top Lock
   Gate (km 20) limits beam to 2.08 m, yours is 3 m"); if the points are not connected at all, it says so.
 - Navigation mode ("Start navigation" under a route, in the browser with GPS): the map follows the boat heading up and shows the next lock or bridge, speed and course over ground, cross-track error and ETA; it re-plans from the boat's position when it leaves the route, warns before locks and bridges (vibration, optional voice) and records a GPX track. "Save map for offline" stores the map along a route. These have no URL parameters.
-- Sea: European seas from the Atlantic coast to the Black Sea and across the North Atlantic to the Faroes and Iceland, with a finer network among the islands (Dalmatia, Ionian, Aegean, Bonifacio, Aeolian, the Danish straits, Kalmar Sound, the Stockholm–Turku and Estonian archipelagos), including the whole Mediterranean with harbours and marinas of every coastal country (Greece and the Corinth Canal, Turkey, Malta, Cyprus, the Adriatic, North Africa), as a coarse coastal network.
+- Sea: European seas from the Atlantic coast to the Black Sea and across the North Atlantic to the Faroes and Iceland, with a finer network among the islands (Dalmatia, Ionian, Aegean, Bonifacio, Aeolian, the Danish straits, Kalmar Sound, the Stockholm–Turku and Estonian archipelagos), including the whole Mediterranean with harbours and marinas of every coastal country (Greece and the Corinth Canal, Turkey, Malta, Cyprus, the Adriatic, North Africa), as a coarse coastal network. In North America: the Atlantic coast from Florida to Newfoundland, the Gulf of Mexico, and the Pacific coast from
+  San Diego to Alaska's Inside Passage.
 - Sea depth: open-sea legs carry the charted depth from EMODnet bathymetry (about 0.5 km grid, minus a 0.5 m
   margin). Routes go round stretches too shallow for the given `draft` where a deeper way exists; where none
   does (the coarse network crosses banks that real boats pass in dredged channels, e.g. estuaries) the route
   still goes through, and the brief gives the shallowest stretch and the km charted shallower than the draft.
-  The first ~1.5 km off the shore, harbour approaches and inland waterways have no depth data.
+  The first ~1.5 km off the shore, harbour approaches and inland waterways have no depth data. North American
+  sea legs have no depth data at all (EMODnet covers European seas only): the summary and brief say "depth
+  unknown" for them.
 - Researched waterway sheets (navigability, depth, bridges, current, locks and hours, typical conditions by month,
   tides, closures, the authority and its notices, with sources and the date checked) cover the waterways of the
   Wrocław → Monaco routes so far; the brief's "Waterways" section lists those on a route. Elsewhere, and for

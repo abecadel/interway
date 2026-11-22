@@ -69,6 +69,10 @@ class Extract:
     connectors: list[NavWay] = field(default_factory=list)
     # weirs and dams (points and lines): river/canal areas are not crossed over them, see lakes.connect_lakes
     weirs: list = field(default_factory=list)
+    # lock gates drawn as lines across the waterway (the Welland and Rideau canals) and dams drawn as lines:
+    # (line, name, node ids); see topology.add_crossings
+    gate_lines: list[tuple[LineString, str, frozenset[int]]] = field(default_factory=list)
+    dam_lines: list[tuple[LineString, str, frozenset[int]]] = field(default_factory=list)
     timestamp: str = ""
 
 
@@ -102,6 +106,13 @@ def _way_coords(way) -> list[LonLat] | None:
         return None
 
 
+def _is_gate(tags) -> bool:
+    """A lock gate; storm-surge barriers (Thames Barrier) stand open: mapped as gates, but not locks."""
+    flood_gate = (tags.get("man_made") == "storm_surge_barrier"
+                  or tags.get("seamark:gate:category") in ("flood_barrage", "flood_barrier"))
+    return (tags.get("waterway") == "lock_gate" or tags.get("seamark:type") == "gate") and not flood_gate
+
+
 def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -> Extract:
     ex = Extract()
     try:
@@ -118,14 +129,11 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
         tags = o.tags
         if o.is_node():
             ww = tags.get("waterway")
-            # storm-surge barriers (Thames Barrier) stand open: mapped as gates, but not locks
-            flood_gate = (tags.get("man_made") == "storm_surge_barrier"
-                          or tags.get("seamark:gate:category") in ("flood_barrage", "flood_barrier"))
-            if (ww == "lock_gate" or tags.get("lock") == "yes" or tags.get("seamark:type") == "gate") and not flood_gate:
+            if _is_gate(tags) or tags.get("lock") == "yes":
                 ex.lock_nodes.add(o.id)
                 if "name" in tags:
                     ex.lock_names[o.id] = tags.get("name")
-            elif ww in ("weir", "dam", "waterfall") and tags.get("lock") != "yes":
+            elif ww in ("weir", "dam", "waterfall") and tags.get("lock") != "yes" and o.id not in allow.passable_nodes:
                 ex.barrier_nodes.add(o.id)
                 if o.location.valid():
                     ex.weirs.append(Point(o.lon, o.lat))
@@ -136,6 +144,8 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                     ex.marinas.append((tags.get("name", ""), (o.lon, o.lat)))
         elif o.is_way():
             n_ways += 1
+            if o.id in allow.exclude_ways:
+                continue
             if is_navigable_way(tags, allow, lambda o=o: _way_coords(o) or []):
                 coords = _way_coords(o)
                 if coords is not None and len(coords) >= 2:
@@ -152,6 +162,12 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
                 coords = _way_coords(o)
                 if coords is not None and len(coords) >= 2:
                     ex.weirs.append(LineString(coords))
+                    if tags.get("waterway") == "dam":
+                        ex.dam_lines.append((LineString(coords), tags.get("name", ""), frozenset(n.ref for n in o.nodes)))
+            elif _is_gate(tags):
+                coords = _way_coords(o)
+                if coords is not None and len(coords) >= 2:
+                    ex.gate_lines.append((LineString(coords), tags.get("name", ""), frozenset(n.ref for n in o.nodes)))
             elif "bridge" in tags and tags.get("bridge") not in ("no", "movable"):
                 # Only seamark clearance describes the space *under* a bridge. maxheight on a bridge way is the
                 # limit for traffic on it, and movable bridges open for boats.

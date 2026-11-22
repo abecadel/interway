@@ -110,6 +110,21 @@ def test_patches_snap_to_network(tmp_path, caplog):
     assert "'Loop'" in caplog.text and "same node" in caplog.text
 
 
+def test_patch_end_joins_the_middle_of_a_line(tmp_path):
+    from interway_pipeline.topology import components, snap_dead_ends_to_lines
+    m = metres_to_deg(1)
+    river = Segment(a=1, b=2, coords=[(0.0, 0.0), (0.005, 0.0), (0.01, 0.0)], kind="river")
+    segs = [river, Segment(a=3, b=4, coords=[(0.0, 0.003), (0.01, 0.003)], kind="canal")]
+    (tmp_path / "p.geojson").write_text(json.dumps({"features": [
+        feature([[0.0, 0.003], [0.005, 2 * m]], name="Channel", join_line=True),
+        feature([[0.0, 0.003], [0.005, 2 * m]], name="Not joined"),  # the end is 550 m from any node
+    ]}), encoding="utf-8")
+    assert apply_patches(segs, tmp_path) == 1
+    assert segs[2].name == "Channel" and segs[2].coords[-1] == (0.005, 2 * m)
+    assert snap_dead_ends_to_lines(segs) == 1
+    assert len(set(components(segs).values())) == 1
+
+
 # --- read_cached ------------------------------------------------------------------------------------------
 
 @pytest.fixture

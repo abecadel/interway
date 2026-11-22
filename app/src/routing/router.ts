@@ -645,13 +645,24 @@ export class Router {
       const name = this.nameOf(g) || (this.geomFlags(g) & Flag.SEA ? 'Open sea' : '');
       const d = distance - before;
       const last = legs[legs.length - 1];
-      // Unnamed pieces (river areas, connectors) are folded into the previous named leg.
-      if (last && (last.name === name || name === '')) last.distance += d;
-      else if (last && last.name === '') {
+      const lock = (this.geomFlags(g) & Flag.LOCK) !== 0;
+      // Unnamed pieces (river areas, connectors) are folded into the previous named leg, unless that leg is a
+      // lock chamber: then they wait for the next named leg (a lock's name does not carry over the reach beyond).
+      if (last && name === '' && lockLeg && !lock) legs.push({ name, distance: d });
+      else if (last && (last.name === name || name === '')) last.distance += d;
+      else if (last && last.name === '' && !(lock && legs.length > 1)) {
+        // (an unnamed reach between two named legs takes the next one's name, but never a lock's)
         last.name = name;
         last.distance += d;
       }
       else legs.push({ name, distance: d });
+      if (name !== '') lockLeg = lock;
+    };
+    let lockLeg = false;
+    /** A trailing unnamed piece left after a lock leg (no named leg followed) folds back into it. */
+    const closeLegs = () => {
+      const tail = legs[legs.length - 1];
+      if (legs.length > 1 && tail.name === '') legs[legs.length - 2].distance += legs.pop()!.distance;
     };
 
     this.lastPath = [];
@@ -723,6 +734,7 @@ export class Router {
       });
     }
     const limits = [...tightest.values()].sort((x, y) => x.at - y.at);
+    closeLegs();
     return { coordinates: coords, distance, duration, locks, unverified, sea, seaNoDepth, offshore, noMotor, limits, downstream, upstream, tooShallow, shallowest, events, legs: legs.filter((l) => l.distance > 1), start: s, end: t };
   }
 

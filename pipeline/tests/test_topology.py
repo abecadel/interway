@@ -54,6 +54,73 @@ def test_a_dam_on_a_lock_way_is_the_dam_the_lock_passes():
     assert any(s.lock for s in segs)
 
 
+def cross(x_m, name="", nodes=()):
+    """A line across the test ways (which run along the equator) at x_m metres east."""
+    x = metres_to_deg(x_m)
+    return (LineString([(x, -D), (x, D)]), name, frozenset(nodes))
+
+
+def test_lock_gates_drawn_across_the_way_make_a_chamber():
+    # gates drawn as lines across the canal, sharing no node with it (the Welland Canal's Lock 7)
+    ex = Extract(ways=[way(1, [1, 2, 3, 4, 5])], gate_lines=[cross(250, "Lock 7"), cross(350, "Lock 7")])
+    segs = split_ways(ex)
+    locks = [s for s in segs if s.lock]
+    assert len(locks) == 1 and locks[0].name == "Lock 7"
+    assert round(locks[0].length) == 100
+    assert len(ex.ways[0].nodes) == 7
+
+
+def test_a_gate_line_sharing_a_node_marks_that_node():
+    ex = Extract(ways=[way(1, [1, 2, 3, 4])], gate_lines=[cross(200, "Lock 1", nodes=(2, 90))])
+    split_ways(ex)
+    assert ex.lock_nodes == {2} and ex.lock_names == {2: "Lock 1"} and len(ex.ways[0].nodes) == 4
+    ex = Extract(ways=[way(1, [1, 2, 3, 4])], gate_lines=[cross(200, nodes=(2,))])
+    split_ways(ex)
+    assert ex.lock_nodes == {2} and ex.lock_names == {}
+
+
+def test_a_dam_across_the_river_cuts_it():
+    # the Moses-Saunders dam across the St. Lawrence: drawn across the river line, sharing no node
+    ex = Extract(ways=[way(1, [1, 2, 3, 4], kind="river"), way(2, [4, 5, 6], kind="river")],
+                 dam_lines=[cross(150, "Dam"), cross(500, "Other dam", nodes=(5,))])
+    segs = split_ways(ex)
+    assert len(set(components(segs).values())) == 3
+    assert 5 in ex.barrier_nodes
+
+
+def test_a_dam_next_to_a_lock_gate_is_the_dam_the_lock_passes():
+    ex = Extract(ways=[way(1, [1, 2, 3, 4, 5, 6], kind="river")], lock_nodes={3},
+                 dam_lines=[cross(250), cross(310, nodes=(4,))])
+    segs = split_ways(ex)
+    assert ex.barrier_nodes == set()
+    assert len(set(components(segs).values())) == 1
+
+
+def test_a_dam_running_past_a_lock_way_or_area_does_not_cut():
+    # Whitten Dam (Tenn-Tom): the dam line crosses the lock way and the canal way next to it; a lock area too
+    ex = Extract(ways=[way(1, [1, 2, 3], kind="river"), way(2, [3, 4], lock="yes"),
+                       way(3, [4, 5, 6, 7, 8, 9, 10, 11, 12], kind="river")],
+                 dam_lines=[cross(450), cross(1050), cross(1150)],
+                 lock_areas=[("Lock A", box(metres_to_deg(1000), -D, metres_to_deg(1100), D))])
+    split_ways(ex)
+    assert len(ex.barrier_nodes) == 0
+    # a dam far from every lock still cuts
+    ex = Extract(ways=[way(1, [1, 2, 3], kind="river"), way(2, [3, 4], lock="yes"),
+                       way(3, [4, 5, 6, 7, 8, 9, 10], kind="river")], dam_lines=[cross(850)])
+    split_ways(ex)
+    assert len(ex.barrier_nodes) == 1
+
+
+def test_crossings_ignore_lines_that_only_run_along_the_way():
+    along = (LineString([(D, 0.0), (2 * D, 0.0)]), "", frozenset())
+    ex = Extract(ways=[way(1, [1, 2, 3])], dam_lines=[along])
+    assert topology.add_crossings(ex) == 0 and ex.barrier_nodes == set()
+    zigzag = (LineString([(1.5 * D, -D), (1.5 * D, D), (2.5 * D, D), (2.5 * D, -D)]), "", frozenset())
+    ex = Extract(ways=[way(1, [1, 2, 3])], gate_lines=[zigzag])
+    assert topology.add_crossings(ex) == 2 and len(ex.ways[0].nodes) == 5
+    assert topology.add_crossings(Extract(ways=[way(1, [1, 2])])) == 0
+
+
 def test_degenerate_two_node_loop_dropped():
     assert split_ways(Extract(ways=[way(1, [5, 5])])) == []
 

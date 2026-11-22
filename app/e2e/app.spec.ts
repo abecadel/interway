@@ -24,6 +24,17 @@ test('plans a route from a link, with distance and locks', async ({ page }) => {
   expect(errs).toEqual([]);
 });
 
+test('plans North American routes: the Welland Canal locks, and a Puget Sound leg with depth unknown', async ({ page }) => {
+  const errs = errors(page);
+  await page.goto('?from=-79.214,43.248&to=-79.25,42.87');
+  await expect(page.getByText(MORE)).toBeVisible({ timeout: 90_000 });
+  await expect(page.locator('.summary')).toContainText(/4\d(\.\d)? km.*\d+ locks/);
+  await page.goto('?from=-122.40,47.61&to=-122.75,48.11');
+  await expect(page.getByText(MORE)).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByText(/Depth unknown for/)).toBeVisible();
+  expect(errs).toEqual([]);
+});
+
 test('search finds a lock and opens its place sheet', async ({ page }) => {
   await page.goto('');
   // the data is in once its loading line has gone

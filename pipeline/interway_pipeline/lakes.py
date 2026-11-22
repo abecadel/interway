@@ -9,7 +9,9 @@ and chains of lakes (Mazury!) are separate polygons that merely touch. We theref
    of internal triangle edges, connected within each triangle. This stays inside the water and follows
    narrow passages between lakes,
 4. connect each entry point (waterway end, marina) to the mesh triangle it lies in, plus direct
-   straight lines between entry points when the line stays on water.
+   straight lines between entry points when the line stays on water,
+5. for big lakes (the Great Lakes, Vänern), add an open-water grid like the sea mesh: the mesh of step 3 keeps
+   only paths between neighbouring entries, which zigzag from harbour to harbour across a big lake.
 """
 from __future__ import annotations
 
@@ -19,13 +21,15 @@ from collections import Counter, defaultdict
 from collections.abc import Sequence
 from dataclasses import replace
 
+import numpy as np
 import shapely
 from shapely import STRtree, prepared
 from shapely.geometry import LineString, MultiPoint, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 from .extract import Lake
-from .model import LonLat, Segment, haversine, metres_to_deg
+from .model import LonLat, Segment, area_km2, haversine, metres_to_deg
+from .sea import _grid_moves, from_merc, to_merc
 from .topology import new_node_id, node_positions
 
 log = logging.getLogger(__name__)
@@ -137,12 +141,12 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
     lake_bodies = water_bodies([lk for lk in lakes if lk.kind == "lake"] + _straits(lakes), locks)
     channel_bodies = _channel_windows(lakes, [pos[n] for n in dead_ends], locks)
     bodies = lake_bodies + channel_bodies
+    # dwithin, not a buffered zone: buffering a Great Lakes body (800k vertices) takes over half an hour
     for body, members in bodies:
-        zone = body.buffer(tol)
         entries: list[tuple[int, LonLat]] = []
         if tree is not None:
             inside = prepared.prep(body)
-            entries = [(ids[i], pos[ids[i]]) for i in tree.query(zone, predicate="intersects")
+            entries = [(ids[i], pos[ids[i]]) for i in tree.query(body, predicate="dwithin", distance=tol)
                        if _enters(ids[i], touching[ids[i]], inside, dead_ends, body)]
         # A body made only of river/canal areas is not a lake to cross: it only bridges places where a
         # waterway line stops (dead ends), and its mesh links those to the rest instead of replacing the line.
@@ -155,10 +159,12 @@ def connect_lakes(segments: list[Segment], lakes: list[Lake], marinas: list[tupl
             continue
         if marina_tree is not None and bridge is None:
             # within the entry tolerance: a quay is often mapped on the shoreline (Dalen bryggje on Bandak)
-            for i in marina_tree.query(zone, predicate="intersects"):
+            for i in marina_tree.query(body, predicate="dwithin", distance=tol):
                 entries.append((new_node_id(), marinas[i][1]))
         used += 1
         added.extend(_mesh(body, members, entries, bridge, weir_tree))
+        if bridge is None and area_km2(body) >= BIG_LAKE_KM2:
+            added.extend(_open_water(body, members, entries, weir_tree))
     log.info("lakes: %d water bodies from %d lakes, %d connected, %d synthetic segments",
              len(bodies), len(lakes), used, len(added))
     return added
@@ -248,12 +254,15 @@ def _lake_namer(members: list[Lake]):
         name = members[0].name
         return lambda _p: name
     tree = STRtree([m.polygon for m in members])
+    # prepared: a big lake (Huron, 800k vertices) tested point by point is far too slow otherwise
+    shapes = [prepared.prep(m.polygon) for m in members]
 
     def name_at(p: LonLat) -> str:
-        hits = tree.query(Point(p), predicate="intersects")
-        if len(hits):
-            return members[int(hits[0])].name
-        return members[int(tree.nearest(Point(p)))].name
+        pt = Point(p)
+        for i in tree.query(pt):
+            if shapes[int(i)].intersects(pt):
+                return members[int(i)].name
+        return members[int(tree.nearest(pt))].name
     return name_at
 
 
@@ -315,6 +324,51 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
                 if pa != pb and water.contains(LineString([pa, pb])):
                     add(a, b, pa, pb)
     return prune_and_smooth(segs, {nid for nid, _ in entries}, water, bridge)
+
+
+BIG_LAKE_KM2 = 500.0
+OPEN_GRID_M = 8000.0  # Mercator metres (about 5.6 km at 45°)
+OPEN_CLEAR_M = 1000.0  # grid nodes stay this far (Mercator) from the shore
+OPEN_SIMPLIFY_M = 50.0  # the outline is simplified this much (Mercator m) before buffering
+
+
+def _open_water(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple[int, LonLat]],
+                weirs: STRtree | None = None, step: float = OPEN_GRID_M) -> list[Segment]:
+    """A grid over a big lake's open water, joined to the entries: Delaunay edges and the sea mesh's grid moves
+    (knight moves too, so straight courses in most directions), kept where they stay on water."""
+    # simplified first: buffering a Great Lakes outline (800k vertices, thousands of islands) takes over 10 GB
+    merc = shapely.simplify(shapely.transform(body, to_merc), OPEN_SIMPLIFY_M)
+    x0, y0, x1, y1 = merc.bounds
+    gx, gy = np.meshgrid(np.arange(x0, x1, step), np.arange(y0, y1, step))
+    grid = np.column_stack([gx.ravel(), gy.ravel()])
+    inner = merc.buffer(-OPEN_CLEAR_M)
+    grid = grid[shapely.contains_xy(inner, grid[:, 0], grid[:, 1])] if not inner.is_empty else grid[:0]
+    if not len(grid):
+        return []
+    ents = to_merc(np.array([p for _, p in entries])) if entries else np.zeros((0, 2))
+    nodes = np.vstack([ents, grid])
+    edges = shapely.get_parts(shapely.delaunay_triangles(shapely.multipoints(nodes), only_edges=True))
+    edges = np.concatenate([edges[shapely.length(edges) <= 3 * step], _grid_moves(grid, x0, y0, step)])
+    water = merc.buffer(ENTRY_TOLERANCE_M + OPEN_SIMPLIFY_M)
+    shapely.prepare(water)
+    edges = edges[shapely.contains(water, edges)]
+    entry_at = {tuple(map(float, q)): nid for (nid, _), q in zip(entries, ents, strict=True)}
+    name_at = _lake_namer(members)
+    ids: dict[tuple[float, float], int] = {}
+    seen: set[tuple[int, int]] = set()
+    out: list[Segment] = []
+    for e in edges:
+        (ax, ay), (bx, by) = shapely.get_coordinates(e)
+        a = entry_at.get((ax, ay)) or ids.setdefault((ax, ay), new_node_id())
+        b = entry_at.get((bx, by)) or ids.setdefault((bx, by), new_node_id())
+        if (min(a, b), max(a, b)) in seen:  # a grid move the triangulation already has
+            continue
+        seen.add((min(a, b), max(a, b)))
+        pa, pb = (tuple(map(float, c)) for c in from_merc(np.array([[ax, ay], [bx, by]])))
+        if weirs is not None and len(weirs.query(LineString([pa, pb]), predicate="intersects")):
+            continue
+        out.append(Segment(a=a, b=b, coords=[pa, pb], name=name_at(((pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2)), kind="lake"))
+    return out
 
 
 def mark_lake_access(segs: list[Segment], lakes: list[Lake]) -> int:

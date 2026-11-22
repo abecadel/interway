@@ -76,6 +76,9 @@ def merge_extracts(parts: list[Extract]) -> Extract:
         ex.barrier_nodes |= p.barrier_nodes
         ex.lock_names.update(p.lock_names)
         ex.weirs += p.weirs  # duplicates from overlapping extracts block the same edges
+        for lines, mine in ((ex.gate_lines, p.gate_lines), (ex.dam_lines, p.dam_lines)):
+            known = {g[0].wkb for g in lines}
+            lines += [g for g in mine if g[0].wkb not in known]
         # overlapping extracts (neighbouring countries) contain the same border objects twice
         for b in p.bridges:
             if (b[0].wkb, b[1]) not in seen_bridges:
@@ -99,7 +102,8 @@ def merge_extracts(parts: list[Extract]) -> Extract:
 
 def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: float = 300.0,
                   weirs: list | None = None) -> int:
-    """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node.
+    """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node (or, with the
+    property "join_line", left loose for snap_dead_ends_to_lines to join to the middle of a line).
 
     A LineString with the property "weir" is instead a weir OSM does not map, added to `weirs`: no lake or
     river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder).
@@ -127,6 +131,12 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             for c in (coords[0], coords[-1]):
                 i = tree.nearest(Point(c))
                 ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
+            # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
+            # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
+            loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
+            for k in loose:
+                ends[k] = new_node_id()
+                pos[ends[k]] = coords[-k]
             if None in ends:
                 log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
                 continue
@@ -147,7 +157,8 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
         return read_osm(path, allow)
     st = path.stat()
     key = hashlib.sha256(repr((str(path.resolve()), st.st_size, st.st_mtime, sorted(allow.names), sorted(allow.lakes),
-                              sorted(allow.wikidata), sorted(allow.exclude_names),
+                              sorted(allow.wikidata), sorted(allow.exclude_names), sorted(allow.bounded.items()),
+                              sorted(allow.exclude_ways), sorted(allow.passable_nodes),
                               [x.pattern for x in allow.exclude_patterns], EXTRACT_VERSION)).encode()).hexdigest()[:16]
     f = cache_dir / f"{path.name}.{key}.pickle"
     if f.exists():
@@ -159,7 +170,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 15  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 16  # bump when read_osm output changes, invalidates --cache
 
 
 WIDE_KINDS = {"place", "fishing", "tackle"}

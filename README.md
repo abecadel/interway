@@ -73,7 +73,11 @@ whole Mediterranean coast (Greece with the Corinth Canal, Slovenia, Montenegro, 
 Morocco, Algeria, Tunisia, Egypt), joined by a sea network from the Atlantic to the Black Sea: enough for
 routes like Zalew Zegrzyński → Mazury, Wrocław → Amsterdam, the Baltic → Mediterranean "Le Cut", the Grand Union Canal,
 Kelheim → Sulina along the whole Danube, Gdańsk → Venice, Marseille → Piraeus through the Corinth Canal, Dublin → the
-Shannon or London → Crete.
+Shannon or London → Crete. It also covers the USA and Canada (built separately with `--allowlist
+data/navigable/north-america` and joined with `interway-merge`): the Great Lakes, the New York canals, the St.
+Lawrence Seaway, the Rideau and Trent–Severn, the Mississippi river system, the Intracoastal Waterways and the
+Pacific Northwest up to Alaska, so America's Great Loop can be planned leg by leg. North American sea legs have no
+depth data.
 Try `http://localhost:5173/?from=17.035,51.115&to=4.90,52.38`.
 
 ## Deployment

@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "Big Chute Marine Railway (Trent–Severn Waterway lock 44): boats are carried over land on a rail carriage, so OSM has no waterway line across it. Routed like a lock. Source: https://parks.canada.ca/lhn-nhs/on/trentsevern/activ/bigchute",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Big Chute Marine Railway", "lock": true},
+     "geometry": {"type": "LineString", "coordinates": [[-79.6737826, 44.8849281], [-79.6742221, 44.884725], [-79.6761553, 44.8837746]]}}
+  ]
+}
