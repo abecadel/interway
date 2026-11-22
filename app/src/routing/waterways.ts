@@ -166,14 +166,18 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
         w.months.highWater.includes(m) && 'high water likely', w.months.ice.includes(m) && 'ice likely'].filter(Boolean);
       if (w.months.closed.includes(m)) closedOnRoute = true;
       if (what.length) out.push(`${w.name}, reached around ${date}: ${what.join(', ')} in ${MONTH[m]}${w.months.notes ? ` (${w.months.notes})` : ''}.`);
+      // closed now (as the sheet was checked), but not in the month of the trip: say whether the closure matters
+      else if (w.navigable === 'closed') {
+        out.push(`${w.name}, reached around ${date}: closed as of ${w.checked}, but usually open in ${MONTH[m]}: check that the closure has ended.`);
+      }
     }
     at += route.legs[i].distance;
   }
-  // when to go instead: the months in which none of this route's waterways is usually closed
-  if (closedOnRoute) {
-    const closed = new Set([...seen].flatMap((w) => w.months!.closed));
+  // when to go: the months in which none of this route's waterways is usually closed
+  const closed = new Set([...seen].flatMap((w) => w.months!.closed));
+  if (closed.size > 0) {
     const months = Array.from({ length: 12 }, (_, k) => k + 1).filter((k) => !closed.has(k));
-    out.push(months.length ? `All the waterways of this route are usually open in ${months.map((k) => SHORT[k]).join(', ')}: a trip then avoids these closures.`
+    out.push(months.length ? `All the waterways of this route are usually open in ${months.map((k) => SHORT[k]).join(', ')}${closedOnRoute ? ': a trip then avoids these closures' : ''}.`
       : 'Some waterway of this route is usually closed in every month: compare the alternatives.');
   }
   return out;

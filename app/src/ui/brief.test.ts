@@ -35,7 +35,7 @@ const itinerary: Itinerary = {
     stop(68_000, { type: 'tackle', name: 'Wędkarz' }, 800),
     stop(70_000, { type: 'marina', name: 'Przystań', vhf: '9', phone: '+48 1' }),   // 70 km: inside the last fifth of day 1 (64–80 km)
     stop(150_000, { type: 'place', name: 'Grudziądz' }),  // day 2 ends at km 150 without a marina: near the town
-    stop(155_000, { type: 'port', name: 'A | B' }),       // after day 2's end
+    stop(155_000, { type: 'port', name: 'A | B', services: 'diesel, water' }),       // after day 2's end; sells fuel
   ],
 };
 
@@ -150,13 +150,13 @@ describe('route brief', () => {
       'Read the notices to skippers before going: PL Wody Polskie, komunikaty nawigacyjne (https://www.gov.pl/web/wody-polskie).',
     ]);
     expect(b.countries).toEqual([{ cc: 'PL', name: 'Landland', fromKm: 10 }]);
-    expect(b.services.fuel).toEqual({ count: 1, longestKm: 140, fromKm: 60, toKm: 200 });
+    expect(b.services.fuel).toEqual({ count: 2, longestKm: 95, fromKm: 60, toKm: 155 });
     expect(b.services.water).toEqual({ count: 0, longestKm: 200, fromKm: 0, toKm: 200 });
     expect(b.services.harbour).toEqual({ count: 2, longestKm: 85, fromKm: 70, toKm: 155 });
     expect(b.stages[0].harbour).toBe('VHF: channel 9; Phone: +48 1');
     expect(md).toContain('- [ ] Landland: licence');
     expect(md).toContain('- Countries: Landland (from km 10)');
-    expect(md).toContain('- Fuel: 1 on the route; longest stretch without: 140 km (km 60–200)');
+    expect(md).toContain('- Fuel: 2 on the route; longest stretch without: 95 km (km 60–155)');
     expect(b.hazards).toContain('km 65: fish farm Hodowla 120 m from the route line: keep clear.');
     expect(b.hazards).toContain('km 66: obstruction 250 m from the route line: keep clear.');
     expect(b.hazards.some((h) => h.startsWith('km 67'))).toBe(false);

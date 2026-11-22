@@ -121,6 +121,9 @@ function problem(s: Stop, v: VesselProfile): string | undefined {
   return undefined;
 }
 
+/** a marina or port whose OSM services list diesel or petrol is a fuel stop too (many have no separate fuel node) */
+const sellsFuel = (p: Stop['poi']) => LAYOVER.includes(p.type) && /\b(diesel|petrol)\b/.test(p.services ?? '');
+
 function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] {
   const speed = route.duration > 0 ? route.distance / route.duration : 0; // m/s, locks included
   const dayM = speed * hoursPerDay * 3600;
@@ -246,8 +249,8 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   hazards.push(notices.length
     ? `Today's closures, water levels and lock hours are not live here: check the notices to skippers for this route before going: ${notices.map((n) => `${n.cc} ${n.name} (${n.url})`).join('; ')}.`
     : "Today's closures, water levels and lock hours are not live here: check the waterway authority's notices to skippers before going.");
-  const gap = (types: PoiType[]): ServiceGap => {
-    const ats = itinerary.stops.filter((s) => types.includes(s.poi.type)).map((s) => s.at);
+  const gap = (types: PoiType[], also: (p: Stop['poi']) => boolean = () => false): ServiceGap => {
+    const ats = itinerary.stops.filter((s) => types.includes(s.poi.type) || also(s.poi)).map((s) => s.at);
     const points = [0, ...ats, route.distance];
     let best = 0;
     for (let i = 1; i < points.length; i++) if (points[i] - points[i - 1] > points[best + 1] - points[best]) best = i - 1;
@@ -306,7 +309,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     checklist,
     limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
-    services: { fuel: gap(['fuel']), water: gap(['water']), harbour: gap(LAYOVER), tackle: gap(['tackle']) },
+    services: { fuel: gap(['fuel'], sellsFuel), water: gap(['water']), harbour: gap(LAYOVER), tackle: gap(['tackle']) },
   };
 }
 

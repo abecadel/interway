@@ -4,6 +4,7 @@ from __future__ import annotations
 import heapq
 import itertools
 import logging
+import re
 from collections import Counter, defaultdict
 from dataclasses import replace
 
@@ -63,7 +64,7 @@ def add_crossings(ex: Extract) -> int:
                     dams.add(n)
                     continue
                 ex.lock_nodes.add(n)
-                if name:
+                if _names_lock(name):
                     ex.lock_names.setdefault(n, name)
             if shared:
                 continue
@@ -81,7 +82,7 @@ def add_crossings(ex: Extract) -> int:
                 coords.insert(k, pt)
                 if gate:
                     ex.lock_nodes.add(n)
-                    if name:
+                    if _names_lock(name):
                         ex.lock_names[n] = name
                 else:
                     dams.add(n)
@@ -92,6 +93,15 @@ def add_crossings(ex: Extract) -> int:
     ex.barrier_nodes |= _dams_away_from_locks(ex, dam_at)
     log.info("added %d lock gate and dam crossings to waterways", added)
     return added
+
+
+# an emergency or guard gate drawn across a lock is not the lock: its name ("Emergancy Lift Gate" at Lockport, IL)
+# must not name the chamber
+_NOT_A_LOCK_NAME = re.compile(r"emerg[ae]ncy|guard gate|spillway|flood ?gate", re.IGNORECASE)
+
+
+def _names_lock(name: str) -> bool:
+    return bool(name) and not _NOT_A_LOCK_NAME.search(name)
 
 
 def _dams_away_from_locks(ex: Extract, dam_at: dict[int, LonLat]) -> set[int]:

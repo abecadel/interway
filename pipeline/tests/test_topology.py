@@ -79,6 +79,16 @@ def test_a_gate_line_sharing_a_node_marks_that_node():
     assert ex.lock_nodes == {2} and ex.lock_names == {}
 
 
+def test_an_emergency_gate_does_not_name_the_lock():
+    # Lockport, IL: an "Emergancy Lift Gate" line drawn across the chamber besides the lock gates
+    ex = Extract(ways=[way(1, [1, 2, 3, 4, 5])], gate_lines=[cross(250, "Emergancy Lift Gate"), cross(350)])
+    locks = [s for s in split_ways(ex) if s.lock]
+    assert len(locks) == 1 and locks[0].name == ""
+    ex = Extract(ways=[way(1, [1, 2, 3, 4])], gate_lines=[cross(200, "Guard gate", nodes=(2,))])
+    split_ways(ex)
+    assert ex.lock_nodes == {2} and ex.lock_names == {}
+
+
 def test_a_dam_across_the_river_cuts_it():
     # the Moses-Saunders dam across the St. Lawrence: drawn across the river line, sharing no node
     ex = Extract(ways=[way(1, [1, 2, 3, 4], kind="river"), way(2, [4, 5, 6], kind="river")],
