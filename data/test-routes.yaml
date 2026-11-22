@@ -1220,7 +1220,7 @@
   expected_km: 298
   tolerance: 0.15
   countries: [CA, US]
-  via: [Saint-Laurent]
+  via: [Saint Lawrence, Beauharnois]  # Lachine Canal or the South Shore Canal past Montreal, both lead to Lac Saint-Louis
   min_locks: 6
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Montreal to Kingston 185 statute miles; https://en.wikipedia.org/wiki/Saint_Lawrence_Seaway 7 locks)
 

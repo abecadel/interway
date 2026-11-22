@@ -394,6 +394,28 @@ describe('router edge cases', () => {
     expect(named.route([17.01, 51.0], [17.17, 51.07]).legs.map((l) => l.name)).toEqual(['Kanał']);
   });
 
+  it('does not carry a lock name over the unnamed reach beyond it', () => {
+    const { graph, geometry, names } = buildGraph([
+      { points: [A, B], name: 'Odra' },
+      { points: [B, C], lock: true, name: 'Lock 4' },
+      { points: [C, D] },
+      { points: [D, [17.3, 51.07]], name: 'Lake' },
+    ]);
+    const r = new Router(graph, geometry, names);
+    const route = r.route([17.01, 51.0], [17.28, 51.07]);
+    expect(route.legs.map((l) => l.name)).toEqual(['Odra', 'Lock 4', 'Lake']);
+    expect(route.legs[1].distance).toBeLessThan(route.legs[2].distance);
+    // an unnamed reach between two locks takes neither lock's name
+    const two = buildGraph([
+      { points: [A, B], name: 'Odra' },
+      { points: [B, C], lock: true, name: 'Lock 4' },
+      { points: [C, D] },
+      { points: [D, [17.21, 51.07]], lock: true, name: 'Lock 5' },
+    ]);
+    const on = new Router(two.graph, two.geometry, two.names).route([17.01, 51.0], [17.209, 51.07]);
+    expect(on.legs.map((l) => l.name)).toEqual(['Odra', 'Lock 4', '', 'Lock 5']);
+  });
+
   it('travels full geometries against their drawing direction', () => {
     const r = makeRouter([...segments, { points: [C, [17.3, 51.0]], name: 'Beyond' }]);
     const route = r.route([17.25, 51.0], [17.02, 51.0]);
