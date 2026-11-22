@@ -632,7 +632,7 @@
   expected_km: 115
   tolerance: 0.1
   countries: [PL, DE]
-  via: [Stettiner Haff, Peenestrom]
+  via: [Oderhaff, Peenestrom]  # the lagoon: Zalew Szczeciński (PL) / Oderhaff (DE)
   max_sea_km: 0
   source: https://www.elwis.de (Westoder and Oder to the lagoon, then the Peenestrom to Wolgast, about 62 NM)
 
@@ -2478,7 +2478,6 @@
   source: https://en.wikipedia.org/wiki/Locks_on_the_Canal_du_Midi (Béziers lock 208.4 km, Agde round lock 231.4 km)
 
 - name: Port Cassafières → Marseillan (Canal du Midi, Étang de Thau)
-  known_gap: 'not yet diagnosed: the route differs from the source'
   from: [3.3713, 43.2916]
   to: [3.5353, 43.3528]
   expected_km: 19.7
@@ -3537,7 +3536,6 @@
   source: https://www.gotakanal.se/sv/media/812 (Göta kanalbolag convoy itinerary Mem–Sjötorp, day 1 "Mem–Berg, 15 locks, 2 lakes, 55 km", night harbour Berg lower in Lake Roxen)
 
 - name: Göta kanal stage 2 — Berg → Borenshult (Carl Johan flight, Borensberg, Boren)
-  known_gap: 'not yet diagnosed: the route differs from the source'
   from: [15.533, 58.483]
   to: [15.092, 58.557]
   expected_km: 34
@@ -3563,7 +3561,7 @@
   expected_km: 46
   tolerance: 0.15
   countries: [SE]
-  via: [Göta kanal, Viken]
+  via: [Göta kanal]  # the line across Viken is named after the canal (its waterway relation)
   min_locks: 2
   source: https://www.gotakanal.se/sv/media/812 (Karlsborg–Forsvik across Bottensjön 7.4 km; day 4 "Forsvik–Töreboda, 2 locks, 1 lake, 39 km"; 7.4 + 39 = 46.4 km)
 
@@ -5419,7 +5417,6 @@
   source: https://lavdis.cz/en/waterways/ports (Mělník port Labe km 834.40, Ústí nad Labem-Vaňov km 767.87) and https://lavdis.cz/en/waterways/locks (Dolní Beřkovice 830.53, Štětí 818.59, Roudnice 808.70, České Kopisty 795.16, Lovosice 787.38)
 
 - name: Otrokovice → Rohatec-Sudoměřice (Baťa Canal and Morava)
-  known_gap: the data maps fewer locks here than there are (distance and route are right)
   from: [17.5076, 49.2096]
   to: [17.2425, 48.8773]
   expected_km: 52
