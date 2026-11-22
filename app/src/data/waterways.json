@@ -13782,5 +13782,4280 @@
    24.2,
    59.45
   ]
+ },
+ {
+  "id": "uk-thames-nontidal",
+  "name": "River Thames, non-tidal (Lechlade – Oxford – Reading – Windsor – Teddington)",
+  "aliases": [
+   "River Thames",
+   "Teddington Barge Lock",
+   "Teddington Launch Lock",
+   "Teddington Lock Boat Rollers"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "St John's Lock, Lechlade to Teddington Lock (EA navigation; Cricklade–Inglesham small boats only)",
+  "navigable": "restricted",
+  "class": "Broad river locks (smallest St John's/Buscot ~33.5 × 4.5 m)",
+  "lengthKm": 198,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 0.9,
+   "notes": "Approx. max draught by reach: Lechlade–Oxford 0.9 m, Oxford–Reading 1.2 m, Reading–Windsor 1.3 m, Windsor–Staines 1.7 m, Staines–Teddington 2.0 m."
+  },
+  "airDraftM": 2.28,
+  "current": {
+   "typicalMs": null,
+   "notes": "Stream warning boards at locks: yellow 'stream increasing/decreasing' (unpowered boats stop, powered moor up or go with caution), red 'strong stream' = do not navigate. Updated daily by 11:00 on gov.uk. 22 Nov 2026: yellow St John's–Osney."
+  },
+  "locks": {
+   "count": 44,
+   "chamber": "St John's 33.60 × 4.52 m, Buscot 33.47 × 4.47 m (smallest main chambers); Boulters tail gates limited to 4.8 m wide",
+   "hours": "Keepers 2026: Jan–Mar & Nov–Dec 09:15–13:00, 14:00–16:00; Apr & Oct 09:00–13:00, 14:00–17:00; May–Jun & Sep to 18:00; Jul–Aug to 18:30. Self-service outside (blue signs). Teddington normally 24 h.",
+   "notes": "44 locks St John's–Teddington. Teddington launch lock closed since 1 Oct 2023."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 8,
+   "permit": "EA River Thames registration (visitor daily/weekly/monthly by boat area, e.g. 21–25 m²: £34.90/£63.00/£178.80 in 2026) or CRT Gold licence",
+   "notes": "Visitor registration can be bought at staffed locks on the EA form. Electric boats pay 75%."
+  },
+  "season": {
+   "best": null,
+   "closures": "Now: Benson Lock closed 9 Nov–21 Dec 2026; Old Windsor Lock closed (electrical fault) from 11 Nov 2026 until further notice; Marsh 23 Nov–18 Dec; Hambleden 30 Nov–17 Dec 2026. 2027: Abingdon 4 Jan–22 Mar, Temple and Cookham 11 Jan–22 Mar."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winter lock works Nov–Mar each year. Drought restrictions Penton Hook–Teddington from 3–24 Aug 2026 (still listed in Nov 2026). Stream warnings any time after heavy rain."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Tidal below Teddington Lock (see tidal Thames sheet)."
+  },
+  "authority": {
+   "name": "Environment Agency (River Thames waterways)",
+   "url": "https://www.gov.uk/guidance/river-thames-locks-and-facilities-for-boaters"
+  },
+  "notices": "https://www.gov.uk/guidance/river-thames-restrictions-and-closures (closures); https://www.gov.uk/guidance/river-thames-current-river-conditions (stream warnings, daily)",
+  "notes": "Lowest bridge Osney 2.28 m (above Oxford); below Folly Bridge the lowest is Folly 3.12 m. Through-navigation is blocked at Old Windsor and Benson in Nov 2026. Speed limit 8 km/h (EA distance table basis). Moorings at Hurley, Oxford East Street and Marlow closed.",
+  "sources": [
+   "https://www.gov.uk/guidance/river-thames-distances-and-measurements-for-boaters",
+   "https://www.gov.uk/guidance/river-thames-locks-and-facilities-for-boaters",
+   "https://www.gov.uk/guidance/river-thames-restrictions-and-closures",
+   "https://www.gov.uk/guidance/river-thames-current-river-conditions",
+   "https://www.gov.uk/government/publications/river-thames-boat-registration-charges/river-thames-boat-registration-and-other-charges-1-january-2026-to-31-december-2026"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -1.95,
+   51.38,
+   -0.3,
+   51.8
+  ]
+ },
+ {
+  "id": "uk-thames-tidal",
+  "name": "Tidal Thames (Teddington – London – Thames Barrier – estuary)",
+  "aliases": [
+   "River Thames"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Teddington Lock (tidal limit) through central London (Brentford, Limehouse) to the Thames Barrier and the estuary off Southend",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal streams up to 4 kn and waves to 1.2 m can be met (PLA); PLA ebb-tide flag warning for fluvial flow updated daily 06:00."
+  },
+  "locks": {
+   "count": null,
+   "chamber": null,
+   "hours": "Teddington normally 24 h. Limehouse (CRT): 07:00–19:00 Apr–Oct, 08:00–16:00 Nov–Mar, not ~2 h either side of LW London Bridge, book ≥2 working days ahead, VHF 80. Thames Lock Brentford: book ≥2 working days, staffed times only. Bow Lock: ~HW ±2 h, Mon–Fri 08:30–15:30, book 7 days ahead.",
+   "notes": "Max into Limehouse Basin 28 × 7.5 m; into Brentford 22.87 × 5.02 m."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 14.8,
+   "permit": null,
+   "notes": "8 kn above Wandsworth Bridge, 12 kn Wandsworth Bridge–Margaretness (Thames Byelaw 16). VHF required ≥13.7 m: Ch 14 Teddington–Crayfordness, 68 to Sea Reach No 4, 69 seaward. Narrowboats only transiting Brentford/Limehouse–Teddington may skip VHF but must phone London VTS before and after. Thames Barrier zone (Margaretness–Blackwall Pt): ask London VTS on Ch 14."
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 7,
+   "notes": "Rises and falls up to 7 m. Brentford → Limehouse: leave ~1 h after HW London Bridge (CRT); Limehouse → Brentford ~2½ h, leave ~2½ h before HW. Teddington is the tidal limit."
+  },
+  "authority": {
+   "name": "Port of London Authority (London VTS)",
+   "url": "https://pla.co.uk"
+  },
+  "notices": "https://pla.co.uk/node/282 (PLA Notices to Mariners); Thames Barrier closures by VHF broadcast",
+  "notes": "Busy commercial river: big blind arcs, keep to starboard, heavy traffic Tower Bridge–London Bridge. Bridge arch signals (red/white lights) per General Direction 30; clearances at pla.co.uk/thames-bridge-heights. CRT licence needed to enter the canals at Brentford, Limehouse or Bow.",
+  "sources": [
+   "https://www.skdocks.co.uk/wp-content/uploads/2026/07/PLA_Recreational_Users_Guide.pdf",
+   "https://canalrivertrust.org.uk/about-us/our-regions/london-waterways/locks-to-the-river-thames",
+   "https://canalrivertrust.org.uk/canals-and-rivers/grand-union-canal/boating-the-grand-union-canal",
+   "https://en.wikipedia.org/wiki/Tideway",
+   "https://waterways.org.uk/?p=1815",
+   "https://canalplan.co.uk/waterway/8qh4"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -0.33,
+   51.42,
+   0.95,
+   51.62
+  ]
+ },
+ {
+  "id": "uk-grand-union",
+  "name": "Grand Union Canal (London – Birmingham main line and arms)",
+  "aliases": [
+   "Grand Union Canal",
+   "Grand Union Canal (Paddington Branch)",
+   "Grand Union Canal (Paddington Arm)",
+   "Grand Union Canal - Slough Arm",
+   "Grand Union Canal - Aylesbury Arm",
+   "Grand Union Canal - Wendover Arm",
+   "Grand Union Northampton Arm",
+   "Grand Union Canal Northampton Arm",
+   "Grand Union Canal Saltisford Arm",
+   "Grand Union Canal Digbeth Branch",
+   "Thames Lock",
+   "Braunston Top Lock",
+   "Fenny Stratford Lock",
+   "Soulbury Three Locks Bottom",
+   "Soulbury Three Locks Middle",
+   "Three Locks Top"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Brentford (Thames) and the Paddington Arm to Birmingham (Camp Hill/Digbeth), via Braunston, Blisworth and Hatton; Leicester Line not covered",
+  "navigable": "yes",
+  "class": "Broad (14 ft) locks Brentford–Camp Hill; narrow (7 ft) Camp Hill–Digbeth",
+  "lengthKm": 220,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.17,
+   "notes": "Max draught 1.3 m Brentford–Bulls Bridge, 1.17 m elsewhere."
+  },
+  "airDraftM": 1.9,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 158,
+   "chamber": null,
+   "hours": null,
+   "notes": "Max boat 21.95 m (72 ft); beam 4.27 m Brentford–Bulls Bridge, 3.81 m (12 ft 6 in) Berkhamsted–Camp Hill (12 ft between bridges 22–60 near Long Itchington), 2.13 m (7 ft) Camp Hill–Digbeth. Wide-beam boats through Braunston and Blisworth tunnels only Tue/Thu by booking (48 h)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal; Bascote and Stoke Bruerne lock renewals, Stoke Bruerne flight drained."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Summer 2026 low water: 46 closures and 58 restrictions network-wide in Aug 2026."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "Headroom 2.67 m south of Long Buckby, 1.9 m Long Buckby–Camp Hill. Tidal Thames access at Brentford (Thames Lock, book) and via Regent's Canal/Limehouse.",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/grand-union-canal/boating-the-grand-union-canal",
+   "https://canalrivertrust.org.uk/boating/licensing",
+   "https://canalrivertrust.org.uk/boating/boating-news-and-views/the-boaters-update/boaters-update-27-aug-2026",
+   "https://canalrivertrust.org.uk/boating/notices-and-stoppages/winter-works-programme",
+   "https://collections.canalrivertrust.org.uk/themes/grand-union-canal"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-regents-canal",
+  "name": "Regent's Canal and Hertford Union Canal (London)",
+  "aliases": [
+   "Regent's Canal",
+   "Islington Tunnel (Regent's Canal)",
+   "Hertford Union Canal",
+   "Limehouse Basin Lock"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Little Venice (Paddington Arm) via Camden and Islington to Limehouse Basin (Thames), with the Hertford Union to the Lee",
+  "navigable": "yes",
+  "class": "Broad (14 ft) locks",
+  "lengthKm": 13.8,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.17,
+   "notes": null
+  },
+  "airDraftM": 2.67,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 12,
+   "chamber": null,
+   "hours": "Limehouse sea lock: see tidal Thames sheet",
+   "notes": "Max boat 21.95 × 4.34 m (72 ft × 14 ft 3 in), draught 1.17 m, headroom 2.67 m (CRT). CRT London canals page gives 21.95 × 3.96 m, air draught 2.13 m for London canals generally."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": "Pre-bookable visitor moorings in London (CRT)."
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "Very busy with moored boats: slow past them. Limehouse Basin links to the tidal Thames (lock booking ≥2 working days).",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/regents-canal/boating-the-regents-canal",
+   "https://canalrivertrust.org.uk/about-us/our-regions/london-waterways/locks-to-the-river-thames",
+   "https://canalrivertrust.org.uk/boating/licensing"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-kennet-avon",
+  "name": "Kennet & Avon Canal (Reading – Newbury – Devizes – Bath – Hanham)",
+  "aliases": [
+   "Kennet and Avon Canal",
+   "River Kennet",
+   "River Avon",
+   "Greenham Lock",
+   "Monkey Marsh Lock"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Blake's Lock, Reading (Thames) via the Kennet Navigation, Caen Hill and Bath to Hanham Lock (tidal Avon to Bristol beyond)",
+  "navigable": "yes",
+  "class": "Broad locks (14 ft)",
+  "lengthKm": 140,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.1,
+   "notes": "Max draught 1.3 m Hanham–Bath (bridge 194), 1.1 m Bath–Reading."
+  },
+  "airDraftM": 2.4,
+  "current": {
+   "typicalMs": null,
+   "notes": "River sections on the Kennet and the Avon (Bath–Hanham): check CRT notices for strong-stream warnings."
+  },
+  "locks": {
+   "count": 104,
+   "chamber": null,
+   "hours": "Caen Hill (locks 29–44, Devizes): 08:00–16:30 Apr–Sep (last entry 14:00), 08:00–16:00 Oct–Mar (last entry 13:00); closed 25 Dec, 1 Jan. Crofton/Wootton Rivers/Cadley locks 51, 54, 55, 60 at 09:30 and 15:30 only (water saving).",
+   "notes": "Max boat 22.55 × 4.88 m Hanham–Bath; 21.95 × 4.0 m (13 ft 1 in) Bath–Reading."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "87 miles, 104 locks (CRT). Caen Hill flight of 29 locks needs a full day. Headroom 2.4 m east of Bath, 2.67 m Bath–Hanham.",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/kennet-and-avon-canal/boating-the-kennet-and-avon-canal",
+   "https://canalrivertrust.org.uk/boating/licensing",
+   "https://canalrivertrust.org.uk/boating/notices-and-stoppages/winter-works-programme",
+   "https://en.wikipedia.org/wiki/Kennet_and_Avon_Canal"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -2.7,
+   51.3,
+   -0.93,
+   51.5
+  ]
+ },
+ {
+  "id": "uk-leeds-liverpool",
+  "name": "Leeds & Liverpool Canal",
+  "aliases": [
+   "Leeds and Liverpool Canal",
+   "Leeds and Liverpool Canal (Rufford Branch)",
+   "Leeds and Liverpool Canal (Leigh Branch)",
+   "Leeds Lock",
+   "Greenberfield Top Lock",
+   "Greenberfield Middle Lock",
+   "Greenberfield Bottom Lock",
+   "Barrowford Top Lock",
+   "Barrowford 2nd Lock",
+   "Barrowford 3rd Lock",
+   "Barrowford 4th Lock",
+   "Barrowford 5th Lock",
+   "Barrowford 6th Lock",
+   "Barrowford Bottom Lock",
+   "Bingley Five Rise Top Lock",
+   "Bingley Five Rise 2nd Lock",
+   "Bingley Five Rise 3rd Lock",
+   "Bingley Five Rise 4th Lock",
+   "Bingley Five Rise Bottom Lock",
+   "Bingley Top Lock",
+   "Bingley Middle Lock",
+   "Bingley Bottom Lock"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Leeds (River Aire) over the Pennines (Foulridge) to Wigan and Liverpool (Stanley Dock/Liverpool Link)",
+  "navigable": "yes",
+  "class": "Broad (14 ft) locks, short (64 ft)",
+  "lengthKm": 204,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.22,
+   "notes": null
+  },
+  "airDraftM": 2.67,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 91,
+   "chamber": "Max boat 19.51 × 4.34 m (64 ft × 14 ft 3 in)",
+   "hours": "Padlocked outside hours. Bingley Five Rise down 08:00–10:00 and 13:00–15:00, up 10:00–12:00 and 15:00–17:00. Wigan flight 08:00–16:00 (last entry 12:00). Blackburn 10:00–14:00. Johnson's Hillock, Barrowford, Greenberfield 10:00–16:00 (last 14:30). Bank Newton, Gargrave, Newlay, Forge, Kirkstall 08:00–16:00.",
+   "notes": "Foulridge Tunnel: traffic lights, passage each way every 50 min. Handcuff (anti-vandal) key needed."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal; Wigan flight works 4 Jan–19 Feb 2027."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "Boats over 64 ft (19.5 m) cannot use the canal. Handcock's swing bridge 9 user-operated 09:30–14:00 and 18:00–07:30 only.",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/leeds-and-liverpool-canal/boating-the-leeds-and-liverpool-canal",
+   "https://canalrivertrust.org.uk/boating/licensing",
+   "https://canalrivertrust.org.uk/notices/winter-stoppages",
+   "https://www.leedsandliverpoolcanalsociety.co.uk"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-llangollen",
+  "name": "Llangollen Canal (Hurleston – Ellesmere – Chirk – Pontcysyllte – Llangollen)",
+  "aliases": [
+   "Llangollen Canal",
+   "Pontcysyllte Aqueduct",
+   "Chirk Tunnel"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Hurleston Junction (Shropshire Union) to Llangollen Basin",
+  "navigable": "yes",
+  "class": "Narrow (7 ft) locks",
+  "lengthKm": 74,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 0.75,
+   "notes": "Max draught 0.76 m to Pontcysyllte, 0.75 m beyond: shallow, keep to the channel."
+  },
+  "airDraftM": 2.12,
+  "current": {
+   "typicalMs": null,
+   "notes": "Water supply channel: water from Horseshoe Falls flows down the canal to Hurleston Reservoir, so there is a flow towards Hurleston."
+  },
+  "locks": {
+   "count": 21,
+   "chamber": "Max boat 21.95 × 2.11 m (72 ft × 6 ft 11 in)",
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "46 miles, 21 locks (CRT). Pontcysyllte Aqueduct (World Heritage) and Chirk aqueduct/tunnel are single-file. Beam limit 2.11 m: wide boats cannot enter.",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/llangollen-canal/boating-the-llangollen-canal",
+   "https://canalrivertrust.org.uk/boating/licensing",
+   "https://en.wikipedia.org/wiki/Llangollen_Canal"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-trent-mersey",
+  "name": "Trent & Mersey Canal (Derwent Mouth – Burton – Stoke – Harecastle – Preston Brook)",
+  "aliases": [
+   "Trent & Mersey Canal",
+   "Trent and Mersey Canal",
+   "Derwent Mouth Lock",
+   "Trentham Lock",
+   "Meaford House Lock",
+   "Hassall Green Top Lock",
+   "Hassall Green Bottom Lock - Towpath Side",
+   "Hassall Green Bottom Lock - Off Side"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Derwent Mouth (River Trent) to Preston Brook (Bridgewater Canal)",
+  "navigable": "yes",
+  "class": "Broad (14 ft) Derwent Mouth–Horninglow (Burton); narrow (7 ft) Burton–Croxton; 9 ft Croxton–Preston Brook",
+  "lengthKm": 150,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 0.99,
+   "notes": "Max draught 1.1 m on most sections, 0.99 m Shardlow–Derwent Mouth."
+  },
+  "airDraftM": 1.78,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 76,
+   "chamber": "Max boat 21.95 m (72 ft); beam 4.26–4.29 m Derwent Mouth–Burton, 2.13 m Burton–Croxton, 2.74 m Croxton–Preston Brook",
+   "hours": "Harecastle Tunnel winter (1 Nov–28 Feb): booked passages only, Mon/Wed/Fri/Sat, N→S 09:00 and 11:00, S→N 10:00 and 12:00, book 48 h ahead; closed over Christmas/New Year.",
+   "notes": "Headroom 1.78 m Wardle–Trentham (Harecastle). Working horn and tunnel light required. Handcuff key needed."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "93 miles, 76 locks (CRT). Harecastle Tunnel profile and 1.78 m headroom limit cruisers with high cabins; check air draft at the tunnel.",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/trent-and-mersey-canal/boating-the-trent-and-mersey",
+   "https://canalrivertrust.org.uk/boating/licensing",
+   "https://canalrivertrust.org.uk/boating/notices-and-stoppages/winter-works-programme",
+   "https://en.wikipedia.org/wiki/Trent_and_Mersey_Canal"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-oxford-canal",
+  "name": "Oxford Canal (Oxford – Banbury – Napton – Braunston – Hawkesbury)",
+  "aliases": [
+   "Oxford Canal",
+   "Kidlington Green Lock",
+   "Allens Lock"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Isis Lock/Dukes Cut (Thames, Oxford) to Hawkesbury Junction (Coventry Canal)",
+  "navigable": "yes",
+  "class": "Narrow (7 ft) locks",
+  "lengthKm": 125,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.1,
+   "notes": "Max draught 1.17 m Braunston–Napton, 1.23 m Napton–Oxford, 1.1 m Braunston–Hawkesbury."
+  },
+  "airDraftM": 1.98,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 46,
+   "chamber": "Max boat 21.96 × 2.13 m (72 ft × 7 ft)",
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "CRT licence (long-term 3/6/12 months, or short-term visitor 1 week/1 month, or 30-day Explorer); BSS certificate needed; Gold licence covers CRT + EA waters",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "CRT winter works 2026/27: 2 Nov–18 Dec 2026 and 4 Jan–12 Mar 2027 (108 projects), check notices by canal"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Canal & River Trust",
+   "url": "https://canalrivertrust.org.uk"
+  },
+  "notices": "https://canalrivertrust.org.uk/notices",
+  "notes": "77.5 miles, 46 locks (CRT). Headroom 1.98 m south of Napton (lift bridges), 2.07 m north of Braunston. Joins the Thames at Oxford: EA registration needed there (or Gold licence).",
+  "sources": [
+   "https://canalrivertrust.org.uk/canals-and-rivers/oxford-canal/boating-the-oxford-canal",
+   "https://canalrivertrust.org.uk/boating/licensing"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-norfolk-broads",
+  "name": "Norfolk and Suffolk Broads (Bure, Ant, Thurne, Yare, Waveney)",
+  "aliases": [
+   "River Bure",
+   "River Ant",
+   "River Thurne",
+   "Thurne",
+   "River Yare",
+   "River Waveney",
+   "Chet",
+   "Breydon Water",
+   "Hickling Broad",
+   "Heigham Sound",
+   "Wroxham Broad",
+   "Barton Broad",
+   "Oulton Broad",
+   "Oulton Dyke",
+   "Lake Lothing",
+   "New Cut"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Broads Authority navigation: Northern Broads (Bure, Ant, Thurne), Southern Broads (Yare to Norwich, Chet, Waveney to Beccles/Oulton Broad), linked via Breydon Water at Great Yarmouth",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": 1.98,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal rivers; tides affect speed and timing most near Great Yarmouth and Breydon Water."
+  },
+  "locks": {
+   "count": null,
+   "chamber": null,
+   "hours": null,
+   "notes": "Main rivers are lock-free."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 9.7,
+   "permit": "Broads Authority toll: annual or short visit (up to 28 days per tolls year, periods of 1–7, 8–14, 15–21 or 22–28 days; +3.5% for 2026/27); third-party insurance required",
+   "notes": "Speed limits 3, 4, 5 or 6 mph over the ground, signed on the banks."
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Tides lag low water at Great Yarmouth: about 3 h at Potter Heigham, 3.5 h at Wroxham and Norwich. Bridge headroom is greatest around low water."
+  },
+  "authority": {
+   "name": "Broads Authority (Broads Control 01603 756056)",
+   "url": "https://www.broads-authority.gov.uk/boating"
+  },
+  "notices": "https://www.broads-authority.gov.uk/boating/navigating-the-broads/notices-to-mariners",
+  "notes": "Fixed bridges: Potter Heigham old bridge 1.98 m (hire boats must use the pilot), Wroxham 2.21 m, Yarmouth Vauxhall 2.06 m: they set where cruisers can go. Distances: Wroxham–Yarmouth 24.75 mi, Norwich–Yarmouth 27 mi.",
+  "sources": [
+   "https://www.broads-authority.gov.uk/boating/navigating-the-broads/byelaws-and-speed-limits",
+   "https://broads-authority.gov.uk/boating/owning-a-boat/tolls/short-visit-toll",
+   "https://www.broads-authority.gov.uk/news/briefing-on-navigation-charges-for-2026-27",
+   "https://broads-authority.gov.uk/boating/navigating-the-broads/bridge-heights-and-opening-times",
+   "https://www.herbertwoods.co.uk/boating-holidays/boating-guide/tide-table/",
+   "https://www.broadsnet.co.uk/broads-river-distance-chart/",
+   "https://www.broads-authority.gov.uk/boating/navigating-the-broads/notices-to-mariners"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   1.2,
+   52.4,
+   1.8,
+   52.82
+  ]
+ },
+ {
+  "id": "uk-caledonian-canal",
+  "name": "Caledonian Canal (Inverness – Loch Ness – Fort Augustus – Loch Lochy – Corpach)",
+  "aliases": [
+   "Caledonian Canal",
+   "Loch Ness",
+   "Loch Oich",
+   "Loch Lochy",
+   "Loch Dochfour",
+   "Neptune's Staircase"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Clachnaharry sea lock (Beauly Firth, Inverness) to Corpach sea lock (Loch Linnhe, Fort William)",
+  "navigable": "restricted",
+  "class": "Ship canal",
+  "lengthKm": 96.6,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 3.5,
+   "notes": "Max draught 3.5 m (fresh water); deeper vessels call 01463 725500."
+  },
+  "airDraftM": 35,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 29,
+   "chamber": "Max vessel 45.72 × 10.67 m",
+   "hours": "2026: 1 Apr–24 May 09:00–17:30; 25 May–30 Aug 08:30–18:00; 31 Aug–1 Nov 09:00–17:30 (7 days). Winter: Mon–Fri local movements only with 2 working days' notice.",
+   "notes": "Swing bridges at Muirtown, Fort Augustus and Banavie close to boats at road peak times."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Scottish Canals short-term (transit) licence",
+   "notes": "VHF Ch 74."
+  },
+  "season": {
+   "best": "May–August (longest hours)",
+   "closures": "Sea-to-sea transit closed 16:00 Sun 1 Nov 2026 – 09:00 Wed 24 Mar 2027. Kytra locks navigation suspended 14 Jan – 24 Mar 2027."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winter closure to through transit each year (Nov–Mar); 2026/27 dates official."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Sea locks at Clachnaharry (01463 725512) and Corpach (01397 772249) work tidally; call ahead."
+  },
+  "authority": {
+   "name": "Scottish Canals (Caledonian Canal office 01463 725500)",
+   "url": "https://www.scottishcanals.co.uk/boating/canal-travel/caledonian-canal-skippers-guide"
+  },
+  "notices": "https://www.scottishcanals.co.uk/about-us/maintaining-and-developing-the-canals/stoppages-programme-winter-2026-2027",
+  "notes": "60 miles (22 cut, the rest lochs). Loch Ness, Loch Oich and Loch Lochy are open lochs: check the forecast. Kessock Bridge outside (27.4 m) limits masts more than the canal (35 m).",
+  "sources": [
+   "https://www.scottishcanals.co.uk/boating/canal-travel/caledonian-canal-skippers-guide",
+   "https://www.scottishcanals.co.uk/about-us/maintaining-and-developing-the-canals/stoppages-programme-winter-2026-2027"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "uk-crinan-canal",
+  "name": "Crinan Canal (Ardrishaig – Crinan)",
+  "aliases": [
+   "Crinan Canal",
+   "Crinan Sea Lock"
+  ],
+  "countries": [
+   "GB"
+  ],
+  "reach": "Ardrishaig (Loch Fyne) to Crinan (Sound of Jura)",
+  "navigable": "restricted",
+  "class": null,
+  "lengthKm": 14.5,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 2.2,
+   "notes": "Max transit draught 2.2 m; sea-lock basins take 2.5 m."
+  },
+  "airDraftM": 30,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 15,
+   "chamber": null,
+   "hours": "Winter (5 Oct 2026–5 Apr 2027): 08:30–16:00, last movement 15:30, transit by pre-booked request Tue/Thu from 2 Nov; closed weekends. Summer: 7-day transits.",
+   "notes": "7 bridges (swing/retractable)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Scottish Canals transit licence by boat length, buy at least one day before arrival; card only at the sea lock",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": "Ardrishaig harbour dredging 9–30 Nov 2026 (waiting pontoon removed); lock 14 pontoon works 11–29 Jan 2027."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Winter: restricted pre-booked transits only (Oct–Apr)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Scottish Canals",
+   "url": "https://www.scottishcanals.co.uk/boating/canal-travel/crinan-canal-skippers-guide"
+  },
+  "notices": "https://www.scottishcanals.co.uk/about-us/maintaining-and-developing-the-canals/stoppages-programme-winter-2026-2027",
+  "notes": "9 miles, 15 locks: the short cut from the Clyde to the Western Isles avoiding the Mull of Kintyre. Overhead power lines limit masts to 30 m.",
+  "sources": [
+   "https://www.scottishcanals.co.uk/boating/canal-travel/crinan-canal-skippers-guide",
+   "https://www.scottishcanals.co.uk/about-us/maintaining-and-developing-the-canals/stoppages-programme-winter-2026-2027",
+   "https://en.wikipedia.org/wiki/Crinan_Canal"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ie-shannon",
+  "name": "Shannon Navigation (Lough Allen – Carrick-on-Shannon – Lough Ree – Athlone – Lough Derg – Killaloe – Limerick)",
+  "aliases": [
+   "Shannon",
+   "Shannon River",
+   "Lough Derg",
+   "Lough Ree",
+   "Lough Key",
+   "Lough Boderg",
+   "Lough Bofin",
+   "Lough Forbes",
+   "Lough Allen",
+   "Lough Allen Canal",
+   "Kilglass Lough",
+   "Oakport Lough",
+   "Killinure Lough",
+   "Suck",
+   "Camlin",
+   "Athlone Lock",
+   "Victoria Lock",
+   "Clarendon lock"
+  ],
+  "countries": [
+   "IE"
+  ],
+  "reach": "Lough Allen / Battlebridge to Killaloe and Limerick, with the Boyle River (Lough Key), Camlin and River Suck",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 215,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.35,
+   "notes": "Main navigation 1.35 m; Lough Allen Canal 1.2 m. Craft over 1.2 m should contact the Inspectorate first."
+  },
+  "airDraftM": 3.85,
+  "current": {
+   "typicalMs": null,
+   "notes": "Ardnacrusha–Limerick: do not travel when more than one turbine is running (dangerous currents); strong flows after heavy rain."
+  },
+  "locks": {
+   "count": 7,
+   "chamber": "31 m long; beam 9 m upper, 12 m lower Shannon, 5.75 m Camlin; Lough Allen Canal 19.5 × 4 m (3 locks)",
+   "hours": "14 Mar–31 Oct: weekdays 09:30–18:30, Sundays 09:30–18:00; 1 Nov–13 Mar: weekdays 09:00–12:00, Sundays 09:00–11:00; lunch 13:00–14:00. Portumna swing bridge opens at set times.",
+   "notes": "Lock-keeper operated; €1.50 or 2 smart-card units per lock/bridge (Tarmonbarry and Rooskey lock + bridge combined). Sarsfield Lock (Limerick) Apr–Oct on a tidal timetable, book the day before."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Free Waterways Ireland registration for craft over 15 bhp (mutual with Shannon–Erne and Erne)",
+   "notes": "Lifejackets for everyone on board (bye-laws). Smart cards 10 units €6.35, 20 units €12.70."
+  },
+  "season": {
+   "best": null,
+   "closures": "Winter lock hours short (Nov–mid-Mar mornings only)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Lock hours restricted 1 Nov–13 Mar."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Tidal below Sarsfield Lock, Limerick (Shannon Estuary)."
+  },
+  "authority": {
+   "name": "Waterways Ireland (Inspectorate, Athlone)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "notices": "https://www.waterwaysireland.org (Marine Notices under News, e.g. /news/marine-notice-no-31-of-2026)",
+  "notes": "Lowest bridge Killaloe 3.85 m at normal summer level; gauges at some bridges. Follow the channel markers on the big lakes (Ree, Derg). Ardnacrusha double lock run by ESB; Marine Notice 31 of 2026 restricts its opening (not read: WI site unreachable 22 Nov 2026).",
+  "sources": [
+   "https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf",
+   "https://www.leboat.com/boating-vacations/ireland/shannon",
+   "https://www.waterwaysireland.org/news/marine-notice-no-31-of-2026"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -8.75,
+   52.6,
+   -7.75,
+   54.2
+  ]
+ },
+ {
+  "id": "ie-shannon-erne",
+  "name": "Shannon–Erne Waterway (Leitrim – Ballinamore – Ballyconnell – Upper Lough Erne)",
+  "aliases": [
+   "Shannon-Erne Waterway",
+   "Ballinamore & Ballyconnell Canal",
+   "Ballinamore Lock Nr.06",
+   "Lough Scur",
+   "Saint John's Lough",
+   "Garadice Lake",
+   "Woodford River"
+  ],
+  "countries": [
+   "IE",
+   "GB"
+  ],
+  "reach": "Leitrim village (Shannon) to Upper Lough Erne near Belturbet",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 63,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.2,
+   "notes": "Guide only, not guaranteed."
+  },
+  "airDraftM": 3.2,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 16,
+   "chamber": "24 × 4.5 m",
+   "hours": "Apr–Oct 09:00–20:00; Nov–Mar 09:00–dusk",
+   "notes": "Smart-card operated (1 unit per lock); patrollers on call."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 5,
+   "permit": "Free WI registration for craft over 15 bhp",
+   "notes": "5 km/h in the channel stretches."
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Waterways Ireland (Inspectorate, Athlone)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "notices": "https://www.waterwaysireland.org (Marine Notices under News, e.g. /news/marine-notice-no-31-of-2026)",
+  "notes": "Air draft 3.2 m over a 3 m width only. Some hire boats are not allowed on the waterway.",
+  "sources": [
+   "https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf",
+   "https://www.leboat.com/boating-vacations/ireland/shannon/7nt-carrick-on-shannon-return"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -8.1,
+   53.95,
+   -7.4,
+   54.15
+  ]
+ },
+ {
+  "id": "ie-erne-system",
+  "name": "Erne System (Belturbet – Upper Lough Erne – Enniskillen – Lower Lough Erne – Belleek)",
+  "aliases": [
+   "Erne",
+   "Lough Erne Upper",
+   "Lower Lough Erne"
+  ],
+  "countries": [
+   "GB",
+   "IE"
+  ],
+  "reach": "Belturbet to Belleek, 84 km, with Portora Lock below Enniskillen",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 84,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.2,
+   "notes": "Guide only."
+  },
+  "airDraftM": 4.2,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Portora Lock 36 × 6 m",
+   "hours": "Usually open through the cruising season",
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Free WI registration for craft over 10 bhp (mutual with Shannon)",
+   "notes": "5 kn limit on specific sections. Public moorings: 48 h, return after 4 h absence."
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Waterways Ireland (Inspectorate, Athlone)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "notices": "https://www.waterwaysireland.org (Marine Notices under News, e.g. /news/marine-notice-no-31-of-2026)",
+  "notes": "Lower Lough Erne is 42 km of open water: weather can be rough. Crosses the IE/UK border (sterling in Fermanagh).",
+  "sources": [
+   "https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf",
+   "https://www.carrickcraft.com/boating-holidays-ireland/shannon-erne/erne/bellanaleck/"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -8.2,
+   54.05,
+   -7.35,
+   54.6
+  ]
+ },
+ {
+  "id": "ie-grand-canal",
+  "name": "Grand Canal (Dublin – Robertstown – Tullamore – Shannon Harbour) and Barrow Line",
+  "aliases": [
+   "Grand Canal",
+   "Grand Canal - Barrow Line",
+   "Grand Canal - Old Barrow Line",
+   "Grand Canal - Naas Branch",
+   "Grand Canal - Corbally Branch",
+   "Grand Canal (Edenderry Branch)"
+  ],
+  "countries": [
+   "IE"
+  ],
+  "reach": "Ringsend Basin, Dublin to Shannon Harbour (main line 131 km), Barrow Line Lowtown–Athy 45 km, Naas branch 4 km",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 131,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.2,
+   "notes": "1.2 m, 1.0 m in Dublin; guide only."
+  },
+  "airDraftM": 2.45,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 43,
+   "chamber": "18.5 × 3.9 m",
+   "hours": "Daylight hours",
+   "notes": "Manual locks, own lock key (€25). Main line locks 1–12 (Dublin): give the Eastern Regional Office two days' notice for passage. Barrow Line 9 locks, Naas branch 5."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 6,
+   "permit": "Waterways Ireland canal permit: Combined Mooring & Passage Permit €126/year (1 Nov–31 Oct), or free Visitor Permit for up to 31 days once a year; third-party insurance needed",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Waterways Ireland (Inspectorate, Athlone)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "notices": "https://www.waterwaysireland.org (Marine Notices under News, e.g. /news/marine-notice-no-31-of-2026)",
+  "notes": "Air draft 2.7 m, 2.45 m at Ringsend railway bridge. Smart cards for Lowtown services. Lock 25 (Cappincur) reopened per Marine Notice 30 of 2026.",
+  "sources": [
+   "https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf",
+   "https://www.waterwaysireland.org/getmedia/6acb333a-a645-4d81-8ea1-662c4ab98c17/Bye-Laws-Public-Consultation-report-Phase-2-10-June-2024.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -8.05,
+   52.95,
+   -6.2,
+   53.4
+  ]
+ },
+ {
+  "id": "ie-royal-canal",
+  "name": "Royal Canal (Dublin Spencer Dock – Maynooth – Mullingar – Richmond Harbour, Cloondara)",
+  "aliases": [
+   "Royal Canal"
+  ],
+  "countries": [
+   "IE"
+  ],
+  "reach": "Spencer Dock sea lock (Liffey) to Richmond Harbour on the Shannon (146 km), plus the 8 km Longford branch",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 146,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.0,
+   "notes": "Guide only."
+  },
+  "airDraftM": 2.1,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 46,
+   "chamber": "21 × 3.9 m",
+   "hours": "Daylight hours",
+   "notes": "Manual locks, own key. Newcomen lift bridge (Irish Rail) lifts only on pre-arranged dates: two weeks' notice to the Eastern Regional Office to pass east of lock 12."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 6,
+   "permit": "Waterways Ireland canal permit: Combined Mooring & Passage Permit €126/year (1 Nov–31 Oct), or free Visitor Permit for up to 31 days once a year; third-party insurance needed",
+   "notes": null
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Entry from the Liffey via the Spencer Dock sea lock is tide-limited."
+  },
+  "authority": {
+   "name": "Waterways Ireland (Inspectorate, Athlone)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "notices": "https://www.waterwaysireland.org (Marine Notices under News, e.g. /news/marine-notice-no-31-of-2026)",
+  "notes": "Air draft 2.7 m, only 2.1 m at Sheriff Street (Spencer Dock).",
+  "sources": [
+   "https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -7.95,
+   53.33,
+   -6.22,
+   53.75
+  ]
+ },
+ {
+  "id": "ie-barrow-navigation",
+  "name": "Barrow Navigation (Athy – Carlow – Graiguenamanagh – St Mullins)",
+  "aliases": [
+   "Barrow Navigation",
+   "Barrow",
+   "Barrow Canal"
+  ],
+  "countries": [
+   "IE"
+  ],
+  "reach": "Athy (Grand Canal Barrow Line) to St Mullins (tidal Barrow to New Ross/Waterford)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 65,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 0.76,
+   "notes": "Can fall to 0.76 m in summer."
+  },
+  "airDraftM": 2.58,
+  "current": {
+   "typicalMs": null,
+   "notes": "River navigation with weirs; flows rise after rain."
+  },
+  "locks": {
+   "count": 23,
+   "chamber": "18.5 × 3.9 m",
+   "hours": "Daylight hours",
+   "notes": "Manual locks; lock-keepers/patrollers by phone."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 11,
+   "permit": "Waterways Ireland canal permit: Combined Mooring & Passage Permit €126/year (1 Nov–31 Oct), or free Visitor Permit for up to 31 days once a year; third-party insurance needed",
+   "notes": "11 km/h on river sections, 6 km/h on the lateral canal cuts."
+  },
+  "season": {
+   "best": null,
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Tidal below St Mullins; the estuary is under the Port of Waterford (harbour master +353 51 874907)."
+  },
+  "authority": {
+   "name": "Waterways Ireland (Inspectorate, Athlone)",
+   "url": "https://www.waterwaysireland.org"
+  },
+  "notices": "https://www.waterwaysireland.org (Marine Notices under News, e.g. /news/marine-notice-no-31-of-2026)",
+  "notes": "Lowest bridge Carlow: 2.58 m over a 2.4 m width.",
+  "sources": [
+   "https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -7.1,
+   52.35,
+   -6.85,
+   53.02
+  ]
+ },
+ {
+  "id": "us-hudson-river",
+  "name": "Hudson River (New York – Troy Lock)",
+  "aliases": [
+   "Hudson River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "The Battery, New York (mile 0) to the Federal Troy Lock and Dam (mile 153.9) and on 2.3 miles to Waterford",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 248,
+  "depth": {
+   "usualM": 9.75,
+   "maxDraftM": null,
+   "notes": "Federal project 32 ft to Albany, then 14 ft (4.3 m) to Troy Lock; controlling depths in USCG Local Notices. Datum MLW to Haverstraw Bay, then Hudson River Datum."
+  },
+  "airDraftM": 16.76,
+  "current": {
+   "typicalMs": 0.7,
+   "notes": "Tidal: ebb 2.2 kn at the George Washington Bridge, 1.1–1.6 kn Newburgh–Kingston, 0.8 kn at Albany; no flood near Troy. Spring freshets give ebbs up to nearly 5 kn."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Troy Lock 492.5 × 44.4 ft (150 × 13.5 m), 13 ft over the lower sill",
+   "hours": "Federal lock (USACE) – opens with the NY canal season",
+   "notes": "Lift 17.3 ft at low stages; 33 CFR 207.50. Above Troy: 112th Street bridge 20 ft. Lowest fixed bridges: Congress Street 55 ft, Dunn/Patroon Island 60 ft; Livingston Ave swing 25 ft and Troy-Green lift 29 ft closed."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "No federal speed limit outside anchorages but operators are liable for wake damage; No-Discharge Zone for all sewage from the Battery to Troy dam."
+  },
+  "season": {
+   "best": "May–October",
+   "closures": "Ice in ordinary winters from early January to mid-March between Tappan Zee and Albany (channel kept open by icebreakers). Floating aids are replaced by ice buoys in winter."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    3,
+    4,
+    5
+   ],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Freshets March–May reach 18 ft above normal high water at Albany and 25 ft at Troy."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Tidal to the Troy dam (head of tidal navigation); tides above the GW Bridge vary with freshets, wind and drought; predictions at tidesandcurrents.noaa.gov."
+  },
+  "authority": {
+   "name": "U.S. Coast Guard Sector New York / USACE New York District (Troy Lock)",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (USCG District 1 Local Notice to Mariners)",
+  "notes": "Sailboats unstep masts at a marina before the canals (canal clearances 15.5–21 ft). General anchorages from 5 miles above the Battery; small craft anchor off Kingston/Rondout. VHF 13 for bridges and tows.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C14_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp2/CPB2_C12_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -74.1,
+   40.68,
+   -73.6,
+   42.8
+  ]
+ },
+ {
+  "id": "us-erie-canal",
+  "name": "Erie Canal (Waterford – Tonawanda)",
+  "aliases": [
+   "Erie Canal",
+   "Enlarged Erie Canal",
+   "Mohawk River",
+   "Oneida Lake",
+   "Oneida River",
+   "Seneca River",
+   "Tonawanda Creek",
+   "Black Rock Channel"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Waterford (junction with the Hudson) via the Mohawk, Oneida Lake and Three Rivers to the Niagara River at Tonawanda (338 mi); Black Rock Canal on to Buffalo",
+  "navigable": "seasonal",
+  "class": "NY State barge canal",
+  "lengthKm": 544,
+  "depth": {
+   "usualM": 3.66,
+   "maxDraftM": null,
+   "notes": "Published 14 ft Waterford–Three Rivers, 12 ft to Tonawanda; current controlling depths 11 ft (3.4 m) Waterford–Oswego and 9 ft (2.7 m) on the western Erie. Shoaling notices June 2026 at Palmyra and Rochester."
+  },
+  "airDraftM": 4.7,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalized Mohawk can run fast after rain; stay clear of dams."
+  },
+  "locks": {
+   "count": 35,
+   "chamber": "300 × 43.5 ft usable (91.4 × 13.3 m); 12 ft over sills (13 ft Waterford–Three Rivers)",
+   "hours": "2026: 08:00–18:00 daily 15 May–14 Oct; 08:00–21:00 to 9 Sep at E-8, E-23, E-24, E-32, E-33, E-34/35. Arrive by 17:00 to pass the Waterford Flight (E-2–E-6).",
+   "notes": "Locks E-2 to E-35 (no E-1 or E-31; E-28A/B; Lockport flight E-34/35). Lifts 6–40.5 ft. Call on VHF 13, phone, or three horn blasts; wait at the blue 300-ft line. 16 lift bridges Fairport–Lockport."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "No tolls or fees for recreational boats in 2026; boats with a motor must be NY-registered or carry their home registration; NY Brianna's Law boating-safety course for operators",
+   "notes": "Posted limits 5–10 mph in most land cuts and near locks, up to 30–45 mph on canalized Mohawk reaches, none on Oneida Lake; no sewage discharge; mooring max 48 h per month at Canal sites without a permit."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": "Navigation season 15 May – 14 Oct 2026. In May 2026, E-24 and E-25 opened late because of high water."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [
+    5
+   ],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Canal season 2026: 15 May – 14 Oct (6 pm); locks shut in winter. High water delayed E-24, E-25 and CS-1 at the May 2026 opening."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "New York State Canal Corporation",
+   "url": "https://www.canals.ny.gov"
+  },
+  "notices": "https://www.canals.ny.gov/Boating-Information/Canal-Alerts",
+  "notes": "Bridge clearance (normal pool): 21 ft Waterford–Three Rivers, 18.5 ft to Montezuma, 15.5 ft (4.7 m) west of Montezuma to Tonawanda: sailboats must demast. No NOAA charts mile 222–337 (west of Lyons). Foreign boats report to CBP (ROAM app). Emergency 1-833-538-1042.",
+  "sources": [
+   "https://edge.sitecorecloud.io/newyorkpowe2bd0-canalsf418-productionbf60-c829/media/Images/Canals/2026-updates/2026_boaterguide_digital.pdf",
+   "https://www.canals.ny.gov/Navigation-Information/Commercial-Shipping-and-Towing",
+   "https://www.canals.ny.gov/Navigation-Information/Bridge-Heights-and-Canal-Speed-Limits",
+   "https://canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=8457422",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9183311",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9286823",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9944742",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C14_WEB.pdf",
+   "https://www.offshoreblue.com/cruise/erie-canal-distances.php"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -79.0,
+   42.75,
+   -73.6,
+   43.45
+  ]
+ },
+ {
+  "id": "us-oswego-canal",
+  "name": "Oswego Canal (Three Rivers – Oswego)",
+  "aliases": [
+   "Oswego Canal",
+   "Oswego River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Three Rivers junction with the Erie Canal to Oswego Harbor on Lake Ontario (24 mi)",
+  "navigable": "seasonal",
+  "class": null,
+  "lengthKm": 39,
+  "depth": {
+   "usualM": 4.27,
+   "maxDraftM": null,
+   "notes": "Published 14 ft (part of the federally funded Great Lakes–Hudson route); current controlling depth 11 ft (3.4 m) Waterford–Oswego."
+  },
+  "airDraftM": 6.4,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalized river; descends 118 ft through 7 locks."
+  },
+  "locks": {
+   "count": 7,
+   "chamber": "300 × 43.5 ft usable; 13 ft over sills",
+   "hours": "2026: 08:00–18:00; extended 08:00–21:00 until 9 Sep at O-1 Phoenix, O-2/O-3 Fulton and O-8 Oswego",
+   "notes": "Locks O-1 to O-8 (no O-4). Buoyage reverses north of Three Rivers (red to port going downstream to the lake)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "No tolls or fees for recreational boats in 2026; boats with a motor must be NY-registered or carry their home registration; NY Brianna's Law boating-safety course for operators",
+   "notes": "5–10 mph by section (5 mph O-2–O-3 and O-6–O-8)."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": "Season 15 May – 14 Oct 2026"
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [
+    5
+   ],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Canal season 2026: 15 May – 14 Oct (6 pm); locks shut in winter. High water delayed E-24, E-25 and CS-1 at the May 2026 opening."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "New York State Canal Corporation",
+   "url": "https://www.canals.ny.gov"
+  },
+  "notices": "https://www.canals.ny.gov/Boating-Information/Canal-Alerts",
+  "notes": "Gateway to Lake Ontario and the St. Lawrence; Oswego has a port of entry (CBP) and mast-stepping facilities for boats leaving the canals.",
+  "sources": [
+   "https://edge.sitecorecloud.io/newyorkpowe2bd0-canalsf418-productionbf60-c829/media/Images/Canals/2026-updates/2026_boaterguide_digital.pdf",
+   "https://www.canals.ny.gov/Navigation-Information/Commercial-Shipping-and-Towing",
+   "https://www.canals.ny.gov/Navigation-Information/Bridge-Heights-and-Canal-Speed-Limits",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9183311",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C14_WEB.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -76.6,
+   43.15,
+   -76.25,
+   43.48
+  ]
+ },
+ {
+  "id": "us-cayuga-seneca-canal",
+  "name": "Cayuga–Seneca Canal and the Finger Lakes",
+  "aliases": [
+   "Cayuga-Seneca Canal",
+   "Cayuga Lake",
+   "Seneca Lake",
+   "Van Cleef Lake",
+   "Cayuga Inlet"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Erie Canal junction near Montezuma (Kipp Island) to Cayuga Lake (Ithaca) and Seneca Lake (Watkins Glen, Montour Falls): canal 12 mi, about 92 mi with the lakes",
+  "navigable": "seasonal",
+  "class": null,
+  "lengthKm": 148,
+  "depth": {
+   "usualM": 3.66,
+   "maxDraftM": null,
+   "notes": "Published 12 ft; current controlling depth 8 ft (2.4 m)."
+  },
+  "airDraftM": 5.0,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 4,
+   "chamber": "300 × 43.5 ft usable",
+   "hours": "2026: 08:00–18:00; to 21:00 until 9 Sep at CS-1, CS-2/3 Seneca Falls and CS-4 Waterloo",
+   "notes": "CS-1 (Cayuga) lifts 7.5 ft to Cayuga Lake level; CS-2/3 flight and CS-4 lift 64.5 ft to Seneca Lake."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "No tolls or fees for recreational boats in 2026; boats with a motor must be NY-registered or carry their home registration; NY Brianna's Law boating-safety course for operators",
+   "notes": "10 mph CS-1 to Seneca Lake; 5 mph in the Ithaca and Watkins Glen–Montour Falls channels; no limit on the open lakes."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": "Season 15 May – 14 Oct 2026; CS-1 did not open on 15 May 2026 (high water, buoys not set)."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [
+    5
+   ],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Canal season 2026: 15 May – 14 Oct (6 pm); locks shut in winter. High water delayed E-24, E-25 and CS-1 at the May 2026 opening."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "New York State Canal Corporation",
+   "url": "https://www.canals.ny.gov"
+  },
+  "notices": "https://www.canals.ny.gov/Boating-Information/Canal-Alerts",
+  "notes": "Bridge clearance 16.5 ft (guide) / 16 ft (commercial page) at normal pool. Lakes are deep and can get rough in north/south winds. Private lighted mooring buoys mark barges off Long Point (Seneca) and Portland Point (Cayuga).",
+  "sources": [
+   "https://edge.sitecorecloud.io/newyorkpowe2bd0-canalsf418-productionbf60-c829/media/Images/Canals/2026-updates/2026_boaterguide_digital.pdf",
+   "https://www.canals.ny.gov/Navigation-Information/Commercial-Shipping-and-Towing",
+   "https://www.canals.ny.gov/Navigation-Information/Bridge-Heights-and-Canal-Speed-Limits",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9183311",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9286823",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C14_WEB.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -77.0,
+   42.3,
+   -76.45,
+   43.05
+  ]
+ },
+ {
+  "id": "us-champlain-canal-lake-champlain",
+  "name": "Champlain Canal and Lake Champlain (US)",
+  "aliases": [
+   "Champlain Canal",
+   "Old Champlain Canal",
+   "Lake Champlain",
+   "Head of Lake Champlain"
+  ],
+  "countries": [
+   "US",
+   "CA"
+  ],
+  "reach": "Waterford via the canalized Hudson and Fort Edward to Whitehall (60 mi, locks C-1–C-12), then Lake Champlain 112 mi to Rouses Point at the Canadian border",
+  "navigable": "seasonal",
+  "class": null,
+  "lengthKm": 277,
+  "depth": {
+   "usualM": 3.66,
+   "maxDraftM": null,
+   "notes": "Canal: published 12 ft, current controlling 9.5 ft (2.9 m). Lake: Whitehall–Benson Landing narrow channel 6.5 ft midchannel (2021), deep water north of Crown Point."
+  },
+  "airDraftM": 5.18,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canalized Hudson above Waterford; current increases after rain."
+  },
+  "locks": {
+   "count": 11,
+   "chamber": "300 × 43.5 ft usable",
+   "hours": "2026: 08:00–18:00, 15 May–14 Oct; on-demand locking at C-1–C-4 resumed 2 Jul 2026",
+   "notes": "C-1–C-12 (no C-10): 8 locks rise 124.8 ft to the summit near Fort Edward, 3 descend 43.5 ft to Whitehall. Buoyage reverses north of C-12."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "No tolls or fees for recreational boats in 2026; boats with a motor must be NY-registered or carry their home registration; NY Brianna's Law boating-safety course for operators",
+   "notes": "Canal limits 5–10 mph at locks/cuts, up to 45 mph on river reaches; no grey-water discharge into Lake Champlain."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": "Canal closed outside 15 May – 14 Oct 2026; the lake itself stays open (ice in winter)."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [
+    9,
+    10
+   ],
+   "highWater": [
+    4,
+    5
+   ],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Lake level varies 4–5 ft a year: lowest Sept–Oct, highest April–May. Canal months as for the NY canal system."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "New York State Canal Corporation",
+   "url": "https://www.canals.ny.gov"
+  },
+  "notices": "https://www.canals.ny.gov/Boating-Information/Canal-Alerts (canal); https://www.navcen.uscg.gov/local-notices-to-mariners (lake, USCG District 1)",
+  "notes": "Ports: Whitehall, Port Henry, Burlington VT, Plattsburgh, Rouses Point (CBP/Canada border; the Richelieu and Chambly Canal continue north). Fort Ticonderoga cable ferry: never pass close. Special anchorages Deep Bay and south of the ferry.",
+  "sources": [
+   "https://edge.sitecorecloud.io/newyorkpowe2bd0-canalsf418-productionbf60-c829/media/Images/Canals/2026-updates/2026_boaterguide_digital.pdf",
+   "https://www.canals.ny.gov/Navigation-Information/Commercial-Shipping-and-Towing",
+   "https://www.canals.ny.gov/Navigation-Information/Bridge-Heights-and-Canal-Speed-Limits",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9183311",
+   "https://www.canals.ny.gov/Boating-Information/Canal-Alerts/Message?id=9944742",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C14_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -73.8,
+   42.75,
+   -73.05,
+   45.05
+  ]
+ },
+ {
+  "id": "us-aicw-norfolk-beaufort-nc",
+  "name": "Atlantic ICW: Norfolk – Beaufort NC (Albemarle & Chesapeake route)",
+  "aliases": [
+   "Atlantic Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Southern Branch Elizabeth River",
+   "Albemarle and Chesapeake Canal",
+   "Albermarle and Chesapeake Canal",
+   "North Landing River",
+   "North Carolina Cut",
+   "North River",
+   "Alligator River",
+   "Pungo River Alligator River Canal",
+   "Pungo River",
+   "Goose Creek",
+   "Bay River",
+   "Neuse River",
+   "Adams Creek",
+   "Adams Creek Canal",
+   "Core Creek",
+   "Pamlico Sound",
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "ICW Mile 0 (Norfolk) via Great Bridge Lock, the Albemarle & Chesapeake Canal, Currituck and Albemarle Sounds, the Alligator–Pungo Canal, Pamlico Sound and Neuse River to Beaufort/Morehead City (about Mile 204)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 328,
+  "depth": {
+   "usualM": 3.66,
+   "maxDraftM": null,
+   "notes": "Federal project 12 ft Norfolk–Fort Pierce; actual controlling depths in USCG LNM/USACE surveys and often less (wind-driven levels in the sounds)."
+  },
+  "airDraftM": 19.51,
+  "current": {
+   "typicalMs": null,
+   "notes": "No periodic tide south of Great Bridge Lock: water level depends on wind direction and strength; open sounds (Albemarle, Pamlico) get steep short seas."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Great Bridge Lock (Mile 11.5) 600 × 72 ft (usable 530 ft), 16 ft over sills, lift 2.7 ft",
+   "hours": "Lock operator reachable 24 h on VHF 13",
+   "notes": "Only lock on the ICW Norfolk–Key West via this route. Several low lift/bascule bridges in Norfolk (e.g. Mile 5.8 bascule 7 ft) open on request or schedule."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "6 kn from Eastern Branch to the railroad bridge at Mile 2.6 (Norfolk); drawbridges per 33 CFR 117; bridges work VHF 13 (Virginia/NC)."
+  },
+  "season": {
+   "best": "April–June, September–November (snowbird migration)",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricane season June–November; strong winds can raise or lower sound levels by several feet."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Elizabeth River tidal; south of Great Bridge essentially non-tidal (wind tides)."
+  },
+  "authority": {
+   "name": "USACE Norfolk and Wilmington Districts; U.S. Coast Guard District 5",
+   "url": "https://www.nao.usace.army.mil"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 5)",
+  "notes": "Fixed bridges 65 ft standard; Wilkerson Bridge (Mile 125.8, Alligator–Pungo Canal) 64 ft is the lowest on this reach. Wait for settled weather to cross Albemarle Sound and the Alligator River. Alternate route: Dismal Swamp Canal.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp4/CPB4_C12_WEB.pdf",
+   "https://www.offshoreblue.com/cruise/aicw-intro.php",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -76.95,
+   34.7,
+   -75.9,
+   36.9
+  ]
+ },
+ {
+  "id": "us-dismal-swamp-canal",
+  "name": "Dismal Swamp Canal (ICW alternate route)",
+  "aliases": [
+   "Dismal Swamp Canal",
+   "Deep Creek",
+   "Pasquotank River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Deep Creek (ICW Mile 7.6 off the Southern Branch, Elizabeth River) through the 19-mile summit canal to the Pasquotank River and Elizabeth City (Norfolk–Elizabeth City 51 sm)",
+  "navigable": "restricted",
+  "class": null,
+  "lengthKm": 82,
+  "depth": {
+   "usualM": 1.83,
+   "maxDraftM": null,
+   "notes": "Project 10 ft Deep Creek, 9 ft canal, 10 ft Pasquotank, but the canal is maintained to only 6 ft (1.8 m); Deep Creek north of the lock reported 5.5 ft MLLW. Shoals build at the Lake Drummond feeder ditch."
+  },
+  "airDraftM": 19.81,
+  "current": {
+   "typicalMs": null,
+   "notes": "Non-tidal summit; wind changes level 1–2 ft. Submerged logs and stumps common."
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "Deep Creek and South Mills: 300 × 52 ft, 12 ft over sills, lift about 12 ft",
+   "hours": "Normally 08:30, 11:00, 13:30, 15:30 daily (USACE; may change in drought or bad weather)",
+   "notes": "Call Deep Creek lock/bridge 757-487-0831 and South Mills 252-771-5906 before transit; both on VHF 13. Lockings tied to the Deep Creek and South Mills bridge openings."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "No-wake canal; free Dismal Swamp Welcome Center dock (Mile 28)."
+  },
+  "season": {
+   "best": "April–June, October–November",
+   "closures": "Closed periodically for gate and bridge work (e.g. 2020, 2024 Deep Creek lock, early 2025 Deep Creek bridge); can close in drought."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Lock schedules reduced when Lake Drummond is low (drought)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Pasquotank and Deep Creek wind-driven."
+  },
+  "authority": {
+   "name": "USACE Norfolk District",
+   "url": "https://www.nao.usace.army.mil"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 5) and USCG Sector Virginia MSIBs",
+  "notes": "Slow, scenic alternative to the A&C route for boats drawing under 6 ft (1.8 m). Fixed bridge 65 ft at Mile 31.5; overhead cables 91 ft at Deep Creek. Check status before going: closures are announced by USCG/USACE.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp4/CPB4_C12_WEB.pdf",
+   "https://www.offshoreblue.com/cruise/aicw-intro.php",
+   "https://webarchive.library.unt.edu/web/20161019163320mp_/http://www.nao.usace.army.mil/AIWW",
+   "https://waterwayguide.com/nav-alert/4-16505/va-dismal-swamp-canal-deep-creek-bridge-closed-to-navigation-update",
+   "https://content.govdelivery.com/accounts/USDHSCG/bulletins/3935a71",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -76.45,
+   36.25,
+   -76.15,
+   36.85
+  ]
+ },
+ {
+  "id": "us-aicw-carolinas",
+  "name": "Atlantic ICW: Beaufort NC – Savannah River (the Carolinas)",
+  "aliases": [
+   "Atlantic Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Bogue Sound",
+   "Snows Cut",
+   "Cape Fear River",
+   "Waccamaw River",
+   "Estherville Minim Creek Canal",
+   "Wappoo Creek",
+   "Elliott Cut",
+   "Stono River",
+   "Wadmalaw River",
+   "Ashepoo Coosaw Cutoff",
+   "Coosaw River",
+   "Beaufort River",
+   "Calibogue Sound",
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "About ICW Mile 204 (Beaufort/Morehead City NC) via Wrightsville, Cape Fear, Little River, Georgetown, Charleston and Beaufort SC to the Savannah River (about Mile 575)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 600,
+  "depth": {
+   "usualM": 3.66,
+   "maxDraftM": null,
+   "notes": "Project 12 ft but inlets cause shoaling: Lockwoods Folly and Shallotte crossings (NC), Mile 347 area reported 8 ft (2012); transit the problem spots on a rising tide and check USACE surveys."
+  },
+  "airDraftM": 19.51,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong cross-currents at inlet crossings (Masonboro, Lockwoods Folly, Shallotte, Little River) and in the Cape Fear River; tidal range grows southward."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Several swing/bascule bridges with schedules (e.g. Mile 353.3 swing); fixed bridges 65 ft except 64 ft at Mile 252.3; Snows Cut overhead cable 68 ft (Mile 295.8)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Drawbridge rules 33 CFR 117; no-wake zones by marinas."
+  },
+  "season": {
+   "best": "April–June, October–November",
+   "closures": "Hurricane season June–November"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricanes Aug–Oct can raise water 10 ft or more."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Mean range from non-tidal (NC sounds) to about 7 ft (2.1 m) on the waterway further south (Coast Pilot); plan shoal spots and inlet crossings by the tide."
+  },
+  "authority": {
+   "name": "USACE Wilmington and Charleston Districts; U.S. Coast Guard Districts 5 and 7",
+   "url": "https://www.saw.usace.army.mil"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (Districts 5 and 7)",
+  "notes": "Waccamaw River (Mile 375–403) is a scenic cypress stretch with anchorages; Charleston (Mile 469) has strong Ashley/Cooper currents and city marinas; Beaufort SC (Mile 536). Bridges monitor VHF 09 or 13 depending on state.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp4/CPB4_C12_WEB.pdf",
+   "https://www.offshoreblue.com/cruise/aicw-intro.php",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -81.15,
+   32.05,
+   -76.66,
+   34.8
+  ]
+ },
+ {
+  "id": "us-aicw-georgia",
+  "name": "Atlantic ICW: Georgia (Savannah – St. Marys)",
+  "aliases": [
+   "Atlantic Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Wilmington River",
+   "Skidaway River",
+   "Skidaway Narrows",
+   "Burnside River",
+   "Vernon River",
+   "Hell Gate",
+   "Florida Passage",
+   "Bear River",
+   "Sapelo Sound",
+   "Old Teakettle Creek",
+   "Little Mud River",
+   "Mackay River",
+   "Jekyll Creek",
+   "Cumberland River",
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Savannah River (about ICW Mile 575) through the Georgia rivers and sounds to Cumberland Sound/St. Marys (about Mile 714), about 160 miles",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 225,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Authorised 12 ft, rarely funded: user soundings Little Mud River 4.0 ft MLLW (2023), Jekyll Creek 5.4 ft MLLW (2024, historically the shallowest point), Hell Gate shoals; pass the hot spots near half tide rising."
+  },
+  "airDraftM": 19.81,
+  "current": {
+   "typicalMs": 0.5,
+   "notes": "Strong tidal streams in the sounds and at river junctions; about 1 kn in Skidaway Narrows."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Most bridges now fixed 65 ft; former Skidaway bascule (22 ft) and Causton Bluff bascule (21 ft) replaced by fixed spans."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "April–May, October–November",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricane season June–November."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Largest tides of the US southeast coast; the alternate routes and creeks dry or shoal (e.g. 4 ft at low tide near Mile 623). Use current USACE Savannah District surveys."
+  },
+  "authority": {
+   "name": "USACE Savannah District; U.S. Coast Guard District 7",
+   "url": "https://www.sas.usace.army.mil"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 7)",
+  "notes": "Remote marshland: plan fuel (Thunderbolt, Kilkenny, Brunswick, St. Simons, Jekyll). Many skippers go outside from Savannah to St. Marys in settled weather to skip the shallow sounds. Cumberland Island NS anchorages.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp4/CPB4_C12_WEB.pdf",
+   "https://coastalgadnr.org/JekyllCreek",
+   "https://waterwayguide.com/nav-alert/4-8184/ga-little-mud-river-shoaling-mm-6537",
+   "https://www.waterwayguide.com/nav-alert/4-8189/ga-jekyll-creek-shoaling-mm-6832",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -81.6,
+   30.7,
+   -80.85,
+   32.05
+  ]
+ },
+ {
+  "id": "us-aicw-florida-east",
+  "name": "Atlantic ICW: Florida east coast (Fernandina – Miami)",
+  "aliases": [
+   "Atlantic Intracoastal Waterway",
+   "Intracoastal Waterway",
+   "Amelia River",
+   "South Amelia River",
+   "Kingsleys Cut",
+   "Sisters Creek",
+   "Pablo Creek",
+   "Tolomato River",
+   "Matanzas River",
+   "Halifax River",
+   "Indian River North",
+   "Haulover Canal",
+   "Indian River Lagoon",
+   "Indian River",
+   "Lake Worth",
+   "Lake Worth Creek",
+   "Hillsboro River",
+   "Stranahan River",
+   "New River",
+   "Biscayne Creek",
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Fernandina Beach (about Mile 716) via St. Augustine, Daytona, Titusville, Fort Pierce (Mile 965.6) and Palm Beach to Miami (Mile 1089)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 600,
+  "depth": {
+   "usualM": 3.66,
+   "maxDraftM": null,
+   "notes": "Federal project 12 ft to Fort Pierce, then 10 ft (3.0 m) to Miami; shoaling at inlet crossings (Matanzas, Ponce de Leon, St. Lucie, Jupiter) — see LNM."
+  },
+  "airDraftM": 17.07,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong currents at inlets and at the St. Johns River crossing; Indian River and Mosquito Lagoon almost tideless."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Bascule bridges open on demand or on schedule (33 CFR 117); fixed bridges 65 ft except Julia Tuttle Causeway 56 ft (Mile 1087.1): taller boats go outside from Port Everglades."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Regulated manatee speed zones (e.g. from Mile 880.5) and local no-wake zones."
+  },
+  "season": {
+   "best": "November–April",
+   "closures": "Hurricane season June–November"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hurricane season June–November."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Tidal near inlets; Mosquito Lagoon and Indian River mostly wind-driven."
+  },
+  "authority": {
+   "name": "USACE Jacksonville District; Florida Inland Navigation District; U.S. Coast Guard District 7",
+   "url": "https://www.saj.usace.army.mil"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 7)",
+  "notes": "Mile 987.8 at St. Lucie Inlet is the junction with the Okeechobee Waterway. Haulover Canal links Mosquito Lagoon and the Indian River near Titusville (Kennedy Space Center restricted area nearby).",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp4/CPB4_C12_WEB.pdf",
+   "https://www.offshoreblue.com/cruise/aicw-intro.php",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -81.6,
+   25.6,
+   -80.0,
+   30.7
+  ]
+ },
+ {
+  "id": "us-okeechobee-waterway",
+  "name": "Okeechobee Waterway (Stuart – Fort Myers)",
+  "aliases": [
+   "Saint Lucie River",
+   "South Fork Saint Lucie River",
+   "Saint Lucie Canal",
+   "Saint Lucie Lock and Dam",
+   "Port Mayaca Lock and Dam",
+   "Lake Okeechobee",
+   "Rim Canal",
+   "Cross Lake Channel",
+   "Caloosahatchee Canal",
+   "Caloosahatchee River"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "St. Lucie Inlet/Stuart (ICW Mile 987.8) via the St. Lucie Canal, Lake Okeechobee (Route 1 across, Route 2 rim) and the Caloosahatchee to Fort Myers and Punta Rassa (about 155 mi)",
+  "navigable": "restricted",
+  "class": null,
+  "lengthKm": 250,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Controlling depth 8 ft Route 1, 6 ft Route 2 (rim) at lake level 12.5 ft; depth changes foot-for-foot with the lake. Below 12 ft NGVD some north-shore locks close. Check USACE daily lake level."
+  },
+  "airDraftM": 14.94,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong currents and turbulence near St. Lucie and Port Mayaca locks when water is released from the lake; depth over St. Lucie lock sill falls from 13.5 to 8 ft during releases."
+  },
+  "locks": {
+   "count": 5,
+   "chamber": "St. Lucie, Moore Haven, Ortona: 250 × 50 ft, 10 ft over sills; Port Mayaca 400 × 56 ft, 16 ft; W.P. Franklin 400 × 56 ft, 14 ft",
+   "hours": "USACE 2022 notice: 07:00–17:00, last lockage 16:30 (Coast Pilot lists 06:00–21:30); extended hours before tropical storms",
+   "notes": "Planned: W.P. Franklin closed 3 May – 30 Jun 2027 (moved from Jan–Mar 2027); Ortona closed 1 Mar – 30 Apr 2027. Clewiston lock gives access to the town basin."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Manatee zones on the St. Lucie and Caloosahatchee; Route 2 Torry Island swing bridge closed 12 Oct – 22 Dec 2026 (8 ft clearance; Route 1 open)."
+  },
+  "season": {
+   "best": "November–April",
+   "closures": "Lock closures for maintenance; low-lake closures in droughts; Route 2 Torry Island bridge works to 22 Dec 2026"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    4,
+    5,
+    6
+   ],
+   "highWater": [],
+   "ice": [],
+   "notes": "Lake usually lowest in late spring before the rainy season; hurricanes June–November."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": "Tidal only below the St. Lucie and Franklin locks (diurnal range 1.2 ft at Fort Myers)."
+  },
+  "authority": {
+   "name": "USACE Jacksonville District",
+   "url": "https://www.saj.usace.army.mil"
+  },
+  "notices": "https://w3.saj.usace.army.mil/h2o/currentLL.shtml (lake and route depths) and https://www.navcen.uscg.gov/local-notices-to-mariners (District 7)",
+  "notes": "Port Mayaca railroad lift bridge (Mile 38) limits air draft to about 49 ft (15 m): taller boats go round the Keys. Government slips at Moore Haven and below Ortona; tie-up dolphins at each lock.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp4/CPB4_C12_WEB.pdf",
+   "https://www.offshoreblue.com/cruise/okeechobee.php",
+   "https://www.offshoreblue.com/cruise/okeechobee-distances.php",
+   "https://greatloop.org/resource/waterway-lock-closures.html",
+   "https://aicw.org/newsdetail_T2_R134.php",
+   "https://www.okeechobeecountyfl.gov/Home/Components/News/News/677/16"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -82.05,
+   26.45,
+   -80.15,
+   27.25
+  ]
+ },
+ {
+  "id": "us-chesapeake-delaware-canal",
+  "name": "Chesapeake and Delaware Canal",
+  "aliases": [
+   "Chesapeake and Delaware Canal"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Reedy Point on the Delaware River to Back Creek and the Elk River at the head of Chesapeake Bay (14 mi)",
+  "navigable": "yes",
+  "class": "Sea-level ship canal",
+  "lengthKm": 23,
+  "depth": {
+   "usualM": 10.7,
+   "maxDraftM": null,
+   "notes": "Federal project 35 ft × 400 ft; sea-level canal, no locks. Small-craft anchorage basin at Chesapeake City (south side)."
+  },
+  "airDraftM": 39.9,
+  "current": {
+   "typicalMs": 1.3,
+   "notes": "Tidal: 2.6 kn flood, 2.1 kn ebb at Reedy Point, about 2 kn at Chesapeake City; flood sets east. Storms raise it to 3 kn+. Plan with the current."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Bridges: lowest fixed 131 ft MHW (Summit); Conrail vertical lift 45 ft down / 129 ft up, normally raised."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "No sailing (engine required) and no water-skiing between Reedy Point and Welch Point; no stopping or anchoring in the channel; no racing; vessels with the current have right of way. Dispatcher at Chesapeake City VHF 13/16 (24 h)."
+  },
+  "season": {
+   "best": "May–October",
+   "closures": "Ice possible December–April, worst January–February"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": null
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "High and low water in the Delaware about 2 h later than in the Elk River; NE storms raise, westerlies lower the level."
+  },
+  "authority": {
+   "name": "USACE Philadelphia District",
+   "url": "https://www.nap.usace.army.mil"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 5)",
+  "notes": "Heavy ship traffic day and night; keep to the side. Chesapeake City has free basin anchorage, town dock and fuel. Delaware Bay is rough in wind against tide: time the bay leg with the ebb toward Cape May.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp3/CPB3_C07_WEB.pdf",
+   "https://en.wikipedia.org/wiki/Chesapeake_and_Delaware_Canal",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -75.9,
+   39.45,
+   -75.5,
+   39.62
+  ]
+ },
+ {
+  "id": "us-sea-chesapeake-bay",
+  "name": "Chesapeake Bay",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Chesapeake Bay from the Virginia Capes (Cape Charles–Cape Henry) to the Susquehanna Flats and the C&D Canal approach, with Annapolis, Baltimore, St. Michaels, Solomons, Norfolk",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 320,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Deep main channel, but wide shallow flats along both shores and in the Eastern Shore rivers; crab-pot floats everywhere outside the channels."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Tidal currents strongest at the entrance and in the narrow upper bay."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "State boating laws (MD/VA) apply; local no-wake zones in the creeks."
+  },
+  "season": {
+   "best": "May–June, September–October",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Gales Sep–Mar; dense fog mostly Jan–Apr; spring/summer thunderstorms 6–9 days a month with gale-force gusts (squall lines up to 70–90 kn)."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Small tides in most of the bay; strong winds pile up or drain water by a foot or more. Predictions at tidesandcurrents.noaa.gov."
+  },
+  "authority": {
+   "name": "U.S. Coast Guard Sector Maryland–NCR and Sector Virginia (District 5)",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 5)",
+  "notes": "Summer: light southerlies with afternoon thunderstorms – watch the sky. Popular: Annapolis, St. Michaels, Oxford, Solomons, Baltimore Inner Harbor, Norfolk. NOAA Weather Radio 162.55 MHz; VHF 16. Superstructure icing risk Nov–Mar.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp3/CPB3_C09_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -77.3,
+   36.85,
+   -75.7,
+   39.6
+  ]
+ },
+ {
+  "id": "us-sea-delaware-bay",
+  "name": "Delaware Bay and River",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Cape May–Cape Henlopen entrance up Delaware Bay and River to the C&D Canal and Philadelphia",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 156,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Ship channel deep; extensive shoals either side of the bay with few harbors of refuge between the entrance and the C&D Canal."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0.9,
+   "notes": "1.8 kn at the bay entrance; strong in the river; wind against tide makes a steep short sea."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Heavy commercial traffic: monitor VHF 13/16; Delaware pilots on VHF 14."
+  },
+  "season": {
+   "best": "May–October",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Strong NW winds Nov–Mar (gales 1–3 %), seas 10 ft+ about 1 % then; fog April–June; ice usually from January to early March."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Strong E/SE winds raise tides and flood lowlands; long NW blows give lower than predicted lows."
+  },
+  "authority": {
+   "name": "U.S. Coast Guard Sector Delaware Bay (District 5)",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 5)",
+  "notes": "Small craft shelter behind the Cape Henlopen breakwaters; Cape May Harbor via the Cape May Canal. Run the bay with the tide (ebb down, flood up).",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp3/CPB3_C06_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -75.65,
+   38.75,
+   -74.85,
+   39.75
+  ]
+ },
+ {
+  "id": "us-sea-long-island-sound",
+  "name": "Long Island Sound",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Throgs Neck/Hell Gate (East River) to The Race and Block Island Sound, between Connecticut, New York and the north shore of Long Island",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 180,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Deep and well marked, but boulders and broken ground: take care where charted depths are within 6–8 ft of your draft. Oyster stakes are hazards."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0.9,
+   "notes": "1.8 kn off Cornfield Point, about 1 kn off New Haven, weak in the west; very strong in The Race, Plum Gut and Hell Gate – time passages."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "No-Discharge Zone for all sewage throughout the Sound from Hell Gate to Block Island Sound. Submarine operating areas off New London."
+  },
+  "season": {
+   "best": "mid-May – mid-October",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Best mid-May–mid-Oct (20–25 ideal days a month in summer); fog in spring and early summer; winter winds W–N; ice mostly in the western Sound in cold winters."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 2.2,
+   "notes": "Mean range about 2.5 ft at the east end rising to 7.3 ft (2.2 m) at the west end; strong winds can drop water several feet below chart datum."
+  },
+  "authority": {
+   "name": "U.S. Coast Guard Sector Long Island Sound (District 1)",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (District 1)",
+  "notes": "Summer SW sea breeze builds in the afternoon; squall lines ahead of cold fronts. Harbors: City Island, Oyster Bay, Port Jefferson, Stamford, New Haven, Essex/Connecticut River, Mystic, Greenport, Shelter Island. New London is the main refuge in the east.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp2/CPB2_C08_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp2/CPB2_C09_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -73.85,
+   40.75,
+   -71.85,
+   41.35
+  ]
+ },
+ {
+  "id": "us-lake-ontario",
+  "name": "Lake Ontario (US shore)",
+  "aliases": [
+   "Lake Ontario"
+  ],
+  "countries": [
+   "US",
+   "CA"
+  ],
+  "reach": "US south and east shore from the Niagara River to Cape Vincent and the St. Lawrence (Olcott, Rochester, Sodus Bay, Oswego, Sackets Harbor)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 290,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Deep lake (average 283 ft, max 802 ft); few offshore shoals except Niagara Bar and the NE end toward the St. Lawrence. Chart datum: Low Water Datum 243.3 ft IGLD85."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Less seiche than Lake Erie; currents at the Niagara and St. Lawrence outflows."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Connections: Oswego Canal (NY canals), Welland Canal and St. Lawrence Seaway (Seaway Handbook, tolls; VHF 13 'Seaway Sodus' sector)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Crossing to Canada: report to CBSA on arrival and to CBP (ROAM) on return."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": "St. Lawrence Seaway closed by ice from about mid-December to mid-April"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Winds >33 kn most frequent Oct–Dec (6 % of the time in December); leisure season roughly May–October."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Coast Guard District 9 (Great Lakes); NOAA charts and Coast Pilot 6",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (USCG District 9)",
+  "notes": "Harbors of refuge are far apart on the US shore (Olcott, Rochester/Charlotte, Sodus Bay, Oswego). Cold water even in summer. NOAA Weather Radio and Canadian/US Coast Guard VHF weather broadcasts. Distances (statute miles): Toronto – Kingston 160, Toronto – Port Weller 28, Toronto – Hamilton 30, Kingston – Picton 37, Kingston – Trenton 71. Watch the forecast before open-lake legs; Seaway ships cross between Port Weller and Cape Vincent. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C05_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C03_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://weather.gc.ca/marine/region_e.html?mapID=11",
+   "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/heures-hours",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -79.9,
+   43.15,
+   -75.95,
+   44.3
+  ]
+ },
+ {
+  "id": "us-lake-erie",
+  "name": "Lake Erie (US shore)",
+  "aliases": [
+   "Lake Erie"
+  ],
+  "countries": [
+   "US",
+   "CA"
+  ],
+  "reach": "Detroit River mouth to Buffalo along the US shore (Toledo, Put-in-Bay and the Bass Islands, Sandusky, Cleveland, Erie PA, Dunkirk, Buffalo)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 390,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Shallowest Great Lake (average 62 ft, max 210 ft); island region in the west is shoal. Low Water Datum 569.2 ft IGLD85."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Wind set-up/seiche: SW or NE gales shift water from end to end — level changes up to 10 ft lasting 12 h observed at Toledo/Buffalo (Sep–Apr, especially Nov–Jan)."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Black Rock Lock (Buffalo) leads to the Erie Canal; Welland Canal (Canada) to Lake Ontario."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "East of Long Point is a St. Lawrence Seaway sector (VHF 11 'Seaway Long Point'); Canadian waters have gas wells and pipelines — do not anchor near them."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Gales 6–9 % of the time in Nov–Dec, under 1 % May–Sep; west end freezes first; mush ice can block Buffalo into May in severe winters."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Coast Guard District 9 (Great Lakes); NOAA charts and Coast Pilot 6",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (USCG District 9)",
+  "notes": "Steep, short seas build very quickly (5 ft+ seas 30 % of the time lakewide); summer squall lines (87 kn in July 1969). Fog mostly in spring. Trap and gill nets in fished areas.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C06_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C03_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -83.5,
+   41.35,
+   -78.85,
+   42.95
+  ]
+ },
+ {
+  "id": "us-lake-huron",
+  "name": "Lake Huron (US shore)",
+  "aliases": [
+   "Lake Huron"
+  ],
+  "countries": [
+   "US",
+   "CA"
+  ],
+  "reach": "Port Huron (St. Clair River) along the Michigan shore and Saginaw Bay to the Straits of Mackinac and De Tour (Harbor Beach, Port Austin, Bay City, Alpena, Rogers City, Cheboygan, Mackinac Island)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 400,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Max 750 ft; Low Water Datum 577.5 ft IGLD85 (same as Lake Michigan). Saginaw Bay is shoal with large wind set-up."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Strong current in the St. Clair River at Port Huron; wind set-up pronounced at the mouth of the Saginaw River."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Soo Locks (St. Marys River) to Lake Superior: free for recreational craft; report to the small-craft dispatch station (upbound: east center pier); boats need 75 ft of lines and a lifejacket per person."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Canadian Coast Guard VTS covers Canadian waters from Long Point through the St. Clair River to De Tour Reef."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Gales most frequent in autumn (5–10 % in Nov–Dec), under 1 % in June–July; violent squalls possible spring–fall."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Coast Guard District 9 (Great Lakes); NOAA charts and Coast Pilot 6",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (USCG District 9)",
+  "notes": "Long stretches of the Michigan thumb have few harbors of refuge; Port Huron–Mackinac race course along this shore. NOAA Weather Radio; VHF 16.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C10_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C12_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C03_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -84.8,
+   42.95,
+   -81.6,
+   46.1
+  ]
+ },
+ {
+  "id": "us-lake-michigan",
+  "name": "Lake Michigan",
+  "aliases": [
+   "Lake Michigan"
+  ],
+  "countries": [
+   "US"
+  ],
+  "reach": "Whole lake (entirely in the US): Chicago, Milwaukee, Green Bay and Door County, the Michigan shore (St. Joseph, Holland, Grand Haven, Ludington, Traverse City, Charlevoix) to the Straits of Mackinac",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 516,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Max 923 ft; Low Water Datum 577.5 ft IGLD85. South-end harbors are artificial (piers), with dangerous currents at entrances in onshore gales."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Wind set-up pronounced at Green Bay; harbor entrance currents in strong onshore winds."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Chicago: lock into the Chicago River and the Illinois Waterway to the Mississippi; Sturgeon Bay Ship Canal crosses the Door peninsula."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "June–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2,
+    3
+   ],
+   "notes": "Worst seas Oct–Nov (5–10 ft waves 35 % of the time); summer seas over 10 ft <1 %; by August the fall build-up starts."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Coast Guard District 9 (Great Lakes); NOAA charts and Coast Pilot 6",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (USCG District 9)",
+  "notes": "Northerlies raise big seas at the south end, southerlies at the north end, over the 300-mile fetch. The east shore ports are a day apart (25–40 mi); crossing Chicago–Michigan shore is 60–90 mi.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C11_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C03_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -88.1,
+   41.6,
+   -84.7,
+   46.1
+  ]
+ },
+ {
+  "id": "us-lake-superior",
+  "name": "Lake Superior (US shore)",
+  "aliases": [
+   "Lake Superior"
+  ],
+  "countries": [
+   "US",
+   "CA"
+  ],
+  "reach": "Whitefish Bay and Sault Ste. Marie west along the Michigan Upper Peninsula (Grand Marais, Munising, Marquette, Keweenaw) to the Apostle Islands, Duluth–Superior and the Minnesota north shore",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 600,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Max 1,333 ft; rocky shores, few harbors. Level regulated at the St. Marys River between 599.6 and 603.2 ft IGLD85."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Wind set-up usually under 1 ft (up to 2 ft); Keweenaw Waterway gives a sheltered short cut across the peninsula."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Soo Locks at Sault Ste. Marie (free for pleasure craft); Keweenaw Waterway and Duluth/Superior ship canals."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "July–August",
+   "closures": "Navigation season about 8 months (depends on ice breaking)"
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "notes": "Coldest lake with most shore ice; gales up to 6 % in late autumn; April has the highest mean winds at many ports; fog common in early summer over cold water."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "U.S. Coast Guard District 9 (Great Lakes); NOAA charts and Coast Pilot 6",
+   "url": "https://www.navcen.uscg.gov/local-notices-to-mariners"
+  },
+  "notices": "https://www.navcen.uscg.gov/local-notices-to-mariners (USCG District 9)",
+  "notes": "Water stays very cold (hypothermia risk) all summer; harbors of refuge are 20–50 mi apart along the UP shore. Plan around NOAA marine forecasts; Canadian shore is remote.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C13_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C12_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_C03_WEB.pdf",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -92.3,
+   46.3,
+   -84.3,
+   47.6
+  ]
+ },
+ {
+  "id": "st-lawrence-seaway-montreal-iroquois",
+  "name": "St. Lawrence Seaway (Montreal – Iroquois)",
+  "aliases": [
+   "Saint Lawrence Seaway",
+   "Voie maritime du Saint-Laurent",
+   "Voie Maritime du Saint-Laurent",
+   "Beauharnois Canal",
+   "Beauharnois Locks #3",
+   "Beauharnois Locks #4",
+   "Snell Lock",
+   "Dwight D. Eisenhower Lock",
+   "Écluse de Saint-Lambert",
+   "Écluse de Côte-Sainte-Catherine",
+   "Saint Lawrence River",
+   "Saint Lawrence River / Fleuve Saint-Laurent"
+  ],
+  "countries": [
+   "CA",
+   "US"
+  ],
+  "reach": "Montreal Harbour (Seaway mile 0, Laurier Pier) via the South Shore Canal, Lac Saint-Louis, the Beauharnois Canal, Lac Saint-François and the Snell/Eisenhower locks to Iroquois Lock (mile 97.9)",
+  "navigable": "closed",
+  "class": "Seawaymax ship canal",
+  "lengthKm": 181,
+  "depth": {
+   "usualM": 8.2,
+   "maxDraftM": null,
+   "notes": "Channel 8.2 m (27 ft) upstream of Montreal; maximum ship draught 8.1 m. Deep enough for any yacht; the constraint is the lock rules, not depth."
+  },
+  "airDraftM": 35.5,
+  "current": {
+   "typicalMs": null,
+   "notes": "Currents and eddies from lock operations at the approaches; heavy drifting weed near locks in summer. Commercial ships pull a lot of water: keep clear."
+  },
+  "locks": {
+   "count": 7,
+   "chamber": "233.5 × 24.4 m",
+   "hours": "Pleasure craft 2026: 8 May – 18 Oct. Fixed lockages upbound St-Lambert 09:00, Côte-Ste-Catherine 11:00, Beauharnois 3 15:00, Beauharnois 4 16:00; downbound Beauharnois 4 11:00, 3 12:00, Côte-Ste-Catherine 16:00, St-Lambert 18:00. Iroquois: 10:00/13:00/17:00 up, 10:30/13:30/17:30 down (15 May–7 Sep). Snell and Eisenhower (US): no schedule.",
+   "notes": "St-Lambert, Côte-Ste-Catherine, Beauharnois 3+4, Snell, Eisenhower, Iroquois. Wait only at the pleasure-craft docks (no overnight stays, fine up to $5,000). Two crew to handle lines; lines supplied at Canadian locks, own lines at US locks. Downbound boats must be at the Larocque (Valleyfield) bridge by 09:00."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 11,
+   "permit": "Online reservation and payment required for Canadian locks (book by 09:00 on the day; no cash): St-Lambert, Côte-Ste-Catherine and Iroquois $25 CAD each, Beauharnois 3+4 $50 CAD. US locks Snell and Eisenhower $30 per lock, exact cash or pay.gov.",
+   "notes": "Minimum 6 m (20 ft) and 900 kg; motor-powered only, no sailing in canals/locks; lifejackets worn by everyone in locks; no overtaking within 600 m of a lock; dinghies stowed on deck; no fenders made of tyres; 6 kn in canals. VHF: don't use Seaway working channels, ch 16 in emergency, ch 68 to linehandlers and bridges."
+  },
+  "season": {
+   "best": "June – early September (three daily Iroquois lockages 15 May – 7 Sep)",
+   "closures": "Closed to pleasure craft after 18 Oct 2026; reopens about early May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Pleasure-craft season 2026 ran 8 May – 18 Oct (Iroquois one daily lockage 8–10 May and 8 Sep – 18 Oct)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "St. Lawrence Seaway Management Corporation (Canadian locks); Great Lakes St. Lawrence Seaway Development Corporation (Snell, Eisenhower)",
+   "url": "https://greatlakes-seaway.com/en/pleasure-craft/"
+  },
+  "notices": "https://greatlakes-seaway.com/en/pleasure-craft/pleasure-craft-bulletins/",
+  "notes": "Closed for pleasure craft until the 2027 season (2026 season ended 18 Oct). Twin CPR bridges at Kahnawake: boats up to 12 m air draft may pass under the lowered spans. Call bridges at Kahnawake, St-Louis-de-Gonzague and Larocque on VHF 68. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://greatlakes-seaway.com/wp-content/uploads/2026/06/Pleasure-Craft-Guide-2026-EN.pdf",
+   "https://greatlakes-seaway.com/en/pleasure-craft/",
+   "https://en.wikipedia.org/wiki/St._Lawrence_Seaway",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -75.33,
+   44.75,
+   -73.5,
+   45.55
+  ]
+ },
+ {
+  "id": "welland-canal",
+  "name": "Welland Canal (Port Weller – Port Colborne)",
+  "aliases": [
+   "Welland Canal"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Lake Ontario at Port Weller to Lake Erie at Port Colborne (8 locks, 99.5 m rise)",
+  "navigable": "closed",
+  "class": "Seawaymax ship canal",
+  "lengthKm": 43,
+  "depth": {
+   "usualM": 8.2,
+   "maxDraftM": null,
+   "notes": "Channel standard 8.2 m; max ship draught 8.08 m."
+  },
+  "airDraftM": 35.5,
+  "current": {
+   "typicalMs": null,
+   "notes": "Turbulence from lock operations; no strong river current."
+  },
+  "locks": {
+   "count": 8,
+   "chamber": "233.5 × 24.4 m (lift locks 1–7); guard lock 8 at Port Colborne about 349.9 m long",
+   "hours": "Pleasure craft 2026: 1 May – 25 Oct. Upbound Mon/Wed/Fri/Sun, be at the Port Weller dock by 09:00; downbound Tue/Thu/Sat, at the Port Colborne dock by 07:00. One transit a day, about 12 hours. Late season weekends only (upbound Sat, downbound Sun).",
+   "notes": "Locks 4–6 are a twinned flight at Thorold. No pleasure-craft docks inside the canal; partial transits not allowed. Report to the Operations Control Centre on VHF 14 or 289-690-4344 and keep listening watch on ch 14."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 11,
+   "permit": "$200 CAD for all eight locks, reserved and paid online by 07:00 on the day of transit (no cash).",
+   "notes": "Minimum 6 m and 900 kg, motor-powered; upbound at least three people on board (operator + two line handlers), downbound two line handlers; lifejackets worn. Max 6 kn near the Port Robinson ferry (nautical mile 12.5)."
+  },
+  "season": {
+   "best": "June – September",
+   "closures": "Closed to pleasure craft after 25 Oct 2026; the canal closes to all shipping in winter (usually late December to late March)."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Pleasure craft 1 May – 25 Oct in 2026; commercial season late March to December."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "St. Lawrence Seaway Management Corporation",
+   "url": "https://greatlakes-seaway.com/en/pleasure-craft/"
+  },
+  "notices": "https://greatlakes-seaway.com/en/news-and-information/notices/seaway-pleasure-craft-bulletins-welland/",
+  "notes": "Plan for a 12-hour day with continuous operation; mooring lines thrown from the wall, fenders essential. Toronto to Port Weller is about 45 km across Lake Ontario. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://greatlakes-seaway.com/wp-content/uploads/2026/06/Pleasure-Craft-Guide-2026-EN.pdf",
+   "https://greatlakes-seaway.com/en/pleasure-craft/",
+   "https://en.wikipedia.org/wiki/Welland_Canal",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": null
+ },
+ {
+  "id": "thousand-islands-st-lawrence",
+  "name": "Thousand Islands (St. Lawrence, Kingston – Iroquois)",
+  "aliases": [
+   "Saint Lawrence River"
+  ],
+  "countries": [
+   "CA",
+   "US"
+  ],
+  "reach": "Upper St. Lawrence from Kingston and Wolfe Island through the Thousand Islands (Gananoque, Rockport, Brockville) to Prescott and Iroquois Lock",
+  "navigable": "yes",
+  "class": "Seaway ship channel",
+  "lengthKm": 121,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Seaway channel 8.2 m, but hidden rocks and shoals among the islands: navigate with charts."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks between Kingston and Iroquois; Iroquois Lock (Seaway, fixed lockage times) at the downstream end."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Thousand Islands National Park: mooring or beaching permit by boat length, bought on arrival; max 3 consecutive nights per island or mooring buoy (overnight passes expire 11:00).",
+   "notes": "Keep clear of Seaway ships in the channel; international border mid-river."
+  },
+  "season": {
+   "best": "June – September",
+   "closures": "Thousand Islands National Park temporarily closed, reopening May 2027 (as of 2026-11-22)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada (Thousand Islands National Park); St. Lawrence Seaway Management Corporation",
+   "url": "https://parks.canada.ca/pn-np/on/1000"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Kingston – Gananoque 19 mi, Kingston – Brockville 50 mi (statute). Environment Canada forecast area 'Kingston to Cornwall'. Island docks/buoys on all serviced park islands. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/pn-np/on/1000",
+   "https://parks.canada.ca/pn-np/on/1000/activ/plaisanc-boater",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://weather.gc.ca/marine/region_e.html?mapID=11",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -76.45,
+   44.2,
+   -75.33,
+   44.85
+  ]
+ },
+ {
+  "id": "st-lawrence-montreal-quebec",
+  "name": "St. Lawrence River (Montreal – Quebec City)",
+  "aliases": [
+   "Fleuve Saint-Laurent",
+   "Estuaire fluvial du Saint-Laurent",
+   "Lac Saint-Pierre",
+   "Saint Lawrence River / Fleuve Saint-Laurent"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Port of Montreal via Sorel-Tracy, Lac Saint-Pierre and Trois-Rivières to Quebec City (Cap-Rouge)",
+  "navigable": "yes",
+  "class": "Deep-draught ship channel (11.3 m)",
+  "lengthKm": 253,
+  "depth": {
+   "usualM": 11.3,
+   "maxDraftM": null,
+   "notes": "Ship channel 11.0–11.3 m; small-craft channels between Lac Saint-Pierre and Sorel and in the Îles de Boucherville; water levels vary strongly with freshet and dry periods (SINECO gauges)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.0,
+   "notes": "Courant Sainte-Marie at Montreal 4–6 kn; 1–2.5 kn in most reaches Montreal–Sorel; up to 3.5 kn under Pont Laviolette (Trois-Rivières) at low tide; Rapides Richelieu ebb up to 8 kn, Barre à Boulard 5.5 kn."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 10,
+   "permit": null,
+   "notes": "Around the Island of Montreal: 10 km/h within 50 m of shore (30 m in Rivière des Prairies), 25 km/h anywhere 21:00–07:00; 10 km/h in Chenal du Sud (Boucherville). Small craft must keep out of the way of ships. Île aux Sternes is a regulated ecological reserve."
+  },
+  "season": {
+   "best": "June – September",
+   "closures": "Ice from mid-December to early April; light buoys lifted in winter."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    12,
+    1,
+    2,
+    3
+   ],
+   "notes": "Ice develops in the first half of December and clears by early April; Lac Saint-Pierre fast ice ~74 cm, ice boom off Pointe Yamachiche Nov–Apr."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": null,
+   "notes": "Tidal influence felt up to Trois-Rivières (max range about 0.3 m there, about 0.8 m at Bécancour) and dies out on Lac Saint-Pierre; it strengthens below Portneuf towards Quebec City. Above Rapides Richelieu the flood is weak (0.5 kn) and reaches Batiscan only at springs: slow boats should time the ebb downstream. Hourly current forecasts: ogsl.ca."
+  },
+  "authority": {
+   "name": "Canadian Coast Guard (MCTS), Transport Canada, Canadian Hydrographic Service",
+   "url": "https://charts.gc.ca"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Distances: Montreal – Sorel 70 km, Sorel (Tracy) – Trois-Rivières 32 NM, Trois-Rivières – Québec 70 NM. Marinas at Sorel, Trois-Rivières and the Port of Québec (Bassin Louise). Rescue: MRSC Québec VHF 16 or *16. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://publications.gc.ca/collections/collection_2026/mpo-dfo/Fs74-54-2026-1-eng.pdf",
+   "https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf",
+   "https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -73.6,
+   45.4,
+   -71.0,
+   46.95
+  ]
+ },
+ {
+  "id": "rideau-canal",
+  "name": "Rideau Canal (Ottawa – Kingston)",
+  "aliases": [
+   "Rideau Canal",
+   "Rideau River",
+   "Rideau Canal Locks",
+   "Big Rideau Lake",
+   "Upper Rideau Lake",
+   "Clear Lake",
+   "Opinicon Lake",
+   "Sand Lake",
+   "Whitefish Lake",
+   "Cranberry Lake",
+   "Indian Lake",
+   "Mud Lake",
+   "Colonel By Lake",
+   "Cataraqui River",
+   "Newboro Lock",
+   "Kingston Mills Locks",
+   "Ottawa Locks",
+   "Tay Canal"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Ottawa (Ottawa Locks at the Ottawa River) up the Rideau River to the summit at Upper Rideau Lake (Newboro) and down the lakes and the Cataraqui River to Kingston on Lake Ontario; Tay Canal branch to Perth",
+  "navigable": "closed",
+  "class": "Historic canal (UNESCO World Heritage)",
+  "lengthKm": 202,
+  "depth": {
+   "usualM": 1.5,
+   "maxDraftM": 1.5,
+   "notes": "About 1.5 m (5 ft) in the navigation channel in season, not guaranteed."
+  },
+  "airDraftM": 6.7,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 47,
+   "chamber": "27.3 × 8.5 m (operational)",
+   "hours": "2026: 15 May – 18 Jun Mon–Thu 10:00–16:00, Fri–Sun 09:00–19:00; 19 Jun – 7 Sep Mon–Thu 09:00–18:00, Fri–Sun/holidays 09:00–19:00; 8 Sep – 12 Oct Mon–Fri 10:00–16:00, Sat–Sun 09:00–17:00.",
+   "notes": "45 locks at 23 stations on the main line plus 2 on the Tay Canal (24 stations). Arrive 30 min before closing per chamber at flights (e.g. Ottawa 8 locks, Jones Falls 4, Kingston Mills 4). Stations unstaffed and closed 22:00–06:00."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 10,
+   "permit": "Parks Canada lockage permit by boat length, on site only (not sold online in 2026): single lock and return, 1 day, 6 day, one-way transit or seasonal; mooring permits on site.",
+   "notes": "10 km/h in speed zones; first and last lockage times not guaranteed."
+  },
+  "season": {
+   "best": "Mid-June – early September",
+   "closures": "Closed for the season since 12 Oct 2026; reopens about mid-May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Navigation mid-May – mid-Oct. In winter the Ottawa section is the Rideau Canal Skateway (2025–26: 31 Dec – 4 Mar)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada – Rideau Canal National Historic Site",
+   "url": "https://parks.canada.ca/lhn-nhs/on/rideau"
+  },
+  "notices": "https://parks.canada.ca/lhn-nhs/on/rideau",
+  "notes": "Ottawa – Smiths Falls 96.8 km, Smiths Falls – Kingston about 105 km. 6.7 m fixed-bridge clearance. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/on/rideau/visit/heures-hours",
+   "https://parks.canada.ca/lhn-nhs/on/rideau/visit/navigation/points-retenir-navigation-facts",
+   "https://en.wikipedia.org/wiki/Rideau_Canal",
+   "https://parks.canada.ca/lhn-nhs/canaux-canals/tarifs-promotions-fees",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -76.6,
+   44.2,
+   -75.65,
+   45.45
+  ]
+ },
+ {
+  "id": "trent-severn-waterway",
+  "name": "Trent–Severn Waterway (Trenton – Port Severn)",
+  "aliases": [
+   "Trent-Severn Waterway",
+   "Trent–Severn Waterway",
+   "Trent River",
+   "Trent Canal",
+   "Murray Canal",
+   "Crowe Bay",
+   "Rice Lake",
+   "Otonabee River",
+   "Clear Lake",
+   "Stony Lake",
+   "Lovesick Lake",
+   "Lower Buckhorn Lake",
+   "Buckhorn Lake",
+   "Pigeon Lake",
+   "Sturgeon Lake",
+   "Cameron Lake",
+   "Balsam Lake",
+   "Mitchell Lake",
+   "Canal Lake",
+   "Talbot River",
+   "Lake Scugog",
+   "Scugog River",
+   "Lake Simcoe",
+   "Lake Couchiching",
+   "Sparrow Lake",
+   "Severn River",
+   "Severn River Trent Severn Waterway",
+   "Gloucester Passage / Severn River",
+   "Trent-Severn Waterway, Lock 1 - Trenton",
+   "Lock 2 - Sydney",
+   "Lock 3 - Glen Miller",
+   "Lock 4 - Batawa",
+   "Lock 5 - Trent",
+   "Lock 6 - Frankford",
+   "Lock 7 - Glen Ross",
+   "Lock 8 - Percy Reach",
+   "Lock 9 - Meyers",
+   "Lock 10 - Hagues Reach",
+   "Lock 11 - Ranney Falls",
+   "Lock 12 - Ranney Falls",
+   "Lock 13 - Campbellford",
+   "Lock 14 - Crowe Bay",
+   "Lock 15 - Healey Falls",
+   "Lock 16 - Healey Falls Flight Lock",
+   "Lock 17 - Healey Falls Flight Lock",
+   "Trent-Severn Lock 18",
+   "Lock 19 - Scotts Mills",
+   "Lock 20 - Ashburnham",
+   "Lock 22 - Nassau Mills",
+   "Lock 23 - Otonabee",
+   "Lock 24 - Douro",
+   "Lock 25 - Sawer Creek",
+   "Lock 26 - Lakefield",
+   "Lock 27 - Young's Point",
+   "Lock 28 - Burleigh Falls",
+   "Lock 30 - Lovesick",
+   "Lock 31 - Buckhorn",
+   "Lock 32 - Bobcaygeon",
+   "Lock 33 - Lindsay",
+   "Lock 34 - Fenelon Falls",
+   "Lock 35 - Rosedale",
+   "Lock 36 - Kirkfield",
+   "Lock 37 - Bolsover",
+   "Lock 38 - Talbot",
+   "Lock 39 - Portage",
+   "Lock 40 - Thorah",
+   "Lock 41 - Gamebridge",
+   "Lock 42 - Couchiching",
+   "Lock 43 - Swift Rapids",
+   "Lock 45 - Port Severn",
+   "Big Chute Marine Railway"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Trenton on the Bay of Quinte up the Trent River, Rice Lake, the Otonabee and the Kawartha Lakes to the Balsam Lake summit (256 m), then down via Lake Simcoe, Lake Couchiching and the Severn River to Port Severn on Georgian Bay; Murray Canal",
+  "navigable": "closed",
+  "class": "Historic canal",
+  "lengthKm": 386,
+  "depth": {
+   "usualM": 1.8,
+   "maxDraftM": 1.8,
+   "notes": "About 2.4 m Locks 1–19, 1.8 m Locks 20–45 (shallower in places), 2.7 m Murray Canal, 1.22 m Sturgeon Lake – Port Perry branch; not guaranteed. Call 705-750-4900 if drawing 1.5 m or more."
+  },
+  "airDraftM": 6.1,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 44,
+   "chamber": "max vessel at Port Severn (Lock 45) 25.4 × 7 m",
+   "hours": "2026: 15 May – 18 Jun Mon–Thu 10:00–15:30, Fri–Sun 09:00–18:30; 19 Jun – 7 Sep Mon–Thu 09:00–17:30, Fri–Sun/holidays 09:00–18:30; 8 Sep – 12 Oct Mon–Fri 10:00–15:30, Sat–Sun 09:00–16:30.",
+   "notes": "44 locks at 42 stations incl. the Peterborough (19.8 m) and Kirkfield hydraulic lift locks; Lock 44 Big Chute is a marine railway: max 90 t, 30.3 m, 7.3 m beam (call 705-756-8802 48 h ahead if over 68 t or unusual hull). Be in the blue zone by last lockage; stations closed 22:00–06:00."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 10,
+   "permit": "Parks Canada lockage permit per foot, on site: single lock and return $1.50, 1 day $2.25, one-way transit $6.00, 6 days $6.50, seasonal $11.25; overnight mooring $1.50/ft. Lockage was free 19 Jun – 7 Sep 2026 (Canada Strong Pass); mooring not discounted.",
+   "notes": "10 km/h in speed zones. CN swing bridge above Lock 42 about 3.96 m when closed (trains have priority). Murray Canal bridges VHF 14 in season."
+  },
+  "season": {
+   "best": "Mid-June – early September",
+   "closures": "Closed for the season since 12 Oct 2026; reopens about mid-May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Navigation season 15 May – 12 Oct in 2026."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada – Trent–Severn Waterway National Historic Site",
+   "url": "https://parks.canada.ca/trent"
+  },
+  "notices": "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/posteeclusage-lockstation#status",
+  "notes": "Trenton – Peterborough 142 km, Peterborough – Bobcaygeon 77 km, Bobcaygeon – Lake Simcoe 69 km, Washago – Port Severn 49 km. 6.1 m minimum bridge clearance. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/heures-hours",
+   "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/navigation/points-retenir-navigation-facts",
+   "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/tarifs-fees",
+   "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/laissez-passer-canada-pass",
+   "https://en.wikipedia.org/wiki/Trent–Severn_Waterway",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -79.9,
+   43.95,
+   -77.3,
+   44.95
+  ]
+ },
+ {
+  "id": "lachine-canal",
+  "name": "Lachine Canal (Old Port of Montreal – Lachine)",
+  "aliases": [
+   "Canal de Lachine",
+   "Canal-de-Lachine",
+   "Canal Lachine",
+   "Écluse de Lachine",
+   "Vieux canal de Lachine"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Old Port of Montreal (Lock 1) to Lachine on Lac Saint-Louis (Lock 5), bypassing the Lachine Rapids",
+  "navigable": "closed",
+  "class": "Historic canal",
+  "lengthKm": 14,
+  "depth": {
+   "usualM": 2.0,
+   "maxDraftM": 2.0,
+   "notes": "Draught 2 m (6 ft 6 in)."
+  },
+  "airDraftM": 2.45,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 5,
+   "chamber": "smallest 50.29 × 11 m",
+   "hours": "2026: 15 May – 24 Jun daily at 09:30 and 13:00 only; 25 Jun – 16 Aug daily 09:30–16:15 (last complete transit 13:00 at Locks 1 and 5); 17 Aug – 7 Sep weekdays 09:30/13:00, weekends 09:30–16:15; 8 Sep – 12 Oct 09:30 and 13:00 only.",
+   "notes": "Transit about 3 hours (3–5 h). Arrive 30 min before last lockage; floating docks on starboard. VHF 68, Lock 1 (Old Port) 514-496-1536, Lock 5 (Lachine) 514-595-6594."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 10,
+   "permit": "Parks Canada lockage permit by boat length, bought on site.",
+   "notes": "Overhead clearance only 2.45 m (8 ft): most sailboats with masts up and many flybridge boats cannot use it; report to each lock and bridge. Not alone on board; two mooring lines, engine off in the lock."
+  },
+  "season": {
+   "best": "Late June – mid-August (open hours, otherwise two fixed lockages)",
+   "closures": "Closed for the season since 12 Oct 2026; reopens about mid-May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Season 15 May – 12 Oct in 2026."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada – Quebec canals",
+   "url": "https://parks.canada.ca/lhn-nhs/qc/canallachine"
+  },
+  "notices": "https://parks.canada.ca/lhn-nhs/canaux-canals",
+  "notes": "The alternative for tall boats is the Seaway South Shore Canal (St-Lambert and Côte-Ste-Catherine locks, $25 each, 20 ft minimum). Lachine – Sainte-Anne-de-Bellevue 11 NM. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/qc/canallachine/visit/heures-hours",
+   "https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf",
+   "https://parks.canada.ca/lhn-nhs/canaux-canals/tarifs-promotions-fees",
+   "https://greatlakes-seaway.com/wp-content/uploads/2026/06/Pleasure-Craft-Guide-2026-EN.pdf",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": null
+ },
+ {
+  "id": "ottawa-river-montreal-ottawa",
+  "name": "Ottawa River (Sainte-Anne-de-Bellevue – Carillon – Ottawa)",
+  "aliases": [
+   "Ottawa River / Rivière des Outaouais",
+   "Rivière des Outaouais",
+   "Lac des Deux-Montagnes",
+   "Lac Dollard-des-Ormeaux",
+   "Canal de Sainte-Anne-de-Bellevue",
+   "Écluse de Sainte-Anne-de-Bellevue",
+   "Canal et Écluse de Carillon",
+   "Carillon Lock"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Lac Saint-Louis through the Sainte-Anne-de-Bellevue lock, Lac des Deux Montagnes and the Carillon lock to Ottawa (Rideau Canal entrance)",
+  "navigable": "closed",
+  "class": null,
+  "lengthKm": 145,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 2.74,
+   "notes": "Draught 2.74 m (9 ft) at the Sainte-Anne and Carillon locks."
+  },
+  "airDraftM": 10.67,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "54.86 × 11.89 m (Sainte-Anne-de-Bellevue; Carillon given with the same dimensions in the 2026 Lock Guide)",
+   "hours": "Sainte-Anne 2026: 15 May – 24 Jun Mon–Thu 09:30–16:30, Fri–Sun 09:30–18:00; 25 Jun – 12 Aug 09:30–19:00; 13–26 Aug 09:30–18:00; 27 Aug – 12 Oct as in spring. Carillon: 15 May – 24 Jun Mon–Fri 09:30–16:00, Sat–Sun 09:30–17:00; 25 Jun – 12 Aug 09:30–18:00; 13–26 Aug 09:30–17:00; 27 Aug – 12 Oct as in spring.",
+   "notes": "Carillon lifts 20 m in one lockage with a ~200 t guillotine gate; arrive 1 h 30 before last lockage, transit about 1 h, VHF 68, 450-537-3534. Sainte-Anne (busiest lock in Canada): arrive 60 min before last lockage, VHF 68, 514-457-5546."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 10,
+   "permit": "Parks Canada lockage permit by boat length, bought on site.",
+   "notes": "10 km/h in the canals; first and last lockage times not guaranteed."
+  },
+  "season": {
+   "best": "Late June – August",
+   "closures": "Locks closed since 12 Oct 2026; reopen about mid-May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Lock season 15 May – 12 Oct in 2026."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada – Quebec canals",
+   "url": "https://parks.canada.ca/lhn-nhs/canaux-canals"
+  },
+  "notices": "https://parks.canada.ca/lhn-nhs/qc/canalcarillon/visit/heures-hours",
+  "notes": "Sainte-Anne overhead clearance 10.67–12.80 m, Carillon 12.8 m. Distances: Lachine – Sainte-Anne 20 km, Sainte-Anne – Carillon 45 km, Carillon – Rideau Canal 100 km; Montreal – Ottawa about 180 km. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/qc/annedebellevue/visit/heures-hours",
+   "https://parks.canada.ca/lhn-nhs/qc/canalcarillon/visit/heures-hours",
+   "https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf",
+   "https://parks.canada.ca/lhn-nhs/qc/annedebellevue/activ/navigation/circuits-itineraries",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": null
+ },
+ {
+  "id": "chambly-canal",
+  "name": "Chambly Canal (Chambly – Saint-Jean-sur-Richelieu)",
+  "aliases": [
+   "Canal de Chambly"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Bassin de Chambly (Locks 1–3) to Saint-Jean-sur-Richelieu (Lock 9), bypassing the Richelieu rapids",
+  "navigable": "closed",
+  "class": "Historic canal",
+  "lengthKm": 19,
+  "depth": {
+   "usualM": 1.98,
+   "maxDraftM": 1.98,
+   "notes": "Sill depth 1.98 m (Lock Guide: 2 m / 6 ft 6 in); less in extreme low water."
+  },
+  "airDraftM": 8.8,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 9,
+   "chamber": "33.5 × 7.0 m (smallest)",
+   "hours": "2026: 15–18 May 09:00–16:30; 19 May – 25 Jun weekdays 09:00 and 13:00 only, weekends 09:00–16:30; 26 Jun – 23 Aug daily 09:00–16:30; 24 Aug – 12 Oct weekdays 09:00 and 13:00 only, weekends 09:00–16:30. Last complete transit 13:00 on Sundays/holidays.",
+   "notes": "Hand-operated; Locks 1–2–3 are a staircase at Chambly (arrive 45 min before last lockage). Complete transit at least 4 hours. No overnight mooring in the canal on fixed-hour days. VHF 68; Chambly 450-658-4381, Saint-Jean 450-348-3392. Bridges 1, 10, 12 closed weekdays 11:45–12:20 and 12:45–13:00."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 10,
+   "permit": "Parks Canada lockage permit per foot, on site: single lock and return $1.50, one day complete transit $2.25, six days $6.50, seasonal $11.25; overnight mooring $1.50/ft.",
+   "notes": "Lock staff supply lines (no wall wharf inside); loop lines round cleats, fend off with a boathook. Max 10 km/h (5.5 kn)."
+  },
+  "season": {
+   "best": "Late June – August (open hours every day)",
+   "closures": "Closed for the season since 12 Oct 2026; reopens about mid-May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Open mid-May to mid-October."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada – Chambly Canal National Historic Site",
+   "url": "https://parks.canada.ca/lhn-nhs/qc/chambly"
+  },
+  "notices": "https://parks.canada.ca/lhn-nhs/qc/chambly/visit/heures-hours",
+  "notes": "Part of the Hudson – Lake Champlain – Montreal route; limits set by the locks and Pont Félix-Gabriel-Marchand (8.8 m) just above Saint-Jean. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/qc/chambly/visit/heures-hours",
+   "https://parks.canada.ca/lhn-nhs/qc/chambly/visit/tarifs-fees",
+   "https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf",
+   "https://publications.gc.ca/collections/collection_2026/mpo-dfo/Fs74-54-2026-1-eng.pdf",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": null
+ },
+ {
+  "id": "richelieu-river-saint-ours",
+  "name": "Richelieu River (Sorel – Saint-Ours – Chambly – Lake Champlain)",
+  "aliases": [
+   "Rivière Richelieu",
+   "Canal-de-Saint-Ours",
+   "Porte d'écluse amont canal de Saint-Ours Parc Canada",
+   "Bassin de Chambly"
+  ],
+  "countries": [
+   "CA",
+   "US"
+  ],
+  "reach": "Sorel-Tracy on the St. Lawrence via the Saint-Ours lock to the Bassin de Chambly, and above the Chambly Canal from Saint-Jean-sur-Richelieu to Lake Champlain (US border)",
+  "navigable": "closed",
+  "class": null,
+  "lengthKm": 125,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 3.66,
+   "notes": "Saint-Ours lock draught 3.66 m (12 ft); the Chambly Canal (1.98 m sill) limits through traffic."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Saint-Ours 97.54 × 11.89 m",
+   "hours": "Saint-Ours 2026: 15 May – 25 Jun 09:00–16:00; 26 Jun – 9 Aug 09:00–18:00; 10–23 Aug 09:00–17:00; 24 Aug – 12 Oct 09:00–16:00.",
+   "notes": "Transit about 30 min; arrive 60 min before last lockage; floating docks on the island side (starboard); VHF 68, 450-755-8140. Swing bridges open on 3 long blasts or VHF 68, some only at set hours."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": null,
+   "permit": "Parks Canada lockage permit by boat length, bought on site.",
+   "notes": "Lock season mid-May – mid-October; opening dates published in Notices to Shipping and on the Parks Canada site."
+  },
+  "season": {
+   "best": "June – September",
+   "closures": "Saint-Ours and Chambly closed since 12 Oct 2026; reopen about mid-May 2027."
+  },
+  "months": {
+   "closed": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    12
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Saint-Ours and Chambly canals normally open mid-May to mid-October."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Parks Canada – Saint-Ours Canal National Historic Site",
+   "url": "https://parks.canada.ca/lhn-nhs/qc/saintours"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Distances: Sorel – Chambly 70 km, Chambly – Saint-Ours 50 km, Chambly – Lake Champlain 55 km. Rescue MRSC Québec VHF 16 / 1-800-463-4393. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/qc/saintours/visit/heures-hours",
+   "https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf",
+   "https://publications.gc.ca/collections/collection_2026/mpo-dfo/Fs74-54-2026-1-eng.pdf",
+   "https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -73.45,
+   44.95,
+   -73.0,
+   46.1
+  ]
+ },
+ {
+  "id": "georgian-bay",
+  "name": "Georgian Bay (Thirty Thousand Islands)",
+  "aliases": [
+   "Lake Huron"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Georgian Bay east of the Bruce Peninsula and Manitoulin Island: Midland, Penetanguishene, Port Severn, Parry Sound, the Thirty Thousand Islands, Killarney, Owen Sound, Collingwood (mapped as part of Lake Huron)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Thousands of rocks and shoals among the eastern islands: navigate with charts."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "July – August",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Environment Canada marine forecasts (Northern and Southern Georgian Bay); Canadian Coast Guard",
+   "url": "https://weather.gc.ca/marine/region_e.html?mapID=11"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "About 190 × 80 km, ~15,000 km². Distances (statute miles): Midland – Little Current 140, Parry Sound – Little Current 111, Owen Sound – Little Current 119. The Trent–Severn enters at Port Severn. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Georgian_Bay",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://weather.gc.ca/marine/region_e.html?mapID=11",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -81.6,
+   44.45,
+   -79.6,
+   46.1
+  ]
+ },
+ {
+  "id": "north-channel",
+  "name": "North Channel (Lake Huron, Killarney – Little Current – De Tour)",
+  "aliases": [
+   "Lake Huron",
+   "North Channel"
+  ],
+  "countries": [
+   "CA",
+   "US"
+  ],
+  "reach": "Between Manitoulin Island and the Ontario north shore from Killarney and Little Current via Gore Bay to the False Detour Channel / De Tour (mapped as part of Lake Huron)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "July – August",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Environment Canada marine forecast 'North Channel'; Canadian Coast Guard",
+   "url": "https://weather.gc.ca/marine/region_e.html?mapID=11"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Former steamship route, now a pleasure-craft cruising ground. Distances (statute miles): Little Current – Gore Bay 33, Little Current – Thessalon 86, Mackinac Island – Little Current 137. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://weather.gc.ca/marine/region_e.html?mapID=11",
+   "https://en.wikipedia.org/wiki/Georgian_Bay",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -84.0,
+   45.85,
+   -81.6,
+   46.4
+  ]
+ },
+ {
+  "id": "bc-strait-of-georgia",
+  "name": "Strait of Georgia and Gulf Islands (BC)",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Strait of Georgia from the Canadian Gulf Islands, Vancouver and Howe Sound north past Nanaimo and Comox to Cape Lazo",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Military range Area WG (Whiskey Golf) off Nanoose Bay / Winchelsea Islands is closed to all traffic when active: check CMB (WX/ch 21B) or Winchelsea Island Control VHF 10/16; keep about 1,000 yd north of Winchelsea Island or follow the mainland side."
+  },
+  "season": {
+   "best": "June – September (prevailing NW 'Westerly', good-weather wind)",
+   "closures": "Winter SE gales; Squamish outflow winds (>50 kn recorded) in Howe Sound and the mainland inlets."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Summer NW Westerly builds in the morning and usually drops late afternoon (cross the strait around 17:00–18:00); 'three-day Westerly' 2–3 times a season. Winter: E/SE more than 60% of the time; fog mostly Sept–March; forest-fire smoke Jul–Sep."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 5.0,
+   "notes": "Mixed semi-diurnal; range about 5 m in the strait (max 5 m at Vancouver, 4.3 m Chemainus). Use the Canadian Tide and Current Tables for the narrow passes between the Gulf Islands."
+  },
+  "authority": {
+   "name": "Canadian Coast Guard (MCTS Victoria), Transport Canada, Canadian Hydrographic Service",
+   "url": "https://charts.gc.ca"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Popular crossings Nanaimo – Welcome Passage and Silva Bay – Burrard Inlet. Strong local winds off Qualicum Beach. Vancouver – Nanaimo 36 NM, Nanaimo – Lund 63.5 NM, Nanaimo – Campbell River 77.7 NM. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://waves-vagues.dfo-mpo.gc.ca/Library/chs-shc-PAC200-eng-202205-41058458.pdf",
+   "https://nauticapedia.ca/Gallery/Winchelsea.php",
+   "https://www.canada.ca/content/dam/rcn-mrc/documents/eh/wg-zone-danger-2025-05.pdf",
+   "https://www.eoas.ubc.ca/courses/atsc113/sailing/met_concepts/10-met-local-conditions/10b-inflows-and-outflows/",
+   "https://nauticalcharts.noaa.gov/publications/docs/distances.pdf",
+   "https://nwcruising.net/ca-nm_folders/nanaimo.html",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -125.2,
+   48.7,
+   -122.75,
+   49.95
+  ]
+ },
+ {
+  "id": "bc-desolation-sound",
+  "name": "Desolation Sound (Lund – Cortes – Redonda Islands)",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Northern end of the Strait of Georgia: Lund, Sarah Point, Desolation Sound Marine Park (Prideaux Haven, Tenedos Bay, Malaspina Inlet / Grace Harbour), Cortes and the Redonda Islands, Refuge Cove",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Desolation Sound Marine Park: no sewage discharge (holding tank; pump-out at the Lund public dock), no campfires, anchoring restricted near Williams and Copplestone Islands (eelgrass), no potable water, shellfish closures (biotoxins) – check before harvesting."
+  },
+  "season": {
+   "best": "July – August",
+   "closures": "Winter Squamish outflow winds in Toba and Bute Inlets."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 4.8,
+   "notes": "Max tidal range 4.8 m at Campbell River; the sound itself has little current (warm water by BC standards) but streams run hard in the passes to the north."
+  },
+  "authority": {
+   "name": "BC Parks (Desolation Sound Marine Park); Canadian Coast Guard",
+   "url": "https://bcparks.ca/desolation-sound-marine-park/"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Over 60 km of park shoreline with many sheltered coves. Nanaimo – Sarah Point 69.4 NM (avoiding WG), Lund – Refuge Cove 10 NM, Campbell River – Desolation Sound 18.5 NM via Baker Passage. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://bcparks.ca/desolation-sound-marine-park/",
+   "https://waves-vagues.dfo-mpo.gc.ca/Library/chs-shc-PAC200-eng-202205-41058458.pdf",
+   "https://nwcruising.net/ca-nm_folders/nanaimo.html",
+   "https://nwcruising.net/ca-nm_folders/campbell_river.html",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -125.25,
+   49.95,
+   -124.4,
+   50.45
+  ]
+ },
+ {
+  "id": "bc-johnstone-strait",
+  "name": "Discovery Passage, Johnstone Strait and Queen Charlotte Strait",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "Campbell River and Seymour Narrows through Discovery Passage and Johnstone Strait (or the Discovery Islands back channels) to Port McNeill, Port Hardy and Queen Charlotte Strait",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Seymour Narrows (750 m wide) runs up to about 15 kn (some guides 16 kn flood): transit at or near slack using the Canadian Tide and Current Tables Vol. 6; rapid tidal streams and sills throughout."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "June – August",
+   "closures": "Winter easterly gales; outflow gales from Knight, Kingcome and Loughborough Inlets."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Summer sea-breeze westerlies build from late morning to about 30 kn by late afternoon (worst in western Johnstone Strait), dying before dusk: move early. Fog in Queen Charlotte Strait in late summer/early autumn, usually clearing by late morning."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 5.5,
+   "notes": "Queen Charlotte Strait range about 5.5 m, Campbell River about 4.6–4.8 m. Surface water seldom above 10 °C."
+  },
+  "authority": {
+   "name": "Canadian Coast Guard, Canadian Hydrographic Service",
+   "url": "https://charts.gc.ca"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Campbell River – Port Hardy 106 NM, Campbell River – Port McNeill 86.5 NM. Ripple Rock in Seymour Narrows was removed in 1958 but the narrows remain the key tidal gate. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://waves-vagues.dfo-mpo.gc.ca/Library/chs-shc-PAC200-eng-202205-41058458.pdf",
+   "https://en.wikipedia.org/wiki/Seymour_Narrows",
+   "https://nwcruising.net/ca-nm_folders/campbell_river.html",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -127.8,
+   50.0,
+   -125.25,
+   51.05
+  ]
+ },
+ {
+  "id": "bc-inside-passage-north",
+  "name": "Inside Passage north (Queen Charlotte Sound – Prince Rupert)",
+  "aliases": [
+   "Open sea"
+  ],
+  "countries": [
+   "CA"
+  ],
+  "reach": "From Cape Caution across Queen Charlotte Sound and up the mainland channels (Fitz Hugh Sound, Bella Bella / Shearwater, Klemtu, Grenville Channel) to Prince Rupert and Dixon Entrance",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": null,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "June – August (NW in Queen Charlotte Sound, W in Dixon Entrance)",
+   "closures": "Strong gales are frequent in Queen Charlotte Sound, with heavy swell and dense fog; SE gales more frequent and stronger in the northern sector."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Most pleasant months June, July, August. Autumn–winter storms bring sustained winds over 65 kn on exposed coasts; summer fog from cold upwelling."
+  },
+  "tides": {
+   "tidal": true,
+   "rangeM": 7.5,
+   "notes": "Max tidal range 7.5 m at Prince Rupert (6.6 m Kitimat); the tide reaches Dixon Entrance about 50 min after Queen Charlotte Sound."
+  },
+  "authority": {
+   "name": "Canadian Coast Guard, Canadian Hydrographic Service",
+   "url": "https://charts.gc.ca"
+  },
+  "notices": "https://www.canada.ca/en/canadian-coast-guard/services/marine-communications-traffic-services/navigational-navarea-warnings.html",
+  "notes": "Queen Charlotte Sound is the one open-ocean crossing of the Inside Passage: wait for a forecast window. BC Ferries Port Hardy – Prince Rupert 274 NM (about 15 h, stops at Bella Bella and Klemtu off-season). Campbell River – Prince Rupert about 391 NM via Port Hardy and Shearwater. Proof of competency (Pleasure Craft Operator Card) for anyone operating a power-driven boat; visiting non-residents in their own foreign boat are exempt for under 45 consecutive days (carry proof of residence); rental boats: completed rental safety checklist.",
+  "sources": [
+   "https://waves-vagues.dfo-mpo.gc.ca/Library/chs-shc-PAC200-eng-202205-41058458.pdf",
+   "https://britishcolumbia.com/plan-your-trip/transportation-in-british-columbia/bc-ferry-port-hardy-prince-rupert-inside-passage/",
+   "https://nwcruising.net/ca-nm_folders/campbell_river.html",
+   "https://tc.canada.ca/en/marine-transportation/marine-safety/operator-card-pcoc-faq"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   -131.2,
+   51.05,
+   -127.0,
+   54.7
+  ]
  }
 ]
