@@ -85,6 +85,8 @@ def test_not_navigable(tags, allow):
     {"waterway": "river", "wikidata": "Q123"},
     {"waterway": "river", "name": "Narew"},
     {"waterway": "river", "name:pl": "Narew"},
+    {"waterway": "tidal_channel", "canoe": "yes", "name": "Narew"},  # an allowlisted channel tagged for canoes too
+    {"waterway": "fairway", "canoe": "yes", "wikidata": "Q123"},
 ])
 def test_navigable(tags, allow):
     assert is_navigable_way(tags, allow)
@@ -190,6 +192,10 @@ def test_bounded_names_count_only_inside_their_boxes(tmp_path):
     assert not is_navigable_way(river, al, lambda: [(0.5, 48.5), (0.6, 48.6)])  # upstream of the reach
     assert is_navigable_way({"waterway": "river", "name": "Seine"}, al, [(9, 9)])  # plain names anywhere
     assert not is_navigable_way({"waterway": "river", "name": "Loir"}, al, [(0.0, 47.5)])
+    # a tidal channel tagged for canoes counts when its bounded name covers it (New York's East River)
+    channel = {"waterway": "tidal_channel", "canoe": "yes", "name": "La Sarthe"}
+    assert is_navigable_way(channel, al, [(0.1, 47.9)])
+    assert not is_navigable_way(channel, al, [(0.5, 48.5)])
 
 
 def test_a_name_does_not_outweigh_a_ban_on_motorboats(allow):

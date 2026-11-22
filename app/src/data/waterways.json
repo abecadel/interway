@@ -19495,5 +19495,1544 @@
    -130.0,
    59.6
   ]
+ },
+ {
+  "id": "donau-kelheim-jochenstein",
+  "name": "Danube in Bavaria (Kelheim – Regensburg – Passau – Jochenstein)",
+  "aliases": [
+   "Donau",
+   "Donau Schleusenkanal",
+   "Alte Donau"
+  ],
+  "countries": [
+   "DE",
+   "AT"
+  ],
+  "reach": "Kelheim, mouth of the Main-Donau-Kanal (km 2411.6) to Jochenstein lock (km 2203.2); German–Austrian border reach km 2223.2–2201.75",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 208,
+  "depth": {
+   "usualM": 2.0,
+   "maxDraftM": null,
+   "notes": "Danube Commission table: Straubing–Vilshofen (km 2321.7–2249.0) is free-flowing with 2.0 m fairway depth at low water; impounded reaches 2.8–2.9 m. The free-flowing reach is the bottleneck: record low gauges at Hofkirchen/Pfelling in July 2026."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded and slow above Straubing and below Vilshofen; noticeable current on the free-flowing Straubing–Vilshofen reach. Strong eddies and cross-current just below the Steinerne Brücke in the Regensburg south arm."
+  },
+  "locks": {
+   "count": 6,
+   "chamber": "Bad Abbach and Regensburg 190 × 12 m; Geisling, Straubing 230 × 24 m; Kachlet 226 × 24 m and Jochenstein 227 × 24 m (2 chambers each)",
+   "hours": "Ship locks around the clock; small craft locked singly 06:00–22:00 if no commercial vessel is due within the hour, at night only with commercial traffic",
+   "notes": "Self-service boat locks (20 × 4 m) at Bad Abbach (km 2397.5) and Regensburg south arm (km 2381.3); closed above 420 cm at Regensburg-Schwabelweis. Wait at the small-craft berths until called; no right to a separate locking."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "None for German residents; a Fahrterlaubnisschein from WSA Regensburg was required for trips to Danube states other than Austria (WSV 2018 leaflet)",
+   "notes": "Sportbootführerschein Binnen for >11.03 kW. Motorboats must not enter old arms (Altwässer). Seven fish rest zones (yellow buoys) km 2370.1–2359.05 near Geisling: no entry. Jet skis and surfboards banned on the border reach km 2223.2–2201.75. Mooring of unmanned craft banned."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "High-water closures (e.g. June 2024, Jochenstein–Kelheim); low water limits the free-flowing reach in dry summers and autumns."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    10,
+    11,
+    12,
+    1,
+    2
+   ],
+   "highWater": [
+    6,
+    7
+   ],
+   "ice": [
+    1
+   ],
+   "notes": "Upper Danube: highest levels in summer, lowest in autumn/winter (Danube Commission). July 2026 brought record lows at Hofkirchen and Pfelling. Ice: navigation stopped about 3–14 days a year on average."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Wasserstraßen- und Schifffahrtsamt (WSA) Donau MDK",
+   "url": "https://www.elwis.de"
+  },
+  "notices": "https://www.elwis.de (Nachrichten für die Binnenschifffahrt, WSA Donau MDK)",
+  "notes": "Passau: clearance under the Steinbach and Luitpold bridges varies with Danube and Inn levels; call the gauge announcer 0851/95519243. Regensburg Steinerne Brücke: use the marked arches. Ship–ship VHF watch required if a radio is fitted (UBI certificate).",
+  "sources": [
+   "https://epflicht.ulb.uni-bonn.de/download/pdf/564659",
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://de.wikipedia.org/wiki/Donau",
+   "https://www.vienna.at/niedrigwasser-auf-der-donau-schraenkt-schifffahrt-in-oesterreich-deutlich-ein/10351364"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   11.85,
+   48.45,
+   13.72,
+   49.1
+  ]
+ },
+ {
+  "id": "main-donau-kanal",
+  "name": "Main-Donau-Kanal (Bamberg – Nuremberg – Kelheim)",
+  "aliases": [
+   "Main-Donau-Kanal",
+   "Main-Donau-Kanal (RMD)",
+   "Europakanal"
+  ],
+  "countries": [
+   "DE"
+  ],
+  "reach": "Bamberg (Main junction, km 0) to the Danube at Kelheim (km 171), summit pound 406 m between Hilpoltstein and Bachhausen",
+  "navigable": "yes",
+  "class": "Vb",
+  "lengthKm": 171,
+  "depth": {
+   "usualM": 4.0,
+   "maxDraftM": null,
+   "notes": "Standard cross-section 4 m deep; 2.70 m at the Bamberg lock approach (Kelheim direction). Large vessels up to 190 × 11.45 m, 4 m draught."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Still canal; the Regnitz (Bamberg–Forchheim) and Altmühl (Dietfurt–Kelheim) reaches are canalised rivers with weir arms."
+  },
+  "locks": {
+   "count": 16,
+   "chamber": "190 × 12 m",
+   "hours": "Small craft locked 06:00–22:00 singly if no commercial traffic is due within the hour; at night only with commercial vessels",
+   "notes": "Lifts up to 25 m; 11 locks rise 175 m on the north ramp, 5 locks fall 68 m to the Danube. Self-service boat locks 20 × 4 m only at Riedenburg and Kelheim (closed at higher water); boat ramps with trolleys at the other locks for canoes."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": 13,
+   "permit": null,
+   "notes": "13 km/h for craft drawing up to 1.30 m, 11 km/h above 1.30 m; 30 km/h water-ski reach in the Forchheim weir arm only. Anchoring allowed only on designated stretches (protects the canal seal). No jet-ski reaches. Closed during the Challenge Roth triathlon in July."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Ice in hard winters (2006: 25–37 days at Nuremberg); event closure for the Roth triathlon (July)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Canal water level is regulated; ice is the main winter risk (2006 closure 25–37 days)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Wasserstraßen- und Schifffahrtsamt (WSA) Donau MDK",
+   "url": "https://www.elwis.de"
+  },
+  "notices": "https://www.elwis.de (Nachrichten für die Binnenschifffahrt)",
+  "notes": "Sport-boat harbours e.g. Fürth-Unterfarrnbach (km 57.5), Dietfurt (km 137), Riedenburg-Prunn (km 155.6), Kelheim-Gronsdorf (km 167). Unmanned craft may not lie outside harbours. VHF: listen on ship–ship if fitted.",
+  "sources": [
+   "https://epflicht.ulb.uni-bonn.de/download/pdf/564659",
+   "https://en.wikipedia.org/wiki/Rhine%E2%80%93Main%E2%80%93Danube_Canal"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "donau-austria",
+  "name": "Danube in Austria (Jochenstein – Linz – Wachau – Vienna – Slovak border)",
+  "aliases": [
+   "Donau",
+   "Hößgang",
+   "Donau / Dunaj"
+  ],
+  "countries": [
+   "AT",
+   "DE",
+   "SK"
+  ],
+  "reach": "German–Austrian border reach from km 2223.2, Jochenstein (km 2203.2) to the March mouth / Slovak border (km 1880.3); Wachau = Melk – Krems (km 2038 – 2002.7)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 343,
+  "depth": {
+   "usualM": 2.4,
+   "maxDraftM": null,
+   "notes": "Danube Commission: impounded reaches 2.7–3.0 m; free-flowing Wachau below Melk 2.4 m and Freudenau – border 2.1 m on 95 % of days. July 2026: Kienstock (Wachau) gauge fell to a record low, cargo boats light-loaded, no official closure."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Free-flowing and fast in the Wachau (Melk–Krems) and below Vienna Freudenau; 0.8–2.8 m/s on the upper Danube at mean water (3–10 km/h). Strudengau (km 2079.5–2074.8) has signal stations for one-way traffic."
+  },
+  "locks": {
+   "count": 9,
+   "chamber": "230 × 24 m, 2 chambers (Aschach … Greifenstein); Freudenau 275 × 24 m; Jochenstein 227 × 24 m (German–Austrian)",
+   "hours": "Guide times for small craft (upstream / downstream): Aschach 11:00 13:00 18:00 / 09:00 13:30 17:00; Ottensheim 10:00 12:00 17:00 / 10:30 14:30 18:00; Melk 09:30 13:30 17:30 / 10:00 13:00 18:30; Freudenau: no fixed times",
+   "notes": "Locks Aschach 2162.67, Ottensheim 2146.80, Abwinden 2119.60, Wallsee 2095.10, Persenbeug 2060.42, Melk 2038.10, Altenwörth 1980.10, Greifenstein 1949.20, Freudenau 1921.05. Call the lock on VHF (18/20/22) or the outside phone. Lifejackets for everyone on deck, else no locking; boats <20 m moor in the upper two thirds going up."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Sport craft banned above the highest navigable water level (HSW). Small craft are locked together, with no right to a separate locking. Overtaking banned in and before locks. Swimming banned in lock areas. Foreign licences accepted; Austrian patent needed for engines ≥4.4 kW."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Traffic stops above HSW (floods, mainly summer); low water in dry years (July 2026)."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    10,
+    11,
+    12,
+    1,
+    2
+   ],
+   "highWater": [
+    6,
+    7,
+    8
+   ],
+   "ice": [
+    1
+   ],
+   "notes": "Upper Danube: annual flood mostly in summer, lowest water in autumn/winter; navigation interrupted by frost 6–14 days a year on average (Danube Commission)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "viadonau – Österreichische Wasserstraßen-Gesellschaft",
+   "url": "https://www.viadonau.org"
+  },
+  "notices": "https://nts.doris.bmk.gv.at (Nachrichten für die Binnenschifffahrt, DoRIS)",
+  "notes": "Wachau: free-flowing, fast, many cruise ships; Krems, Spitz, Melk landings. Sport-boat waste: marinas, not locks. Lock phones +43 504 321 66x0 (Aschach 6610 … Freudenau 6690). Winterhafen Linz, Freudenau and Albern harbours are commercial.",
+  "sources": [
+   "https://www.doris.bmimi.gv.at/fileadmin/content/viadonau/01Newsroom/Dokumente/2025/Sportboote-web.pdf",
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.vienna.at/niedrigwasser-auf-der-donau-schraenkt-schifffahrt-in-oesterreich-deutlich-ein/10351364",
+   "https://de.wikipedia.org/wiki/Donau",
+   "https://www.land-oberoesterreich.gv.at/Mediendateien/Formulare/Dokumente_BH_GM/Merkblatt%20Traunsee%202024.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   13.72,
+   47.95,
+   16.97,
+   48.6
+  ]
+ },
+ {
+  "id": "donaukanal-wien",
+  "name": "Donaukanal (Vienna, Nussdorf lock – Freudenau)",
+  "aliases": [
+   "Donaukanal"
+  ],
+  "countries": [
+   "AT"
+  ],
+  "reach": "Nussdorf (Danube km 1933) through central Vienna to the Danube at km 1919.3 (canal km 0–17)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 17,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Flows downstream with the Danube; upstream travel only."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": null,
+   "hours": "Nussdorf lock: April–October on working days except Saturday 08:00–15:30",
+   "notes": "Pleasure craft are locked only with or after scheduled commercial passenger boats; phone Nussdorf (+43 504 321 2505, VHF 19) before entering at Danube km 1919.4."
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 20,
+   "permit": null,
+   "notes": "Motor sport craft banned on the Donaukanal, except upstream-bound craft April–October 09:00–22:00; no overtaking of commercial vessels; 20 km/h over ground."
+  },
+  "season": {
+   "best": "April–October",
+   "closures": "Closed to motor pleasure craft November–March (ban in force)."
+  },
+  "months": {
+   "closed": [
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Motor sport craft allowed only April–October 09:00–22:00, upstream."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "viadonau",
+   "url": "https://www.viadonau.org"
+  },
+  "notices": "https://nts.doris.bmk.gv.at",
+  "notes": "A one-way upstream city passage only; plan to return via the main Danube (Freudenau lock). Ask Nussdorf by phone first.",
+  "sources": [
+   "https://www.doris.bmimi.gv.at/fileadmin/content/viadonau/01Newsroom/Dokumente/2025/Sportboote-web.pdf",
+   "https://de.wikipedia.org/wiki/Donau"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "dunaj-slovakia",
+  "name": "Danube in Slovakia (Bratislava – Gabčíkovo – Komárno – Štúrovo)",
+  "aliases": [
+   "Dunaj",
+   "Dunaj / Duna",
+   "Donau / Dunaj",
+   "Prívodný kanál Gabčíkovo",
+   "Odpadový kanál Gabčíkovo",
+   "Čunovo lock",
+   "Mošonský Dunaj"
+  ],
+  "countries": [
+   "SK",
+   "HU",
+   "AT"
+  ],
+  "reach": "March mouth (km 1880.3) – Bratislava – Gabčíkovo bypass canal (leaves the Danube at km 1853, rejoins at km 1811) – Slovak–Hungarian border reach to the Ipeľ mouth (km 1708.2)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 172,
+  "depth": {
+   "usualM": 1.8,
+   "maxDraftM": null,
+   "notes": "Gabčíkovo reservoir and canal 3.5 m; free-flowing Gabčíkovo tailrace – Gönyű 1.8 m and Gönyű – Ipeľ mouth 1.6 m on 95 % of days (Danube Commission). Old Danube bed below Čunovo is not the fairway."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Fast free-flowing reach below Vienna to Bratislava; impounded Hrušov reservoir and bypass canal; current again below the tailrace mouth (km 1811)."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": "Gabčíkovo 2 chambers 280 × 34 m, lift up to 20.4 m, at canal km 8.15 (Danube km 1819.15)",
+   "hours": null,
+   "notes": "Large-vessel lock; small craft share chambers with commercial traffic."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    9,
+    10,
+    11
+   ],
+   "highWater": [
+    6,
+    7
+   ],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Middle Danube: frost interrupts navigation 8–20 days a year on average (Danube Commission). Lowest water usually in autumn."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Dopravný úrad (SK) / viadonau upstream",
+   "url": null
+  },
+  "notices": "https://www.danubeportal.com/",
+  "notes": "Slovakia and Hungary are Schengen: no border checks between AT, SK and HU. Bratislava winter harbour (km 1866.25) and Komárno harbours (km 1767.1) are the main shelters. Štúrovo faces Esztergom.",
+  "sources": [
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "https://www.danubeportal.com/"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   16.97,
+   47.7,
+   18.85,
+   48.2
+  ]
+ },
+ {
+  "id": "duna-hungary",
+  "name": "Danube in Hungary (Szob – Danube Bend – Budapest – Mohács)",
+  "aliases": [
+   "Duna",
+   "Szentendrei-Duna",
+   "Dunaj / Duna",
+   "Ráckevei (Soroksári)-Duna",
+   "Ráckevei-Duna-észak"
+  ],
+  "countries": [
+   "HU"
+  ],
+  "reach": "Ipeľ mouth (km 1708.2) – Esztergom – Visegrád – Budapest (Újpest km 1652.9) – Mohács (km 1449) – Hungarian–Croatian/Serbian border (km 1433)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 275,
+  "depth": {
+   "usualM": 1.9,
+   "maxDraftM": null,
+   "notes": "On 95 % of days: Ipeľ mouth – Budapest 1.9 m, Budapest – Dunaföldvár 1.9 m, Dunaföldvár – border 2.0 m (Danube Commission). Fords and narrowings published daily by PannonRIS."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.2,
+   "notes": "Mean-water current 3.6–4.8 km/h between Gönyű and Belgrade. Visegrád gorge km 1699.5–1695.5 has signal stations for one-way traffic."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "Free-flowing in Hungary, no locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Ráckevei (Soroksári) Danube arm: internal-combustion motorboats banned on several reaches, 5 km/h on others and 21:00–06:00 everywhere (30/2003 Korm. rendelet). Licence-free up to 20 HP for adults (general Hungarian rule)."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    9,
+    10,
+    11
+   ],
+   "highWater": [
+    6,
+    7
+   ],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Frost interrupts navigation 13–20 days a year on average between Gönyű and the southern border (Danube Commission)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Hungarian RIS (PannonRIS, operated by RSOE)",
+   "url": "http://pannonris.hu/"
+  },
+  "notices": "http://pannonris.hu/ (Hirdetmények, Zárlatok, Gázlók; dispatch +36 1 469 4164, VHF 16–22)",
+  "notes": "Mohács (km 1449) is the Schengen exit/entry point to Serbia: joint checks 24 h, about 90 min; vessels coming from Croatia pass on prior notice. Budapest: Szentendre arm is a quieter route past Szentendre.",
+  "sources": [
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "http://pannonris.hu/",
+   "https://net.jogtar.hu/jogszabaly?docid=a0300030.kor",
+   "https://www.penzcentrum.hu/utazas/20260317/indul-a-balatoni-szezon-ezekre-a-szabalyokra-sokan-nem-figyelnek-pedig-sulyos-birsag-jarhat-erte-1195441/amp"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   18.85,
+   45.9,
+   19.25,
+   47.85
+  ]
+ },
+ {
+  "id": "dunav-croatia-serbia",
+  "name": "Danube in Croatia and Serbia (Batina/Bezdan – Vukovar – Novi Sad – Belgrade)",
+  "aliases": [
+   "Dunav",
+   "Dunav / Дунав",
+   "Дунав",
+   "Dunavac / Дунавац",
+   "Duna"
+  ],
+  "countries": [
+   "HR",
+   "RS"
+  ],
+  "reach": "Hungarian border (km 1433) – Croatian–Serbian border reach (Batina km 1425 – Ilok km 1297) – Novi Sad (km 1255) – Belgrade (km 1168)",
+  "navigable": "yes",
+  "class": "VIc (Serbia km 1170–1433)",
+  "lengthKm": 265,
+  "depth": {
+   "usualM": 2.5,
+   "maxDraftM": null,
+   "notes": "Danube Commission: about 2.5 m on 95 % of days from the border to the Tisa mouth. On 22 Nov 2026 Batina (−58 cm) and Vukovar (−25 cm) gauges were below the low navigation level: expect less."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.2,
+   "notes": "Mean-water current 3.6–4.8 km/h Gönyű – Belgrade."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks; the Iron Gate I backwater reaches Belgrade."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Croatia is Schengen, Serbia is not: crossing between them is an external-border check. Serbian border control points (24 h): Bezdan 1425, Apatin 1401.5, Bačka Palanka 1295, Novi Sad 1255, Belgrade 1168; Croatian: Batina 1425, Aljmaš 1380, Vukovar 1335, Ilok 1297–1298.6."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    9,
+    10,
+    11
+   ],
+   "highWater": [
+    6,
+    7
+   ],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Middle Danube floods mostly in summer, lowest water in autumn/winter (Danube Commission). 22 Nov 2026: below low navigation level at Batina and Vukovar."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Croatia: Ministry of the Sea, Transport and Infrastructure (Vukovar waterways office); Serbia: Directorate for Inland Waterways Plovput",
+   "url": "https://www.vodniputovi.hr/"
+  },
+  "notices": "https://www.vodniputovi.hr/ (HR depths, notices via mmpi.gov.hr) and https://plovput.gov.rs/navigational-bulletin (RS Plovidbeni bilten)",
+  "notes": "Expect 30–90 min at each border check; crew lists on the DAVID forms. Keep the HR/RS bank you clear on; do not land on the other bank between checks. Marinas: Vukovar, Novi Sad (Liman), Belgrade (Dorćol).",
+  "sources": [
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.vodniputovi.hr/",
+   "https://plovput.rs/international-waterways",
+   "https://plovput.gov.rs/navigational-bulletin"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   18.75,
+   44.83,
+   20.47,
+   45.9
+  ]
+ },
+ {
+  "id": "dunav-iron-gates",
+  "name": "Danube: Belgrade – Iron Gates (Djerdap I and II) – Timok (Serbia/Romania)",
+  "aliases": [
+   "Дунав",
+   "Дунав/Dunărea",
+   "Dunav/Dunărea",
+   "Dunav / Дунав",
+   "Djerdap I",
+   "Djerdap II",
+   "Dunav"
+  ],
+  "countries": [
+   "RS",
+   "RO"
+  ],
+  "reach": "Belgrade (km 1168) – Pančevo – Veliko Gradište (km 1059) – Golubac – Iron Gates gorge – Iron Gate I (km 942.95) – Kladovo/Drobeta-Turnu Severin – Iron Gate II (km 863) – Timok mouth (km 845.7)",
+  "navigable": "yes",
+  "class": "VII (Serbia km 845.5–1170)",
+  "lengthKm": 322,
+  "depth": {
+   "usualM": 3.5,
+   "maxDraftM": null,
+   "notes": "Impounded by Iron Gate I and II: minimum 3.5 m (Danube Commission). Narrowest point 210 m in the Cazane gorge."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0.5,
+   "notes": "Belgrade – Iron Gate I: 0.4–3.0 km/h at mean water; Iron Gate I – Turnu Severin 6.5–9.0 km/h."
+  },
+  "locks": {
+   "count": 2,
+   "chamber": "Iron Gate I: one lock on each bank, 310 × 34 m (two-step, total lift about 34 m); Iron Gate II: one lock on each bank, 310 × 34 m",
+   "hours": "24 h (commercial locks)",
+   "notes": "Small craft are locked with commercial vessels; lockage planned by the lock dispatcher on VHF. Serbian Iron Gate 2 lock was out of use for repairs 18.07.2023–17.07.2024."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Serbia (non-Schengen) and Romania (Schengen since 1.1.2025) share the reach. Border control points: Ram 1077, Veliko Gradište 1059 (24 h), Golubac 1044/1040, Donji Milanovac 990, Tekija 956.5, Kladovo 933, Prahovo 859; RO: Moldova Veche, Orșova, Drobeta-Turnu Severin."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [
+    4,
+    5
+   ],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Frost interrupts navigation 32–36 days a year on average around the Iron Gates (Danube Commission); strong winter Košava wind."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Plovput (Serbia); Romanian AFDJ for the left bank",
+   "url": "https://plovput.rs/international-waterways"
+  },
+  "notices": "https://plovput.gov.rs/navigational-bulletin and https://www.danubeportal.com/",
+  "notes": "Moor only at border/control points before clearing in. Kladovo marina below Iron Gate I. Košava (strong SE wind) can raise steep waves in the wide reservoir.",
+  "sources": [
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://plovput.rs/international-waterways",
+   "https://plovput.gov.rs/navigational-bulletin",
+   "https://mgsi.gov.rs/en/node/21327",
+   "https://www.danubeportal.com/"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   20.47,
+   44.1,
+   22.75,
+   44.9
+  ]
+ },
+ {
+  "id": "dunarea-lower-ro-bg",
+  "name": "Lower Danube: Romania/Bulgaria border reach (Timok – Vidin – Ruse – Silistra) and Romania to Brăila",
+  "aliases": [
+   "Dunărea - Дунав",
+   "Dunărea",
+   "Brațul Borcea (Dunărea)",
+   "Brațul Borcea (Dunarea)",
+   "Brațul Bala (Dunărea)",
+   "Дунав"
+  ],
+  "countries": [
+   "RO",
+   "BG"
+  ],
+  "reach": "Timok mouth (km 845.7) – Calafat/Vidin (km 795) – Lom (742) – Ruse/Giurgiu (495) – Silistra/Călărași (375) – Cernavodă (300) – Brăila (km 170)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 676,
+  "depth": {
+   "usualM": 2.4,
+   "maxDraftM": null,
+   "notes": "On 95 % of days: Iron Gate II – km 610 about 2.4 m; km 610–346 about 2.4 m; km 346–170 only 1.6 m in the main arm (Borcea arm 3.0 m). Over fords depth can fall to 1.5 m at low water (Danube Commission)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Lowland river with many unregulated side arms between Silistra and Brăila; Borcea arm is the alternative route km 371–248."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks below Iron Gate II. Cernavodă bridges (km 300) and Giurgeni–Vadu Oii (km 237.8) have passage rules."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Romania and Bulgaria joined Schengen on 1 Jan 2025. Border control points (24 h): RO Calafat, Galați, Tulcea; BG Vidin, Lom, Oryahovo, Somovit, Nikopol, Svishtov, Ruse, Tutrakan, Silistra."
+  },
+  "season": {
+   "best": "May–June, September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    9,
+    10,
+    11
+   ],
+   "highWater": [
+    4,
+    5
+   ],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Lower Danube annual flood mostly in spring; lowest water in autumn/winter. Frost interrupts navigation 36–40 days a year on average; freezing over happens in 40–75 % of winters (Danube Commission)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "AFDJ Galați (Romania) and the Bulgarian Danube agency (EAPPD), via the Danube FIS portal",
+   "url": "https://www.danubeportal.com/"
+  },
+  "notices": "https://www.danubeportal.com/",
+  "notes": "Long distances between proper moorings; ports are commercial (Calafat, Lom, Ruse, Giurgiu, Silistra, Călărași, Cernavodă). Fog common in the cold season (50–60 days a year on the lower Danube). Danube–Black Sea Canal leaves at Cernavodă.",
+  "sources": [
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "https://www.danubeportal.com/"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   22.75,
+   43.6,
+   28.0,
+   45.3
+  ]
+ },
+ {
+  "id": "dunarea-maritime-delta",
+  "name": "Maritime Danube and Danube Delta (Brăila – Galați – Tulcea – Sulina; Chilia and Sfântu Gheorghe arms)",
+  "aliases": [
+   "Dunărea",
+   "Dunărea - Дунай",
+   "Dunărea - Brațul Tulcea",
+   "Dunărea (Brațul Sulina)",
+   "Dunărea (Brațul Sfântu Gheorghe)",
+   "Brațul Chilia",
+   "Кілійське гирло - Brațul Chilia"
+  ],
+  "countries": [
+   "RO",
+   "UA",
+   "MD"
+  ],
+  "reach": "Brăila (km 170) – Galați (km 148.6 / mile 80) – Ceatal Izmail (km 79.63) – Tulcea arm (Tulcea km 71.3) – Ceatal Sf. Gheorghe (km 62.97) – Sulina channel to Sulina (km 0); Chilia arm (UA border) and Sfântu Gheorghe arm",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 170,
+  "depth": {
+   "usualM": 6.4,
+   "maxDraftM": null,
+   "notes": "Sulina channel dredged for 24 ft (7.3 m) seagoing draught up to Brăila. Sulina arm 63 km, about 120 m wide; distances below Brăila also in sea miles."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 1.0,
+   "notes": "Current 2 km/h (Brăila–Sulina at low water) to 6.3 km/h at the highest navigable level."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": null,
+   "permit": "Danube Delta Biosphere Reserve (ARBDD) access and vessel permits, issued in Tulcea or online",
+   "notes": "Romanian border control points 24 h: Galați, Tulcea (km 71.3), Sulina (km 0). Chilia arm is the Romanian–Ukrainian border (UA control points Izmail, Kilia, Vylkove); Giurgiulești (MD) km 133.8 and Reni (UA) on the left bank."
+  },
+  "season": {
+   "best": "May–June, September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [
+    9,
+    10,
+    11
+   ],
+   "highWater": [
+    4,
+    5
+   ],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Frost interrupts navigation about 42 days a year on average in the delta reach (Danube Commission)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "AFDJ Galați (River Administration of the Lower Danube); Romanian Border Police",
+   "url": "https://www.danubeportal.com/"
+  },
+  "notices": "https://www.danubeportal.com/",
+  "notes": "Seagoing ships use the Sulina channel: keep clear and keep to the edge. Sulina is the exit to the Black Sea (see the Romanian coast sheet). Delta side channels: permits, speed and access limits of the reserve.",
+  "sources": [
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "https://www.danubeportal.com/",
+   "https://en.wikipedia.org/wiki/Sf%C3%A2ntu_Gheorghe_branch"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   28.0,
+   44.8,
+   29.8,
+   45.5
+  ]
+ },
+ {
+  "id": "danube-black-sea-canal",
+  "name": "Danube–Black Sea Canal (Cernavodă – Agigea/Constanța) and Poarta Albă – Midia Năvodari Canal",
+  "aliases": [
+   "Canalul Dunăre-Marea Neagră",
+   "Canalul Poarta Albă-Midia Năvodari",
+   "Poarta Albă-Midia-Năvodari",
+   "Năvodari harbour"
+  ],
+  "countries": [
+   "RO"
+  ],
+  "reach": "Main branch Cernavodă (Danube km 299.3) – Agigea – Constanța Sud port, 64.4 km; northern branch Poarta Albă – Ovidiu – Năvodari – Midia port, 31.2 km",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 95.6,
+  "depth": {
+   "usualM": 7.0,
+   "maxDraftM": null,
+   "notes": "Main branch 7 m deep, 90–150 m wide; northern branch 5.5 m (max draught 4 m in the infobox), 50–75 m wide."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Still canal."
+  },
+  "locks": {
+   "count": 4,
+   "chamber": "Cernavodă and Agigea (main, twin chambers), Ovidiu and Năvodari (northern branch)",
+   "hours": "Lockage on demand outside normal hours at Ovidiu and Năvodari is charged separately (ACN tariff)",
+   "notes": "Locks: Cernavodă canal km 63.3, Agigea km 1.9 (Danube Commission)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": "Transit fee to ACN (Compania Națională Administrația Canalelor Navigabile); 2013 tariff: pleasure craft minimum 110 EUR + VAT, with or without lockage",
+   "notes": "Fee level dated 2013: ask ACN for the current tariff. Constanța, Constanța Sud and Midia are 24 h border control points."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "No seasonal closure found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Compania Națională Administrația Canalelor Navigabile (ACN), Agigea",
+   "url": "https://www.acn.ro"
+  },
+  "notices": "https://www.danubeportal.com/",
+  "notes": "The canal saves about 400 km against the delta route to the sea. Few or no leisure facilities along the canal; commercial ports at both ends.",
+  "sources": [
+   "https://en.wikipedia.org/wiki/Danube%E2%80%93Black_Sea_Canal",
+   "https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf",
+   "https://www.acn.ro/userfiles/file/anexa%20aprilie%202013.pdf",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "sava-sisak-belgrade",
+  "name": "Sava (Sisak – Slavonski Brod – Brčko – Šabac – Belgrade)",
+  "aliases": [
+   "Sava",
+   "Сава"
+  ],
+  "countries": [
+   "HR",
+   "BA",
+   "RS"
+  ],
+  "reach": "Sisak (rkm 594) to the Danube at Belgrade (rkm 0); small tourist craft conditionally from Rugvica near Zagreb",
+  "navigable": "yes",
+  "class": "Va (rkm 0–81), IV (81–176, 196–313.7, 338.2–371.2), III (176–196, 313.7–338.2, Slavonski Brod – Sisak 371.2–594)",
+  "lengthKm": 594,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Sandbars and shallows below tributary mouths can prevent navigation at low water; sharp bends with radii down to 200 m (Sava Commission manual 2023)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Free-flowing; high water can collapse banks and shift the bed."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": "No locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Middle reach is the Croatia – Bosnia and Herzegovina border (non-Schengen BA). Serbian border crossing at Sremska Mitrovica (rkm 138) and the Serbian Sava ends at rkm 210.8. Brčko port rkm 228."
+  },
+  "season": {
+   "best": "May–June, September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Sava Commission: shallows below tributary mouths limit or stop navigation at low water; months not given. Floods from rain in the Dinaric Alps and Carpathian snowmelt (Danube Commission)."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "International Sava River Basin Commission (ISRBC) with national authorities",
+   "url": "https://www.savacommission.org"
+  },
+  "notices": "https://www.savacommission.org (Sava RIS) and https://plovput.gov.rs/navigational-bulletin",
+  "notes": "Poor marking and old bridges in places; sunken vessels are listed as obstacles. Plan border formalities: HR (Schengen) – BA – RS. Sremska Mitrovica and Šabac got new international piers in 2023.",
+  "sources": [
+   "https://www.savacommission.org/en/manual-on-the-sava-river-navigation/314",
+   "https://plovput.rs/international-waterways",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   15.9,
+   44.4,
+   20.6,
+   45.6
+  ]
+ },
+ {
+  "id": "tisa-tisza",
+  "name": "Tisa / Tisza (Titel – Novi Bečej – Senta – Kanjiža – Szeged)",
+  "aliases": [
+   "Tisa - Tisza",
+   "Tisza",
+   "Тиса",
+   "Тиса - Tisza"
+  ],
+  "countries": [
+   "RS",
+   "HU"
+  ],
+  "reach": "Mouth into the Danube (Danube km 1214.5, Tisa km 0) to the Serbian–Hungarian border (Tisa km 164) and on to Szeged",
+  "navigable": "yes",
+  "class": "IV (Serbia km 0–164)",
+  "lengthKm": 164,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded by the Novi Bečej dam up to Senta; free-flowing above."
+  },
+  "locks": {
+   "count": 1,
+   "chamber": null,
+   "hours": null,
+   "notes": "Novi Bečej lock in the dam at rkm 63; narrow and a bottleneck, a new lock is planned beside it. Plovput lock table showed a Tisa lock 'unavailable': check before going."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Navigation free for all flags. Kanjiža (Tisa km 148) is the Serbian border control point for Hungary. In Hungary, Tisza-tó: internal-combustion motorboats banned in parts and >4 kW banned in the national-park zones."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [
+    1,
+    2
+   ],
+   "notes": "Ice in hard winters (Danube Commission statistics for the region); no Tisa-specific data found."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Plovput (Serbia)",
+   "url": "https://plovput.rs/international-waterways"
+  },
+  "notices": "https://plovput.gov.rs/navigational-bulletin",
+  "notes": "Quiet river with few facilities; check the Novi Bečej lock status with Plovput first. Novi Sad – Titel – Novi Bečej – Senta – Kanjiža.",
+  "sources": [
+   "https://plovput.rs/international-waterways",
+   "https://plovput.gov.rs/navigational-bulletin",
+   "https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf",
+   "https://de.wikipedia.org/wiki/Donau",
+   "https://net.jogtar.hu/jogszabaly?docid=a0300030.kor"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "vltava-praha-melnik",
+  "name": "Vltava (Slapy – Prague – Mělník)",
+  "aliases": [
+   "Vltava",
+   "Bubenečský plavební kanál",
+   "Vraňansko-hořínský plavební kanál",
+   "plavební kanál"
+  ],
+  "countries": [
+   "CZ"
+  ],
+  "reach": "Třebenice/Slapy (km 91.5) – Štěchovice – Prague (Smíchov km 55.55, Holešovice km 47.40) – Vraňany–Hořín canal – Labe at Mělník (km 0)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 91.5,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": 1.8,
+   "notes": "Roztoky lock: max draught 1.80 m. Vraňany–Hořín canal 2.4–3 m (upper) and ≥2.5 m (lower). In 2025 navigation stopped from mid-July below Kořensko (upper Vltava) because of low Orlík reservoir levels."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded, little current."
+  },
+  "locks": {
+   "count": 12,
+   "chamber": "e.g. Roztoky 206.4 × 20 m (permissible 110 × 10.6 m), Hořín two-chamber, lift >8 m",
+   "hours": "Winter 1 Oct 2026 – 30 Apr 2027 reduced; summer 1 May – 30 Sep longer (Modřany to 22:00). Last locking must finish within the hours.",
+   "notes": "Locks (km): Hořín 1.0, Miřejovice 18.0, Dolánky 27.0, Roztoky 35.95, Podbaba 43.25, Štvanice 50.69, Smíchov 53.80 / Mánes 54.15, Modřany 62.10, Vrané 71.40, Štěchovice 84.35; Slapy has only a ferry hoist. VHF 9 on Vltava locks."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Czech rules: motor craft over 4 kW need a licence (průkaz způsobilosti); up to 4 kW licence-free from age 15."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": "Winter lock hours from 1 October."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Lock hours shorter 1 Oct – 30 Apr."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Povodí Vltavy / Státní plavební správa; Czech RIS LAVDIS",
+   "url": "https://lavdis.cz"
+  },
+  "notices": "https://lavdis.cz (fairway messages, e.g. 2026/644/0 for the Vltava, 1 May – 30 Nov 2026)",
+  "notes": "Prague city centre has many passenger boats: keep clear at Smíchov and Štvanice. Berths: Praha-Holešovice / Libeň ports (km 47.4–47.6).",
+  "sources": [
+   "https://lavdis.cz/en/waterways/locks/1373000004",
+   "https://lavdis.cz/en/waterways/locks",
+   "https://lavdis.cz/en/waterways/ports",
+   "https://lavdis.cz/en/waterways/waterways-in-the-czech-republic",
+   "https://cs.wikipedia.org/wiki/Vra%C5%88ansko-ho%C5%99%C3%ADnsk%C3%BD_plavebn%C3%AD_kan%C3%A1l",
+   "https://sps.gov.cz/downloads/zpravy_o_cinnosti/Zprava_2025.pdf",
+   "https://www.batacanal.cz/vodni-cesta/legislativa.html"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   14.25,
+   49.8,
+   14.6,
+   50.42
+  ]
+ },
+ {
+  "id": "labe-cz",
+  "name": "Labe in Czechia (Pardubice – Kolín – Mělník – Ústí nad Labem – Děčín – border)",
+  "aliases": [
+   "Labe",
+   "Labe / Elbe"
+  ],
+  "countries": [
+   "CZ",
+   "DE"
+  ],
+  "reach": "Kunětice (km 973.5) – Pardubice – Přelouč (km 951.2); Přelouč (km 949.1) – Kolín – Mělník (port km 834.4) – Ústí nad Labem (Střekov km 767.48) – Děčín – state border (km 726.6)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 247,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Below Střekov (Ústí) the Labe is free-flowing to the border and depends on rain: low water limits draught in dry summers."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": null,
+   "notes": "Impounded Přelouč – Ústí; free-flowing Ústí – Děčín – border."
+  },
+  "locks": {
+   "count": 23,
+   "chamber": null,
+   "hours": null,
+   "notes": "Locks (km): Pardubice 967.42, Srnojedy 960.79, [Přelouč out of service], Týnec 932.71 … Kolín 920.63 … Obříství 843.13, Dolní Beřkovice 830.53, Štětí 818.59, Roudnice 808.70, České Kopisty 795.16, Lovosice 787.38, Ústí-Střekov 767.48. Pardubice–Přelouč is cut off from the rest while Přelouč is out of service."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": null
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Povodí Labe / Ředitelství vodních cest; Czech RIS LAVDIS",
+   "url": "https://lavdis.cz"
+  },
+  "notices": "https://lavdis.cz",
+  "notes": "Ports: Mělník 834.4, Lovosice-Prosmyky 788.8, Ústí-Vaňov 767.87, Krásné Březno 761–764, Děčín 737–742. Continue downstream into Germany (Elbe) for Dresden.",
+  "sources": [
+   "https://lavdis.cz/en/waterways/waterways-in-the-czech-republic",
+   "https://lavdis.cz/en/waterways/locks",
+   "https://lavdis.cz/en/waterways/ports"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   13.9,
+   49.95,
+   15.95,
+   50.9
+  ]
+ },
+ {
+  "id": "batuv-kanal",
+  "name": "Baťa Canal (Baťův kanál: Otrokovice – Veselí – Petrov – Rohatec/Sudoměřice)",
+  "aliases": [
+   "Baťův kanál",
+   "Morava",
+   "Radějovka"
+  ],
+  "countries": [
+   "CZ",
+   "SK"
+  ],
+  "reach": "Otrokovice to Rohatec–Sudoměřice and the Morava (border with Slovakia, Skalica): 51.8 km = 27 km Morava, 1 km Dřevnice, 24 km canal",
+  "navigable": "yes",
+  "class": "0 (Czech recreational class)",
+  "lengthKm": 51.8,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": null
+  },
+  "airDraftM": 2.84,
+  "current": {
+   "typicalMs": null,
+   "notes": "Canal reaches still; Morava reaches with current, high water closes navigation briefly."
+  },
+  "locks": {
+   "count": 14,
+   "chamber": null,
+   "hours": "Season 2026: May Fri–Sun (+1 and 8 May), June–August Tue–Sun, September Fri–Sun; 09:30–13:30 and 14:00–18:00, last locking 15 min before closing; free of charge",
+   "notes": "Spytihněv, Babice, Huštěnovice, Staré Město, Kunovský les, Nedakonice, Uherský Ostroh, Veselí n. M., Vnorovy I and II, Strážnice I and II (normally open), Petrov, Rohatec–Sudoměřice (new, opened 1 May 2026). Clearance 2.84 m at Uherský Ostroh, 3.05 m Napajedla footbridge (22.11.2026)."
+  },
+  "rules": {
+   "motorboats": "allowed",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Licence needed above 4 kW. Licence-free from 18: up to 20 kW and max 20 km/h on class-0 waterways, or certified rental boats limited to 12 km/h. Keep 10 m from swimmers. Mooring in ports charged (port card)."
+  },
+  "season": {
+   "best": "June–August",
+   "closures": "No public locking outside the season (October–April)."
+  },
+  "months": {
+   "closed": [
+    10,
+    11,
+    12,
+    1,
+    2,
+    3,
+    4
+   ],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Season 1 May – end of September (2026), weekends only in May and September."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Povodí Moravy, s.p.",
+   "url": "https://batuvkanal.pmo.cz/cz/stranka/plavebni-omezeni"
+  },
+  "notices": "https://batuvkanal.pmo.cz/cz/stranka/plavebni-omezeni",
+  "notes": "Houseboat and day-boat rentals at several ports (Otrokovice, Spytihněv, Veselí, Strážnice, Petrov, Skalica). Low bridges: check the posted clearance before passing.",
+  "sources": [
+   "https://www.batacanal.cz/",
+   "https://www.batacanal.cz/vodni-cesta/legislativa.html",
+   "https://en.wikipedia.org/wiki/Ba%C5%A5a_Canal",
+   "https://lavdis.cz/en/waterways/locks"
+  ],
+  "checked": "2026-11-22",
+  "bbox": [
+   17.0,
+   48.75,
+   17.6,
+   49.25
+  ]
+ },
+ {
+  "id": "balaton",
+  "name": "Lake Balaton",
+  "aliases": [
+   "Balaton"
+  ],
+  "countries": [
+   "HU"
+  ],
+  "reach": "Whole lake, Keszthely – Siófok – Balatonfüred – Tihany – Balatonkenese (78 km long, up to 14 km wide)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 78,
+  "depth": {
+   "usualM": 3.2,
+   "maxDraftM": null,
+   "notes": "Average depth about 3.2–3.3 m, max 12.2 m (Tihany strait)."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Lake; outflow through the canalised Sió."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "banned",
+   "speedLimitKmh": null,
+   "permit": "Internal-combustion boats only with an operating permit (üzemeltetési engedély) from BFKH for listed purposes (rescue, works, club coach boats, harbour service); fee 48,000–55,000 HUF",
+   "notes": "Vkt. 58 § (1): no internal-combustion small craft on the whole lake. Sailing-boat auxiliary engines only in harbour and within 300 m, to the nearest harbour in a storm warning or in wind below Beaufort 1. Electric and sail allowed."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Storm-warning service (lights around the lake) runs 1 April – 31 October."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Budapest Főváros Kormányhivatala, Hajózási Engedélyezési és Ellenőrzési Osztály",
+   "url": "https://kormanyhivatalok.hu"
+  },
+  "notices": "https://rsoe.hu/en/viharjelzes (storm warnings)",
+  "notes": "Sudden storms: obey the storm-warning lights (first and second degree). Passenger ships BAHART Siófok – Balatonfüred – Tihany. Busy marinas in July–August.",
+  "sources": [
+   "https://kormanyhivatalok.hu/sites/default/files/2026-06/uzemeltetesi-engedely-tajekoztato_2026.pdf",
+   "https://net.jogtar.hu/jogszabaly?docid=a0300030.kor",
+   "https://en.wikipedia.org/wiki/Lake_Balaton",
+   "https://rsoe.hu/en/viharjelzes"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "neusiedler-see",
+  "name": "Lake Neusiedl / Fertő",
+  "aliases": [
+   "Neusiedler See / Fertő",
+   "Fertőrákosi keresztárok"
+  ],
+  "countries": [
+   "AT",
+   "HU"
+  ],
+  "reach": "Whole lake (315 km², 240 km² Austrian, 75 km² Hungarian), about 36 km north–south, 6–12 km wide",
+  "navigable": "restricted",
+  "class": null,
+  "lengthKm": 36,
+  "depth": {
+   "usualM": 1.0,
+   "maxDraftM": null,
+   "notes": "Average depth about 1 m, max 1.8 m; low water makes boats ground more often and damages moorings. Harbours lie at the end of channels through the reed belt."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": "Shallow steppe lake; wind can push water from one end to the other."
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "banned",
+   "speedLimitKmh": null,
+   "permit": null,
+   "notes": "Austria: craft with combustion engines banned on the Neusiedlersee (Burgenland regulation LGBl. 51/2007, amended 2021). Hungary: internal-combustion small craft banned on the whole Fertő tó (Vkt. 58 §). Sport craft must carry optical emergency signals (LGBl. 13/1997)."
+  },
+  "season": {
+   "best": "May–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Hungarian storm-warning service on Fertő 1 April – 31 October."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Amt der Burgenländischen Landesregierung; BFKH (Hungarian part)",
+   "url": "https://www.burgenland.at"
+  },
+  "notices": "https://www.burgenland.at/fileadmin/user_upload/Downloads/Mobilitaet_und_Sicherheit/Mobilitaet/Verkehrsrecht/Schifffahrtswesen/Sicherheitswarnung_Neusiedler_See.pdf",
+  "notes": "A sailing and electric-boat lake: no access from the Danube. Strong winds raise short steep waves over the shallow water; stay in marked channels to Rust, Mörbisch, Podersdorf, Illmitz, Neusiedl and Fertőrákos.",
+  "sources": [
+   "https://www.ris.bka.gv.at/Dokumente/Lgbl/LGBL_BU_20070809_51/LGBL_BU_20070809_51.pdf",
+   "https://kormanyhivatalok.hu/sites/default/files/2026-06/uzemeltetesi-engedely-tajekoztato_2026.pdf",
+   "https://en.wikipedia.org/wiki/Lake_Neusiedl",
+   "https://www.burgenland.at/fileadmin/user_upload/Downloads/Mobilitaet_und_Sicherheit/Mobilitaet/Verkehrsrecht/Schifffahrtswesen/Sicherheitswarnung_Neusiedler_See.pdf",
+   "https://rsoe.hu/en/viharjelzes"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "woerthersee",
+  "name": "Wörthersee (Klagenfurt – Pörtschach – Velden)",
+  "aliases": [
+   "Wörthersee"
+  ],
+  "countries": [
+   "AT"
+  ],
+  "reach": "Whole lake, 16.5 km long from Klagenfurt (east) to Velden (west), up to 1.7 km wide",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 16.5,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Max depth 85.2 m."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 50,
+   "permit": "Combustion-engine motorboats only with one of the limited Carinthian licences (335 in K-RSS, 338 per the local leaflet, all issued); electric boats ≥4.4 kW need approval from the Carinthian government and a licence",
+   "notes": "Max 50 km/h by day, 25 km/h at night and in narrows, 10 km/h within the 200 m shore zone (only to berth). Protected zones 100 m: no entry. Electric boats <4.4 kW: registration, no licence; rentable."
+  },
+  "season": {
+   "best": "June–September",
+   "closures": null
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": null
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Amt der Kärntner Landesregierung",
+   "url": "https://www.ktn.gv.at"
+  },
+  "notices": null,
+  "notes": "Visiting motorboats with combustion engines cannot get a licence: plan on electric hire boats or sail. Storm warning: police/water-rescue boats with yellow-orange flashing light.",
+  "sources": [
+   "https://www.krumpendorf.gv.at/wp-content/uploads/2020/10/Verhaltensregeln-am-Woerthersee.pdf",
+   "https://www.jusline.at/gesetz/k-rss/paragraf/3",
+   "https://en.wikipedia.org/wiki/W%C3%B6rthersee"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "traunsee",
+  "name": "Traunsee (Gmunden – Traunkirchen – Ebensee)",
+  "aliases": [
+   "Traunsee"
+  ],
+  "countries": [
+   "AT"
+  ],
+  "reach": "Whole lake, 11.9 km from Gmunden (north) to Ebensee (south)",
+  "navigable": "yes",
+  "class": null,
+  "lengthKm": 11.9,
+  "depth": {
+   "usualM": null,
+   "maxDraftM": null,
+   "notes": "Max depth 191 m."
+  },
+  "airDraftM": null,
+  "current": {
+   "typicalMs": 0,
+   "notes": null
+  },
+  "locks": {
+   "count": 0,
+   "chamber": null,
+   "hours": null,
+   "notes": null
+  },
+  "rules": {
+   "motorboats": "restricted",
+   "speedLimitKmh": 50,
+   "permit": "Registration needed except rowing/sailing boats and electric boats up to 4.4 kW; licence (patent) for ≥4.4 kW, foreign licences accepted",
+   "notes": "Combustion motorboats banned 1 July – 31 August and 21:00–07:00 (auxiliaries allowed in danger or calm to reach the berth). 50 km/h day, 25 km/h night; 200 m shore zone 10 km/h, berthing only. Protected zones 1 May–30 Sep. E-foils banned. 0.5 ‰."
+  },
+  "season": {
+   "best": "May–June, September",
+   "closures": "Summer ban on combustion motorboats 1 July – 31 August."
+  },
+  "months": {
+   "closed": [],
+   "lowWater": [],
+   "highWater": [],
+   "ice": [],
+   "notes": "Combustion motorboats banned in July and August; sailing and electric boats allowed."
+  },
+  "tides": {
+   "tidal": false,
+   "rangeM": null,
+   "notes": null
+  },
+  "authority": {
+   "name": "Bezirkshauptmannschaft Gmunden",
+   "url": "https://www.land-oberoesterreich.gv.at/23887.htm"
+  },
+  "notices": null,
+  "notes": "On the other Upper Austrian lakes (except Attersee and Traunsee) combustion motorboats are banned all year; Mondsee has its own limits. Storm warning: orange-yellow flashing lights.",
+  "sources": [
+   "https://www.land-oberoesterreich.gv.at/Mediendateien/Formulare/Dokumente_BH_GM/Merkblatt%20Traunsee%202024.pdf",
+   "https://de.wikipedia.org/wiki/Traunsee",
+   "https://en.wikipedia.org/wiki/Traunsee",
+   "https://www.land-oberoesterreich.gv.at/21366.htm"
+  ],
+  "checked": "2026-11-22"
  }
 ]

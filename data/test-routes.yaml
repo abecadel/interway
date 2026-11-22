@@ -5155,3 +5155,306 @@
   sea: true
   countries: [US, CA]
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 34, Inside Passage distances, Seattle to Juneau 879 NM)
+
+# --- Danube and central Europe (researched 2026-11-22) -------------------------------------------
+# Distances come from official river kilometres (Danube km counted from Sulina = km 0; Labe/Vltava km from
+# the Czech RIS lavdis.cz). Bavarian Danube kilometrage predates some channel cuts, so the sailed distance can
+# be a few % shorter than the km difference: tolerances there are 0.15.
+# DC2006 = Danube Commission, Guide des bateliers / Donau-Schifferführer 2006 (port and lock river-km):
+#   https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf
+# BCM2025 = viadonau, Practical manual on border controls along the Danube, 5th edition 2025 (control-point river-km):
+#   https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf
+
+# --- Germany ---------------------------------------------------------------------------------------
+- name: Kelheim → Regensburg (Danube, Bad Abbach lock)
+  from: [11.9052, 48.9103]
+  to: [12.0968, 49.0225]
+  expected_km: 32
+  tolerance: 0.15
+  countries: [DE]
+  via: [Donau]
+  min_locks: 1
+  source: DC2006 (Altmühl/Main-Donau-Kanal mouth at Kelheim km 2411.6; Bad Abbach lock km 2397.17) and WSV 'Hinweise für Wassersportler' (Steinerne Brücke Regensburg km 2379.62)
+
+- name: Regensburg → Deggendorf (Danube, Geisling and Straubing locks)
+  from: [12.0968, 49.0225]
+  to: [12.9660, 48.8215]
+  expected_km: 96
+  tolerance: 0.15
+  countries: [DE]
+  via: [Donau]
+  min_locks: 2
+  source: DC2006 (Regensburg km 2379; Geisling lock km 2354.29, Straubing km 2324.13; Deggendorf harbour at the town limit km 2283.9)
+
+- name: Deggendorf → Passau (Danube, Kachlet lock)
+  from: [12.9660, 48.8215]
+  to: [13.4670, 48.5763]
+  expected_km: 59
+  tolerance: 0.15
+  countries: [DE]
+  via: [Donau]
+  min_locks: 1
+  source: DC2006 (Deggendorf harbour km 2283.9; Kachlet lock km 2230.60; Inn mouth at Passau km 2225.2)
+
+# --- Austria ---------------------------------------------------------------------------------------
+- name: Passau → Linz Winterhafen (Danube, Jochenstein, Aschach, Ottensheim)
+  from: [13.4670, 48.5763]
+  to: [14.3159, 48.3214]
+  expected_km: 93
+  tolerance: 0.1
+  countries: [DE, AT]
+  via: [Donau]
+  min_locks: 3
+  source: DC2006 (Inn mouth km 2225.2; Jochenstein km 2203.20, Aschach 2162.67, Ottensheim 2146.80; Linz Winterhafen km 2131.8)
+
+- name: Linz → Krems (Danube, Abwinden, Wallsee, Ybbs-Persenbeug, Melk locks)
+  from: [14.3159, 48.3214]
+  to: [15.5942, 48.4017]
+  expected_km: 134
+  tolerance: 0.1
+  countries: [AT]
+  via: [Donau]
+  min_locks: 4
+  source: DC2006 (Linz Winterhafen km 2131.8; Abwinden 2119.60, Wallsee 2095.10, Persenbeug 2060.42, Melk 2038.10; Krems harbour km 1998)
+
+- name: Melk → Krems (Wachau)
+  from: [15.3279, 48.2351]
+  to: [15.5942, 48.4017]
+  expected_km: 36
+  tolerance: 0.15
+  countries: [AT]
+  via: [Donau]
+  source: https://en.wikipedia.org/wiki/Wachau (the Wachau valley is 36 km long, between Melk and Krems)
+
+- name: Krems → Vienna Freudenau harbour (Danube, Altenwörth and Greifenstein)
+  from: [15.5942, 48.4017]
+  to: [16.4721, 48.1813]
+  expected_km: 78
+  tolerance: 0.1
+  countries: [AT]
+  via: [Donau]
+  min_locks: 2
+  source: DC2006 (Krems harbour km 1998; Altenwörth lock km 1980.10, Greifenstein 1949.20; Freudenau harbour km 1920.1)
+
+- name: Vienna Freudenau → Bratislava winter harbour (Danube)
+  from: [16.4721, 48.1813]
+  to: [17.1374, 48.1354]
+  expected_km: 54
+  tolerance: 0.1
+  countries: [AT, SK]
+  via: [Donau, Dunaj]
+  source: DC2006 (Freudenau harbour km 1920.1; Bratislava winter harbour, left bank, km 1866.25)
+
+# --- Slovakia / Hungary ---------------------------------------------------------------------------
+- name: Bratislava → Komárno (Gabčíkovo lock)
+  from: [17.1374, 48.1354]
+  to: [18.1129, 47.7519]
+  expected_km: 99
+  tolerance: 0.1
+  countries: [SK, HU]
+  via: [Dunaj]
+  min_locks: 1
+  source: DC2006 (Bratislava winter harbour km 1866.25; Gabčíkovo lock, axis at Danube km 1819.15, in the bypass canal; Komárno inner harbour km 1767.1)
+
+- name: Komárno → Budapest Újpest (Esztergom, Danube Bend)
+  from: [18.1129, 47.7519]
+  to: [19.0695, 47.5786]
+  expected_km: 114
+  tolerance: 0.1
+  countries: [SK, HU]
+  via: [Duna]
+  source: DC2006 (Komárno inner harbour km 1767.1; Újpest basin at the upper end of Budapest km 1652.9)
+
+- name: Budapest → Mohács (Danube, Hungarian Schengen exit point)
+  from: [19.0695, 47.5786]
+  to: [18.6934, 45.9968]
+  expected_km: 204
+  tolerance: 0.1
+  countries: [HU]
+  via: [Duna]
+  source: DC2006 (Újpest basin km 1652.9) and BCM2025 (border control point Mohács km 1449.00)
+
+- name: Mohács → Vukovar (Danube, Croatian–Serbian border reach)
+  from: [18.6934, 45.9968]
+  to: [19.0193, 45.3465]
+  expected_km: 114
+  tolerance: 0.1
+  countries: [HU, HR, RS]
+  via: [Duna, Dunav]
+  source: BCM2025 (Mohács km 1449.00; Vukovar control point km 1335.00)
+
+- name: Vukovar → Novi Sad (Danube)
+  from: [19.0193, 45.3465]
+  to: [19.8590, 45.2497]
+  expected_km: 80
+  tolerance: 0.1
+  countries: [HR, RS]
+  via: [Дунав]
+  source: BCM2025 (Vukovar km 1335.00; Novi Sad km 1255.00)
+
+- name: Novi Sad → Belgrade-Zemun (Danube)
+  from: [19.8590, 45.2497]
+  to: [20.4183, 44.8493]
+  expected_km: 82
+  tolerance: 0.1
+  countries: [RS]
+  via: [Дунав]
+  source: BCM2025 (Novi Sad km 1255.00; Belgrade-Zemun passenger control point km 1172.95)
+
+- name: Belgrade → Veliko Gradište (Danube)
+  from: [20.4669, 44.8317]
+  to: [21.5166, 44.7739]
+  expected_km: 109
+  tolerance: 0.1
+  countries: [RS, RO]
+  via: [Дунав]
+  source: BCM2025 (Belgrade km 1168.00; Veliko Gradište km 1059.00)
+
+- name: Veliko Gradište → Kladovo (Iron Gates gorge, Iron Gate I locks)
+  from: [21.5166, 44.7739]
+  to: [22.6105, 44.6185]
+  expected_km: 126
+  tolerance: 0.1
+  countries: [RS, RO]
+  via: [Dunărea]
+  min_locks: 1
+  source: BCM2025 (Veliko Gradište km 1059.00; Kladovo km 933.00) and DC2006 (Iron Gate I locks km 942.95)
+
+- name: Kladovo → Prahovo (Iron Gate II locks)
+  from: [22.6105, 44.6185]
+  to: [22.5903, 44.2983]
+  expected_km: 74
+  tolerance: 0.1
+  countries: [RS, RO]
+  via: [Dunărea]
+  min_locks: 1
+  source: BCM2025 (Kladovo km 933.00; Prahovo km 859.00) and DC2006 (Iron Gate II locks km 863–864)
+
+# --- Romania / Bulgaria ------------------------------------------------------------------------------
+- name: Calafat → Lom (lower Danube)
+  from: [22.9441, 44.0020]
+  to: [23.2396, 43.8363]
+  expected_km: 52
+  tolerance: 0.1
+  countries: [RO, BG]
+  via: [Dunărea - Дунав]
+  source: BCM2025 (Calafat control point km 794.80–793.80) and DC2006 (Lom harbour basin km 742.0)
+
+- name: Ruse → Silistra (lower Danube)
+  from: [25.9392, 43.8471]
+  to: [27.2677, 44.1279]
+  expected_km: 117
+  tolerance: 0.15
+  countries: [BG, RO]
+  via: [Dunărea - Дунав]
+  source: DC2006 (Ruse harbour basin km 495.85) and BCM2025 (Silistra port area km 383.00–374.10; the distance taken to the town quay)
+
+- name: Cernavodă → Brăila (lower Danube)
+  from: [28.0209, 44.3545]
+  to: [27.9805, 45.2667]
+  expected_km: 130
+  tolerance: 0.1
+  countries: [RO]
+  via: [Dunărea]
+  source: DC2006 (Cernavodă harbour basin km 299 + 400 m; Brăila docks km 169.1)
+
+- name: Galați → Tulcea (maritime Danube, Tulcea arm)
+  from: [28.0616, 45.4283]
+  to: [28.8030, 45.1815]
+  expected_km: 77
+  tolerance: 0.1
+  countries: [RO]
+  via: [Dunărea - Brațul Tulcea]
+  source: DC2006 (Galați winter harbour, sea mile 80.25 = km 148.6; Tulcea km 71.3) and BCM2025 (Tulcea control point km 71.30)
+
+- name: Poarta Albă → Midia (Poarta Albă–Midia Năvodari Canal)
+  from: [28.3908, 44.2173]
+  to: [28.6648, 44.3264]
+  expected_km: 31
+  tolerance: 0.2
+  countries: [RO]
+  via: [Canalul Poarta Albă-Midia Năvodari]
+  min_locks: 2
+  source: https://en.wikipedia.org/wiki/Danube%E2%80%93Black_Sea_Canal (northern branch Poarta Albă–Midia Năvodari 31.2 km, locks at Ovidiu and Năvodari)
+
+# --- Sava and Tisa ----------------------------------------------------------------------------------
+- name: Belgrade → Sremska Mitrovica (Sava)
+  from: [20.4438, 44.8240]
+  to: [19.6042, 44.9629]
+  expected_km: 138
+  tolerance: 0.1
+  countries: [RS]
+  via: [Сава]
+  source: BCM2025 (Sremska Mitrovica border crossing at Sava km 138.00; Sava km 0 at the Danube confluence in Belgrade per the Sava Commission manual)
+
+- name: Novi Sad → Kanjiža (Danube and Tisa, Novi Bečej lock)
+  from: [19.8590, 45.2497]
+  to: [20.0695, 46.0692]
+  expected_km: 189
+  tolerance: 0.1
+  countries: [RS]
+  via: [Дунав, Тиса]
+  min_locks: 1
+  source: BCM2025 (Novi Sad Danube km 1255.00; Kanjiža Tisa km 148) and https://de.wikipedia.org/wiki/Donau (Tisa mouth Danube km 1214.5); Novi Bečej lock at Tisa rkm 63 (plovput.rs)
+
+# --- Czechia ----------------------------------------------------------------------------------------
+- name: Praha-Smíchov → Praha-Holešovice (Vltava through Prague)
+  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  from: [14.4154, 50.0629]
+  to: [14.4561, 50.1095]
+  expected_km: 8
+  tolerance: 0.2
+  countries: [CZ]
+  via: [Vltava]
+  min_locks: 2
+  source: https://lavdis.cz/en/waterways/ports (Praha-Smíchov port Vltava km 55.55, Praha-Holešovice km 47.40) and https://lavdis.cz/en/waterways/locks (Smíchov 53.80 / Mánes 54.15, Štvanice 50.69)
+
+- name: Mělník → Ústí nad Labem-Vaňov (Labe)
+  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  from: [14.4516, 50.3725]
+  to: [14.0540, 50.6274]
+  expected_km: 66.5
+  tolerance: 0.1
+  countries: [CZ]
+  via: [Labe]
+  min_locks: 5
+  source: https://lavdis.cz/en/waterways/ports (Mělník port Labe km 834.40, Ústí nad Labem-Vaňov km 767.87) and https://lavdis.cz/en/waterways/locks (Dolní Beřkovice 830.53, Štětí 818.59, Roudnice 808.70, České Kopisty 795.16, Lovosice 787.38)
+
+- name: Otrokovice → Rohatec-Sudoměřice (Baťa Canal and Morava)
+  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  from: [17.5076, 49.2096]
+  to: [17.2425, 48.8773]
+  expected_km: 52
+  tolerance: 0.15
+  countries: [CZ]
+  via: [Baťův kanál, Morava]
+  min_locks: 10
+  source: https://en.wikipedia.org/wiki/Ba%C5%A5a_Canal (51.8 km = 27 km on the Morava, 1 km on the Dřevnice, 24 km of canal; alternative name Průplav Otrokovice–Rohatec) and https://www.batacanal.cz/ (14 locks Spytihněv … Petrov, Rohatec–Sudoměřice)
+
+# --- Lakes --------------------------------------------------------------------------------------------
+- name: Keszthely → Balatonkenese (length of Lake Balaton, sailing)
+  from: [17.2607, 46.7623]
+  to: [18.1096, 47.0307]
+  expected_km: 78
+  tolerance: 0.2
+  countries: [HU]
+  via: [Balaton]
+  source: https://en.wikipedia.org/wiki/Lake_Balaton (maximum length 78 km, from Keszthely in the south-west to Balatonkenese/Balatonakarattya in the north-east; the route has to round the Tihany peninsula)
+
+- name: Klagenfurt → Velden (Wörthersee)
+  from: [14.2525, 46.6172]
+  to: [14.0518, 46.6115]
+  expected_km: 16.5
+  tolerance: 0.15
+  countries: [AT]
+  via: [Wörthersee]
+  source: https://en.wikipedia.org/wiki/W%C3%B6rthersee (maximum length 16.5 km; Klagenfurt at the east end, the bay of Velden at the west end)
+
+- name: Gmunden → Ebensee (Traunsee)
+  from: [13.7988, 47.9131]
+  to: [13.7795, 47.8134]
+  expected_km: 12
+  tolerance: 0.15
+  countries: [AT]
+  via: [Traunsee]
+  source: https://de.wikipedia.org/wiki/Traunsee (11.9 km long, Gmunden at the north end, Ebensee at the south end)

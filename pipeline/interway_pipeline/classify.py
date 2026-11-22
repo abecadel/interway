@@ -102,8 +102,10 @@ def is_navigable_way(tags, allow: Allowlist, coords=None) -> bool:
     if boat in NO and motor not in YES and ship not in YES:
         return False
     if ww in ("fairway", "tidal_channel"):
-        # a paddling route drawn as a fairway (Finland's melontareitit, canoe=*, often through rapids) is no boat route
-        return not ("canoe" in tags and "seamark:type" not in tags and motor not in YES and ship not in YES)
+        # a paddling route drawn as a fairway (Finland's melontareitit, canoe=*, often through rapids) is no boat route,
+        # unless the allowlist names it (New York's East River and Hell Gate carry canoe=yes and nothing else)
+        paddling = "canoe" in tags and "seamark:type" not in tags and motor not in YES and ship not in YES
+        return not paddling or _allowlisted(tags, allow, coords)
     if "CEMT" in tags or "cemt" in tags:
         return True
     # boat=yes alone is not enough: it also covers canoes and kayaks on small rivers
@@ -117,7 +119,12 @@ def is_navigable_way(tags, allow: Allowlist, coords=None) -> bool:
         return True
     if motor in NO:  # a name alone does not outweigh a ban on motorboats (side arms of the Loire above Bouchemaine)
         return False
-    if allow.has_name(tags):
+    return _allowlisted(tags, allow, coords)
+
+
+def _allowlisted(tags, allow: Allowlist, coords) -> bool:
+    """Named in the allowlist: by wikidata, by name, or by a name limited to boxes the way lies in."""
+    if tags.get("wikidata") in allow.wikidata or allow.has_name(tags):
         return True
     boxes = allow.boxes(tags) if coords is not None else []
     return bool(boxes) and in_boxes(coords() if callable(coords) else coords, boxes)

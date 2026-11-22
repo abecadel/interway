@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SAMPLE } from './ports.fixture';
-import { PORTS, portSheetFor, type PortSheet } from './ports';
+import { PORTS, portPoi, portSheetFor, type PortSheet } from './ports';
 
 
 describe('portSheetFor', () => {
@@ -23,5 +23,10 @@ describe('portSheetFor', () => {
       expect(Object.keys(p).sort()).toEqual(Object.keys(SAMPLE).sort());
       expect(p.position).toHaveLength(2);
     }
+  });
+
+  it('makes a searchable place of a sheet', () => {
+    expect(portPoi(SAMPLE)).toEqual({ type: 'marina', name: 'ACI Marina Split', lon: 16.4337, lat: 43.503 });
+    expect(portPoi({ ...SAMPLE, kind: 'town quay' }).type).toBe('port');
   });
 });

@@ -130,6 +130,11 @@ waterways:
   - {name: San Joaquin River, bbox: [-121.9, 37.9, -121.25, 38.1]}
   - Stockton Deep Water Ship Channel
   - Sacramento Deep Water Ship Channel
+  # New York: the East River and Hell Gate join New York Harbor to Long Island Sound; mapped as tidal channels
+  # tagged canoe=yes only (NOAA chart 12339, https://www.nauticalcharts.noaa.gov/)
+  - {name: East River, bbox: [-74.05, 40.68, -73.75, 40.83]}
+  - {name: Hell Gate, bbox: [-74.05, 40.68, -73.75, 40.83]}
+
 lakes:
   - Lake Erie
   - Lake Huron

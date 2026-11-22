@@ -1,1 +1,3498 @@
-[]
+[
+ {
+  "id": "hr-split-aci",
+  "name": "ACI Marina Split",
+  "aliases": [
+   "ACI Split"
+  ],
+  "country": "HR",
+  "position": [
+   16.4308,
+   43.5026
+  ],
+  "kind": "marina",
+  "berths": 318,
+  "visitorBerths": null,
+  "maxLengthM": 90,
+  "depthM": null,
+  "vhf": "17",
+  "phone": "+385 21 398 599",
+  "email": "m.split@aci-club.hr",
+  "website": "https://aci-marinas.com/marina/aci-split/",
+  "booking": "https://booking.aci-club.hr/en/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "slipway",
+   "chandlery",
+   "repairs",
+   "restaurant",
+   "shop"
+  ],
+  "fees": "€168/night for a boat up to 12 m, 1 Jul–31 Aug 2026 (ACI price list 2026)",
+  "season": "all year",
+  "approach": "Through the busy Split ferry port (ships have right of way, no anchoring); enter close to the head of the inner breakwater (Fl R 2s) east of Sustipan.",
+  "notes": "Max length 90 m for daily berths (26 m annual); 15 dry berths. Fuel station 0.05 NM away. Old town and Diocletian's Palace a short walk along the Riva.",
+  "sources": [
+   "https://aci-marinas.com/marina/aci-split/",
+   "https://aci-marinas.com/wp-content/uploads/2023/04/ACI_Marinas_Prices.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "hr-dubrovnik-aci",
+  "name": "ACI Marina Dubrovnik",
+  "aliases": [
+   "ACI Dubrovnik",
+   "ACI Komolac"
+  ],
+  "country": "HR",
+  "position": [
+   18.1249,
+   42.6707
+  ],
+  "kind": "marina",
+  "berths": 371,
+  "visitorBerths": null,
+  "maxLengthM": 45,
+  "depthM": 3,
+  "vhf": null,
+  "phone": "+385 20 455 020",
+  "email": "m.dubrovnik@aci-club.hr",
+  "website": "https://aci-marinas.com/marina/aci-dubrovnik/",
+  "booking": "https://booking.aci-club.hr/en/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "travel lift",
+   "crane",
+   "chandlery",
+   "repairs",
+   "restaurant",
+   "shop",
+   "swimming pool"
+  ],
+  "fees": "€118/night for a boat up to 12 m, 1 Jul–31 Aug 2026 (ACI price list 2026)",
+  "season": "all year",
+  "approach": "From Daksa islet into Rijeka Dubrovačka (170–400 m wide); beyond Rožat the inlet narrows with 3–5 m depth; marina behind a long breakwater, floodlit at night.",
+  "notes": "6 km up the inlet from Dubrovnik old town (bus/taxi). 120 dry berths; fuel station listed among marina services.",
+  "sources": [
+   "https://aci-marinas.com/marina/aci-dubrovnik/",
+   "https://aci-marinas.com/wp-content/uploads/2023/04/ACI_Marinas_Prices.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "hr-biograd-kornati",
+  "name": "Marina Kornati",
+  "aliases": [
+   "Marina Kornati Biograd"
+  ],
+  "country": "HR",
+  "position": [
+   15.4429,
+   43.9417
+  ],
+  "kind": "marina",
+  "berths": 805,
+  "visitorBerths": null,
+  "maxLengthM": 23,
+  "depthM": 6.5,
+  "vhf": null,
+  "phone": "+385 23 383 800",
+  "email": "info@marinakornati.com",
+  "website": "https://www.marinakornati.com/en/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "travel lift 50 t",
+   "crane 10 t",
+   "repairs",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Entrance 40 m wide with up to 6.5 m depth, off the Biograd waterfront facing Pašman channel.",
+  "notes": "Large charter base (300+ charter boats), so Friday/Saturday changeover days are busy. Price list 2026 is a PDF on the marina site.",
+  "sources": [
+   "https://www.marinakornati.com/en/marina",
+   "https://www.marinakornati.com/en/pricelist"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "hr-sukosan-dalmacija",
+  "name": "D-Marin Dalmacija",
+  "aliases": [
+   "Marina Dalmacija",
+   "D-Marin Dalmacija Sukošan"
+  ],
+  "country": "HR",
+  "position": [
+   15.3008,
+   44.0552
+  ],
+  "kind": "marina",
+  "berths": 1076,
+  "visitorBerths": null,
+  "maxLengthM": 70,
+  "depthM": 6,
+  "vhf": "17",
+  "phone": "+385 23 200 300",
+  "email": "dalmacija@d-marin.com",
+  "website": "https://www.d-marin.com/en/marinas/dalmacija/",
+  "booking": "https://www.d-marin.com/en/marinas/dalmacija/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "fuel",
+   "travel lift 80 t",
+   "chandlery",
+   "repairs",
+   "restaurant",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year; water and power 24 h",
+  "approach": "Call on VHF 17 before entering; transit pier for superyachts up to 70 m.",
+  "notes": "One of the largest marinas in the Adriatic, 10 km south of Zadar; 300 dry berths, travel lifts 30/35/80 t, fuel station on site.",
+  "sources": [
+   "https://www.d-marin.com/en/marinas/dalmacija/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gr-corfu-gouvia",
+  "name": "D-Marin Gouvia",
+  "aliases": [
+   "Gouvia Marina",
+   "Marina Gouvia"
+  ],
+  "country": "GR",
+  "position": [
+   19.8566,
+   39.6486
+  ],
+  "kind": "marina",
+  "berths": 1200,
+  "visitorBerths": null,
+  "maxLengthM": 70,
+  "depthM": 5.5,
+  "vhf": "69",
+  "phone": "+30 26610 99500",
+  "email": "gouvia@d-marin.com",
+  "website": "https://www.d-marin.com/en/marinas/gouvia/",
+  "booking": "https://www.d-marin.com/en/marinas/gouvia/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "fuel",
+   "travel lift 75 t",
+   "crane 60 t",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year; water and electricity 24 h",
+  "approach": "Call on VHF 69 before entering Gouvia bay, about 7 km north of Corfu town.",
+  "notes": "Port of entry hub for the Ionian; 500 dry berths, travel lifts 65 and 75 t.",
+  "sources": [
+   "https://www.d-marin.com/en/marinas/gouvia/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gr-lefkas-marina",
+  "name": "D-Marin Lefkas",
+  "aliases": [
+   "Lefkas Marina",
+   "Marina Lefkadas"
+  ],
+  "country": "GR",
+  "position": [
+   20.7111,
+   38.8289
+  ],
+  "kind": "marina",
+  "berths": 620,
+  "visitorBerths": null,
+  "maxLengthM": 45,
+  "depthM": 3.3,
+  "vhf": "69",
+  "phone": "+30 26450 26645",
+  "email": "lefkas@d-marin.com",
+  "website": "https://www.d-marin.com/en/marinas/lefkas/",
+  "booking": "https://www.d-marin.com/en/marinas/lefkas/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "fuel",
+   "travel lift",
+   "repairs",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year; water and electricity 24 h",
+  "approach": "Through the Lefkas canal (swing bridge opens on the hour) to the marina on the east shore of the town; call VHF 69. Draft limit 3.3 m.",
+  "notes": "280 dry berths; hotel, supermarket and fuel station on site. Lefkas town is next to the marina.",
+  "sources": [
+   "https://www.d-marin.com/en/marinas/lefkas/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gr-piraeus-zea",
+  "name": "D-Marin Zea",
+  "aliases": [
+   "Zea Marina",
+   "Marina Zeas",
+   "Pasalimani"
+  ],
+  "country": "GR",
+  "position": [
+   23.6492,
+   37.9348
+  ],
+  "kind": "marina",
+  "berths": 504,
+  "visitorBerths": null,
+  "maxLengthM": 150,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+30 210 455 9000",
+  "email": "zea@d-marin.com",
+  "website": "https://www.d-marin.com/en/marinas/zea/",
+  "booking": "https://www.d-marin.com/en/marinas/zea/",
+  "fuel": "diesel",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "chandlery",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year; water and electricity 24 h",
+  "approach": "Call on VHF 9 before entering for berthing instructions.",
+  "notes": "Fuel by tanker truck only. Central Piraeus, metro to Athens. D-Marin quotes drafts up to 8 m.",
+  "sources": [
+   "https://www.d-marin.com/en/marinas/zea/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "tr-gocek-dmarin",
+  "name": "D-Marin Göcek",
+  "aliases": [
+   "D-Marin Gocek",
+   "Göcek Marina"
+  ],
+  "country": "TR",
+  "position": [
+   28.9414,
+   36.7479
+  ],
+  "kind": "marina",
+  "berths": 388,
+  "visitorBerths": null,
+  "maxLengthM": 85,
+  "depthM": null,
+  "vhf": "73",
+  "phone": "+90 252 645 15 20",
+  "email": "gocek@d-marin.com",
+  "website": "https://www.d-marin.com/en/marinas/gocek/",
+  "booking": "https://www.d-marin.com/en/marinas/gocek/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi"
+  ],
+  "fees": null,
+  "season": "all year; office 08:30–18:30 (1 Mar–31 Oct), 08:30–17:00 in winter",
+  "approach": "Call on VHF 73 on arrival; naturally sheltered deep bay at the head of the Gulf of Fethiye.",
+  "notes": "150 dry berths; Dalaman airport about 20 km. Transit log required.",
+  "sources": [
+   "https://www.d-marin.com/en/marinas/gocek/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "mt-pieta-dmarin-valletta",
+  "name": "D-Marin Valletta",
+  "aliases": [
+   "Sa Maison Marina",
+   "Marina di Valletta"
+  ],
+  "country": "MT",
+  "position": [
+   14.4994,
+   35.8956
+  ],
+  "kind": "marina",
+  "berths": 280,
+  "visitorBerths": null,
+  "maxLengthM": 100,
+  "depthM": null,
+  "vhf": "13",
+  "phone": "+356 7944 4016",
+  "email": "valletta@d-marin.com",
+  "website": "https://www.d-marin.com/en/marinas/valletta/",
+  "booking": "https://www.d-marin.com/en/marinas/valletta/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi"
+  ],
+  "fees": null,
+  "season": "all year; harbour services 24 h",
+  "approach": "In Marsamxett Harbour at Pietà (Sa Maison), below Valletta's walls; call VHF 13.",
+  "notes": "Alongside transit berthing for yachts of 50 m and more. Valletta is a short walk.",
+  "sources": [
+   "https://www.d-marin.com/en/marinas/valletta/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gr-athens-alimos",
+  "name": "Alimos Marina",
+  "aliases": [
+   "Kalamaki Marina",
+   "Μαρίνα Αλίμου"
+  ],
+  "country": "GR",
+  "position": [
+   23.7,
+   37.914
+  ],
+  "kind": "marina",
+  "berths": 1100,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "71",
+  "phone": "+30 210 988 0000",
+  "email": null,
+  "website": "https://www.alimos-marina.gr/en/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Call on VHF 71 well before the entrance and wait to be guided to a berth.",
+  "notes": "Greece's largest charter base, busiest on Friday–Saturday changeovers; 600 boats in winter dry storage. Berthing application and price list on the marina site.",
+  "sources": [
+   "https://www.alimos-marina.gr/en/",
+   "https://www.CruisersWiki.org/wiki/Kalamaki-Alimos_Marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gr-kos-marina",
+  "name": "Kos Marina",
+  "aliases": [
+   "Kos Island Marina"
+  ],
+  "country": "GR",
+  "position": [
+   27.3025,
+   36.8917
+  ],
+  "kind": "marina",
+  "berths": 265,
+  "visitorBerths": null,
+  "maxLengthM": 80,
+  "depthM": null,
+  "vhf": "77",
+  "phone": "+30 22420 44150",
+  "email": null,
+  "website": "https://www.kosmarina.gr/",
+  "booking": "https://www.kosmarina.gr/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "travel lift 100 t",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Entrance at 36°53′N 27°18′E, one mile south-east of Kos old harbour; call VHF 77.",
+  "notes": "80 extra berths at Mandraki (old harbour); 150 dry berths. Fridays are busy, at the fuel dock too; book ahead. Town 15 min walk.",
+  "sources": [
+   "https://www.kosmarina.gr/",
+   "https://www.cruiserswiki.org/wiki/Kos_Marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "it-olbia-portisco",
+  "name": "Marina di Portisco",
+  "aliases": [
+   "IGY Portisco Marina",
+   "Porto di Portisco"
+  ],
+  "country": "IT",
+  "position": [
+   9.5247,
+   41.0336
+  ],
+  "kind": "marina",
+  "berths": 589,
+  "visitorBerths": null,
+  "maxLengthM": 90,
+  "depthM": null,
+  "vhf": "69",
+  "phone": "+39 0789 33520",
+  "email": null,
+  "website": "https://www.marinadiportisco.it/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "In the bay of Portisco on the north-east coast of Sardinia, between Olbia and Porto Rotondo; call VHF 69.",
+  "notes": "Base for cruising the Costa Smeralda and La Maddalena archipelago; Olbia airport about 20 km.",
+  "sources": [
+   "https://skipper.adac.de/en/?p=43138",
+   "https://www.CruisersWiki.org/wiki/Portisco"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "it-venezia-certosa",
+  "name": "Venezia Certosa Marina",
+  "aliases": [
+   "Vento di Venezia",
+   "marina Ventodivenezia"
+  ],
+  "country": "IT",
+  "position": [
+   12.3732,
+   45.4359
+  ],
+  "kind": "marina",
+  "berths": 320,
+  "visitorBerths": null,
+  "maxLengthM": 60,
+  "depthM": 2.5,
+  "vhf": "72",
+  "phone": "+39 041 520 8588",
+  "email": "marina@ventodivenezia.it",
+  "website": "https://www.veneziacertosamarina.it/en/nostro-marina/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "repairs",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "all year; office Apr–Oct 08:30–19:00, Nov–Mar 08:30–18:30 (Mon–Sat)",
+  "approach": "From the Lido entrance (Porto di Lido) follow the channel north of Certosa island; access channel about 2.5 m at low water; call VHF 72.",
+  "notes": "On Certosa island, vaporetto stop at the marina for St Mark's (about 10 min). Book ahead in summer. Depth given is the access channel at low water.",
+  "sources": [
+   "https://www.cruiserswiki.org/wiki/Vento_di_Venezia",
+   "https://skipper.adac.de/en/?p=43623",
+   "https://www.noonsite.com/?p=33095"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "it-castellammare-stabia",
+  "name": "Marina di Stabia",
+  "aliases": [],
+  "country": "IT",
+  "position": [
+   14.473,
+   40.718
+  ],
+  "kind": "marina",
+  "berths": 789,
+  "visitorBerths": null,
+  "maxLengthM": 80,
+  "depthM": null,
+  "vhf": "69",
+  "phone": "+39 081 871 6871",
+  "email": "info@marinadistabia.it",
+  "website": "https://www.marinadistabia.it/",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "At Castellammare di Stabia in the south-east corner of the Bay of Naples, 40°43.03′N 14°28.32′E; call VHF 69.",
+  "notes": "Gateway to Pompeii, Sorrento and the Amalfi coast. Berth counts differ between sources (789–900).",
+  "sources": [
+   "https://www.marinadistabia.it/",
+   "https://www.italia.it/it/campania/napoli/marina-di-stabia-napoli",
+   "https://www.navily.com/port/marina-di-stabia/782"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "it-genova-porto-antico",
+  "name": "Marina Porto Antico",
+  "aliases": [
+   "Porto Antico di Genova"
+  ],
+  "country": "IT",
+  "position": [
+   8.9253,
+   44.4116
+  ],
+  "kind": "marina",
+  "berths": 270,
+  "visitorBerths": null,
+  "maxLengthM": 75,
+  "depthM": 7,
+  "vhf": "74",
+  "phone": "+39 010 247 0039",
+  "email": "porto@marinaportoantico.it",
+  "website": "https://www.marinaportoantico.it/en/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity"
+  ],
+  "fees": null,
+  "season": "all year; mooring staff 7 days a week",
+  "approach": "Inside Genoa's commercial port; enter through the main harbour entrance and head for the old port basin by the Aquarium; call VHF 74.",
+  "notes": "In the heart of Genoa, steps from the historic centre and the Aquarium. Berths 6–75 m.",
+  "sources": [
+   "https://www.marinaportoantico.it/en/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "mc-monaco-hercule",
+  "name": "Port Hercule",
+  "aliases": [
+   "Port de Monaco",
+   "Port Hercule Monaco"
+  ],
+  "country": "MC",
+  "position": [
+   7.425,
+   43.7347
+  ],
+  "kind": "port",
+  "berths": 760,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 2.5,
+  "vhf": "12",
+  "phone": "+377 97 77 30 00",
+  "email": null,
+  "website": "https://www.ports-monaco.com/en/port-hercule/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "crane 15 t",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year; VHF 12 monitored 24 h, reception 07:30–21:30 in season",
+  "approach": "Enter past the semi-floating outer breakwater; 3-knot speed limit inside. Stern-to with lazy lines.",
+  "notes": "Fuel at the BP station on the landing stage. Basin depths 2.5 to 55 m. Very limited space during the Grand Prix and Yacht Show; call ahead.",
+  "sources": [
+   "https://www.ports-monaco.com/en/port-hercule/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "es-ibiza-marina-ibiza",
+  "name": "Marina Ibiza",
+  "aliases": [],
+  "country": "ES",
+  "position": [
+   1.4436,
+   38.9145
+  ],
+  "kind": "marina",
+  "berths": 425,
+  "visitorBerths": null,
+  "maxLengthM": 110,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+34 971 318 040",
+  "email": "info@marinaibiza.com",
+  "website": "https://www.marinaibiza.com/en/",
+  "booking": "https://www.marinaibiza.com/en/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "restaurant",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "In the north part of Ibiza harbour (Eivissa), facing Dalt Vila across the bay.",
+  "notes": "Fuel station in the marina, with delivery to the berth available. Berths up to 110 m; very expensive and busy in July–August.",
+  "sources": [
+   "https://www.marinaibiza.com/en/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-antibes-vauban",
+  "name": "Port Vauban",
+  "aliases": [
+   "Port Vauban Antibes",
+   "Port d'Antibes"
+  ],
+  "country": "FR",
+  "position": [
+   7.1287,
+   43.5868
+  ],
+  "kind": "marina",
+  "berths": 1500,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 2,
+  "vhf": "9",
+  "phone": "+33 4 92 91 60 00",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": "about €22/day for an 8 m boat (2026 guide)",
+  "season": "all year; harbour office 24 h",
+  "approach": "Call on VHF 9 to arrange a berth before entering; 3-knot limit inside. Depths 2–8 m depending on basin.",
+  "notes": "Europe's largest pleasure port by number of berths, beside Antibes old town; superyacht 'IYCA' quay. Berth counts differ between sources (about 1,500–1,700).",
+  "sources": [
+   "https://issuu.com/ccinicecotedazur/docs/cci_riviera_port-antibes-fiche_a5_2",
+   "https://boatcible.com/2026/11/12/acheter-bateau-antibes-ports/",
+   "https://figaronautisme.meteoconsult.fr/bloc-marine/info-port/32-informations-port-port-vauban-antibes"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-nice-lympia",
+  "name": "Port de Nice",
+  "aliases": [
+   "Port Lympia",
+   "Port de plaisance de Nice"
+  ],
+  "country": "FR",
+  "position": [
+   7.2846,
+   43.6942
+  ],
+  "kind": "port",
+  "berths": 488,
+  "visitorBerths": 100,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+33 4 92 00 42 14",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity"
+  ],
+  "fees": "€25/day or €175/week for an 8 m boat (bord-de-mer listing)",
+  "season": "all year; office 07:00–21:00 in season, 08:00–18:00 out of season",
+  "approach": "Commercial and ferry port: give way to ships, announce every movement on VHF 9 before manoeuvring.",
+  "notes": "Old town and Castle Hill next to the port. Ask the harbour office which quay berths are free.",
+  "sources": [
+   "https://bord-de-mer.com/annuaire/fiche/port-de-plaisance-de-nice/",
+   "https://www.noonsite.com/business/port-de-plaisance-de-nice-port-lympia/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-ajaccio-tino-rossi",
+  "name": "Port Tino Rossi",
+  "aliases": [
+   "Port de plaisance Tino Rossi",
+   "Vieux Port d'Ajaccio"
+  ],
+  "country": "FR",
+  "position": [
+   8.7414,
+   41.9187
+  ],
+  "kind": "marina",
+  "berths": 260,
+  "visitorBerths": 160,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+33 4 95 51 22 72",
+  "email": null,
+  "website": "https://ajaccio-tinorossi-port.cci.corsica/en/",
+  "booking": "https://www.resaportcorse.com",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Reception pontoon at the foot of the jetty light, outside; fuel berth inside the harbour among the fishing boats. VHF 9 for both Ajaccio ports.",
+  "notes": "Right below the old town and the citadel. 2-hour free stopover. Port Charles Ornano lies 1.5 km north as an alternative.",
+  "sources": [
+   "https://figaronautisme.meteoconsult.fr/bloc-marine/info-marina/205-informations-marina-port-tino-rossi",
+   "https://ajaccio-tinorossi-port.cci.corsica/en/?p=353",
+   "https://www.cruiserswiki.org/wiki/Port_Tino_Rossi"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-bonifacio-port",
+  "name": "Port de Bonifacio",
+  "aliases": [
+   "Bonifacio Marina",
+   "Port de plaisance de Bonifacio"
+  ],
+  "country": "FR",
+  "position": [
+   9.163,
+   41.3887
+  ],
+  "kind": "marina",
+  "berths": 450,
+  "visitorBerths": 170,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+33 4 95 73 10 07",
+  "email": null,
+  "website": "https://bonifacio-port.cci.corsica/en/",
+  "booking": "https://www.resaportcorse.com",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year; office 07:30–20:30 from 1 Jun to 30 Sep, 08:30–16:30 out of season",
+  "approach": "Narrow fjord-like inlet under the cliffs; entrance hard to see from offshore. Pertusato semaphore on VHF 10; strong westerlies in the Bonifacio Strait.",
+  "notes": "Quai Noël Beretti. Old town on the cliff above. Very crowded in July–August; arrive early.",
+  "sources": [
+   "https://figaronautisme.meteoconsult.fr/bloc-marine/info-port/13-informations-port-bonifacio",
+   "https://www.visit-corsica.com/fr/Mon-sejour/Accessibilite/Tous-les-prestataires-accessibilites/BONIFACIO-MARINA",
+   "https://www.CruisersWiki.org/wiki/Port_Bonifacio"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "es-barcelona-port-vell",
+  "name": "OneOcean Port Vell",
+  "aliases": [
+   "Marina Port Vell",
+   "One Ocean Marina Port Vell"
+  ],
+  "country": "ES",
+  "position": [
+   2.186,
+   41.3767
+  ],
+  "kind": "marina",
+  "berths": 150,
+  "visitorBerths": null,
+  "maxLengthM": 190,
+  "depthM": null,
+  "vhf": "68",
+  "phone": "+34 934 84 23 00",
+  "email": "reservations@oneoceanportvell.com",
+  "website": "https://www.oneoceanportvell.com/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Through Barcelona's main harbour entrance and the old port (Port Vell) inner basin, past the swing footbridge at Moll d'Espanya; call VHF 68.",
+  "notes": "Superyacht-oriented marina in the city centre next to the Barceloneta and the Gothic quarter; smaller boats are better served at Marina Vela or Port Fòrum.",
+  "sources": [
+   "https://www.noonsite.com/business/one-ocean-marina-port-vell/",
+   "https://onboardonline.com/port/oneocean-port-vell"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "es-palma-club-de-mar",
+  "name": "Club de Mar Mallorca",
+  "aliases": [
+   "Club de Mar"
+  ],
+  "country": "ES",
+  "position": [
+   2.6258,
+   39.5552
+  ],
+  "kind": "marina",
+  "berths": 543,
+  "visitorBerths": null,
+  "maxLengthM": 170,
+  "depthM": 3,
+  "vhf": "9",
+  "phone": null,
+  "email": null,
+  "website": "https://www.clubdemar-mallorca.com/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "fuel",
+   "repairs",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "West side of Palma bay at Portopí, entered from the main Palma harbour; call VHF 9 for berthing instructions.",
+  "notes": "More than 70 superyacht berths; depths 3–9 m. Palma cathedral about 3 km along the Paseo Marítimo.",
+  "sources": [
+   "https://www.dockwalk.com/superports/club-de-mar--611",
+   "https://www.yachtdigest.com/en/ports-balearics/club-de-mar",
+   "https://www.sail-the-net.com/marinas/europe/spain/balearic-islands/palma-de-mallorca/club-de-mar.html"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "es-mao-club-maritimo",
+  "name": "Club Marítimo de Mahón",
+  "aliases": [
+   "Club Marítim de Maó",
+   "Port de Maó"
+  ],
+  "country": "ES",
+  "position": [
+   4.276,
+   39.8876
+  ],
+  "kind": "marina",
+  "berths": 165,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+34 971 365 022",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "fuel"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Up the 3-mile natural harbour of Maó; port pilots and traffic on VHF 14, marinas on VHF 9. Moorings along Moll de Llevant below the town.",
+  "notes": "Other options in the harbour: Marina Port Mahón (superyachts 25–60 m), Marina Menorca and Ports IB moorings (Moll de Llevant/Ponent).",
+  "sources": [
+   "https://www.illesbalears.travel/es/menorca/club-nautico-club-maritimo-de-mahon",
+   "https://figaronautisme.meteoconsult.fr/bloc-marine/info-marina/204-informations-marina-club-maritimo-de-mahon",
+   "https://portsdebalears.com/sites/default/files/Ordenanza_Mao_%20orden_entrada_v3%20aprobada%20C.A.%2030102024%20y%20BOE304%20DE%2018122024.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "mt-birgu-grand-harbour",
+  "name": "Grand Harbour Marina",
+  "aliases": [
+   "C&N Grand Harbour Marina",
+   "Marina tal-Port il-Kbir"
+  ],
+  "country": "MT",
+  "position": [
+   14.5186,
+   35.889
+  ],
+  "kind": "marina",
+  "berths": 250,
+  "visitorBerths": null,
+  "maxLengthM": 100,
+  "depthM": null,
+  "vhf": "13",
+  "phone": "+356 21 800 700",
+  "email": null,
+  "website": "https://cnmarinas.com/grand-harbour-marina",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Keep a listening watch on VHF 12 (Valletta VTS) in Grand Harbour; call the marina on VHF 13 for berthing. Marina along the Birgu (Vittoriosa) waterfront in Dockyard Creek.",
+  "notes": "26 superyacht berths; Valletta across the harbour by ferry or water taxi. Operated by Camper & Nicholsons.",
+  "sources": [
+   "https://cnmarinas.com/grand-harbour-marina",
+   "https://www.noonsite.com/business/c-n-grand-harbour-marina/",
+   "https://www.transport.gov.mt/maritime/coastal-notices-to-mariners/39-of-2025-malta-vessel-traffic-services-and-use-of-international-marine-vhf-channels-7546"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "tr-marmaris-netsel",
+  "name": "Netsel Marmaris Marina",
+  "aliases": [
+   "Netsel Marina",
+   "Setur Netsel Marmaris Marina"
+  ],
+  "country": "TR",
+  "position": [
+   28.279,
+   36.8514
+  ],
+  "kind": "marina",
+  "berths": 701,
+  "visitorBerths": null,
+  "maxLengthM": 90,
+  "depthM": 3.5,
+  "vhf": "72",
+  "phone": "+90 252 412 27 08",
+  "email": "info@netselmarina.com",
+  "website": "https://seturmarinas.com/en/marinas/netsel-marmaris",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "In the north-east corner of Marmaris bay by the old town; Setur lists VHF 72, many guides still give VHF 6 ('Port Marmaris').",
+  "notes": "Port of entry; town-centre location. Depth 3.5–18 m.",
+  "sources": [
+   "https://seturmarinas.com/en/marinas/netsel-marmaris",
+   "https://www.CruisersWiki.org/wiki/Netsel_Marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "tr-bodrum-milta",
+  "name": "Milta Bodrum Marina",
+  "aliases": [
+   "Bodrum Marina"
+  ],
+  "country": "TR",
+  "position": [
+   27.4242,
+   37.0341
+  ],
+  "kind": "marina",
+  "berths": 450,
+  "visitorBerths": null,
+  "maxLengthM": 75,
+  "depthM": null,
+  "vhf": "73",
+  "phone": "+90 252 316 18 60",
+  "email": null,
+  "website": "https://www.miltabodrummarina.com/",
+  "booking": null,
+  "fuel": "diesel",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "In Bodrum's western bay below the castle; call VHF 73.",
+  "notes": "Port of entry in the town centre. Berth counts and draught limits vary between guides (draught 5–7 m quoted).",
+  "sources": [
+   "https://skipper.adac.de/en/?p=47500",
+   "https://www.tyha.co.uk/marina-details/milta-bodrum",
+   "https://dockwalk.com/superports/milta-bodrum-marina--859"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-brest-chateau",
+  "name": "Marina du Château",
+  "aliases": [
+   "Port du Château",
+   "Brest Marina du Château",
+   "Port de plaisance de Brest"
+  ],
+  "country": "FR",
+  "position": [
+   -4.4893,
+   48.379
+  ],
+  "kind": "marina",
+  "berths": 700,
+  "visitorBerths": 125,
+  "maxLengthM": 80,
+  "depthM": 4.5,
+  "vhf": "9",
+  "phone": "+33 2 98 33 12 50",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year; office 08:00–20:00 daily 1 Jun–15 Sep, shorter hours Mon–Sat in winter",
+  "approach": "Entrance 47 m wide beside the naval base; entry can be stopped by light signals while warships manoeuvre. Phone the day before and call VHF 9 on arrival.",
+  "notes": "Max draught 4.5 m. Below the château and city centre; Moulin Blanc marina is the other Brest option.",
+  "sources": [
+   "https://figaronautisme.meteoconsult.fr/bloc-marine/info-port/5592-informations-port-brestmarina-du-chateau",
+   "https://bord-de-mer.com/annuaire/fiche/port-de-plaisance-de-brest-marina-du-chateau/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-la-trinite-sur-mer",
+  "name": "Port de La Trinité-sur-Mer",
+  "aliases": [
+   "Port de plaisance de La Trinité-sur-Mer"
+  ],
+  "country": "FR",
+  "position": [
+   -3.0261,
+   47.5884
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": 120,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+33 2 97 55 71 49",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": "about €32/day or €224/week for an 8 m boat (2026 guide)",
+  "season": "all year; office in summer about 08:00–20:00 with night watch",
+  "approach": "Up the buoyed Crac'h river from Quiberon Bay; visitor pontoon next to the harbour office.",
+  "notes": "Classic offshore racing port, run by Compagnie des Ports du Morbihan. Visitor berth figures differ (120–150).",
+  "sources": [
+   "https://boatcible.com/2026/11/13/acheter-bateau-la-trinite-sur-mer-ports/",
+   "https://figaronautisme.meteoconsult.fr/bloc-marine/info-marina/258-informations-marina-port-de-plaisance",
+   "https://bord-de-mer.com/annuaire/fiche/port-de-plaisance-de-la-trinite-sur-mer-port-de-plaisance/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gb-cowes-yacht-haven",
+  "name": "Cowes Yacht Haven",
+  "aliases": [],
+  "country": "GB",
+  "position": [
+   -1.2962,
+   50.7616
+  ],
+  "kind": "marina",
+  "berths": 260,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "80",
+  "phone": "+44 1983 299975",
+  "email": "berthing@cowesyachthaven.com",
+  "website": "https://www.cowesyachthaven.com/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "travel lift 50 t",
+   "crane 15 t",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "In the mouth of the River Medina call 'Cowes Yacht Haven' on VHF 80 and follow the dockmaster's instructions (North or South Basin).",
+  "notes": "Phone or email ahead to pre-book. Fuel at the Cowes Harbour Commission fuel berth or Lallows. Packed during Cowes Week and the Round the Island Race.",
+  "sources": [
+   "https://www.cowesyachthaven.com/",
+   "https://www.cowesyachthaven.com/visiting-by-sea/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "gb-lymington-yacht-haven",
+  "name": "Lymington Yacht Haven",
+  "aliases": [],
+  "country": "GB",
+  "position": [
+   -1.527,
+   50.7513
+  ],
+  "kind": "marina",
+  "berths": 475,
+  "visitorBerths": 100,
+  "maxLengthM": null,
+  "depthM": 2.5,
+  "vhf": "80",
+  "phone": "+44 1590 677071",
+  "email": "marinas@yachthavens.com",
+  "website": "https://yachthavens.com/lymington-yacht-haven/berthing",
+  "booking": "https://yachthavens.com/lymington-yacht-haven/berthing",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "pump-out",
+   "travel lift",
+   "repairs",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "all year; fuel 24/7",
+  "approach": "First marina on the port hand up the Lymington River from the western Solent; call VHF 80 for a berth. Minimum 2.5 m below chart datum, some berths 3 m.",
+  "notes": "Free water, electricity and wifi at visitor berths. Watch the Isle of Wight ferries in the river.",
+  "sources": [
+   "https://yachthavens.com/lymington-yacht-haven/berthing",
+   "https://yachthavens.com/lymington-yacht-haven/berthing/berthing-rates",
+   "https://www.pbo.co.uk/marina-guide/marina-guide-uk/lymington-yacht-haven/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "nl-amsterdam-sixhaven",
+  "name": "Sixhaven",
+  "aliases": [
+   "Jachthaven Sixhaven"
+  ],
+  "country": "NL",
+  "position": [
+   4.9065,
+   52.3824
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": 15,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+31 6 14713801",
+  "email": null,
+  "website": "https://www.sixhaven.nl/",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi"
+  ],
+  "fees": "€24/night for a boat up to 12 m, electricity, water, showers and wifi included (Sixhaven 2025 rates)",
+  "season": "visitors in the sailing season; maximum stay three weeks",
+  "approach": "On the north bank of the IJ opposite Centraal Station, next to the Noordhollandsch Kanaal; entrance on the east side behind a steel breakwater. Watch the ferries.",
+  "notes": "No reservations: phone about five minutes before arrival. Boats over 15 m only by arrangement. Free 24/7 ferries to the centre, 5 min walk.",
+  "sources": [
+   "https://www.sixhaven.nl/",
+   "https://www.sixhaven.nl/tarieven",
+   "https://www.sixhaven.nl/route",
+   "https://www.sixhaven.nl/voorzieningen"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "nl-enkhuizen-compagnieshaven",
+  "name": "Compagnieshaven",
+  "aliases": [
+   "Jachthaven Compagnieshaven",
+   "Stichting Jachthaven Enkhuizen"
+  ],
+  "country": "NL",
+  "position": [
+   5.3004,
+   52.7043
+  ],
+  "kind": "marina",
+  "berths": 600,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 2.8,
+  "vhf": null,
+  "phone": "+31 228 313 353",
+  "email": "info@compagnieshaven.nl",
+  "website": "https://www.compagnieshaven.nl/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "restaurant",
+   "shop",
+   "chandlery"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Directly off the IJsselmeer north of Enkhuizen town; no lock needed.",
+  "notes": "Largest Enkhuizen marina; old town and the Krabbersgat lock to the Markermeer nearby. Capacity figures vary (600–700); draught 2.8–3.2 m quoted.",
+  "sources": [
+   "https://skipper.adac.de/en/marinas/compagnieshaven",
+   "https://visitenkhuizen.nl/en/locatie/compagnieshaven-enkhuizen-3",
+   "https://www.sea-help.eu/en/cruise/netherlands-ijsselmeer-enkhuizen-toern/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "nl-lelystad-bataviahaven",
+  "name": "Bataviahaven",
+  "aliases": [
+   "Jachthaven Bataviahaven"
+  ],
+  "country": "NL",
+  "position": [
+   5.4371,
+   52.5165
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "14",
+  "phone": "+31 6 51177049",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": "municipal tariff table for 2026 (incl. 21% VAT) published by Lelystad",
+  "season": "harbour office weekdays 08:00–19:00 in season",
+  "approach": "On the Markermeer side of Lelystad by Batavia Stad and the Houtribsluizen (locks to the IJsselmeer).",
+  "notes": "Next to the Batavia replica ship yard and outlet centre. Municipal harbour run by Lelystad.",
+  "sources": [
+   "https://skipper.adac.de/en/?p=44356",
+   "https://lokaleregelgeving.overheid.nl/CVDR753265/2"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "be-nieuwpoort-vyn",
+  "name": "VYN – Vlaamse Yachthaven Nieuwpoort",
+  "aliases": [
+   "VVW Nieuwpoort",
+   "Vlaamse Yachthaven Nieuwpoort",
+   "Euro Jachthaven"
+  ],
+  "country": "BE",
+  "position": [
+   2.7445,
+   51.143
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "8",
+  "phone": "+32 58 23 52 32",
+  "email": "info@vynieuwpoort.be",
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year; harbour office 08:30–21:00 on weekdays (ADAC)",
+  "approach": "Up the IJzer from the Nieuwpoort entrance; tie up temporarily at the head of pontoon B and call VHF 8 for a berth.",
+  "notes": "One of Europe's largest marina complexes; VVW Westhoek (VHF 77) and Novus Portus are the other Nieuwpoort marinas.",
+  "sources": [
+   "https://www.noonsite.com/business/vvw-nieuwpoort-euro-jachthaven/",
+   "https://skipper.adac.de/en/marinas/vvw-nieuwpoort-vzw-yachtcharter"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "be-oostende-mercator",
+  "name": "Mercator Marina",
+  "aliases": [
+   "Mercator Marina Oostende",
+   "Jachthaven Mercator",
+   "Mercator Marina Dok 1"
+  ],
+  "country": "BE",
+  "position": [
+   2.9231,
+   51.2282
+  ],
+  "kind": "marina",
+  "berths": 260,
+  "visitorBerths": null,
+  "maxLengthM": 45,
+  "depthM": 4,
+  "vhf": "14",
+  "phone": "+32 59 70 57 62",
+  "email": "info@mercatormarina.be",
+  "website": "https://www.mercatormarina.be/nl",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "laundry",
+   "wifi"
+  ],
+  "fees": null,
+  "season": "open daily in season (to end October); lock hours by phone",
+  "approach": "Through the Mercator lock: always call the harbour office on VHF 14 before entering; grouped lockings every half hour, waiting pontoon outside the lock along Churchillkaai. Lock may close at spring tides or in storms.",
+  "notes": "Lock-protected, no swell, in the centre of Ostend next to the station. New pontoons inaugurated June 2026.",
+  "sources": [
+   "https://www.mercatormarina.be/nl/openingsuren",
+   "https://www.mercatormarina.be/nl/faciliteiten",
+   "https://www.mercatormarina.be/nl",
+   "https://portbooker.com/en/marinas/mercator-marina-cvba/oostende/flanders/belgium"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "pl-gdansk-marina",
+  "name": "Marina Gdańsk",
+  "aliases": [
+   "Marina Gdansk"
+  ],
+  "country": "PL",
+  "position": [
+   18.6599,
+   54.3489
+  ],
+  "kind": "marina",
+  "berths": 65,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 3.5,
+  "vhf": "6",
+  "phone": "+48 58 301 33 78",
+  "email": "marina.gdansk@sportgdansk.pl",
+  "website": "https://www.marinagdansk.pl/przystanie/marina-gdansk/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "harbour master 08:00–19:00 (ADAC); marina accessible day and night",
+  "approach": "From Gdańsk Bay via the Martwa Wisła and the Motława river to the old town; the marina is on the east bank (Szafarnia) opposite the Długie Pobrzeże.",
+  "notes": "Run by Gdański Ośrodek Sportu, which also operates Sienna Grobla, Tamka, Nadwiślańska, Górki Zachodnie and Żabi Kruk. Old town and the Crane steps away. Max draught 3.5–4 m quoted.",
+  "sources": [
+   "https://www.marinagdansk.pl/",
+   "https://skipper.adac.de/en/?p=45227",
+   "https://noonsite.com/?p=4298"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "se-stockholm-wasahamnen",
+  "name": "Wasahamnen",
+  "aliases": [
+   "Wasahamnen Stockholm Guest Harbour"
+  ],
+  "country": "SE",
+  "position": [
+   18.0931,
+   59.3264
+  ],
+  "kind": "marina",
+  "berths": 126,
+  "visitorBerths": 126,
+  "maxLengthM": 20,
+  "depthM": 2.5,
+  "vhf": null,
+  "phone": "+46 8 661 91 87",
+  "email": "wasahamnen@wasahamnen.com",
+  "website": "https://wasahamnen.se/",
+  "booking": "https://wasahamnen.se/boka-plats/",
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out"
+  ],
+  "fees": "SEK 400/night for boats up to 12 m (SEK 700 over 12 m, SEK 1,100 over 20 m) plus SEK 150 electricity, summer season 15 May–15 Sep (2026 price list)",
+  "season": "all year; office 08:00–20:00 daily 15 May–15 Sep; water and power off 15 Nov–1 Apr",
+  "approach": "On Djurgården opposite Gamla stan, by the Vasa Museum. Boats over 13.5 m or multihulls over 4 m beam go to the outside of pier D (max 20 m). Mooring on buoys at pier A.",
+  "notes": "Guest harbour only; 26 of the 126 places are bookable via Dockspot. Basin depth at least 2.5 m at mean water. No rafting up.",
+  "sources": [
+   "https://wasahamnen.se/priser/",
+   "https://wasahamnen.se/gasthamn/hamnkarta/",
+   "https://wasahamnen.se/oppettider/",
+   "https://wasahamnen.se/utbud-service/",
+   "https://wasahamnen.se/kontakt/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "dk-copenhagen-langelinie",
+  "name": "Langelinie Lystbådehavn",
+  "aliases": [
+   "Langelinie Marina"
+  ],
+  "country": "DK",
+  "position": [
+   12.5993,
+   55.6941
+  ],
+  "kind": "marina",
+  "berths": 240,
+  "visitorBerths": null,
+  "maxLengthM": 30,
+  "depthM": 3.5,
+  "vhf": "9",
+  "phone": "+45 27 44 75 45",
+  "email": "mail@langelinie.dk",
+  "website": "https://langeliniehavn.dk/engelsk-forside",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "guest facilities close for winter from 1 November",
+  "approach": "North of the city centre at Langelinie, by the Little Mermaid, entered from the main Copenhagen harbour fairway.",
+  "notes": "Walk to Nyhavn and Amalienborg. Guest stays in Copenhagen harbour limited to one month per season.",
+  "sources": [
+   "https://langeliniehavn.dk/engelsk-forside",
+   "https://skipper.adac.de/en/?p=45006",
+   "https://www.portbooker.com/us/marinas/denmark/capital-region-of-denmark/copenhagen/langelinie"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "se-goteborg-lilla-bommen",
+  "name": "Göteborgs Gästhamn Lilla Bommen",
+  "aliases": [
+   "Lilla Bommen",
+   "Lilla Bommen Göteborgs gästhamn",
+   "Lilla Bommen Marina"
+  ],
+  "country": "SE",
+  "position": [
+   11.9652,
+   57.7116
+  ],
+  "kind": "marina",
+  "berths": 100,
+  "visitorBerths": 100,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+46 31 63 58 00",
+  "email": null,
+  "website": "https://www.goteborg.com/en/guides/guest-harbours-in-gothenburg",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "open 24 h all year; full service 1 May–30 Sep",
+  "approach": "Up the Göta älv from the sea, past the Älvsborg bridge, to the city centre by the Opera house.",
+  "notes": "Short walk to Nordstan and Central Station. Start of the Göta älv route to Trollhätte canal and Lake Vänern.",
+  "sources": [
+   "https://www.goteborg.com/en/guides/guest-harbours-in-gothenburg",
+   "https://skipper.adac.de/en/?p=45260"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fi-helsinki-hss-liuskasaari",
+  "name": "HSS Guest Marina Liuskasaari",
+  "aliases": [
+   "Liuskasaaren venesatama",
+   "HSS Liuskasaari",
+   "Helsingfors Segelsällskap"
+  ],
+  "country": "FI",
+  "position": [
+   24.9481,
+   60.1525
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": 23,
+  "maxLengthM": null,
+  "depthM": 3,
+  "vhf": null,
+  "phone": "+358 50 576 0565",
+  "email": "hamnmastare@helsinkisailing.com",
+  "website": "https://helsinkisailing.com/en/guest-marina/",
+  "booking": "https://www.satamapaikka.com/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "sauna",
+   "restaurant"
+  ],
+  "fees": "€40/day or €200/week (HSS guest marina price list)",
+  "season": "summer season; harbour masters about 08:00–16:00 Mon–Fri",
+  "approach": "Liuskasaari island off Kaivopuisto, south of the city centre; guest berths E1–E23 on buoys at the south-west end of the northernmost concrete pier, depth 3–4 m.",
+  "notes": "Club ferry to the mainland included; Market Square within walking distance. Book and pay via satamapaikka.com.",
+  "sources": [
+   "https://helsinkisailing.com/en/guest-marina/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ee-tallinn-old-city-marina",
+  "name": "Old City Marina",
+  "aliases": [
+   "Vanasadama Jahisadam",
+   "Tallinn Old City Marina"
+  ],
+  "country": "EE",
+  "position": [
+   24.7592,
+   59.4422
+  ],
+  "kind": "marina",
+  "berths": 110,
+  "visitorBerths": null,
+  "maxLengthM": 24,
+  "depthM": 4,
+  "vhf": "14",
+  "phone": "+372 631 8085",
+  "email": null,
+  "website": "https://www.ts.ee/en/marina/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "marina office 08:00–20:00 in season; Port Control 24/7",
+  "approach": "Inside Tallinn's Old City Harbour (ferry port): ask permission to enter from Port Control on VHF 14 ('Tallinn Radio 5') or by phone +372 631 8588.",
+  "notes": "Floating berths for boats up to 18 m, draught 4.0 m; quays 18–23 take up to 50 m. Old town 10 min walk. Run by Port of Tallinn.",
+  "sources": [
+   "https://www.ts.ee/wp-content/uploads/2026/04/Old_City_Marina_Rules_2026.pdf",
+   "https://www.ts.ee/wp-content/uploads/2026/02/Old-City-Marina_brochure.pdf",
+   "https://www.noonsite.com/business/old-city-marina-tallinn/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "de-berlin-marina-lanke",
+  "name": "Marina Lanke",
+  "aliases": [
+   "Marina Lanke Werft",
+   "Yachthafen Marina Lanke"
+  ],
+  "country": "DE",
+  "position": [
+   13.1877,
+   52.5014
+  ],
+  "kind": "marina",
+  "berths": 349,
+  "visitorBerths": 10,
+  "maxLengthM": 20,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+49 30 362009 0",
+  "email": "info@marina-lanke.de",
+  "website": "https://www.marina-lanke.de/yachthafen/gastliegeplatz/",
+  "booking": "https://www.marina-lanke.de/yachthafen/gastliegeplatz/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "pump-out",
+   "slipway",
+   "crane",
+   "repairs",
+   "restaurant"
+  ],
+  "fees": "€48/day for a boat up to 12 m plus €5 per adult per day (water, power, showers included), price list valid from 3 Jun 2026",
+  "season": "summer season",
+  "approach": "On the Scharfe Lanke bay off the Havel in Spandau, west Berlin; about 30 min to the city centre.",
+  "notes": "Largest marina in Berlin; no houseboats accepted. Boat fuel station (Bootstankstelle Berlin) on site, also for masted yachts. Pump-out €30 per use.",
+  "sources": [
+   "https://www.marina-lanke.de/yachthafen/gastliegeplatz/",
+   "https://www.marina-lanke.de/yachthafen/ver-und-entsorgung/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-paris-arsenal",
+  "name": "Port de l'Arsenal",
+  "aliases": [
+   "Bassin de l'Arsenal",
+   "Port de plaisance de Paris-Arsenal"
+  ],
+  "country": "FR",
+  "position": [
+   2.3675,
+   48.8499
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 1.9,
+  "vhf": "9",
+  "phone": "+33 1 43 41 39 32",
+  "email": null,
+  "website": "https://www.paris.fr/lieux/port-de-l-arsenal-19156",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "all year; office 08:00–20:00 in July–August 2026, 09:00–20:00 in September",
+  "approach": "From the Seine (PK 168) through the Arsenal lock (air draught 5.20 m, draught 1.90 m); call on VHF 9. An older city document says lock requests are on VHF 20, so check with the harbour office.",
+  "notes": "Between the Seine and Place de la Bastille, start of the Canal Saint-Martin. Book well ahead in summer.",
+  "sources": [
+   "https://www.paris.fr/lieux/port-de-l-arsenal-19156",
+   "https://www.drieat.ile-de-france.developpement-durable.gouv.fr/IMG/pdf/flyer_rpp_01_03.pdf",
+   "https://cdn.paris.fr/paris/2019/07/24/5ef9d06be9bc33349a9d4f2fd1f57daf.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-strasbourg-port-plaisance",
+  "name": "Port de Plaisance de Strasbourg",
+  "aliases": [
+   "Club du Port de Plaisance de Strasbourg"
+  ],
+  "country": "FR",
+  "position": [
+   7.79,
+   48.539
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+33 6 08 17 69 43",
+  "email": null,
+  "website": "http://clubduportdeplaisance.fr/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "electricity"
+  ],
+  "fees": null,
+  "season": null,
+  "approach": "In the Port Autonome de Strasbourg off the Rhine; the Strasbourg Rhine locks work on VHF 22 (+33 3 88 39 12 61). VNF vignette required on French waterways.",
+  "notes": "Other moorings in town: Port EVAE (rue de Prague, near the centre), Marinest, Plaisance Club de Strasbourg. Contact the operator before arrival.",
+  "sources": [
+   "https://strasbourg.port.fr/river-tourism/recreational-boating/?lang=en",
+   "https://www.edf.fr/sites/groupe/files/Hydraulique/Alsace-Vosges/documents/guide_de_la_navigation_a_lusage_des_plaisanciers.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "fr-lyon-confluence",
+  "name": "Halte fluviale de la Confluence",
+  "aliases": [
+   "Port de plaisance Lyon Confluence",
+   "Halte fluviale Confluence",
+   "Place Nautique"
+  ],
+  "country": "FR",
+  "position": [
+   4.8152,
+   45.7427
+  ],
+  "kind": "town quay",
+  "berths": 40,
+  "visitorBerths": 40,
+  "maxLengthM": 28,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+33 4 78 38 16 10",
+  "email": "capitainerie.lyonconfluence@grandlyon.com",
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity"
+  ],
+  "fees": null,
+  "season": "1 May–30 Sep; harbour office daily 11:00–19:00",
+  "approach": "In the Place Nautique basin off the Saône at Quai Rambaud, just above the Saône–Rhône confluence.",
+  "notes": "Berths for boats of 20 m and 28 m; around 500 visiting boats a season, average stay two days. Shopping centre and tram next to the basin.",
+  "sources": [
+   "https://geotrek.auvergnerhonealpes-tourisme.com/api/fr/touristiccontents/5871/halte-fluviale-de-la-confluence.pdf?portal=4",
+   "https://boatcible.com/2026/04/11/plus-belles-escales-saone-2026/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "hu-budapest-wiking",
+  "name": "Wiking Marina Budapest",
+  "aliases": [
+   "Wiking Yacht Club",
+   "Hajógyári-sziget kikötő"
+  ],
+  "country": "HU",
+  "position": [
+   19.0491,
+   47.538
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": null,
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": "petrol",
+  "facilities": [
+   "crane",
+   "repairs"
+  ],
+  "fees": null,
+  "season": null,
+  "approach": "On the Danube at Hajógyári-sziget (Óbuda island), Buda side, north of the city centre.",
+  "notes": "Wiking Yacht Club base with crane, workshop and fuel station; its smaller Marina Part (80 berths on floating jetties) is about 1 km north. Details from a 2012 report; confirm with the club.",
+  "sources": [
+   "https://www.boote-magazin.de/en/travel-and-charter/marina/hungary-two-new-harbours-on-the-danube/"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "at-wien-marina",
+  "name": "Marina Wien",
+  "aliases": [
+   "Yachthafen Marina Wien",
+   "Donaumarina"
+  ],
+  "country": "AT",
+  "position": [
+   16.4278,
+   48.2101
+  ],
+  "kind": "marina",
+  "berths": 200,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+43 1 726 07 62",
+  "email": "marina@donauraum.at",
+  "website": "https://www.marina.at/",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "crane 14 t"
+  ],
+  "fees": "€81/day for a boat of 12 m (€494/week), guest price list valid from 1 Apr 2026; over 12 m and catamarans on request",
+  "season": "1 Apr–31 Oct, daily 10:00–18:00",
+  "approach": "On the right bank of the Danube at river km 1926.1, Handelskai in Leopoldstadt; U2 station 'Donaumarina'.",
+  "notes": "Two basins, fenced and CCTV-guarded. Fuel station with diesel and petrol 95. Underground to the centre in minutes.",
+  "sources": [
+   "https://www.marina.at/leistungen/infrastruktur/",
+   "https://www.marina.at/wp-content/uploads/2022/12/Preisliste_2026_Gaeste.pdf",
+   "https://www.marina.at/oeffnungszeiten/",
+   "https://www.doris.bmimi.gv.at/en/services/disposal-of-ship-waste/disposal-infrastructure-in-austria/disposal-possibilities-for-pleasure-crafts"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "pl-gizycko-ekomarina",
+  "name": "Ekomarina Giżycko",
+  "aliases": [
+   "Ekomarina Gizycko"
+  ],
+  "country": "PL",
+  "position": [
+   21.7718,
+   54.0307
+  ],
+  "kind": "marina",
+  "berths": 138,
+  "visitorBerths": null,
+  "maxLengthM": 25,
+  "depthM": 1.5,
+  "vhf": null,
+  "phone": "+48 509 805 635",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": "PLN 60/day for boats under 9 m, PLN 80 for 9–12 m (city tariff, Zarządzenie 1396/2024)",
+  "season": "sailing season",
+  "approach": "On Lake Niegocin at the town centre of Giżycko, by the Łuczański canal.",
+  "notes": "Municipal marina at ul. Dąbrowskiego 14, main hub of the Great Masurian Lakes. Max draught 1.5 m (ADAC).",
+  "sources": [
+   "https://skipper.adac.de/en/marinas/ekomarina-gizycko/",
+   "https://bip-v1-files.idcom-jst.pl/sites/3080/wiadomosci/746301/files/zarzadzenie_ekomarina.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "pl-mikolajki-wioska-zeglarska",
+  "name": "Wioska Żeglarska Mikołajki",
+  "aliases": [
+   "Port Mikołajki",
+   "Mikolajki wioska zeglarska"
+  ],
+  "country": "PL",
+  "position": [
+   21.5733,
+   53.7986
+  ],
+  "kind": "marina",
+  "berths": 150,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+48 668 442 042",
+  "email": "kapitanat@grupaamax.pl",
+  "website": "https://www.mikolajki.com.pl",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": null,
+  "season": "sailing season",
+  "approach": "Town centre of Mikołajki on the north shore of Jezioro Mikołajskie, south of the road bridge.",
+  "notes": "About 150 yachts a day in season (third-party figure). Busy in July–August; the Ekomarina MKŻ and other quays nearby.",
+  "sources": [
+   "https://wa-uploads.profitroom.com/czarterjachtowgrupaamaxspzoo/17694279421053_Residents%20Club%202026.pdf",
+   "https://www.predictwind.com/marinas/poland/warmia-masuria/mikolajki-wioska-zeglarska"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ch-lausanne-ouchy",
+  "name": "Port d'Ouchy",
+  "aliases": [
+   "Port d'Ouchy Lausanne",
+   "Vieux port d'Ouchy"
+  ],
+  "country": "CH",
+  "position": [
+   6.6231,
+   46.5072
+  ],
+  "kind": "harbour",
+  "berths": null,
+  "visitorBerths": 22,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+41 21 315 20 20",
+  "email": "economie@lausanne.ch",
+  "website": "https://www.lausanne.ch/prestations/economie/ports-lausannois-acces-visiteurs.html",
+  "booking": null,
+  "fuel": null,
+  "facilities": [],
+  "fees": "CHF 20 + VAT per night, CHF 40 + VAT from the 11th night (City of Lausanne, 2026)",
+  "season": "Bureau du lac Mon–Fri 07:30–11:30 and 13:00–17:00; visitor berths closed on some event dates in summer",
+  "approach": "Lake Geneva harbour entrance 6 m wide with 2.50 m height limit; watch for CGN ferries.",
+  "notes": "8 visitor berths on the north quay plus 14 orange buoys in the old port; no reservations. Moor at a free visitor berth and register with the Bureau du lac (at Port de Vidy, which has 22 more).",
+  "sources": [
+   "https://www.lausanne.ch/prestations/economie/ports-lausannois-acces-visiteurs.html"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "pl-szczecin-north-east-marina",
+  "name": "North East Marina",
+  "aliases": [
+   "Northeast Marina Szczecin"
+  ],
+  "country": "PL",
+  "position": [
+   14.5706,
+   53.4274
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": 25,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "65",
+  "phone": "+48 91 311 1521",
+  "email": null,
+  "website": "https://northeast-marina.pl/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "sailing season",
+  "approach": "On Grodzka island in the Odra (Odra Zachodnia) opposite Szczecin old town and the Wały Chrobrego; reached from the Szczecin Lagoon via the Odra.",
+  "notes": "Floating pontoons; old town over the bridge. Marina Goclaw is a second Szczecin option.",
+  "sources": [
+   "https://www.noonsite.com/business/north-east-marina-szczecin/",
+   "https://visitszczecin.eu/en/others/247-north-east-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-jersey-city-liberty-landing",
+  "name": "Liberty Landing Marina",
+  "aliases": [
+   "Liberty Landing"
+  ],
+  "country": "US",
+  "position": [
+   -74.044,
+   40.7105
+  ],
+  "kind": "marina",
+  "berths": 520,
+  "visitorBerths": 90,
+  "maxLengthM": null,
+  "depthM": 3.7,
+  "vhf": "72",
+  "phone": "+1 201-985-8000",
+  "email": null,
+  "website": "https://libertylandingmarina.com",
+  "booking": "https://libertylandingmarina.com/slips/",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "travel lift",
+   "repairs",
+   "restaurant",
+   "shop"
+  ],
+  "fees": "about $6/ft/night under 65 ft (Waterway Guide, 2022 rates; likely higher now)",
+  "season": "all year; 24 h fuel dock",
+  "approach": "Morris Canal basin on the Jersey City side of the Hudson opposite lower Manhattan; call on VHF 72 for a slip.",
+  "notes": "The usual Great Loop base for New York City: ferry to Manhattan from the marina. Bookings through Molo.",
+  "sources": [
+   "https://marinas.com/view/marina/63c24",
+   "https://libertylandingmarina.com/slips/",
+   "https://www.waterwayguide.com/featured-marina/liberty-landing-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-waterford-harbor",
+  "name": "Waterford Harbor Visitor Center",
+  "aliases": [
+   "Richard M. Hurst Harbor Visitors Center",
+   "Hurst Harbor"
+  ],
+  "country": "US",
+  "position": [
+   -73.6792,
+   42.7867
+  ],
+  "kind": "town quay",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+1 518-233-9123",
+  "email": null,
+  "website": "https://www.townofwaterfordny.gov/hurst-harbor-visitor-center",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets"
+  ],
+  "fees": "free wall/floating dock up to 48 h; about $10/day for power (boater reviews 2023–2025)",
+  "season": "canal season (about May–Oct)",
+  "approach": "At the junction of the Hudson and the Erie Canal, just below Erie Lock E2 of the Waterford Flight.",
+  "notes": "First come, first served; the floating dock fills early in summer. Gateway to the Erie and Champlain canals.",
+  "sources": [
+   "https://www.townofwaterfordny.gov/hurst-harbor-visitor-center",
+   "https://waterwayguide.com/reviews/8-17/waterford-harbor-visitor-center"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-oswego-wrights-landing",
+  "name": "Wright's Landing Marina",
+  "aliases": [
+   "Oswego International Marina",
+   "Wrights Landing"
+  ],
+  "country": "US",
+  "position": [
+   -76.5185,
+   43.4645
+  ],
+  "kind": "marina",
+  "berths": 223,
+  "visitorBerths": 57,
+  "maxLengthM": 18.3,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+1 315-343-8430",
+  "email": null,
+  "website": "https://oswegony.org/government/waterfront",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "toilets",
+   "showers",
+   "slipway"
+  ],
+  "fees": "$2.00/ft/day with power, $1.50 without (City of Oswego)",
+  "season": "1 May – 15 Oct",
+  "approach": "Inside the Oswego harbour breakwaters on Lake Ontario, west of the Oswego River mouth.",
+  "notes": "City marina at the Lake Ontario end of the Oswego Canal.",
+  "sources": [
+   "https://oswegony.org/government/waterfront",
+   "https://www.waterwayguide.com/marina/wrights-landing-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-kingston-confederation-basin",
+  "name": "Confederation Basin Marina",
+  "aliases": [
+   "Flora MacDonald Confederation Basin"
+  ],
+  "country": "CA",
+  "position": [
+   -76.4778,
+   44.229
+  ],
+  "kind": "marina",
+  "berths": 350,
+  "visitorBerths": null,
+  "maxLengthM": 30.0,
+  "depthM": null,
+  "vhf": "68",
+  "phone": "+1 613-546-4291 ext. 1823",
+  "email": "contactus@cityofkingston.ca",
+  "website": "https://www.cityofkingston.ca/residents/recreation/facilities/marinas/confederation-basin",
+  "booking": "https://www.mykingston.ca/-/services/marina-booking-request",
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi"
+  ],
+  "fees": "CAD 2.26/ft/day unserviced, 2.61 serviced in July–Aug; 2.08/2.26 May, June, Sep, Oct; power extra (city rates)",
+  "season": "May – October",
+  "approach": "Downtown in front of City Hall behind the Shoal Tower; call VHF 68 for your slip on arrival.",
+  "notes": "Fuel and pump-out are at Portsmouth Olympic Harbour, west of downtown. Southern end of the Rideau Canal.",
+  "sources": [
+   "https://www.cityofkingston.ca/residents/recreation/facilities/marinas/confederation-basin"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-trenton-trent-port",
+  "name": "Trent Port Marina",
+  "aliases": [],
+  "country": "CA",
+  "position": [
+   -77.5715,
+   44.0985
+  ],
+  "kind": "marina",
+  "berths": 375,
+  "visitorBerths": 100,
+  "maxLengthM": 30.5,
+  "depthM": 2.4,
+  "vhf": "68",
+  "phone": "+1 613-392-2841",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "pump-out"
+  ],
+  "fees": "about CAD 2.32/ft/day (Waterway Guide listing)",
+  "season": "summer season",
+  "approach": "At the mouth of the Trent River on the Bay of Quinte; the fuel dock is just upriver (north) of the marina.",
+  "notes": "Southern entrance to the Trent–Severn Waterway (Lock 1 is a short way upriver).",
+  "sources": [
+   "https://waterwayguide.com/marina/trent-port-marina",
+   "https://marinas.com/view/marina/x1cvzn_Trent_Port_Marina_Trenton_ON_Canada"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-port-severn-lock-45",
+  "name": "Lock 45 – Port Severn",
+  "aliases": [
+   "Port Severn Lock"
+  ],
+  "country": "CA",
+  "position": [
+   -79.7205,
+   44.804
+  ],
+  "kind": "town quay",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": 25.6,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+1 705-538-2586",
+  "email": null,
+  "website": "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/posteeclusage-lockstation/ecluse-lock-45-portsevern",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "toilets"
+  ],
+  "fees": "Parks Canada overnight mooring permit, charged per foot",
+  "season": "Trent–Severn navigation season",
+  "approach": "Smallest lock on the waterway (25.6 × 7.0 m), which limits boat size for the whole route; currents below the lock in high water, narrow channel under Highway 400.",
+  "notes": "Northern (Georgian Bay) end of the Trent–Severn. Overnight mooring max 2 nights. Marinas with fuel, e.g. Starport Marina, are just above the lock.",
+  "sources": [
+   "https://parks.canada.ca/lhn-nhs/on/trentsevern/visit/posteeclusage-lockstation/ecluse-lock-45-portsevern",
+   "https://parks.canada.ca/lhn-nhs/on/rideau/activ/camping/amarrage-mooring"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-mackinac-island-state-harbor",
+  "name": "Mackinac Island State Harbor",
+  "aliases": [
+   "Mackinac Island Marina"
+  ],
+  "country": "US",
+  "position": [
+   -84.615,
+   45.8494
+  ],
+  "kind": "harbour",
+  "berths": 80,
+  "visitorBerths": 70,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "9",
+  "phone": "+1 906-847-3561",
+  "email": null,
+  "website": "https://www2.dnr.state.mi.us/Publications/PDFS/harbor_guide/mackinac_island.htm",
+  "booking": "https://midnrreservations.com",
+  "fuel": null,
+  "facilities": [
+   "water"
+  ],
+  "fees": null,
+  "season": "mid-May – mid-October",
+  "approach": "Harbor in front of the town, protected by a breakwater; hail on VHF 9.",
+  "notes": "Very busy; booking limited mid-June to late July (Chicago/Port Huron races). Max 4 consecutive nights at busy times. Off-season phone +1 906-643-8620.",
+  "sources": [
+   "https://www2.dnr.state.mi.us/Publications/PDFS/harbor_guide/mackinac_island.htm",
+   "https://vps5588.waterwayguide.com/marina/mackinac-island-state-dock-harbor-of-refuge"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-chicago-dusable",
+  "name": "DuSable Harbor",
+  "aliases": [
+   "DuSable Harbor, The Chicago Harbors"
+  ],
+  "country": "US",
+  "position": [
+   -87.6115,
+   41.8857
+  ],
+  "kind": "harbour",
+  "berths": 420,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "67 (monitors 9, 16)",
+  "phone": "+1 312-292-9499",
+  "email": "dusable@chicagoharbors.com",
+  "website": "https://www.chicagoharbors.info/dusable/",
+  "booking": "https://dockwa.com/explore/destination/dusable-harbor",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "toilets",
+   "laundry",
+   "pump-out",
+   "shop"
+  ],
+  "fees": null,
+  "season": "1 May – 31 Oct (office hours vary through the season)",
+  "approach": "Inside the Chicago outer harbor breakwater just north of the Chicago River entrance; transient slips are on floating docks.",
+  "notes": "Downtown harbor at the start of the Chicago River route to the Illinois Waterway. Reservations via Dockwa from 1 May.",
+  "sources": [
+   "https://www.chicagoharbors.info/dusable/",
+   "https://dockwa.com/explore/destination/dusable-harbor"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-grafton-harbor",
+  "name": "Grafton Harbor",
+  "aliases": [
+   "Grafton Harbor Marina"
+  ],
+  "country": "US",
+  "position": [
+   -90.4385,
+   38.9675
+  ],
+  "kind": "marina",
+  "berths": 250,
+  "visitorBerths": 60,
+  "maxLengthM": null,
+  "depthM": 2.7,
+  "vhf": "16, 68",
+  "phone": "+1 618-786-7678",
+  "email": "GraftonHarbor@grafton-il.net",
+  "website": "https://www.graftonharbor.net",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "restaurant",
+   "shop"
+  ],
+  "fees": null,
+  "season": null,
+  "approach": "Floating docks at the confluence of the Illinois and Mississippi rivers.",
+  "notes": "Diesel availability has been patchy after floods in past years; call ahead before relying on it.",
+  "sources": [
+   "https://marinas.com/view/marina/8qcdg5p_Grafton_Harbor_Marina_Grafton_IL_United_States",
+   "https://waterwayguide.com/marina/grafton-harbor"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-paducah-transient-dock",
+  "name": "Paducah Transient Boat Dock",
+  "aliases": [
+   "City of Paducah Transient Docks"
+  ],
+  "country": "US",
+  "position": [
+   -88.597,
+   37.0928
+  ],
+  "kind": "town quay",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+1 270-538-9849",
+  "email": null,
+  "website": "https://paducahky.gov/node/4331",
+  "booking": "https://dockwa.com/explore/destination/city-of-paducah-docks",
+  "fuel": "petrol",
+  "facilities": [
+   "water",
+   "electricity"
+  ],
+  "fees": "$1.75/ft/night from 1 May 2026 incl. power (half rate without power/water), plus 6% tax (city rules)",
+  "season": "seasonal; amenities disconnected when the river nears 39 ft",
+  "approach": "Ohio River mile 935 downtown; approach perpendicular to the channel because of a downstream shoal.",
+  "notes": "Nine power/water pedestals. Fuel not staffed: call on approach; boats after 2 pm are fuelled next day. Office 8:30–16:00.",
+  "sources": [
+   "https://paducahky.gov/node/4331",
+   "https://www.paducahky.gov/files/Paducah-Transient-Dock-Rules-2025-update.pdf",
+   "https://marinas.com/view/marina/lwcez41"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-grand-rivers-green-turtle-bay",
+  "name": "Green Turtle Bay Resort & Marina",
+  "aliases": [
+   "Green Turtle Bay Resort"
+  ],
+  "country": "US",
+  "position": [
+   -88.2241,
+   37.0064
+  ],
+  "kind": "marina",
+  "berths": 450,
+  "visitorBerths": null,
+  "maxLengthM": 38.1,
+  "depthM": 3.0,
+  "vhf": "16, 10",
+  "phone": "+1 270-362-8364",
+  "email": null,
+  "website": "https://www.greenturtlebay.com",
+  "booking": "https://dockwa.com/explore/destination/green-turtle-bay-resort-marina",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "travel lift",
+   "repairs",
+   "restaurant",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "On Lake Barkley near the Barkley Canal to Kentucky Lake; fuel dock in front of the office, transient slips mostly west of it.",
+  "notes": "Classic Great Loop stop between the Cumberland/Tennessee rivers; non-ethanol petrol.",
+  "sources": [
+   "https://marinas.com/view/marina/z4cyp4_Green_Turtle_Bay_Resort_Grand_Rivers_KY_United_States",
+   "https://dockwa.com/explore/destination/green-turtle-bay-resort-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-demopolis-kingfisher-bay",
+  "name": "Kingfisher Bay Marina",
+  "aliases": [
+   "Demopolis Yacht Basin"
+  ],
+  "country": "US",
+  "position": [
+   -87.8411,
+   32.53
+  ],
+  "kind": "marina",
+  "berths": 95,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "16",
+  "phone": "+1 334-216-0480",
+  "email": null,
+  "website": "https://kingfisherbaymarina.com",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "repairs",
+   "restaurant",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Basin off the Tombigbee at Demopolis; check in at the Yacht Basin fuel dock.",
+  "notes": "Main fuel and boatyard stop on the Tenn-Tom; Quimby's lists marine diesel and 89-octane non-ethanol petrol.",
+  "sources": [
+   "https://marinas.com/view/marina/63c5n8_Kingfisher_Bay_Marina_Demopolis_AL_United_States",
+   "https://quimbyscruisingguide.com/profile-kingfisher-bay-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-mobile-dog-river",
+  "name": "Dog River Marina",
+  "aliases": [
+   "Dog River Marina & Boat Works"
+  ],
+  "country": "US",
+  "position": [
+   -88.0885,
+   30.5674
+  ],
+  "kind": "marina",
+  "berths": 97,
+  "visitorBerths": 50,
+  "maxLengthM": 45.7,
+  "depthM": 2.4,
+  "vhf": "16",
+  "phone": "+1 251-471-5449",
+  "email": null,
+  "website": "https://www.dogrivermarina.com",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "wifi",
+   "pump-out",
+   "showers",
+   "toilets",
+   "laundry",
+   "travel lift",
+   "repairs",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Up Dog River off the west side of Mobile Bay; 8 ft minimum approach.",
+  "notes": "Main transient and repair stop for Mobile at the bottom of the Tenn-Tom. Fuel dock phone +1 251-471-4517.",
+  "sources": [
+   "https://marinas.com/view/marina/95c9n_Dog_River_Marina_Mobile_AL_United_States",
+   "https://waterwayguide.com/marina/dog-river-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-apalachicola-scipio-creek",
+  "name": "Scipio Creek Marina",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -84.9905,
+   29.733
+  ],
+  "kind": "marina",
+  "berths": 14,
+  "visitorBerths": 6,
+  "maxLengthM": 30.5,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+1 850-653-8030",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "repairs"
+  ],
+  "fees": "$3/ft/day (Waterway Guide, 2023)",
+  "season": "all year; 7:00–17:00 daily",
+  "approach": "Off the Apalachicola River at the north end of town.",
+  "notes": "Long face docks rather than slips, boats tied end to end; call ahead.",
+  "sources": [
+   "https://waterwayguide.com/marina/1-93/scipio-creek-marina",
+   "https://ports.marinelink.com/ports/port/scipio-creek"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-tarpon-springs-city-marina",
+  "name": "Tarpon Springs City Marina",
+  "aliases": [
+   "City of Tarpon Springs Municipal Marina"
+  ],
+  "country": "US",
+  "position": [
+   -82.7579,
+   28.1559
+  ],
+  "kind": "marina",
+  "berths": 21,
+  "visitorBerths": 6,
+  "maxLengthM": null,
+  "depthM": 3.0,
+  "vhf": null,
+  "phone": "+1 727-946-5658",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "toilets"
+  ],
+  "fees": "$1.50/ft/night (Soundings; date unknown)",
+  "season": "all year; office about 8:00–16:30",
+  "approach": "Up the Anclote River to the historic sponge docks on Dodecanese Blvd; floating docks.",
+  "notes": "Only a handful of transient slips; reserve. Sponge Docks restaurants alongside.",
+  "sources": [
+   "https://waterwayguide.com/marina/3100",
+   "https://soundingsonline.com/?p=24950"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-fort-myers-legacy-harbour",
+  "name": "Legacy Harbour Marina",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -81.8755,
+   26.6425
+  ],
+  "kind": "marina",
+  "berths": 131,
+  "visitorBerths": 10,
+  "maxLengthM": 42.7,
+  "depthM": 2.1,
+  "vhf": "16, 12",
+  "phone": "+1 239-320-8855",
+  "email": null,
+  "website": "https://fmlegacyharbour.com",
+  "booking": "https://dockwa.com/explore/destination/g9c3y1-legacy-harbour-marina",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "restaurant"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Downtown Fort Myers on the Caloosahatchee (Okeechobee Waterway); 7 ft approach, soft mud.",
+  "notes": "Floating docks; western end of the Okeechobee Waterway.",
+  "sources": [
+   "https://marinas.com/view/marina/g9c3y1_Legacy_Harbour_Marina_Fort_Myers_FL_United_States",
+   "https://www.waterwayguide.com/marina/legacy-harbour-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-stuart-sunset-bay",
+  "name": "Sunset Bay Marina & Anchorage",
+  "aliases": [
+   "Sunset Bay Marina"
+  ],
+  "country": "US",
+  "position": [
+   -80.2595,
+   27.2015
+  ],
+  "kind": "marina",
+  "berths": 198,
+  "visitorBerths": 60,
+  "maxLengthM": null,
+  "depthM": 2.4,
+  "vhf": "16, 69",
+  "phone": "+1 772-283-9225",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "St. Lucie River at mile 8 of the Okeechobee Waterway, downtown Stuart.",
+  "notes": "Also 69 moorings. Eastern end of the Okeechobee Waterway; book directly (not via Dockwa).",
+  "sources": [
+   "https://waterwayguide.com/marina/sunset-bay-marina-and-anchorage",
+   "https://dockwa.com/explore/destination/sunset-bay-marina-anchorage"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-miami-beach-marina",
+  "name": "Miami Beach Marina",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -80.142,
+   25.771
+  ],
+  "kind": "marina",
+  "berths": 400,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 3.7,
+  "vhf": "16, 68",
+  "phone": "+1 305-673-6000",
+  "email": null,
+  "website": null,
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "restaurant",
+   "shop"
+  ],
+  "fees": null,
+  "season": "all year; fuel dock 7:00–19:00",
+  "approach": "Just inside Government Cut at the south end of Miami Beach, off Alton Road.",
+  "notes": "Closest marina to the ocean inlet; South Beach on foot.",
+  "sources": [
+   "https://marinas.com/view/marina/8qcjw3_Miami_Beach_Marina_Miami_Beach_FL_United_States",
+   "https://www.waterwayguide.com/featured-marina/miami-beach-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-fort-lauderdale-las-olas",
+  "name": "Las Olas Marina",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -80.1078,
+   26.122
+  ],
+  "kind": "marina",
+  "berths": 88,
+  "visitorBerths": 50,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "16, 69",
+  "phone": "+1 954-756-6557",
+  "email": null,
+  "website": "https://lasolasmarina.com",
+  "booking": "https://dockwa.com/explore/destination/55cpe37-las-olas-marina",
+  "fuel": "diesel",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "wifi",
+   "pump-out"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "On the ICW by the Las Olas Blvd bridge, Fort Lauderdale beach.",
+  "notes": "Site under redevelopment (2024–26 reviews); nearby city mooring field (about $35/night, no reservations) is city-managed.",
+  "sources": [
+   "https://marinas.com/view/marina/55cpe37_Las_Olas_Marina_Ft_Lauderdale_FL_United_States",
+   "https://www.waterwayguide.com/reviews/1-1014/las-olas-marina"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-charleston-city-marina",
+  "name": "Safe Harbor Charleston City",
+  "aliases": [
+   "Charleston City Marina",
+   "Megadock"
+  ],
+  "country": "US",
+  "position": [
+   -79.9505,
+   32.779
+  ],
+  "kind": "marina",
+  "berths": 415,
+  "visitorBerths": 125,
+  "maxLengthM": null,
+  "depthM": 4.6,
+  "vhf": "16, 68",
+  "phone": "+1 843-723-5098",
+  "email": null,
+  "website": "https://shmarinas.com/locations/safe-harbor-charleston-city/",
+  "booking": "https://dockwa.com/explore/destination/charleston-city-marina",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Ashley River side of the peninsula; transients mostly on the long Megadock; fuel hoses reach its end.",
+  "notes": "Shuttle to the historic district.",
+  "sources": [
+   "https://marinas.com/view/marina/pwc4ml_Safe_Harbor_Charleston_City_Charleston_SC_United_States",
+   "https://www.waterwayguide.com/marina/safe-harbor-charleston-city"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-beaufort-nc-town-docks",
+  "name": "Beaufort Town Docks",
+  "aliases": [
+   "Beaufort Docks"
+  ],
+  "country": "US",
+  "position": [
+   -76.6651,
+   34.7155
+  ],
+  "kind": "marina",
+  "berths": 82,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": 3.7,
+  "vhf": "16, 9",
+  "phone": "+1 252-728-2503",
+  "email": null,
+  "website": "https://beauforttowndocks.org",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Taylor's Creek off Front Street: via Gallants Channel under the 65 ft bridge, or Bulkhead Channel from Beaufort Inlet.",
+  "notes": "Fuel delivered at the slip. ICW mile 202; loaner cars.",
+  "sources": [
+   "https://marinas.com/view/marina/pwcg6l_Beaufort_Town_Docks_Beaufort_NC_United_States",
+   "https://www.waterwayguide.com/featured-marina/beaufort-docks"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-portsmouth-tidewater-yacht",
+  "name": "Tidewater Yacht Marina",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -76.298,
+   36.841
+  ],
+  "kind": "marina",
+  "berths": 300,
+  "visitorBerths": 100,
+  "maxLengthM": null,
+  "depthM": 3.4,
+  "vhf": "16, 68",
+  "phone": "+1 757-393-2525",
+  "email": null,
+  "website": null,
+  "booking": "https://dockwa.com/explore/destination/pwc8q-tidewater-yacht-marina",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "pump-out",
+   "repairs"
+  ],
+  "fees": null,
+  "season": "all year; office 9:00–17:00 summer, 9:00–16:00 winter",
+  "approach": "Elizabeth River opposite downtown Norfolk, near ICW mile 0.",
+  "notes": "Reviews in 2026 report the diesel pumps out of service: call before counting on fuel.",
+  "sources": [
+   "https://waterwayguide.com/marina/2184",
+   "https://marinas.com/view/marina/pwc8q_Tidewater_Yacht_Marina_Portsmouth_VA_United_States"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-annapolis-city-dock",
+  "name": "Annapolis City Dock",
+  "aliases": [
+   "Annapolis Harbormaster",
+   "Ego Alley"
+  ],
+  "country": "US",
+  "position": [
+   -76.485,
+   38.9772
+  ],
+  "kind": "town quay",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "17 (monitors 16)",
+  "phone": "+1 410-263-7973",
+  "email": "harbormaster@annapolis.gov",
+  "website": "https://www.annapolis.gov/165/Harbormaster",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "showers",
+   "toilets",
+   "pump-out"
+  ],
+  "fees": "$3/ft Sun–Thu, $4/ft Fri–Sat and holidays (city page, Jan 2026); city moorings about $35/night",
+  "season": "all year; showers May–Nov",
+  "approach": "Head of Ego Alley off Spa Creek; city mooring fields in Spa Creek and the harbor.",
+  "notes": "City Dock resiliency works 2026–early 2028 close many slips; limited bulkhead in Ego Alley. Pump-out boat Wed–Sun via VHF 17.",
+  "sources": [
+   "https://www.annapolis.gov/165/Harbormaster",
+   "https://waterwayguide.com/marina/front-forty-mooring-field"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-montreal-port-descale",
+  "name": "Port d'escale du Vieux-Port de Montréal",
+  "aliases": [
+   "Port d'escale Marina",
+   "Old Port of Montréal marina"
+  ],
+  "country": "CA",
+  "position": [
+   -73.5507,
+   45.5061
+  ],
+  "kind": "marina",
+  "berths": 115,
+  "visitorBerths": null,
+  "maxLengthM": 67.0,
+  "depthM": 7.5,
+  "vhf": "68",
+  "phone": "+1 514-283-5414",
+  "email": "pescale@oldportofmontreal.com",
+  "website": "https://www.oldportofmontreal.com/node/2281",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out"
+  ],
+  "fees": "CAD 4.00/ft/night (25–59 ft), 4.50 in high season and weekends, 5.00 on event dates (2026, before tax)",
+  "season": "late May – mid-October",
+  "approach": "Old Port basin off the St. Lawrence; Ste-Marie current up to 6 kn outside, 10 km/h limit inside.",
+  "notes": "Fuelling only with supervisor authorization. Booking by request form; 2027 bookings open in April.",
+  "sources": [
+   "https://www.oldportofmontreal.com/node/2281"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-ottawa-locks",
+  "name": "Ottawa Locks (Rideau Canal)",
+  "aliases": [
+   "Ottawa Wall",
+   "Locks 1-8 Ottawa"
+  ],
+  "country": "CA",
+  "position": [
+   -75.697,
+   45.4258
+  ],
+  "kind": "town quay",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": null,
+  "phone": "+1 613-237-2309",
+  "email": null,
+  "website": "https://parks.canada.ca/lhn-nhs/on/rideau/activ/camping/amarrage-mooring",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "toilets"
+  ],
+  "fees": "CAD 1.50/ft overnight; power CAD 12/night where available (2026)",
+  "season": "Rideau navigation season (mid-May – mid-Oct)",
+  "approach": "Flight of 8 locks between the Ottawa River and the canal beside Parliament Hill; arrive at least 3.5 h before closing to lock through.",
+  "notes": "Max 2 nights; first come, first served, check in with lock staff. Power on the wall reported by boaters but not confirmed.",
+  "sources": [
+   "https://rideau-info.com/canal/fees.html",
+   "https://rideau-info.com/canal/locks/01-08-ottawa.html",
+   "https://www.waterwayguide.com/reviews/8-481/ottawa-wall"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-quebec-port-marina",
+  "name": "Marina du Port de Québec",
+  "aliases": [
+   "Port of Quebec Marina",
+   "Bassin Louise"
+  ],
+  "country": "CA",
+  "position": [
+   -71.2073,
+   46.819
+  ],
+  "kind": "marina",
+  "berths": 415,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "71",
+  "phone": "+1 418-648-2233",
+  "email": null,
+  "website": "https://marina.portquebec.ca/en/",
+  "booking": "https://marina.portquebec.ca/en/reservation/",
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry"
+  ],
+  "fees": "CAD 3.30/ft/night up to 59 ft, 3.90 for 60–79 ft (2026)",
+  "season": "early May – end Oct; reception 7:30–20:30",
+  "approach": "Bassin Louise beside Old Québec, entered through a lock from the St. Lawrence; large tides, check lock times.",
+  "notes": "Fuel at the service dock 8:00–20:00 daily.",
+  "sources": [
+   "https://marina.portquebec.ca/en/",
+   "https://marina.portquebec.ca/en/pricing/",
+   "https://www.info-marina.ca/en/explore/st-lawrence-river-15/montreal-to-quebec-city-22/marina-du-port-de-quebec-178"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-burlington-community-boathouse",
+  "name": "Burlington Community Boathouse",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -73.2232,
+   44.477
+  ],
+  "kind": "marina",
+  "berths": 105,
+  "visitorBerths": 45,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "74 (monitors 9)",
+  "phone": "+1 802-865-3377",
+  "email": null,
+  "website": null,
+  "booking": "https://dockwa.com/explore/destination/x1c1xe-burlington-community-boathouse",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity"
+  ],
+  "fees": null,
+  "season": "to 15 Oct",
+  "approach": "Behind the Burlington breakwater on Lake Champlain, foot of College Street.",
+  "notes": "Also about 51 transient moorings by the breakwall. Fuel at Burlington Harbor Marina nearby.",
+  "sources": [
+   "https://www.waterwayguide.com/featured-marina/burlington-community-boathouse",
+   "https://marinas.com/view/marina/x1c1xe"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-seattle-bell-harbor",
+  "name": "Bell Harbor Marina",
+  "aliases": [
+   "Bell Street Marina",
+   "Russell Carroll Bell Harbor Marina"
+  ],
+  "country": "US",
+  "position": [
+   -122.348,
+   47.6101
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "66A",
+  "phone": "+1 206-787-3952",
+  "email": null,
+  "website": "https://www.portseattle.org/maritime/moorage-rates-info",
+  "booking": null,
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "pump-out"
+  ],
+  "fees": "guest rate from about $2.64/ft/day under 50 ft (Port of Seattle page 2026; 20 ft minimum)",
+  "season": "all year",
+  "approach": "On the downtown Elliott Bay waterfront at Pier 66, inside a breakwater.",
+  "notes": "Port of Seattle guest-only marina downtown; reservations recommended.",
+  "sources": [
+   "https://www.portseattle.org/page/bell-harbor-marina-moorage-rates-and-info",
+   "https://www.portseattle.org/sites/default/files/2020-01/POS_BH_RecMoorage_Flyer_2020_web.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-anacortes-cap-sante",
+  "name": "Cap Sante Marina",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -122.6055,
+   48.513
+  ],
+  "kind": "marina",
+  "berths": 950,
+  "visitorBerths": 100,
+  "maxLengthM": 39.6,
+  "depthM": 3.0,
+  "vhf": "66A",
+  "phone": "+1 360-293-0694",
+  "email": null,
+  "website": "https://www.portofanacortes.com/160/Cap-Sante-Marina",
+  "booking": null,
+  "fuel": "diesel, petrol",
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "slipway"
+  ],
+  "fees": "call for rates (WPPA guide 2026)",
+  "season": "all year; fuel dock 8:00–18:00 summer, 8:00–16:30 winter",
+  "approach": "Fidalgo Bay side of Anacortes; call VHF 66A for a slip.",
+  "notes": "US Customs port of entry: call +1 360-293-2331 an hour before arrival. Gateway to the San Juans.",
+  "sources": [
+   "https://marinas.com/view/marina/95c6jq_Cap_Sante_Marina_Anacortes_WA_United_States",
+   "https://www.portofanacortes.com/160/Cap-Sante-Marina",
+   "https://www.washingtonports.org/wp-content/uploads/2026/04/2026-WPPA-Recreational-Boating-Facilities-Guide-Final.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-victoria-inner-harbour",
+  "name": "Causeway Marina (Victoria Inner Harbour)",
+  "aliases": [
+   "Causeway Floats",
+   "Wharf Street Marina",
+   "Ship Point Marina"
+  ],
+  "country": "CA",
+  "position": [
+   -123.37,
+   48.4219
+  ],
+  "kind": "harbour",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": 18.3,
+  "depthM": null,
+  "vhf": "66A",
+  "phone": "+1 250-883-2458",
+  "email": "reservations@gvha.ca",
+  "website": "https://gvha.ca",
+  "booking": "https://app.swiftharbour.com/guest/v1/business/32/booking/158/Transient%20Booking%20Request",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity"
+  ],
+  "fees": "CAD 3.02/ft/night for 30–45 ft in summer (22 Jun – 21 Sep), 2.29 low season; power extra (GVHA 2026)",
+  "season": "all year (Wharf Street year round)",
+  "approach": "Inner Harbour has mandatory traffic lanes and floatplanes; clear CBSA at the Raymur Point customs dock, then hail GVHA on 66A.",
+  "notes": "Causeway floats in front of the Empress take boats to 60 ft; larger boats at Ship Point/Wharf Street.",
+  "sources": [
+   "https://gvha.ca/?p=127",
+   "https://gvha.ca/?p=389",
+   "https://tc.canada.ca/en/marine-transportation/ports-harbours-anchorages/public-port-victoria-traffic-scheme"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-vancouver-coal-harbour",
+  "name": "Coal Harbour Marina",
+  "aliases": [],
+  "country": "CA",
+  "position": [
+   -123.1257,
+   49.2925
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": 100.6,
+  "depthM": null,
+  "vhf": "66A",
+  "phone": "+1 604-681-2628",
+  "email": null,
+  "website": "https://vimarina.ca/?p=6967",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "showers",
+   "toilets",
+   "laundry",
+   "wifi",
+   "pump-out",
+   "restaurant",
+   "chandlery"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Coal Harbour, inside Burrard Inlet past Brockton Point, downtown Vancouver.",
+  "notes": "Guest moorage to 330 ft; reservations highly recommended. Fuel from the fuel barge in Coal Harbour.",
+  "sources": [
+   "https://vimarina.ca/?p=6967",
+   "https://noonsite.com/?p=8186"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "ca-nanaimo-boat-basin",
+  "name": "Nanaimo Boat Basin",
+  "aliases": [
+   "Port of Nanaimo",
+   "W. E. Mills Landing & Marina"
+  ],
+  "country": "CA",
+  "position": [
+   -123.9344,
+   49.1675
+  ],
+  "kind": "harbour",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "67",
+  "phone": "+1 250-754-5053",
+  "email": null,
+  "website": "https://npa.ca/marina/",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "pump-out"
+  ],
+  "fees": null,
+  "season": "all year",
+  "approach": "Downtown behind the concrete breakwater; hail the wharfinger on VHF 67 for a berth.",
+  "notes": "Customs clearing area on the north side of E float. Inner basin gates locked 23:00–07:00.",
+  "sources": [
+   "https://marinas.com/view/marina/2gc59m_Nanaimo_Boat_Basin_Nanaimo_BC_Canada",
+   "https://vimarina.ca/?p=6912"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-ketchikan-thomas-basin",
+  "name": "Thomas Basin",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -131.6411,
+   55.3397
+  ],
+  "kind": "harbour",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "73, 16",
+  "phone": "+1 907-228-5632",
+  "email": "ktnharbors@ketchikan.gov",
+  "website": "https://www.ketchikan.gov/harbors",
+  "booking": null,
+  "fuel": null,
+  "facilities": [],
+  "fees": null,
+  "season": "all year",
+  "approach": "Small basin at the south end of downtown, just past the cruise ship docks.",
+  "notes": "Transient moorage in all city harbors; register at the harbormaster office at Bar Harbor and prepay open-moorage permits.",
+  "sources": [
+   "https://www.ketchikan.gov/harbors",
+   "https://www.ketchikan.gov/media/Port & Harbors/Harbor/Welcome To Ketchikan Harbors Booklet.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-juneau-harris-harbor",
+  "name": "Harris Harbor",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -134.4283,
+   58.3017
+  ],
+  "kind": "harbour",
+  "berths": 225,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "73",
+  "phone": "+1 907-586-5255",
+  "email": null,
+  "website": "https://juneau.org/harbors/facilities",
+  "booking": null,
+  "fuel": null,
+  "facilities": [
+   "showers",
+   "pump-out",
+   "slipway"
+  ],
+  "fees": "$0.75/ft/day from 1 Jul 2025 (CBJ rate chart FY26)",
+  "season": "all year",
+  "approach": "Walking distance north of downtown; pass under the Douglas Bridge (about 20 m clearance). Hail Aurora Harbor Office on VHF 73 entering Gastineau Channel.",
+  "notes": "Transient space first come, first served through the Aurora Harbor Office; Aurora Harbor (365 slips) just north.",
+  "sources": [
+   "https://juneau.org/harbors/facilities",
+   "https://juneau.org/wp-content/uploads/2025/05/Rate-Fee-Chart-FY26.pdf"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-san-diego-shelter-island-guest",
+  "name": "Shelter Island Guest Docks",
+  "aliases": [
+   "Harbor Police Dock"
+  ],
+  "country": "US",
+  "position": [
+   -117.2346,
+   32.7096
+  ],
+  "kind": "town quay",
+  "berths": 26,
+  "visitorBerths": 26,
+  "maxLengthM": 19.8,
+  "depthM": null,
+  "vhf": "16",
+  "phone": "+1 619-686-6227",
+  "email": "moorings@portofsandiego.org",
+  "website": "https://portofsandiego.org/coming-and-going/boating-san-diego-bay/shelter-island-guest-docks",
+  "booking": "https://reservations.portofsandiego.org/",
+  "fuel": null,
+  "facilities": [
+   "water",
+   "electricity",
+   "pump-out"
+  ],
+  "fees": "$1.27/ft/day (Port of San Diego; year not stated)",
+  "season": "all year; mooring office 6:00–23:00",
+  "approach": "Shelter Island Yacht Basin at the Harbor Police station.",
+  "notes": "Max 15 days in 40. Arriving from abroad, report to CBP at the Harbor Police dock.",
+  "sources": [
+   "https://portofsandiego.org/coming-and-going/boating-san-diego-bay/shelter-island-guest-docks",
+   "https://cbp.gov/travel/pleasure-boats-private-flyers/pleasure-boat-locations/sandiego"
+  ],
+  "checked": "2026-11-22"
+ },
+ {
+  "id": "us-san-francisco-south-beach",
+  "name": "South Beach Harbor",
+  "aliases": [],
+  "country": "US",
+  "position": [
+   -122.3858,
+   37.7802
+  ],
+  "kind": "marina",
+  "berths": null,
+  "visitorBerths": null,
+  "maxLengthM": null,
+  "depthM": null,
+  "vhf": "16",
+  "phone": "+1 415-495-4911",
+  "email": null,
+  "website": "https://sfport.com/maritime/harbors-berthings/south-beach-harbor",
+  "booking": "https://www.sfport.com/maritime/harbors-berthings/south-beach-harbor/guest-and-transient-stay-requests",
+  "fuel": "none",
+  "facilities": [
+   "water",
+   "electricity",
+   "pump-out"
+  ],
+  "fees": "$1.50/ft/day ($42 minimum); $3.00/ft over 50 ft (Port of SF)",
+  "season": "all year",
+  "approach": "Behind the breakwater next to Oracle Park on the city waterfront.",
+  "notes": "South Guest Dock closed from 14 Oct 2026 for renovation. Nearest fuel at Gashouse Cove (Marina District).",
+  "sources": [
+   "https://sfport.com/maritime/harbors-berthings/south-beach-harbor/harbor-transients-and-guest",
+   "https://www.sfport.com/maritime/harbors-berthings/south-beach-harbor/south-beach-harbor-faqs"
+  ],
+  "checked": "2026-11-22"
+ }
+]

@@ -47,7 +47,7 @@ import { useTheme } from './ui/useTheme';
 import './App.css';
 import { loadView } from './map/view';
 import { portFacts } from './ui/portFacts';
-import { portSheetFor } from './routing/ports';
+import { PORTS, portPoi, portSheetFor } from './routing/ports';
 import { PortGuide } from './ui/PortGuide';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
@@ -177,7 +177,7 @@ export default function App({ client }: { client: RoutingApi }) {
     return () => ro.disconnect();
   });
   const watchId = useRef<number | null>(null);
-  const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
+  const localIndex = useMemo(() => buildLocalIndex([...pois, ...PORTS.map(portPoi)]), [pois]);
   // a point picked on the map or given by a link is shown by its nearest town, not its coordinates
   const towns = useMemo(() => pois.filter((p) => p.type === 'place'), [pois]);
   // the services and structures near the open place, for its Nearby tab

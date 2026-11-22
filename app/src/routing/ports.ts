@@ -1,4 +1,5 @@
 import { haversine, type LngLat } from '../graph/geo';
+import type { Poi } from './service';
 import data from '../data/ports.json';
 
 /** Researched facts about a major marina or harbour (format: the port sheet brief); null when no source says. */
@@ -50,4 +51,9 @@ export function portSheetFor(position: LngLat, label: string, ports: PortSheet[]
     }
   }
   return best;
+}
+
+/** A port sheet as a searchable place (many major harbours are not in the waterway data's places). */
+export function portPoi(p: PortSheet): Poi {
+  return { type: p.kind === 'marina' ? 'marina' : 'port', name: p.name, lon: p.position[0], lat: p.position[1] };
 }
