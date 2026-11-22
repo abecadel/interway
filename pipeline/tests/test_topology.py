@@ -207,6 +207,15 @@ def test_lock_chamber_between_two_gates_and_separate_locks():
     ]
 
 
+def test_the_pound_between_two_chamber_ways_is_not_a_chamber():
+    # Office Lock and River Lock (Leeds): each chamber is its own lock=yes way with gates at its ends; the 200 m
+    # pound between them carries one gate of each at its ends and must not become a third lock
+    ex = Extract(ways=[way(1, [1, 2], lock="yes", lock_name="Office Lock"), way(2, [2, 3, 4]),
+                       way(3, [4, 5], lock="yes", lock_name="River Lock")],
+                 lock_nodes={1, 2, 4, 5})
+    assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, False), (3, True)]
+
+
 def test_oneway_reversed_and_limits():
     ex = Extract(ways=[way(1, [1, 2], oneway="-1", draft="1.5", maxheight="4", maxwidth="9,5 m", maxlength="80"),
                        way(2, [2, 3], oneway="yes", maxdraft="2", draft="1")])

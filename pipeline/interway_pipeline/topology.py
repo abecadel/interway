@@ -154,9 +154,11 @@ def split_ways(ex: Extract) -> list[Segment]:
         usage.update(set(w.nodes))
         usage[w.nodes[0]] += 1
         usage[w.nodes[-1]] += 1
+    # a gate on a lock=yes way is that chamber's gate: on the way beyond it, it starts no chamber of its own
+    chamber_gates = {n for w in ex.ways if w.tags.get("lock") == "yes" for n in w.nodes} & ex.lock_nodes
     segments: list[Segment] = []
     for w in ex.ways:
-        segments.extend(_split_way(w, usage, ex))
+        segments.extend(_split_way(w, usage, ex, chamber_gates))
     log.info("split %d ways into %d segments", len(ex.ways), len(segments))
     return segments
 
@@ -164,14 +166,16 @@ def split_ways(ex: Extract) -> list[Segment]:
 LOCK_GROUP_M = 400.0  # lock gates closer than this along a way belong to the same chamber
 
 
-def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract) -> list[tuple[int, int]]:
-    """Index ranges (first gate, last gate) of lock chambers along a way, from its lock gate nodes."""
+def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract, chamber_gates: set[int]) -> list[tuple[int, int]]:
+    """Index ranges (first gate, last gate) of lock chambers along a way, from its lock gate nodes. The gates of
+    chambers mapped as their own lock=yes way are left out: the short pound between two such chambers (Office Lock
+    and River Lock, Leeds) is not a chamber."""
     groups: list[list[int]] = []
     along = [0.0]
     for i in range(1, len(coords)):
         along.append(along[-1] + haversine(coords[i - 1], coords[i]))
     for i, n in enumerate(nodes):
-        if n not in ex.lock_nodes:
+        if n not in ex.lock_nodes or n in chamber_gates:
             continue
         if groups and along[i] - along[groups[-1][1]] <= LOCK_GROUP_M:
             groups[-1][1] = i
@@ -181,7 +185,7 @@ def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract) -> list[tu
     return [(g0, g1) for g0, g1 in groups if not (g0 == g1 and g0 in (0, len(nodes) - 1))]
 
 
-def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
+def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[int]) -> list[Segment]:
     """Cut a way at junctions, weirs and lock chambers.
 
     A lock is its own short segment: the stretch between the first and last gate of a chamber, or a
@@ -197,7 +201,7 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract) -> list[Segment]:
     # lock_name names a lock chamber only: on a long lock cut or approach it would name kilometres of canal after
     # the lock ("Écluse n°10 d'Ars-sur-Moselle", 11 km)
     name = tags.get("name") or ""
-    groups = [] if base_lock else _lock_groups(nodes, coords, ex)
+    groups = [] if base_lock else _lock_groups(nodes, coords, ex, chamber_gates)
     chambers = {(g0, g1) for g0, g1 in groups if g0 < g1}
     single_gates = {g0 for g0, g1 in groups if g0 == g1}
     cuts = {i for g in groups for i in g}
