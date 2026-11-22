@@ -4,7 +4,12 @@ import { defaultProfile } from '../routing/router';
 import { empty, kanal, restricted } from '../test/waterwayFixture';
 import { routeNotices } from './routeNotices';
 
-vi.mock('../data/waterways.json', async () => ({ default: [(await import('../test/waterwayFixture')).kanal] }));
+vi.mock('../data/waterways.json', async () => {
+  const { kanal } = await import('../test/waterwayFixture');
+  // a river that is never closed, only low in June
+  const river = { ...kanal, id: 'river', name: 'Rzeka', aliases: ['Rzeka'], months: { closed: [], lowWater: [6], highWater: [], ice: [], notes: null } };
+  return { default: [kanal, river] };
+});
 
 const route = {
   coordinates: [[0, 0], [1, 0]], distance: 1300, duration: 1680, locks: 1, unverified: 0, sea: 0, seaNoDepth: 0, offshore: 0, noMotor: 0, limits: [], downstream: 0, upstream: 0,
@@ -43,9 +48,15 @@ describe('routeNotices', () => {
     expect(n[0].title).toBe('1 seasonal note for your dates');
     expect(n[0].items![0]).toMatch(/^Kanal \(A – B\), reached around 2026-08-01: usually closed/);
     expect(n[0].detail).toMatch(/^All the waterways of this route are usually open in/);
-    // low water only: no advice
+    // low water only: still when the route's waterways are usually open
     const low = routeNotices(route, { ...defaultProfile, departure: '2026-06-01' }, []);
-    expect(low[0]).toMatchObject({ title: '1 seasonal note for your dates', detail: undefined });
+    expect(low[0]).toMatchObject({ title: '1 seasonal note for your dates' });
+    expect(low[0].detail).toMatch(/^All the waterways of this route are usually open in .*[^:]$/);
+  });
+
+  it('gives no advice on when to go where no waterway is ever closed', () => {
+    const n = routeNotices({ ...route, legs: [{ name: 'Rzeka', distance: 1300 }] }, { ...defaultProfile, departure: '2026-06-01' }, []);
+    expect(n[0]).toMatchObject({ title: '1 seasonal note for your dates', detail: undefined });
   });
 
   it('notes motorboat bans, shallow sea, open sea, unverified links and moved ends', () => {

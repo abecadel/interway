@@ -35,12 +35,28 @@ const itinerary: Itinerary = {
     stop(68_000, { type: 'tackle', name: 'Wędkarz' }, 800),
     stop(70_000, { type: 'marina', name: 'Przystań', vhf: '9', phone: '+48 1' }),   // 70 km: inside the last fifth of day 1 (64–80 km)
     stop(150_000, { type: 'place', name: 'Grudziądz' }),  // day 2 ends at km 150 without a marina: near the town
-    stop(155_000, { type: 'port', name: 'A | B' }),       // after day 2's end
+    stop(155_000, { type: 'port', name: 'A | B', services: 'diesel, water' }),       // after day 2's end; sells fuel
   ],
 };
 
 describe('route brief', () => {
   const b = buildBrief({ route, itinerary, profile: { ...defaultProfile, length: 9, beam: 3, airDraft: 3 }, title: 'Warsaw → Gdańsk', link: 'https://x/?from=1,2' });
+
+  it('keeps the Markdown short: counts slipways and wrecks, caps the keep-clear warnings', () => {
+    const many = { counts: {}, stops: [
+      ...Array.from({ length: 7 }, (_, i) => stop(1000 * (i + 1), { type: 'obstruction' }, 50)),
+      stop(9000, { type: 'slipway' }), stop(9500, { type: 'wreck' }), stop(9600, { type: 'wreck' }),
+      stop(9700, { type: 'lock', name: 'Śluza' }),
+    ] };
+    const busy = buildBrief({ route, itinerary: many, profile: defaultProfile, title: 't', link: 'l' });
+    expect(busy.hazards.filter((h) => h.endsWith('m from the route line: keep clear.'))).toHaveLength(5);
+    expect(busy.hazards).toContain('2 more fish farms or charted obstructions within 300 m of the line (listed in the JSON brief): keep clear.');
+    const md = briefMarkdown(busy);
+    expect(md).toContain('| 9.7 | Lock | Śluza |');
+    expect(md).not.toContain('| Slipway |');
+    expect(md).toContain('Also along the route (in the JSON brief): 7 obstructions, 1 slipway, 2 wrecks.');
+    expect(busy.stops).toHaveLength(11);
+  });
 
   it('sums up the route and checks the vessel against locks and bridges', () => {
     expect(b.totals).toEqual({ km: 200, nm: 108, hours: 20, movingHours: 20, lockHours: 0.3, currentHours: -0.3, days: 3, locks: 1, seaNm: 10, seaNoDepthNm: 5, unverifiedKm: 0.5, tooShallowKm: 0, maxSeaDraftM: 1.4, downstreamKm: 150, upstreamKm: 0 });
@@ -101,7 +117,7 @@ describe('route brief', () => {
     expect(open.stages.map((s) => [s.toKm, s.endsAt])).toEqual([[80, 'km 80'], [95, 'Port Port-Saint-Louis'], [400, 'destination']]);
     expect(open.stages[2]).toMatchObject({ km: 305, atSea: true });
     expect(open.totals.days).toBe(3);
-    expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no harbour on the planned line, about 31 h non-stop');
+    expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no marina or port within 12 km of the line, about 31 h non-stop');
     // a harbour out on the passage (an island) breaks it up; a passage ending before the destination is named so
     const island = buildBrief({ route: { ...seaRoute, legs: [...seaRoute.legs.slice(0, 1), { name: 'Open sea', distance: 200_000 }, { name: 'Port', distance: 100_000 }] },
       itinerary: { counts: {}, stops: [stop(180_000, { type: 'marina', name: 'Île' })] }, profile: defaultProfile, title: 't', link: 'l' });
@@ -122,7 +138,9 @@ describe('route brief', () => {
     expect(md).toContain('Open or edit: https://x/?from=1,2');
     expect(md).toContain('- Open sea: 10 NM');
     expect(md).toContain('- River current: 0.5 m/s, 150 km with it, 0 km against it');
-    expect(md).toContain('in 3 day(s) of up to 8 h: moving 20 h, locks 0.3 h (20 min each), current -0.3 h');
+    expect(md).toContain('- Time underway: 20 h at 10 km/h, in 3 cruising day(s) of up to 8 h: moving 20 h, locks 0.3 h (20 min each), current -0.3 h');
+    // a long trip also gives the non-stop time
+    expect(briefMarkdown({ ...b, totals: { ...b.totals, hours: 355 } })).toContain('- Time underway: 355 h (14 d 19 h non-stop) at');
     expect(md).toContain('Draft 1 m (default, not entered), air draft 3 m (default, not entered), beam 3 m, length 9 m (default, not entered)');
     expect(md).toContain('- Towns on the way: Toruń, Grudziądz');
     expect(md).toContain('| 0–150 | Wisła | 150 km |');
@@ -148,13 +166,13 @@ describe('route brief', () => {
       'Read the notices to skippers before going: PL Wody Polskie, komunikaty nawigacyjne (https://www.gov.pl/web/wody-polskie).',
     ]);
     expect(b.countries).toEqual([{ cc: 'PL', name: 'Landland', fromKm: 10 }]);
-    expect(b.services.fuel).toEqual({ count: 1, longestKm: 140, fromKm: 60, toKm: 200 });
+    expect(b.services.fuel).toEqual({ count: 2, longestKm: 95, fromKm: 60, toKm: 155 });
     expect(b.services.water).toEqual({ count: 0, longestKm: 200, fromKm: 0, toKm: 200 });
     expect(b.services.harbour).toEqual({ count: 2, longestKm: 85, fromKm: 70, toKm: 155 });
     expect(b.stages[0].harbour).toBe('VHF: channel 9; Phone: +48 1');
     expect(md).toContain('- [ ] Landland: licence');
     expect(md).toContain('- Countries: Landland (from km 10)');
-    expect(md).toContain('- Fuel: 1 on the route; longest stretch without: 140 km (km 60–200)');
+    expect(md).toContain('- Fuel: 2 on the route; longest stretch without: 95 km (km 60–155)');
     expect(b.hazards).toContain('km 65: fish farm Hodowla 120 m from the route line: keep clear.');
     expect(b.hazards).toContain('km 66: obstruction 250 m from the route line: keep clear.');
     expect(b.hazards.some((h) => h.startsWith('km 67'))).toBe(false);

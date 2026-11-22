@@ -4034,3 +4034,1427 @@
   sea: true
   countries: [EE]
   source: https://www.ferryhopper.com/en/ferry-routes/direct/virtsu-kuivastu (Virtsu – Kuivastu ferry, about 4 nautical miles / 7.8 km)
+
+# Great Britain and Ireland: inland cruising stages (researched 2026-11-22). Same format as data/test-routes.yaml.
+# Not duplicated: Lechlade–Teddington, Grand Union, Kennet & Avon Reading–Bath, Leeds & Liverpool, Llangollen,
+# Trent & Mersey, Shropshire Union, Oxford, Caledonian, Grand Canal Dublin–Shannon Harbour, Shannon–Erne Leitrim–Belturbet.
+
+# --- River Thames, non-tidal (Environment Agency) -------------------------------------------------------
+- name: River Thames, Oxford (Osney Lock) → Reading (Caversham Lock)
+  from: [-1.2719, 51.7492]
+  to: [-0.9641, 51.4607]
+  expected_km: 62.4
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Thames]
+  min_locks: 10
+  source: https://www.gov.uk/guidance/river-thames-distances-and-measurements-for-boaters (lock-to-lock table, Osney → Mapledurham legs 3.73 + 2.70 + 7.38 + 4.15 + 4.52 + 4.80 + 6.37 + 10.46 + 1.00 + 6.55 + 3.67 + 7.08 = 62.4 km, 12 locks)
+
+- name: River Thames, Reading (Caversham Lock) → Windsor (Romney Lock)
+  from: [-0.9641, 51.4607]
+  to: [-0.6042, 51.4915]
+  expected_km: 50.0
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Thames]
+  min_locks: 10
+  source: https://www.gov.uk/guidance/river-thames-distances-and-measurements-for-boaters (lock-to-lock table, Caversham → Boveney legs sum 49.99 km, 12 locks)
+
+- name: River Thames, Windsor (Romney Lock) → Teddington Lock
+  from: [-0.6042, 51.4915]
+  to: [-0.3238, 51.4313]
+  expected_km: 37.8
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Thames]
+  min_locks: 6
+  source: https://www.gov.uk/guidance/river-thames-distances-and-measurements-for-boaters (lock-to-lock table, Romney → Molesey legs sum 37.83 km, 8 locks)
+
+# --- Tidal Thames (Port of London Authority) ------------------------------------------------------------
+- name: Tidal Thames, Brentford (Thames Lock, Grand Union) → Limehouse Basin
+  from: [-0.3047, 51.4822]
+  to: [-0.0368, 51.5116]
+  expected_km: 25.7
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Thames]
+  source: https://canalplan.co.uk/waterway/8qh4 (distances from Teddington — Brentford junction 5 mi ¾ fur, Limehouse Basin entrance 21 mi ¾ fur → 16.0 mi); the classic narrowboat Thames Ring link, CRT booking at both locks
+
+- name: Tidal Thames, Teddington Lock → Limehouse Basin
+  from: [-0.3238, 51.4313]
+  to: [-0.0368, 51.5116]
+  expected_km: 33.9
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Thames]
+  source: https://canalplan.co.uk/waterway/8qh4 (Teddington Lock to Limehouse Basin entrance 21 mi ¾ fur ≈ 33.9 km)
+
+# --- Canal & River Trust ----------------------------------------------------------------------------------
+- name: Regent's Canal, Little Venice → Limehouse Basin (London)
+  from: [-0.1824, 51.5212]
+  to: [-0.0368, 51.5116]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 13.8
+  tolerance: 0.15
+  countries: [GB]
+  via: [Regent's Canal]
+  min_locks: 10
+  source: https://canalrivertrust.org.uk/canals-and-rivers/regents-canal/boating-the-regents-canal (8.6 miles, 12 locks)
+
+- name: Macclesfield Canal, Marple Junction → Hall Green (Trent & Mersey)
+  from: [-2.0593, 53.3926]
+  to: [-2.2486, 53.1034]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 42.2
+  tolerance: 0.12
+  countries: [GB]
+  via: [Macclesfield Canal]
+  min_locks: 10
+  source: https://canalrivertrust.org.uk/canals-and-rivers/macclesfield-canal/boating-the-macclesfield-canal (26.25 miles, 13 locks)
+
+- name: Worcester & Birmingham Canal, Gas Street Basin → Diglis Basin (Worcester)
+  from: [-1.9097, 52.4775]
+  to: [-2.2245, 52.1799]
+  # by the canal itself (Tardebigge flight), not the Stourbridge – Staffs & Worcs – Severn way round with fewer locks
+  waypoints: [[-2.0248, 52.3145]]
+  vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
+  expected_km: 48.3
+  tolerance: 0.12
+  countries: [GB]
+  via: [Worcester & Birmingham Canal]
+  min_locks: 30
+  source: https://canalrivertrust.org.uk/canals-and-rivers/worcester-and-birmingham-canal/boating-the-worcester-and-birmingham-canal (30 miles, 58 locks)
+
+# --- Scotland -----------------------------------------------------------------------------------------------
+- name: Crinan Canal, Ardrishaig sea lock → Crinan Basin
+  from: [-5.4460, 56.0122]
+  to: [-5.5565, 56.0907]
+  expected_km: 14.5
+  tolerance: 0.15
+  countries: [GB]
+  via: [Crinan Canal]
+  min_locks: 10
+  source: https://www.scottishcanals.co.uk/boating/canal-travel/crinan-canal-skippers-guide (nine miles from Ardrishaig on Loch Fyne to Crinan, 15 locks)
+
+# --- Norfolk Broads -------------------------------------------------------------------------------------
+- name: Broads, Wroxham → Great Yarmouth Yacht Station (River Bure)
+  from: [1.4082, 52.7117]
+  to: [1.7229, 52.6148]
+  expected_km: 39.8
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Bure]
+  source: https://www.broadsnet.co.uk/broads-river-distance-chart/ (River Bure, Wroxham – Yarmouth 24.75 miles)
+
+- name: Broads, Norwich Yacht Station → Great Yarmouth (River Yare, Breydon Water)
+  from: [1.3074, 52.6300]
+  to: [1.7229, 52.6148]
+  expected_km: 43.5
+  tolerance: 0.15
+  countries: [GB]
+  via: [River Yare]
+  source: https://www.broadsnet.co.uk/broads-river-distance-chart/ (River Yare, Norwich – Yarmouth 27 miles; Reedham – Norwich 18.25 + Yarmouth – Reedham 8.75)
+
+- name: Broads, Potter Heigham → Hickling Broad (River Thurne, Heigham Sound)
+  from: [1.5811, 52.7098]
+  to: [1.5686, 52.7464]
+  expected_km: 7.2
+  tolerance: 0.2
+  countries: [GB]
+  via: [River Thurne, Hickling Broad]
+  source: https://www.broadsnet.co.uk/broads-river-distance-chart/ (River Thurne, Potter Heigham – Hickling 4.5 miles)
+
+# --- Shannon (Waterways Ireland) -----------------------------------------------------------------------
+- name: Shannon, Portumna → Banagher
+  from: [-8.2199, 53.0838]
+  to: [-7.9909, 53.1946]
+  expected_km: 22
+  tolerance: 0.15
+  countries: [IE]
+  via: [Shannon]
+  min_locks: 1
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/portumna-return-3-night-itinerary (day 1, Portumna – Banagher 22 km, 1 lock)
+
+- name: Shannon, Shannonbridge → Portumna
+  from: [-8.0509, 53.2791]
+  to: [-8.2199, 53.0838]
+  expected_km: 35
+  tolerance: 0.15
+  countries: [IE]
+  via: [Shannon]
+  min_locks: 1
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/portumna-return-3-night-itinerary (day 3, Shannonbridge – Portumna 35 km, 1 lock)
+
+- name: Lough Derg, Garrykennedy → Killaloe
+  from: [-8.3421, 52.9050]
+  to: [-8.4481, 52.8112]
+  expected_km: 16
+  tolerance: 0.25
+  countries: [IE]
+  via: [Shannon]
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/portumna-return-7-night-itinerary (day 3, Garrykennedy – Killaloe 16 km; operator's rounded figure)
+
+- name: Lough Derg, Dromineer → Portumna
+  from: [-8.2781, 52.9255]
+  to: [-8.2199, 53.0838]
+  expected_km: 23
+  tolerance: 0.2
+  countries: [IE]
+  via: [Lough Derg]
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/portumna-return-7-night-itinerary (day 7, Dromineer – Portumna 23 km)
+
+- name: Shannon, Leitrim → Dromod (Carrick-on-Shannon, Jamestown Canal)
+  from: [-8.0653, 53.9903]
+  to: [-7.9241, 53.8529]
+  expected_km: 35
+  tolerance: 0.2
+  countries: [IE]
+  via: [Shannon]
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/carrick-on-shannon-return-3-night-itinerary (day 2, Leitrim – Dromod 35 km, 1 lock)
+
+# --- Shannon–Erne Waterway and Erne ---------------------------------------------------------------------
+- name: Shannon–Erne Waterway, Leitrim → Ballinamore
+  from: [-8.0653, 53.9903]
+  to: [-7.8053, 54.0522]
+  expected_km: 22
+  tolerance: 0.15
+  countries: [IE]
+  via: [Shannon-Erne Waterway]
+  min_locks: 8
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/7nt-carrick-on-shannon-return (day 3, Leitrim – Ballinamore 22 km, 12 locks)
+
+- name: Shannon–Erne Waterway, Ballinamore → Ballyconnell (Garadice Lough)
+  from: [-7.8053, 54.0522]
+  to: [-7.5825, 54.1162]
+  expected_km: 25
+  tolerance: 0.15
+  countries: [IE]
+  via: [Shannon-Erne Waterway]
+  min_locks: 2
+  source: https://www.leboat.com/boating-vacations/ireland/shannon/7nt-carrick-on-shannon-return (day 4, Ballinamore – Ballyconnell 25 km, 3 locks)
+
+- name: Erne System, Belturbet → Belleek (Upper and Lower Lough Erne, Enniskillen)
+  from: [-7.4406, 54.1048]
+  to: [-8.0881, 54.4769]
+  expected_km: 84
+  tolerance: 0.15
+  countries: [IE, GB]
+  via: [Lough Erne Upper, Lower Lough Erne]
+  source: https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf (Waterways Ireland "Voyages and Visits", Erne System — 84 km from Belleek to Belturbet with 1 lock, Portora)
+
+# --- Irish canals and the Barrow --------------------------------------------------------------------------
+- name: Royal Canal, Dublin (Spencer Dock) → Richmond Harbour, Cloondara (Shannon)
+  from: [-6.2401, 53.3510]
+  to: [-7.9049, 53.7319]
+  expected_km: 146
+  tolerance: 0.1
+  countries: [IE]
+  via: [Royal Canal]
+  min_locks: 30
+  known_gap: the Royal Canal is not connected in the data (Spencer Dock to Maynooth finds no route); the router goes via the Grand Canal, Shannon and Lough Ree (210 km)
+  source: https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf (Waterways Ireland "Voyages and Visits", Royal Canal main line 146 km with 46 locks)
+
+- name: Grand Canal Barrow Line, Lowtown → Athy (River Barrow)
+  from: [-6.8349, 53.2747]
+  to: [-6.9850, 52.9922]
+  expected_km: 45
+  tolerance: 0.12
+  countries: [IE]
+  via: [Grand Canal - Barrow Line]
+  min_locks: 5
+  source: https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf (Waterways Ireland "Voyages and Visits", Barrow Line 45 km from Lowtown to Athy with nine locks)
+
+- name: Barrow Navigation, Athy → St Mullins
+  from: [-6.9850, 52.9922]
+  to: [-6.9332, 52.4888]
+  expected_km: 65
+  tolerance: 0.12
+  countries: [IE]
+  via: [Barrow]
+  min_locks: 15
+  source: https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf (Waterways Ireland "Voyages and Visits", Barrow Navigation 65 km from Athy to St Mullins with 23 locks)
+
+# --- US East Coast, New York canals and US Great Lakes (researched 2026-11-22) ------------------------------
+# Distances: NOAA "Distances Between United States Ports" (https://nauticalcharts.noaa.gov/publications/docs/distances.pdf)
+# unless noted. Coastal and Hudson tables are nautical miles; Table 6 (NY State waterways), the ICW statute-mile
+# half of Tables 13/14 and the Great Lakes tables 22-26 are statute miles (× 1.609).
+
+# Hudson River
+- name: Hudson River, New York (the Battery) → Poughkeepsie
+  from: [-74.0215, 40.7000]
+  to: [-73.9470, 41.7050]
+  expected_km: 122
+  tolerance: 0.15
+  countries: [US]
+  via: [Hudson River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 5, New York (the Battery) to Poughkeepsie 66 NM)
+
+- name: Hudson River, Kingston (Rondout) → Albany
+  from: [-73.9650, 41.9200]
+  to: [-73.7480, 42.6420]
+  expected_km: 89
+  tolerance: 0.15
+  countries: [US]
+  via: [Hudson River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 5, Kingston to Albany 48 NM)
+
+# Long Island Sound
+- name: Long Island Sound, New York (the Battery) → New Haven (East River, Hell Gate)
+  from: [-74.0215, 40.7000]
+  to: [-72.9083, 41.2900]
+  expected_km: 126
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [East River]
+  known_gap: the graph does not connect the East River (Hell Gate) to Long Island Sound; the route goes outside round Montauk
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 3, New Haven to New York 68 NM; also the worked example on p. 7)
+
+- name: Long Island Sound, New York (the Battery) → Greenport (Plum Gut)
+  from: [-74.0215, 40.7000]
+  to: [-72.3583, 41.1000]
+  expected_km: 189
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [East River]
+  known_gap: the graph does not connect the East River (Hell Gate) to Long Island Sound; the route goes outside round Montauk
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 3, Greenport (41°06.0'N 72°21.5'W) to New York 102 NM)
+
+# New York State Canal System and Lake Champlain
+- name: Oswego Canal + Cayuga–Seneca Canal, Oswego → Ithaca (Cayuga Lake)
+  from: [-76.5153, 43.4624]
+  to: [-76.5110, 42.4520]
+  expected_km: 172
+  tolerance: 0.15
+  countries: [US]
+  via: [Oswego, Cayuga-Seneca Canal, Cayuga Lake]
+  min_locks: 8
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 6, from Oswego (lake terminal) to Ithaca via the Cayuga and Seneca Canals 106.7 statute miles; 7 Oswego locks, E24, CS1)
+
+- name: Oswego Canal + Cayuga–Seneca Canal, Oswego → Watkins Glen (Seneca Lake)
+  from: [-76.5153, 43.4624]
+  to: [-76.8630, 42.3800]
+  expected_km: 188
+  tolerance: 0.15
+  countries: [US]
+  via: [Oswego, Cayuga-Seneca Canal]  # Seneca Lake is named Seneca River on its graph legs
+  min_locks: 10
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 6, from Oswego (lake terminal) to Watkins Glen 116.8 statute miles; 7 Oswego locks, E24, CS1, CS2-3 flight, CS4)
+
+- name: Black Rock Canal + western Erie Canal, Buffalo (Erie Basin) → Lockport
+  from: [-78.8890, 42.8800]
+  to: [-78.6880, 43.1720]
+  expected_km: 50
+  tolerance: 0.2
+  countries: [US]
+  via: [Black Rock, Erie Canal]
+  min_locks: 2
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 6, from Buffalo (Erie Basin) to Lockport (lower terminal) 30.9 statute miles; Black Rock Lock and Locks E34-35)
+
+- name: Lake Champlain, Whitehall → Burlington VT
+  from: [-73.4035, 43.5575]
+  to: [-73.2240, 44.4760]
+  expected_km: 113
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Champlain]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 6, from Troy Lock, Whitehall (terminal) 62.6, Burlington (landing) 133.1 statute miles = 70.5 statute miles)
+
+# Chesapeake Bay and Delaware Bay
+- name: Chesapeake Bay, Annapolis → St. Michaels (Eastern Bay, Miles River)
+  from: [-76.4790, 38.9770]
+  to: [-76.2215, 38.7865]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  known_gap: St. Michaels harbour is over 3 km from the sea graph and the sea route runs about 30 km long (Eastern Bay and the Miles River are not modelled)
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Annapolis to St. Michaels 25 NM)
+
+- name: Chesapeake Bay, Annapolis → Baltimore
+  from: [-76.4790, 38.9770]
+  to: [-76.6060, 39.2830]
+  expected_km: 52
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Baltimore to Annapolis 28 NM)
+
+- name: Chesapeake Bay, Norfolk → Cape Charles (across the bay mouth)
+  from: [-76.2983, 36.8483]
+  to: [-76.0230, 37.2650]
+  expected_km: 59
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Cape Charles to Norfolk 32 NM)
+
+- name: Delaware Bay and River, Cape May Canal (west entrance) → Philadelphia
+  from: [-74.9667, 38.9667]
+  to: [-75.1383, 39.9467]
+  expected_km: 156
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 9, Cape May Canal (west entrance) to Philadelphia 84 NM)
+
+# Atlantic Intracoastal Waterway (statute-mile figures from NOAA Tables 13 and 14)
+- name: Atlantic ICW, Norfolk (Mile 0) → Beaufort NC (Albemarle Sound, Alligator–Pungo Canal)
+  from: [-76.2983, 36.8483]
+  to: [-76.6700, 34.7130]
+  expected_km: 328
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Alligator River, Pungo River]
+  min_locks: 1
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Norfolk to Beaufort NC 204 statute miles; Great Bridge Lock or the two Dismal Swamp locks)
+
+- name: Atlantic ICW, Beaufort NC → Wrightsville Beach (Bogue Sound)
+  from: [-76.6700, 34.7130]
+  to: [-77.8120, 34.2100]
+  expected_km: 130
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Bogue Sound]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Beaufort NC to Wrightsville 81 statute miles)
+
+- name: Atlantic ICW, Little River SC → Georgetown SC (Waccamaw River)
+  from: [-78.6080, 33.8640]
+  to: [-79.2700, 33.3600]
+  expected_km: 98
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Waccamaw River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Little River to Georgetown 61 statute miles)
+
+- name: Atlantic ICW, Georgetown SC → Charleston
+  from: [-79.2700, 33.3600]
+  to: [-79.9150, 32.7750]
+  expected_km: 103
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Georgetown to Charleston 64 statute miles)
+
+- name: Atlantic ICW, Charleston → Beaufort SC (Wappoo Creek, Stono River)
+  from: [-79.9150, 32.7750]
+  to: [-80.6740, 32.4290]
+  expected_km: 111
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Stono River, Beaufort River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Charleston to Beaufort SC 69 statute miles)
+
+- name: Atlantic ICW, Beaufort SC → Thunderbolt GA
+  from: [-80.6740, 32.4290]
+  to: [-81.0480, 32.0330]
+  expected_km: 76
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  known_gap: the inside route through Port Royal Sound, Skull Creek and Calibogue Sound is not connected in the graph; the route goes outside (about 100 km)
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Beaufort SC to Thunderbolt 47 statute miles)
+
+- name: Atlantic ICW, Thunderbolt GA → Fernandina Beach FL (Georgia sounds)
+  from: [-81.0480, 32.0330]
+  to: [-81.4680, 30.6730]
+  expected_km: 214
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Thunderbolt to Fernandina Beach 133 statute miles)
+
+- name: Atlantic ICW, Fernandina Beach → St. Augustine
+  from: [-81.4680, 30.6730]
+  to: [-81.3110, 29.8920]
+  expected_km: 97
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Tolomato River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 14, inside route St. Augustine to Fernandina Beach 60 statute miles / 53 NM)
+
+- name: Atlantic ICW, Daytona Beach → Titusville (Haulover Canal)
+  from: [-81.0170, 29.2150]
+  to: [-80.8050, 28.6230]
+  expected_km: 77
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Halifax River, Indian River]  # Haulover Canal is part of the Indian River Lagoon leg in the graph
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 14, inside route Daytona Beach to Titusville 48 statute miles)
+
+- name: Atlantic ICW, Fort Pierce → Stuart (St. Lucie River)
+  from: [-80.3225, 27.4475]
+  to: [-80.2401, 27.2094]
+  expected_km: 48
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  via: [Saint Lucie]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 14, inside route Fort Pierce to Stuart 30 statute miles)
+
+# Okeechobee Waterway
+- name: Okeechobee Waterway, Stuart → Clewiston (St. Lucie Canal, Port Mayaca, Route 1 across the lake)
+  from: [-80.2401, 27.2094]
+  to: [-80.9330, 26.7590]
+  expected_km: 93
+  tolerance: 0.15
+  countries: [US]
+  via: [Saint Lucie Canal]
+  min_locks: 2
+  source: https://www.offshoreblue.com/cruise/okeechobee-distances.php (Stuart 0.0, St. Lucie Lock 7.5, Port Mayaca Lock 31.4, Clewiston 57.8 statute miles, USACE mileage)
+
+# Great Lakes (US side; NOAA tables in statute miles)
+- name: Lake Michigan, Milwaukee → Chicago
+  from: [-87.8930, 43.0360]
+  to: [-87.6010, 41.8870]
+  expected_km: 137
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Michigan]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 25, Milwaukee to Chicago 85 statute miles)
+
+- name: Lake Michigan, Chicago → St. Joseph MI
+  from: [-87.6010, 41.8870]
+  to: [-86.4860, 42.1140]
+  expected_km: 97
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Michigan]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 25, Chicago to St. Joseph 60 statute miles)
+
+- name: Lake Superior, Duluth → Bayfield (Apostle Islands)
+  from: [-92.0300, 46.7900]   # in the lake off the Duluth Ship Canal piers: the harbour is not on the graph
+  to: [-90.8170, 46.8100]
+  expected_km: 126
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Superior]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 26, Bayfield to Duluth 78 statute miles)
+
+- name: Detroit River + Lake Erie, Detroit → Put-in-Bay
+  from: [-83.0440, 42.3270]
+  to: [-82.8190, 41.6545]
+  expected_km: 87
+  tolerance: 0.15
+  countries: [US, CA]
+  via: [Detroit River, Lake Erie]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 23, Detroit (Woodward Avenue) to Put-in-Bay 54 statute miles)
+
+- name: Lake Erie, Erie PA → Buffalo
+  from: [-80.0900, 42.1380]
+  to: [-78.8890, 42.8800]
+  expected_km: 126
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Erie]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 23, Erie to Buffalo 78 statute miles)
+
+- name: Lake Huron, Port Huron → Mackinac Island
+  from: [-82.4210, 42.9740]
+  to: [-84.6170, 45.8475]
+  expected_km: 391
+  tolerance: 0.15
+  countries: [US, CA]
+  via: [Lake Huron]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Port Huron (foot of Grand River Avenue) to Mackinac Island 243 statute miles)
+
+- name: Lake Ontario, Oswego → Rochester (Charlotte, Genesee River)
+  from: [-76.5153, 43.4624]
+  to: [-77.6040, 43.2600]
+  expected_km: 95
+  tolerance: 0.15
+  countries: [US]
+  via: [Lake Ontario]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Oswego to Rochester (Charlotte) 59 statute miles)
+
+# --- Canada (researched 2026-11-22) --------------------------------------------------------------------
+# Sub-legs of the Great Loop / Grand Circuit and other popular Canadian passages not yet in the file.
+# NOAA "Distances Between United States Ports" (Tables 22, 24, 31) is in statute miles for the Great Lakes
+# (× 1.609) and nautical miles for the Pacific (× 1.852). Checked against the built graph on 2026-11-22.
+
+# Quebec: Montreal canals, Ottawa River, Richelieu
+- name: Lachine Canal, Old Port of Montreal → Lachine (Lac Saint-Louis, 5 locks)
+  from: [-73.5560, 45.4990]
+  to: [-73.6760, 45.4300]
+  expected_km: 14
+  tolerance: 0.2
+  countries: [CA]
+  via: [Lachine]
+  min_locks: 4
+  source: https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf (Parks Canada Quebec canals Lock Guide 2026, Lachine Canal "14 km (7.56 NM)" from the Old Port to Lake Saint-Louis, five locks)
+
+- name: Ottawa River, Sainte-Anne-de-Bellevue → Carillon (Lac des Deux Montagnes)
+  from: [-73.9530, 45.4055]
+  to: [-74.3770, 45.5650]
+  expected_km: 45
+  tolerance: 0.2
+  countries: [CA]
+  via: [Lac des Deux-Montagnes]
+  min_locks: 1
+  source: https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf (Lock Guide 2026, nautical distances, Sainte-Anne-de-Bellevue – Carillon 24 NM / 45 km, approximate)
+
+- name: Ottawa River, Carillon → Ottawa (Rideau Canal entrance)
+  from: [-74.3800, 45.5700]
+  to: [-75.6975, 45.4300]
+  expected_km: 100
+  tolerance: 0.2  # the source figure is a rounded estimate
+  countries: [CA]
+  via: [Ottawa River]
+  min_locks: 1
+  source: https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf (Lock Guide 2026, nautical distances, Carillon – Canal Rideau 54 NM / 100 km, approximate)
+
+- name: Chambly Canal, Chambly → Saint-Jean-sur-Richelieu (9 locks)
+  from: [-73.2860, 45.4520]
+  to: [-73.2510, 45.3150]
+  expected_km: 19
+  tolerance: 0.15
+  countries: [CA]
+  via: [Chambly]
+  min_locks: 7
+  source: https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf (Lock Guide 2026, Chambly Canal "19 km (10.29 NM)", nine locks including three staircase locks)
+
+- name: Richelieu River, Chambly → Saint-Ours
+  from: [-73.2860, 45.4520]
+  to: [-73.1475, 45.8660]
+  expected_km: 50
+  tolerance: 0.15
+  countries: [CA]
+  via: [Richelieu]
+  source: https://pcweb2.azureedge.net/-/media/lhn-nhs/qc/canaux-canals/WET4/visit/carte/guide_eclusage_2026_EN.pdf (Lock Guide 2026, nautical distances, Chambly – Saint-Ours 27 NM / 50 km)
+
+# St. Lawrence below Montreal (tidal from Trois-Rivières down)
+- name: St. Lawrence, Montreal → Quebec City
+  from: [-73.5480, 45.5040]
+  to: [-71.2070, 46.8180]
+  expected_km: 253
+  tolerance: 0.15
+  countries: [CA]
+  via: [Fleuve Saint-Laurent]
+  source: https://publications.gc.ca/collections/collection_2026/mpo-dfo/Fs74-54-2026-1-eng.pdf (CHS Sailing Directions ATL 112, Tables 1.1 and 2.1, Québec – Pointe aux Ormes 70.0 NM + Pointe aux Ormes – Seaway Point No. 2 66.4 NM = 136.4 NM; Parks Canada Lock Guide gives Montréal – Québec 135 NM / 250 km; NOAA Table 22 Quebec City – St. Lambert Lock 160 statute miles)
+
+- name: St. Lawrence, Quebec City → Trois-Rivières
+  from: [-71.2070, 46.8180]
+  to: [-72.5150, 46.3530]
+  expected_km: 130
+  tolerance: 0.15
+  countries: [CA]
+  via: [Fleuve Saint-Laurent]
+  source: https://publications.gc.ca/collections/collection_2026/mpo-dfo/Fs74-54-2026-1-eng.pdf (CHS Sailing Directions ATL 112, Table 1.1 calling-in points, Québec to Pointe aux Ormes (Trois-Rivières) 70.0 NM)
+
+- name: St. Lawrence, Trois-Rivières → Sorel (Lac Saint-Pierre)
+  from: [-72.5150, 46.3530]
+  to: [-73.1182, 46.0429]
+  expected_km: 59
+  tolerance: 0.15
+  countries: [CA]
+  via: [Lac Saint-Pierre]
+  source: https://publications.gc.ca/collections/collection_2026/mpo-dfo/Fs74-54-2026-1-eng.pdf (CHS Sailing Directions ATL 112, Table 2.1 calling-in points, Pointe aux Ormes to Tracy 32.1 NM)
+
+- name: St. Lawrence, Montreal → Sorel
+  from: [-73.5480, 45.5040]
+  to: [-73.1182, 46.0429]
+  expected_km: 70
+  tolerance: 0.15
+  countries: [CA]
+  via: [Fleuve Saint-Laurent]
+  source: https://parks.canada.ca/lhn-nhs/qc/chambly/activ/navigation/circuits-itineraries (estimated nautical distances, Montréal to Sorel 70 km; the Lock Guide 2026 gives 38 NM)
+
+# St. Lawrence Seaway and Thousand Islands
+- name: St. Lawrence Seaway, Upper Beauharnois Lock → Iroquois Lock (Lac Saint-François, Snell, Eisenhower)
+  from: [-73.9400, 45.2990]
+  to: [-75.3200, 44.8330]
+  expected_km: 129
+  tolerance: 0.15
+  countries: [CA, US]
+  via: [Saint Lawrence]
+  min_locks: 2
+  source: https://greatlakes-seaway.com/wp-content/uploads/2026/06/Pleasure-Craft-Guide-2026-EN.pdf (Pleasure Craft Guide 2026, distances in nautical miles, Upper Beauharnois Lock mile 28.4 to Iroquois Lock mile 97.9 = 69.5 NM)
+
+- name: Thousand Islands, Kingston → Brockville
+  from: [-76.4760, 44.2280]
+  to: [-75.6810, 44.5880]
+  expected_km: 80
+  tolerance: 0.15
+  countries: [CA]
+  via: [Saint Lawrence River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Kingston to Brockville 50 statute miles)
+
+- name: Lake Ontario, Kingston → Picton (Adolphus Reach, Bay of Quinte)
+  from: [-76.4760, 44.2280]
+  to: [-77.1350, 44.0115]
+  expected_km: 60
+  tolerance: 0.15
+  countries: [CA]
+  via: [Lake Ontario]  # the Bay of Quinte is mapped as part of Lake Ontario
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Kingston to Picton 37 statute miles)
+
+- name: Lake Ontario, Toronto → Port Weller (Welland Canal entrance)
+  from: [-79.3790, 43.6380]
+  to: [-79.2140, 43.2480]
+  expected_km: 45
+  tolerance: 0.15
+  countries: [CA]
+  via: [Lake Ontario]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Toronto to Port Weller 28 statute miles)
+
+- name: Lake Ontario, Toronto → Kingston
+  from: [-79.3790, 43.6380]
+  to: [-76.4760, 44.2280]
+  expected_km: 257
+  tolerance: 0.15
+  countries: [CA]
+  via: [Lake Ontario]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 22, Toronto to Kingston 160 statute miles)
+
+# Rideau Canal
+- name: Rideau Canal, Ottawa → Smiths Falls
+  from: [-75.7018, 45.4315]
+  to: [-76.0210, 44.8975]
+  expected_km: 97
+  tolerance: 0.15
+  countries: [CA]
+  via: [Rideau]
+  min_locks: 10
+  source: https://en.wikipedia.org/wiki/Rideau_Canal (lockstation table, Ottawa St. Patrick Street km 0.0 to Smiths Falls Combined Lock 29a km 96.8)
+
+- name: Rideau Canal, Smiths Falls → Kingston (Cataraqui River)
+  from: [-76.0210, 44.8975]
+  to: [-76.4760, 44.2280]
+  expected_km: 105
+  tolerance: 0.15
+  countries: [CA]
+  via: [Big Rideau Lake, Cataraqui]
+  min_locks: 6
+  source: https://en.wikipedia.org/wiki/Rideau_Canal (202 km Ottawa – Kingston, Smiths Falls lock 29a at km 96.8; https://parks.canada.ca/lhn-nhs/on/rideau/visit/navigation/points-retenir-navigation-facts gives 202 km)
+
+# Trent–Severn Waterway
+- name: Trent–Severn Waterway, Trenton → Peterborough Lift Lock
+  from: [-77.5730, 44.0960]
+  to: [-78.3000, 44.3080]
+  expected_km: 142
+  tolerance: 0.15
+  countries: [CA]
+  via: [Trent River, Rice Lake, Otonabee]
+  min_locks: 15
+  source: https://en.wikipedia.org/wiki/Trent–Severn_Waterway (lock table, Lock 1 Trenton km 2.9 to Lock 21 Peterborough Lift Lock km 145.0)
+
+- name: Trent–Severn Waterway, Peterborough → Bobcaygeon (Kawartha Lakes)
+  from: [-78.3000, 44.3080]
+  to: [-78.5460, 44.5380]
+  expected_km: 77
+  tolerance: 0.15
+  countries: [CA]
+  via: [Stony Lake, Buckhorn]
+  min_locks: 8
+  source: https://en.wikipedia.org/wiki/Trent–Severn_Waterway (lock table, Lock 21 Peterborough km 145.0 to Lock 32 Bobcaygeon km 222.4)
+
+- name: Trent–Severn Waterway, Bobcaygeon → Lake Simcoe (Kirkfield Lift Lock, Gamebridge)
+  from: [-78.5460, 44.5380]
+  to: [-79.1600, 44.4850]
+  expected_km: 69
+  tolerance: 0.15
+  countries: [CA]
+  via: [Sturgeon Lake, Balsam Lake]
+  min_locks: 5
+  source: https://en.wikipedia.org/wiki/Trent–Severn_Waterway (lock table, Lock 32 Bobcaygeon km 222.4 to Lock 41 Gamebridge km 290.9, via Lock 36 Kirkfield Lift Lock)
+
+- name: Trent–Severn Waterway, Couchiching (Washago) → Port Severn (Big Chute)
+  from: [-79.3500, 44.7700]
+  to: [-79.7208, 44.8093]
+  expected_km: 49
+  tolerance: 0.15
+  countries: [CA]
+  via: [Sparrow Lake, Severn]
+  min_locks: 2  # Swift Rapids and Port Severn; the Big Chute marine railway is not a lock
+  source: https://en.wikipedia.org/wiki/Trent–Severn_Waterway (lock table, Lock 42 Couchiching km 337.8 to Lock 45 Port Severn km 387.1, Big Chute Marine Railway km 374.1)
+
+# Georgian Bay and the North Channel (both mapped as part of Lake Huron)
+- name: Georgian Bay, Parry Sound → Little Current
+  from: [-80.0420, 45.3370]
+  to: [-81.9255, 45.9811]
+  expected_km: 179
+  tolerance: 0.2  # NOAA figure is the open-water route; the inside Small Craft Route is longer
+  countries: [CA]
+  via: [Lake Huron]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Parry Sound to Little Current 111 statute miles)
+
+- name: North Channel, Little Current → Gore Bay
+  from: [-81.9255, 45.9811]
+  to: [-82.4620, 45.9215]
+  expected_km: 53
+  tolerance: 0.15
+  countries: [CA]
+  via: [Lake Huron]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Little Current to Gore Bay 33 statute miles)
+
+- name: Georgian Bay, Owen Sound → Little Current (round the Bruce Peninsula)
+  from: [-80.9440, 44.5850]
+  to: [-81.9255, 45.9811]
+  expected_km: 192
+  tolerance: 0.2
+  countries: [CA]
+  via: [Lake Huron]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 24, Owen Sound to Little Current 119 statute miles)
+
+# British Columbia coast
+- name: Strait of Georgia, Vancouver → Nanaimo
+  from: [-123.1250, 49.2920]
+  to: [-123.9330, 49.1700]
+  expected_km: 67
+  tolerance: 0.2
+  sea: true
+  countries: [CA]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 31, Vancouver to Nanaimo 36 NM; https://nwcruising.net/ca-nm_folders/nanaimo.html gives 35.6 NM crossing the Strait of Georgia)
+
+- name: Strait of Georgia, Nanaimo → Lund (Desolation Sound)
+  from: [-123.9330, 49.1700]
+  to: [-124.7620, 49.9810]
+  expected_km: 118
+  tolerance: 0.2
+  sea: true
+  countries: [CA]
+  source: https://nwcruising.net/ca-nm_folders/nanaimo.html (Nanaimo – Lund 63.5 NM, avoiding military area WG; Nanaimo – Desolation Sound (Sarah Point) 69.4 NM)
+
+- name: Strait of Georgia, Nanaimo → Campbell River
+  from: [-123.9330, 49.1700]
+  to: [-125.2430, 50.0350]
+  expected_km: 144
+  tolerance: 0.15
+  sea: true
+  countries: [CA]
+  source: https://nwcruising.net/ca-nm_folders/nanaimo.html (Nanaimo – Campbell River 77.7 NM)
+
+- name: Inside Passage, Campbell River → Port Hardy (Seymour Narrows, Johnstone Strait)
+  from: [-125.2430, 50.0350]
+  to: [-127.4800, 50.7250]
+  expected_km: 196
+  tolerance: 0.15
+  sea: true
+  countries: [CA]
+  known_gap: Hardy Bay at Port Hardy is not connected to the sea mesh (no route found to the harbour, 2026-11-22); passes when it is
+  source: https://nwcruising.net/ca-nm_folders/campbell_river.html (Campbell River – Port Hardy 106.0 NM)
+
+- name: Inside Passage, Port Hardy → Prince Rupert (BC Ferries route)
+  from: [-127.4800, 50.7250]
+  to: [-130.3200, 54.3150]
+  expected_km: 507
+  tolerance: 0.2
+  sea: true
+  countries: [CA]
+  known_gap: neither Hardy Bay nor Prince Rupert Harbour is connected to the sea mesh (no route found, 2026-11-22); passes when they are
+  source: https://britishcolumbia.com/plan-your-trip/transportation-in-british-columbia/bc-ferry-port-hardy-prince-rupert-inside-passage/ (BC Ferries Inside Passage Port Hardy – Prince Rupert 274 NM, about 15 hours)
+
+# --- United States: inland rivers, Gulf Intracoastal Waterway, Pacific Northwest and Southeast Alaska ------------
+# Distances: NOAA "Distances Between United States Ports" (2019 ed.), https://nauticalcharts.noaa.gov/publications/docs/distances.pdf
+# River tables (Table 20, Mississippi system; Table 30, Columbia) are in statute miles from each river's mouth (Mississippi:
+# miles above Head of Passes, AHP); the GIWW, Puget Sound and Inside Passage tables are in nautical miles.
+
+# Upper Mississippi
+- name: Upper Mississippi — St. Paul → La Crosse (Lake Pepin, Locks 2–7)
+  from: [-93.0850, 44.9400]
+  to: [-91.2550, 43.8120]
+  expected_km: 227
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  min_locks: 6
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, St. Paul mile 1,793 AHP, La Crosse mile 1,652 = 141 statute miles; Locks and Dams 2, 3, 4, 5, 5A, 6 and 7 between)
+
+- name: Upper Mississippi — La Crosse → Dubuque (Locks 8–11)
+  from: [-91.2550, 43.8120]
+  to: [-90.6550, 42.4970]
+  expected_km: 190
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  min_locks: 4
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, La Crosse mile 1,652 AHP, Dubuque 1,534 = 118 statute miles; Locks and Dams 8, 9, 10, 11)
+
+- name: Upper Mississippi — Dubuque → Keokuk (Quad Cities, Locks 12–18)
+  from: [-90.6550, 42.4970]
+  to: [-91.3800, 40.3900]
+  expected_km: 348
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  min_locks: 6
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Dubuque mile 1,534 AHP, Keokuk (Lock and Dam 19) 1,318 = 216 statute miles; Locks and Dams 12–18 between)
+
+- name: Upper Mississippi — Keokuk → Grafton (Locks 20–25)
+  from: [-91.3800, 40.3900]
+  to: [-90.4350, 38.9600]
+  expected_km: 235
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  min_locks: 4
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Keokuk mile 1,318 AHP, Illinois River mouth at Grafton 1,172 = 146 statute miles; Locks and Dams 20, 21, 22, 24, 25 — there is no Lock 23)
+
+# Lower Mississippi (open river, no locks)
+- name: Lower Mississippi — Cairo → Memphis
+  from: [-89.1700, 37.0000]
+  to: [-90.0600, 35.1450]
+  expected_km: 357
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Cairo is 2 miles up the Ohio from its mouth at Mississippi mile 954 AHP; Memphis I-55 bridge mile 734 = 222 statute miles)
+
+- name: Lower Mississippi — Vicksburg → Baton Rouge
+  from: [-90.9050, 32.3250]
+  to: [-91.1980, 30.4400]
+  expected_km: 335
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Vicksburg mile 437 AHP, Baton Rouge I-10 bridge 229 = 208 statute miles)
+
+- name: Lower Mississippi — Baton Rouge → New Orleans (Canal Street)
+  from: [-91.1980, 30.4400]
+  to: [-90.0620, 29.9520]
+  expected_km: 216
+  tolerance: 0.15
+  countries: [US]
+  via: [Mississippi River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Baton Rouge mile 229 AHP, New Orleans Canal Street 95 = 134 statute miles)
+
+# Ohio River
+- name: Ohio River — Pittsburgh → Cincinnati (Emsworth to Meldahl, 12 locks)
+  from: [-80.0130, 40.4420]
+  to: [-84.5080, 39.0940]
+  expected_km: 760
+  tolerance: 0.15
+  countries: [US]
+  via: [Ohio River]
+  min_locks: 10
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Pittsburgh Point Bridge 981 miles above the mouth, Cincinnati 509 = 472 statute miles; https://en.wikipedia.org/wiki/List_of_locks_and_dams_of_the_Ohio_River — 12 locks Emsworth–Meldahl)
+
+- name: Ohio River — Louisville → Paducah (McAlpine to Smithland)
+  from: [-85.7550, 38.2620]
+  to: [-88.5900, 37.0880]
+  expected_km: 534
+  tolerance: 0.15
+  countries: [US]
+  via: [Ohio River]
+  min_locks: 4
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Louisville I-65 bridge 378 miles above the mouth, Tennessee River mouth at Paducah 46 = 332 statute miles; McAlpine, Cannelton, Newburgh, J.T. Myers, Smithland)
+
+# Tennessee, Cumberland, Black Warrior
+- name: Tennessee River — Wilson Dam (Florence) → Chattanooga
+  from: [-87.6150, 34.8050]
+  to: [-85.3120, 35.0580]
+  expected_km: 328
+  tolerance: 0.15
+  countries: [US]
+  via: [Tennessee River, Guntersville Lake]
+  min_locks: 3
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Tennessee River, Wilson Lock and Dam (Florence) mile 260, Chattanooga 464 = 204 statute miles; Wheeler, Guntersville and Nickajack locks)
+
+- name: Tennessee River — Chattanooga → Knoxville
+  from: [-85.3120, 35.0580]
+  to: [-83.9180, 35.9600]
+  expected_km: 296
+  tolerance: 0.15
+  countries: [US]
+  via: [Tennessee River, Watts Bar Lake]
+  min_locks: 3
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Chattanooga mile 464, Knoxville Gay Street bridge 648 = 184 statute miles; Chickamauga, Watts Bar and Fort Loudoun locks)
+
+- name: Cumberland River — Smithland → Nashville (Barkley and Cheatham locks)
+  from: [-88.4020, 37.1400]
+  to: [-86.7730, 36.1630]
+  expected_km: 308
+  tolerance: 0.15
+  countries: [US]
+  via: [Cumberland River, Lake Barkley]
+  min_locks: 2
+  source: https://www.waterwayguide.com/marina/nashville-municipal-dock (Nashville riverfront docks at Cumberland River mile 191.2, miles counted from the mouth at Smithland, Ohio River mile 58 in https://nauticalcharts.noaa.gov/publications/docs/distances.pdf) = 191 statute miles
+
+- name: Black Warrior River — Demopolis → Tuscaloosa (Selden, Oliver Lock)
+  from: [-87.8450, 32.5250]
+  to: [-87.5850, 33.2050]
+  expected_km: 200
+  tolerance: 0.15
+  countries: [US]
+  via: [Black Warrior River]
+  min_locks: 1
+  source: https://www.tenntom.org/locks-dams/ (Demopolis Lock mile 213.2, Selden 261.1, Oliver (Tuscaloosa) 337.6 on the Black Warrior–Tombigbee mileage = 124.4 statute miles)
+
+# Missouri River (no locks)
+- name: Missouri River — St. Charles → Kansas City
+  from: [-90.4800, 38.7850]
+  to: [-94.5850, 39.1150]
+  expected_km: 539
+  tolerance: 0.15
+  countries: [US]
+  via: [Missouri River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 20, Missouri River, St. Charles mile 28, Kansas City 363 = 335 statute miles)
+
+# Gulf Intracoastal Waterway
+- name: GIWW — Mobile → Pensacola (Mobile Bay, Bon Secour, Perdido, Big Lagoon)
+  from: [-88.0372, 30.6907]
+  to: [-87.2150, 30.4050]
+  expected_km: 135
+  tolerance: 0.15
+  countries: [US]
+  via: [Gulf Intracoastal Waterway, Big Lagoon]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, GIWW distances, Mobile to Pensacola 73 NM / 84 statute miles)
+
+- name: GIWW — Pensacola → Fort Walton Beach (Santa Rosa Sound)
+  from: [-87.2150, 30.4050]
+  to: [-86.6200, 30.4050]
+  expected_km: 69
+  tolerance: 0.15
+  countries: [US]
+  via: [Santa Rosa Sound]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Pensacola to Fort Walton Beach 37 NM)
+
+- name: GIWW — Fort Walton Beach → Panama City (Choctawhatchee Bay, West Bay)
+  known_gap: Santa Rosa Sound at Fort Walton Beach is not joined to the GIWW eastward; the router doubles back west through Big Lagoon and Perdido (about 300 km)
+  from: [-86.6200, 30.4050]
+  to: [-85.6650, 30.1500]
+  expected_km: 115
+  tolerance: 0.15
+  countries: [US]
+  via: [Gulf Intracoastal Waterway]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Fort Walton Beach to Panama City 62 NM)
+
+- name: GIWW — New Orleans → Gulfport (Industrial Lock, Lake Borgne, Mississippi Sound)
+  from: [-90.0620, 29.9520]
+  to: [-89.0850, 30.3600]
+  expected_km: 122
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  via: [Inner Harbor Navigation Canal, Gulf Intracoastal Waterway]
+  min_locks: 1
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, New Orleans to Gulfport 66 NM)
+
+- name: GIWW — New Orleans → Morgan City (Harvey Lock, Bayou Barataria, Houma, Bayou Boeuf)
+  from: [-90.0620, 29.9520]
+  to: [-91.2050, 29.6950]
+  expected_km: 159
+  tolerance: 0.15
+  countries: [US]
+  via: [Harvey Canal, Gulf Intracoastal Waterway, Bayou Boeuf]
+  min_locks: 1
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, New Orleans to Morgan City 86 NM / 99 statute miles)
+
+- name: GIWW — Morgan City → Lake Charles (Leland Bowman and Calcasieu locks)
+  from: [-91.2050, 29.6950]
+  to: [-93.2400, 30.2250]
+  expected_km: 252
+  tolerance: 0.15
+  countries: [US]
+  via: [Gulf Intracoastal Waterway]
+  min_locks: 2
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Morgan City to Lake Charles 136 NM); locks from https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C12_WEB.pdf (Leland Bowman Mile 163.0W, Calcasieu Mile 238.2W)
+
+- name: GIWW — Port Arthur → Galveston (High Island, Bolivar)
+  known_gap: the GIWW between Sabine and Galveston Bay is not joined; the router detours via the Calcasieu Ship Channel and the open Gulf (about 260 km)
+  from: [-93.9300, 29.8650]
+  to: [-94.7775, 29.3195]
+  expected_km: 107
+  tolerance: 0.15
+  countries: [US]
+  via: [Gulf Intracoastal Waterway]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Port Arthur to Galveston 58 NM)
+
+- name: GIWW — Freeport → Port O'Connor (Brazos and Colorado River floodgates)
+  from: [-95.3300, 28.9450]
+  to: [-96.4050, 28.4450]
+  expected_km: 130
+  tolerance: 0.15
+  countries: [US]
+  via: [Gulf Intracoastal Waterway]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Freeport to Port O'Connor 70 NM)
+
+- name: GIWW — Corpus Christi → Port Isabel (Laguna Madre)
+  from: [-97.3930, 27.7950]
+  to: [-97.2100, 26.0750]
+  expected_km: 222
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [Gulf Intracoastal Waterway, Laguna Madre]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Corpus Christi to Port Isabel 120 NM)
+
+# Columbia–Snake
+- name: Columbia River — Astoria → Portland (Willamette)
+  from: [-123.8300, 46.1950]
+  to: [-122.6700, 45.5250]
+  expected_km: 157
+  tolerance: 0.15
+  countries: [US]
+  via: [Columbia River, Willamette River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 30, Astoria to Portland 85 NM)
+
+- name: Columbia River — Portland → The Dalles (Bonneville Lock, Columbia Gorge)
+  from: [-122.6700, 45.5250]
+  to: [-121.1500, 45.6100]
+  expected_km: 161
+  tolerance: 0.15
+  countries: [US]
+  via: [Columbia River, Lake Bonneville]
+  min_locks: 1
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 30, Portland to The Dalles Lock & Dam 87 NM)
+
+- name: Snake River — Pasco → Lewiston (Ice Harbor to Lower Granite, 4 locks)
+  from: [-119.0900, 46.2250]
+  to: [-117.0390, 46.4250]
+  expected_km: 232
+  tolerance: 0.15
+  countries: [US]
+  via: [Snake River]
+  min_locks: 4
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 30, Pasco to Lewiston 125 NM)
+
+# Sacramento–San Joaquin Delta
+- name: San Joaquin River — Antioch → Stockton (Delta)
+  from: [-121.8050, 38.0200]
+  to: [-121.3150, 37.9520]
+  expected_km: 57
+  tolerance: 0.2
+  countries: [US]
+  via: [San Joaquin River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 29, San Francisco Bay area, Antioch to Stockton 31 NM)
+
+- name: San Francisco → Stockton (Carquinez Strait, Suisun Bay, Delta)
+  known_gap: the bay's sea mesh is not joined to the Delta rivers at Suisun Bay / New York Slough (no route found)
+  from: [-122.3950, 37.8050]
+  to: [-121.3150, 37.9520]
+  expected_km: 139
+  tolerance: 0.15
+  sea: true
+  countries: [US]
+  via: [San Joaquin River]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 29, San Francisco to Stockton 75 NM)
+
+# Puget Sound and the Inside Passage
+- name: Puget Sound — Seattle → Tacoma
+  from: [-122.3500, 47.6050]
+  to: [-122.4350, 47.2700]
+  expected_km: 46
+  tolerance: 0.2
+  sea: true
+  countries: [US]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 31, Seattle to Tacoma 25 NM)
+
+- name: Inside Passage — Seattle → Juneau
+  from: [-122.3500, 47.6050]
+  to: [-134.4050, 58.2970]
+  expected_km: 1628
+  tolerance: 0.15
+  sea: true
+  countries: [US, CA]
+  source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 34, Inside Passage distances, Seattle to Juneau 879 NM)
+
+# --- Danube and central Europe (researched 2026-11-22) -------------------------------------------
+# Distances come from official river kilometres (Danube km counted from Sulina = km 0; Labe/Vltava km from
+# the Czech RIS lavdis.cz). Bavarian Danube kilometrage predates some channel cuts, so the sailed distance can
+# be a few % shorter than the km difference: tolerances there are 0.15.
+# DC2006 = Danube Commission, Guide des bateliers / Donau-Schifferführer 2006 (port and lock river-km):
+#   https://danubecommission.org/uploads/doc/publication/Guide%20des%20bateliers%202006%20DE.pdf
+# BCM2025 = viadonau, Practical manual on border controls along the Danube, 5th edition 2025 (control-point river-km):
+#   https://www.viadonau.org/fileadmin/content/viadonau/06Unternehmen/Dokumente/2025/20250127_5th_edition_Manual_on_Border_Controls.pdf
+
+# --- Germany ---------------------------------------------------------------------------------------
+- name: Kelheim → Regensburg (Danube, Bad Abbach lock)
+  from: [11.9052, 48.9103]
+  to: [12.0968, 49.0225]
+  expected_km: 32
+  tolerance: 0.15
+  countries: [DE]
+  via: [Donau]
+  min_locks: 1
+  source: DC2006 (Altmühl/Main-Donau-Kanal mouth at Kelheim km 2411.6; Bad Abbach lock km 2397.17) and WSV 'Hinweise für Wassersportler' (Steinerne Brücke Regensburg km 2379.62)
+
+- name: Regensburg → Deggendorf (Danube, Geisling and Straubing locks)
+  from: [12.0968, 49.0225]
+  to: [12.9660, 48.8215]
+  expected_km: 96
+  tolerance: 0.15
+  countries: [DE]
+  via: [Donau]
+  min_locks: 2
+  source: DC2006 (Regensburg km 2379; Geisling lock km 2354.29, Straubing km 2324.13; Deggendorf harbour at the town limit km 2283.9)
+
+- name: Deggendorf → Passau (Danube, Kachlet lock)
+  from: [12.9660, 48.8215]
+  to: [13.4670, 48.5763]
+  expected_km: 59
+  tolerance: 0.15
+  countries: [DE]
+  via: [Donau]
+  min_locks: 1
+  source: DC2006 (Deggendorf harbour km 2283.9; Kachlet lock km 2230.60; Inn mouth at Passau km 2225.2)
+
+# --- Austria ---------------------------------------------------------------------------------------
+- name: Passau → Linz Winterhafen (Danube, Jochenstein, Aschach, Ottensheim)
+  from: [13.4670, 48.5763]
+  to: [14.3159, 48.3214]
+  expected_km: 93
+  tolerance: 0.1
+  countries: [DE, AT]
+  via: [Donau]
+  min_locks: 3
+  source: DC2006 (Inn mouth km 2225.2; Jochenstein km 2203.20, Aschach 2162.67, Ottensheim 2146.80; Linz Winterhafen km 2131.8)
+
+- name: Linz → Krems (Danube, Abwinden, Wallsee, Ybbs-Persenbeug, Melk locks)
+  from: [14.3159, 48.3214]
+  to: [15.5942, 48.4017]
+  expected_km: 134
+  tolerance: 0.1
+  countries: [AT]
+  via: [Donau]
+  min_locks: 4
+  source: DC2006 (Linz Winterhafen km 2131.8; Abwinden 2119.60, Wallsee 2095.10, Persenbeug 2060.42, Melk 2038.10; Krems harbour km 1998)
+
+- name: Melk → Krems (Wachau)
+  from: [15.3279, 48.2351]
+  to: [15.5942, 48.4017]
+  expected_km: 36
+  tolerance: 0.15
+  countries: [AT]
+  via: [Donau]
+  source: https://en.wikipedia.org/wiki/Wachau (the Wachau valley is 36 km long, between Melk and Krems)
+
+- name: Krems → Vienna Freudenau harbour (Danube, Altenwörth and Greifenstein)
+  from: [15.5942, 48.4017]
+  to: [16.4721, 48.1813]
+  expected_km: 78
+  tolerance: 0.1
+  countries: [AT]
+  via: [Donau]
+  min_locks: 2
+  source: DC2006 (Krems harbour km 1998; Altenwörth lock km 1980.10, Greifenstein 1949.20; Freudenau harbour km 1920.1)
+
+- name: Vienna Freudenau → Bratislava winter harbour (Danube)
+  from: [16.4721, 48.1813]
+  to: [17.1374, 48.1354]
+  expected_km: 54
+  tolerance: 0.1
+  countries: [AT, SK]
+  via: [Donau, Dunaj]
+  source: DC2006 (Freudenau harbour km 1920.1; Bratislava winter harbour, left bank, km 1866.25)
+
+# --- Slovakia / Hungary ---------------------------------------------------------------------------
+- name: Bratislava → Komárno (Gabčíkovo lock)
+  from: [17.1374, 48.1354]
+  to: [18.1129, 47.7519]
+  expected_km: 99
+  tolerance: 0.1
+  countries: [SK, HU]
+  via: [Dunaj]
+  min_locks: 1
+  source: DC2006 (Bratislava winter harbour km 1866.25; Gabčíkovo lock, axis at Danube km 1819.15, in the bypass canal; Komárno inner harbour km 1767.1)
+
+- name: Komárno → Budapest Újpest (Esztergom, Danube Bend)
+  from: [18.1129, 47.7519]
+  to: [19.0695, 47.5786]
+  expected_km: 114
+  tolerance: 0.1
+  countries: [SK, HU]
+  via: [Duna]
+  source: DC2006 (Komárno inner harbour km 1767.1; Újpest basin at the upper end of Budapest km 1652.9)
+
+- name: Budapest → Mohács (Danube, Hungarian Schengen exit point)
+  from: [19.0695, 47.5786]
+  to: [18.6934, 45.9968]
+  expected_km: 204
+  tolerance: 0.1
+  countries: [HU]
+  via: [Duna]
+  source: DC2006 (Újpest basin km 1652.9) and BCM2025 (border control point Mohács km 1449.00)
+
+- name: Mohács → Vukovar (Danube, Croatian–Serbian border reach)
+  from: [18.6934, 45.9968]
+  to: [19.0193, 45.3465]
+  expected_km: 114
+  tolerance: 0.1
+  countries: [HU, HR, RS]
+  via: [Duna, Dunav]
+  source: BCM2025 (Mohács km 1449.00; Vukovar control point km 1335.00)
+
+- name: Vukovar → Novi Sad (Danube)
+  from: [19.0193, 45.3465]
+  to: [19.8590, 45.2497]
+  expected_km: 80
+  tolerance: 0.1
+  countries: [HR, RS]
+  via: [Дунав]
+  source: BCM2025 (Vukovar km 1335.00; Novi Sad km 1255.00)
+
+- name: Novi Sad → Belgrade-Zemun (Danube)
+  from: [19.8590, 45.2497]
+  to: [20.4183, 44.8493]
+  expected_km: 82
+  tolerance: 0.1
+  countries: [RS]
+  via: [Дунав]
+  source: BCM2025 (Novi Sad km 1255.00; Belgrade-Zemun passenger control point km 1172.95)
+
+- name: Belgrade → Veliko Gradište (Danube)
+  from: [20.4669, 44.8317]
+  to: [21.5166, 44.7739]
+  expected_km: 109
+  tolerance: 0.1
+  countries: [RS, RO]
+  via: [Дунав]
+  source: BCM2025 (Belgrade km 1168.00; Veliko Gradište km 1059.00)
+
+- name: Veliko Gradište → Kladovo (Iron Gates gorge, Iron Gate I locks)
+  from: [21.5166, 44.7739]
+  to: [22.6105, 44.6185]
+  expected_km: 126
+  tolerance: 0.1
+  countries: [RS, RO]
+  via: [Dunărea]
+  min_locks: 1
+  source: BCM2025 (Veliko Gradište km 1059.00; Kladovo km 933.00) and DC2006 (Iron Gate I locks km 942.95)
+
+- name: Kladovo → Prahovo (Iron Gate II locks)
+  from: [22.6105, 44.6185]
+  to: [22.5903, 44.2983]
+  expected_km: 74
+  tolerance: 0.1
+  countries: [RS, RO]
+  via: [Dunărea]
+  min_locks: 1
+  source: BCM2025 (Kladovo km 933.00; Prahovo km 859.00) and DC2006 (Iron Gate II locks km 863–864)
+
+# --- Romania / Bulgaria ------------------------------------------------------------------------------
+- name: Calafat → Lom (lower Danube)
+  from: [22.9441, 44.0020]
+  to: [23.2396, 43.8363]
+  expected_km: 52
+  tolerance: 0.1
+  countries: [RO, BG]
+  via: [Dunărea - Дунав]
+  source: BCM2025 (Calafat control point km 794.80–793.80) and DC2006 (Lom harbour basin km 742.0)
+
+- name: Ruse → Silistra (lower Danube)
+  from: [25.9392, 43.8471]
+  to: [27.2677, 44.1279]
+  expected_km: 117
+  tolerance: 0.15
+  countries: [BG, RO]
+  via: [Dunărea - Дунав]
+  source: DC2006 (Ruse harbour basin km 495.85) and BCM2025 (Silistra port area km 383.00–374.10; the distance taken to the town quay)
+
+- name: Cernavodă → Brăila (lower Danube)
+  from: [28.0209, 44.3545]
+  to: [27.9805, 45.2667]
+  expected_km: 130
+  tolerance: 0.1
+  countries: [RO]
+  via: [Dunărea]
+  source: DC2006 (Cernavodă harbour basin km 299 + 400 m; Brăila docks km 169.1)
+
+- name: Galați → Tulcea (maritime Danube, Tulcea arm)
+  from: [28.0616, 45.4283]
+  to: [28.8030, 45.1815]
+  expected_km: 77
+  tolerance: 0.1
+  countries: [RO]
+  via: [Dunărea - Brațul Tulcea]
+  source: DC2006 (Galați winter harbour, sea mile 80.25 = km 148.6; Tulcea km 71.3) and BCM2025 (Tulcea control point km 71.30)
+
+- name: Poarta Albă → Midia (Poarta Albă–Midia Năvodari Canal)
+  from: [28.3908, 44.2173]
+  to: [28.6648, 44.3264]
+  expected_km: 31
+  tolerance: 0.2
+  countries: [RO]
+  via: [Canalul Poarta Albă-Midia Năvodari]
+  min_locks: 2
+  source: https://en.wikipedia.org/wiki/Danube%E2%80%93Black_Sea_Canal (northern branch Poarta Albă–Midia Năvodari 31.2 km, locks at Ovidiu and Năvodari)
+
+# --- Sava and Tisa ----------------------------------------------------------------------------------
+- name: Belgrade → Sremska Mitrovica (Sava)
+  from: [20.4438, 44.8240]
+  to: [19.6042, 44.9629]
+  expected_km: 138
+  tolerance: 0.1
+  countries: [RS]
+  via: [Сава]
+  source: BCM2025 (Sremska Mitrovica border crossing at Sava km 138.00; Sava km 0 at the Danube confluence in Belgrade per the Sava Commission manual)
+
+- name: Novi Sad → Kanjiža (Danube and Tisa, Novi Bečej lock)
+  from: [19.8590, 45.2497]
+  to: [20.0695, 46.0692]
+  expected_km: 189
+  tolerance: 0.1
+  countries: [RS]
+  via: [Дунав, Тиса]
+  min_locks: 1
+  source: BCM2025 (Novi Sad Danube km 1255.00; Kanjiža Tisa km 148) and https://de.wikipedia.org/wiki/Donau (Tisa mouth Danube km 1214.5); Novi Bečej lock at Tisa rkm 63 (plovput.rs)
+
+# --- Czechia ----------------------------------------------------------------------------------------
+- name: Praha-Smíchov → Praha-Holešovice (Vltava through Prague)
+  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  from: [14.4154, 50.0629]
+  to: [14.4561, 50.1095]
+  expected_km: 8
+  tolerance: 0.2
+  countries: [CZ]
+  via: [Vltava]
+  min_locks: 2
+  source: https://lavdis.cz/en/waterways/ports (Praha-Smíchov port Vltava km 55.55, Praha-Holešovice km 47.40) and https://lavdis.cz/en/waterways/locks (Smíchov 53.80 / Mánes 54.15, Štvanice 50.69)
+
+- name: Mělník → Ústí nad Labem-Vaňov (Labe)
+  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  from: [14.4516, 50.3725]
+  to: [14.0540, 50.6274]
+  expected_km: 66.5
+  tolerance: 0.1
+  countries: [CZ]
+  via: [Labe]
+  min_locks: 5
+  source: https://lavdis.cz/en/waterways/ports (Mělník port Labe km 834.40, Ústí nad Labem-Vaňov km 767.87) and https://lavdis.cz/en/waterways/locks (Dolní Beřkovice 830.53, Štětí 818.59, Roudnice 808.70, České Kopisty 795.16, Lovosice 787.38)
+
+- name: Otrokovice → Rohatec-Sudoměřice (Baťa Canal and Morava)
+  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  from: [17.5076, 49.2096]
+  to: [17.2425, 48.8773]
+  expected_km: 52
+  tolerance: 0.15
+  countries: [CZ]
+  via: [Baťův kanál, Morava]
+  min_locks: 10
+  source: https://en.wikipedia.org/wiki/Ba%C5%A5a_Canal (51.8 km = 27 km on the Morava, 1 km on the Dřevnice, 24 km of canal; alternative name Průplav Otrokovice–Rohatec) and https://www.batacanal.cz/ (14 locks Spytihněv … Petrov, Rohatec–Sudoměřice)
+
+# --- Lakes --------------------------------------------------------------------------------------------
+- name: Keszthely → Balatonkenese (length of Lake Balaton, sailing)
+  from: [17.2607, 46.7623]
+  to: [18.1096, 47.0307]
+  expected_km: 78
+  tolerance: 0.2
+  countries: [HU]
+  via: [Balaton]
+  source: https://en.wikipedia.org/wiki/Lake_Balaton (maximum length 78 km, from Keszthely in the south-west to Balatonkenese/Balatonakarattya in the north-east; the route has to round the Tihany peninsula)
+
+- name: Klagenfurt → Velden (Wörthersee)
+  from: [14.2525, 46.6172]
+  to: [14.0518, 46.6115]
+  expected_km: 16.5
+  tolerance: 0.15
+  countries: [AT]
+  via: [Wörthersee]
+  source: https://en.wikipedia.org/wiki/W%C3%B6rthersee (maximum length 16.5 km; Klagenfurt at the east end, the bay of Velden at the west end)
+
+- name: Gmunden → Ebensee (Traunsee)
+  from: [13.7988, 47.9131]
+  to: [13.7795, 47.8134]
+  expected_km: 12
+  tolerance: 0.15
+  countries: [AT]
+  via: [Traunsee]
+  source: https://de.wikipedia.org/wiki/Traunsee (11.9 km long, Gmunden at the north end, Ebensee at the south end)

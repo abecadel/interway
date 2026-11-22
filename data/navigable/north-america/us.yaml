@@ -130,6 +130,11 @@ waterways:
   - {name: San Joaquin River, bbox: [-121.9, 37.9, -121.25, 38.1]}
   - Stockton Deep Water Ship Channel
   - Sacramento Deep Water Ship Channel
+  # New York: the East River and Hell Gate join New York Harbor to Long Island Sound; mapped as tidal channels
+  # tagged canoe=yes only (NOAA chart 12339, https://www.nauticalcharts.noaa.gov/)
+  - {name: East River, bbox: [-74.05, 40.68, -73.75, 40.83]}
+  - {name: Hell Gate, bbox: [-74.05, 40.68, -73.75, 40.83]}
+
 lakes:
   - Lake Erie
   - Lake Huron
@@ -157,3 +162,14 @@ exclude: []
 # dams boats pass: removed dams still mapped on the river line
 passable_nodes:
   - 354101508  # Copperas Creek Dam, Illinois River: removed in 1939, replaced by the Peoria and La Grange dams
+# rivers through rapids that a canal bypasses, left out by way id: the Mississippi over the Chain of Rocks
+# (boats use the Chain of Rocks Canal and Lock 27; https://www.mvs.usace.army.mil/Missions/Navigation/Locks-and-Dams/)
+exclude_ways:
+  - 134592235
+  - 134592233
+  - 134592220
+  - 1494116669
+  - 134592223
+  - 696068372
+  - 696070756
+  - 1411684882

@@ -59,13 +59,16 @@ describe('waterway sheets', () => {
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, always).at(-1))
       .toBe('Some waterway of this route is usually closed in every month: compare the alternatives.');
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-01-15' }, idx))
-      .toEqual(['Kanal (A – B), reached around 2027-01-15: ice likely in January (summit pound short of water).']);
-    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-04-15' }, idx)).toEqual([]); // nothing in April
+      .toEqual(['Kanal (A – B), reached around 2027-01-15: ice likely in January (summit pound short of water).', 'All the waterways of this route are usually open in Jan, Feb, Mar, Apr, May, Jun, Nov, Dec.']);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-04-15' }, idx)).toEqual(['All the waterways of this route are usually open in Jan, Feb, Mar, Apr, May, Jun, Nov, Dec.']); // nothing in April but when to go
+    // closed now, but usually open in the month of the trip
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-04-15' }, aliasIndex([{ ...kanal, navigable: 'closed' }]))[0])
+      .toBe('Kanal (A – B), reached around 2027-04-15: closed as of ' + kanal.checked + ', but usually open in April: check that the closure has ended.');
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-02-15' }, idx))
-      .toEqual(['Kanal (A – B), reached around 2027-02-15: high water likely in February (summit pound short of water).']);
+      .toEqual(['Kanal (A – B), reached around 2027-02-15: high water likely in February (summit pound short of water).', 'All the waterways of this route are usually open in Jan, Feb, Mar, Apr, May, Jun, Nov, Dec.']);
     expect(seasonWarnings({ ...(route as object), distance: 0 } as never, { ...defaultProfile, departure: '2027-07-01' }, idx)).toEqual([]);
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-06-01' }, aliasIndex([{ ...kanal, months: { ...kanal.months!, notes: null } }])))
-      .toEqual(['Kanal (A – B), reached around 2027-06-01: low water likely in June.']);
+      .toEqual(['Kanal (A – B), reached around 2027-06-01: low water likely in June.', 'All the waterways of this route are usually open in Jan, Feb, Mar, Apr, May, Jun, Nov, Dec.']);
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-01' })).toEqual([]); // bundled data: empty here
   });
 

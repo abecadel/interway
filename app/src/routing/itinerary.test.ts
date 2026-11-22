@@ -30,6 +30,20 @@ describe('buildItinerary', () => {
     expect(it.shortestLock!.poi.name).toBe('Śluza');
   });
 
+  it('takes marinas and ports a few km off an open-sea leg as ports of refuge', () => {
+    // first half a river, second half open sea
+    const seaRoute = { ...route, legs: [{ name: 'Odra', distance: 11_120 }, { name: 'Open sea', distance: 11_120 }] } as unknown as Route;
+    const it = buildItinerary(seaRoute, [
+      poi({ type: 'marina', name: 'Inland, 5 km off', lon: 0.05, lat: 5000 * m }),
+      poi({ type: 'marina', name: 'Coast, 5 km off', lon: 0.15, lat: 5000 * m }),
+      poi({ type: 'port', name: 'Coast, 20 km off', lon: 0.16, lat: 20_000 * m }),
+      poi({ type: 'fuel', name: 'Fuel, 5 km off', lon: 0.17, lat: 5000 * m }),
+      poi({ type: 'marina', name: 'On the river', lon: 0.04, lat: 100 * m }),
+    ]);
+    expect(it.stops.map((s) => s.poi.name)).toEqual(['On the river', 'Coast, 5 km off']);
+    expect(it.stops[1].offset).toBeCloseTo(5000, -1);
+  });
+
   it('finds the narrowest and the shortest lock, which need not be the same', () => {
     const it = buildItinerary(route, [
       poi({ type: 'lock', name: 'Wide short', lon: 0.03, lat: 0, maxlength: 30, maxwidth: 12 }),

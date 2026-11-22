@@ -47,6 +47,8 @@ import { useTheme } from './ui/useTheme';
 import './App.css';
 import { loadView } from './map/view';
 import { portFacts } from './ui/portFacts';
+import { PORTS, portPoi, portSheetFor } from './routing/ports';
+import { PortGuide } from './ui/PortGuide';
 
 const DATA_URL = import.meta.env.VITE_DATA_URL ?? `${import.meta.env.BASE_URL}data/`;
 const PROFILE_KEY = 'interway.profile';
@@ -175,7 +177,7 @@ export default function App({ client }: { client: RoutingApi }) {
     return () => ro.disconnect();
   });
   const watchId = useRef<number | null>(null);
-  const localIndex = useMemo(() => buildLocalIndex(pois), [pois]);
+  const localIndex = useMemo(() => buildLocalIndex([...pois, ...PORTS.map(portPoi)]), [pois]);
   // a point picked on the map or given by a link is shown by its nearest town, not its coordinates
   const towns = useMemo(() => pois.filter((p) => p.type === 'place'), [pois]);
   // the services and structures near the open place, for its Nearby tab
@@ -571,6 +573,7 @@ export default function App({ client }: { client: RoutingApi }) {
   );
 
   // the fishing rules of the country a place is in (from the nearest town), for today
+  const placePort = place ? portSheetFor(place.position, place.label) : null;
   const fishingHere = (pos: LngLat) => {
     const cc = countryAt(pos, pois);
     const rules = cc ? FISHING[cc] : undefined;
@@ -596,6 +599,7 @@ export default function App({ client }: { client: RoutingApi }) {
       onDirections={() => directionsTo(place)} onFrom={() => startHere(place)}
       onToggleSave={() => setSaved(toggleSaved(saved, { label: place.label, position: place.position }))}
       tabs={[
+        ...(placePort ? [{ id: 'port', label: 'Port guide', content: <PortGuide port={placePort} /> }] : []),
         { id: 'fishing', label: 'Fishing', content: <FishingPanel position={place.position} label={place.label} onLog={(c) => setCatches(addCatch(catches, c))} rules={fishingHere(place.position)} /> },
         ...(placeNearby.length ? [{ id: 'nearby', label: `Nearby · ${placeNearby.length}`, content: (
           <ul className="place-list">

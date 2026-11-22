@@ -20,6 +20,7 @@ from .lakes import connect_lakes, mark_lake_access
 from .model import Segment, haversine
 from .pois import load_places
 from .qa import gap_candidates
+from .relnames import cached_relation_names, name_from_relations
 from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, mark_offshore, sea_mesh, to_merc
 from .topology import (
     add_connectors,
@@ -252,6 +253,10 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     promote_ways(ex, allow.ways)
+    relation_names: dict[int, str] = {}
+    for p in inputs:
+        relation_names.update(cached_relation_names(p, cache_dir))
+    name_from_relations(ex, relation_names)
     segments = split_ways(ex)
     mark_lock_areas(segments, ex.lock_areas)
     add_connectors(segments, ex)
