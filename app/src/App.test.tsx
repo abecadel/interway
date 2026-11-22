@@ -17,6 +17,11 @@ vi.mock('./map/MapView', () => ({
     );
   },
 }));
+vi.mock('./data/ports.json', () => ({ default: [{
+  id: 't-port', name: 'Test Marina', aliases: [], country: 'HR', position: [16.4337, 43.503], kind: 'marina', berths: 10, visitorBerths: null,
+  maxLengthM: null, depthM: null, vhf: '17', phone: null, email: null, website: null, booking: null, fuel: null, facilities: [], fees: null,
+  season: null, approach: null, notes: null, sources: ['https://example.org/marina'], checked: '2026-11-22',
+}] }));
 vi.mock('./ui/search', () => ({ searchPlaces: vi.fn(async () => []) }));
 const { default: App } = await import('./App');
 import type { SiteTool } from './agent/siteTools';
@@ -892,6 +897,14 @@ describe('App', () => {
     await flush();
     fireEvent.click(screen.getByRole('tab', { name: 'Fishing' }));
     expect(screen.getByText('Fishing rules: Croatia')).toBeTruthy();
+  });
+
+  it('shows the researched port guide of a marina', async () => {
+    history.replaceState(null, '', '/?place=16.4338,43.5031');
+    render(<App client={fakeClient()} />);
+    await flush();
+    fireEvent.click(screen.getByRole('tab', { name: 'Port guide' }));
+    expect(screen.getByText('channel 17')).toBeTruthy();
   });
 
   it('starts with Plan a trip, a hint that goes away for good, recent places, and town names for bare points', async () => {
