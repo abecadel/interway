@@ -4307,7 +4307,6 @@
   sea: true
   countries: [US]
   via: [East River]
-  known_gap: the graph does not connect the East River (Hell Gate) to Long Island Sound; the route goes outside round Montauk
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 3, New Haven to New York 68 NM; also the worked example on p. 7)
 
 - name: Long Island Sound, New York (the Battery) → Greenport (Plum Gut)
@@ -4318,7 +4317,6 @@
   sea: true
   countries: [US]
   via: [East River]
-  known_gap: the graph does not connect the East River (Hell Gate) to Long Island Sound; the route goes outside round Montauk
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 3, Greenport (41°06.0'N 72°21.5'W) to New York 102 NM)
 
 # New York State Canal System and Lake Champlain
