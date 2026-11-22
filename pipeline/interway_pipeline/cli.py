@@ -17,7 +17,7 @@ from .depth import DepthGrid, apply_sea_depth, tile_loader
 from .export import export
 from .extract import Extract, read_osm
 from .lakes import connect_lakes, mark_lake_access
-from .model import Segment, haversine
+from .model import Segment, haversine, metres_to_deg
 from .pois import load_places
 from .qa import gap_candidates
 from .relnames import cached_relation_names, name_from_relations
@@ -141,6 +141,10 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             if None in ends:
                 log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
                 continue
+            if ends[0] == ends[1]:  # a barrier splits the line into two nodes at one spot: the far end takes the other
+                near = tree.query(Point(coords[-1]), predicate="dwithin", distance=metres_to_deg(max_snap_m))
+                others = [ids[int(i)] for i in near if ids[int(i)] != ends[0]]
+                ends[1] = min(others, key=lambda n: haversine(coords[-1], pos[n]), default=ends[0])
             if ends[0] == ends[1]:
                 log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
                 continue

@@ -110,6 +110,17 @@ def test_patches_snap_to_network(tmp_path, caplog):
     assert "'Loop'" in caplog.text and "same node" in caplog.text
 
 
+def test_a_patch_across_a_barrier_joins_the_two_nodes_there(tmp_path):
+    # a dam splits the river into two nodes at one spot (1 and 3): the patch round it joins them
+    segs = [line(1, 2, 0, 0.01), line(3, 4, 0, -0.01)]
+    m = metres_to_deg(1)
+    (tmp_path / "a.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [
+        feature([[0.0, 20 * m], [0.0, 40 * m], [0.0, -20 * m]], name="Portora Lock", lock=True),
+    ]}), encoding="utf-8")
+    assert apply_patches(segs, tmp_path) == 1
+    assert {segs[2].a, segs[2].b} == {1, 3}
+
+
 def test_patch_end_joins_the_middle_of_a_line(tmp_path):
     from interway_pipeline.topology import components, snap_dead_ends_to_lines
     m = metres_to_deg(1)
