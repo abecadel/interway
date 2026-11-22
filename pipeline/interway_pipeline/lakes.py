@@ -254,12 +254,15 @@ def _lake_namer(members: list[Lake]):
         name = members[0].name
         return lambda _p: name
     tree = STRtree([m.polygon for m in members])
+    # prepared: a big lake (Huron, 800k vertices) tested point by point is far too slow otherwise
+    shapes = [prepared.prep(m.polygon) for m in members]
 
     def name_at(p: LonLat) -> str:
-        hits = tree.query(Point(p), predicate="intersects")
-        if len(hits):
-            return members[int(hits[0])].name
-        return members[int(tree.nearest(Point(p)))].name
+        pt = Point(p)
+        for i in tree.query(pt):
+            if shapes[int(i)].intersects(pt):
+                return members[int(i)].name
+        return members[int(tree.nearest(pt))].name
     return name_at
 
 

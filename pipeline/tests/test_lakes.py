@@ -89,6 +89,10 @@ def test_namer_uses_member_or_nearest():
     assert two((K / 2, K / 2)) == "Zachodnie"
     assert two((1.5 * K, K / 2)) == "Wschodnie"
     assert two((K + 0.8 * GAP, K / 2)) == "Wschodnie"  # in the closed gap, nearer to the east shore
+    # inside a lake's bounding box but not the lake (the notch of an L-shaped lake): the nearest one
+    ell = Lake(3, "Elka", Polygon([(0, 0), (K, 0), (K, K / 4), (K / 4, K / 4), (K / 4, K), (0, K)]), False)
+    far = Lake(4, "Daleko", box(3 * K, 0, 4 * K, K), False)
+    assert _lake_namer([ell, far])((0.9 * K, 0.9 * K)) == "Elka"
 
 
 def test_mesh_of_empty_body():
