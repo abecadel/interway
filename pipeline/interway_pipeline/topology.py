@@ -213,8 +213,9 @@ def lock_chambers(tags: dict) -> int:
 
 def split_ways(ex: Extract) -> list[Segment]:
     ex.lock_nodes -= {n for n, name in ex.lock_names.items() if _OPEN_GATE.search(name)}
-    add_crossings(ex)
+    # gates beside the way first: placed on it, they are the locks a dam next to them is passed by (Portora)
     add_off_line_gates(ex)
+    add_crossings(ex)
     # a dam or weir mapped on a lock way is the dam the lock passes (the Oswego Canal's "Lock Number 5" dam node
     # on the Minetto lock): boats go through, so it does not cut the waterway
     ex.barrier_nodes -= {n for w in ex.ways if w.tags.get("lock") == "yes" for n in w.nodes}

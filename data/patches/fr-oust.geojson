@@ -1,0 +1,46 @@
+{
+ "type": "FeatureCollection",
+ "description": "The canalised Oust (Canal de Nantes à Brest): boats pass the river's weirs through the locks. At Limur OSM maps 60 m of the weir beside the lock but not its run across the main bed to the north; at La Maclais it maps no weir. Routes took the river round both locks. These weirs close it. Source: https://www.canaux-de-bretagne.org/ (Canal de Nantes à Brest, écluses de Limur and de la Maclais)",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Limur weir (northern part)",
+    "weir": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -2.18364,
+      47.72385
+     ],
+     [
+      -2.1836,
+      47.7305
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "La Maclais weir",
+    "weir": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -2.127,
+      47.7165
+     ],
+     [
+      -2.1245,
+      47.715
+     ]
+    ]
+   }
+  }
+ ]
+}
