@@ -459,8 +459,11 @@ export class Router {
     try {
       let r = this.routeFor(from, to, profile);
       const sea = r.sea;
-      // with a departure date: go round waterways usually closed in the month the boat reaches them, where possible
-      for (let round = 0; round < SEASON_ROUNDS; round++) {
+      // with a departure date: go round waterways usually closed in the month the boat reaches them, where possible.
+      // Each round goes round what the last one found; the best of them is kept: the least distance on waterways
+      // usually closed on arrival, then the fastest (a later round may only swap one closure for another, and take longer)
+      let best = r, bestClosed = this.closedMetres(r, profile), bestGeoms = this.lastGeoms;
+      for (let round = 0; round < SEASON_ROUNDS && bestClosed > 0; round++) {
         const closed = this.closedOnArrival(r, profile);
         if (!closed.size) break;
         this.season ??= new Map();
@@ -468,8 +471,11 @@ export class Router {
         const next = this.routeFor(from, to, profile);
         if (next.sea > sea + SEASON_MAX_EXTRA_SEA) break;
         r = next;
+        const n = this.closedMetres(r, profile);
+        if (n < bestClosed || (n === bestClosed && r.duration < best.duration)) [best, bestClosed, bestGeoms] = [r, n, this.lastGeoms];
       }
-      return r;
+      this.lastGeoms = bestGeoms; // what the alternatives compare with is the route returned
+      return best;
     } catch (e) {
       throw this.explain(from, to, profile, e as RouteError);
     }
@@ -478,16 +484,27 @@ export class Router {
   /** The sheets of waterways on the last route that are usually closed in the month the boat would reach them. */
   private closedOnArrival(r: Route, profile: VesselProfile): Set<number> {
     const out = new Set<number>();
-    if (!this.geomSheet || !profile.departure || r.distance <= 0) return out;
+    this.forClosed(r, profile, (g, sheet) => { if (!this.season?.has(g)) out.add(sheet); });
+    return out;
+  }
+
+  /** Metres of the last route on waterways usually closed in the month the boat reaches them. */
+  private closedMetres(r: Route, profile: VesselProfile): number {
+    let m = 0;
+    this.forClosed(r, profile, (_g, _sheet, metres) => { m += metres; });
+    return m;
+  }
+
+  private forClosed(r: Route, profile: VesselProfile, visit: (g: number, sheet: number, metres: number) => void): void {
+    if (!this.geomSheet || !profile.departure || r.distance <= 0) return;
     const speed = r.distance / Math.max(r.duration, 1);
     let at = 0;
     for (const [g, metres] of this.lastGeoms) {
       const sheet = this.geomSheet[g];
       const month = monthAfter(profile.departure, at / speed);
-      if (sheet >= 0 && month !== null && this.sheetClosed[sheet] & (1 << month) && !this.season?.has(g)) out.add(sheet);
+      if (sheet >= 0 && month !== null && this.sheetClosed[sheet] & (1 << month)) visit(g, sheet, metres);
       at += metres;
     }
-    return out;
   }
 
   /** Why there is no route: the limits the vessel breaks on the way it would take without them, or no way at all. */

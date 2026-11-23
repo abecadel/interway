@@ -155,6 +155,7 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
   const out: string[] = [];
   const seen = new Set<WaterwayInfo>();
   let closedOnRoute = false;
+  const closedNames: string[] = [];
   let at = 0;
   for (const [i, leg] of legPoints(route).entries()) {
     for (const w of waterwaysOn([leg], index)) {
@@ -164,7 +165,7 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
       const m = Number(date.slice(5, 7));
       const what = [w.months.closed.includes(m) ? 'usually closed' : w.months.lowWater.includes(m) && 'low water likely',
         w.months.highWater.includes(m) && 'high water likely', w.months.ice.includes(m) && 'ice likely'].filter(Boolean);
-      if (w.months.closed.includes(m)) closedOnRoute = true;
+      if (w.months.closed.includes(m)) { closedOnRoute = true; closedNames.push(w.name); }
       if (what.length) out.push(`${w.name}, reached around ${date}: ${what.join(', ')} in ${MONTH[m]}${w.months.notes ? ` (${w.months.notes})` : ''}.`);
       // closed now (as the sheet was checked), but not in the month of the trip: say whether the closure matters
       else if (w.navigable === 'closed') {
@@ -172,6 +173,12 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
       }
     }
     at += route.legs[i].distance;
+  }
+  // said plainly: the planner looked for a way round and found none
+  if (closedOnRoute) {
+    out.push(`No way round was found: this route still uses ${closedNames.length === 1 ? `1 waterway (${closedNames[0]})`
+      : `${closedNames.length} waterways (${closedNames.join(', ')})`} usually closed when you reach ${closedNames.length === 1 ? 'it' : 'them'}. `
+      + 'Go in another month, or confirm with the authority that they will be open.');
   }
   // when to go: the months in which none of this route's waterways is usually closed or iced
   const closed = new Set([...seen].flatMap((w) => [...w.months!.closed, ...w.months!.ice]));
