@@ -251,6 +251,15 @@ def test_lock_gate_lines_close_water_areas_like_weirs(tmp_path, monkeypatch):
     assert [list(w.coords) for w in seen] == [[(0.005, -0.0005), (0.005, 0.0005)]]
 
 
+def test_the_middle_of_each_chamber_closes_water_areas():
+    # Aynho Weir Lock (Oxford Canal): the canal's water areas touch across the chamber; only chambers of 10 m+
+    segs = [Segment(a=1, b=2, coords=[(0.0, 0.0), (0.0004, 0.0)], kind="canal", lock=True),
+            Segment(a=3, b=4, coords=[(1.0, 0.0), (1.00005, 0.0)], kind="canal", lock=True),
+            Segment(a=2, b=5, coords=[(0.0004, 0.0), (0.01, 0.0)], kind="canal")]
+    middles = [[tuple(round(v, 6) for v in c) for c in w.coords] for w in cli.chamber_middles(segs)]
+    assert middles == [[(0.0001, 0.0), (0.0003, 0.0)]]
+
+
 def test_lift_gap_is_joined_even_inside_a_canal_area(tmp_path):
     # Niederfinow case: the canal stops on both sides of a ship lift (150 m), and canal water areas cover both
     # ends. The facing dead ends must be joined (as a lock) before the river-area mesh turns them into junctions.

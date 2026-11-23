@@ -8,6 +8,7 @@ import logging
 import pickle
 from pathlib import Path
 
+import shapely.ops
 from shapely import STRtree
 from shapely.geometry import LineString, Point
 
@@ -164,6 +165,20 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
     return added
 
 
+CHAMBER_MIN_M = 10.0  # chambers this long or longer close the water areas round them
+
+
+def chamber_middles(segments: list[Segment]) -> list[LineString]:
+    """The middle half of each lock chamber: open water across it would pass the lock without locking, while
+    the mesh can still reach the chamber's two ends."""
+    out = []
+    for s in segments:
+        if s.lock and s.length >= CHAMBER_MIN_M:
+            line = LineString(s.coords)
+            out.append(shapely.ops.substring(line, 0.25, 0.75, normalized=True))
+    return out
+
+
 def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract:
     """read_osm with an optional pickle cache keyed by file, size, mtime and allowlist."""
     if cache_dir is None:
@@ -283,8 +298,10 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # marinas and harbours (passenger quays: the Telemark Canal boats at Dalen) are places to steer to on a lake
     harbours = ex.marinas + [(name, p) for kind, name, p, _ in ex.services if kind == "port"]
     # a lock gate drawn as a line closes the water area like a weir: open water never crosses it (Lock 15's
-    # approach area otherwise joined the top of the lock straight to the foot of the chamber)
-    lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs + [g for g, _, _ in ex.gate_lines])
+    # approach area otherwise joined the top of the lock straight to the foot of the chamber); so does the
+    # middle of every chamber (the Oxford Canal's water areas touch across Aynho Weir and Nell Bridge locks)
+    lake_segs = connect_lakes(segments, ex.lakes, harbours,
+                              ex.weirs + [g for g, _, _ in ex.gate_lines] + chamber_middles(segments))
     mark_lake_access(lake_segs, ex.lakes)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes
