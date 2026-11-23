@@ -219,6 +219,52 @@ def test_the_pound_between_two_chamber_ways_is_not_a_chamber():
     assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, True), (2, False)]
 
 
+def test_a_long_lock_way_continuing_a_chamber_is_its_approach():
+    m = 1 / 111_320  # one metre in degrees
+    def lock_way(wid, a, b, x0, x1, **tags):
+        return NavWay(wid, [a, b], [(x0 * m, 0.0), (x1 * m, 0.0)], {"kind": "canal", "lock": "yes", **tags})
+    # Lock 14 (Mississippi): a 230 m chamber, then 800 m of lower approach tagged lock=yes; a staircase of three
+    # 55 m chambers; a lone 5 km lock=yes way (a lock cut drawn as the lock) stays a lock
+    ways = [lock_way(1, 1, 2, 0, 230), lock_way(2, 2, 3, 230, 1030),
+            lock_way(3, 10, 11, 5000, 5055), lock_way(4, 11, 12, 5055, 5110), lock_way(5, 12, 13, 5110, 5165),
+            lock_way(6, 20, 21, 9000, 14000), way(7, [3, 30]),
+            # Iron Gates I: two 310 m chambers joined by a 20 m piece; two 20 m pieces alone
+            lock_way(8, 40, 41, 20000, 20310), lock_way(9, 41, 42, 20310, 20330), lock_way(10, 42, 43, 20330, 20640),
+            lock_way(11, 50, 51, 30000, 30020), lock_way(12, 51, 52, 30020, 30040)]
+    assert topology.lock_approaches(ways) == {2}
+    segs = split_ways(Extract(ways=ways))
+    assert sorted(s.osm_way for s in segs if s.lock) == [1, 3, 4, 5, 6, 8, 9, 10, 11, 12]
+
+
+def test_a_flight_drawn_as_one_lock_way_counts_its_chambers():
+    refs = ["46, 47,48,49", "1-5", "21–29", "", "13", "1-100"]
+    assert [topology.lock_chambers({"lock_ref": r}) for r in refs] == [4, 5, 9, 1, 1, 1]
+    assert topology.lock_chambers({}) == 1
+    ex = Extract(ways=[way(1, [1, 2], lock="yes", lock_ref="1-3"), way(2, [2, 3])])
+    locks = [s for s in split_ways(ex) if s.lock]
+    assert len(locks) == 3 and (locks[0].a, locks[-1].b) == (1, 2) and locks[0].b == locks[1].a
+    assert locks[0].coords[-1] == locks[1].coords[0]
+
+
+def test_lock_gates_mapped_beside_the_way_are_put_on_it():
+    m = metres_to_deg(1)
+    # Portora (Erne): gates 10 and 11 on the bank outline, 10 m off the river line; 12 beside a lock already on
+    # the line belongs to it; 13 is 100 m off; 14 is on a way already
+    river = NavWay(1, [1, 2, 3], [(0.0, 0.0), (300 * m, 0.0), (600 * m, 0.0)], {"kind": "river"})
+    lock = NavWay(2, [3, 4], [(600 * m, 0.0), (620 * m, 0.0)], {"kind": "canal", "lock": "yes"})
+    tail = NavWay(3, [4, 14, 5], [(620 * m, 0.0), (700 * m, 0.0), (900 * m, 0.0)], {"kind": "canal"})
+    gates = {10: (100 * m, 10 * m), 11: (150 * m, -10 * m), 12: (610 * m, 15 * m), 13: (400 * m, 100 * m), 14: (700 * m, 0.0)}
+    ex = Extract(ways=[river, lock, tail], lock_nodes={3, 4, 10, 11, 12, 13, 14}, gate_points=gates)
+    assert topology.add_off_line_gates(ex) == 2
+    assert river.nodes == [1, 10, 11, 2, 3] and river.coords[1] == pytest.approx((100 * m, 0.0))
+    assert topology.add_off_line_gates(Extract(ways=[river], gate_points={1: (0.0, 0.0)})) == 0
+    assert topology.add_off_line_gates(Extract(ways=[NavWay(9, [7, 8], [(5.0, 5.0), (5.1, 5.0)], {"kind": "river"})],
+                                               gate_points={10: (100 * m, 10 * m)})) == 0  # no lock anywhere, too far
+    segs = split_ways(Extract(ways=[NavWay(1, [1, 2], [(0.0, 0.0), (300 * m, 0.0)], {"kind": "river"})], lock_nodes={10, 11},
+                              gate_points={10: (100 * m, 10 * m), 11: (150 * m, -10 * m)}))
+    assert [(s.lock, round(s.length)) for s in segs] == [(False, 100), (True, 50), (False, 150)]
+
+
 def test_oneway_reversed_and_limits():
     ex = Extract(ways=[way(1, [1, 2], oneway="-1", draft="1.5", maxheight="4", maxwidth="9,5 m", maxlength="80"),
                        way(2, [2, 3], oneway="yes", maxdraft="2", draft="1")])

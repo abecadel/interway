@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "The John T. Myers Locks and Dam (Ohio River mile 846, Uniontown KY): OSM maps the locks and a short stretch of the old Dam 49 beside them, but not the dam across the river, so the river lines ran past the locks with no barrier and the routes skipped them. This weir closes the two river arms where the dam crosses them. Source: https://www.lrl.usace.army.mil/Missions/Civil-Works/Navigation/Locks-and-Dams/John-T-Myers-Locks-and-Dam/",
+  "features": [
+    {"type": "Feature", "properties": {"name": "John T. Myers Dam", "weir": true},
+     "geometry": {"type": "LineString", "coordinates": [[-87.9922, 37.7915], [-87.9945, 37.7790]]}}
+  ]
+}

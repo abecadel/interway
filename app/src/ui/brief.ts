@@ -252,7 +252,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   }
   // a lock chamber (a leg named after the lock) or a short unnamed link between two stretches of one waterway
   // is part of it: the locks are listed as stops
-  for (let i = spans.length - 2; i >= 1; i--) {
+  for (let i = spans.length - 2; i >= 1; i = Math.min(i - 1, spans.length - 2)) {
     const [a, x, c] = [spans[i - 1], spans[i], spans[i + 1]];
     if (a.name === c.name && x.to - x.from < SHORT_LEG_M) spans.splice(i - 1, 3, { name: a.name, from: a.from, to: c.to });
   }

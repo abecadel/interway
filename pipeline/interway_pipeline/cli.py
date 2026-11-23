@@ -8,6 +8,7 @@ import logging
 import pickle
 from pathlib import Path
 
+import shapely.ops
 from shapely import STRtree
 from shapely.geometry import LineString, Point
 
@@ -76,6 +77,7 @@ def merge_extracts(parts: list[Extract]) -> Extract:
         ex.lock_nodes |= p.lock_nodes
         ex.barrier_nodes |= p.barrier_nodes
         ex.lock_names.update(p.lock_names)
+        ex.gate_points.update(p.gate_points)
         ex.weirs += p.weirs  # duplicates from overlapping extracts block the same edges
         for lines, mine in ((ex.gate_lines, p.gate_lines), (ex.dam_lines, p.dam_lines)):
             known = {g[0].wkb for g in lines}
@@ -107,53 +109,100 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
     property "join_line", left loose for snap_dead_ends_to_lines to join to the middle of a line).
 
     A LineString with the property "weir" is instead a weir OSM does not map, added to `weirs`: no lake or
-    river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder).
+    river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder), and the waterway lines
+    that cross it are cut there (Sylvan Slough beside Lock and Dam 15).
     """
     if patch_dir is None or not patch_dir.exists():
         return 0
+    features = [(f, feat) for f in sorted(patch_dir.glob("*.geojson"))
+                for feat in json.loads(f.read_text(encoding="utf-8")).get("features", [])
+                if (feat.get("geometry") or {}).get("type") == "LineString"]
+    dams = [LineString([tuple(c[:2]) for c in feat["geometry"]["coordinates"]]) for _, feat in features
+            if (feat.get("properties") or {}).get("weir")]
+    if dams:
+        dam_tree = STRtree(dams)
+        kept = [s for s in segments if not len(dam_tree.query(LineString(s.coords), predicate="intersects"))]
+        if len(kept) < len(segments):
+            log.info("cut %d waterway segments at weirs from patches", len(segments) - len(kept))
+        segments[:] = kept
     pos = node_positions(segments)
     ids = list(pos)
     if not ids:
         return 0
     tree = STRtree([Point(pos[n]) for n in ids])
     added = 0
-    for f in sorted(patch_dir.glob("*.geojson")):
-        for feat in json.loads(f.read_text(encoding="utf-8")).get("features", []):
-            geom = feat.get("geometry") or {}
-            if geom.get("type") != "LineString":
-                continue
-            coords = [tuple(c[:2]) for c in geom["coordinates"]]
-            props = feat.get("properties") or {}
-            if props.get("weir"):
-                if weirs is not None:
-                    weirs.append(LineString(coords))
-                continue
-            ends = []
-            for c in (coords[0], coords[-1]):
-                i = tree.nearest(Point(c))
-                ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
-            # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
-            # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
-            loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
-            for k in loose:
-                ends[k] = new_node_id()
-                pos[ends[k]] = coords[-k]
-            if None in ends:
-                log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
-                continue
-            if ends[0] == ends[1]:  # a barrier splits the line into two nodes at one spot: the far end takes the other
-                near = tree.query(Point(coords[-1]), predicate="dwithin", distance=metres_to_deg(max_snap_m))
-                others = [ids[int(i)] for i in near if ids[int(i)] != ends[0]]
-                ends[1] = min(others, key=lambda n: haversine(coords[-1], pos[n]), default=ends[0])
-            if ends[0] == ends[1]:
-                log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
-                continue
-            coords[0], coords[-1] = pos[ends[0]], pos[ends[1]]
-            segments.append(Segment(a=ends[0], b=ends[1], coords=coords, name=props.get("name", ""),
-                                    kind="patch", lock=bool(props.get("lock"))))
-            added += 1
+    for f, feat in features:
+        coords = [tuple(c[:2]) for c in feat["geometry"]["coordinates"]]
+        props = feat.get("properties") or {}
+        if props.get("weir"):
+            if weirs is not None:
+                weirs.append(LineString(coords))
+            continue
+        ends = []
+        for c in (coords[0], coords[-1]):
+            i = tree.nearest(Point(c))
+            ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
+        # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
+        # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
+        loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
+        for k in loose:
+            ends[k] = new_node_id()
+            pos[ends[k]] = coords[-k]
+        if None in ends:
+            log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
+            continue
+        if ends[0] == ends[1]:  # a barrier splits the line into two nodes at one spot: the far end takes the other
+            near = tree.query(Point(coords[-1]), predicate="dwithin", distance=metres_to_deg(max_snap_m))
+            others = [ids[int(i)] for i in near if ids[int(i)] != ends[0]]
+            ends[1] = min(others, key=lambda n: haversine(coords[-1], pos[n]), default=ends[0])
+        if ends[0] == ends[1]:
+            log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
+            continue
+        coords[0], coords[-1] = pos[ends[0]], pos[ends[1]]
+        segments.append(Segment(a=ends[0], b=ends[1], coords=coords, name=props.get("name", ""),
+                                kind="patch", lock=bool(props.get("lock"))))
+        added += 1
     log.info("applied %d manual patches", added)
     return added
+
+
+CHAMBER_MIN_M = 10.0  # chambers this long or longer close the water areas round them
+FREE_END_GATE_M = 30.0  # a gate line this close to a chamber end with no waterway beyond it is how boats get in
+
+
+def _degrees(segments: list[Segment]) -> dict[int, int]:
+    degree: dict[int, int] = {}
+    for s in segments:
+        degree[s.a] = degree.get(s.a, 0) + 1
+        degree[s.b] = degree.get(s.b, 0) + 1
+    return degree
+
+
+def closing_gates(segments: list[Segment], gate_lines: list) -> list[LineString]:
+    """The gate lines that close water areas: all but those at a chamber's free end (Ströms sluss at Lilla Edet
+    stands in the river's water area with no line beyond its gates: boats reach it through that water)."""
+    if not gate_lines:
+        return []
+    degree = _degrees(segments)
+    free = [Point(c) for s in segments if s.lock for n, c in ((s.a, s.coords[0]), (s.b, s.coords[-1])) if degree[n] == 1]
+    if not free:
+        return [g for g, _, _ in gate_lines]
+    tree = STRtree(free)
+    near = metres_to_deg(FREE_END_GATE_M)
+    return [g for g, _, _ in gate_lines if not len(tree.query(g, predicate="dwithin", distance=near))]
+
+
+def chamber_middles(segments: list[Segment]) -> list[LineString]:
+    """The middle half of each lock chamber on the line network: open water across it would pass the lock without
+    locking, while the mesh can still reach the chamber's two ends. A chamber with a free end (Guzianka between
+    two Masurian lakes) is reached through the water itself, so it closes nothing."""
+    degree = _degrees(segments)
+    out = []
+    for s in segments:
+        if s.lock and s.length >= CHAMBER_MIN_M and degree[s.a] > 1 and degree[s.b] > 1:
+            line = LineString(s.coords)
+            out.append(shapely.ops.substring(line, 0.25, 0.75, normalized=True))
+    return out
 
 
 def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract:
@@ -175,7 +224,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 16  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 17  # bump when read_osm output changes, invalidates --cache
 
 
 WIDE_KINDS = {"place", "fishing", "tackle"}
@@ -274,7 +323,11 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     snap_dead_ends_to_lines(segments)
     # marinas and harbours (passenger quays: the Telemark Canal boats at Dalen) are places to steer to on a lake
     harbours = ex.marinas + [(name, p) for kind, name, p, _ in ex.services if kind == "port"]
-    lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs)
+    # a lock gate drawn as a line closes the water area like a weir: open water never crosses it (Lock 15's
+    # approach area otherwise joined the top of the lock straight to the foot of the chamber); so does the
+    # middle of every chamber (the Oxford Canal's water areas touch across Aynho Weir and Nell Bridge locks)
+    lake_segs = connect_lakes(segments, ex.lakes, harbours,
+                              ex.weirs + closing_gates(segments, ex.gate_lines) + chamber_middles(segments))
     mark_lake_access(lake_segs, ex.lakes)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes

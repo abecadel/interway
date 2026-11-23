@@ -117,6 +117,11 @@ describe('route brief', () => {
     expect(short.stages.map((s) => [s.toKm, s.km, s.endsAt])).toEqual([[80, 80, 'km 80'], [165, 85, 'destination']]);
     expect(short.totals.days).toBe(2);
     expect(short.legs).toEqual([{ name: 'Kanal', fromKm: 0, toKm: 165, km: 165 }]);
+    // two locks in a row folded in one after the other (a crash at the end of the list once)
+    const flight = buildBrief({ route: { ...route, legs: [{ name: 'A', distance: 5000 }, { name: 'L1', distance: 100 },
+      { name: 'A', distance: 5000 }, { name: 'L2', distance: 100 }, { name: 'A', distance: 5000 }] },
+    itinerary: { counts: {}, stops: [] }, profile: defaultProfile, title: 't', link: 'l' });
+    expect(flight.legs.map((l) => [l.name, l.km])).toEqual([['A', 15.2]]);
   });
 
   it('never ends a day out at sea', () => {

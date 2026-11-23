@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "The Old Rhine (Vieux Rhin / Restrhein) between Kembs and Breisach is not a navigation: shipping uses the Grand Canal d'Alsace and its locks (Kembs, Ottmarsheim, Fessenheim), and the old bed is closed by weirs (Märkt, Kulturwehr Breisach). OSM maps no weir across the old bed's line here, so routes ran down it past those locks. This weir closes it above Breisach. Source: https://www.vnf.fr/vnf/ (Rhin, Grand Canal d'Alsace), https://de.wikipedia.org/wiki/Kulturwehr_Breisach",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Old Rhine above Breisach", "weir": true},
+     "geometry": {"type": "LineString", "coordinates": [[7.6100, 47.9945], [7.6170, 47.9945]]}}
+  ]
+}

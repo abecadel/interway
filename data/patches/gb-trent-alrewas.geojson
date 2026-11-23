@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "At Alrewas the Trent & Mersey Canal runs on the River Trent for 200 m, on the level. Upstream of that reach the Trent is not navigable, but its water areas run on to Great Haywood: through them a route left the canal at Alrewas and rejoined it above the Fradley locks, skipping nine locks. This weir closes the river just above the canal's junction with it. Source: https://canalrivertrust.org.uk/canals-and-rivers/trent-and-mersey-canal",
+  "features": [
+    {"type": "Feature", "properties": {"name": "River Trent above the Alrewas reach", "weir": true},
+     "geometry": {"type": "LineString", "coordinates": [[-1.7485, 52.7366], [-1.7485, 52.7392]]}}
+  ]
+}
