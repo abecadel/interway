@@ -216,6 +216,8 @@ def add_off_line_gates(ex: Extract) -> int:
 def lock_chambers(tags: dict) -> int:
     """How many chambers a lock way is: its lock_ref lists them ("46, 47,48,49", "1-5", "21–29") on a staircase
     or flight drawn as one way (the Rideau's Kingston Mills, Göta kanal's Berg); 1 otherwise."""
+    if tags.get("lock_chambers"):  # from data/locks/chambers.yaml
+        return max(int(tags["lock_chambers"]), 1)
     ref = tags.get("lock_ref") or ""
     n = 0
     for part in re.split(r"[;,/]", ref):

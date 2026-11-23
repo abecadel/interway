@@ -205,6 +205,29 @@ def chamber_middles(segments: list[Segment]) -> list[LineString]:
     return out
 
 
+def apply_lock_chambers(ex: Extract, table: Path | None) -> int:
+    """Chamber counts of lock stations mapped as one lock way (data/locks/chambers.yaml): the way gets a
+    lock_chambers tag, so it is split into that many locks. A way with its own lock_ref keeps it. Applied after the
+    cached extract. Returns how many ways were tagged."""
+    if table is None or not table.exists():
+        return 0
+    import yaml  # noqa: PLC0415 - only needed with a table
+
+    n = 0
+    for entry in yaml.safe_load(table.read_text(encoding="utf-8")) or []:
+        w0, s0, e0, n0 = entry["area"]
+        counts = {str(k).casefold(): int(v) for k, v in entry["chambers"].items()}
+        for w in ex.ways:
+            t = w.tags
+            name = (t.get("lock_name") or t.get("name") or "").casefold()
+            if (t.get("lock") == "yes" and not t.get("lock_ref") and name in counts
+                    and any(w0 <= x <= e0 and s0 <= y <= n0 for x, y in w.coords)):
+                t["lock_chambers"] = str(counts[name])
+                n += 1
+    log.info("set the chamber count of %d lock ways", n)
+    return n
+
+
 def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract:
     """read_osm with an optional pickle cache keyed by file, size, mtime and allowlist."""
     if cache_dir is None:
@@ -302,10 +325,12 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
           min_component_km: float = 2.0, simplify_m: float = 5.0, cache_dir: Path | None = None,
           dead_end_gap_m: float = 300.0, countries: list[str] | None = None, land: Path | None = None,
           sea_bbox: tuple[float, float, float, float] = DEFAULT_BBOX, places: Path | None = None,
-          depth_cache: Path | None = None, depth_scale: float = 0.25, sea_areas: list[dict] | None = None) -> dict:
+          depth_cache: Path | None = None, depth_scale: float = 0.25, sea_areas: list[dict] | None = None,
+          lock_chambers: Path | None = None) -> dict:
     allow = Allowlist.load(allowlist)
     ex = merge_extracts([read_cached(p, allow, cache_dir) for p in inputs])
     promote_ways(ex, allow.ways)
+    apply_lock_chambers(ex, lock_chambers)
     relation_names: dict[int, str] = {}
     for p in inputs:
         relation_names.update(cached_relation_names(p, cache_dir))
@@ -365,6 +390,8 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--countries", default="", help="ISO codes of countries the inputs fully cover, e.g. PL,DE,NL")
     ap.add_argument("--allowlist", type=Path, default=REPO / "data" / "navigable")
     ap.add_argument("--patches", type=Path, default=REPO / "data" / "patches")
+    ap.add_argument("--lock-chambers", type=Path, default=REPO / "data" / "locks" / "chambers.yaml",
+                    help="chamber counts of lock stations mapped as one lock way")
     ap.add_argument("--min-component-km", type=float, default=2.0)
     ap.add_argument("--simplify-m", type=float, default=5.0)
     ap.add_argument("--dead-end-gap-m", type=float, default=300.0,
@@ -388,7 +415,8 @@ def main(argv: list[str] | None = None) -> None:
               depth_cache=args.depth_cache, depth_scale=args.depth_scale,
               sea_bbox=tuple(float(v) for v in args.sea_bbox.split(",")),
               sea_areas=json.loads(args.sea_areas.read_text()) if args.sea_areas else None,
-              countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()])
+              countries=[c.strip().upper() for c in args.countries.split(",") if c.strip()],
+              lock_chambers=args.lock_chambers)
     print(json.dumps(m["stats"]))
 
 

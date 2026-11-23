@@ -454,6 +454,8 @@
   source: https://waterways.org.uk/waterways/discover-the-waterways/shropshire-union-canal (66½ miles, 46–47 locks)
 
 - name: Oxford Canal, Oxford → Hawkesbury Junction
+  # 41 locks between these points: the canal's 43 include Isis Lock, just south of the start, and Hawkesbury
+  # stop lock, just past the end
   from: [-1.2685, 51.7565]
   to: [-1.4625, 52.4595]
   vessel: { beam: 2.08, length: 17, airDraft: 1.8 }
