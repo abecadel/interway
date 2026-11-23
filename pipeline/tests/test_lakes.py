@@ -443,3 +443,16 @@ def test_open_water_needs_room_and_skips_weirs():
     cut = lakes._open_water(square, members, [], weir)
     assert free and cut and len(cut) < len(free)
     assert not any(LineString(s.coords).intersects(weir.geometries[0]) for s in cut)
+
+
+def test_a_straightened_chain_does_not_cut_across_a_weir():
+    # the Oust beside Limur lock: the mesh path goes round the weir; the shortcut over open water would cross it
+    from shapely import STRtree
+    from shapely.geometry import LineString, box
+
+    from interway_pipeline.lakes import _straighten
+    water = box(0, 0, 10, 10)
+    pts = [(1.0, 1.0), (5.0, 9.0), (9.0, 1.0)]
+    assert _straighten(pts, water) == [(1.0, 1.0), (9.0, 1.0)]
+    weir = STRtree([LineString([(5.0, 0.0), (5.0, 4.0)])])
+    assert _straighten(pts, water, weir) == pts

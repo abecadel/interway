@@ -1,8 +1,0 @@
-{
-  "type": "FeatureCollection",
-  "description": "Portora Lock (Erne, Enniskillen): OSM maps its two gates on the riverbank outline and the sluice dam across the river line, with no waterway line through the chamber, so the dam cut the Erne between Upper and Lower Lough Erne. The line runs from the river below the sluice through the gates to the river above. Source: https://www.waterwaysireland.org/places-to-go/erne-system (1 lock on the Erne system, Portora)",
-  "features": [
-    {"type": "Feature", "properties": {"name": "Portora Lock", "lock": true, "join_line": true},
-     "geometry": {"type": "LineString", "coordinates": [[-7.65757, 54.35586], [-7.65855, 54.35596], [-7.65878, 54.35607], [-7.65905, 54.35650], [-7.65935, 54.35711]]}}
-  ]
-}

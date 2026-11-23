@@ -323,7 +323,7 @@ def _mesh(body: Polygon | MultiPolygon, members: list[Lake], entries: list[tuple
                 (a, pa), (b, pb) = entries[i], entries[j]
                 if pa != pb and water.contains(LineString([pa, pb])):
                     add(a, b, pa, pb)
-    return prune_and_smooth(segs, {nid for nid, _ in entries}, water, bridge)
+    return prune_and_smooth(segs, {nid for nid, _ in entries}, water, bridge, weirs)
 
 
 BIG_LAKE_KM2 = 500.0
@@ -392,13 +392,15 @@ def mark_lake_access(segs: list[Segment], lakes: list[Lake]) -> int:
     return n
 
 
-def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[int] | None = None) -> list[Segment]:
+def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[int] | None = None,
+                     weirs: STRtree | None = None) -> list[Segment]:
     """Keep only mesh edges on shortest paths between entries, then straighten each chain.
 
     The full mesh is large (thousands of edges for a big lake) and zig-zags between triangle midpoints.
     Routes only ever run between entries, so the union of entry-to-entry shortest paths is all the
     router needs. Each chain between junctions becomes one segment whose points are reduced greedily to
-    the farthest point still in line of sight over water.
+    the farthest point still in line of sight over water, and not across a weir (the Oust beside Limur lock: the
+    mesh went round the weir, a straightened chain cut across it).
     """
     adj: dict[int, list[tuple[int, int]]] = defaultdict(list)
     for i, sg in enumerate(segs):
@@ -439,7 +441,7 @@ def prune_and_smooth(segs: list[Segment], entries: set[int], water, bridge: set[
                 node = segs[i].a if segs[i].b == node else segs[i].b
         keep |= tree
     kept = [segs[i] for i in sorted(keep)]
-    return _chains(kept, entries, water, "lake" if bridge is None else "bridge")
+    return _chains(kept, entries, water, "lake" if bridge is None else "bridge", weirs)
 
 
 def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[int]]:
@@ -472,7 +474,7 @@ def _target_pairs(targets: list[int], pos: dict[int, LonLat]) -> dict[int, set[i
     return wanted
 
 
-def _chains(segs: list[Segment], entries: set[int], water, kind: str = "lake") -> list[Segment]:
+def _chains(segs: list[Segment], entries: set[int], water, kind: str = "lake", weirs: STRtree | None = None) -> list[Segment]:
     """Merge runs of degree-2 mesh nodes into single straightened segments."""
     adj: dict[int, list[int]] = defaultdict(list)
     for i, sg in enumerate(segs):
@@ -494,7 +496,7 @@ def _chains(segs: list[Segment], entries: set[int], water, kind: str = "lake") -
             if node in stop:
                 break
             i = next(j for j in adj[node] if j != i)
-        out.append(Segment(a=start, b=node, coords=_straighten(pts, water), name=names[len(names) // 2], kind=kind))
+        out.append(Segment(a=start, b=node, coords=_straighten(pts, water, weirs), name=names[len(names) // 2], kind=kind))
 
     for n in stop:
         for i in adj[n]:
@@ -504,12 +506,16 @@ def _chains(segs: list[Segment], entries: set[int], water, kind: str = "lake") -
     return out
 
 
-def _straighten(pts: list[LonLat], water) -> list[LonLat]:
+def _straighten(pts: list[LonLat], water, weirs: STRtree | None = None) -> list[LonLat]:
+    def clear(a: LonLat, b: LonLat) -> bool:
+        line = LineString([a, b])
+        return water.contains(line) and not (weirs is not None and len(weirs.query(line, predicate="intersects")))
+
     out = [pts[0]]
     i = 0
     while i < len(pts) - 1:
         j = len(pts) - 1
-        while j > i + 1 and not water.contains(LineString([pts[i], pts[j]])):
+        while j > i + 1 and not clear(pts[i], pts[j]):
             j -= 1
         out.append(pts[j])
         i = j
