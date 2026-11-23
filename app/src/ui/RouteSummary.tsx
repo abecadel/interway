@@ -1,5 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import type { Itinerary } from '../routing/itinerary';
+import { routeDays } from './brief';
 import type { Route, VesselProfile } from '../routing/router';
 import { fmtDuration, fmtKm, fmtNm } from './format';
 import type { PoiType } from '../routing/service';
@@ -55,7 +56,7 @@ export function RouteSummary({ route, itinerary, profile, back, onStart, onSteps
         <div className="big">{fmtDuration(route.duration)}</div>
         <div className="muted">
           {fmtKm(route.distance)} ({fmtNm(route.distance)}) · at {profile.speedKmh} km/h
-          {route.duration > 8 * 3600 && ` · time underway, about ${Math.ceil(route.duration / (8 * 3600))} days of 8 h`}
+          {route.duration > 8 * 3600 && ` · time underway, about ${routeDays(route, itinerary.stops)} days of 8 h`}
         </div>
       </div>
       {stats.length > 0 && (

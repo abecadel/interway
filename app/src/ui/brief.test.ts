@@ -109,6 +109,16 @@ describe('route brief', () => {
     expect(still.stages).toHaveLength(1);
   });
 
+  it('folds a last hour into the day before, and a lock between two stretches of a canal into the canal', () => {
+    // 165 km at 10 km/h, days of 80 km: the last 5 km (half an hour) end day 2
+    const short = buildBrief({ route: { ...route, distance: 165_000, duration: 59_400, legs: [
+      { name: 'Kanal', distance: 60_000 }, { name: 'Kanal', distance: 40_000 }, { name: 'Schleuse X', distance: 200 }, { name: 'Kanal', distance: 64_800 }] },
+    itinerary: { counts: {}, stops: [stop(164_000, { type: 'marina', name: 'Hafen', vhf: '9' })] }, profile: defaultProfile, title: 't', link: 'l' });
+    expect(short.stages.map((s) => [s.toKm, s.km, s.endsAt])).toEqual([[80, 80, 'km 80'], [165, 85, 'destination']]);
+    expect(short.totals.days).toBe(2);
+    expect(short.legs).toEqual([{ name: 'Kanal', fromKm: 0, toKm: 165, km: 165 }]);
+  });
+
   it('never ends a day out at sea', () => {
     // 100 km river, then a 300 km sea passage, 10 km/h: days of 80 km
     const seaRoute: Route = { ...route, distance: 400_000, duration: 144_000, legs: [{ name: 'Rhône', distance: 100_000 }, { name: 'Open sea', distance: 300_000 }] };
@@ -116,7 +126,7 @@ describe('route brief', () => {
     // day 2 would end 60 km out: it ends at the last harbour before the passage instead
     expect(open.stages.map((s) => [s.toKm, s.endsAt])).toEqual([[80, 'km 80'], [95, 'Port Port-Saint-Louis'], [400, 'destination']]);
     expect(open.stages[2]).toMatchObject({ km: 305, atSea: true });
-    expect(open.totals.days).toBe(3);
+    expect(open.totals.days).toBe(4);  // the 31-hour passage takes two calendar days
     expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no marina or port within 12 km of the line, about 31 h non-stop');
     // a harbour out on the passage (an island) breaks it up; a passage ending before the destination is named so
     const island = buildBrief({ route: { ...seaRoute, legs: [...seaRoute.legs.slice(0, 1), { name: 'Open sea', distance: 200_000 }, { name: 'Port', distance: 100_000 }] },
@@ -140,7 +150,7 @@ describe('route brief', () => {
     expect(md).toContain('- River current: 0.5 m/s, 150 km with it, 0 km against it');
     expect(md).toContain('- Time underway: 20 h at 10 km/h, in 3 cruising day(s) of up to 8 h: moving 20 h, locks 0.3 h (20 min each), current -0.3 h');
     // a long trip also gives the non-stop time
-    expect(briefMarkdown({ ...b, totals: { ...b.totals, hours: 355 } })).toContain('- Time underway: 355 h (14 d 19 h non-stop) at');
+    expect(briefMarkdown({ ...b, totals: { ...b.totals, hours: 355 } })).toContain('- Time underway: 355 h at');
     expect(md).toContain('Draft 1 m (default, not entered), air draft 3 m (default, not entered), beam 3 m, length 9 m (default, not entered)');
     expect(md).toContain('- Towns on the way: Toruń, Grudziądz');
     expect(md).toContain('| 0–150 | Wisła | 150 km |');
@@ -167,7 +177,7 @@ describe('route brief', () => {
     ]);
     expect(b.countries).toEqual([{ cc: 'PL', name: 'Landland', fromKm: 10 }]);
     expect(b.services.fuel).toEqual({ count: 2, longestKm: 95, fromKm: 60, toKm: 155 });
-    expect(b.services.water).toEqual({ count: 0, longestKm: 200, fromKm: 0, toKm: 200 });
+    expect(b.services.water).toEqual({ count: 1, longestKm: 155, fromKm: 0, toKm: 155 });  // the port lists water
     expect(b.services.harbour).toEqual({ count: 2, longestKm: 85, fromKm: 70, toKm: 155 });
     expect(b.stages[0].harbour).toBe('VHF: channel 9; Phone: +48 1');
     expect(md).toContain('- [ ] Landland: licence');
@@ -268,9 +278,11 @@ describe('route brief', () => {
     expect(dated.stages.map((s) => s.date)).toEqual(['2027-08-01', '2027-08-02', '2027-08-03']);
     expect(dated.hazards).toContain('Kanal (A – B), reached around 2027-08-01: usually closed in August (summit pound short of water).');
     expect(briefMarkdown(dated)).toContain('| 1 (2027-08-01) | 0–70 |');
-    expect(md).toContain('- Authority: WSA (https://www.wsa.example)');
-    expect(md).toContain('- Sources (checked 2026-11-21): https://www.elwis.de/a, https://de.wikipedia.org/wiki/Kanal');
-    expect(briefMarkdown({ ...onKanal, waterways: [restricted] })).toContain('- Authority: Nobody\n- Notes: until 30 November');
+    // authority, notices and sources stay in the sheet and the JSON brief: the Markdown is pasted into chats
+    expect(md).toContain('- Checked 2026-11-21');
+    expect(md).not.toContain('WSA (https://www.wsa.example)');
+    expect(onKanal.waterways[0].sources).toContain('https://www.elwis.de/a');
+    expect(briefMarkdown({ ...onKanal, waterways: [restricted] })).toContain('- Notes: until 30 November');
     expect(briefMarkdown(b)).not.toContain('## Waterways');
   });
 });

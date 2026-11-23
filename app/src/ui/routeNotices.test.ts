@@ -47,11 +47,11 @@ describe('routeNotices', () => {
     expect(n).toHaveLength(1);
     expect(n[0].title).toBe('1 seasonal note for your dates');
     expect(n[0].items![0]).toMatch(/^Kanal \(A – B\), reached around 2026-08-01: usually closed/);
-    expect(n[0].detail).toMatch(/^All the waterways of this route are usually open in/);
+    expect(n[0].detail).toMatch(/^All the waterways of this route are usually open and free of ice in/);
     // low water only: still when the route's waterways are usually open
     const low = routeNotices(route, { ...defaultProfile, departure: '2026-06-01' }, []);
     expect(low[0]).toMatchObject({ title: '1 seasonal note for your dates' });
-    expect(low[0].detail).toMatch(/^All the waterways of this route are usually open in .*[^:]$/);
+    expect(low[0].detail).toMatch(/^All the waterways of this route are usually open and free of ice in .*[^:]$/);
   });
 
   it('gives no advice on when to go where no waterway is ever closed', () => {

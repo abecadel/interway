@@ -740,6 +740,8 @@ describe('App', () => {
       value: { registerTool: (t: SiteTool) => { tools[t.name] = t; } }, configurable: true,
     });
     const client = fakeClient();
+    vi.mocked(client.load).mockResolvedValueOnce({ manifest: { region: 'Test', version: 1, files: { graph: '', geom: '' }, names: [], attribution: '',
+      sha256: { graph: 'abcdef0123456789' } }, nodes: 1234, edges: 5678, pois: [{ type: 'lock' as const, name: 'Śluza', lat: 52, lon: 21 }] } as never);
     render(<App client={client} />);
     await flush();
     expect(Object.keys(tools)).toContain('plan_route');
@@ -793,6 +795,12 @@ describe('App', () => {
     expect(await tools.find_place.execute({ query: 'Sluza' })).toEqual([{ name: 'Śluza · lock', lon: 21, lat: 52 }]);
     vi.mocked(searchPlaces).mockResolvedValueOnce([{ label: 'Giżycko', position: [21.7, 54] }]);
     expect(await tools.find_place.execute({ query: 'Sluza' })).toEqual([{ name: 'Giżycko', lon: 21.7, lat: 54 }]);
+    // a place asked for by name titles the route, the brief carries the data version
+    vi.mocked(searchPlaces).mockResolvedValueOnce([{ label: 'Giżycko', position: [21.7, 54] }]);
+    let named: RouteBrief | undefined;
+    await act(async () => { named = await tools.plan_route.execute({ from: 'Giżycko', to: { lon: 3, lat: 4 } }) as RouteBrief; });
+    expect(named!.title.startsWith('Giżycko → ')).toBe(true);
+    expect([named!.data, out!.data, now.data]).toEqual(['abcdef012345', 'abcdef012345', 'abcdef012345']);
     delete (document as { modelContext?: unknown }).modelContext;
   });
 
