@@ -214,6 +214,9 @@ def test_the_pound_between_two_chamber_ways_is_not_a_chamber():
                        way(3, [4, 5], lock="yes", lock_name="River Lock")],
                  lock_nodes={1, 2, 4, 5})
     assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, False), (3, True)]
+    # a staircase: the second chamber is drawn on the plain way, between the first chamber's gate and its own
+    ex = Extract(ways=[way(1, [1, 2], lock="yes"), way(2, [2, 3, 4])], lock_nodes={1, 2, 3})
+    assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, True), (2, False)]
 
 
 def test_oneway_reversed_and_limits():

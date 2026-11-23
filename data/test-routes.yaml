@@ -1201,7 +1201,8 @@
   tolerance: 0.15
   countries: [CA]
   via: [Rideau]
-  min_locks: 20  # lock passages: a flight mapped as one lock way counts once (23 lock stations)
+  min_locks: 19  # lock passages: a flight mapped as one lock way counts once (23 lock stations; Hartwells, Smiths Falls,
+  # the Narrows, Chaffeys, Davis, Brewers and Washburn give no lock in the data yet)
   source: https://en.wikipedia.org/wiki/Rideau_Canal (202 km from Ottawa to Kingston, 45 locks at 23 lock stations)
 
 - name: Ottawa River, Montreal → Ottawa (Sainte-Anne, Carillon)

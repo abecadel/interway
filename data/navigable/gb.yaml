@@ -9,7 +9,6 @@ waterways:
   - Thames
   - River Medway
   - River Severn
-  - River Trent
   - River Great Ouse
   - River Nene
   - River Soar
@@ -115,6 +114,11 @@ waterways:
   # (https://canalrivertrust.org.uk/refresh/media/boatersguides/18_Kennet_Avon_Canal.pdf)
   - {name: River Avon, bbox: [-2.73, 51.37, -2.37, 51.52]}
   - {name: River Avon, bbox: [-2.37, 51.37, -2.35, 51.381]}
+  # River Trent: navigable from Derwent Mouth (the Trent & Mersey junction) to Trent Falls; above it the Trent is
+  # not navigable, except the short reach at Alrewas the Trent & Mersey Canal runs on
+  # (https://canalrivertrust.org.uk/canals-and-rivers/river-trent, https://en.wikipedia.org/wiki/Trent_and_Mersey_Canal)
+  - {name: River Trent, bbox: [-1.3195, 52.86, -0.68, 53.72]}
+  - {name: River Trent, bbox: [-1.748, 52.737, -1.743, 52.739]}
   # River Derwent (Yorkshire): Barmby Barrage to Sutton lock, with the Pocklington Canal junction
   # (https://waterways.org.uk/waterways/discover-the-waterways/river-derwent-yorkshire)
   - {name: River Derwent, bbox: [-0.99, 53.74, -0.90, 53.92]}
@@ -147,3 +151,5 @@ exclude: []
 # "River Don" would also take the weir loops beside them)
 # (https://canalrivertrust.org.uk/canals-and-rivers/sheffield-and-south-yorkshire-navigations)
 ways: [115481612, 115490801, 115490800, 115490796, 115490798]
+# the two upstream River Trent ways that touch the reach boxes: above Derwent Mouth, and the loop west of Alrewas
+exclude_ways: [4433545, 3390984]

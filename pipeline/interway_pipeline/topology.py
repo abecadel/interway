@@ -167,22 +167,24 @@ LOCK_GROUP_M = 400.0  # lock gates closer than this along a way belong to the sa
 
 
 def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract, chamber_gates: set[int]) -> list[tuple[int, int]]:
-    """Index ranges (first gate, last gate) of lock chambers along a way, from its lock gate nodes. The gates of
-    chambers mapped as their own lock=yes way are left out: the short pound between two such chambers (Office Lock
-    and River Lock, Leeds) is not a chamber."""
+    """Index ranges (first gate, last gate) of lock chambers along a way, from its lock gate nodes. A range whose
+    gates all belong to chambers mapped as their own lock=yes way is the short pound between two such chambers
+    (Office Lock and River Lock, Leeds), not a chamber; one with a gate of its own is the next chamber of a
+    staircase."""
     groups: list[list[int]] = []
     along = [0.0]
     for i in range(1, len(coords)):
         along.append(along[-1] + haversine(coords[i - 1], coords[i]))
     for i, n in enumerate(nodes):
-        if n not in ex.lock_nodes or n in chamber_gates:
+        if n not in ex.lock_nodes:
             continue
         if groups and along[i] - along[groups[-1][1]] <= LOCK_GROUP_M:
             groups[-1][1] = i
         else:
             groups.append([i, i])
     # a single gate at the very end of a way belongs to the chamber way it joins (tagged lock=yes)
-    return [(g0, g1) for g0, g1 in groups if not (g0 == g1 and g0 in (0, len(nodes) - 1))]
+    return [(g0, g1) for g0, g1 in groups if not (g0 == g1 and g0 in (0, len(nodes) - 1))
+            and not all(n in chamber_gates for n in nodes[g0:g1 + 1] if n in ex.lock_nodes)]
 
 
 def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[int]) -> list[Segment]:
