@@ -170,11 +170,16 @@ CHAMBER_MIN_M = 10.0  # chambers this long or longer close the water areas round
 
 
 def chamber_middles(segments: list[Segment]) -> list[LineString]:
-    """The middle half of each lock chamber: open water across it would pass the lock without locking, while
-    the mesh can still reach the chamber's two ends."""
+    """The middle half of each lock chamber on the line network: open water across it would pass the lock without
+    locking, while the mesh can still reach the chamber's two ends. A chamber with a free end (Guzianka between
+    two Masurian lakes) is reached through the water itself, so it closes nothing."""
+    degree: dict[int, int] = {}
+    for s in segments:
+        degree[s.a] = degree.get(s.a, 0) + 1
+        degree[s.b] = degree.get(s.b, 0) + 1
     out = []
     for s in segments:
-        if s.lock and s.length >= CHAMBER_MIN_M:
+        if s.lock and s.length >= CHAMBER_MIN_M and degree[s.a] > 1 and degree[s.b] > 1:
             line = LineString(s.coords)
             out.append(shapely.ops.substring(line, 0.25, 0.75, normalized=True))
     return out
