@@ -54,7 +54,11 @@ describe('waterway sheets', () => {
     expect(seasonWarnings(route, { ...defaultProfile, departure: 'next summer' }, idx)).toEqual([]); // not a date
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, idx))
       .toEqual(['Kanal (A – B), reached around 2027-07-31: usually closed in July (summit pound short of water).',
+        'No way round was found: this route still uses 1 waterway (Kanal (A – B)) usually closed when you reach it. Go in another month, or confirm with the authority that they will be open.',
         'All the waterways of this route are usually open and free of ice in Feb, Mar, Apr, May, Jun, Nov, Dec: a trip then avoids these closures.']);
+    const two = aliasIndex([kanal, { ...kanal, id: 'k2', name: 'Low canal', aliases: ['Low'] }]);
+    expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, two))
+      .toContain('No way round was found: this route still uses 2 waterways (Low canal, Kanal (A – B)) usually closed when you reach them. Go in another month, or confirm with the authority that they will be open.');
     const always = aliasIndex([{ ...kanal, months: { ...kanal.months!, closed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] } }]);
     expect(seasonWarnings(route, { ...defaultProfile, departure: '2027-07-31' }, always).at(-1))
       .toBe('Some waterway of this route is usually closed in every month: compare the alternatives.');
