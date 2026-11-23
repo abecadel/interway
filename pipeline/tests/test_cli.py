@@ -407,3 +407,19 @@ def test_meshed_lakes_keeps_only_lakes_with_a_mesh():
     assert cli.meshed_lakes([meshed, bare, channel], segs) == [meshed.polygon]
     assert cli.meshed_lakes([], segs) == []
     assert cli.meshed_lakes([meshed], []) == []
+
+
+def test_lock_chambers_table_sets_the_count_of_a_staircase(tmp_path):
+    from interway_pipeline.topology import lock_chambers
+    table = tmp_path / "chambers.yaml"
+    table.write_text("- area: [15.0, 58.0, 16.0, 59.0]\n  chambers:\n    Carl Johans slussar: 7\n", encoding="utf-8")
+    ways = [NavWay(1, [1, 2], [(15.5, 58.5), (15.51, 58.5)], {"lock": "yes", "lock_name": "Carl Johans slussar"}),
+            NavWay(2, [3, 4], [(10.0, 58.5), (10.01, 58.5)], {"lock": "yes", "lock_name": "Carl Johans slussar"}),  # elsewhere
+            NavWay(3, [5, 6], [(15.6, 58.5), (15.61, 58.5)], {"lock": "yes", "name": "Carl Johans slussar", "lock_ref": "1"}),
+            NavWay(4, [7, 8], [(15.7, 58.5), (15.71, 58.5)], {"name": "Carl Johans slussar"})]  # not a lock
+    ex = Extract(ways=ways)
+    assert cli.apply_lock_chambers(ex, table) == 1
+    assert [lock_chambers(w.tags) for w in ways] == [7, 1, 1, 1]
+    assert cli.apply_lock_chambers(ex, None) == 0 and cli.apply_lock_chambers(ex, tmp_path / "none.yaml") == 0
+    (tmp_path / "empty.yaml").write_text("", encoding="utf-8")
+    assert cli.apply_lock_chambers(ex, tmp_path / "empty.yaml") == 0

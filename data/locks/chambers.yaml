@@ -1,0 +1,24 @@
+# Lock stations mapped in OSM as one lock way but made of several chambers, where the way carries no lock_ref.
+# Each entry: the area it applies in (west, south, east, north) and the lock names (lock_name or name) with their
+# number of chambers. The pipeline splits such a way into that many locks.
+#
+# Göta kanal: 58 locks (https://sv.wikipedia.org/wiki/G%C3%B6ta_kanal, https://www.gotakanal.se/sv/se-gora/titta-pa-slussning).
+# Riksberg "tre slussar", Borenshult "fem slussar", Carl Johans slussar "sju slussar"; the stations marked
+# "dubbelsluss" / "double lock" there have two chambers (https://en.wikipedia.org/wiki/G%C3%B6ta_Canal).
+- area: [13.9, 58.4, 16.5, 58.9]
+  chambers:
+    Sjötorp 2-3: 2
+    Sjötorp 4-5: 2
+    Sjötorp 7-8: 2
+    Godhögen: 2
+    Riksberg: 3
+    Hajstorp Nedre: 2
+    Hajstorp Övre: 2
+    Borenshult: 5
+    Heda: 2
+    Brunnby sluss: 2
+    Karl Ludvig Eugéns slussar: 2
+    Oscars slussar: 2
+    Carl Johans slussar: 7
+    Carlsborg övre: 2
+    Carlsborg nedre: 2
