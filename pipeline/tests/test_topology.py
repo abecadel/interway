@@ -239,6 +239,24 @@ def test_a_long_lock_way_continuing_a_chamber_is_its_approach():
     assert sorted(s.osm_way for s in segs if s.lock) == [1, 3, 4, 5, 6, 8, 9, 10, 11, 12]
 
 
+def test_a_placed_gate_lets_a_dam_pass_on_its_own_way_only():
+    m = metres_to_deg(1)
+    # Portora: gates beside the Erne line are placed on it, next to the sluice dam drawn across the next piece of it
+    river = NavWay(1, [1, 2], [(0.0, 0.0), (290 * m, 0.0)], {"kind": "river"})
+    on = NavWay(3, [2, 5], [(290 * m, 0.0), (600 * m, 0.0)], {"kind": "river"})
+    ex = Extract(ways=[river, on], lock_nodes={10, 11}, gate_points={10: (250 * m, 15 * m), 11: (280 * m, -15 * m)},
+                 dam_lines=[(LineString([(300 * m, -50 * m), (300 * m, 50 * m)]), "Portora", frozenset())])
+    assert len(set(components(split_ways(ex)).values())) == 1
+    # Motala: a gate placed on the canal does not open the dam on the river 100 m beside it
+    canal = NavWay(2, [3, 4], [(0.0, 100 * m), (600 * m, 100 * m)], {"kind": "canal"})
+    river = NavWay(1, [1, 2], [(0.0, 0.0), (600 * m, 0.0)], {"kind": "river"})
+    ex = Extract(ways=[river, canal], lock_nodes={10}, gate_points={10: (300 * m, 110 * m)},
+                 dam_lines=[(LineString([(300 * m, -50 * m), (300 * m, 50 * m)]), "Dam", frozenset())])
+    segs = split_ways(ex)
+    assert ex.placed_gates == {10}
+    assert len({c for s, c in components(segs).items() if s in {1, 2}}) == 2
+
+
 def test_a_flight_drawn_as_one_lock_way_counts_its_chambers():
     refs = ["46, 47,48,49", "1-5", "21–29", "", "13", "1-100"]
     assert [topology.lock_chambers({"lock_ref": r}) for r in refs] == [4, 5, 9, 1, 1, 1]

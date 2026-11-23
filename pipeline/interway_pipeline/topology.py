@@ -62,6 +62,14 @@ def add_crossings(ex: Extract) -> int:
 
     added = 0
     dam_at: dict[int, LonLat] = {}
+    # the ways each way touches: a placed gate opens the dams on its own way and those joined to it
+    by_node: dict[int, set[int]] = defaultdict(set)
+    for w in ex.ways:
+        for n in w.nodes:
+            by_node[n].add(w.id)
+    joined = {w.id: set().union(*(by_node[n] for n in w.nodes)) for w in ex.ways}
+    placed_on = {n: w.id for w in ex.ways for n in w.nodes if n in ex.placed_gates}
+    placed_at = {n: c for w in ex.ways for n, c in zip(w.nodes, w.coords, strict=True) if n in ex.placed_gates}
     for w in ex.ways:
         way_line = LineString(w.coords)
         in_chamber = w.tags.get("lock") == "yes"
@@ -106,6 +114,10 @@ def add_crossings(ex: Extract) -> int:
                 added += 1
             w.nodes, w.coords = nodes, coords
         pos = dict(zip(nodes, coords, strict=True))
+        # a gate placed on this way from beside it is a lock for the dams on this way only (Portora's sluice dam on
+        # the Erne line), not for a dam on the river beside a canal it was placed on (Motala ström by Göta kanal)
+        placed = [p for g, p in placed_at.items() if placed_on[g] in joined[w.id]]
+        dams = {n for n in dams if not any(haversine(pos[n], q) <= DAM_NEAR_LOCK_M for q in placed)}
         dam_at.update((n, pos[n]) for n in dams)
     ex.barrier_nodes |= _dams_away_from_locks(ex, dam_at)
     log.info("added %d lock gate and dam crossings to waterways", added)
@@ -130,7 +142,8 @@ def _dams_away_from_locks(ex: Extract, dam_at: dict[int, LonLat]) -> set[int]:
     if not dam_at:
         return set()
     locks: list = [LineString(w.coords) for w in ex.ways if w.tags.get("lock") == "yes"]
-    locks += [Point(c) for w in ex.ways for n, c in zip(w.nodes, w.coords, strict=True) if n in ex.lock_nodes]
+    locks += [Point(c) for w in ex.ways for n, c in zip(w.nodes, w.coords, strict=True)
+              if n in ex.lock_nodes and n not in ex.placed_gates]
     locks += [poly for _, poly in ex.lock_areas]
     if not locks:
         return set(dam_at)
@@ -157,12 +170,14 @@ def add_off_line_gates(ex: Extract) -> int:
     """Lock gates mapped beside the waterway, on the bank or the lock area's outline (Portora on the Erne), are put
     on the nearest way as lock nodes, so the chamber between them is a lock. Gates near a lock already on the line
     belong to it and are left alone. Returns how many were placed."""
+    ex.placed_gates = set()  # set here: extracts cached before the field existed have none
     on_line = {n for w in ex.ways for n in w.nodes}
     loose = [(n, p) for n, p in ex.gate_points.items() if n not in on_line]
     if not loose:
         return 0
     locks: list = [LineString(w.coords) for w in ex.ways if w.tags.get("lock") == "yes"]
-    locks += [Point(c) for w in ex.ways for n, c in zip(w.nodes, w.coords, strict=True) if n in ex.lock_nodes]
+    locks += [Point(c) for w in ex.ways for n, c in zip(w.nodes, w.coords, strict=True)
+              if n in ex.lock_nodes and n not in ex.placed_gates]
     lock_tree = STRtree(locks) if locks else None
     lines = [LineString(w.coords) for w in ex.ways]
     tree = STRtree(lines)
@@ -191,6 +206,7 @@ def add_off_line_gates(ex: Extract) -> int:
             i = max(1, min(len(coords) - 1, next(j for j, v in enumerate(along) if v >= d)))
             nodes.insert(i, gate)  # the gate's own id: its name and lock tags stay with it
             coords.insert(i, pt)
+            ex.placed_gates.add(gate)
             placed += 1
         w.nodes, w.coords = nodes, coords
     log.info("placed %d lock gates mapped beside the waterway on it", placed)

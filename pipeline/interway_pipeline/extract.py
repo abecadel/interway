@@ -75,6 +75,8 @@ class Extract:
     # positions of lock gate nodes: a gate mapped beside the way (on the bank outline) is placed on it, see
     # topology.add_off_line_gates
     gate_points: dict[int, LonLat] = field(default_factory=dict)
+    # the gates of gate_points placed on a way by topology.add_off_line_gates (filled there, not by read_osm)
+    placed_gates: set[int] = field(default_factory=set)
     dam_lines: list[tuple[LineString, str, frozenset[int]]] = field(default_factory=list)
     timestamp: str = ""
 
