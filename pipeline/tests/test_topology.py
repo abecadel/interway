@@ -121,6 +121,17 @@ def test_a_dam_running_past_a_lock_way_or_area_does_not_cut():
     assert len(ex.barrier_nodes) == 1
 
 
+def test_a_gate_drawn_just_past_a_chamber_is_that_chambers_gate():
+    # Crinan Canal lock 3: the lock way ends a few metres short of its gate lines, which cross or touch the canal
+    # ways either side
+    after = NavWay(3, [4, 41, 5, 6], [(4 * D, 0.0), (4.01 * D, 0.0), (5 * D, 0.0), (6 * D, 0.0)], {"kind": "canal"})
+    ex = Extract(ways=[way(1, [1, 2, 3]), way(2, [3, 4], lock="yes"), after],
+                 gate_lines=[cross(298), cross(401, nodes=(41,)), cross(500, nodes=(5,))])
+    segs = split_ways(ex)
+    assert sum(s.lock for s in segs) == 2  # the chamber, and the gate at node 5, 100 m on: a lock of its own
+    assert 41 not in ex.lock_nodes and 5 in ex.lock_nodes
+
+
 def test_crossings_ignore_lines_that_only_run_along_the_way():
     along = (LineString([(D, 0.0), (2 * D, 0.0)]), "", frozenset())
     ex = Extract(ways=[way(1, [1, 2, 3])], dam_lines=[along])
@@ -194,6 +205,18 @@ def test_lock_chamber_between_two_gates_and_separate_locks():
         (True, "Kanał", 0),                # gate 5 alone, 3.7 km further: a second lock
         (False, "Kanał", 4000),
     ]
+
+
+def test_the_pound_between_two_chamber_ways_is_not_a_chamber():
+    # Office Lock and River Lock (Leeds): each chamber is its own lock=yes way with gates at its ends; the 200 m
+    # pound between them carries one gate of each at its ends and must not become a third lock
+    ex = Extract(ways=[way(1, [1, 2], lock="yes", lock_name="Office Lock"), way(2, [2, 3, 4]),
+                       way(3, [4, 5], lock="yes", lock_name="River Lock")],
+                 lock_nodes={1, 2, 4, 5})
+    assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, False), (3, True)]
+    # a staircase: the second chamber is drawn on the plain way, between the first chamber's gate and its own
+    ex = Extract(ways=[way(1, [1, 2], lock="yes"), way(2, [2, 3, 4])], lock_nodes={1, 2, 3})
+    assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, True), (2, False)]
 
 
 def test_oneway_reversed_and_limits():
