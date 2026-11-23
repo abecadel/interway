@@ -227,6 +227,7 @@ def split_ways(ex: Extract) -> list[Segment]:
     return segments
 
 
+CHAMBER_PIECE_M = 50.0  # lock=yes pieces shorter than this (links at the gates) are not chambers
 APPROACH_MIN_M = 250.0  # a lock=yes way this long, and twice the chamber it continues, is the lock's approach
 
 
@@ -257,7 +258,12 @@ def lock_approaches(ways: list[NavWay]) -> set[int]:
         if len(chain) < 2:
             continue
         length = {k: line_length(locks[k].coords) for k in chain}
-        shortest = min(length.values())
+        # the chamber to compare with: short pieces at the gates are no chamber (Iron Gates I's 310 m chambers
+        # with 20 m links between them are a staircase, not approaches)
+        chambers = [v for v in length.values() if v >= CHAMBER_PIECE_M]
+        if not chambers:
+            continue
+        shortest = min(chambers)
         out |= {locks[k].id for k in chain if length[k] > max(APPROACH_MIN_M, 2 * shortest)}
     return out
 

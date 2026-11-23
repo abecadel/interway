@@ -227,10 +227,13 @@ def test_a_long_lock_way_continuing_a_chamber_is_its_approach():
     # 55 m chambers; a lone 5 km lock=yes way (a lock cut drawn as the lock) stays a lock
     ways = [lock_way(1, 1, 2, 0, 230), lock_way(2, 2, 3, 230, 1030),
             lock_way(3, 10, 11, 5000, 5055), lock_way(4, 11, 12, 5055, 5110), lock_way(5, 12, 13, 5110, 5165),
-            lock_way(6, 20, 21, 9000, 14000), way(7, [3, 30])]
+            lock_way(6, 20, 21, 9000, 14000), way(7, [3, 30]),
+            # Iron Gates I: two 310 m chambers joined by a 20 m piece; two 20 m pieces alone
+            lock_way(8, 40, 41, 20000, 20310), lock_way(9, 41, 42, 20310, 20330), lock_way(10, 42, 43, 20330, 20640),
+            lock_way(11, 50, 51, 30000, 30020), lock_way(12, 51, 52, 30020, 30040)]
     assert topology.lock_approaches(ways) == {2}
     segs = split_ways(Extract(ways=ways))
-    assert sorted(s.osm_way for s in segs if s.lock) == [1, 3, 4, 5, 6]
+    assert sorted(s.osm_way for s in segs if s.lock) == [1, 3, 4, 5, 6, 8, 9, 10, 11, 12]
 
 
 def test_a_flight_drawn_as_one_lock_way_counts_its_chambers():
