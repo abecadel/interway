@@ -77,6 +77,7 @@ def merge_extracts(parts: list[Extract]) -> Extract:
         ex.lock_nodes |= p.lock_nodes
         ex.barrier_nodes |= p.barrier_nodes
         ex.lock_names.update(p.lock_names)
+        ex.gate_points.update(p.gate_points)
         ex.weirs += p.weirs  # duplicates from overlapping extracts block the same edges
         for lines, mine in ((ex.gate_lines, p.gate_lines), (ex.dam_lines, p.dam_lines)):
             known = {g[0].wkb for g in lines}
@@ -198,7 +199,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 16  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 17  # bump when read_osm output changes, invalidates --cache
 
 
 WIDE_KINDS = {"place", "fishing", "tackle"}

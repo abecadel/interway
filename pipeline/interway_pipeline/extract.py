@@ -26,7 +26,7 @@ INFO_KINDS = {"marina", "port", "fuel", "tackle", "wreck"}  # services whose OSM
 
 TAG_KEYS = (
     "name", "waterway", "lock", "lock_name", "oneway", "maxdraft", "draft", "maxheight", "maxwidth",
-    "maxlength", "CEMT", "seamark:type",
+    "maxlength", "CEMT", "seamark:type", "lock_ref",
 )
 
 
@@ -72,6 +72,9 @@ class Extract:
     # lock gates drawn as lines across the waterway (the Welland and Rideau canals) and dams drawn as lines:
     # (line, name, node ids); see topology.add_crossings
     gate_lines: list[tuple[LineString, str, frozenset[int]]] = field(default_factory=list)
+    # positions of lock gate nodes: a gate mapped beside the way (on the bank outline) is placed on it, see
+    # topology.add_off_line_gates
+    gate_points: dict[int, LonLat] = field(default_factory=dict)
     dam_lines: list[tuple[LineString, str, frozenset[int]]] = field(default_factory=list)
     timestamp: str = ""
 
@@ -131,6 +134,8 @@ def read_osm(path: Path, allow: Allowlist, min_lake_km2: float = MIN_LAKE_KM2) -
             ww = tags.get("waterway")
             if _is_gate(tags) or tags.get("lock") == "yes":
                 ex.lock_nodes.add(o.id)
+                if _is_gate(tags) and o.location.valid():
+                    ex.gate_points[o.id] = (o.lon, o.lat)
                 if "name" in tags:
                     ex.lock_names[o.id] = tags.get("name")
             elif ww in ("weir", "dam", "waterfall") and tags.get("lock") != "yes" and o.id not in allow.passable_nodes:

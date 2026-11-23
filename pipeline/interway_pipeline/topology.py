@@ -144,8 +144,71 @@ def _metres_to(p: LonLat, geom) -> float:
     return haversine(p, (q.x, q.y))
 
 
+OFF_LINE_GATE_M = 40.0  # a gate node this close to a way, and on none, is a gate of that way (on its bank outline)
+OFF_LINE_LOCK_NEAR_M = 50.0  # ... unless a lock already mapped on the line is this close: it is that lock's gate
+
+
+def add_off_line_gates(ex: Extract) -> int:
+    """Lock gates mapped beside the waterway, on the bank or the lock area's outline (Portora on the Erne), are put
+    on the nearest way as lock nodes, so the chamber between them is a lock. Gates near a lock already on the line
+    belong to it and are left alone. Returns how many were placed."""
+    on_line = {n for w in ex.ways for n in w.nodes}
+    loose = [(n, p) for n, p in ex.gate_points.items() if n not in on_line]
+    if not loose:
+        return 0
+    locks: list = [LineString(w.coords) for w in ex.ways if w.tags.get("lock") == "yes"]
+    locks += [Point(c) for w in ex.ways for n, c in zip(w.nodes, w.coords, strict=True) if n in ex.lock_nodes]
+    lock_tree = STRtree(locks) if locks else None
+    lines = [LineString(w.coords) for w in ex.ways]
+    tree = STRtree(lines)
+    inserts: dict[int, list[tuple[float, LonLat, int]]] = defaultdict(list)
+    for n, p in loose:
+        pt = Point(p)
+        if lock_tree is not None:
+            near = lock_tree.query(pt, predicate="dwithin", distance=2 * metres_to_deg(OFF_LINE_LOCK_NEAR_M))
+            if any(_metres_to(p, locks[int(i)]) <= OFF_LINE_LOCK_NEAR_M for i in near):
+                continue
+        cands = tree.query(pt, predicate="dwithin", distance=2 * metres_to_deg(OFF_LINE_GATE_M))
+        best = min(((_metres_to(p, lines[int(i)]), int(i)) for i in cands), default=None)
+        if best is None or best[0] > OFF_LINE_GATE_M:
+            continue
+        line = lines[best[1]]
+        q = line.interpolate(line.project(pt))
+        inserts[best[1]].append((line.project(pt), (q.x, q.y), n))
+    placed = 0
+    for k, items in inserts.items():
+        w = ex.ways[k]
+        along = [0.0]
+        for c0, c1 in itertools.pairwise(w.coords):
+            along.append(along[-1] + Point(c0).distance(Point(c1)))
+        nodes, coords = list(w.nodes), list(w.coords)
+        for d, pt, gate in sorted(items, reverse=True):
+            i = max(1, min(len(coords) - 1, next(j for j, v in enumerate(along) if v >= d)))
+            nodes.insert(i, gate)  # the gate's own id: its name and lock tags stay with it
+            coords.insert(i, pt)
+            placed += 1
+        w.nodes, w.coords = nodes, coords
+    log.info("placed %d lock gates mapped beside the waterway on it", placed)
+    return placed
+
+
+def lock_chambers(tags: dict) -> int:
+    """How many chambers a lock way is: its lock_ref lists them ("46, 47,48,49", "1-5", "21–29") on a staircase
+    or flight drawn as one way (the Rideau's Kingston Mills, Göta kanal's Berg); 1 otherwise."""
+    ref = tags.get("lock_ref") or ""
+    n = 0
+    for part in re.split(r"[;,/]", ref):
+        m = re.fullmatch(r"\s*(\d+)\s*[-–]\s*(\d+)\s*", part)
+        if m and 0 < int(m[2]) - int(m[1]) < 40:
+            n += int(m[2]) - int(m[1]) + 1
+        elif part.strip():
+            n += 1
+    return max(n, 1)
+
+
 def split_ways(ex: Extract) -> list[Segment]:
     add_crossings(ex)
+    add_off_line_gates(ex)
     # a dam or weir mapped on a lock way is the dam the lock passes (the Oswego Canal's "Lock Number 5" dam node
     # on the Minetto lock): boats go through, so it does not cut the waterway
     ex.barrier_nodes -= {n for w in ex.ways if w.tags.get("lock") == "yes" for n in w.nodes}
@@ -249,6 +312,7 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[i
 
     out: list[Segment] = []
     no_motor, max_speed = access_of(tags)
+    chambers_n = lock_chambers(tags)
 
     def emit(a: int, b: int, pts: list[LonLat], lock: bool, seg_name: str) -> None:
         # A weir/dam blocks passage: disconnect the segment at that node.
@@ -259,9 +323,13 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[i
             b = new_node_id()
             barrier_ends.add(b)
         if a != b or len(pts) > 2:
-            out.append(Segment(a=a, b=b, coords=pts, name=seg_name, kind=kind, lock=lock, oneway=oneway,
-                               flows=(kind == "river"), limits=_limits(tags), osm_way=w.id, no_motor=no_motor,
-                               max_speed=max_speed))
+            # a flight drawn as one lock way is as many locks as its chambers: split it into that many
+            parts = _split_line(pts, chambers_n) if lock and base_lock and chambers_n > 1 else [pts]
+            ends = [a] + [new_node_id() for _ in parts[1:]] + [b]
+            for k, part in enumerate(parts):
+                out.append(Segment(a=ends[k], b=ends[k + 1], coords=part, name=seg_name, kind=kind, lock=lock,
+                                   oneway=oneway, flows=(kind == "river"), limits=_limits(tags), osm_way=w.id,
+                                   no_motor=no_motor, max_speed=max_speed))
 
     start, start_node = 0, nodes[0]
     for i in range(1, len(nodes)):
@@ -283,6 +351,18 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[i
             continue
         emit(start_node, n, coords[start:i + 1], is_chamber, seg_name)
         start, start_node = i, n
+    return out
+
+
+def _split_line(pts: list[LonLat], k: int) -> list[list[LonLat]]:
+    """`pts` cut into k pieces of equal length."""
+    line = LineString(pts)
+    marks = [line.interpolate(j / k, normalized=True) for j in range(k + 1)]
+    out = []
+    for j in range(k):
+        piece = shapely.ops.substring(line, j / k, (j + 1) / k, normalized=True)
+        cs = list(piece.coords) if piece.geom_type == "LineString" else [(marks[j].x, marks[j].y)] * 2
+        out.append([(x, y) for x, y in cs])
     return out
 
 
