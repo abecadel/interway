@@ -115,7 +115,9 @@ registers tools an agent can call directly:
 
 - `plan_route({from, to, via?, vessel?})`: `from`/`to`/`via` are place names ("Port Hercule, Monaco") or
   `{lon, lat}`; `vessel` takes `draft`, `airDraft`, `beam`, `length`, `speedKmh`, `currentMs`, `lockPenaltyMin`,
-  `avoidLocks`, `avoidSea`, `coastal`, `departure` (YYYY-MM-DD). Returns the brief (as JSON).
+  `avoidLocks`, `avoidSea`, `coastal`, `departure` (YYYY-MM-DD). Returns the brief (as JSON). Each call stands
+  alone: fields not given take the defaults, not the values of an earlier call, so variants can be compared on one
+  page.
 - `get_route_brief()`, `list_stops({types?})`: the route on the page; after `set_vessel` or a waypoint change
   they wait while the route is recomputed (up to a few minutes on the first visit).
 - `set_vessel({...})` (same fields as `vessel`), `add_waypoint({point, index?})`, `remove_waypoint({index})`,

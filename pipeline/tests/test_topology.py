@@ -84,9 +84,12 @@ def test_an_emergency_gate_does_not_name_the_lock():
     ex = Extract(ways=[way(1, [1, 2, 3, 4, 5])], gate_lines=[cross(250, "Emergancy Lift Gate"), cross(350)])
     locks = [s for s in split_ways(ex) if s.lock]
     assert len(locks) == 1 and locks[0].name == ""
+    # a guard gate stands open (the Erie Canal's): neither a gate line nor a gate node named so is a lock
     ex = Extract(ways=[way(1, [1, 2, 3, 4])], gate_lines=[cross(200, "Guard gate", nodes=(2,))])
     split_ways(ex)
-    assert ex.lock_nodes == {2} and ex.lock_names == {}
+    assert ex.lock_nodes == set() and ex.lock_names == {}
+    ex = Extract(ways=[way(1, [1, 2, 3, 4])], lock_nodes={2, 3}, lock_names={2: "Medina Guard Gate", 3: "Lock E30"})
+    assert [s.name for s in split_ways(ex) if s.lock] == ["Lock E30"]
 
 
 def test_a_dam_across_the_river_cuts_it():
@@ -292,7 +295,8 @@ def test_connectors_need_both_ends_on_water():
         way(14, [2, 15, 21], kind="river"),                         # passes a weir
         NavWay(15, [1, 99], [(1 * D, 0.0), (1 * D, 40 * D)], {"kind": "river"}),  # 4 km: too long
         way(16, [21, 2], kind="canal", lock="yes", maxdraft="1.2"),
-    ], barrier_nodes={15})
+        NavWay(17, [2, 22], [(2 * D, 0.0), (22 * D, 0.5 * D)], {"kind": "river"}),  # crosses a weir line (Limur)
+    ], barrier_nodes={15}, weirs=[LineString([(10 * D, 0.15 * D), (10 * D, 0.5 * D)])])
     segs = net((1, 2))
     assert add_connectors(segs, ex) == 2
     c, c2 = segs[1:]

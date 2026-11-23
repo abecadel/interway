@@ -70,6 +70,8 @@ def add_crossings(ex: Extract) -> int:
         dams: set[int] = set()
         for i in tree.query(way_line, predicate="intersects"):
             g, name, nodes, gate = lines[i]
+            if gate and _OPEN_GATE.search(name):
+                continue  # a guard gate stands open: boats pass it without locking
             shared = nodes.intersection(w.nodes)
             for n in shared:
                 if not gate:
@@ -113,6 +115,9 @@ def add_crossings(ex: Extract) -> int:
 # an emergency or guard gate drawn across a lock is not the lock: its name ("Emergancy Lift Gate" at Lockport, IL)
 # must not name the chamber
 _NOT_A_LOCK_NAME = re.compile(r"emerg[ae]ncy|guard gate|spillway|flood ?gate", re.IGNORECASE)
+# gates that stand open and are passed without locking: the Erie Canal's guard gates (16 between Waterford and
+# Tonawanda), mapped as gate nodes or lines named so
+_OPEN_GATE = re.compile(r"guard ?gate", re.IGNORECASE)
 
 
 def _names_lock(name: str) -> bool:
@@ -207,6 +212,7 @@ def lock_chambers(tags: dict) -> int:
 
 
 def split_ways(ex: Extract) -> list[Segment]:
+    ex.lock_nodes -= {n for n, name in ex.lock_names.items() if _OPEN_GATE.search(name)}
     add_crossings(ex)
     add_off_line_gates(ex)
     # a dam or weir mapped on a lock way is the dam the lock passes (the Oswego Canal's "Lock Number 5" dam node
@@ -372,6 +378,9 @@ def _split_line(pts: list[LonLat], k: int) -> list[list[LonLat]]:
     return out
 
 
+CONNECTOR_WEIR_M = 10.0  # a connector channel passing this close to a weir is closed by it
+
+
 def add_connectors(segments: list[Segment], ex: Extract, max_length_m: float = 3000.0, tol_m: float = 60.0) -> int:
     """Short unverified rivers/canals between lakes, or from a lake to the navigable network.
 
@@ -395,9 +404,13 @@ def add_connectors(segments: list[Segment], ex: Extract, max_length_m: float = 3
     def at_network(c: LonLat) -> bool:
         return node_tree is not None and len(node_tree.query(Point(c), predicate="dwithin", distance=tol)) > 0
 
+    # a weir drawn as a line across the channel (Limur on the Oust, beside the lock) closes it as a weir node does
+    weirs = STRtree([wr.buffer(metres_to_deg(CONNECTOR_WEIR_M)) for wr in ex.weirs]) if ex.weirs else None
     added = 0
     for w in ex.connectors:
         if len(w.coords) < 2 or line_length(w.coords) > max_length_m:
+            continue
+        if weirs is not None and len(weirs.query(LineString(w.coords), predicate="intersects")):
             continue
         first, last = w.coords[0], w.coords[-1]
         ends_ok = (at_lake(first) and (at_lake(last) or at_network(last))) or (at_lake(last) and at_network(first))

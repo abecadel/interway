@@ -112,7 +112,8 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
       description:
         'Plan a boat route on the inland waterways and coastal seas of Europe and North America. Shows it on the page and returns a brief: distance, time, '
         + 'locks, open-sea distance, towns, legs, daily stages, stops (locks, bridges, marinas, fuel...), vessel checks, '
-        + 'hazards and a shareable link.',
+        + 'hazards and a shareable link. Each call stands alone: vessel fields not given take the defaults, not the values '
+        + 'of an earlier call (use set_vessel to change the route on the page).',
       inputSchema: {
         type: 'object',
         properties: { from: point, to: point, via: { type: 'array', items: point, description: 'waypoints in order' }, vessel },

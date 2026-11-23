@@ -54,6 +54,16 @@ describe('routeNotices', () => {
     expect(low[0].detail).toMatch(/^All the waterways of this route are usually open and free of ice in .*[^:]$/);
   });
 
+  it('with a date, a closure as of the sheet is to check, not final; a sea leg avoidSea could not avoid says so', () => {
+    const dated = { ...defaultProfile, departure: '2026-04-01' };
+    expect(routeNotices(route, dated, [empty])[0]).toMatchObject({ level: 'warn', title: 'Bare canal is closed now: check before you go',
+      detail: 'Bare canal: closed as of 2026-11-21, see About the waterways.' });
+    expect(routeNotices(route, dated, [empty, { ...empty, name: 'Shut' }])[0]).toMatchObject({ title: '2 waterways are closed now: check before you go',
+      detail: 'Bare canal, Shut' });
+    const sea = routeNotices({ ...route, sea: 3704 }, { ...defaultProfile, avoidSea: true }, []);
+    expect(sea[0].detail).toMatch(/^No inland way avoids it\. Check the weather/);
+  });
+
   it('gives no advice on when to go where no waterway is ever closed', () => {
     const n = routeNotices({ ...route, legs: [{ name: 'Rzeka', distance: 1300 }] }, { ...defaultProfile, departure: '2026-06-01' }, []);
     expect(n[0]).toMatchObject({ title: '1 seasonal note for your dates', detail: undefined });

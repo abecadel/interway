@@ -3,7 +3,7 @@ import type { Itinerary } from '../routing/itinerary';
 import { defaultProfile, type Route } from '../routing/router';
 import type { Poi } from '../routing/service';
 import { restricted } from '../test/waterwayFixture';
-import { briefMarkdown, buildBrief, EDIT_PARAMETERS } from './brief';
+import { briefMarkdown, buildBrief, daysText, EDIT_PARAMETERS } from './brief';
 import { VESSEL_PARAMS } from './urlState';
 
 vi.mock('../data/waterways.json', async () => ({
@@ -132,6 +132,8 @@ describe('route brief', () => {
     expect(open.stages.map((s) => [s.toKm, s.endsAt])).toEqual([[80, 'km 80'], [95, 'Port Port-Saint-Louis'], [400, 'destination']]);
     expect(open.stages[2]).toMatchObject({ km: 305, atSea: true });
     expect(open.totals.days).toBe(4);  // the 31-hour passage takes two calendar days
+    expect(daysText(seaRoute, [stop(95_000, { type: 'port', name: 'Port-Saint-Louis' })])).toBe('about 4 days: daily stages of up to 8 h, and 31 h non-stop at sea');
+    expect(daysText({ ...route, distance: 165_000, duration: 59_400 }, [])).toBe('about 2 days of 8 h');
     expect(open.hazards.find((h) => h.startsWith('km 95–400'))).toContain('164.7 NM of open sea with no marina or port within 12 km of the line, about 31 h non-stop');
     // a harbour out on the passage (an island) breaks it up; a passage ending before the destination is named so
     const island = buildBrief({ route: { ...seaRoute, legs: [...seaRoute.legs.slice(0, 1), { name: 'Open sea', distance: 200_000 }, { name: 'Port', distance: 100_000 }] },
@@ -288,6 +290,11 @@ describe('route brief', () => {
     expect(md).not.toContain('WSA (https://www.wsa.example)');
     expect(onKanal.waterways[0].sources).toContain('https://www.elwis.de/a');
     expect(briefMarkdown({ ...onKanal, waterways: [restricted] })).toContain('- Notes: until 30 November');
+    // a restricted waterway's depth notes are not hidden behind "fits" (the Odra below Malczyce)
+    const shallow = { ...restricted, depth: { usualM: null, maxDraftM: null, notes: 'Transit depth 0.35 m at km 305. Book ahead' } };
+    expect(briefMarkdown({ ...onKanal, waterways: [shallow] }))
+      .toContain('- ⚠ Not in these limits: Low canal is restricted (checked 2026-11-21): Transit depth 0.35 m at km 305.');
+    expect(briefMarkdown({ ...onKanal, waterways: [{ ...shallow, depth: { ...shallow.depth, notes: 'no stop' } }] })).toContain('is restricted (checked 2026-11-21): no stop');
     expect(briefMarkdown(b)).not.toContain('## Waterways');
   });
 });
