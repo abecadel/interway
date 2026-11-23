@@ -44,7 +44,8 @@
    19.4,
    45.6
   ],
-  "refine": true
+  "refine": true,
+  "grid_m": 3000.0
  },
  {
   "name": "refine: Ionian Islands, Gulf of Patras and Corinth",
