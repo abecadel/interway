@@ -800,6 +800,8 @@ describe('App', () => {
     let named: RouteBrief | undefined;
     await act(async () => { named = await tools.plan_route.execute({ from: 'Giżycko', to: { lon: 3, lat: 4 } }) as RouteBrief; });
     expect(named!.title.startsWith('Giżycko → ')).toBe(true);
+    // each plan stands alone: the draft set on the page earlier (1.6 m) does not carry into it
+    expect(named!.vessel.draft).toBe(defaultProfile.draft);
     expect([named!.data, out!.data, now.data]).toEqual(['abcdef012345', 'abcdef012345', 'abcdef012345']);
     delete (document as { modelContext?: unknown }).modelContext;
   });

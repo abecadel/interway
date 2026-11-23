@@ -208,7 +208,15 @@ export function stageDays(stagesOf: BriefStage[]): number {
 }
 
 /** The day count of a route split into stages of `hoursPerDay`, ending at harbours where it can. */
-export const routeDays = (route: Route, stops: Stop[], hoursPerDay = 8) => stageDays(stages(route, stops, hoursPerDay));
+/** The day count in words: "about 5 days of 8 h", or with non-stop sea passages (Marseille → Piraeus) "about 8 days:
+ *  daily stages of up to 8 h, and 172 h non-stop at sea" — a passage takes the days it lasts, not days of 8 h. */
+export function daysText(route: Route, stops: Stop[], hoursPerDay = 8): string {
+  const split = stages(route, stops, hoursPerDay);
+  const nonStop = split.filter((st) => st.atSea && st.hours > hoursPerDay).reduce((h, st) => h + st.hours, 0);
+  const days = stageDays(split);
+  return nonStop > 0 ? `about ${days} days: daily stages of up to ${hoursPerDay} h, and ${Math.round(nonStop)} h non-stop at sea`
+    : `about ${days} days of ${hoursPerDay} h`;
+}
 
 /** "52.2500°N 21.0300°E → …" reads better as "Warsaw → …": coordinate labels become the nearest town (≤ 10 km). */
 function nameEnds(title: string, route: Route, stops: Stop[]): string {
@@ -401,6 +409,7 @@ function tightest(route: Route, profile: VesselProfile): RouteBrief['limits'] {
 }
 
 const cell = (s: string) => s.replace(/\|/g, '/');
+const firstSentence = (s: string) => (s.match(/^.*?[.!?](\s|$)/)?.[0] ?? s).trim();
 
 function fishingMarkdown(fs: RouteBrief['fishing'], where: { inland: boolean; sea: boolean }): string[] {
   if (!fs.length) return [];
@@ -493,6 +502,10 @@ export function briefMarkdown(b: RouteBrief): string {
       '', 'Tightest mapped limits on the route (where OpenStreetMap records them; many structures have none):',
       ...b.limits.map((l) => `- ${LIMIT_TEXT[l.kind]} ${l.limitM} m at km ${l.km} (${l.name}): ${l.fits ? 'fits' : `⚠ yours is ${v[l.kind]} m`}`),
     ] : []),
+    // "fits" covers mapped limits only: a waterway the sheets call restricted or closed may be shallower now (the Odra
+    // below Malczyce: 0–0.35 m in the bulletin)
+    ...b.waterways.filter((w) => (w.navigable === 'restricted' || w.navigable === 'closed') && w.depth.notes)
+      .map((w) => `- ⚠ Not in these limits: ${w.name} is ${w.navigable} (checked ${w.checked}): ${firstSentence(w.depth.notes!)}`),
     ...(t.maxSeaDraftM !== null ? [`- Shallowest charted sea: about ${t.maxSeaDraftM} m draft`] : []),
     '',
     '## Hazards and checks',

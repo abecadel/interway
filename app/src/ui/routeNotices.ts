@@ -1,6 +1,6 @@
 // Everything a route asks the skipper to check, as notices ranked by how much they matter: one card shows the
 // most serious and the rest fold under it, instead of a wall of separate warnings.
-import type { Route, VesselProfile } from '../routing/router';
+import { dateAfter, type Route, type VesselProfile } from '../routing/router';
 import { type IssueKind, seasonWarnings, type WaterwayInfo, waterwayIssues } from '../routing/waterways';
 import { fmtKm, fmtNm } from './format';
 
@@ -35,6 +35,13 @@ export function routeNotices(route: Route, profile: VesselProfile, waterways: Wa
     const of = issues.filter((i) => i.kind === kind);
     if (!of.length) continue;
     const names = of.map((i) => i.waterway.name);
+    // with a departure date, a closure as of the sheet's date is for checking, not final: the season notes say
+    // whether the waterway is usually open when the boat gets there
+    if (kind === 'closed' && dateAfter(profile.departure, 0) !== null) {
+      out.push({ level: 'warn', title: `${names.length === 1 ? `${names[0]} is` : `${names.length} waterways are`} closed now: check before you go`,
+        detail: names.length === 1 ? of[0].text : names.join(', '), items: of.length > 1 ? of.map((i) => i.text) : undefined });
+      continue;
+    }
     out.push({ level: ISSUES[kind].level, title: ISSUES[kind].title(names, profile), detail: of.length === 1 ? of[0].text : names.join(', '), items: of.length > 1 ? of.map((i) => i.text) : undefined });
   }
   const season = seasonWarnings(route, profile);
@@ -54,7 +61,7 @@ export function routeNotices(route: Route, profile: VesselProfile, waterways: Wa
   if (route.sea > 0) {
     out.push({
       level: 'info', title: `${fmtNm(route.sea)} on open sea`,
-      detail: ['Check the weather, tides, traffic schemes and official charts before going.',
+      detail: [profile.avoidSea && 'No inland way avoids it.', 'Check the weather, tides, traffic schemes and official charts before going.',
         route.shallowest && `The shallowest stretch allows about ${route.shallowest.draft} m draft (km ${(route.shallowest.at / 1000).toFixed(0)}).`,
         route.seaNoDepth > 0 && `Depth unknown for ${fmtNm(route.seaNoDepth)}: no charted depth in the planner there.`].filter(Boolean).join(' '),
     });

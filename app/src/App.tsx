@@ -288,7 +288,9 @@ export default function App({ client }: { client: RoutingApi }) {
       `${location.origin}${location.pathname}?${writeUrlState('', { from, to, via }, p, e)}`;
     const bridge: PlannerBridge = {
       planRoute: async ({ from, to, via, vessel, names }) => {
-        const prof = { ...latest.current.profile, ...vessel };
+        // each plan stands alone: the vessel given, else the defaults, never what an earlier call or the page set
+        // (an agent comparing variants got coastal=1 from the previous call)
+        const prof = { ...defaultProfile, ...vessel };
         const r = await client.route(from, to, prof, via);
         // the names the agent gave, else the nearest town: the same title as the page's own brief
         const point = (p: LngLat, name: string | null | undefined): Point => (name ? { position: p, label: name } : latest.current.named(toPoint(p))!);
@@ -297,7 +299,7 @@ export default function App({ client }: { client: RoutingApi }) {
         setEnd(b);
         setVia(via.map(toPoint));
         setProfile(prof);
-        const e = new Set([...latest.current.entered, ...Object.keys(vessel)]);
+        const e = new Set(Object.keys(vessel));
         give(Object.keys(vessel));
         const it = buildItinerary(r, latest.current.pois);
         return buildBrief({ route: r, itinerary: it, profile: prof, title: `${a.label} → ${b.label}`, link: pageLink(from, to, via, prof, e), entered: e,
