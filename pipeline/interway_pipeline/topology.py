@@ -156,11 +156,47 @@ def split_ways(ex: Extract) -> list[Segment]:
         usage[w.nodes[-1]] += 1
     # a gate on a lock=yes way is that chamber's gate: on the way beyond it, it starts no chamber of its own
     chamber_gates = {n for w in ex.ways if w.tags.get("lock") == "yes" for n in w.nodes} & ex.lock_nodes
+    approaches = lock_approaches(ex.ways)
     segments: list[Segment] = []
     for w in ex.ways:
-        segments.extend(_split_way(w, usage, ex, chamber_gates))
+        segments.extend(_split_way(w, usage, ex, chamber_gates, w.id in approaches))
     log.info("split %d ways into %d segments", len(ex.ways), len(segments))
     return segments
+
+
+APPROACH_MIN_M = 250.0  # a lock=yes way this long, and twice the chamber it continues, is the lock's approach
+
+
+def lock_approaches(ways: list[NavWay]) -> set[int]:
+    """The lock=yes ways that are a lock's approach, not a chamber: in a chain of lock=yes ways joined end to end,
+    those longer than APPROACH_MIN_M and twice the shortest of the chain (Lock 14 on the Mississippi: a 230 m
+    chamber, then 800 m of lower approach tagged lock=yes). The chambers of a staircase are alike and all count."""
+    locks = [w for w in ways if w.tags.get("lock") == "yes"]
+    at: dict[int, list[int]] = defaultdict(list)
+    for i, w in enumerate(locks):
+        for n in {w.nodes[0], w.nodes[-1]}:
+            at[n].append(i)
+    seen: set[int] = set()
+    out: set[int] = set()
+    for i in range(len(locks)):
+        if i in seen:
+            continue
+        chain, todo = [], [i]
+        seen.add(i)
+        while todo:
+            k = todo.pop()
+            chain.append(k)
+            for n in {locks[k].nodes[0], locks[k].nodes[-1]}:
+                for j in at[n]:
+                    if j not in seen:
+                        seen.add(j)
+                        todo.append(j)
+        if len(chain) < 2:
+            continue
+        length = {k: line_length(locks[k].coords) for k in chain}
+        shortest = min(length.values())
+        out |= {locks[k].id for k in chain if length[k] > max(APPROACH_MIN_M, 2 * shortest)}
+    return out
 
 
 LOCK_GROUP_M = 400.0  # lock gates closer than this along a way belong to the same chamber
@@ -187,7 +223,7 @@ def _lock_groups(nodes: list[int], coords: list[LonLat], ex: Extract, chamber_ga
             and not all(n in chamber_gates for n in nodes[g0:g1 + 1] if n in ex.lock_nodes)]
 
 
-def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[int]) -> list[Segment]:
+def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[int], approach: bool = False) -> list[Segment]:
     """Cut a way at junctions, weirs and lock chambers.
 
     A lock is its own short segment: the stretch between the first and last gate of a chamber, or a
@@ -199,7 +235,7 @@ def _split_way(w: NavWay, usage: Counter[int], ex: Extract, chamber_gates: set[i
     if tags.get("oneway") == "-1":
         nodes, coords = nodes[::-1], coords[::-1]
     kind = tags["kind"]
-    base_lock = tags.get("lock") == "yes"
+    base_lock = tags.get("lock") == "yes" and not approach
     # lock_name names a lock chamber only: on a long lock cut or approach it would name kilometres of canal after
     # the lock ("Écluse n°10 d'Ars-sur-Moselle", 11 km)
     name = tags.get("name") or ""

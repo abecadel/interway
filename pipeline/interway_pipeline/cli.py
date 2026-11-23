@@ -107,51 +107,59 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
     property "join_line", left loose for snap_dead_ends_to_lines to join to the middle of a line).
 
     A LineString with the property "weir" is instead a weir OSM does not map, added to `weirs`: no lake or
-    river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder).
+    river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder), and the waterway lines
+    that cross it are cut there (Sylvan Slough beside Lock and Dam 15).
     """
     if patch_dir is None or not patch_dir.exists():
         return 0
+    features = [(f, feat) for f in sorted(patch_dir.glob("*.geojson"))
+                for feat in json.loads(f.read_text(encoding="utf-8")).get("features", [])
+                if (feat.get("geometry") or {}).get("type") == "LineString"]
+    dams = [LineString([tuple(c[:2]) for c in feat["geometry"]["coordinates"]]) for _, feat in features
+            if (feat.get("properties") or {}).get("weir")]
+    if dams:
+        dam_tree = STRtree(dams)
+        kept = [s for s in segments if not len(dam_tree.query(LineString(s.coords), predicate="intersects"))]
+        if len(kept) < len(segments):
+            log.info("cut %d waterway segments at weirs from patches", len(segments) - len(kept))
+        segments[:] = kept
     pos = node_positions(segments)
     ids = list(pos)
     if not ids:
         return 0
     tree = STRtree([Point(pos[n]) for n in ids])
     added = 0
-    for f in sorted(patch_dir.glob("*.geojson")):
-        for feat in json.loads(f.read_text(encoding="utf-8")).get("features", []):
-            geom = feat.get("geometry") or {}
-            if geom.get("type") != "LineString":
-                continue
-            coords = [tuple(c[:2]) for c in geom["coordinates"]]
-            props = feat.get("properties") or {}
-            if props.get("weir"):
-                if weirs is not None:
-                    weirs.append(LineString(coords))
-                continue
-            ends = []
-            for c in (coords[0], coords[-1]):
-                i = tree.nearest(Point(c))
-                ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
-            # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
-            # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
-            loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
-            for k in loose:
-                ends[k] = new_node_id()
-                pos[ends[k]] = coords[-k]
-            if None in ends:
-                log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
-                continue
-            if ends[0] == ends[1]:  # a barrier splits the line into two nodes at one spot: the far end takes the other
-                near = tree.query(Point(coords[-1]), predicate="dwithin", distance=metres_to_deg(max_snap_m))
-                others = [ids[int(i)] for i in near if ids[int(i)] != ends[0]]
-                ends[1] = min(others, key=lambda n: haversine(coords[-1], pos[n]), default=ends[0])
-            if ends[0] == ends[1]:
-                log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
-                continue
-            coords[0], coords[-1] = pos[ends[0]], pos[ends[1]]
-            segments.append(Segment(a=ends[0], b=ends[1], coords=coords, name=props.get("name", ""),
-                                    kind="patch", lock=bool(props.get("lock"))))
-            added += 1
+    for f, feat in features:
+        coords = [tuple(c[:2]) for c in feat["geometry"]["coordinates"]]
+        props = feat.get("properties") or {}
+        if props.get("weir"):
+            if weirs is not None:
+                weirs.append(LineString(coords))
+            continue
+        ends = []
+        for c in (coords[0], coords[-1]):
+            i = tree.nearest(Point(c))
+            ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
+        # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
+        # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
+        loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
+        for k in loose:
+            ends[k] = new_node_id()
+            pos[ends[k]] = coords[-k]
+        if None in ends:
+            log.warning("patch %s in %s: end not within %.0f m of the network", feat.get("properties"), f.name, max_snap_m)
+            continue
+        if ends[0] == ends[1]:  # a barrier splits the line into two nodes at one spot: the far end takes the other
+            near = tree.query(Point(coords[-1]), predicate="dwithin", distance=metres_to_deg(max_snap_m))
+            others = [ids[int(i)] for i in near if ids[int(i)] != ends[0]]
+            ends[1] = min(others, key=lambda n: haversine(coords[-1], pos[n]), default=ends[0])
+        if ends[0] == ends[1]:
+            log.warning("patch %s in %s: both ends snap to the same node", feat.get("properties"), f.name)
+            continue
+        coords[0], coords[-1] = pos[ends[0]], pos[ends[1]]
+        segments.append(Segment(a=ends[0], b=ends[1], coords=coords, name=props.get("name", ""),
+                                kind="patch", lock=bool(props.get("lock"))))
+        added += 1
     log.info("applied %d manual patches", added)
     return added
 
@@ -274,7 +282,9 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     snap_dead_ends_to_lines(segments)
     # marinas and harbours (passenger quays: the Telemark Canal boats at Dalen) are places to steer to on a lake
     harbours = ex.marinas + [(name, p) for kind, name, p, _ in ex.services if kind == "port"]
-    lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs)
+    # a lock gate drawn as a line closes the water area like a weir: open water never crosses it (Lock 15's
+    # approach area otherwise joined the top of the lock straight to the foot of the chamber)
+    lake_segs = connect_lakes(segments, ex.lakes, harbours, ex.weirs + [g for g, _, _ in ex.gate_lines])
     mark_lake_access(lake_segs, ex.lakes)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes

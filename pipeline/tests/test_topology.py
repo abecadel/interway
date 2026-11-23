@@ -219,6 +219,20 @@ def test_the_pound_between_two_chamber_ways_is_not_a_chamber():
     assert [(s.osm_way, s.lock) for s in split_ways(ex)] == [(1, True), (2, True), (2, False)]
 
 
+def test_a_long_lock_way_continuing_a_chamber_is_its_approach():
+    m = 1 / 111_320  # one metre in degrees
+    def lock_way(wid, a, b, x0, x1, **tags):
+        return NavWay(wid, [a, b], [(x0 * m, 0.0), (x1 * m, 0.0)], {"kind": "canal", "lock": "yes", **tags})
+    # Lock 14 (Mississippi): a 230 m chamber, then 800 m of lower approach tagged lock=yes; a staircase of three
+    # 55 m chambers; a lone 5 km lock=yes way (a lock cut drawn as the lock) stays a lock
+    ways = [lock_way(1, 1, 2, 0, 230), lock_way(2, 2, 3, 230, 1030),
+            lock_way(3, 10, 11, 5000, 5055), lock_way(4, 11, 12, 5055, 5110), lock_way(5, 12, 13, 5110, 5165),
+            lock_way(6, 20, 21, 9000, 14000), way(7, [3, 30])]
+    assert topology.lock_approaches(ways) == {2}
+    segs = split_ways(Extract(ways=ways))
+    assert sorted(s.osm_way for s in segs if s.lock) == [1, 3, 4, 5, 6]
+
+
 def test_oneway_reversed_and_limits():
     ex = Extract(ways=[way(1, [1, 2], oneway="-1", draft="1.5", maxheight="4", maxwidth="9,5 m", maxlength="80"),
                        way(2, [2, 3], oneway="yes", maxdraft="2", draft="1")])

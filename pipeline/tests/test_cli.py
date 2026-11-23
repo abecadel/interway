@@ -83,6 +83,16 @@ def test_patches_missing(tmp_path):
     assert apply_patches([], tmp_path) == 0  # nothing to snap to
 
 
+def test_a_weir_patch_cuts_the_waterway_lines_across_it(tmp_path):
+    # Sylvan Slough: a dam OSM does not map closes a side channel; the line through it is cut, others stay
+    segs = [line(1, 2, 0, 0.01), line(3, 4, 0.02, 0.03)]
+    (tmp_path / "w.geojson").write_text(json.dumps({"features": [feature([[0.005, -0.001], [0.005, 0.001]], weir=True)]}),
+                                         encoding="utf-8")
+    weirs: list = []
+    assert apply_patches(segs, tmp_path, weirs=weirs) == 0
+    assert [(s.a, s.b) for s in segs] == [(3, 4)] and len(weirs) == 1
+
+
 def test_patches_snap_to_network(tmp_path, caplog):
     m = metres_to_deg(1)
     segs = [line(1, 2, 0, 0.01), line(3, 4, 0.02, 0.03)]
@@ -228,6 +238,17 @@ def test_module_entry_point(inputs, tmp_path, monkeypatch, capsys):
                                       "--patches", str(tmp_path / "none")])
     runpy.run_module("interway_pipeline.cli", run_name="__main__")
     assert json.loads(capsys.readouterr().out)["edges"] > 0
+
+
+def test_lock_gate_lines_close_water_areas_like_weirs(tmp_path, monkeypatch):
+    # Lock 15 (Rock Island): open water must not cross a gate and join the top of a lock to the foot of the chamber
+    nodes = {1: (0.0, 0.0), 2: (0.01, 0.0), 3: (0.005, -0.0005), 4: (0.005, 0.0005)}
+    ways = [(1, [1, 2], {"waterway": "canal", "CEMT": "IV"}), (2, [3, 4], {"waterway": "lock_gate"})]
+    osm = write_osm(tmp_path / "gate.osm", nodes, ways)
+    seen: list = []
+    monkeypatch.setattr(cli, "connect_lakes", lambda segs, lakes, harbours, weirs: seen.extend(weirs) or [])
+    cli.build([osm], tmp_path / "out", region="t", allowlist=None, patches=None, min_component_km=0.5)
+    assert [list(w.coords) for w in seen] == [[(0.005, -0.0005), (0.005, 0.0005)]]
 
 
 def test_lift_gap_is_joined_even_inside_a_canal_area(tmp_path):
