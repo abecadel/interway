@@ -3,7 +3,7 @@
 import { SEA_HARBOUR_M, seaSpans, type Itinerary, type Stop } from '../routing/itinerary';
 import { dateAfter, defaultProfile, type Route, type VesselProfile } from '../routing/router';
 import type { PoiType } from '../routing/service';
-import { fmtDuration, POI_LABEL, POI_PLURAL, poiDetail } from './format';
+import { POI_LABEL, POI_PLURAL, poiDetail } from './format';
 import { portFacts } from './portFacts';
 import { noticesFor } from './notices';
 import { type CountryRules, routeCountries, ruleFacts, rulesFor } from '../routing/rules';
@@ -37,6 +37,27 @@ export interface BriefStage {
   /** what is known about the harbour the stage ends at (VHF, phone, services, ...) */
   harbour?: string;
 }
+
+/** a leg shorter than this between two legs of one waterway is folded into it */
+const SHORT_LEG_M = 1000;
+
+/** Towns along the route spaced at least this far apart: a city's districts (GeoNames lists dozens for Wrocław)
+ *  are the city once */
+const TOWN_SPACING_KM = 8;
+
+/** The town stops kept: named, and TOWN_SPACING_KM past the last one kept. */
+function spacedTowns(stops: BriefStop[]): Set<BriefStop> {
+  const out = new Set<BriefStop>();
+  let last = -Infinity;
+  for (const s of stops) {
+    if (s.type !== 'place' || !s.name || s.km - last < TOWN_SPACING_KM) continue;
+    out.add(s);
+    last = s.km;
+  }
+  return out;
+}
+
+const townsOnTheWay = (stops: BriefStop[]) => [...spacedTowns(stops)].map((s) => s.name);
 
 /** The longest stretch without a stop of some kind (fuel, water, ...), counting from the start and to the end. */
 export interface ServiceGap {
@@ -123,6 +144,8 @@ function problem(s: Stop, v: VesselProfile): string | undefined {
 
 /** a marina or port whose OSM services list diesel or petrol is a fuel stop too (many have no separate fuel node) */
 const sellsFuel = (p: Stop['poi']) => LAYOVER.includes(p.type) && /\b(diesel|petrol)\b/.test(p.services ?? '');
+/** likewise water: OSM maps few separate water points, but many marinas list drinking water (not waste water) */
+const hasWater = (p: Stop['poi']) => LAYOVER.includes(p.type) && /(?<!waste )\bwater\b/.test(p.services ?? '');
 
 function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] {
   const speed = route.duration > 0 ? route.distance / route.duration : 0; // m/s, locks included
@@ -167,8 +190,25 @@ function stages(route: Route, stops: Stop[], hoursPerDay: number): BriefStage[] 
       ...(atSea && { atSea }), ...(facts && { harbour: facts }) });
     from = to;
   }
+  // a last hour (1.2 km to the marina) is not a day of its own: it ends the day before
+  const [prev, last] = out.slice(-2);
+  if (out.length >= 2 && last.hours < 1) {
+    // the day now ends at the destination, not at the harbour it stopped at
+    const { harbour: _, ...day } = prev;
+    out.splice(-2, 2, { ...day, toKm: last.toKm, km: Math.round((prev.km + last.km) * 10) / 10, hours: Math.round((prev.hours + last.hours) * 10) / 10,
+      endsAt: last.endsAt });
+  }
   return out;
 }
+
+/** Calendar days of the daily stages (a non-stop sea passage takes as many days as it lasts): the day count the
+ *  brief and the route summary both give. */
+export function stageDays(stagesOf: BriefStage[]): number {
+  return stagesOf.reduce((d, st) => d + (st.atSea && st.hours > 24 ? Math.ceil(st.hours / 24) : 1), 0);
+}
+
+/** The day count of a route split into stages of `hoursPerDay`, ending at harbours where it can. */
+export const routeDays = (route: Route, stops: Stop[], hoursPerDay = 8) => stageDays(stages(route, stops, hoursPerDay));
 
 /** "52.2500°N 21.0300°E → …" reads better as "Warsaw → …": coordinate labels become the nearest town (≤ 10 km). */
 function nameEnds(title: string, route: Route, stops: Stop[]): string {
@@ -200,12 +240,23 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   /** YYYY-MM-DD: closed fishing seasons are checked for today when no departure date is set */
   today?: string;
 }): RouteBrief {
+  // one leg per waterway: the router splits a canal at every lock, the brief lists it once (from–to)
   let at = 0;
-  const legs = route.legs.map((l) => {
-    const leg = { name: l.name || 'unnamed waterway', fromKm: km(at), toKm: km(at + l.distance), km: km(l.distance) };
+  const spans: { name: string; from: number; to: number }[] = [];
+  for (const l of route.legs) {
+    const name = l.name || 'unnamed waterway';
+    const last = spans.at(-1);
+    if (last && last.name === name) last.to = at + l.distance;
+    else spans.push({ name, from: at, to: at + l.distance });
     at += l.distance;
-    return leg;
-  });
+  }
+  // a lock chamber (a leg named after the lock) or a short unnamed link between two stretches of one waterway
+  // is part of it: the locks are listed as stops
+  for (let i = spans.length - 2; i >= 1; i--) {
+    const [a, x, c] = [spans[i - 1], spans[i], spans[i + 1]];
+    if (a.name === c.name && x.to - x.from < SHORT_LEG_M) spans.splice(i - 1, 3, { name: a.name, from: a.from, to: c.to });
+  }
+  const legs = spans.map((l) => ({ name: l.name, fromKm: km(l.from), toKm: km(l.to), km: km(l.to - l.from) }));
   const stops: BriefStop[] = itinerary.stops.map((s) => ({
     km: km(s.at),
     type: s.poi.type,
@@ -241,12 +292,12 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
   const waterways = waterwaysOn(legPoints(route));
   hazards.push(...waterwayWarnings(waterways, profile.draft, profile.airDraft), ...seasonWarnings(route, profile));
   // each stage is a day, but a non-stop sea passage takes as many calendar days as it lasts
-  let days = 0;
-  const legStages = stages(route, itinerary.stops, hoursPerDay).map((st) => {
-    const date = profile.departure ? dateAfter(profile.departure, days * hoursPerDay * 3600) : null;
-    days += st.atSea && st.hours > 24 ? Math.ceil(st.hours / 24) : 1;
+  const split = stages(route, itinerary.stops, hoursPerDay);
+  const legStages = split.map((st, i) => {
+    const date = profile.departure ? dateAfter(profile.departure, stageDays(split.slice(0, i)) * hoursPerDay * 3600) : null;
     return date ? { ...st, date } : st;
   });
+  const days = stageDays(split);
   for (const st of legStages.filter((x) => x.atSea && x.hours > hoursPerDay)) {
     hazards.push(`km ${st.fromKm}–${st.toKm}: ${nm(1000 * st.km)} NM of open sea with no marina or port within ${SEA_HARBOUR_M / 1000} km of the line, about ${Math.round(st.hours)} h`
       + ' non-stop. Plan a coastal route with ports of refuge, or a passage with crew and a weather window.');
@@ -298,13 +349,13 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     totals: {
       km: km(route.distance), nm: nm(route.distance), hours: Math.round(hours * 10) / 10,
       movingHours: Math.round(movingH * 10) / 10, lockHours: Math.round(lockH * 10) / 10, currentHours: Math.round((hours - movingH - lockH) * 10) / 10,
-      days: legStages.length, locks: route.locks, seaNm: nm(route.sea), seaNoDepthNm: nm(route.seaNoDepth), unverifiedKm: km(route.unverified),
+      days, locks: route.locks, seaNm: nm(route.sea), seaNoDepthNm: nm(route.seaNoDepth), unverifiedKm: km(route.unverified),
       tooShallowKm: km(route.tooShallow),
       downstreamKm: km(route.downstream), upstreamKm: km(route.upstream),
       maxSeaDraftM: route.shallowest?.draft ?? null,
     },
     legs,
-    places: stops.filter((s) => s.type === 'place').map((s) => s.name),
+    places: townsOnTheWay(stops),
     stops,
     stages: legStages,
     hazards,
@@ -325,7 +376,7 @@ export function buildBrief({ route, itinerary, profile, title, link, hoursPerDay
     checklist,
     limits: tightest(route, profile),
     countries: countries.map((cc) => ({ cc, name: countryRules.find((r) => r.cc === cc)?.name ?? cc, fromKm: fromKm.get(cc)! })),
-    services: { fuel: gap(['fuel'], sellsFuel), water: gap(['water']), harbour: gap(LAYOVER), tackle: gap(['tackle']) },
+    services: { fuel: gap(['fuel'], sellsFuel), water: gap(['water'], hasWater), harbour: gap(LAYOVER), tackle: gap(['tackle']) },
   };
 }
 
@@ -365,7 +416,7 @@ function fishingMarkdown(fs: RouteBrief['fishing'], where: { inland: boolean; se
     f.closed.length ? `- Closed ${f.days[0] === f.days[1] ? `on ${f.days[0]}` : `during ${f.days[0]} – ${f.days[1]}`}: ${f.closed.map((c) => `${c.species} (${c.ranges})`).join('; ')}`
       : `- No closed season of the listed species ${f.days[0] === f.days[1] ? `on ${f.days[0]}` : `during ${f.days[0]} – ${f.days[1]}`}`,
     ...(f.rules.buy ? [`- Buy online: ${f.rules.buy}`] : []),
-    `- Sources (checked ${f.rules.checked}): ${f.rules.sources.join(', ')}`,
+    `- Checked ${f.rules.checked} (sources in the JSON brief)`,
   ]), ''];
 }
 
@@ -376,7 +427,7 @@ function rulesMarkdown(rs: CountryRules[], where: { inland: boolean; sea: boolea
     `### ${r.name}`,
     ...ruleFacts(r, where).map(([k, v]) => `- ${k}: ${v}`),
     `- Authority: ${r.authority.name}${r.authority.url ? ` (${r.authority.url})` : ''}`,
-    `- Sources (checked ${r.checked}): ${r.sources.join(', ')}`,
+    `- Checked ${r.checked} (sources in the JSON brief)`,
   ]), ''];
 }
 
@@ -396,12 +447,10 @@ function waterwaysMarkdown(ws: WaterwayInfo[], base: string): string[] {
     ...line('Tides', tideText(w)),
     ...line('Rules', rulesText(w)),
     `- Sheet: ${base}?waterway=${encodeURIComponent(w.id)}`,
-    ...line('Best season', w.season.best),
     ...line('Closures', w.season.closures),
-    ...line('Authority', `${w.authority.name}${w.authority.url ? ` (${w.authority.url})` : ''}`),
-    ...line('Notices', w.notices),
-    ...line('Notes', w.notes),
-    `- Sources (checked ${w.checked}): ${w.sources.join(', ')}`,
+    ...line('Notes', (w.navigable === 'closed' || w.navigable === 'restricted') && w.notes),  // why it is closed or restricted, and until when
+    // the authority, notices, notes and sources are in the sheet and the JSON brief: a long trip passes dozens
+    `- Checked ${w.checked}`,
   ]), ''];
 }
 const DIMENSIONS = ['draft', 'airDraft', 'beam', 'length'] as const;
@@ -416,6 +465,7 @@ function serviceLines(sv: RouteBrief['services']): string[] {
 }
 
 export function briefMarkdown(b: RouteBrief): string {
+  const towns = spacedTowns(b.stops);
   const t = b.totals, v = b.vessel;
   // a dimension left at the planner's default says so: it was not entered for this boat
   const dim = (k: (typeof DIMENSIONS)[number]) => `${v[k]} m${v.defaults.includes(k) ? ' (default, not entered)' : ''}`;
@@ -426,7 +476,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '',
     '## Summary',
     `- Distance: ${t.km} km (${t.nm} NM)`,
-    `- Time underway: ${Math.round(t.hours)} h${t.hours >= 24 ? ` (${fmtDuration(t.hours * 3600)} non-stop)` : ''} at ${v.speedKmh} km/h, in ${t.days} cruising day(s) of up to 8 h: moving ${t.movingHours} h,`
+    `- Time underway: ${Math.round(t.hours)} h at ${v.speedKmh} km/h, in ${t.days} cruising day(s) of up to 8 h: moving ${t.movingHours} h,`
       + ` locks ${t.lockHours} h (${v.lockPenaltyMin} min each), current ${t.currentHours >= 0 ? '+' : ''}${t.currentHours} h`,
     `- Locks: ${t.locks}`,
     ...(t.downstreamKm + t.upstreamKm > 0 ? [`- River current: ${v.currentMs} m/s, ${t.downstreamKm} km with it, ${t.upstreamKm} km against it`] : []),
@@ -464,7 +514,7 @@ export function briefMarkdown(b: RouteBrief): string {
     '## Along the route',
     '| km | type | name | details |',
     '|---|---|---|---|',
-    ...b.stops.filter(listed).map((s) => `| ${s.km} | ${POI_LABEL[s.type]} | ${cell(s.name)} | ${cell([s.detail, s.offKm !== undefined && `${s.offKm} km off`, s.problem && `⚠ ${s.problem}`].filter(Boolean).join('; '))} |`),
+    ...b.stops.filter((s) => listed(s) && (s.type !== 'place' || towns.has(s))).map((s) => `| ${s.km} | ${POI_LABEL[s.type]} | ${cell(s.name)} | ${cell([s.detail, s.offKm !== undefined && `${s.offKm} km off`, s.problem && `⚠ ${s.problem}`].filter(Boolean).join('; '))} |`),
     ...(unlisted(b.stops) ? ['', `Also along the route (in the JSON brief): ${unlisted(b.stops)}.`] : []),
     '',
     '## Editing this route (for AI assistants)',

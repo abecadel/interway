@@ -22,7 +22,7 @@ export interface ModelContext {
 /** What the tools can do with the planner; implemented by the app. */
 export interface PlannerBridge {
   /** computes the route, shows it on the page and returns its brief */
-  planRoute: (r: { from: LngLat; to: LngLat; via: LngLat[]; vessel: Partial<VesselProfile> }) => Promise<RouteBrief>;
+  planRoute: (r: { from: LngLat; to: LngLat; via: LngLat[]; vessel: Partial<VesselProfile>; names?: [string | null, string | null] }) => Promise<RouteBrief>;
   /** the brief of the route on the page, or null */
   brief: () => RouteBrief | null;
   /** a route is being computed for the page's current points and vessel */
@@ -82,10 +82,12 @@ function cleanVessel(v: unknown): Partial<VesselProfile> {
 }
 
 export function siteTools(bridge: PlannerBridge): SiteTool[] {
+  const names = new Map<LngLat, string>();
   const resolve = async (p: unknown, what: string): Promise<LngLat> => {
     if (typeof p === 'string') {
       const [hit] = await bridge.findPlace(p);
       if (!hit) throw new Error(`No place found for ${what} "${p}"`);
+      names.set(hit.position, p);  // the name the agent asked for titles the route ("Wrocław → Monaco")
       return hit.position;
     }
     const { lon, lat } = (p ?? {}) as { lon?: unknown; lat?: unknown };
@@ -121,7 +123,10 @@ export function siteTools(bridge: PlannerBridge): SiteTool[] {
         const to = await resolve(input.to, 'to');
         const via: LngLat[] = [];
         for (const [i, p] of ((input.via as unknown[]) ?? []).entries()) via.push(await resolve(p, `via[${i}]`));
-        return bridge.planRoute({ from, to, via, vessel: cleanVessel(input.vessel) });
+        const r = { from, to, via, vessel: cleanVessel(input.vessel) };
+        const given: [string | null, string | null] = [names.get(from) ?? null, names.get(to) ?? null];
+        names.clear();
+        return bridge.planRoute(given[0] || given[1] ? { ...r, names: given } : r);
       },
     },
     {

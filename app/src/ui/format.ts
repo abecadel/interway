@@ -10,7 +10,8 @@ export function fmtDuration(s: number) {
   const total = Math.round(s / 60); // round once, so 1 h 59.6 min reads 2 h 0 min, not 1 h 60 min
   const h = Math.floor(total / 60);
   const min = total % 60;
-  if (h >= 24) return `${Math.floor(h / 24)} d ${h % 24} h`;
+  // hours underway, not 24-hour days: a 356-hour trip is about 45 days of cruising, not "14 d 20 h"
+  if (h >= 24) return `${h} h`;
   return h > 0 ? `${h} h ${min} min` : `${min} min`;
 }
 

@@ -275,11 +275,11 @@ export default function App({ client }: { client: RoutingApi }) {
   );
 
   // AI agents in WebMCP browsers drive the planner through site tools; they see the same state as the UI.
-  const latest = useRef({ route, itinerary, profile, viaPositions, start, end, pois, entered, current });
+  const latest = useRef({ route, itinerary, profile, viaPositions, start, end, pois, entered, current, dataId, named });
   // set when an agent changes the vessel or waypoints, cleared once the page has rendered the change
   const changing = useRef(false);
   useEffect(() => {
-    latest.current = { route, itinerary, profile, viaPositions, start, end, pois, entered, current };
+    latest.current = { route, itinerary, profile, viaPositions, start, end, pois, entered, current, dataId, named };
     changing.current = false;
   });
   useEffect(() => {
@@ -287,24 +287,28 @@ export default function App({ client }: { client: RoutingApi }) {
     const pageLink = (from: LngLat, to: LngLat, via: LngLat[], p: VesselProfile, e: ReadonlySet<string>) =>
       `${location.origin}${location.pathname}?${writeUrlState('', { from, to, via }, p, e)}`;
     const bridge: PlannerBridge = {
-      planRoute: async ({ from, to, via, vessel }) => {
+      planRoute: async ({ from, to, via, vessel, names }) => {
         const prof = { ...latest.current.profile, ...vessel };
         const r = await client.route(from, to, prof, via);
-        setStart(toPoint(from));
-        setEnd(toPoint(to));
+        // the names the agent gave, else the nearest town: the same title as the page's own brief
+        const point = (p: LngLat, name: string | null | undefined): Point => (name ? { position: p, label: name } : latest.current.named(toPoint(p))!);
+        const a = point(from, names?.[0]), b = point(to, names?.[1]);
+        setStart(a);
+        setEnd(b);
         setVia(via.map(toPoint));
         setProfile(prof);
         const e = new Set([...latest.current.entered, ...Object.keys(vessel)]);
         give(Object.keys(vessel));
         const it = buildItinerary(r, latest.current.pois);
-        return buildBrief({ route: r, itinerary: it, profile: prof, title: `${fmtPos(from)} → ${fmtPos(to)}`, link: pageLink(from, to, via, prof, e), entered: e });
+        return buildBrief({ route: r, itinerary: it, profile: prof, title: `${a.label} → ${b.label}`, link: pageLink(from, to, via, prof, e), entered: e,
+          data: latest.current.dataId });
       },
       brief: () => {
         const l = latest.current;
         if (changing.current || !l.route || !l.itinerary || !l.start || !l.end) return null;
         return buildBrief({
-          route: l.route, itinerary: l.itinerary, profile: l.profile, title: `${l.start.label} → ${l.end.label}`,
-          link: pageLink(l.start.position, l.end.position, l.viaPositions, l.profile, l.entered), entered: l.entered,
+          route: l.route, itinerary: l.itinerary, profile: l.profile, title: `${l.named(l.start)!.label} → ${l.named(l.end)!.label}`,
+          link: pageLink(l.start.position, l.end.position, l.viaPositions, l.profile, l.entered), entered: l.entered, data: l.dataId,
         });
       },
       routing: () => changing.current || (!!latest.current.start && !!latest.current.end && !latest.current.current),

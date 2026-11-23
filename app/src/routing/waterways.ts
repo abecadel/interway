@@ -173,11 +173,11 @@ export function seasonWarnings(route: Route, profile: VesselProfile, index: Map<
     }
     at += route.legs[i].distance;
   }
-  // when to go: the months in which none of this route's waterways is usually closed
-  const closed = new Set([...seen].flatMap((w) => w.months!.closed));
+  // when to go: the months in which none of this route's waterways is usually closed or iced
+  const closed = new Set([...seen].flatMap((w) => [...w.months!.closed, ...w.months!.ice]));
   if (closed.size > 0) {
     const months = Array.from({ length: 12 }, (_, k) => k + 1).filter((k) => !closed.has(k));
-    out.push(months.length ? `All the waterways of this route are usually open in ${months.map((k) => SHORT[k]).join(', ')}${closedOnRoute ? ': a trip then avoids these closures' : ''}.`
+    out.push(months.length ? `All the waterways of this route are usually open and free of ice in ${months.map((k) => SHORT[k]).join(', ')}${closedOnRoute ? ': a trip then avoids these closures' : ''}.`
       : 'Some waterway of this route is usually closed in every month: compare the alternatives.');
   }
   return out;

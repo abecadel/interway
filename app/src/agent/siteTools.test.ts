@@ -35,9 +35,12 @@ describe('site tools', () => {
     expect(out).toBe(brief);
     expect(b.planRoute).toHaveBeenCalledWith({
       from: [21, 52.2], to: [18.6, 53.0], via: [[18.6, 53.0], [19, 52.6]], vessel: { draft: 1.2, avoidLocks: true },
+      names: [null, 'Toruń'],  // the names asked for title the route
     });
     await tools.plan_route.execute({ from: 'Toruń', to: 'Toruń', vessel: 'big' });
-    expect(b.planRoute).toHaveBeenLastCalledWith({ from: [18.6, 53.0], to: [18.6, 53.0], via: [], vessel: {} });
+    expect(b.planRoute).toHaveBeenLastCalledWith({ from: [18.6, 53.0], to: [18.6, 53.0], via: [], vessel: {}, names: ['Toruń', 'Toruń'] });
+    await tools.plan_route.execute({ from: { lon: 21, lat: 52.2 }, to: { lon: 19, lat: 52.6 } });
+    expect(b.planRoute).toHaveBeenLastCalledWith({ from: [21, 52.2], to: [19, 52.6], via: [], vessel: {} });
     await expect(tools.plan_route.execute({ from: 'Nowhere', to: 'Toruń' })).rejects.toThrow('No place found for from "Nowhere"');
     await expect(tools.plan_route.execute({ from: { lon: 500, lat: 1 }, to: 'Toruń' })).rejects.toThrow('from must be a place name or {lon, lat}');
     await expect(tools.plan_route.execute({ to: 'Toruń' })).rejects.toThrow('from must be');

@@ -1,0 +1,8 @@
+{
+  "type": "FeatureCollection",
+  "description": "Sylvan Slough, the channel south of Arsenal Island between Moline and Rock Island, is closed at its head by the low Sylvan Island (Moline) dam; boats pass Rock Island only through Lock 15. OSM maps no dam there, so the slough's water area gave a way round Lock and Dam 15 with no lock. Source: https://www.mvr.usace.army.mil/Missions/Navigation/Locks-and-Dams/Locks-and-Dam-15/",
+  "features": [
+    {"type": "Feature", "properties": {"name": "Sylvan Island dam", "weir": true},
+     "geometry": {"type": "LineString", "coordinates": [[-90.5313, 41.5080], [-90.5318, 41.5135]]}}
+  ]
+}
