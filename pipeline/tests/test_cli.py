@@ -251,6 +251,17 @@ def test_lock_gate_lines_close_water_areas_like_weirs(tmp_path, monkeypatch):
     assert [list(w.coords) for w in seen] == [[(0.005, -0.0005), (0.005, 0.0005)]]
 
 
+def test_gate_lines_at_a_free_chamber_end_do_not_close_the_water():
+    # Lock 15: the gate across Lock Canal 15 closes the water area; Ströms sluss's gate at its free end does not
+    m = metres_to_deg(1)
+    segs = [Segment(a=1, b=2, coords=[(0.0, 0.0), (100 * m, 0.0)], kind="canal", lock=True),
+            Segment(a=2, b=3, coords=[(100 * m, 0.0), (500 * m, 0.0)], kind="canal")]
+    at_free, across = LineString([(-5 * m, -20 * m), (-5 * m, 20 * m)]), LineString([(300 * m, -20 * m), (300 * m, 20 * m)])
+    assert cli.closing_gates(segs, [(at_free, "", frozenset()), (across, "", frozenset())]) == [across]
+    assert cli.closing_gates(segs[1:], [(across, "", frozenset())]) == [across]
+    assert cli.closing_gates(segs, []) == []
+
+
 def test_the_middle_of_each_chamber_closes_water_areas():
     # Aynho Weir Lock (Oxford Canal): the canal's water areas touch across the chamber; only chambers of 10 m+
     # ... and only chambers on the line network: Guzianka's free-standing chambers are reached through the lakes

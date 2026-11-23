@@ -167,16 +167,36 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
 
 
 CHAMBER_MIN_M = 10.0  # chambers this long or longer close the water areas round them
+FREE_END_GATE_M = 30.0  # a gate line this close to a chamber end with no waterway beyond it is how boats get in
+
+
+def _degrees(segments: list[Segment]) -> dict[int, int]:
+    degree: dict[int, int] = {}
+    for s in segments:
+        degree[s.a] = degree.get(s.a, 0) + 1
+        degree[s.b] = degree.get(s.b, 0) + 1
+    return degree
+
+
+def closing_gates(segments: list[Segment], gate_lines: list) -> list[LineString]:
+    """The gate lines that close water areas: all but those at a chamber's free end (Ströms sluss at Lilla Edet
+    stands in the river's water area with no line beyond its gates: boats reach it through that water)."""
+    if not gate_lines:
+        return []
+    degree = _degrees(segments)
+    free = [Point(c) for s in segments if s.lock for n, c in ((s.a, s.coords[0]), (s.b, s.coords[-1])) if degree[n] == 1]
+    if not free:
+        return [g for g, _, _ in gate_lines]
+    tree = STRtree(free)
+    near = metres_to_deg(FREE_END_GATE_M)
+    return [g for g, _, _ in gate_lines if not len(tree.query(g, predicate="dwithin", distance=near))]
 
 
 def chamber_middles(segments: list[Segment]) -> list[LineString]:
     """The middle half of each lock chamber on the line network: open water across it would pass the lock without
     locking, while the mesh can still reach the chamber's two ends. A chamber with a free end (Guzianka between
     two Masurian lakes) is reached through the water itself, so it closes nothing."""
-    degree: dict[int, int] = {}
-    for s in segments:
-        degree[s.a] = degree.get(s.a, 0) + 1
-        degree[s.b] = degree.get(s.b, 0) + 1
+    degree = _degrees(segments)
     out = []
     for s in segments:
         if s.lock and s.length >= CHAMBER_MIN_M and degree[s.a] > 1 and degree[s.b] > 1:
@@ -307,7 +327,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # approach area otherwise joined the top of the lock straight to the foot of the chamber); so does the
     # middle of every chamber (the Oxford Canal's water areas touch across Aynho Weir and Nell Bridge locks)
     lake_segs = connect_lakes(segments, ex.lakes, harbours,
-                              ex.weirs + [g for g, _, _ in ex.gate_lines] + chamber_middles(segments))
+                              ex.weirs + closing_gates(segments, ex.gate_lines) + chamber_middles(segments))
     mark_lake_access(lake_segs, ex.lakes)
     segments += lake_segs
     close_gaps(segments)  # mapping slips at the lake meshes

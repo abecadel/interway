@@ -733,7 +733,7 @@
   source: https://www.danubecommission.org (Kilia arm, Izmail at km 93 to Vylkove at km 18)
 
 - name: Skien → Dalen (Telemark Canal)
-  from: [9.61, 59.21]
+  from: [9.613, 59.205]  # Bryggevannet, below Skien sluse (59.21 lies between the lakes on both sides of it)
   to: [8.00, 59.44]
   expected_km: 105
   tolerance: 0.15
