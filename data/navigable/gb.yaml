@@ -119,6 +119,18 @@ waterways:
   # (https://canalrivertrust.org.uk/canals-and-rivers/river-trent, https://en.wikipedia.org/wiki/Trent_and_Mersey_Canal)
   - {name: River Trent, bbox: [-1.3195, 52.86, -0.68, 53.72]}
   - {name: River Trent, bbox: [-1.748, 52.737, -1.743, 52.739]}
+  # The Trent Navigation's lock cuts (Sawley, Cranfleet), the Beeston Canal and the navigable reach of the
+  # Nottingham Canal (Lenton Chain to Meadow Lane, the city route round the Trent's weirs)
+  # (https://canalrivertrust.org.uk/canals-and-rivers/river-trent, https://en.wikipedia.org/wiki/Beeston_Canal)
+  - Sawley Cut
+  - Cranfleet Cut
+  - Beeston Canal
+  - {name: Nottingham Canal, bbox: [-1.185, 52.935, -1.13, 52.952]}
+  # the River Soar navigation's cuts, mapped under the Loughborough Navigation's names
+  # (https://canalrivertrust.org.uk/canals-and-rivers/river-soar)
+  - Loughborough Navigation (River Soar)
+  - Loughborough Navigation (River Soar New Cut)
+  - Ratcliffe Cut (River Soar)
   # River Derwent (Yorkshire): Barmby Barrage to Sutton lock, with the Pocklington Canal junction
   # (https://waterways.org.uk/waterways/discover-the-waterways/river-derwent-yorkshire)
   - {name: River Derwent, bbox: [-0.99, 53.74, -0.90, 53.92]}
