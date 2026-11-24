@@ -1553,7 +1553,7 @@
     the Pašman channel will be at the top of the tolerance)
 
 - name: Murter → ACI Skradin (St. Anthony channel, Krka)
-  known_gap: "no route: a harbour here is not joined to the sea mesh"
+  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.5895, 43.827]
   to: [15.9205, 43.815]
   expected_km: 49
@@ -1564,7 +1564,7 @@
     (day 2, Murter – Skradin 27 NM)
 
 - name: Šibenik → ACI Skradin (up the Krka)
-  known_gap: "an end snaps 8.1 km from the sea graph (the harbour is not joined to it)"
+  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.8875, 43.7345]
   to: [15.9205, 43.815]
   expected_km: 17
@@ -1574,7 +1574,7 @@
   source: https://www.sea-help.eu/en/cruise/cruise-tip-sibenik-krka-croatia/ (ACI Skradin about 10 NM from Šibenik); boote-magazin and charter guides give 8–9 NM; 9 NM used
 
 - name: ACI Skradin → Zlarin
-  known_gap: "no route: a harbour here is not joined to the sea mesh"
+  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.9205, 43.815]
   to: [15.833, 43.698]
   expected_km: 24
@@ -1585,7 +1585,7 @@
     (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
 
 - name: ACI Trogir → Maslinica (Šolta)
-  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: a detour"
+  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: the patched Čiovo–Drvenik channel is in, but the route from ACI Trogir does not reach its east end and goes round Čiovo"
   from: [16.2475, 43.515]
   to: [16.204, 43.3985]
   expected_km: 16.7
@@ -3744,7 +3744,7 @@
   source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
 
 - name: Kühlungsborn → Warnemünde
-  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: a detour"
+  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: the inshore patch reaches the Warnemünde mouth, but the Seekanal joins the sea mesh only at its outer end, so the route goes out and back in along it"
   from: [11.7707, 54.1532]
   to: [12.0876, 54.1798]
   expected_km: 22.0
