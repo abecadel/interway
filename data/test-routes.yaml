@@ -1584,7 +1584,6 @@
     (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
 
 - name: ACI Trogir → Maslinica (Šolta)
-  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: the patched Čiovo–Drvenik channel is in, but the route from ACI Trogir does not reach its east end and goes round Čiovo"
   from: [16.2475, 43.515]
   to: [16.204, 43.3985]
   expected_km: 16.7
