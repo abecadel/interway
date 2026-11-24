@@ -8,6 +8,7 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import replace
 
+import numpy as np
 import shapely.ops
 from shapely import STRtree
 from shapely.geometry import LineString, Point
@@ -839,3 +840,32 @@ def mark_lock_areas(segments: list[Segment], areas: list, max_m: float = 1000.0)
                 break
     log.info("marked %d segments inside lock areas as locks", marked)
     return marked
+
+
+SPLIT_EVERY_M = 5000.0  # a waterway line through open water gets a node this often, to join the meshes there
+
+
+def split_lines(segments: list[Segment], wet, every_m: float = SPLIT_EVERY_M) -> list[Segment]:
+    """River, canal and fairway lines split at a vertex where `wet` (a mask over an (n, 2) lon/lat array) holds,
+    at most one cut per `every_m` along the line, so a mesh can join the line there and not only at its ends.
+    Each piece keeps the line's attributes; lock segments are never split."""
+    out: list[Segment] = []
+    for s in segments:
+        if s.kind not in ("river", "canal", "fairway") or s.lock or len(s.coords) < 3:
+            out.append(s)
+            continue
+        mask = wet(np.array(s.coords))
+        cuts, run = [], 0.0
+        for i in range(1, len(s.coords) - 1):
+            run += haversine(s.coords[i - 1], s.coords[i])
+            if mask[i] and run >= every_m:
+                cuts.append(i)
+                run = 0.0
+        if not cuts:
+            out.append(s)
+            continue
+        ends = [s.a] + [new_node_id() for _ in cuts] + [s.b]
+        bounds = [0, *cuts, len(s.coords) - 1]
+        out += [replace(s, a=ends[k], b=ends[k + 1], coords=s.coords[bounds[k]:bounds[k + 1] + 1],
+                                    limits=replace(s.limits)) for k in range(len(bounds) - 1)]
+    return out

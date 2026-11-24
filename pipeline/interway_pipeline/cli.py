@@ -17,7 +17,7 @@ from .depth import ATTRIBUTION as DEPTH_ATTRIBUTION
 from .depth import DepthGrid, apply_sea_depth, tile_loader
 from .export import export
 from .extract import Extract, read_osm
-from .lakes import connect_lakes, mark_lake_access
+from .lakes import connect_lakes, mark_lake_access, split_in_lakes
 from .model import Segment, haversine, metres_to_deg
 from .pois import load_places
 from .qa import gap_candidates
@@ -360,6 +360,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     # a lock gate drawn as a line closes the water area like a weir: open water never crosses it (Lock 15's
     # approach area otherwise joined the top of the lock straight to the foot of the chamber); so does the
     # middle of every chamber (the Oxford Canal's water areas touch across Aynho Weir and Nell Bridge locks)
+    segments = split_in_lakes(segments, ex.lakes)
     lake_segs = connect_lakes(segments, ex.lakes, harbours,
                               ex.weirs + closing_gates(segments, ex.gate_lines) + chamber_middles(segments))
     mark_lake_access(lake_segs, ex.lakes)
