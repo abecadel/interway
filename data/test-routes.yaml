@@ -1534,7 +1534,6 @@
   source: https://www.yachting.com/en-gb/destinations/croatia/zadar/sukosan/route-1 (day 1, Sukošan – Biograd na Moru 10 NM)
 
 - name: Biograd na Moru → Šibenik (Pašman channel – Murter sea – St. Anthony channel)
-  known_gap: "no route: a harbour here is not joined to the sea mesh"
   from: [15.4405, 43.941]
   to: [15.8875, 43.7345]
   expected_km: 46
@@ -1670,7 +1669,6 @@
   source: "shortest water path through Splitska vrata and along the south coast of Brač, about 42 km (OSM land polygons); the 19 NM of ferry sites cuts across Brač"
 
 - name: ACI Korčula → Pomena (Mljet)
-  known_gap: "the planner goes 111 km where the shortest water path is about 26 km: the sea mesh detours here"
   from: [17.1365, 42.9595]
   to: [17.344, 42.7892]
   expected_km: 27
@@ -1681,7 +1679,6 @@
     split-5 gives Korčula – Mljet 16 NM
 
 - name: ACI Dubrovnik (Komolac) → Lopud (Elaphites)
-  known_gap: "the distance is right, but ACI Komolac is 3.6 km from the sea graph (the Rijeka Dubrovačka is not joined to it)"
   from: [18.124, 42.6715]
   to: [17.9425, 42.6895]
   expected_km: 17
@@ -1691,7 +1688,6 @@
   source: "shortest water path about 16 km (OSM land polygons)"
 
 - name: Šipanska Luka (Šipan) → ACI Dubrovnik (Komolac)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [17.8615, 42.729]
   to: [18.124, 42.6715]
   expected_km: 28
@@ -3914,7 +3910,6 @@
   source: https://spidersweb.pl/2026/06/szybki-katamaran-na-hel.html (Żegluga Gdańska Gdynia – Hel run, about 23 km, half an hour by the catamaran Amber Express)
 
 - name: Gulf of Gdańsk → Elbląg (Vistula Spit canal at Nowy Świat)
-  known_gap: 'not yet diagnosed: the route differs from the source'
   from: [19.3119, 54.366]
   to: [19.387, 54.176]
   expected_km: 23

@@ -57,21 +57,21 @@
  ],
  "sea": true,
  "osmTimestamp": "",
- "built": "2026-11-24T03:34:26+00:00",
+ "built": "2026-11-24T04:42:30+00:00",
  "files": {
   "graph": "graph.bin",
   "geom": "geom.bin",
   "pois": "pois.json"
  },
  "sha256": {
-  "graph": "4b8a7eab3fd1c54e21838c163643a4966d5f631c94e8e78fe94552901054478b",
-  "geom": "6fa257f6bcc5a4c7dea277cf15bdf4c5e4a31877476bc9af8aca011d444cffb8"
+  "graph": "547086a4c510b6334abcaea6bc6744a029ddb78072ae5351791f8b98c027e91a",
+  "geom": "0a30621edacf8728b1f50848655bf366a4d90406919c925cacb86bc27da28e42"
  },
  "stats": {
-  "nodes": 405937,
-  "edges": 3140439,
-  "segments": 1570263,
-  "points": 3780014
+  "nodes": 406313,
+  "edges": 3145301,
+  "segments": 1572694,
+  "points": 3784871
  },
  "names": [
   "",
@@ -16472,8 +16472,8 @@
   "Kosulanlampi",
   "Väärän kanava",
   "Lietukka",
-  "Kuivajärvi",
   "Louhikoski",
+  "Kuivajärvi",
   "Hakokoski",
   "Iso- ja Keski-Kero",
   "Canalul SONTEA",
