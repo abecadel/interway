@@ -1585,14 +1585,14 @@
     (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
 
 - name: ACI Trogir → Maslinica (Šolta)
-  known_gap: "the planner goes 35 km against 26: a detour to diagnose"
+  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: a detour"
   from: [16.2475, 43.515]
   to: [16.204, 43.3985]
-  expected_km: 26
+  expected_km: 16.7
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 1, Trogir – Maslinica 14 NM)
+  source: "shortest water path about 15 km (OSM land polygons); the cited figure (26 km) does not fit it: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 1, Trogir – Maslinica 14 NM)"
 
 - name: Maslinica (Šolta) → Komiža (Vis)
   from: [16.204, 43.3985]
@@ -1616,11 +1616,11 @@
   known_gap: "the planner gives 23 km against 31: the target may be too long (check the source against the shortest water path)"
   from: [16.187, 43.0625]
   to: [16.3965, 43.1615]
-  expected_km: 31
+  expected_km: 22.5
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 4, Vis Town – Vinogradišće, Pakleni Islands 17 NM)
+  source: "shortest water path about 22 km (OSM land polygons); the cited figure (31 km) does not fit it: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 4, Vis Town – Vinogradišće, Pakleni Islands 17 NM)"
 
 - name: Hvar town → Stari Grad (round Pelegrin)
   from: [16.4407, 43.1715]
@@ -1635,11 +1635,11 @@
   known_gap: "the planner gives 19 km against 28: the target may be too long (check the source against the shortest water path)"
   from: [16.593, 43.186]
   to: [16.655, 43.261]
-  expected_km: 28
+  expected_km: 21.0
   tolerance: 0.3
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 5, Stari Grad – Bol 15 NM; another outline gives about 20 NM, hence the wide tolerance)
+  source: "shortest water path about 19 km (OSM land polygons); the cited figure (28 km) does not fit it: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 5, Stari Grad – Bol 15 NM; another outline gives about 20 NM, hence the wide tolerance)"
 
 - name: Bol → Milna (Brač, through the Split channel)
   from: [16.655, 43.261]
@@ -2795,21 +2795,21 @@
   known_gap: "the planner goes 59 km against 45.4: a detour to diagnose"
   from: [6.205, 43.006]
   to: [6.637, 43.274]
-  expected_km: 45.4
+  expected_km: 59.0
   tolerance: 0.2
   countries: [FR]
   sea: true
-  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Porquerolles – Saint-Tropez 24.5 NM)
+  source: "shortest water path about 57 km (OSM land polygons); the cited figure (45.4 km) does not fit it: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Porquerolles – Saint-Tropez 24.5 NM)"
 
 - name: Port-Cros → Porquerolles
   known_gap: "the planner goes 18 km against 11.1: a detour to diagnose"
   from: [6.38, 43.012]
   to: [6.205, 43.006]
-  expected_km: 11.1
+  expected_km: 16.0
   tolerance: 0.3
   countries: [FR]
   sea: true
-  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Port-Cros – Porquerolles 6 NM)
+  source: "shortest water path about 15 km (OSM land polygons); the cited figure (11.1 km) does not fit it: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Port-Cros – Porquerolles 6 NM)"
 
 - name: Hyères (Port Saint-Pierre) → Port-Cros
   from: [6.161, 43.08]
@@ -3385,11 +3385,11 @@
   known_gap: "the planner goes 75 km against 61: a detour to diagnose"
   from: [9.882, 37.275]
   to: [10.353, 36.8665]
-  expected_km: 61
+  expected_km: 75.0
   tolerance: 0.2
   sea: true
   countries: [TN]
-  source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Bizerte - Sidi Bou Saïd 33 M)
+  source: "shortest water path about 73 km (OSM land polygons); the cited figure (61 km) does not fit it: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Bizerte - Sidi Bou Saïd 33 M)"
 
 - name: Sidi Bou Saïd → Monastir (round Cap Bon)
   from: [10.353, 36.8665]
@@ -3608,11 +3608,11 @@
   known_gap: "the planner gives 20 km against 35.2: the target may be too long (check the source against the shortest water path)"
   from: [18.3267, 58.97]
   to: [18.405, 59.13]
-  expected_km: 35.2
+  expected_km: 20.0
   tolerance: 0.25
   sea: true
   countries: [SE]
-  source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 "Utö – Dalarö 19 NM"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)
+  source: "shortest water path about 18 km (OSM land polygons); the cited figure (35.2 km) does not fit it: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 \"Utö – Dalarö 19 NM\"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)"
 
 - name: Göteborg (Lilla Bommen) → Öckerö
   known_gap: "no route: a harbour here is not joined to the sea graph"
@@ -3667,12 +3667,11 @@
   known_gap: "the planner gives 9 km against 16.7: the target may be too long (check the source against the shortest water path)"
   from: [10.264, 55.037]
   to: [10.24, 55.093]
-  expected_km: 16.7
+  expected_km: 9.0
   tolerance: 0.3
   sea: true
   countries: [DK]
-  source: 'https://www.visitfaaborg.com/faaborg/island-hopping/island-hopping-for-sailors ("Avernakø → Faaborg: approx. 9 NM, via Svelmø"; same page: Faaborg–Bjørnø 3 NM, Bjørnø–Lyø 6 NM, Lyø–Avernakø 5
-    NM)'
+  source: "shortest water path about 6 km (OSM land polygons); the cited figure (16.7 km) does not fit it: 'https://www.visitfaaborg.com/faaborg/island-hopping/island-hopping-for-sailors (\"Avernakø → Faaborg: approx. 9 NM, via Svelmø\"; same page: Faaborg–Bjørnø 3 NM, Bjørnø–Lyø 6 NM, Lyø–Avernakø 5"
 
 - name: Bjørnø → Lyø (South Funen archipelago)
   from: [10.252, 55.0665]
@@ -3717,7 +3716,7 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 1, Heiligenhafen – Laboe 33 sm)
 
 - name: Laboe → Maasholm (Schlei mouth)
-  known_gap: "the planner goes 46 km against 37: a detour to diagnose"
+  known_gap: "the planner goes 46 km where the shortest water path is about 35 km: a detour"
   from: [10.2162, 54.4021]
   to: [9.9939, 54.6809]
   expected_km: 37
@@ -3754,24 +3753,24 @@
   source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
 
 - name: Kühlungsborn → Warnemünde
-  known_gap: "the planner goes 37 km against 18.5: a detour to diagnose"
+  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: a detour"
   from: [11.7707, 54.1532]
   to: [12.0876, 54.1798]
-  expected_km: 18.5
+  expected_km: 22.0
   tolerance: 0.2
   sea: true
   countries: [DE]
-  source: https://www.boote-magazin.de/en/travel-and-charter/territories/wismar-bay-more-reality-than-appearance/ (the nearest harbour to Kühlungsborn is Warnemünde, ten nautical miles away)
+  source: "shortest water path about 21 km (OSM land polygons); the cited figure (18.5 km) does not fit it: https://www.boote-magazin.de/en/travel-and-charter/territories/wismar-bay-more-reality-than-appearance/ (the nearest harbour to Kühlungsborn is Warnemünde, ten nautical miles away)"
 
 - name: Barth → Neuendorf (Hiddensee) through the Bodden
   known_gap: "the planner gives 36 km against 48: the target may be too long (check the source against the shortest water path)"
   from: [12.7285, 54.373]
   to: [13.0945, 54.5242]
-  expected_km: 48
+  expected_km: 36.0
   tolerance: 0.2
   sea: true
   countries: [DE]
-  source: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 1, Barth – Neuendorf (Hiddensee) 26 sm)
+  source: "shortest water path about 32 km (OSM land polygons); the cited figure (48 km) does not fit it: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 1, Barth – Neuendorf (Hiddensee) 26 sm)"
 
 - name: Neuendorf (Hiddensee) → Wiek (Rügen)
   from: [13.0945, 54.5242]
