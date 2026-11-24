@@ -22,7 +22,7 @@ from .model import Segment, haversine, metres_to_deg
 from .pois import load_places
 from .qa import gap_candidates
 from .relnames import cached_relation_names, name_from_relations
-from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, mark_offshore, sea_mesh, to_merc
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, mark_offshore, sea_mesh, split_in_sea, to_merc
 from .topology import (
     add_connectors,
     apply_bridges,
@@ -372,6 +372,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
         if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
             apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
                             near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))
+        segments = split_in_sea(segments, coast)
         segments += connect_to_sea(segments, sea, coast) + sea
     apply_patches(segments, patches, late=True)
     segments = merge_degree2(segments)

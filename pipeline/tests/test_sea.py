@@ -4,7 +4,17 @@ import shapefile
 from shapely.geometry import LineString, Point, box
 
 from interway_pipeline.model import Segment
-from interway_pipeline.sea import Coast, _thin, connect_to_sea, drop_sheltered, from_merc, mark_offshore, sea_mesh, to_merc
+from interway_pipeline.sea import (
+    Coast,
+    _thin,
+    connect_to_sea,
+    drop_sheltered,
+    from_merc,
+    mark_offshore,
+    sea_mesh,
+    split_in_sea,
+    to_merc,
+)
 from interway_pipeline.topology import components
 
 # Two islands 0.1° apart (about 11 km) in a 1° sea; the strait between them is navigable.
@@ -157,6 +167,26 @@ def test_connect_to_sea():
     assert all(s.kind == "sea" for s in links)
     assert len([s for s in links if s.a == 5]) == 2  # two links per node
     assert connect_to_sea(river, [], c) == [] and connect_to_sea([], sea, c) == []
+
+
+def test_split_in_sea_gives_a_line_through_the_strait_nodes_to_join():
+    c = coast()
+    # a canal from the west island's interior through the strait (0.45-0.55) and on into the east island
+    canal = Segment(a=1, b=2, coords=[(0.3, 0.5), (0.5, 0.5), (0.5, 0.6), (0.5, 0.7), (0.7, 0.7)], kind="canal",
+                    flows=True)
+    lock = Segment(a=3, b=4, coords=[(0.5, 0.3), (0.5, 0.35), (0.5, 0.4)], kind="canal", lock=True)
+    short = Segment(a=5, b=6, coords=[(0.5, 0.1), (0.5, 0.12)], kind="fairway")
+    lake = Segment(a=7, b=8, coords=[(0.5, 0.15), (0.5, 0.16), (0.5, 0.17)], kind="lake")
+    out = split_in_sea([canal, lock, short, lake], c, every_m=5000)
+    pieces = [s for s in out if s.kind == "canal" and not s.lock]
+    # split at each vertex in the strait: (0.5, 0.5) 22 km along, then every 11 km
+    assert [p.coords[0] for p in pieces] == [(0.3, 0.5), (0.5, 0.5), (0.5, 0.6), (0.5, 0.7)]
+    assert pieces[0].a == 1 and pieces[-1].b == 2 and pieces[0].b == pieces[1].a and pieces[1].b == pieces[2].a
+    assert pieces[-1].coords[-1] == (0.7, 0.7) and all(p.flows for p in pieces)
+    assert pieces[0].limits is not pieces[1].limits
+    assert lock in out and short in out and lake in out
+    dry = Segment(a=9, b=10, coords=[(0.3, 0.3), (0.3, 0.5), (0.3, 0.7)], kind="river")  # all on the west island
+    assert split_in_sea([dry], c) == [dry]
 
 
 def test_connect_skips_links_that_cross_land():
