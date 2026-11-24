@@ -4383,7 +4383,6 @@
   tolerance: 0.15
   sea: true
   countries: [US]
-  known_gap: the inside route through Port Royal Sound, Skull Creek and Calibogue Sound is not connected in the graph; the route goes outside (about 100 km)
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Beaufort SC to Thunderbolt 47 statute miles)
 
 - name: Atlantic ICW, Thunderbolt GA → Fernandina Beach FL (Georgia sounds)
@@ -5049,7 +5048,6 @@
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 29, San Francisco Bay area, Antioch to Stockton 31 NM)
 
 - name: San Francisco → Stockton (Carquinez Strait, Suisun Bay, Delta)
-  known_gap: the bay's sea mesh is not joined to the Delta rivers at Suisun Bay / New York Slough (no route found)
   from: [-122.3950, 37.8050]
   to: [-121.3150, 37.9520]
   expected_km: 139
