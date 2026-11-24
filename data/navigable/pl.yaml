@@ -112,3 +112,6 @@ lakes:
 wikidata:
   - Q5605
 exclude: []
+# the canal through the Vistula Spit at Nowy Świat (opened 17.09.2022): its approach cuts carry only
+# boat=designated and no name (https://www.umgdy.gov.pl/, droga wodna łącząca Zalew Wiślany z Zatoką Gdańską)
+ways: [1095373151, 1095373152]

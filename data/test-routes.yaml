@@ -3500,13 +3500,12 @@
   source: https://www.gotakanal.se/sv/media/812 (day 2 "Berg–Borenshult, Motala, 16 locks, 1 lake, 34 km"; lock list https://hhogman.se/gota-canal-locks.htm)
 
 - name: Göta kanal — Motala → Karlsborg (crossing Vättern)
-  known_gap: 'not yet diagnosed: the route differs from the source'
   from: [15.04, 58.537]
   to: [14.52, 58.537]
   expected_km: 32.5
   tolerance: 0.15
   countries: [SE]
-  via: [Vättern]
+  via: [Göta kanal]  # the crossing of Vättern is named after the canal (its waterway relation)
   source: 'https://www.gotakanal.se/sv/media/811 (Göta kanalbolag express itinerary: "Free time/crossing Lake Vättern, 32.5 km", Motala harbour – Karlsborg)'
 
 - name: Göta kanal stage 4 — Karlsborg → Töreboda (Bottensjön, Forsvik, Viken, Tåtorp)
@@ -3831,7 +3830,7 @@
   source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 3, Ueckermünde – Szczecin 37 sm)
 
 - name: Świnoujście → Ueckermünde (Kanał Piastowski, Szczecin Lagoon)
-  known_gap: 'not yet diagnosed: the route differs from the source'
+  known_gap: "the route takes the Świna and the Szczecin Lagoon's water area, not the Kanał Piastowski fairway"
   from: [14.2684, 53.9114]
   to: [14.0505, 53.737]
   expected_km: 44.5
@@ -3849,7 +3848,7 @@
   source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 5, Stepnica – Świnoujście 22 sm)
 
 - name: Świnoujście → Szczecin (Świnoujście–Szczecin fairway)
-  known_gap: 'not yet diagnosed: the route differs from the source'
+  known_gap: "the route takes the Świna and the Szczecin Lagoon's water area, not the Kanał Piastowski fairway"
   from: [14.2684, 53.9114]
   to: [14.5715, 53.4275]
   expected_km: 67.7
@@ -3946,7 +3945,7 @@
   source: https://southcoastbaltic.eu/de/kurisches-haff-und-memeldelta/ (day 1, Klaipėda – Nida 26 sm by the buoyed channel along the spit; also 26 sm in https://southcoastbaltic.eu/de/der-osten-so-nah/)
 
 - name: Nida → Mingė (Curonian Lagoon, Atmata, Minija)
-  known_gap: 'not yet diagnosed: the route differs from the source'
+  known_gap: "the distance is right, but the route reaches Mingė over the lagoon's water area, not up the Atmata and Minija"
   from: [21.0105, 55.303]
   to: [21.284, 55.362]
   expected_km: 20

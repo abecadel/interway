@@ -51,6 +51,8 @@ NARROWS = {
     "Pelješac channel": (17.08, 42.92, 17.32, 43.00),
     "St. Anthony's channel": (15.85, 43.71, 15.92, 43.76),
     "Rijeka Dubrovačka": (18.06, 42.64, 18.14, 42.68),
+    # the Schlei, a 40 km fjord from Schleimünde to Schleswig, 150 m wide at Missunde
+    "Schlei": (9.55, 54.48, 10.05, 54.70),
 }
 
 
