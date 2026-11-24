@@ -3232,7 +3232,6 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/cesme-chios (9 NM; other operators give 7–11 NM)
 
 - name: Kapı Creek (Göcek) → Fethiye
-  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [28.8915, 36.6425]
   to: [29.1, 36.6245]
   expected_km: 22
@@ -3549,7 +3548,6 @@
     to Skeppsbron; 37 M")'
 
 - name: Saltsjöbaden → Stockholm via Baggensstäket
-  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [18.315, 59.2867]
   to: [18.079, 59.325]
   expected_km: 20.4
@@ -3607,7 +3605,6 @@
   source: "shortest water path about 18 km (OSM land polygons); the cited figure (35.2 km) does not fit it: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 \"Utö – Dalarö 19 NM\"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)"
 
 - name: Göteborg (Lilla Bommen) → Öckerö
-  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [11.966, 57.713]
   to: [11.662, 57.706]
   expected_km: 20.4
@@ -3707,7 +3704,6 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 1, Heiligenhafen – Laboe 33 sm)
 
 - name: Laboe → Maasholm (Schlei mouth)
-  known_gap: "the planner goes 46 km where the shortest water path is about 35 km: a detour"
   from: [10.2162, 54.4021]
   to: [9.9939, 54.6809]
   expected_km: 37
@@ -3717,7 +3713,6 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 2, Laboe – Maasholm 20 sm)
 
 - name: Schleimünde → Schleswig (the whole Schlei)
-  known_gap: 'the Schlei fairway is not in the data (patched, needs the rebuild): Schleswig snaps 17.7 km away'
   from: [10.018, 54.6754]
   to: [9.57, 54.5108]
   expected_km: 42
@@ -4187,7 +4182,6 @@
   countries: [IE]
   via: [Royal Canal]
   min_locks: 30
-  known_gap: the Royal Canal is not connected in the data (Spencer Dock to Maynooth finds no route); the router goes via the Grand Canal, Shannon and Lough Ree (210 km)
   source: https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf (Waterways Ireland "Voyages and Visits", Royal Canal main line 146 km with 46 locks)
 
 - name: Grand Canal Barrow Line, Lowtown → Athy (River Barrow)
@@ -4303,7 +4297,6 @@
   tolerance: 0.2
   sea: true
   countries: [US]
-  known_gap: St. Michaels harbour is over 3 km from the sea graph and the sea route runs about 30 km long (Eastern Bay and the Miles River are not modelled)
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Annapolis to St. Michaels 25 NM)
 
 - name: Chesapeake Bay, Annapolis → Baltimore
@@ -4772,7 +4765,6 @@
   tolerance: 0.15
   sea: true
   countries: [CA]
-  known_gap: Hardy Bay at Port Hardy is not connected to the sea mesh (no route found to the harbour, 2026-11-22); passes when it is
   source: https://nwcruising.net/ca-nm_folders/campbell_river.html (Campbell River – Port Hardy 106.0 NM)
 
 - name: Inside Passage, Port Hardy → Prince Rupert (BC Ferries route)
@@ -4782,7 +4774,6 @@
   tolerance: 0.2
   sea: true
   countries: [CA]
-  known_gap: neither Hardy Bay nor Prince Rupert Harbour is connected to the sea mesh (no route found, 2026-11-22); passes when they are
   source: https://britishcolumbia.com/plan-your-trip/transportation-in-british-columbia/bc-ferry-port-hardy-prince-rupert-inside-passage/ (BC Ferries Inside Passage Port Hardy – Prince Rupert 274 NM, about 15 hours)
 
 # --- United States: inland rivers, Gulf Intracoastal Waterway, Pacific Northwest and Southeast Alaska ------------
@@ -4992,7 +4983,6 @@
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Morgan City to Lake Charles 136 NM); locks from https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C12_WEB.pdf (Leland Bowman Mile 163.0W, Calcasieu Mile 238.2W)
 
 - name: GIWW — Port Arthur → Galveston (High Island, Bolivar)
-  known_gap: the GIWW between Sabine and Galveston Bay is not joined; the router detours via the Calcasieu Ship Channel and the open Gulf (about 260 km)
   from: [-93.9300, 29.8650]
   to: [-94.7775, 29.3195]
   expected_km: 107
@@ -5344,7 +5334,6 @@
   source: https://lavdis.cz/en/waterways/ports (Praha-Smíchov port Vltava km 55.55, Praha-Holešovice km 47.40) and https://lavdis.cz/en/waterways/locks (Smíchov 53.80 / Mánes 54.15, Štvanice 50.69)
 
 - name: Mělník → Ústí nad Labem-Vaňov (Labe)
-  known_gap: the lock cuts at Štětí and Roudnice are mapped as waterway=stream with CEMT=Va (read since extract version 18, needs the rebuild), so the route took the weir arms
   from: [14.4516, 50.3725]
   to: [14.0540, 50.6274]
   expected_km: 66.5
