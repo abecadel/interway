@@ -412,5 +412,82 @@
   ],
   "refine": true,
   "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Stockholm: Saltsjöbaden, Baggensstäket, Strömma and Sandhamn",
+  "bbox": [
+   18.0,
+   59.24,
+   18.97,
+   59.36
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Stockholm: Utö and Dalarö",
+  "bbox": [
+   18.28,
+   58.93,
+   18.47,
+   59.16
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: South Funen: Avernakø, Svelmø and Faaborg",
+  "bbox": [
+   10.15,
+   55.0,
+   10.33,
+   55.12
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Kiel Bight: Laboe to the Schlei mouth",
+  "bbox": [
+   9.92,
+   54.36,
+   10.27,
+   54.71
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Mecklenburg: Kühlungsborn to Warnemünde",
+  "bbox": [
+   11.7,
+   54.11,
+   12.13,
+   54.2
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Darß-Zingst Bodden and Hiddensee",
+  "bbox": [
+   12.68,
+   54.33,
+   13.13,
+   54.56
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Göcek and Fethiye",
+  "bbox": [
+   28.85,
+   36.58,
+   29.15,
+   36.68
+  ],
+  "refine": true,
+  "grid_m": 3000.0
  }
 ]
