@@ -55,8 +55,7 @@
    23.1,
    40.0
   ],
-  "refine": true,
-  "grid_m": 3000.0
+  "refine": true
  },
  {
   "name": "refine: Saronic Gulf, Cyclades, Dodecanese, the Turkish Aegean coast",
@@ -66,8 +65,7 @@
    29.4,
    40.6
   ],
-  "refine": true,
-  "grid_m": 3000.0
+  "refine": true
  },
  {
   "name": "refine: Strait of Bonifacio, Maddalena",
@@ -108,8 +106,7 @@
    13.2,
    56.3
   ],
-  "refine": true,
-  "grid_m": 3000.0
+  "refine": true
  },
  {
   "name": "refine: Kalmar Sound",
@@ -129,8 +126,7 @@
    27.0,
    60.9
   ],
-  "refine": true,
-  "grid_m": 3000.0
+  "refine": true
  },
  {
   "name": "refine: Estonian islands and Moonsund",
@@ -358,6 +354,61 @@
    54.3,
    19.0,
    54.8
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Kos and Kalymnos",
+  "bbox": [
+   26.9,
+   36.85,
+   27.35,
+   37.0
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Lavrio and Kythnos",
+  "bbox": [
+   24.0,
+   37.35,
+   24.5,
+   37.75
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Marmaris, Çiftlik and Rhodes",
+  "bbox": [
+   28.1,
+   36.4,
+   28.35,
+   36.9
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Syvota and Parga",
+  "bbox": [
+   20.15,
+   39.2,
+   20.45,
+   39.45
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Zakynthos and Katakolo",
+  "bbox": [
+   20.85,
+   37.6,
+   21.4,
+   37.85
   ],
   "refine": true,
   "grid_m": 3000.0
