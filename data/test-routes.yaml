@@ -1505,7 +1505,6 @@
   source: "https://www.yachting.com/en-gb/news/sailing-in-istria (Punat – Cres 35 NM: ACI Cres lies on the west side of Cres, round the island's north tip; shortest water path about 64 km)"
 
 - name: Mali Lošinj → Rab (ACI Rab)
-  known_gap: "the planner goes 55 km where the shortest water path is about 35 km: the sea mesh detours here"
   from: [14.4645, 44.534]
   to: [14.761, 44.756]
   expected_km: 44
@@ -1518,6 +1517,9 @@
 - name: Mali Lošinj → Silba
   from: [14.4645, 44.534]
   to: [14.689, 44.381]
+  # the cited passages go round Lošinj's south tip: the planner may take the Privlaka canal, whose swing bridge
+  # opens only at set hours (28 km)
+  waypoints: [[14.50, 44.47]]
   expected_km: 39
   tolerance: 0.25
   countries: [HR]
@@ -1553,7 +1555,6 @@
     the Pašman channel will be at the top of the tolerance)
 
 - name: Murter → ACI Skradin (St. Anthony channel, Krka)
-  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.5895, 43.827]
   to: [15.9205, 43.815]
   expected_km: 49
@@ -1564,7 +1565,6 @@
     (day 2, Murter – Skradin 27 NM)
 
 - name: Šibenik → ACI Skradin (up the Krka)
-  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.8875, 43.7345]
   to: [15.9205, 43.815]
   expected_km: 17
@@ -1574,7 +1574,6 @@
   source: https://www.sea-help.eu/en/cruise/cruise-tip-sibenik-krka-croatia/ (ACI Skradin about 10 NM from Šibenik); boote-magazin and charter guides give 8–9 NM; 9 NM used
 
 - name: ACI Skradin → Zlarin
-  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.9205, 43.815]
   to: [15.833, 43.698]
   expected_km: 24
@@ -4942,7 +4941,6 @@
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Pensacola to Fort Walton Beach 37 NM)
 
 - name: GIWW — Fort Walton Beach → Panama City (Choctawhatchee Bay, West Bay)
-  known_gap: Santa Rosa Sound at Fort Walton Beach is not joined to the GIWW eastward; the router doubles back west through Big Lagoon and Perdido (about 300 km)
   from: [-86.6200, 30.4050]
   to: [-85.6650, 30.1500]
   expected_km: 115
