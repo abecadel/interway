@@ -30,7 +30,7 @@ from shapely.ops import unary_union
 from .extract import Lake
 from .model import LonLat, Segment, area_km2, haversine, metres_to_deg
 from .sea import _grid_moves, from_merc, to_merc
-from .topology import new_node_id, node_positions
+from .topology import new_node_id, node_positions, split_lines
 
 log = logging.getLogger(__name__)
 
@@ -107,6 +107,27 @@ def water_bodies(lakes: list[Lake],
             body = unary_union([m.polygon.buffer(gap, 2) for m in members]).buffer(-gap, 2)
             body = body if not body.is_empty else unary_union([m.polygon for m in members])
             out.append((body, members))
+    return out
+
+
+def split_in_lakes(segments: list[Segment], lakes: list[Lake]) -> list[Segment]:
+    """Splits waterway lines inside lakes (not river or canal areas) about every 5 km, so the lake mesh joins
+    them there: the Gulf Intracoastal Waterway is one line through Choctawhatchee Bay. Returns the new list."""
+    polys = [lk.polygon for lk in lakes if lk.kind == "lake"]
+    if not polys:
+        return segments
+    tree = STRtree(polys)
+    for p in polys:
+        shapely.prepare(p)
+
+    def wet(pts: np.ndarray) -> np.ndarray:
+        mask = np.zeros(len(pts), dtype=bool)
+        for i in tree.query(MultiPoint(pts).envelope):
+            mask |= shapely.contains_xy(polys[int(i)], pts[:, 0], pts[:, 1])
+        return mask
+
+    out = split_lines(segments, wet)
+    log.info("split %d waterway lines inside lakes for the lake meshes", len(out) - len(segments))
     return out
 
 

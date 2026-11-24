@@ -14,7 +14,6 @@ river ends at the coastline; the link must stay in water except right at the inl
 """
 from __future__ import annotations
 
-import dataclasses
 import logging
 from pathlib import Path
 
@@ -24,7 +23,7 @@ from shapely import STRtree
 from shapely.geometry import LineString, MultiPoint, Point
 
 from .model import Segment, metres_to_deg
-from .topology import new_node_id, node_positions
+from .topology import SPLIT_EVERY_M, new_node_id, node_positions, split_lines
 
 log = logging.getLogger(__name__)
 
@@ -317,37 +316,12 @@ def drop_sheltered(sea: list[Segment], sheltered: list, inset_m: float = 100.0) 
     return kept
 
 
-SPLIT_IN_SEA_M = 5000.0  # a waterway line running through sea water gets a node this often, for connect_to_sea
-
-
-def split_in_sea(segments: list[Segment], coast: Coast, every_m: float = SPLIT_IN_SEA_M) -> list[Segment]:
+def split_in_sea(segments: list[Segment], coast: Coast, every_m: float = SPLIT_EVERY_M) -> list[Segment]:
     """Splits river, canal and fairway lines at a vertex in sea water about every `every_m`, so that
     connect_to_sea can join them to the mesh along the way, not only at their ends: the Gulf Intracoastal
-    Waterway is one 165 km line through Santa Rosa Sound and Choctawhatchee Bay. Returns the new list."""
-    out: list[Segment] = []
-    split = 0
-    for s in segments:
-        if s.kind not in ("river", "canal", "fairway") or s.lock or len(s.coords) < 3:
-            out.append(s)
-            continue
-        merc = to_merc(np.array(s.coords))
-        wet = ~coast.on_land(shapely.points(merc))
-        step = np.hypot(*np.diff(merc, axis=0).T)
-        cuts, run = [], 0.0
-        for i in range(1, len(s.coords) - 1):
-            run += step[i - 1]
-            if wet[i] and run >= every_m:
-                cuts.append(i)
-                run = 0.0
-        if not cuts:
-            out.append(s)
-            continue
-        ends = [s.a] + [new_node_id() for _ in cuts] + [s.b]
-        bounds = [0, *cuts, len(s.coords) - 1]
-        out += [dataclasses.replace(s, a=ends[k], b=ends[k + 1], coords=s.coords[bounds[k]:bounds[k + 1] + 1],
-                                    limits=dataclasses.replace(s.limits)) for k in range(len(bounds) - 1)]
-        split += 1
-    log.info("split %d waterway lines in sea water for links to the mesh", split)
+    Waterway runs as one line through Galveston Bay. Returns the new list."""
+    out = split_lines(segments, lambda pts: ~coast.on_land(shapely.points(to_merc(pts))), every_m)
+    log.info("split %d waterway lines in sea water for links to the mesh", len(out) - len(segments))
     return out
 
 

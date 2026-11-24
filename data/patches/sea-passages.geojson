@@ -1,6 +1,6 @@
 {
  "type": "FeatureCollection",
- "description": "Late patches: inshore passages where the coarse sea mesh has nodes but no way through, so the planner went far round (the detour does not depend on the draft). Each line is the shortest water path on a 12-25 m land raster (OSM land polygons), land-free, from sea-graph node to sea-graph node. Trogir to Šolta through the Čiovo-Drvenik channel (14.5 km; the planner went 35 km), Kühlungsborn to Warnemünde along the coast (21.3 km; 37 km), and Kiel Bay to the Schlei mouth (33.4 km; 46 km). The Schlei: the OSM fairway line (way 1205243476, a Seeschifffahrtsstraße from Schleimünde to Schleswig, https://de.wikipedia.org/wiki/Schlei) carries a name but no seamark tags, so it is added here from Kappeln, where it meets the Schleimünde fairway, to its loose end at Schleswig.",
+ "description": "Late patches: inshore passages where the coarse sea mesh has nodes but no way through, so the planner went far round (the detour does not depend on the draft). Each line is the shortest water path on a 12-25 m land raster (OSM land polygons), land-free, from sea-graph node to sea-graph node. Trogir to Šolta through the Čiovo-Drvenik channel (14.5 km; the planner went 35 km), Kühlungsborn to Warnemünde along the coast (21.3 km; 37 km), and Kiel Bay to the Schlei mouth (33.4 km; 46 km). The Schlei: the OSM fairway line (way 1205243476, a Seeschifffahrtsstraße from Schleimünde to Schleswig, https://de.wikipedia.org/wiki/Schlei) carries a name but no seamark tags, so it is added here from Kappeln, where it meets the Schleimünde fairway, to its loose end at Schleswig. St. Anthony's channel (Kanal Sveti Ante) from the lower Krka to Šibenik: the OSM navigation ways 828491815, 828502175 and 828533924, since the Krka's end at Prukljan lies on land in the coastline data and so is not joined to the sea mesh.",
  "features": [
   {
    "type": "Feature",
@@ -523,6 +523,42 @@
      [
       9.559693,
       54.507236
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "St. Anthony's channel",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      15.84933,
+      43.762678
+     ],
+     [
+      15.84961,
+      43.761177
+     ],
+     [
+      15.857023,
+      43.756482
+     ],
+     [
+      15.87943,
+      43.740288
+     ],
+     [
+      15.886148,
+      43.72962
+     ],
+     [
+      15.88066,
+      43.72884
      ]
     ]
    }

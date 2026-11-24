@@ -4,7 +4,7 @@ from shapely.geometry import LineString, Point, Polygon
 
 from interway_pipeline import lakes
 from interway_pipeline.extract import Lake
-from interway_pipeline.lakes import _lake_namer, _mesh, connect_lakes, water_bodies
+from interway_pipeline.lakes import _lake_namer, _mesh, connect_lakes, split_in_lakes, water_bodies
 from interway_pipeline.model import Segment, haversine, metres_to_deg
 from interway_pipeline.topology import components
 
@@ -456,3 +456,20 @@ def test_a_straightened_chain_does_not_cut_across_a_weir():
     assert _straighten(pts, water) == [(1.0, 1.0), (9.0, 1.0)]
     weir = STRtree([LineString([(5.0, 0.0), (5.0, 4.0)])])
     assert _straighten(pts, water, weir) == pts
+
+
+def test_a_line_through_a_lake_is_split_so_the_mesh_joins_it():
+    # a canal crossing a 0.2° bay (about 22 km) with only its ends outside: it gets nodes inside the bay
+    bay = Lake(9, "Choctawhatchee Bay", Polygon([(0.0, 0.0), (0.2, 0.0), (0.2, 0.1), (0.0, 0.1)]), True)
+    canal = Segment(a=1, b=2, coords=[(-0.05, 0.05)] + [(x / 100, 0.05) for x in range(0, 21, 2)] + [(0.25, 0.05)],
+                    kind="canal")
+    area = Lake(10, "River", Polygon([(0.3, 0.0), (0.4, 0.0), (0.4, 0.1), (0.3, 0.1)]), False, kind="channel")
+    river = Segment(a=3, b=4, coords=[(0.3, 0.05), (0.35, 0.05), (0.4, 0.05)], kind="river")
+    out = split_in_lakes([canal, river], [bay, area])
+    pieces = [s for s in out if s.kind == "canal"]
+    assert len(pieces) > 3 and pieces[0].a == 1 and pieces[-1].b == 2
+    assert river in out  # a river area is not a lake: its lines are left whole
+    assert split_in_lakes([canal], [area]) == [canal]
+    added = connect_lakes(out, [bay], [])
+    inner = {s.b for s in pieces[:-1]}
+    assert inner & ({s.a for s in added} | {s.b for s in added})  # the bay's mesh reaches the nodes inside it
