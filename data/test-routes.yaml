@@ -2348,9 +2348,10 @@
     km 21"; 20 km via Governolo)
 
 - name: Mantova → Porto Levante (Fissero-Tartaro-Canalbianco, Po di Levante)
-  known_gap: the Fissero-Tartaro-Canalbianco is not connected (the route takes the Po)
   from: [10.813, 45.145]
   to: [12.368, 45.049]
+  # by the idrovia: the planner's fastest way is down the Po with the current (171 km)
+  waypoints: [[11.4974, 45.0317]]
   expected_km: 135
   tolerance: 0.2
   countries: [IT]
@@ -3716,7 +3717,7 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 2, Laboe – Maasholm 20 sm)
 
 - name: Schleimünde → Schleswig (the whole Schlei)
-  known_gap: 'not yet diagnosed: the route differs from the source'
+  known_gap: 'the Schlei fairway is not in the data (patched, needs the rebuild): Schleswig snaps 17.7 km away'
   from: [10.018, 54.6754]
   to: [9.57, 54.5108]
   expected_km: 42
@@ -3814,9 +3815,10 @@
   source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 3, Ueckermünde – Szczecin 37 sm)
 
 - name: Świnoujście → Ueckermünde (Kanał Piastowski, Szczecin Lagoon)
-  known_gap: "the route takes the Świna and the Szczecin Lagoon's water area, not the Kanał Piastowski fairway"
   from: [14.2684, 53.9114]
   to: [14.0505, 53.737]
+  # the fairway through the Kanał Piastowski: the planner may cross by the Świna and the lagoon instead
+  waypoints: [[14.28823, 53.84589]]
   expected_km: 44.5
   tolerance: 0.2
   countries: [PL, DE]
@@ -3832,9 +3834,10 @@
   source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 5, Stepnica – Świnoujście 22 sm)
 
 - name: Świnoujście → Szczecin (Świnoujście–Szczecin fairway)
-  known_gap: "the route takes the Świna and the Szczecin Lagoon's water area, not the Kanał Piastowski fairway"
   from: [14.2684, 53.9114]
   to: [14.5715, 53.4275]
+  # the fairway through the Kanał Piastowski: the planner may cross by the Świna and the lagoon instead
+  waypoints: [[14.28823, 53.84589]]
   expected_km: 67.7
   tolerance: 0.15
   countries: [PL]
@@ -3928,9 +3931,10 @@
   source: https://southcoastbaltic.eu/de/kurisches-haff-und-memeldelta/ (day 1, Klaipėda – Nida 26 sm by the buoyed channel along the spit; also 26 sm in https://southcoastbaltic.eu/de/der-osten-so-nah/)
 
 - name: Nida → Mingė (Curonian Lagoon, Atmata, Minija)
-  known_gap: "the distance is right, but the route reaches Mingė over the lagoon's water area, not up the Atmata and Minija"
   from: [21.0105, 55.303]
   to: [21.284, 55.362]
+  # up the Atmata: the planner may reach Mingė over the lagoon water area instead
+  waypoints: [[21.26873, 55.34089]]
   expected_km: 20
   tolerance: 0.25
   countries: [LT]
