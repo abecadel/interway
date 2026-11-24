@@ -137,5 +137,49 @@
    59.2
   ],
   "refine": true
+ },
+ {
+  "name": "refine: Balearic Islands (Mallorca, Menorca, Ibiza, Formentera)",
+  "bbox": [
+   1.1,
+   38.6,
+   4.5,
+   40.2
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Costa Brava and Cap de Creus",
+  "bbox": [
+   2.7,
+   41.6,
+   3.4,
+   42.5
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Strait of Gibraltar and the Costa del Sol west",
+  "bbox": [
+   -6.3,
+   35.8,
+   -4.8,
+   36.6
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Rías Baixas (Galicia)",
+  "bbox": [
+   -9.4,
+   42.0,
+   -8.6,
+   42.9
+  ],
+  "refine": true,
+  "grid_m": 3000.0
  }
 ]
