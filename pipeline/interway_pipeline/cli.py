@@ -104,13 +104,16 @@ def merge_extracts(parts: list[Extract]) -> Extract:
 
 
 def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: float = 300.0,
-                  weirs: list | None = None) -> int:
+                  weirs: list | None = None, late: bool = False) -> int:
     """Manual connectors: GeoJSON LineStrings whose ends are snapped to the nearest graph node (or, with the
     property "join_line", left loose for snap_dead_ends_to_lines to join to the middle of a line).
 
     A LineString with the property "weir" is instead a weir OSM does not map, added to `weirs`: no lake or
     river-area mesh edge crosses it (the Widuchowa weir at the head of the West Oder), and the waterway lines
     that cross it are cut there (Sylvan Slough beside Lock and Dam 15).
+
+    A LineString with the property "late" is applied by the second call (late=True), after the lake and sea
+    meshes are built: it joins a harbour's water to the sea graph (the Göta älv mouth at Göteborg).
     """
     if patch_dir is None or not patch_dir.exists():
         return 0
@@ -119,7 +122,7 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
                 if (feat.get("geometry") or {}).get("type") == "LineString"]
     dams = [LineString([tuple(c[:2]) for c in feat["geometry"]["coordinates"]]) for _, feat in features
             if (feat.get("properties") or {}).get("weir")]
-    if dams:
+    if dams and not late:
         dam_tree = STRtree(dams)
         kept = [s for s in segments if not len(dam_tree.query(LineString(s.coords), predicate="intersects"))]
         if len(kept) < len(segments):
@@ -134,6 +137,8 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
     for f, feat in features:
         coords = [tuple(c[:2]) for c in feat["geometry"]["coordinates"]]
         props = feat.get("properties") or {}
+        if bool(props.get("late")) != late:
+            continue  # a "late" patch joins the lake and sea meshes: applied once they exist (harbours, river mouths)
         if props.get("weir"):
             if weirs is not None:
                 weirs.append(LineString(coords))
@@ -364,6 +369,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
             apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
                             near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))
         segments += connect_to_sea(segments, sea, coast) + sea
+    apply_patches(segments, patches, late=True)
     segments = merge_degree2(segments)
     segments, bypasses = block_lock_bypasses(segments)
     segments, report = drop_small_components(segments, min_component_km * 1000)

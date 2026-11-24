@@ -423,3 +423,13 @@ def test_lock_chambers_table_sets_the_count_of_a_staircase(tmp_path):
     assert cli.apply_lock_chambers(ex, None) == 0 and cli.apply_lock_chambers(ex, tmp_path / "none.yaml") == 0
     (tmp_path / "empty.yaml").write_text("", encoding="utf-8")
     assert cli.apply_lock_chambers(ex, tmp_path / "empty.yaml") == 0
+
+
+def test_late_patches_are_applied_after_the_meshes(tmp_path):
+    # the Göta älv mouth: the sea graph's node exists only once the sea mesh is built
+    segs = [line(1, 2, 0, 0.01), line(3, 4, 0.02, 0.03)]
+    (tmp_path / "late.geojson").write_text(json.dumps({"features": [feature([[0.01, 0], [0.02, 0]], name="Mouth", late=True)]}),
+                                            encoding="utf-8")
+    assert apply_patches(segs, tmp_path) == 0
+    assert apply_patches(segs, tmp_path, late=True) == 1
+    assert (segs[-1].a, segs[-1].b, segs[-1].name) == (2, 3, "Mouth")

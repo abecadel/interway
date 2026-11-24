@@ -57,21 +57,21 @@
  ],
  "sea": true,
  "osmTimestamp": "",
- "built": "2026-11-24T04:42:30+00:00",
+ "built": "2026-11-24T07:41:57+00:00",
  "files": {
   "graph": "graph.bin",
   "geom": "geom.bin",
   "pois": "pois.json"
  },
  "sha256": {
-  "graph": "547086a4c510b6334abcaea6bc6744a029ddb78072ae5351791f8b98c027e91a",
-  "geom": "0a30621edacf8728b1f50848655bf366a4d90406919c925cacb86bc27da28e42"
+  "graph": "8504d9305b7c3138f447a6faa98a59f6342ba4ba8db831aeca8e17015266a3df",
+  "geom": "56c4ab225af049870a3af34ef263dcd9eae4c4cdcecbc2ffcf39c3667aa657ee"
  },
  "stats": {
   "nodes": 406313,
-  "edges": 3145301,
-  "segments": 1572694,
-  "points": 3784871
+  "edges": 3145307,
+  "segments": 1572697,
+  "points": 3784877
  },
  "names": [
   "",
@@ -16487,6 +16487,9 @@
   "Kirnukoski",
   "Kesselinjärvi",
   "Kenttäjärvi",
+  "Guadiana mouth",
+  "Baggensfjärden",
+  "Göta älv mouth",
   "Indian River",
   "Erie Canal",
   "West Branch Susquehanna River",

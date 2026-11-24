@@ -1564,7 +1564,7 @@
     (day 2, Murter – Skradin 27 NM)
 
 - name: Šibenik → ACI Skradin (up the Krka)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "an end snaps 8.1 km from the sea graph (the harbour is not joined to it)"
   from: [15.8875, 43.7345]
   to: [15.9205, 43.815]
   expected_km: 17
@@ -1585,14 +1585,14 @@
     (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
 
 - name: ACI Trogir → Maslinica (Šolta)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: a detour"
   from: [16.2475, 43.515]
   to: [16.204, 43.3985]
-  expected_km: 26
+  expected_km: 16.7
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 1, Trogir – Maslinica 14 NM)
+  source: "shortest water path about 15 km (OSM land polygons); the cited figure (26 km) does not fit it: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 1, Trogir – Maslinica 14 NM)"
 
 - name: Maslinica (Šolta) → Komiža (Vis)
   from: [16.204, 43.3985]
@@ -1613,14 +1613,13 @@
   source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 3, Komiža – Vis Town 11 NM)
 
 - name: Vis town → Pakleni otoci (Palmižana / Vinogradišće)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [16.187, 43.0625]
   to: [16.3965, 43.1615]
-  expected_km: 31
+  expected_km: 22.5
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 4, Vis Town – Vinogradišće, Pakleni Islands 17 NM)
+  source: "shortest water path about 22 km (OSM land polygons); the cited figure (31 km) does not fit it: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 4, Vis Town – Vinogradišće, Pakleni Islands 17 NM)"
 
 - name: Hvar town → Stari Grad (round Pelegrin)
   from: [16.4407, 43.1715]
@@ -1632,14 +1631,13 @@
   source: "shortest water path round Pelegrin, about 26 km (OSM land polygons)"
 
 - name: Stari Grad (Hvar) → Bol (Brač)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [16.593, 43.186]
   to: [16.655, 43.261]
-  expected_km: 28
+  expected_km: 21.0
   tolerance: 0.3
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 5, Stari Grad – Bol 15 NM; another outline gives about 20 NM, hence the wide tolerance)
+  source: "shortest water path about 19 km (OSM land polygons); the cited figure (28 km) does not fit it: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 5, Stari Grad – Bol 15 NM; another outline gives about 20 NM, hence the wide tolerance)"
 
 - name: Bol → Milna (Brač, through the Split channel)
   from: [16.655, 43.261]
@@ -2792,24 +2790,22 @@
   source: https://blog.clickandboat.com/itineraire-voilier-cannes-une-semaine (day 2, Îles de Lérins – Saint-Tropez 26 NM)
 
 - name: Porquerolles → Saint-Tropez
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [6.205, 43.006]
   to: [6.637, 43.274]
-  expected_km: 45.4
+  expected_km: 59.0
   tolerance: 0.2
   countries: [FR]
   sea: true
-  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Porquerolles – Saint-Tropez 24.5 NM)
+  source: "shortest water path about 57 km (OSM land polygons); the cited figure (45.4 km) does not fit it: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Porquerolles – Saint-Tropez 24.5 NM)"
 
 - name: Port-Cros → Porquerolles
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [6.38, 43.012]
   to: [6.205, 43.006]
-  expected_km: 11.1
+  expected_km: 16.0
   tolerance: 0.3
   countries: [FR]
   sea: true
-  source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Port-Cros – Porquerolles 6 NM)
+  source: "shortest water path about 15 km (OSM land polygons); the cited figure (11.1 km) does not fit it: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Port-Cros – Porquerolles 6 NM)"
 
 - name: Hyères (Port Saint-Pierre) → Port-Cros
   from: [6.161, 43.08]
@@ -3143,7 +3139,6 @@
   source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (Culatra and Ria Formosa – 20 miles to Vilamoura)
 
 - name: Vila Real de Santo António → Culatra (eastern Algarve)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-7.413, 37.196]
   to: [-7.838, 36.992]
   expected_km: 48
@@ -3237,7 +3232,7 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/cesme-chios (9 NM; other operators give 7–11 NM)
 
 - name: Kapı Creek (Göcek) → Fethiye
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [28.8915, 36.6425]
   to: [29.1, 36.6245]
   expected_km: 22
@@ -3382,14 +3377,13 @@
   source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (ONTT distance table, Tabarka - Bizerte 64 M)
 
 - name: Bizerte → Sidi Bou Saïd
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [9.882, 37.275]
   to: [10.353, 36.8665]
-  expected_km: 61
+  expected_km: 75.0
   tolerance: 0.2
   sea: true
   countries: [TN]
-  source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Bizerte - Sidi Bou Saïd 33 M)
+  source: "shortest water path about 73 km (OSM land polygons); the cited figure (61 km) does not fit it: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Bizerte - Sidi Bou Saïd 33 M)"
 
 - name: Sidi Bou Saïd → Monastir (round Cap Bon)
   from: [10.353, 36.8665]
@@ -3555,7 +3549,7 @@
     to Skeppsbron; 37 M")'
 
 - name: Saltsjöbaden → Stockholm via Baggensstäket
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [18.315, 59.2867]
   to: [18.079, 59.325]
   expected_km: 20.4
@@ -3566,7 +3560,6 @@
     height 30 m")'
 
 - name: Saltsjöbaden → Sandhamn via Strömma kanal
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [18.315, 59.2867]
   to: [18.915, 59.29]
   expected_km: 36.7
@@ -3605,17 +3598,16 @@
   source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 5 "Sandhamn – Utö 30 NM")
 
 - name: Utö → Dalarö (Stockholm southern archipelago)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [18.3267, 58.97]
   to: [18.405, 59.13]
-  expected_km: 35.2
+  expected_km: 20.0
   tolerance: 0.25
   sea: true
   countries: [SE]
-  source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 "Utö – Dalarö 19 NM"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)
+  source: "shortest water path about 18 km (OSM land polygons); the cited figure (35.2 km) does not fit it: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 \"Utö – Dalarö 19 NM\"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)"
 
 - name: Göteborg (Lilla Bommen) → Öckerö
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [11.966, 57.713]
   to: [11.662, 57.706]
   expected_km: 20.4
@@ -3664,15 +3656,13 @@
   source: 'https://sailtraininginternational.org/app/uploads/2025/03/The-Tall-Ships-Races-2025-Cruise-in-Company-Ports.pdf ("From Farsund to Kristiansand: 52 nm")'
 
 - name: Avernakø → Faaborg via Svelmø (South Funen archipelago)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [10.264, 55.037]
   to: [10.24, 55.093]
-  expected_km: 16.7
+  expected_km: 9.0
   tolerance: 0.3
   sea: true
   countries: [DK]
-  source: 'https://www.visitfaaborg.com/faaborg/island-hopping/island-hopping-for-sailors ("Avernakø → Faaborg: approx. 9 NM, via Svelmø"; same page: Faaborg–Bjørnø 3 NM, Bjørnø–Lyø 6 NM, Lyø–Avernakø 5
-    NM)'
+  source: "shortest water path about 6 km (OSM land polygons); the cited figure (16.7 km) does not fit it: 'https://www.visitfaaborg.com/faaborg/island-hopping/island-hopping-for-sailors (\"Avernakø → Faaborg: approx. 9 NM, via Svelmø\"; same page: Faaborg–Bjørnø 3 NM, Bjørnø–Lyø 6 NM, Lyø–Avernakø 5"
 
 - name: Bjørnø → Lyø (South Funen archipelago)
   from: [10.252, 55.0665]
@@ -3717,7 +3707,7 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 1, Heiligenhafen – Laboe 33 sm)
 
 - name: Laboe → Maasholm (Schlei mouth)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the planner goes 46 km where the shortest water path is about 35 km: a detour"
   from: [10.2162, 54.4021]
   to: [9.9939, 54.6809]
   expected_km: 37
@@ -3754,24 +3744,23 @@
   source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
 
 - name: Kühlungsborn → Warnemünde
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: a detour"
   from: [11.7707, 54.1532]
   to: [12.0876, 54.1798]
-  expected_km: 18.5
+  expected_km: 22.0
   tolerance: 0.2
   sea: true
   countries: [DE]
-  source: https://www.boote-magazin.de/en/travel-and-charter/territories/wismar-bay-more-reality-than-appearance/ (the nearest harbour to Kühlungsborn is Warnemünde, ten nautical miles away)
+  source: "shortest water path about 21 km (OSM land polygons); the cited figure (18.5 km) does not fit it: https://www.boote-magazin.de/en/travel-and-charter/territories/wismar-bay-more-reality-than-appearance/ (the nearest harbour to Kühlungsborn is Warnemünde, ten nautical miles away)"
 
 - name: Barth → Neuendorf (Hiddensee) through the Bodden
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [12.7285, 54.373]
   to: [13.0945, 54.5242]
-  expected_km: 48
+  expected_km: 36.0
   tolerance: 0.2
   sea: true
   countries: [DE]
-  source: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 1, Barth – Neuendorf (Hiddensee) 26 sm)
+  source: "shortest water path about 32 km (OSM land polygons); the cited figure (48 km) does not fit it: https://southcoastbaltic.eu/de/vorpommersche-boddenlandschaft/ (day 1, Barth – Neuendorf (Hiddensee) 26 sm)"
 
 - name: Neuendorf (Hiddensee) → Wiek (Rügen)
   from: [13.0945, 54.5242]
