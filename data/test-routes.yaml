@@ -1496,17 +1496,16 @@
   source: https://www.helm.yt/itinerary/pula-yacht-vacation (day 2, Pula – Lošinj 36 NM, via the south side of Unije)
 
 - name: Marina Punat (Krk) → ACI Cres
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [14.623, 45.029]
   to: [14.4125, 44.949]
-  expected_km: 31
+  expected_km: 65
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.yachtbooker.com/countries/croatia/krk-punat?filter=31 (one-week Punat loop, day 1 Punat – Cres 17 NM)
+  source: "https://www.yachting.com/en-gb/news/sailing-in-istria (Punat – Cres 35 NM: ACI Cres lies on the west side of Cres, round the island's north tip; shortest water path about 64 km)"
 
 - name: Mali Lošinj → Rab (ACI Rab)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the planner goes 55 km where the shortest water path is about 35 km: the sea mesh detours here"
   from: [14.4645, 44.534]
   to: [14.761, 44.756]
   expected_km: 44
@@ -1535,7 +1534,7 @@
   source: https://www.yachting.com/en-gb/destinations/croatia/zadar/sukosan/route-1 (day 1, Sukošan – Biograd na Moru 10 NM)
 
 - name: Biograd na Moru → Šibenik (Pašman channel – Murter sea – St. Anthony channel)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "no route: a harbour here is not joined to the sea mesh"
   from: [15.4405, 43.941]
   to: [15.8875, 43.7345]
   expected_km: 46
@@ -1555,7 +1554,7 @@
     the Pašman channel will be at the top of the tolerance)
 
 - name: Murter → ACI Skradin (St. Anthony channel, Krka)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "no route: a harbour here is not joined to the sea mesh"
   from: [15.5895, 43.827]
   to: [15.9205, 43.815]
   expected_km: 49
@@ -1576,7 +1575,7 @@
   source: https://www.sea-help.eu/en/cruise/cruise-tip-sibenik-krka-croatia/ (ACI Skradin about 10 NM from Šibenik); boote-magazin and charter guides give 8–9 NM; 9 NM used
 
 - name: ACI Skradin → Zlarin
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "no route: a harbour here is not joined to the sea mesh"
   from: [15.9205, 43.815]
   to: [15.833, 43.698]
   expected_km: 24
@@ -1625,14 +1624,13 @@
   source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 4, Vis Town – Vinogradišće, Pakleni Islands 17 NM)
 
 - name: Hvar town → Stari Grad (round Pelegrin)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [16.4407, 43.1715]
   to: [16.593, 43.186]
-  expected_km: 22
+  expected_km: 26
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 4, Hvar – Stari Grad 12 NM)
+  source: "shortest water path round Pelegrin, about 26 km (OSM land polygons)"
 
 - name: Stari Grad (Hvar) → Bol (Brač)
   known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
@@ -1663,17 +1661,16 @@
   source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-8 (day 7, Milna – Trogir 20 NM)
 
 - name: Split → Bol (catamaran line)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [16.44, 43.503]
   to: [16.655, 43.261]
-  expected_km: 35
+  expected_km: 43
   tolerance: 0.2
   countries: [HR]
   sea: true
-  source: https://www.directferries.com/split_bol_ferry.htm (Split – Bol about 19 NM)
+  source: "shortest water path through Splitska vrata and along the south coast of Brač, about 42 km (OSM land polygons); the 19 NM of ferry sites cuts across Brač"
 
 - name: ACI Korčula → Pomena (Mljet)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the planner goes 111 km where the shortest water path is about 26 km: the sea mesh detours here"
   from: [17.1365, 42.9595]
   to: [17.344, 42.7892]
   expected_km: 27
@@ -1684,15 +1681,14 @@
     split-5 gives Korčula – Mljet 16 NM
 
 - name: ACI Dubrovnik (Komolac) → Lopud (Elaphites)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the distance is right, but ACI Komolac is 3.6 km from the sea graph (the Rijeka Dubrovačka is not joined to it)"
   from: [18.124, 42.6715]
   to: [17.9425, 42.6895]
-  expected_km: 16
+  expected_km: 17
   tolerance: 0.25
   countries: [HR]
   sea: true
-  source: https://www.moorings.com/destinations/mediterranean/croatia/dubrovnik-yacht-charters/itinerary/7-day-power-itinerary-short-distance-itinerary (day 1, Lopud town 8.2 NM from the ACI base); https://www.yacht.de/en/croatia/cruise-suggestion-dubrovnik-pines-and-palm-trees/
-    (Dubrovnik ACI – Lopud 9 NM)
+  source: "shortest water path about 16 km (OSM land polygons)"
 
 - name: Šipanska Luka (Šipan) → ACI Dubrovnik (Komolac)
   known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
@@ -2894,18 +2890,15 @@
 # --- Spain and Portugal (researched 2026-11-21) ------------------------------------------------------------------------
 
 - name: Palma → Port d'Andratx (Mallorca)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [2.638, 39.566]
   to: [2.385, 39.544]
-  expected_km: 31
+  expected_km: 37
   tolerance: 0.25
   sea: true
   countries: [ES]
-  source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 1, Palma de Mallorca – Puerto Andratx 17 NM; other charter itineraries give
-    up to 21 NM)
+  source: "https://12knots.com/en/itineraries/spain/mallorca-7-days/ (Palma – Andratx 20 NM; shortest water path about 34 km)"
 
 - name: Port d'Andratx → Port de Sóller (Mallorca)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [2.385, 39.544]
   to: [2.693, 39.796]
   expected_km: 46
@@ -2915,7 +2908,6 @@
   source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 2, Puerto Andratx – Puerto Soller 25 NM; other charter guides 27 NM)
 
 - name: Port de Sóller → Port de Pollença (Mallorca, round Formentor)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [2.693, 39.796]
   to: [3.088, 39.904]
   expected_km: 65
@@ -2925,7 +2917,6 @@
   source: https://navigare-yachting.com/images/destination/route-pdfs/navigare%20yachting%20itinerary%20mallorca%201.pdf (day 3, Puerto Soller – Puerto Pollensa 35 NM)
 
 - name: Port de Pollença → Cala Rajada (Mallorca)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [3.088, 39.904]
   to: [3.464, 39.71]
   expected_km: 46
@@ -2953,14 +2944,13 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-ciutadella-menorca-alcudia-mallorca (approximately 39 NM; other ferry sites give 33–42 NM)
 
 - name: Barcelona → Mahón (Maó, Menorca)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [2.1838, 41.3744]
   to: [4.265, 39.89]
-  expected_km: 246
+  expected_km: 250
   tolerance: 0.15
   sea: true
   countries: [ES]
-  source: https://www.ferryhopper.com/en/ferry-routes/direct/barcelona-mahon (133 NM, about 246 km)
+  source: "https://www.clubmaritimomahon.com/static/uploads/instruccionesderegatatrofeoalfonsoxiii.pdf (Barcelona – Mahón 135 NM; the 130 NM of ferry sites is the straight line across Menorca)"
 
 - name: Barcelona → Ibiza
   from: [2.1838, 41.3744]
@@ -3009,7 +2999,6 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-ibiza-formentera (10 NM, 19 km)
 
 - name: Sant Antoni de Portmany → La Savina (Ibiza west coast to Formentera)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [1.296, 38.979]
   to: [1.418, 38.734]
   expected_km: 43
@@ -3019,7 +3008,6 @@
   source: https://plainsailing.com/destinations/spain/ibiza (day 1, Sant Antoni to La Savina 23 nM)
 
 - name: Portinatx → Sant Antoni de Portmany (Ibiza north coast)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [1.517, 39.112]
   to: [1.296, 38.979]
   expected_km: 30
@@ -3029,7 +3017,6 @@
   source: https://plainsailing.com/destinations/spain/ibiza (day 6, Portinatx to Sant Antoni 16 nM)
 
 - name: Blanes → Palamós (Costa Brava)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [2.798, 41.672]
   to: [3.127, 41.843]
   expected_km: 36
@@ -3039,7 +3026,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-costa-brava-i481.html (day 7, Marina Port of Blanes – Palamos Marina 19.5 NM; another itinerary 19.4 NM)
 
 - name: Palamós → L'Estartit (Costa Brava)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [3.127, 41.843]
   to: [3.205, 42.052]
   expected_km: 28
@@ -3049,7 +3035,6 @@
   source: https://blog.clickandboat.com/en/costa-brava-1-week-sailing-route (day 1, L'Estartit – Palamós 15.3 NM)
 
 - name: L'Estartit → Cadaqués (Costa Brava, round Cap de Creus side)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [3.205, 42.052]
   to: [3.282, 42.288]
   expected_km: 28
@@ -3059,7 +3044,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-costa-brava-i481.html (Bay of Cadaqués – L'Estartit 15.2 NM)
 
 - name: La Línea (Alcaidesa) → Estepona (Costa del Sol)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-5.358, 36.157]
   to: [-5.1575, 36.413]
   expected_km: 46
@@ -3069,7 +3053,6 @@
   source: https://alcaidesamarina.com/en/rutas_nauticas/estepona-a-day-or-weekend-route (distance 25 nautical miles)
 
 - name: La Línea (Alcaidesa) → Barbate (through the Strait of Gibraltar)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-5.358, 36.157]
   to: [-5.93, 36.181]
   expected_km: 67
@@ -3097,7 +3080,7 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-tarifa-tanger (around 17 NM, 31 km)
 
 - name: Baiona → Combarro (Rías Baixas)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
+  known_gap: "the planner goes 70 km where the shortest water path is about 40 km: the sea mesh detours here"
   from: [-8.842, 42.121]
   to: [-8.706, 42.428]
   expected_km: 56
@@ -3107,7 +3090,6 @@
   source: https://mrcyb.es/en/?p=79528 (II Rías Baixas Route, Baiona – Combarro 30 miles)
 
 - name: A Pobra do Caramiñal → Muros (Ría de Arousa to Ría de Muros e Noia)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-8.934, 42.604]
   to: [-9.055, 42.775]
   expected_km: 59

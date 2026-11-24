@@ -57,21 +57,21 @@
  ],
  "sea": true,
  "osmTimestamp": "",
- "built": "2026-11-23T23:47:48+00:00",
+ "built": "2026-11-24T01:28:28+00:00",
  "files": {
   "graph": "graph.bin",
   "geom": "geom.bin",
   "pois": "pois.json"
  },
  "sha256": {
-  "graph": "97a4f3afcf1c89d0c77afca79fd849dd267885fc9c83e0bcb6c48f2d6903928c",
-  "geom": "f5afeb5a307088799c7f11daef421587db62e039c4d8128f17cd88c0efad4370"
+  "graph": "d74432341389573facf9f65647db3ee216766bedd5c033d5c285f29d71649f6e",
+  "geom": "8f457198d2b3bfb4b159033fbb511cda25db50f63a6c63287aeb2ca1e6cd43bb"
  },
  "stats": {
-  "nodes": 392962,
-  "edges": 2836391,
-  "segments": 1418239,
-  "points": 3476145
+  "nodes": 396554,
+  "edges": 2923031,
+  "segments": 1461559,
+  "points": 3562712
  },
  "names": [
   "",
