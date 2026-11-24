@@ -1812,7 +1812,6 @@
   source: https://sailingissues.com/yachting-guide/saronic-itineraries.html (route E day 2, Alimos/Kalamaki – Hydra 36 NM)
 
 - name: Lavrio → Merichas (Kythnos, Cyclades)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [24.066, 37.711]
   to: [24.4, 37.39]
   expected_km: 46
@@ -1885,7 +1884,6 @@
   source: https://sailingissues.com/yachting-guide/cyclades-itineraries.html (route H day 6, Livadi on Serifos – Adamas on Milos 28 NM)
 
 - name: Kos → Pothia (Kalymnos, Dodecanese)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [27.289, 36.8954]
   to: [26.987, 36.946]
   expected_km: 31
@@ -1931,7 +1929,6 @@
   source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (routes B, C, D and F day 2, Gouvia marina – Kassiopi 12 NM)
 
 - name: Syvota → Parga (Epirus coast, Ionian)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [20.24, 39.4055]
   to: [20.401, 39.281]
   expected_km: 26
@@ -1978,7 +1975,6 @@
   source: https://sailingissues.com/yachting-guide/ionian-itineraries.html (route K day 7, Sami – Zakynthos port 36 NM)
 
 - name: Zakynthos → Katakolo (Olympia, Ionian)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [20.903, 37.78]
   to: [21.322, 37.646]
   expected_km: 46
@@ -2092,7 +2088,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-genoa-i501.html (day 1, Genoa – Portofino 16.4 NM)
 
 - name: Lerici → Levanto (Cinque Terre)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [9.907, 44.072]
   to: [9.608, 44.168]
   expected_km: 31
@@ -2111,7 +2106,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-la-spezia-i499.html (Levanto – Santa Margherita Ligure 20.5 NM; the Genoa itinerary gives 20.9 NM)
 
 - name: Sestri Levante → Portovenere
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [9.387, 44.269]
   to: [9.835, 44.049]
   expected_km: 46
@@ -2121,7 +2115,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-la-spezia-i499.html (day 6, Sestri Levante – Porto Venere 25 NM)
 
 - name: Sanremo → Imperia (Riviera di Ponente)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [7.787, 43.815]
   to: [8.029, 43.874]
   expected_km: 26
@@ -2131,7 +2124,6 @@
   source: https://italia.it/en/liguria/things-to-do/poets-route-liguria-by-boat (day 1, Sanremo – Imperia "about 15 miles")
 
 - name: Piombino → Portoferraio (Elba)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [10.549, 42.929]
   to: [10.326, 42.815]
   expected_km: 28
@@ -2159,7 +2151,6 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/porto-santo-stefano-giglio (about 12 NM, about 22 km)
 
 - name: Portoferraio → Marina di Campo (round western Elba)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [10.326, 42.815]
   to: [10.24, 42.744]
   expected_km: 41
@@ -2224,7 +2215,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-salerno-i466.html (day 6, Capri – Amalfi 17.6 NM; Moorings gives 19 NM)
 
 - name: Amalfi → Salerno
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [14.6, 40.63]
   to: [14.752, 40.671]
   expected_km: 19
@@ -2270,7 +2260,6 @@
   source: https://www.sunsail.com/uk/destinations/mediterranean/italy/portorosa-sicily/itinerary/7-day-portorosa-bareboat-itinerary (day 6, Stromboli – Lipari 25 NM; The Globe Sailor gives 24 NM)
 
 - name: Marsala → Trapani
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [12.44, 37.787]
   to: [12.505, 38.013]
   expected_km: 28.5
@@ -2280,7 +2269,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-marsala-i530.html (day 1, Marsala – Trapani 15.4 NM)
 
 - name: Trapani → Levanzo (Egadi)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [12.505, 38.013]
   to: [12.34, 37.986]
   expected_km: 14.5
@@ -2828,7 +2816,6 @@
   source: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Port-Cros – Porquerolles 6 NM)
 
 - name: Hyères (Port Saint-Pierre) → Port-Cros
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [6.161, 43.08]
   to: [6.38, 43.012]
   expected_km: 20.4
@@ -2847,7 +2834,6 @@
   source: https://blog.clickandboat.com/en/corsica-map-1-week-sailing-route (day 5, L'Île-Rousse – Calvi 10 NM)
 
 - name: Ajaccio → Sagone
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [8.742, 41.925]
   to: [8.693, 42.11]
   expected_km: 42.6
@@ -2866,7 +2852,6 @@
   source: https://blog.clickandboat.com/en/corsica-map-1-week-sailing-route (day 3, Sagone – Golfe de Porto Girolata 20 NM)
 
 - name: Propriano → Ajaccio
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [8.903, 41.677]
   to: [8.742, 41.925]
   expected_km: 50
@@ -3108,7 +3093,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-lisbon-i535.html (Doca de Belém – Oeiras 5.7 NM, Oeiras – Cascais 5.7 NM)
 
 - name: Cascais → Setúbal (round Cabo Espichel)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-9.416, 38.691]
   to: [-8.896, 38.52]
   expected_km: 69
@@ -3118,7 +3102,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-lisbon-i535.html (day 3, Cascais – Sétubal 37 NM)
 
 - name: Sesimbra → Lisbon (Doca de Belém)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-9.11, 38.44]
   to: [-9.202, 38.693]
   expected_km: 47
@@ -3128,7 +3111,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-lisbon-i535.html (day 7, Sesimbra – Doca de Belém 25.3 NM)
 
 - name: Lagos → Albufeira (Algarve)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-8.67, 37.106]
   to: [-8.2675, 37.0825]
   expected_km: 40
@@ -3138,7 +3120,6 @@
   source: https://theglobesailor.com/7-day-sailing-itinerary-lagos-i505.html (day 1, Lagos – Albufeira 21.5 NM)
 
 - name: Albufeira → Portimão (Algarve)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-8.2675, 37.0825]
   to: [-8.528, 37.117]
   expected_km: 26
@@ -3148,7 +3129,6 @@
   source: https://www.noonsite.com/report/portugal-cruising-the-algarve/ (Marina de Albufeira – 14 miles to Portimão)
 
 - name: Lagos → Sagres (Baleeira, Algarve)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [-8.67, 37.106]
   to: [-8.928, 37.008]
   expected_km: 28
@@ -3189,7 +3169,6 @@
 # --- Mediterranean (Malta, Turkey, Cyprus, Slovenia, Montenegro, Albania, Tunisia) and the Black Sea (researched 2026-11-21) ---
 
 - name: Kalkara (Grand Harbour) → Mġarr (Gozo)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [14.5225, 35.8893]
   to: [14.2995, 36.0235]
   expected_km: 28
@@ -3226,7 +3205,6 @@
   source: https://www.helm.yt/itinerary/bodrum-sailing-route (day 2, Bodrum to Cokertme 20 NM)
 
 - name: Marmaris (Netsel) → Çiftlik Bay
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [28.278, 36.8505]
   to: [28.235, 36.714]
   expected_km: 22
@@ -3236,7 +3214,6 @@
   source: https://12knots.com/en/itineraries/turkey/marmaris-7-days/ (day 2, Marmaris – Ciftlik 12 NM)
 
 - name: Marmaris → Rhodes (Turkish–Greek crossing)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [28.278, 36.8505]
   to: [28.229, 36.45]
   expected_km: 46
@@ -3283,7 +3260,6 @@
   source: https://www.helm.yt/itinerary/fethiye-sailing-holiday (day 4, Kas – Kalkan 15 NM)
 
 - name: Kaş → Kekova (Üçağız)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [29.6405, 36.1985]
   to: [29.848, 36.195]
   expected_km: 33
@@ -3293,7 +3269,6 @@
   source: https://www.yachttogo.com/?p=35103 (Fethiye to Kekova 7-day route, day 4 "Kaş to Kekova 18 NM"; yachtwarriors.com gives 22 NM, so wide tolerance)
 
 - name: Kaş → Kastellorizo (Meis, Turkish–Greek crossing)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [29.6405, 36.1985]
   to: [29.591, 36.1495]
   expected_km: 7
@@ -3303,7 +3278,6 @@
   source: https://www.directferries.com/kas_kastelorizo_ferry.htm (4 NM; ferryhopper's "1 NM" is not plausible for harbour to harbour)
 
 - name: Limassol Marina → Larnaca Marina
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [33.04, 34.6685]
   to: [33.642, 34.917]
   expected_km: 70
@@ -3313,7 +3287,6 @@
   source: https://www.visitcyprus.com/?p=470835 (Deputy Ministry of Tourism port distances, Lemesos – Larnaka 38 NM; Limassol Marina's cruising guide gives 35 NM)
 
 - name: Limassol Marina → Paphos harbour
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [33.04, 34.6685]
   to: [32.4065, 34.754]
   expected_km: 78
@@ -3323,7 +3296,6 @@
   source: https://www.visitcyprus.com/?p=470835 (Lemesos – Pafos 42 NM)
 
 - name: Paphos → Latsi (Latchi)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [32.4065, 34.754]
   to: [32.3645, 35.0385]
   expected_km: 61
@@ -3433,7 +3405,6 @@
   source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (Sidi Bou Saïd - Monastir 116 M)
 
 - name: Varna → Sveti Vlas (Marina Dinevi)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [27.926, 43.194]
   to: [27.767, 42.705]
   expected_km: 67
@@ -3452,7 +3423,6 @@
   source: https://www.marinadinevi.bg/en/marina/ ("32 nautical miles from the most southern entry port of Bulgaria", Tsarevo)
 
 - name: Nesebar → Sozopol (Bay of Burgas)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [27.728, 42.657]
   to: [27.69, 42.421]
   expected_km: 26
@@ -3471,7 +3441,6 @@
   source: https://blog.getboat.com/trends-in-yachting/sailing-black-sea-turkey-bulgaria ("a 50-nautical-mile sail to Varna" from Sozopol)
 
 - name: Mangalia → Constanța (Port Tomis)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [28.585, 43.8085]
   to: [28.665, 44.1765]
   expected_km: 37
@@ -3662,7 +3631,6 @@
   source: 'https://www.boote-magazin.de/en/travel-and-charter/territories/bohuslaen-sweden-s-wild-west-on-the-skagerrak/ ("Gothenburg (Lilla Bommen guest harbour) → Öckerö: 11 nm")'
 
 - name: Marstrand → Uddevalla (inner route behind Tjörn and Orust)
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [11.588, 57.887]
   to: [11.93, 58.347]
   expected_km: 68.5
@@ -3938,7 +3906,6 @@
   source: https://southcoastbaltic.eu/de/der-osten-so-nah/ (day 1, Gdynia – Gdańsk 13 sm)
 
 - name: Gdynia → Hel
-  known_gap: coarse sea mesh on this coast (no refine area yet) or the harbour joins it far off
   from: [18.5545, 54.5165]
   to: [18.8005, 54.601]
   expected_km: 23

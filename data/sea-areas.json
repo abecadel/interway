@@ -181,5 +181,236 @@
   ],
   "refine": true,
   "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Ligurian Riviera and Cinque Terre",
+  "bbox": [
+   7.5,
+   43.7,
+   10.0,
+   44.4
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Tuscan archipelago, Elba",
+  "bbox": [
+   10.0,
+   42.6,
+   10.7,
+   43.0
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Gulf of Naples, Amalfi coast, Gulf of Salerno",
+  "bbox": [
+   14.0,
+   40.5,
+   14.9,
+   40.9
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Western Sicily and the Egadi",
+  "bbox": [
+   12.2,
+   37.7,
+   12.7,
+   38.2
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Hyères islands and the Var coast",
+  "bbox": [
+   6.0,
+   42.9,
+   6.8,
+   43.35
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Western Corsica (Ajaccio, Propriano, Sagone)",
+  "bbox": [
+   8.4,
+   41.5,
+   9.0,
+   42.3
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Lisbon, Cascais, Sesimbra and Setúbal",
+  "bbox": [
+   -9.6,
+   38.3,
+   -8.8,
+   38.8
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Algarve",
+  "bbox": [
+   -9.1,
+   36.9,
+   -7.3,
+   37.3
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Malta and Gozo",
+  "bbox": [
+   14.1,
+   35.75,
+   14.65,
+   36.1
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Lycian coast: Kaş, Kekova, Kastellorizo",
+  "bbox": [
+   29.3,
+   36.0,
+   30.0,
+   36.4
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: South coast of Cyprus",
+  "bbox": [
+   32.2,
+   34.5,
+   34.0,
+   35.2
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Bizerte to Tunis",
+  "bbox": [
+   9.7,
+   36.7,
+   10.5,
+   37.4
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Bulgarian Black Sea coast",
+  "bbox": [
+   27.4,
+   42.2,
+   28.2,
+   43.4
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Romanian Black Sea coast",
+  "bbox": [
+   28.4,
+   43.7,
+   28.9,
+   44.3
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Swedish west coast (Gothenburg, Tjörn, Orust)",
+  "bbox": [
+   11.0,
+   57.5,
+   12.0,
+   58.5
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Gulf of Gdańsk and the Hel peninsula",
+  "bbox": [
+   18.4,
+   54.3,
+   19.0,
+   54.8
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Kos and Kalymnos",
+  "bbox": [
+   26.9,
+   36.85,
+   27.35,
+   37.0
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Lavrio and Kythnos",
+  "bbox": [
+   24.0,
+   37.35,
+   24.5,
+   37.75
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Marmaris, Çiftlik and Rhodes",
+  "bbox": [
+   28.1,
+   36.4,
+   28.35,
+   36.9
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Syvota and Parga",
+  "bbox": [
+   20.15,
+   39.2,
+   20.45,
+   39.45
+  ],
+  "refine": true,
+  "grid_m": 3000.0
+ },
+ {
+  "name": "refine: Zakynthos and Katakolo",
+  "bbox": [
+   20.85,
+   37.6,
+   21.4,
+   37.85
+  ],
+  "refine": true,
+  "grid_m": 3000.0
  }
 ]
