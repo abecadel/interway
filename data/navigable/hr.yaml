@@ -6,5 +6,8 @@ waterways:
   - Drava
 lakes: []
 exclude: []
-# Neretva, sea to the river port of Metković (part of Luka Ploče, https://luka-ploce.hr/terminali-i-usluge/terminali/pj-metkovic/?lang=en)
-ways: [1320731887]
+# Neretva, sea to the river port of Metković (part of Luka Ploče, https://luka-ploce.hr/terminali-i-usluge/terminali/pj-metkovic/?lang=en);
+# the lower Krka from Šibenik through St. Anthony's channel (Kanal Sveti Ante) and Prukljan to Skradin and the foot of
+# Skradinski buk, tidal and open to boats (OSM boat=yes, tidal=yes; ACI marina Skradin, https://aci-marinas.com/marina/aci-marina-skradin/):
+# the Krka ways 167186952, 167186955 and 167293878 (St. Anthony's channel itself is on the sea mesh)
+ways: [1320731887, 167186952, 167186955, 167293878]
