@@ -687,15 +687,25 @@ def test_ways_carry_motorboat_bans_and_speed_limits_through_merges():
 def test_lock_pieces_of_one_chamber_count_once():
     from interway_pipeline.topology import merge_lock_pieces
     # the 4th Lock drawn as three pieces (1-2-3-4), canal on both sides; a staircase 5-6-7 with a gate at 6
-    segs = [seg(0, 1, name="Royal Canal"), seg(1, 2, name="4th Lock", lock=True), seg(3, 2, name="4th Lock", lock=True),
-            seg(3, 4, name="Royal Canal", lock=True), seg(4, 5, name="Royal Canal"),
-            seg(5, 6, name="Rise", lock=True), seg(6, 7, name="Rise", lock=True), seg(7, 8),
-            seg(8, 9, lock=True), seg(9, 10, lock=True), seg(9, 11)]  # a junction at 9: not merged
+    at = {}  # node -> x (deg): each piece starts where the one before it ended
+
+    def piece(a, b, m, way, **kw):  # a lock piece m metres long, from OSM way `way`
+        x0 = at.setdefault(a, a * 0.01)
+        at[b] = x0 + metres_to_deg(m)
+        return Segment(a=a, b=b, coords=[(x0, 0.0), (at[b], 0.0)], kind="canal", lock=True, osm_way=way, **kw)
+    segs = [seg(0, 1, name="Royal Canal"), piece(1, 2, 26, 11, name="4th Lock"), piece(2, 3, 20, 12, name="4th Lock"),
+            piece(3, 4, 7, 13, name="Royal Canal"), seg(4, 5, name="Royal Canal"),
+            piece(5, 6, 20, 14, name="Rise"), piece(6, 7, 20, 15, name="Rise"), seg(7, 8),  # a gate at 6
+            piece(8, 9, 5, 16), piece(9, 10, 5, 17), seg(9, 11),  # a junction at 9: not merged
+            piece(20, 21, 40, 18, name="Flight"), piece(21, 22, 40, 19, name="Flight"),  # two 40 m chambers
+            piece(30, 31, 10, 20), piece(31, 32, 10, 20)]  # one way split into its chambers
     out = merge_lock_pieces(segs, gates={6})
     locks = [s for s in out if s.lock]
     four = [s for s in locks if s.name == "4th Lock"]
     assert len(four) == 1 and (four[0].a, four[0].b) == (1, 4) and len(four[0].coords) == 4
+    assert len([s for s in locks if s.name == "Flight"]) == 2 and len([s for s in locks if s.osm_way == 20]) == 2
     assert len([s for s in locks if s.name == "Rise"]) == 2
     assert len([s for s in locks if s.a in (8, 9)]) == 2
     assert merge_lock_pieces([seg(1, 1, lock=True), seg(1, 2, lock=True)], set())[0].a == 1  # a loop is left alone
-    assert len(merge_lock_pieces([seg(1, 2, lock=True), seg(2, 1, lock=True)], set())) == 2  # two pieces in a ring
+    ring = [piece(1, 2, 5, 1), Segment(a=2, b=1, coords=[(2, 0.0), (1, 0.0)], lock=True, osm_way=2)]
+    assert len(merge_lock_pieces(ring, set())) == 2  # two pieces in a ring

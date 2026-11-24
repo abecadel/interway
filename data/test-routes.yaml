@@ -1417,7 +1417,6 @@
     km 62.20 → 25.05 km (Zarządzenie 7/2024 row 51e)
 
 - name: Węgorzewo → Ogonki (Mamry, Święcajty)
-  known_gap: 'Kanał Węgorzewski/Węgorapa are missing: Węgorzewo snaps 2 km away'
   from: [21.7365, 54.2097]
   to: [21.8127, 54.178]
   expected_km: 16.55

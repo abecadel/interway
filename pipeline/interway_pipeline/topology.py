@@ -871,10 +871,14 @@ def split_lines(segments: list[Segment], wet, every_m: float = SPLIT_EVERY_M) ->
     return out
 
 
+LOCK_PIECES_MAX_M = 55.0  # lock pieces this long together are one chamber drawn in parts, not a flight
+
+
 def merge_lock_pieces(segments: list[Segment], gates: set[int]) -> list[Segment]:
-    """One lock chamber drawn as several lock pieces (the Royal Canal's 4th Lock: three lock=yes ways, and short
-    lines inside a lock's water area) counts once: lock pieces meeting at a node with no other line and no lock
-    gate there are merged. A gate between two chambers keeps a staircase's chambers apart."""
+    """One lock chamber drawn as several lock pieces (the Royal Canal's 4th Lock: three lock=yes ways of 26, 20
+    and 7 m, and short lines inside a lock's water area) counts once: lock pieces of different ways meeting at a
+    node with no other line and no lock gate are merged while together they are no longer than one small
+    chamber. A flight's chambers (the Rideau's, 40 m each, or one way split into its chambers) stay apart."""
     ends: dict[int, list[int]] = defaultdict(list)
     for i, s in enumerate(segments):
         ends[s.a].append(i)
@@ -890,7 +894,7 @@ def merge_lock_pieces(segments: list[Segment], gates: set[int]) -> list[Segment]
             continue
         s = s if s.b == n else _reversed(s)
         t = t if t.a == n else _reversed(t)
-        if s.a == t.b:
+        if s.a == t.b or s.osm_way == t.osm_way or s.length + t.length > LOCK_PIECES_MAX_M:
             continue
         name = s.name if s.length >= t.length else t.name  # the chamber's name, not a scrap's ("2nd Lock")
         joined = replace(s, b=t.b, coords=s.coords + t.coords[1:], name=name)
