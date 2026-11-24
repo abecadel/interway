@@ -869,3 +869,34 @@ def split_lines(segments: list[Segment], wet, every_m: float = SPLIT_EVERY_M) ->
         out += [replace(s, a=ends[k], b=ends[k + 1], coords=s.coords[bounds[k]:bounds[k + 1] + 1],
                                     limits=replace(s.limits)) for k in range(len(bounds) - 1)]
     return out
+
+
+def merge_lock_pieces(segments: list[Segment], gates: set[int]) -> list[Segment]:
+    """One lock chamber drawn as several lock pieces (the Royal Canal's 4th Lock: three lock=yes ways, and short
+    lines inside a lock's water area) counts once: lock pieces meeting at a node with no other line and no lock
+    gate there are merged. A gate between two chambers keeps a staircase's chambers apart."""
+    ends: dict[int, list[int]] = defaultdict(list)
+    for i, s in enumerate(segments):
+        ends[s.a].append(i)
+        ends[s.b].append(i)
+    alive = list(segments)
+    merged = 0
+    for n, idx in ends.items():
+        if len(idx) != 2 or n in gates:
+            continue
+        i, j = idx
+        s, t = alive[i], alive[j]
+        if i == j or s is None or t is None or not (s.lock and t.lock) or s.a == s.b or t.a == t.b:
+            continue
+        s = s if s.b == n else _reversed(s)
+        t = t if t.a == n else _reversed(t)
+        if s.a == t.b:
+            continue
+        name = s.name if s.length >= t.length else t.name  # the chamber's name, not a scrap's ("2nd Lock")
+        joined = replace(s, b=t.b, coords=s.coords + t.coords[1:], name=name)
+        alive[i], alive[j] = joined, None
+        for k in (joined.a, joined.b):  # the far ends now belong to the joined piece
+            ends[k] = [i if x == j else x for x in ends[k]]
+        merged += 1
+    log.info("merged %d lock pieces into the chambers they belong to", merged)
+    return [s for s in alive if s is not None]

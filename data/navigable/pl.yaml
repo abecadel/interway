@@ -114,4 +114,7 @@ wikidata:
 exclude: []
 # the canal through the Vistula Spit at Nowy Świat (opened 17.09.2022): its approach cuts carry only
 # boat=designated and no name (https://www.umgdy.gov.pl/, droga wodna łącząca Zalew Wiślany z Zatoką Gdańską)
-ways: [1095373151, 1095373152]
+# Kanał Węgorzewski (way 174473730) and the Węgorapa from it to the port of Węgorzewo (ways 1000657258, 1000657259,
+# 919274176): the end of the Giżycko - Węgorzewo route (km 23.70 - 25.20,
+# https://mazury24.eu/szlaki-wodne/szlak-zeglowny-gizycko-wegorzewo,530); tagged boat=yes only
+ways: [1095373151, 1095373152, 174473730, 1000657258, 1000657259, 919274176]

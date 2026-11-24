@@ -682,3 +682,20 @@ def test_ways_carry_motorboat_bans_and_speed_limits_through_merges():
     banned = [s for s in segs if s.no_motor]
     assert [(s.a, s.b, s.max_speed) for s in banned] == [(1, 3, 10)]
     assert [(s.a, s.b) for s in segs if not s.no_motor] == [(3, 5)]  # the two plain ways still merge
+
+
+def test_lock_pieces_of_one_chamber_count_once():
+    from interway_pipeline.topology import merge_lock_pieces
+    # the 4th Lock drawn as three pieces (1-2-3-4), canal on both sides; a staircase 5-6-7 with a gate at 6
+    segs = [seg(0, 1, name="Royal Canal"), seg(1, 2, name="4th Lock", lock=True), seg(3, 2, name="4th Lock", lock=True),
+            seg(3, 4, name="Royal Canal", lock=True), seg(4, 5, name="Royal Canal"),
+            seg(5, 6, name="Rise", lock=True), seg(6, 7, name="Rise", lock=True), seg(7, 8),
+            seg(8, 9, lock=True), seg(9, 10, lock=True), seg(9, 11)]  # a junction at 9: not merged
+    out = merge_lock_pieces(segs, gates={6})
+    locks = [s for s in out if s.lock]
+    four = [s for s in locks if s.name == "4th Lock"]
+    assert len(four) == 1 and (four[0].a, four[0].b) == (1, 4) and len(four[0].coords) == 4
+    assert len([s for s in locks if s.name == "Rise"]) == 2
+    assert len([s for s in locks if s.a in (8, 9)]) == 2
+    assert merge_lock_pieces([seg(1, 1, lock=True), seg(1, 2, lock=True)], set())[0].a == 1  # a loop is left alone
+    assert len(merge_lock_pieces([seg(1, 2, lock=True), seg(2, 1, lock=True)], set())) == 2  # two pieces in a ring

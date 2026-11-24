@@ -31,6 +31,7 @@ from .topology import (
     drop_small_components,
     mark_lock_areas,
     merge_degree2,
+    merge_lock_pieces,
     new_node_id,
     node_positions,
     snap_dead_ends_to_lines,
@@ -346,6 +347,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
     name_from_relations(ex, relation_names)
     segments = split_ways(ex)
     mark_lock_areas(segments, ex.lock_areas)
+    segments = merge_lock_pieces(segments, ex.lock_nodes)
     add_connectors(segments, ex)
     bridge_points: list = []
     apply_bridges(segments, ex.bridges, bridge_points)
