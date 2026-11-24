@@ -152,8 +152,8 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
         # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
         # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
         loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") or props.get("harbour_end") else []
-        if len(loose) == 2:
-            loose = []  # neither end near this build's network (a patch for the other region's build)
+        if len(loose) == 2 and not props.get("join_line"):
+            loose = []  # a harbour line with neither end near this build's network (one for the other region)
         for k in loose:
             ends[k] = new_node_id()
             pos[ends[k]] = coords[-k]
