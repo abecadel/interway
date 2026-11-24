@@ -5333,7 +5333,7 @@
 
 # --- Czechia ----------------------------------------------------------------------------------------
 - name: Praha-Smíchov → Praha-Holešovice (Vltava through Prague)
-  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  known_gap: the Vltava line runs straight over the Šítkovský weir beside the Mánes and Smíchov locks (weirs do not cut waterway lines, and a dam this close to a lock is the one it passes), so the route counts only Štvanice
   from: [14.4154, 50.0629]
   to: [14.4561, 50.1095]
   expected_km: 8
@@ -5344,7 +5344,7 @@
   source: https://lavdis.cz/en/waterways/ports (Praha-Smíchov port Vltava km 55.55, Praha-Holešovice km 47.40) and https://lavdis.cz/en/waterways/locks (Smíchov 53.80 / Mánes 54.15, Štvanice 50.69)
 
 - name: Mělník → Ústí nad Labem-Vaňov (Labe)
-  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  known_gap: the lock cuts at Štětí and Roudnice are mapped as waterway=stream with CEMT=Va (read since extract version 18, needs the rebuild), so the route took the weir arms
   from: [14.4516, 50.3725]
   to: [14.0540, 50.6274]
   expected_km: 66.5

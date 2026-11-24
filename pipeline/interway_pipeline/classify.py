@@ -92,7 +92,8 @@ def in_boxes(coords, boxes) -> bool:
 def is_navigable_way(tags, allow: Allowlist, coords=None) -> bool:
     """`coords` (the way's (lon, lat) nodes, or a callable giving them) are needed only for names navigable in part."""
     ww = tags.get("waterway")
-    if ww not in LINE_WATERWAYS:
+    if ww not in LINE_WATERWAYS and not (ww == "stream" and ("CEMT" in tags or "cemt" in tags)):
+        # a "stream" with a CEMT class is a mis-tagged navigable channel (the Labe's lock cuts at Štětí and Roudnice)
         return False
     if tags.get("tunnel") == "culvert" or tags.get("intermittent") == "yes":
         return False
