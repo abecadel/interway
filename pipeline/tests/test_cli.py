@@ -146,6 +146,19 @@ def test_patch_end_joins_the_middle_of_a_line(tmp_path):
     assert len(set(components(segs).values())) == 1
 
 
+def test_late_patch_leads_into_a_harbour_with_a_loose_end(tmp_path):
+    segs = [line(1, 2, 0, 0.01)]
+    (tmp_path / "p.geojson").write_text(json.dumps({"features": [
+        feature([[0.01, 0.0], [0.01, 0.02]], name="Miles River", late=True, harbour_end=True),
+        feature([[0.01, 0.0], [0.01, 0.02]], name="No end", late=True),  # the far end is 2 km from any node
+        feature([[0.05, 0.0], [0.05, 0.02]], name="Elsewhere", late=True, harbour_end=True),  # neither end near
+    ]}), encoding="utf-8")
+    assert apply_patches(segs, tmp_path) == 0  # late patches wait for the second call
+    assert apply_patches(segs, tmp_path, late=True) == 1
+    assert segs[1].name == "Miles River" and segs[1].a == 2 and segs[1].b not in (1, 2)
+    assert segs[1].coords[-1] == (0.01, 0.02) and len(segs) == 2
+
+
 # --- read_cached ------------------------------------------------------------------------------------------
 
 @pytest.fixture

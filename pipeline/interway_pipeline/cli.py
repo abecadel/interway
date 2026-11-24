@@ -113,7 +113,9 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
     that cross it are cut there (Sylvan Slough beside Lock and Dam 15).
 
     A LineString with the property "late" is applied by the second call (late=True), after the lake and sea
-    meshes are built: it joins a harbour's water to the sea graph (the Göta älv mouth at Göteborg).
+    meshes are built: it joins a harbour's water to the sea graph (the Göta älv mouth at Göteborg). With the
+    property "harbour_end" an end with no node near is left loose: the line leads into a harbour the sea mesh
+    does not reach (St. Michaels up the Miles River).
     """
     if patch_dir is None or not patch_dir.exists():
         return 0
@@ -149,7 +151,9 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
         # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
         # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
-        loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
+        loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") or props.get("harbour_end") else []
+        if len(loose) == 2:
+            loose = []  # neither end near this build's network (a patch for the other region's build)
         for k in loose:
             ends[k] = new_node_id()
             pos[ends[k]] = coords[-k]

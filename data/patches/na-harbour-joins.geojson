@@ -1,0 +1,219 @@
+{
+ "type": "FeatureCollection",
+ "description": "Late patches for North American harbours the sea mesh does not reach. Each follows the shortest water path on a 10-15 m land raster (OSM land polygons) and is land-free. Hardy Bay (4.4 km) and Prince Rupert Harbour (14.6 km): the harbours' own small meshes joined to the Inside Passage mesh. Eastern Bay and the Miles River (22.2 km) to St. Michaels, Maryland: the line ends loose in the harbour (harbour_end), which no mesh node is within 3 km of.",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hardy Bay",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -127.454147,
+      50.74383
+     ],
+     [
+      -127.455802,
+      50.741933
+     ],
+     [
+      -127.448719,
+      50.746447
+     ],
+     [
+      -127.444177,
+      50.746447
+     ],
+     [
+      -127.441338,
+      50.747261
+     ],
+     [
+      -127.433247,
+      50.747442
+     ],
+     [
+      -127.43126,
+      50.747623
+     ],
+     [
+      -127.430692,
+      50.747984
+     ],
+     [
+      -127.424872,
+      50.748075
+     ],
+     [
+      -127.421039,
+      50.750427
+     ],
+     [
+      -127.404859,
+      50.750427
+     ],
+     [
+      -127.408285,
+      50.750239
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Prince Rupert Harbour",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -130.354221,
+      54.30439
+     ],
+     [
+      -130.344518,
+      54.30696
+     ],
+     [
+      -130.350751,
+      54.303293
+     ],
+     [
+      -130.352135,
+      54.301665
+     ],
+     [
+      -130.353365,
+      54.300941
+     ],
+     [
+      -130.35398,
+      54.299674
+     ],
+     [
+      -130.35398,
+      54.294065
+     ],
+     [
+      -130.360899,
+      54.289995
+     ],
+     [
+      -130.361822,
+      54.283119
+     ],
+     [
+      -130.361822,
+      54.247295
+     ],
+     [
+      -130.363821,
+      54.246119
+     ],
+     [
+      -130.363821,
+      54.221241
+     ],
+     [
+      -130.399953,
+      54.199982
+     ],
+     [
+      -130.409363,
+      54.199296
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Eastern Bay and Miles River",
+    "late": true,
+    "harbour_end": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -76.221445,
+      38.786476
+     ],
+     [
+      -76.219715,
+      38.786341
+     ],
+     [
+      -76.217984,
+      38.787833
+     ],
+     [
+      -76.217984,
+      38.789462
+     ],
+     [
+      -76.217292,
+      38.790005
+     ],
+     [
+      -76.216946,
+      38.791361
+     ],
+     [
+      -76.215388,
+      38.793668
+     ],
+     [
+      -76.214176,
+      38.794618
+     ],
+     [
+      -76.214176,
+      38.801539
+     ],
+     [
+      -76.211927,
+      38.80371
+     ],
+     [
+      -76.211234,
+      38.804931
+     ],
+     [
+      -76.211234,
+      38.829764
+     ],
+     [
+      -76.252771,
+      38.862331
+     ],
+     [
+      -76.330998,
+      38.862331
+     ],
+     [
+      -76.340171,
+      38.855546
+     ],
+     [
+      -76.343286,
+      38.855275
+     ],
+     [
+      -76.367546,
+      38.836254
+     ],
+     [
+      -76.377058,
+      38.835893
+     ]
+    ]
+   }
+  }
+ ]
+}

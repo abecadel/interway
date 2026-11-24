@@ -1,0 +1,170 @@
+{
+ "type": "FeatureCollection",
+ "description": "Late patches: inshore passages where the coarse sea mesh has nodes but no way through, so the planner went far round (the detour does not depend on the draft). Each line is the shortest water path on a 12-25 m land raster (OSM land polygons), land-free, from sea-graph node to sea-graph node. Trogir to Šolta through the Čiovo-Drvenik channel (14.5 km; the planner went 35 km), Kühlungsborn to Warnemünde along the coast (21.3 km; 37 km), and Kiel Bay to the Schlei mouth (33.4 km; 46 km).",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Trogir – Šolta (Čiovo–Drvenik channel)",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      16.222924,
+      43.516501
+     ],
+     [
+      16.22696,
+      43.514532
+     ],
+     [
+      16.226696,
+      43.514532
+     ],
+     [
+      16.202936,
+      43.497163
+     ],
+     [
+      16.202639,
+      43.49662
+     ],
+     [
+      16.202639,
+      43.413031
+     ],
+     [
+      16.20056,
+      43.411402
+     ],
+     [
+      16.19967,
+      43.409991
+     ],
+     [
+      16.19967,
+      43.400438
+     ],
+     [
+      16.201757,
+      43.398912
+     ],
+     [
+      16.200962,
+      43.401813
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kühlungsborn – Warnemünde inshore",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      11.77096,
+      54.153494
+     ],
+     [
+      11.770752,
+      54.153284
+     ],
+     [
+      11.895068,
+      54.153284
+     ],
+     [
+      11.918396,
+      54.159616
+     ],
+     [
+      11.937427,
+      54.163235
+     ],
+     [
+      11.94418,
+      54.165225
+     ],
+     [
+      11.965053,
+      54.167215
+     ],
+     [
+      12.011402,
+      54.178976
+     ],
+     [
+      12.063584,
+      54.178976
+     ],
+     [
+      12.072793,
+      54.180242
+     ],
+     [
+      12.08108,
+      54.183318
+     ],
+     [
+      12.083536,
+      54.183499
+     ],
+     [
+      12.082877,
+      54.185398
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kiel Bay – Schlei mouth",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      10.215767,
+      54.402458
+     ],
+     [
+      10.216206,
+      54.40213
+     ],
+     [
+      10.216206,
+      54.402583
+     ],
+     [
+      10.214657,
+      54.403487
+     ],
+     [
+      10.214657,
+      54.553207
+     ],
+     [
+      10.036541,
+      54.657242
+     ],
+     [
+      10.036541,
+      54.657438
+     ],
+     [
+      10.033986,
+      54.65579
+     ]
+    ]
+   }
+  }
+ ]
+}

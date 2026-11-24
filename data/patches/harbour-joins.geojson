@@ -1,6 +1,6 @@
 {
  "type": "FeatureCollection",
- "description": "Late patches (applied after the sea mesh is built): harbours whose water areas the sea graph does not reach: each link is a straight line over open water (checked against the OSM land polygons) from the harbour's own water network to the nearest node of the sea graph. Vila Real de Santo António: the Guadiana mouth (159 m). Saltsjöbaden: Baggensfjärden to Ingaröfjärden (1.3 km). Göteborg: the Göta älv mouth below the Älvsborg bridge (340 m).",
+ "description": "Late patches (applied after the sea mesh is built): harbours whose water areas the sea graph does not reach: each link is a straight line over open water (checked against the OSM land polygons) from the harbour's own water network to the nearest node of the sea graph. Vila Real de Santo António: the Guadiana mouth (159 m). Saltsjöbaden: Baggensfjärden to Ingaröfjärden (1.3 km). Göteborg: the Göta älv mouth below the Älvsborg bridge (340 m). Longer links follow the shortest water path on an 8-10 m land raster (OSM land polygons), from sea-graph node to sea-graph node: Baggensstäket, Lännerstasundet and Skurusundet (8.6 km; the strait is 15-30 m wide, narrower than the finest sea mesh), Älvsborgsfjorden to Öckerö past Hönö (11.7 km; the coarse mesh sent Göteborg -> Öckerö 33 km round the outside), and Fethiye bay to the town harbour (8.4 km; the harbour's own small mesh was not joined to the gulf).",
  "features": [
   {
    "type": "Feature",
@@ -58,6 +58,274 @@
      [
       11.831561,
       57.677942
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Baggensstäket",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      18.300959,
+      59.305868
+     ],
+     [
+      18.300959,
+      59.305868
+     ],
+     [
+      18.299119,
+      59.307453
+     ],
+     [
+      18.297711,
+      59.307814
+     ],
+     [
+      18.295459,
+      59.308104
+     ],
+     [
+      18.294473,
+      59.307453
+     ],
+     [
+      18.294473,
+      59.307091
+     ],
+     [
+      18.288279,
+      59.303544
+     ],
+     [
+      18.280817,
+      59.302386
+     ],
+     [
+      18.276735,
+      59.300432
+     ],
+     [
+      18.276171,
+      59.299998
+     ],
+     [
+      18.276171,
+      59.299492
+     ],
+     [
+      18.275045,
+      59.299057
+     ],
+     [
+      18.240835,
+      59.298768
+     ],
+     [
+      18.238723,
+      59.299636
+     ],
+     [
+      18.229009,
+      59.299636
+     ],
+     [
+      18.226194,
+      59.301084
+     ],
+     [
+      18.226194,
+      59.303544
+     ],
+     [
+      18.222111,
+      59.305933
+     ],
+     [
+      18.221548,
+      59.306367
+     ],
+     [
+      18.221407,
+      59.30738
+     ],
+     [
+      18.219858,
+      59.308393
+     ],
+     [
+      18.219858,
+      59.311578
+     ],
+     [
+      18.220422,
+      59.311867
+     ],
+     [
+      18.220703,
+      59.313387
+     ],
+     [
+      18.221689,
+      59.314038
+     ],
+     [
+      18.221689,
+      59.317585
+     ],
+     [
+      18.222674,
+      59.318887
+     ],
+     [
+      18.222674,
+      59.322795
+     ],
+     [
+      18.221689,
+      59.323302
+     ],
+     [
+      18.221407,
+      59.324026
+     ],
+     [
+      18.219014,
+      59.325907
+     ],
+     [
+      18.218873,
+      59.328368
+     ],
+     [
+      18.217887,
+      59.329309
+     ],
+     [
+      18.217887,
+      59.331552
+     ],
+     [
+      18.217961,
+      59.33201
+     ],
+     [
+      18.217961,
+      59.33201
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Älvsborgsfjorden to Öckerö",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      11.831561,
+      57.677942
+     ],
+     [
+      11.833952,
+      57.677686
+     ],
+     [
+      11.830926,
+      57.679314
+     ],
+     [
+      11.829413,
+      57.679495
+     ],
+     [
+      11.739124,
+      57.679495
+     ],
+     [
+      11.729372,
+      57.68429
+     ],
+     [
+      11.717603,
+      57.68429
+     ],
+     [
+      11.684816,
+      57.701931
+     ],
+     [
+      11.682967,
+      57.702383
+     ],
+     [
+      11.668675,
+      57.702383
+     ],
+     [
+      11.664314,
+      57.704729
+     ],
+     [
+      11.665286,
+      57.702751
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Fethiye bay",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      29.041593,
+      36.651999
+     ],
+     [
+      29.03916,
+      36.650994
+     ],
+     [
+      29.089545,
+      36.65097
+     ],
+     [
+      29.101747,
+      36.641109
+     ],
+     [
+      29.101747,
+      36.634957
+     ],
+     [
+      29.102082,
+      36.634415
+     ],
+     [
+      29.102082,
+      36.626182
+     ],
+     [
+      29.099955,
+      36.624464
+     ],
+     [
+      29.099039,
+      36.623049
      ]
     ]
    }

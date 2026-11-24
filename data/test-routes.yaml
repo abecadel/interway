@@ -3057,14 +3057,13 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-tarifa-tanger (around 17 NM, 31 km)
 
 - name: Baiona → Combarro (Rías Baixas)
-  known_gap: "the planner goes 70 km where the shortest water path is about 40 km: the sea mesh detours here"
   from: [-8.842, 42.121]
   to: [-8.706, 42.428]
-  expected_km: 56
+  expected_km: 42
   tolerance: 0.2
   sea: true
   countries: [ES]
-  source: https://mrcyb.es/en/?p=79528 (II Rías Baixas Route, Baiona – Combarro 30 miles)
+  source: "shortest water path about 42 km (OSM land polygons, 20 m raster): the cited 30 miles (56 km) is a regatta course with turning marks, not the passage: https://mrcyb.es/en/?p=79528 (II Rías Baixas Route, Baiona – Combarro 30 miles)"
 
 - name: A Pobra do Caramiñal → Muros (Ría de Arousa to Ría de Muros e Noia)
   from: [-8.934, 42.604]
