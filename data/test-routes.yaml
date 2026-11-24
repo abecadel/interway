@@ -3738,7 +3738,7 @@
   source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
 
 - name: Kühlungsborn → Warnemünde
-  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: the inshore patch reaches the Warnemünde mouth, but the Seekanal joins the sea mesh only at its outer end, so the route goes out and back in along it"
+  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: Warnemünde's Neuer Strom lies inside land in the coastline data, so the inshore patch cannot reach it and the route comes in along the Seekanal from its outer end"
   from: [11.7707, 54.1532]
   to: [12.0876, 54.1798]
   expected_km: 22.0
