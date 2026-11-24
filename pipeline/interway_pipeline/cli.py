@@ -22,7 +22,7 @@ from .model import Segment, haversine, metres_to_deg
 from .pois import load_places
 from .qa import gap_candidates
 from .relnames import cached_relation_names, name_from_relations
-from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, mark_offshore, sea_mesh, to_merc
+from .sea import DEFAULT_BBOX, Coast, connect_to_sea, drop_sheltered, mark_offshore, sea_mesh, split_in_sea, to_merc
 from .topology import (
     add_connectors,
     apply_bridges,
@@ -113,7 +113,9 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
     that cross it are cut there (Sylvan Slough beside Lock and Dam 15).
 
     A LineString with the property "late" is applied by the second call (late=True), after the lake and sea
-    meshes are built: it joins a harbour's water to the sea graph (the Göta älv mouth at Göteborg).
+    meshes are built: it joins a harbour's water to the sea graph (the Göta älv mouth at Göteborg). With the
+    property "harbour_end" an end with no node near is left loose: the line leads into a harbour the sea mesh
+    does not reach (St. Michaels up the Miles River).
     """
     if patch_dir is None or not patch_dir.exists():
         return 0
@@ -149,7 +151,9 @@ def apply_patches(segments: list[Segment], patch_dir: Path | None, max_snap_m: f
             ends.append(ids[i] if haversine(c, pos[ids[i]]) <= max_snap_m else None)
         # "join_line": an end with no node near is drawn onto a waterway line's vertex and left loose here;
         # snap_dead_ends_to_lines then joins it to the middle of that line (the Seaway at the Eisenhower Lock)
-        loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") else []
+        loose = [k for k in (0, 1) if ends[k] is None] if props.get("join_line") or props.get("harbour_end") else []
+        if len(loose) == 2 and not props.get("join_line"):
+            loose = []  # a harbour line with neither end near this build's network (one for the other region)
         for k in loose:
             ends[k] = new_node_id()
             pos[ends[k]] = coords[-k]
@@ -252,7 +256,7 @@ def read_cached(path: Path, allow: Allowlist, cache_dir: Path | None) -> Extract
     return ex
 
 
-EXTRACT_VERSION = 17  # bump when read_osm output changes, invalidates --cache
+EXTRACT_VERSION = 18  # bump when read_osm output changes, invalidates --cache
 
 
 WIDE_KINDS = {"place", "fishing", "tackle"}
@@ -368,6 +372,7 @@ def build(inputs: list[Path], out: Path, *, region: str, allowlist: Path | None,
         if depth_cache is not None:  # mesh edges only: links into harbours and river mouths keep no limit
             apply_sea_depth(sea, DepthGrid(tile_loader(depth_cache, depth_scale)),
                             near_land=lambda p: coast.near_land(to_merc(p), SHORE_M))
+        segments = split_in_sea(segments, coast)
         segments += connect_to_sea(segments, sea, coast) + sea
     apply_patches(segments, patches, late=True)
     segments = merge_degree2(segments)

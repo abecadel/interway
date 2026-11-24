@@ -1553,7 +1553,7 @@
     the Pašman channel will be at the top of the tolerance)
 
 - name: Murter → ACI Skradin (St. Anthony channel, Krka)
-  known_gap: "no route: a harbour here is not joined to the sea mesh"
+  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.5895, 43.827]
   to: [15.9205, 43.815]
   expected_km: 49
@@ -1564,7 +1564,7 @@
     (day 2, Murter – Skradin 27 NM)
 
 - name: Šibenik → ACI Skradin (up the Krka)
-  known_gap: "an end snaps 8.1 km from the sea graph (the harbour is not joined to it)"
+  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.8875, 43.7345]
   to: [15.9205, 43.815]
   expected_km: 17
@@ -1574,7 +1574,7 @@
   source: https://www.sea-help.eu/en/cruise/cruise-tip-sibenik-krka-croatia/ (ACI Skradin about 10 NM from Šibenik); boote-magazin and charter guides give 8–9 NM; 9 NM used
 
 - name: ACI Skradin → Zlarin
-  known_gap: "no route: a harbour here is not joined to the sea mesh"
+  known_gap: "no route: the lower Krka is allowlisted (ways 167186952, 167186955, 167293878), but its end at Prukljan lies on land in the coastline data and is not joined to the sea mesh"
   from: [15.9205, 43.815]
   to: [15.833, 43.698]
   expected_km: 24
@@ -1585,7 +1585,7 @@
     (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
 
 - name: ACI Trogir → Maslinica (Šolta)
-  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: a detour"
+  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: the patched Čiovo–Drvenik channel is in, but the route from ACI Trogir does not reach its east end and goes round Čiovo"
   from: [16.2475, 43.515]
   to: [16.204, 43.3985]
   expected_km: 16.7
@@ -2348,9 +2348,10 @@
     km 21"; 20 km via Governolo)
 
 - name: Mantova → Porto Levante (Fissero-Tartaro-Canalbianco, Po di Levante)
-  known_gap: the Fissero-Tartaro-Canalbianco is not connected (the route takes the Po)
   from: [10.813, 45.145]
   to: [12.368, 45.049]
+  # by the idrovia: the planner's fastest way is down the Po with the current (171 km)
+  waypoints: [[11.4974, 45.0317]]
   expected_km: 135
   tolerance: 0.2
   countries: [IT]
@@ -3057,14 +3058,13 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/ferry-tarifa-tanger (around 17 NM, 31 km)
 
 - name: Baiona → Combarro (Rías Baixas)
-  known_gap: "the planner goes 70 km where the shortest water path is about 40 km: the sea mesh detours here"
   from: [-8.842, 42.121]
   to: [-8.706, 42.428]
-  expected_km: 56
+  expected_km: 42
   tolerance: 0.2
   sea: true
   countries: [ES]
-  source: https://mrcyb.es/en/?p=79528 (II Rías Baixas Route, Baiona – Combarro 30 miles)
+  source: "shortest water path about 42 km (OSM land polygons, 20 m raster): the cited 30 miles (56 km) is a regatta course with turning marks, not the passage: https://mrcyb.es/en/?p=79528 (II Rías Baixas Route, Baiona – Combarro 30 miles)"
 
 - name: A Pobra do Caramiñal → Muros (Ría de Arousa to Ría de Muros e Noia)
   from: [-8.934, 42.604]
@@ -3232,7 +3232,6 @@
   source: https://www.ferryhopper.com/en/ferry-routes/direct/cesme-chios (9 NM; other operators give 7–11 NM)
 
 - name: Kapı Creek (Göcek) → Fethiye
-  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [28.8915, 36.6425]
   to: [29.1, 36.6245]
   expected_km: 22
@@ -3549,7 +3548,6 @@
     to Skeppsbron; 37 M")'
 
 - name: Saltsjöbaden → Stockholm via Baggensstäket
-  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [18.315, 59.2867]
   to: [18.079, 59.325]
   expected_km: 20.4
@@ -3607,7 +3605,6 @@
   source: "shortest water path about 18 km (OSM land polygons); the cited figure (35.2 km) does not fit it: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 6 \"Utö – Dalarö 19 NM\"; Dalarö position from the Sjöfartsverket yacht guide 59°07.8'N 018°24.3'E)"
 
 - name: Göteborg (Lilla Bommen) → Öckerö
-  known_gap: "no route: a harbour here is not joined to the sea graph"
   from: [11.966, 57.713]
   to: [11.662, 57.706]
   expected_km: 20.4
@@ -3707,7 +3704,6 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 1, Heiligenhafen – Laboe 33 sm)
 
 - name: Laboe → Maasholm (Schlei mouth)
-  known_gap: "the planner goes 46 km where the shortest water path is about 35 km: a detour"
   from: [10.2162, 54.4021]
   to: [9.9939, 54.6809]
   expected_km: 37
@@ -3717,7 +3713,6 @@
   source: https://www.yacht.de/reisen-chartern/deutschland/chartern-die-ideale-woche-auf-der-ostsee/ (day 2, Laboe – Maasholm 20 sm)
 
 - name: Schleimünde → Schleswig (the whole Schlei)
-  known_gap: 'not yet diagnosed: the route differs from the source'
   from: [10.018, 54.6754]
   to: [9.57, 54.5108]
   expected_km: 42
@@ -3744,7 +3739,7 @@
   source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
 
 - name: Kühlungsborn → Warnemünde
-  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: a detour"
+  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: the inshore patch reaches the Warnemünde mouth, but the Seekanal joins the sea mesh only at its outer end, so the route goes out and back in along it"
   from: [11.7707, 54.1532]
   to: [12.0876, 54.1798]
   expected_km: 22.0
@@ -3815,9 +3810,10 @@
   source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 3, Ueckermünde – Szczecin 37 sm)
 
 - name: Świnoujście → Ueckermünde (Kanał Piastowski, Szczecin Lagoon)
-  known_gap: "the route takes the Świna and the Szczecin Lagoon's water area, not the Kanał Piastowski fairway"
   from: [14.2684, 53.9114]
   to: [14.0505, 53.737]
+  # the fairway through the Kanał Piastowski: the planner may cross by the Świna and the lagoon instead
+  waypoints: [[14.28823, 53.84589]]
   expected_km: 44.5
   tolerance: 0.2
   countries: [PL, DE]
@@ -3833,9 +3829,10 @@
   source: https://southcoastbaltic.eu/de/ein-haff-zwei-laender/ (day 5, Stepnica – Świnoujście 22 sm)
 
 - name: Świnoujście → Szczecin (Świnoujście–Szczecin fairway)
-  known_gap: "the route takes the Świna and the Szczecin Lagoon's water area, not the Kanał Piastowski fairway"
   from: [14.2684, 53.9114]
   to: [14.5715, 53.4275]
+  # the fairway through the Kanał Piastowski: the planner may cross by the Świna and the lagoon instead
+  waypoints: [[14.28823, 53.84589]]
   expected_km: 67.7
   tolerance: 0.15
   countries: [PL]
@@ -3929,9 +3926,10 @@
   source: https://southcoastbaltic.eu/de/kurisches-haff-und-memeldelta/ (day 1, Klaipėda – Nida 26 sm by the buoyed channel along the spit; also 26 sm in https://southcoastbaltic.eu/de/der-osten-so-nah/)
 
 - name: Nida → Mingė (Curonian Lagoon, Atmata, Minija)
-  known_gap: "the distance is right, but the route reaches Mingė over the lagoon's water area, not up the Atmata and Minija"
   from: [21.0105, 55.303]
   to: [21.284, 55.362]
+  # up the Atmata: the planner may reach Mingė over the lagoon water area instead
+  waypoints: [[21.26873, 55.34089]]
   expected_km: 20
   tolerance: 0.25
   countries: [LT]
@@ -4184,7 +4182,6 @@
   countries: [IE]
   via: [Royal Canal]
   min_locks: 30
-  known_gap: the Royal Canal is not connected in the data (Spencer Dock to Maynooth finds no route); the router goes via the Grand Canal, Shannon and Lough Ree (210 km)
   source: https://www.shannon-river.com/customerarea/publications/WaterwaysGuide.pdf (Waterways Ireland "Voyages and Visits", Royal Canal main line 146 km with 46 locks)
 
 - name: Grand Canal Barrow Line, Lowtown → Athy (River Barrow)
@@ -4300,7 +4297,6 @@
   tolerance: 0.2
   sea: true
   countries: [US]
-  known_gap: St. Michaels harbour is over 3 km from the sea graph and the sea route runs about 30 km long (Eastern Bay and the Miles River are not modelled)
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 10, Annapolis to St. Michaels 25 NM)
 
 - name: Chesapeake Bay, Annapolis → Baltimore
@@ -4769,7 +4765,6 @@
   tolerance: 0.15
   sea: true
   countries: [CA]
-  known_gap: Hardy Bay at Port Hardy is not connected to the sea mesh (no route found to the harbour, 2026-11-22); passes when it is
   source: https://nwcruising.net/ca-nm_folders/campbell_river.html (Campbell River – Port Hardy 106.0 NM)
 
 - name: Inside Passage, Port Hardy → Prince Rupert (BC Ferries route)
@@ -4779,7 +4774,6 @@
   tolerance: 0.2
   sea: true
   countries: [CA]
-  known_gap: neither Hardy Bay nor Prince Rupert Harbour is connected to the sea mesh (no route found, 2026-11-22); passes when they are
   source: https://britishcolumbia.com/plan-your-trip/transportation-in-british-columbia/bc-ferry-port-hardy-prince-rupert-inside-passage/ (BC Ferries Inside Passage Port Hardy – Prince Rupert 274 NM, about 15 hours)
 
 # --- United States: inland rivers, Gulf Intracoastal Waterway, Pacific Northwest and Southeast Alaska ------------
@@ -4989,7 +4983,6 @@
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 18, Morgan City to Lake Charles 136 NM); locks from https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp5/CPB5_C12_WEB.pdf (Leland Bowman Mile 163.0W, Calcasieu Mile 238.2W)
 
 - name: GIWW — Port Arthur → Galveston (High Island, Bolivar)
-  known_gap: the GIWW between Sabine and Galveston Bay is not joined; the router detours via the Calcasieu Ship Channel and the open Gulf (about 260 km)
   from: [-93.9300, 29.8650]
   to: [-94.7775, 29.3195]
   expected_km: 107
@@ -5330,7 +5323,7 @@
 
 # --- Czechia ----------------------------------------------------------------------------------------
 - name: Praha-Smíchov → Praha-Holešovice (Vltava through Prague)
-  known_gap: the data maps fewer locks here than there are (distance and route are right)
+  known_gap: the Vltava line runs straight over the Šítkovský weir beside the Mánes and Smíchov locks (weirs do not cut waterway lines, and a dam this close to a lock is the one it passes), so the route counts only Štvanice
   from: [14.4154, 50.0629]
   to: [14.4561, 50.1095]
   expected_km: 8
@@ -5341,7 +5334,6 @@
   source: https://lavdis.cz/en/waterways/ports (Praha-Smíchov port Vltava km 55.55, Praha-Holešovice km 47.40) and https://lavdis.cz/en/waterways/locks (Smíchov 53.80 / Mánes 54.15, Štvanice 50.69)
 
 - name: Mělník → Ústí nad Labem-Vaňov (Labe)
-  known_gap: the data maps fewer locks here than there are (distance and route are right)
   from: [14.4516, 50.3725]
   to: [14.0540, 50.6274]
   expected_km: 66.5

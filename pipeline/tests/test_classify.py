@@ -49,6 +49,7 @@ def test_has_name_checks_alternative_keys(allow):
 
 @pytest.mark.parametrize("tags", [
     {"waterway": "stream", "boat": "yes"},
+    {"waterway": "stream", "ship": "yes"},  # only a CEMT class makes a stream a waterway
     {"waterway": "river", "tunnel": "culvert", "CEMT": "II"},
     {"waterway": "canal", "intermittent": "yes", "CEMT": "II"},
     {"waterway": "river", "name": "Rów Melioracyjny", "CEMT": "II"},  # excluded name beats evidence
@@ -71,6 +72,7 @@ def test_not_navigable(tags, allow):
     {"waterway": "fairway", "canoe": "yes", "motorboat": "yes"},
     {"waterway": "fairway", "canoe": "yes", "ship": "yes"},
     {"waterway": "canal", "CEMT": "Va"},
+    {"waterway": "stream", "CEMT": "Va"},  # the Labe's lock cut at Štětí, mapped as a stream
     {"waterway": "flowline", "CEMT": "0"},
     {"waterway": "river", "cemt": "I"},
     {"waterway": "river", "ship": "yes"},
