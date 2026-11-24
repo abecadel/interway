@@ -1584,7 +1584,6 @@
     (day 4, Skradin – Zlarin 15 NM); midpoint 13 NM
 
 - name: ACI Trogir → Maslinica (Šolta)
-  known_gap: "the planner goes 35 km where the shortest water path is about 15 km: the patched Čiovo–Drvenik channel is in, but the route from ACI Trogir does not reach its east end and goes round Čiovo"
   from: [16.2475, 43.515]
   to: [16.204, 43.3985]
   expected_km: 16.7
@@ -3738,7 +3737,7 @@
   source: https://www.yacht.de/en/germany/district-portrait-wismar-bay-a-jewel-on-the-doorstep/ (about 8 NM from Timmendorf to Wismar)
 
 - name: Kühlungsborn → Warnemünde
-  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: the inshore patch reaches the Warnemünde mouth, but the Seekanal joins the sea mesh only at its outer end, so the route goes out and back in along it"
+  known_gap: "the planner goes 37 km where the shortest water path is about 21 km: Warnemünde's Neuer Strom lies inside land in the coastline data, so the inshore patch cannot reach it and the route comes in along the Seekanal from its outer end"
   from: [11.7707, 54.1532]
   to: [12.0876, 54.1798]
   expected_km: 22.0
@@ -4383,7 +4382,6 @@
   tolerance: 0.15
   sea: true
   countries: [US]
-  known_gap: the inside route through Port Royal Sound, Skull Creek and Calibogue Sound is not connected in the graph; the route goes outside (about 100 km)
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 13, inside route Beaufort SC to Thunderbolt 47 statute miles)
 
 - name: Atlantic ICW, Thunderbolt GA → Fernandina Beach FL (Georgia sounds)
@@ -5049,7 +5047,6 @@
   source: https://nauticalcharts.noaa.gov/publications/docs/distances.pdf (Table 29, San Francisco Bay area, Antioch to Stockton 31 NM)
 
 - name: San Francisco → Stockton (Carquinez Strait, Suisun Bay, Delta)
-  known_gap: the bay's sea mesh is not joined to the Delta rivers at Suisun Bay / New York Slough (no route found)
   from: [-122.3950, 37.8050]
   to: [-121.3150, 37.9520]
   expected_km: 139

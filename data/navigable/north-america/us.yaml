@@ -173,3 +173,9 @@ exclude_ways:
   - 696068372
   - 696070756
   - 1411684882
+# the Atlantic Intracoastal Waterway's inside route from Beaufort SC to Thunderbolt GA (Port Royal Sound, Skull Creek,
+# Calibogue Sound, Cooper River, Ramshorn Creek, New River, Walls Cut, Wright River, Fields Cut, the Savannah River,
+# St. Augustine Creek, Wilmington River; https://nauticalcharts.noaa.gov/publications/docs/distances.pdf Table 13):
+# most of its lines carry ship=yes, these do not: Beaufort River 1327973006, Skull Creek 144901323 and 721775385,
+# New River 721775844 and 586168302
+ways: [1327973006, 144901323, 721775385, 721775844, 586168302]

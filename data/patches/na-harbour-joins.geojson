@@ -1,6 +1,6 @@
 {
  "type": "FeatureCollection",
- "description": "Late patches for North American harbours the sea mesh does not reach. Each follows the shortest water path on a 10-15 m land raster (OSM land polygons) and is land-free. Hardy Bay (4.4 km) and Prince Rupert Harbour (14.6 km): the harbours' own small meshes joined to the Inside Passage mesh. Eastern Bay and the Miles River (22.2 km) to St. Michaels, Maryland: the line ends loose in the harbour (harbour_end), which no mesh node is within 3 km of.",
+ "description": "Late patches for North American harbours the sea mesh does not reach. Each follows the shortest water path on a 10-15 m land raster (OSM land polygons) and is land-free. Hardy Bay (4.4 km) and Prince Rupert Harbour (14.6 km): the harbours' own small meshes joined to the Inside Passage mesh. Eastern Bay and the Miles River (22.2 km) to St. Michaels, Maryland: the line ends loose in the harbour (harbour_end), which no mesh node is within 3 km of. Suisun Bay to New York Slough at Pittsburg, California (18.5 km): the bay's mesh was not joined to the Delta rivers.",
  "features": [
   {
    "type": "Feature",
@@ -211,6 +211,102 @@
      [
       -76.377058,
       38.835893
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Suisun Bay",
+    "late": true
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -122.037873,
+      38.078972
+     ],
+     [
+      -122.049981,
+      38.070049
+     ],
+     [
+      -122.038619,
+      38.069615
+     ],
+     [
+      -122.038208,
+      38.069289
+     ],
+     [
+      -122.033006,
+      38.069289
+     ],
+     [
+      -122.032459,
+      38.068963
+     ],
+     [
+      -122.029584,
+      38.068746
+     ],
+     [
+      -122.028215,
+      38.067661
+     ],
+     [
+      -121.95142,
+      38.067661
+     ],
+     [
+      -121.93294,
+      38.053005
+     ],
+     [
+      -121.931297,
+      38.052245
+     ],
+     [
+      -121.930339,
+      38.052245
+     ],
+     [
+      -121.929244,
+      38.051377
+     ],
+     [
+      -121.926916,
+      38.050943
+     ],
+     [
+      -121.923357,
+      38.050943
+     ],
+     [
+      -121.920209,
+      38.050291
+     ],
+     [
+      -121.917745,
+      38.050291
+     ],
+     [
+      -121.916923,
+      38.049857
+     ],
+     [
+      -121.89242,
+      38.049857
+     ],
+     [
+      -121.879963,
+      38.039978
+     ],
+     [
+      -121.8858,
+      38.046384
      ]
     ]
    }
