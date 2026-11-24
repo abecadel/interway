@@ -1613,7 +1613,6 @@
   source: https://www.yachting.com/en-gb/destinations/croatia/split/trogir/route-5 (day 3, Komiža – Vis Town 11 NM)
 
 - name: Vis town → Pakleni otoci (Palmižana / Vinogradišće)
-  known_gap: "the planner gives 23 km against 31: the target may be too long (check the source against the shortest water path)"
   from: [16.187, 43.0625]
   to: [16.3965, 43.1615]
   expected_km: 22.5
@@ -1632,7 +1631,6 @@
   source: "shortest water path round Pelegrin, about 26 km (OSM land polygons)"
 
 - name: Stari Grad (Hvar) → Bol (Brač)
-  known_gap: "the planner gives 19 km against 28: the target may be too long (check the source against the shortest water path)"
   from: [16.593, 43.186]
   to: [16.655, 43.261]
   expected_km: 21.0
@@ -2792,7 +2790,6 @@
   source: https://blog.clickandboat.com/itineraire-voilier-cannes-une-semaine (day 2, Îles de Lérins – Saint-Tropez 26 NM)
 
 - name: Porquerolles → Saint-Tropez
-  known_gap: "the planner goes 59 km against 45.4: a detour to diagnose"
   from: [6.205, 43.006]
   to: [6.637, 43.274]
   expected_km: 59.0
@@ -2802,7 +2799,6 @@
   source: "shortest water path about 57 km (OSM land polygons); the cited figure (45.4 km) does not fit it: https://blog.clickandboat.com/itineraire-navigation-marseille-hyeres-calanques (Porquerolles – Saint-Tropez 24.5 NM)"
 
 - name: Port-Cros → Porquerolles
-  known_gap: "the planner goes 18 km against 11.1: a detour to diagnose"
   from: [6.38, 43.012]
   to: [6.205, 43.006]
   expected_km: 16.0
@@ -3382,7 +3378,6 @@
   source: https://brochures.discovertunisia.com/en/Catalogue_ontt_Plaisance/img/catalogue-Plaisance.pdf (ONTT distance table, Tabarka - Bizerte 64 M)
 
 - name: Bizerte → Sidi Bou Saïd
-  known_gap: "the planner goes 75 km against 61: a detour to diagnose"
   from: [9.882, 37.275]
   to: [10.353, 36.8665]
   expected_km: 75.0
@@ -3605,7 +3600,6 @@
   source: https://www.theglobesailor.com/sailing-itinerary-sweden-archipelago-stockholm-i576.html (day 5 "Sandhamn – Utö 30 NM")
 
 - name: Utö → Dalarö (Stockholm southern archipelago)
-  known_gap: "the planner gives 20 km against 35.2: the target may be too long (check the source against the shortest water path)"
   from: [18.3267, 58.97]
   to: [18.405, 59.13]
   expected_km: 20.0
@@ -3664,7 +3658,6 @@
   source: 'https://sailtraininginternational.org/app/uploads/2025/03/The-Tall-Ships-Races-2025-Cruise-in-Company-Ports.pdf ("From Farsund to Kristiansand: 52 nm")'
 
 - name: Avernakø → Faaborg via Svelmø (South Funen archipelago)
-  known_gap: "the planner gives 9 km against 16.7: the target may be too long (check the source against the shortest water path)"
   from: [10.264, 55.037]
   to: [10.24, 55.093]
   expected_km: 9.0
@@ -3763,7 +3756,6 @@
   source: "shortest water path about 21 km (OSM land polygons); the cited figure (18.5 km) does not fit it: https://www.boote-magazin.de/en/travel-and-charter/territories/wismar-bay-more-reality-than-appearance/ (the nearest harbour to Kühlungsborn is Warnemünde, ten nautical miles away)"
 
 - name: Barth → Neuendorf (Hiddensee) through the Bodden
-  known_gap: "the planner gives 36 km against 48: the target may be too long (check the source against the shortest water path)"
   from: [12.7285, 54.373]
   to: [13.0945, 54.5242]
   expected_km: 36.0
