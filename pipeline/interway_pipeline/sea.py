@@ -45,6 +45,12 @@ NARROWS = {
     "Oddesund": (8.50, 56.55, 8.62, 56.61),
     # Santa Teresa Gallura's harbour inlet (Porto Longone), about 300 m wide
     "Porto Longone": (9.18, 41.23, 9.22, 41.26),
+    # Croatia: the Pelješac channel east of Korčula town (about 1.3 km wide; without it Korčula -> Mljet went
+    # round the whole island), St. Anthony's channel into Šibenik and the Krka (about 200 m), and the Rijeka
+    # Dubrovačka up to ACI Komolac (300-500 m)
+    "Pelješac channel": (17.08, 42.92, 17.32, 43.00),
+    "St. Anthony's channel": (15.85, 43.71, 15.92, 43.76),
+    "Rijeka Dubrovačka": (18.06, 42.64, 18.14, 42.68),
 }
 
 
